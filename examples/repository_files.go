@@ -7,7 +7,7 @@ import (
 	"github.com/xanzy/go-gitlab"
 )
 
-func main() {
+func repositoryFileExample() {
 	git := gitlab.NewClient(nil, "yourtokengoeshere")
 
 	// Create a new repository file
