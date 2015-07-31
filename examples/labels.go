@@ -6,7 +6,7 @@ import (
 	"github.com/xanzy/go-gitlab"
 )
 
-func main() {
+func labelExample() {
 	git := gitlab.NewClient(nil, "yourtokengoeshere")
 
 	// Create new label
