@@ -149,8 +149,9 @@ func NewClient(httpClient *http.Client, token string) *Client {
 }
 
 // BaseURL return a copy of the baseURL.
-func (c *Client) BaseURL() url.URL {
-	return *c.baseURL
+func (c *Client) BaseURL() *url.URL {
+	u := *c.baseURL
+	return &u
 }
 
 // SetBaseURL sets the base URL for API requests to a custom endpoint. urlStr
