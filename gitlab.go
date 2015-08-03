@@ -148,6 +148,11 @@ func NewClient(httpClient *http.Client, token string) *Client {
 	return c
 }
 
+// BaseURL return a copy of the baseURL.
+func (c *Client) BaseURL() url.URL {
+	return *c.baseURL
+}
+
 // SetBaseURL sets the base URL for API requests to a custom endpoint. urlStr
 // should always be specified with a trailing slash.
 func (c *Client) SetBaseURL(urlStr string) error {
