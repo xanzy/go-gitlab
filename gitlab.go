@@ -123,7 +123,10 @@ func NewClient(httpClient *http.Client, token string) *Client {
 	}
 
 	c := &Client{client: httpClient, token: token, UserAgent: userAgent}
-	c.SetBaseURL(defaultBaseURL)
+	if err := c.SetBaseURL(defaultBaseURL); err != nil {
+		// should never happen since defaultBaseURL is our constant
+		panic(err)
+	}
 
 	c.Branches = &BranchesService{client: c}
 	c.Commits = &CommitsService{client: c}
@@ -300,7 +303,7 @@ func (c *Client) Do(req *http.Request, v interface{}) (*Response, error) {
 
 	if v != nil {
 		if w, ok := v.(io.Writer); ok {
-			io.Copy(w, resp.Body)
+			_, err = io.Copy(w, resp.Body)
 		} else {
 			err = json.NewDecoder(resp.Body).Decode(v)
 		}
