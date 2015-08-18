@@ -52,17 +52,17 @@ type Project struct {
 	MergeRequestsEnabled bool            `json:"merge_requests_enabled"`
 	WikiEnabled          bool            `json:"wiki_enabled"`
 	SnippetsEnabled      bool            `json:"snippets_enabled"`
-	CreatedAt            string          `json:"created_at"`
-	LastActivityAt       string          `json:"last_activity_at"`
+	CreatedAt            time.Time       `json:"created_at"`
+	LastActivityAt       time.Time       `json:"last_activity_at"`
 	CreatorID            int             `json:"creator_id"`
 	Namespace            struct {
-		CreatedAt   string `json:"created_at"`
-		Description string `json:"description"`
-		ID          int    `json:"id"`
-		Name        string `json:"name"`
-		OwnerID     int    `json:"owner_id"`
-		Path        string `json:"path"`
-		UpdatedAt   string `json:"updated_at"`
+		CreatedAt   time.Time `json:"created_at"`
+		Description string    `json:"description"`
+		ID          int       `json:"id"`
+		Name        string    `json:"name"`
+		OwnerID     int       `json:"owner_id"`
+		Path        string    `json:"path"`
+		UpdatedAt   time.Time `json:"updated_at"`
 	} `json:"namespace"`
 	Archived  bool   `json:"archived"`
 	AvatarURL string `json:"avatar_url"`
