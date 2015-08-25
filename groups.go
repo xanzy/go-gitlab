@@ -33,10 +33,11 @@ type GroupsService struct {
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/groups.html
 type Group struct {
-	ID          int    `json:"id"`
-	Name        string `json:"name"`
-	Path        string `json:"path"`
-	Description string `json:"description"`
+	ID          int        `json:"id"`
+	Name        string     `json:"name"`
+	Path        string     `json:"path"`
+	Description string     `json:"description"`
+	Projects    *[]Project `json:"projects,omitempty"`
 }
 
 // ListGroups gets a list of groups. (As user: my groups, as admin: all groups)
