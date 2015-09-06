@@ -172,7 +172,7 @@ func (c *Client) SetBaseURL(urlStr string) error {
 	}
 
 	// Set the encoded opaque data
-	c.baseURL.Opaque = fmt.Sprintf("//%s%s", c.baseURL.Host, c.baseURL.Path)
+	c.baseURL.Opaque = c.baseURL.Path
 
 	return nil
 }
