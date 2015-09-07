@@ -335,9 +335,11 @@ type ErrorResponse struct {
 }
 
 func (r *ErrorResponse) Error() string {
-	return fmt.Sprintf("%v %v: %d %v %+v",
-		r.Response.Request.Method, r.Response.Request.URL,
-		r.Response.StatusCode, r.Message, r.Errors)
+	path, _ := url.QueryUnescape(r.Response.Request.URL.Opaque)
+	ru := fmt.Sprintf("%s://%s%s", r.Response.Request.URL.Scheme, r.Response.Request.URL.Host, path)
+
+	return fmt.Sprintf("%v %s: %d %v %+v",
+		r.Response.Request.Method, ru, r.Response.StatusCode, r.Message, r.Errors)
 }
 
 // An Error reports more details on an individual error in an ErrorResponse.
