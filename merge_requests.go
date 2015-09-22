@@ -97,6 +97,7 @@ func (m MergeRequest) String() string {
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/merge_requests.html#list-merge-requests
 type ListMergeRequestsOptions struct {
+	ListOptions
 	IID     int    `url:"iid,omitempty"`
 	State   string `url:"state,omitempty"`
 	OrderBy string `url:"order_by,omitempty"`
