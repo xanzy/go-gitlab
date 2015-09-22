@@ -80,6 +80,7 @@ func (i Issue) String() string {
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/issues.html#list-issues
 type ListIssuesOptions struct {
+	ListOptions
 	State   string   `url:"state,omitempty"`
 	Labels  []string `url:"labels,omitempty"`
 	OrderBy string   `url:"order_by,omitempty"`
@@ -109,6 +110,7 @@ func (s *IssuesService) ListIssues(opt *ListIssuesOptions) ([]*Issue, *Response,
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/issues.html#list-issues
 type ListProjectIssuesOptions struct {
+	ListOptions
 	IID       int      `url:"iid,omitempty"`
 	State     string   `url:"state,omitempty"`
 	Labels    []string `url:"labels,omitempty"`
