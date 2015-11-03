@@ -35,7 +35,7 @@ func projectExample() {
 	}
 
 	// List all project snippets
-	snippets, _, err := git.ProjectSnippets.ListSnippets(project.PathWithNamespace)
+	snippets, _, err := git.ProjectSnippets.ListSnippets(project.PathWithNamespace, &gitlab.ListSnippetsOptions{})
 	if err != nil {
 		log.Fatal(err)
 	}
