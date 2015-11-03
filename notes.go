@@ -56,18 +56,29 @@ func (n Note) String() string {
 	return Stringify(n)
 }
 
+// ListIssueNotesOptions represents the available ListIssueNotes() options.
+//
+// GitLab API docs:
+// http://doc.gitlab.com/ce/api/notes.html#list-project-issue-notes
+type ListIssueNotesOptions struct {
+	ListOptions
+}
+
 // ListIssueNotes gets a list of all notes for a single issue.
 //
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/notes.html#list-project-issue-notes
-func (s *NotesService) ListIssueNotes(pid interface{}, issue int) ([]*Note, *Response, error) {
+func (s *NotesService) ListIssueNotes(
+	pid interface{},
+	issue int,
+	opt *ListIssueNotesOptions) ([]*Note, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/issues/%d/notes", url.QueryEscape(project), issue)
 
-	req, err := s.client.NewRequest("GET", u, nil)
+	req, err := s.client.NewRequest("GET", u, opt)
 	if err != nil {
 		return nil, nil, err
 	}

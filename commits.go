@@ -54,6 +54,7 @@ func (c Commit) String() string {
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/commits.html#list-commits
 type ListCommitsOptions struct {
+	ListOptions
 	RefName string `url:"ref_name,omitempty"`
 }
 

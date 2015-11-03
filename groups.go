@@ -40,12 +40,20 @@ type Group struct {
 	Projects    *[]Project `json:"projects,omitempty"`
 }
 
+// ListGroupsOptions represents the available ListGroups() options.
+//
+// GitLab API docs: http://doc.gitlab.com/ce/api/groups.html#list-project-groups
+type ListGroupsOptions struct {
+	ListOptions
+	Search string `url:"search,omitempty"`
+}
+
 // ListGroups gets a list of groups. (As user: my groups, as admin: all groups)
 //
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/groups.html#list-project-groups
-func (s *GroupsService) ListGroups() ([]*Group, *Response, error) {
-	req, err := s.client.NewRequest("GET", "groups", nil)
+func (s *GroupsService) ListGroups(opt *ListGroupsOptions) ([]*Group, *Response, error) {
+	req, err := s.client.NewRequest("GET", "groups", opt)
 	if err != nil {
 		return nil, nil, err
 	}

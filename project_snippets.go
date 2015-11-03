@@ -55,17 +55,26 @@ func (s Snippet) String() string {
 	return Stringify(s)
 }
 
-// ListSnippits gets a list of project snippets.
+// ListSnippetsOptions represents the available ListSnippets() options.
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/project_snippets.html#list-snippets
-func (s *ProjectSnippetsService) ListSnippits(pid interface{}) ([]*Snippet, *Response, error) {
+type ListSnippetsOptions struct {
+	ListOptions
+}
+
+// ListSnippets gets a list of project snippets.
+//
+// GitLab API docs: http://doc.gitlab.com/ce/api/project_snippets.html#list-snippets
+func (s *ProjectSnippetsService) ListSnippets(
+	pid interface{},
+	opt *ListSnippetsOptions) ([]*Snippet, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/snippets", url.QueryEscape(project))
 
-	req, err := s.client.NewRequest("GET", u, nil)
+	req, err := s.client.NewRequest("GET", u, opt)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -79,11 +88,11 @@ func (s *ProjectSnippetsService) ListSnippits(pid interface{}) ([]*Snippet, *Res
 	return ps, resp, err
 }
 
-// GetSnippit gets a single project snippet
+// GetSnippet gets a single project snippet
 //
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/project_snippets.html#single-snippet
-func (s *ProjectSnippetsService) GetSnippit(
+func (s *ProjectSnippetsService) GetSnippet(
 	pid interface{},
 	snippet int) (*Snippet, *Response, error) {
 	project, err := parseID(pid)
@@ -211,11 +220,11 @@ func (s *ProjectSnippetsService) DeleteSnippet(pid interface{}, snippet int) (*R
 	return resp, err
 }
 
-// SnippitContent returns the raw project snippet as plain text.
+// SnippetContent returns the raw project snippet as plain text.
 //
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/project_snippets.html#snippet-content
-func (s *ProjectSnippetsService) SnippitContent(
+func (s *ProjectSnippetsService) SnippetContent(
 	pid interface{},
 	snippet int) ([]byte, *Response, error) {
 	project, err := parseID(pid)

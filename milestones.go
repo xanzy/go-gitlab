@@ -54,6 +54,7 @@ func (m Milestone) String() string {
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/milestones.html#list-project-milestones
 type ListMilestonesOptions struct {
+	ListOptions
 	IID int `url:"iid,omitempty"`
 }
 
@@ -187,20 +188,29 @@ func (s *MilestonesService) UpdateMilestone(
 	return m, resp, err
 }
 
+// GetMilestoneIssuesOptions represents the available GetMilestoneIssues() options.
+//
+// GitLab API docs:
+// http://doc.gitlab.com/ce/api/milestones.html#get-all-issues-assigned-to-a-single-milestone
+type GetMilestoneIssuesOptions struct {
+	ListOptions
+}
+
 // GetMilestoneIssues gets all issues assigned to a single project milestone.
 //
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/milestones.html#get-all-issues-assigned-to-a-single-milestone
 func (s *MilestonesService) GetMilestoneIssues(
 	pid interface{},
-	milestone int) ([]*Issue, *Response, error) {
+	milestone int,
+	opt *GetMilestoneIssuesOptions) ([]*Issue, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/milestones/%d/issues", url.QueryEscape(project), milestone)
 
-	req, err := s.client.NewRequest("GET", u, nil)
+	req, err := s.client.NewRequest("GET", u, opt)
 	if err != nil {
 		return nil, nil, err
 	}
