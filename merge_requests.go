@@ -320,6 +320,15 @@ func (m MergeRequestComment) String() string {
 	return Stringify(m)
 }
 
+// GetMergeRequestCommentsOptions represents the available GetMergeRequestComments()
+// options.
+//
+// GitLab API docs:
+// http://doc.gitlab.com/ce/api/merge_requests.html#get-the-comments-on-a-mr
+type GetMergeRequestCommentsOptions struct {
+	ListOptions
+}
+
 // GetMergeRequestComments gets all the comments associated with a merge
 // request.
 //
@@ -327,14 +336,15 @@ func (m MergeRequestComment) String() string {
 // http://doc.gitlab.com/ce/api/merge_requests.html#get-the-comments-on-a-mr
 func (s *MergeRequestsService) GetMergeRequestComments(
 	pid interface{},
-	mergeRequest int) ([]*MergeRequestComment, *Response, error) {
+	mergeRequest int,
+	opt *GetMergeRequestCommentsOptions) ([]*MergeRequestComment, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/merge_request/%d/comments", url.QueryEscape(project), mergeRequest)
 
-	req, err := s.client.NewRequest("GET", u, nil)
+	req, err := s.client.NewRequest("GET", u, opt)
 	if err != nil {
 		return nil, nil, err
 	}

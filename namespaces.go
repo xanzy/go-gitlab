@@ -37,11 +37,19 @@ func (n Namespace) String() string {
 	return Stringify(n)
 }
 
+// ListNamespacesOptions represents the available ListNamespaces() options.
+//
+// GitLab API docs: http://doc.gitlab.com/ce/api/namespaces.html#list-namespaces
+type ListNamespacesOptions struct {
+	ListOptions
+	Search string `url:"search,omitempty"`
+}
+
 // ListNamespaces gets a list of projects accessible by the authenticated user.
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/namespaces.html#list-namespaces
-func (s *NamespacesService) ListNamespaces() ([]*Namespace, *Response, error) {
-	req, err := s.client.NewRequest("GET", "namespaces", nil)
+func (s *NamespacesService) ListNamespaces(opt *ListNamespacesOptions) ([]*Namespace, *Response, error) {
+	req, err := s.client.NewRequest("GET", "namespaces", opt)
 	if err != nil {
 		return nil, nil, err
 	}

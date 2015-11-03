@@ -57,11 +57,20 @@ type User struct {
 	TwoFactorEnabled bool       `json:"two_factor_enabled"`
 }
 
+// ListUsersOptions represents the available ListUsers() options.
+//
+// GitLab API docs: http://doc.gitlab.com/ce/api/users.html#list-users
+type ListUsersOptions struct {
+	ListOptions
+	Active bool   `url:"active,omitempty"`
+	Search string `url:"search,omitempty"`
+}
+
 // ListUsers gets a list of users.
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/users.html#list-users
-func (s *UsersService) ListUsers() ([]*User, *Response, error) {
-	req, err := s.client.NewRequest("GET", "users", nil)
+func (s *UsersService) ListUsers(opt *ListUsersOptions) ([]*User, *Response, error) {
+	req, err := s.client.NewRequest("GET", "users", opt)
 	if err != nil {
 		return nil, nil, err
 	}

@@ -76,6 +76,7 @@ func (s Project) String() string {
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/projects.html#list-projects
 type ListProjectsOptions struct {
+	ListOptions
 	Archived       bool   `url:"archived,omitempty"`
 	OrderBy        string `url:"order_by,omitempty"`
 	Sort           string `url:"sort,omitempty"`
@@ -172,8 +173,7 @@ func (s *ProjectsService) GetProject(pid interface{}) (*Project, *Response, erro
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/projects.html#search-for-projects-by-name
 type SearchProjectsOptions struct {
-	PerPage int    `url:"per_page,omitempty"`
-	Page    int    `url:"page,omitempty"`
+	ListOptions
 	OrderBy string `url:"order_by,omitempty"`
 	Sort    string `url:"sort,omitempty"`
 }
@@ -245,19 +245,29 @@ func (s ProjectEvent) String() string {
 	return Stringify(s)
 }
 
+// GetProjectEventsOptions represents the available GetProjectEvents() options.
+//
+// GitLab API docs:
+// http://doc.gitlab.com/ce/api/projects.html#get-project-events
+type GetProjectEventsOptions struct {
+	ListOptions
+}
+
 // GetProjectEvents gets the events for the specified project. Sorted from
 // newest to latest.
 //
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/projects.html#get-project-events
-func (s *ProjectsService) GetProjectEvents(pid interface{}) ([]*ProjectEvent, *Response, error) {
+func (s *ProjectsService) GetProjectEvents(
+	pid interface{},
+	opt *GetProjectEventsOptions) ([]*ProjectEvent, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/events", url.QueryEscape(project))
 
-	req, err := s.client.NewRequest("GET", u, nil)
+	req, err := s.client.NewRequest("GET", u, opt)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -460,6 +470,7 @@ type ProjectMember struct {
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/projects.html#list-project-team-members
 type ListProjectMembersOptions struct {
+	ListOptions
 	Query string `url:"query,omitempty"`
 }
 
@@ -630,18 +641,27 @@ type ProjectHook struct {
 	CreatedAt           time.Time `json:"created_at"`
 }
 
+// ListProjectHooksOptions represents the available ListProjectHooks() options.
+//
+// GitLab API docs: http://doc.gitlab.com/ce/api/projects.html#list-project-hooks
+type ListProjectHooksOptions struct {
+	ListOptions
+}
+
 // ListProjectHooks gets a list of project hooks.
 //
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/projects.html#list-project-hooks
-func (s *ProjectsService) ListProjectHooks(pid interface{}) ([]*ProjectHook, *Response, error) {
+func (s *ProjectsService) ListProjectHooks(
+	pid interface{},
+	opt *ListProjectHooksOptions) ([]*ProjectHook, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/hooks", url.QueryEscape(project))
 
-	req, err := s.client.NewRequest("GET", u, nil)
+	req, err := s.client.NewRequest("GET", u, opt)
 	if err != nil {
 		return nil, nil, err
 	}
