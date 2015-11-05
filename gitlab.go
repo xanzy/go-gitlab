@@ -61,11 +61,11 @@ type NotificationLevel int
 //
 // GitLab API docs: http://doc.gitlab.com/ce/...?
 const (
-	DisabledNotifications NotificationLevel = 0
-	ParticipatingNotifications NotificationLevel = 1
-	WatchNotifications NotificationLevel = 2
-	GlobalNotifications NotificationLevel = 3
-	MentionNotifications NotificationLevel = 4
+	DisabledNotifications NotificationLevel = iota
+	ParticipatingNotifications
+	WatchNotifications
+	GlobalNotifications
+	MentionNotifications
 )
 
 // VisibilityLevel represents a visibility level within GitLab.
