@@ -12,17 +12,18 @@ func TestListAllProjects(t *testing.T) {
 	projects, _, err := client.Projects.ListAllProjects(opt)
 
 	if err != nil {
-		t.Fatal(err)
+		t.Fatalf("Expected error nil, got: %v", err)
 	}
 
-	if len(projects) != 2 {
-		t.Fail()
+	count := len(projects)
+	if count != 2 {
+		t.Errorf("Expected number of projects %q, got %q", 2, count)
 	}
 	if projects[0].Name != "project" {
-		t.Fail()
+		t.Errorf("Expected project name %q, got %q", "project", projects[0].Name)
 	}
 	if projects[1].Name != "project2" {
-		t.Fail()
+		t.Errorf("Expected project name %q, got %q", "project2", projects[1].Name)
 	}
 }
 
@@ -33,19 +34,19 @@ func TestGetProject(t *testing.T) {
 	project, _, err := client.Projects.GetProject(1)
 
 	if err != nil {
-		t.Fatal(err)
+		t.Fatalf("Expected error nil, got: %v", err)
 	}
 
 	if project.Name != "project" {
-		t.Fail()
+		t.Errorf("Expected project name %q, got %q", "project", project.Name)
 	}
 	if project.Namespace.Name != "group" {
-		t.Fail()
+		t.Errorf("Expected namespace name %q, got %q", "group", project.Namespace.Name)
 	}
 	if project.Permissions.ProjectAccess.AccessLevel != MasterPermissions {
-		t.Fail()
+		t.Errorf("Expected project access level %q, got %q", MasterPermissions, project.Permissions.ProjectAccess.AccessLevel)
 	}
 	if project.Permissions.GroupAccess != nil {
-		t.Fail()
+		t.Errorf("Expected project group access nil, got %q", project.Permissions.GroupAccess)
 	}
 }
