@@ -36,7 +36,7 @@ const (
 	userAgent      = "go-gitlab/" + libraryVersion
 )
 
-// AccessLevel represents a premission level within GitLab.
+// AccessLevel represents a permission level within GitLab.
 //
 // GitLab API docs: http://doc.gitlab.com/ce/permissions/permissions.html
 type AccessLevel int
@@ -50,6 +50,22 @@ const (
 	DeveloperPermissions AccessLevel = 30
 	MasterPermissions    AccessLevel = 40
 	OwnerPermission      AccessLevel = 50
+)
+
+// NotificationLevel represents a notification level within Gitlab.
+//
+// GitLab API docs: http://doc.gitlab.com/ce/...?
+type NotificationLevel int
+
+// List of available notification levels
+//
+// GitLab API docs: http://doc.gitlab.com/ce/...?
+const (
+	DisabledNotifications NotificationLevel = iota
+	ParticipatingNotifications
+	WatchNotifications
+	GlobalNotifications
+	MentionNotifications
 )
 
 // VisibilityLevel represents a visibility level within GitLab.

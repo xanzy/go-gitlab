@@ -142,12 +142,36 @@ func (s *ProjectsService) ListAllProjects(opt *ListProjectsOptions) ([]*Project,
 	return p, resp, err
 }
 
+// ProjectWithAccess represents a GitLab project with permissions attributes.
+//
+// GitLab API docs:
+// http://doc.gitlab.com/ce/api/projects.html#get-single-project
+type ProjectWithAccess struct {
+	Project
+	Permissions      *Permissions `json:"permissions"`
+}
+
+type Permissions struct {
+	ProjectAccess    *ProjectAccess `json:"project_access"`
+	GroupAccess      *GroupAccess   `json:"group_access"`
+}
+
+type ProjectAccess struct {
+	AccessLevel       AccessLevel       `json:"access_level"`
+	NotificationLevel NotificationLevel `json:"notification_level"`
+}
+
+type GroupAccess struct {
+	AccessLevel       AccessLevel       `json:"access_level"`
+	NotificationLevel NotificationLevel `json:"notification_level"`
+}
+
 // GetProject gets a specific project, identified by project ID or
 // NAMESPACE/PROJECT_NAME, which is owned by the authenticated user.
 //
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/projects.html#get-single-project
-func (s *ProjectsService) GetProject(pid interface{}) (*Project, *Response, error) {
+func (s *ProjectsService) GetProject(pid interface{}) (*ProjectWithAccess, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -159,7 +183,7 @@ func (s *ProjectsService) GetProject(pid interface{}) (*Project, *Response, erro
 		return nil, nil, err
 	}
 
-	p := new(Project)
+	p := new(ProjectWithAccess)
 	resp, err := s.client.Do(req, p)
 	if err != nil {
 		return nil, resp, err
