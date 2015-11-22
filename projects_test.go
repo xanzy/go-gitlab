@@ -1,52 +1,176 @@
 package gitlab
 
 import (
+	"fmt"
+	"net/http"
+	"reflect"
 	"testing"
 )
 
-func TestListAllProjects(t *testing.T) {
-	ts, client := Stub("stubs/projects/index.json")
-	defer ts.Close()
+func TestListProjects(t *testing.T) {
+	setup()
+	defer teardown()
 
-	opt := &ListProjectsOptions{}
+	mux.HandleFunc("/projects", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "GET")
+		testFormValues(t, r, values{
+			"page": "2",
+			"per_page": "3",
+			"archived": "true",
+			"order_by": "name",
+			"sort": "asc",
+			"search": "query",
+			"ci_enabled_first": "true",
+		})
+		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
+	})
+
+	opt := &ListProjectsOptions{ListOptions{2, 3}, true, "name", "asc", "query", true}
+	projects, _, err := client.Projects.ListProjects(opt)
+
+	if err != nil {
+		t.Errorf("Projects.ListProjects returned error: %v", err)
+	}
+
+	want := []*Project{{ID: Int(1)},{ID: Int(2)}}
+	if !reflect.DeepEqual(want, projects) {
+		t.Errorf("Projects.ListProjects returned %+v, want %+v", projects, want)
+	}
+}
+
+func TestListOwnedProjects(t *testing.T) {
+	setup()
+	defer teardown()
+
+	mux.HandleFunc("/projects/owned", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "GET")
+		testFormValues(t, r, values{
+			"page": "2",
+			"per_page": "3",
+			"archived": "true",
+			"order_by": "name",
+			"sort": "asc",
+			"search": "query",
+			"ci_enabled_first": "true",
+		})
+		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
+	})
+
+	opt := &ListProjectsOptions{ListOptions{2, 3}, true, "name", "asc", "query", true}
+	projects, _, err := client.Projects.ListOwnedProjects(opt)
+
+	if err != nil {
+		t.Errorf("Projects.ListOwnedProjects returned error: %v", err)
+	}
+
+	want := []*Project{{ID: Int(1)},{ID: Int(2)}}
+	if !reflect.DeepEqual(want, projects) {
+		t.Errorf("Projects.ListOwnedProjects returned %+v, want %+v", projects, want)
+	}
+}
+
+func TestListAllProjects(t *testing.T) {
+	setup()
+	defer teardown()
+
+	mux.HandleFunc("/projects/all", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "GET")
+		testFormValues(t, r, values{
+			"page": "2",
+			"per_page": "3",
+			"archived": "true",
+			"order_by": "name",
+			"sort": "asc",
+			"search": "query",
+			"ci_enabled_first": "true",
+		})
+		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
+	})
+
+	opt := &ListProjectsOptions{ListOptions{2, 3}, true, "name", "asc", "query", true}
 	projects, _, err := client.Projects.ListAllProjects(opt)
 
 	if err != nil {
-		t.Fatalf("Expected error nil, got: %v", err)
+		t.Errorf("Projects.ListAllProjects returned error: %v", err)
 	}
 
-	count := len(projects)
-	if count != 2 {
-		t.Errorf("Expected number of projects %q, got %q", 2, count)
-	}
-	if projects[0].Name != "project" {
-		t.Errorf("Expected project name %q, got %q", "project", projects[0].Name)
-	}
-	if projects[1].Name != "project2" {
-		t.Errorf("Expected project name %q, got %q", "project2", projects[1].Name)
+	want := []*Project{{ID: Int(1)},{ID: Int(2)}}
+	if !reflect.DeepEqual(want, projects) {
+		t.Errorf("Projects.ListAllProjects returned %+v, want %+v", projects, want)
 	}
 }
 
 func TestGetProject(t *testing.T) {
-	ts, client := Stub("stubs/projects/show.json")
-	defer ts.Close()
+	setup()
+	defer teardown()
+
+	mux.HandleFunc("/projects/1", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "GET")
+		fmt.Fprint(w, `{"id":1}`)
+	})
+	want := &Project{ID: Int(1)}
 
 	project, _, err := client.Projects.GetProject(1)
 
 	if err != nil {
-		t.Fatalf("Expected error nil, got: %v", err)
+		t.Fatalf("Projects.GetProject returns an error: %v", err)
 	}
 
-	if project.Name != "project" {
-		t.Errorf("Expected project name %q, got %q", "project", project.Name)
+	if !reflect.DeepEqual(want, project) {
+		t.Errorf("Projects.GetProject returned %+v, want %+v", project, want)
 	}
-	if project.Namespace.Name != "group" {
-		t.Errorf("Expected namespace name %q, got %q", "group", project.Namespace.Name)
+}
+
+func TestSearchProjects(t *testing.T) {
+	setup()
+	defer teardown()
+
+	mux.HandleFunc("/projects/search/query", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "GET")
+		testFormValues(t, r, values{
+			"page": "2",
+			"per_page": "3",
+			"order_by": "name",
+			"sort": "asc",
+		})
+		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
+	})
+
+	opt := &SearchProjectsOptions{ListOptions{2, 3}, "name", "asc"}
+	projects, _, err := client.Projects.SearchProjects("query", opt)
+
+	if err != nil {
+		t.Errorf("Projects.SearchProjects returned error: %v", err)
 	}
-	if project.Permissions.ProjectAccess.AccessLevel != MasterPermissions {
-		t.Errorf("Expected project access level %q, got %q", MasterPermissions, project.Permissions.ProjectAccess.AccessLevel)
+
+	want := []*Project{{ID: Int(1)},{ID: Int(2)}}
+	if !reflect.DeepEqual(want, projects) {
+		t.Errorf("Projects.SearchProjects returned %+v, want %+v", projects, want)
 	}
-	if project.Permissions.GroupAccess != nil {
-		t.Errorf("Expected project group access nil, got %q", project.Permissions.GroupAccess)
+}
+
+func TestCreateProject(t *testing.T) {
+	setup()
+	defer teardown()
+
+	mux.HandleFunc("/projects", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "POST")
+		testFormValues(t, r, values{
+			"name": "n",
+		})
+
+		fmt.Fprint(w, `{"id":1}`)
+	})
+
+	opt := &CreateProjectOptions{Name: "n"}
+	project, _, err := client.Projects.CreateProject(opt)
+
+	if err != nil {
+		t.Errorf("Projects.CreateProject returned error: %v", err)
+	}
+
+	want := &Project{ID: Int(1)}
+	if !reflect.DeepEqual(want, project) {
+		t.Errorf("Projects.CreateProject returned %+v, want %+v", project, want)
 	}
 }

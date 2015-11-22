@@ -34,38 +34,56 @@ type ProjectsService struct {
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/projects.html
 type Project struct {
-	ID                   int             `json:"id"`
-	Description          interface{}     `json:"description"`
-	DefaultBranch        string          `json:"default_branch"`
-	Public               bool            `json:"public"`
-	VisibilityLevel      VisibilityLevel `json:"visibility_level"`
-	SSHURLToRepo         string          `json:"ssh_url_to_repo"`
-	HTTPURLToRepo        string          `json:"http_url_to_repo"`
-	WebURL               string          `json:"web_url"`
-	TagList              []string        `json:"tag_list"`
-	Owner                *User           `json:"owner"`
-	Name                 string          `json:"name"`
-	NameWithNamespace    string          `json:"name_with_namespace"`
-	Path                 string          `json:"path"`
-	PathWithNamespace    string          `json:"path_with_namespace"`
-	IssuesEnabled        bool            `json:"issues_enabled"`
-	MergeRequestsEnabled bool            `json:"merge_requests_enabled"`
-	WikiEnabled          bool            `json:"wiki_enabled"`
-	SnippetsEnabled      bool            `json:"snippets_enabled"`
-	CreatedAt            time.Time       `json:"created_at"`
-	LastActivityAt       time.Time       `json:"last_activity_at"`
-	CreatorID            int             `json:"creator_id"`
-	Namespace            struct {
-		CreatedAt   time.Time `json:"created_at"`
-		Description string    `json:"description"`
-		ID          int       `json:"id"`
-		Name        string    `json:"name"`
-		OwnerID     int       `json:"owner_id"`
-		Path        string    `json:"path"`
-		UpdatedAt   time.Time `json:"updated_at"`
-	} `json:"namespace"`
-	Archived  bool   `json:"archived"`
-	AvatarURL string `json:"avatar_url"`
+	ID                   *int               `json:"id"`
+	Description          *string            `json:"description"`
+	DefaultBranch        *string            `json:"default_branch"`
+	Public               *bool              `json:"public"`
+	VisibilityLevel      *VisibilityLevel   `json:"visibility_level"`
+	SSHURLToRepo         *string            `json:"ssh_url_to_repo"`
+	HTTPURLToRepo        *string            `json:"http_url_to_repo"`
+	WebURL               *string            `json:"web_url"`
+	TagList              *[]string          `json:"tag_list"`
+	Owner                *User              `json:"owner"`
+	Name                 *string            `json:"name"`
+	NameWithNamespace    *string            `json:"name_with_namespace"`
+	Path                 *string            `json:"path"`
+	PathWithNamespace    *string            `json:"path_with_namespace"`
+	IssuesEnabled        *bool              `json:"issues_enabled"`
+	MergeRequestsEnabled *bool              `json:"merge_requests_enabled"`
+	WikiEnabled          *bool              `json:"wiki_enabled"`
+	SnippetsEnabled      *bool              `json:"snippets_enabled"`
+	CreatedAt            *time.Time         `json:"created_at,omitempty"`
+	LastActivityAt       *time.Time         `json:"last_activity_at,omitempty"`
+	CreatorID            *int               `json:"creator_id"`
+	Namespace            *ProjectNamespace  `json:"namespace"`
+	Archived             *bool              `json:"archived"`
+	AvatarURL            *string            `json:"avatar_url"`
+	Permissions          *Permissions       `json:"permissions"`
+}
+
+type ProjectNamespace struct {
+	CreatedAt   *time.Time `json:"created_at"`
+	Description *string    `json:"description"`
+	ID          *int       `json:"id"`
+	Name        *string    `json:"name"`
+	OwnerID     *int       `json:"owner_id"`
+	Path        *string    `json:"path"`
+	UpdatedAt   *time.Time `json:"updated_at"`
+}
+
+type Permissions struct {
+	ProjectAccess    *ProjectAccess `json:"project_access"`
+	GroupAccess      *GroupAccess   `json:"group_access"`
+}
+
+type ProjectAccess struct {
+	AccessLevel       AccessLevel       `json:"access_level"`
+	NotificationLevel NotificationLevel `json:"notification_level"`
+}
+
+type GroupAccess struct {
+	AccessLevel       AccessLevel       `json:"access_level"`
+	NotificationLevel NotificationLevel `json:"notification_level"`
 }
 
 func (s Project) String() string {
@@ -142,36 +160,12 @@ func (s *ProjectsService) ListAllProjects(opt *ListProjectsOptions) ([]*Project,
 	return p, resp, err
 }
 
-// ProjectWithAccess represents a GitLab project with permissions attributes.
-//
-// GitLab API docs:
-// http://doc.gitlab.com/ce/api/projects.html#get-single-project
-type ProjectWithAccess struct {
-	Project
-	Permissions      *Permissions `json:"permissions"`
-}
-
-type Permissions struct {
-	ProjectAccess    *ProjectAccess `json:"project_access"`
-	GroupAccess      *GroupAccess   `json:"group_access"`
-}
-
-type ProjectAccess struct {
-	AccessLevel       AccessLevel       `json:"access_level"`
-	NotificationLevel NotificationLevel `json:"notification_level"`
-}
-
-type GroupAccess struct {
-	AccessLevel       AccessLevel       `json:"access_level"`
-	NotificationLevel NotificationLevel `json:"notification_level"`
-}
-
 // GetProject gets a specific project, identified by project ID or
 // NAMESPACE/PROJECT_NAME, which is owned by the authenticated user.
 //
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/projects.html#get-single-project
-func (s *ProjectsService) GetProject(pid interface{}) (*ProjectWithAccess, *Response, error) {
+func (s *ProjectsService) GetProject(pid interface{}) (*Project, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -183,7 +177,7 @@ func (s *ProjectsService) GetProject(pid interface{}) (*ProjectWithAccess, *Resp
 		return nil, nil, err
 	}
 
-	p := new(ProjectWithAccess)
+	p := new(Project)
 	resp, err := s.client.Do(req, p)
 	if err != nil {
 		return nil, resp, err
