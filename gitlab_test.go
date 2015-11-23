@@ -10,32 +10,25 @@ import (
 	"testing"
 )
 
-var (
-// mux is the HTTP request multiplexer used with the test server.
-	mux *http.ServeMux
-
-// client is the Gitlab client being tested.
-	client *Client
-
-// server is a test HTTP server used to provide mock API responses.
-	server *httptest.Server
-)
-
 // setup sets up a test HTTP server along with a gitlab.Client that is
 // configured to talk to that test server.  Tests should register handlers on
 // mux which provide mock responses for the API method being tested.
-func setup() {
-	// test server
-	mux = http.NewServeMux()
-	server = httptest.NewServer(mux)
+func setup() (*http.ServeMux, *httptest.Server, *Client) {
+	// mux is the HTTP request multiplexer used with the test server.
+	mux := http.NewServeMux()
 
-	// gitlab client configured to use test server
-	client = NewClient(nil, "")
+	// server is a test HTTP server used to provide mock API responses.
+	server := httptest.NewServer(mux)
+
+	// client is the Gitlab client being tested.
+	client := NewClient(nil, "")
 	client.SetBaseURL(server.URL)
+
+	return mux, server, client
 }
 
 // teardown closes the test HTTP server.
-func teardown() {
+func teardown(server *httptest.Server) {
 	server.Close()
 }
 

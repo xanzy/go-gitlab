@@ -8,8 +8,8 @@ import (
 )
 
 func TestListProjects(t *testing.T) {
-	setup()
-	defer teardown()
+	mux, server, client := setup()
+	defer teardown(server)
 
 	mux.HandleFunc("/projects", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
@@ -39,8 +39,8 @@ func TestListProjects(t *testing.T) {
 }
 
 func TestListOwnedProjects(t *testing.T) {
-	setup()
-	defer teardown()
+	mux, server, client := setup()
+	defer teardown(server)
 
 	mux.HandleFunc("/projects/owned", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
@@ -70,8 +70,8 @@ func TestListOwnedProjects(t *testing.T) {
 }
 
 func TestListAllProjects(t *testing.T) {
-	setup()
-	defer teardown()
+	mux, server, client := setup()
+	defer teardown(server)
 
 	mux.HandleFunc("/projects/all", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
@@ -101,8 +101,8 @@ func TestListAllProjects(t *testing.T) {
 }
 
 func TestGetProject(t *testing.T) {
-	setup()
-	defer teardown()
+	mux, server, client := setup()
+	defer teardown(server)
 
 	mux.HandleFunc("/projects/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
@@ -122,8 +122,8 @@ func TestGetProject(t *testing.T) {
 }
 
 func TestSearchProjects(t *testing.T) {
-	setup()
-	defer teardown()
+	mux, server, client := setup()
+	defer teardown(server)
 
 	mux.HandleFunc("/projects/search/query", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
@@ -150,8 +150,8 @@ func TestSearchProjects(t *testing.T) {
 }
 
 func TestCreateProject(t *testing.T) {
-	setup()
-	defer teardown()
+	mux, server, client := setup()
+	defer teardown(server)
 
 	mux.HandleFunc("/projects", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "POST")
