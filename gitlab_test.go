@@ -40,7 +40,7 @@ func testUrl(t *testing.T, r *http.Request, want string) {
 
 func testMethod(t *testing.T, r *http.Request, want string) {
 	if got := r.Method; got != want {
-		t.Errorf("Request method: %v, want %v", got, want)
+		t.Errorf("Request method: %s, want %s", got, want)
 	}
 }
 
@@ -82,11 +82,11 @@ func responseBody(w http.ResponseWriter, filename string) {
 func TestNewClient(t *testing.T) {
 	c := NewClient(nil, "")
 
-	if got, want := c.BaseURL().String(), defaultBaseURL; got != want {
-		t.Errorf("NewClient BaseURL is %v, want %v", got, want)
+	if c.BaseURL().String() != defaultBaseURL {
+		t.Errorf("NewClient BaseURL is %s, want %s", c.BaseURL().String(), defaultBaseURL)
 	}
-	if got, want := c.UserAgent, userAgent; got != want {
-		t.Errorf("NewClient UserAgent is %v, want %v", got, want)
+	if c.UserAgent != userAgent {
+		t.Errorf("NewClient UserAgent is %s, want %s", c.UserAgent, userAgent)
 	}
 }
 

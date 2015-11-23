@@ -350,8 +350,8 @@ type ErrorResponse struct {
 }
 
 func (r *ErrorResponse) Error() string {
-	return fmt.Sprintf("%v %v: %d %v %+v",
-		r.Response.Request.Method, r.Response.Request.URL,
+	return fmt.Sprintf("%v %s: %d %v %+v",
+		r.Response.Request.Method, r.Response.Request.URL.String(),
 		r.Response.StatusCode, r.Message, r.Errors)
 }
 
