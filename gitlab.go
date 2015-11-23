@@ -196,12 +196,10 @@ func (c *Client) SetBaseURL(urlStr string) error {
 // specified, the value pointed to by body is JSON encoded and included as the
 // request body.
 func (c *Client) NewRequest(method, path string, opt interface{}) (*http.Request, error) {
-	rel, err := url.Parse(path)
+	u, err := url.Parse(c.baseURL.String() + path)
 	if err != nil {
 		return nil, err
 	}
-
-	u := *c.baseURL.ResolveReference(rel)
 
 	q, err := query.Values(opt)
 	if err != nil {
@@ -211,7 +209,7 @@ func (c *Client) NewRequest(method, path string, opt interface{}) (*http.Request
 
 	req := &http.Request{
 		Method:     method,
-		URL:        &u,
+		URL:        u,
 		Proto:      "HTTP/1.1",
 		ProtoMajor: 1,
 		ProtoMinor: 1,

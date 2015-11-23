@@ -100,7 +100,7 @@ func TestListAllProjects(t *testing.T) {
 	}
 }
 
-func TestGetProject(t *testing.T) {
+func TestGetProject_byID(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
@@ -111,6 +111,28 @@ func TestGetProject(t *testing.T) {
 	want := &Project{ID: Int(1)}
 
 	project, _, err := client.Projects.GetProject(1)
+
+	if err != nil {
+		t.Fatalf("Projects.GetProject returns an error: %v", err)
+	}
+
+	if !reflect.DeepEqual(want, project) {
+		t.Errorf("Projects.GetProject returned %+v, want %+v", project, want)
+	}
+}
+
+func TestGetProject_byName(t *testing.T) {
+	mux, server, client := setup()
+	defer teardown(server)
+
+	mux.HandleFunc("/projects/", func(w http.ResponseWriter, r *http.Request) {
+		testUrl(t, r, "/projects/namespace%2Fname")
+		testMethod(t, r, "GET")
+		fmt.Fprint(w, `{"id":1}`)
+	})
+	want := &Project{ID: Int(1)}
+
+	project, _, err := client.Projects.GetProject("namespace/name")
 
 	if err != nil {
 		t.Fatalf("Projects.GetProject returns an error: %v", err)
