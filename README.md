@@ -5,6 +5,8 @@ A GitLab API client enabling Go programs to interact with GitLab in a simple and
 **Documentation:** [![GoDoc](https://godoc.org/github.com/xanzy/go-gitlab?status.svg)](https://godoc.org/github.com/xanzy/go-gitlab)  
 **Build Status:** [![Build Status](https://travis-ci.org/xanzy/go-gitlab.svg?branch=master)](https://travis-ci.org/xanzy/go-gitlab)  
 
+go-gitlab requires Go version 1.5 or greater.
+
 ## Coverage
 
 This API client package covers **100%** of the existing GitLab API calls! So this
