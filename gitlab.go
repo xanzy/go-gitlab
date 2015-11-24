@@ -196,10 +196,9 @@ func (c *Client) SetBaseURL(urlStr string) error {
 // specified, the value pointed to by body is JSON encoded and included as the
 // request body.
 func (c *Client) NewRequest(method, path string, opt interface{}) (*http.Request, error) {
-	u, err := url.Parse(c.baseURL.String() + path)
-	if err != nil {
-		return nil, err
-	}
+	u := *c.baseURL
+	// Set the encoded opaque data
+	u.Opaque = c.baseURL.Path + path
 
 	q, err := query.Values(opt)
 	if err != nil {
@@ -209,7 +208,7 @@ func (c *Client) NewRequest(method, path string, opt interface{}) (*http.Request
 
 	req := &http.Request{
 		Method:     method,
-		URL:        u,
+		URL:        &u,
 		Proto:      "HTTP/1.1",
 		ProtoMajor: 1,
 		ProtoMinor: 1,
@@ -350,9 +349,11 @@ type ErrorResponse struct {
 }
 
 func (r *ErrorResponse) Error() string {
+	path, _ := url.QueryUnescape(r.Response.Request.URL.Opaque)
+	ru := fmt.Sprintf("%s://%s%s", r.Response.Request.URL.Scheme, r.Response.Request.URL.Host, path)
+
 	return fmt.Sprintf("%v %s: %d %v %+v",
-		r.Response.Request.Method, r.Response.Request.URL.String(),
-		r.Response.StatusCode, r.Message, r.Errors)
+		r.Response.Request.Method, ru, r.Response.StatusCode, r.Message, r.Errors)
 }
 
 // An Error reports more details on an individual error in an ErrorResponse.

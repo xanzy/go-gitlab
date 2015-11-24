@@ -33,8 +33,8 @@ func teardown(server *httptest.Server) {
 }
 
 func testUrl(t *testing.T, r *http.Request, want string) {
-	if got := r.URL.String(); got != want {
-		t.Errorf("Request url: %s, want %s", got, want)
+	if got := r.RequestURI; got != want {
+		t.Errorf("Request url: %+v, want %s", got, want)
 	}
 }
 
