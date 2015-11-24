@@ -19,6 +19,7 @@ package gitlab
 import (
 	"fmt"
 	"net/url"
+	"time"
 )
 
 // ServicesService handles communication with the services related methods of
@@ -27,6 +28,19 @@ import (
 // GitLab API docs: http://doc.gitlab.com/ce/api/services.html
 type ServicesService struct {
 	client *Client
+}
+
+type Service struct {
+	ID                  *int       `json:"id"`
+	Title               *string    `json:"title"`
+	CreatedAt           *time.Time `json:"created_at"`
+	UpdatedAt           *time.Time `json:"created_at"`
+	Active              *bool      `json:"active"`
+	PushEvents          *bool      `json:"push_events"`
+	IssuesEvents        *bool      `json:"issues_events"`
+	MergeRequestsEvents *bool      `json:"merge_requests_events"`
+	TagPushEvents       *bool      `json:"tag_push_events"`
+	NoteEvents          *bool      `json:"note_events"`
 }
 
 // SetGitLabCIServiceOptions represents the available SetGitLabCIService()
@@ -147,4 +161,103 @@ func (s *ServicesService) DeleteHipChatService(pid interface{}) (*Response, erro
 	}
 
 	return resp, err
+}
+
+// SetDroneCIServiceOptions represents the available SetDroneCIService()
+// options.
+//
+// GitLab API docs:
+// http://doc.gitlab.com/ce/api/services.html#createedit-drone-ci-service
+type SetDroneCIServiceOptions struct {
+	Token                   string `url:"token"`
+	DroneURL                string `url:"drone_url"`
+	EnableSSLVerification   string `url:"enable_ssl_verification,omitempty"`
+}
+
+// SetDroneCIService sets Drone CI service for a project.
+//
+// GitLab API docs:
+// http://doc.gitlab.com/ce/api/services.html#createedit-drone-ci-service
+func (s *ServicesService) SetDroneCIService(
+	pid interface{},
+	opt *SetDroneCIServiceOptions) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/services/drone-ci", url.QueryEscape(project))
+
+	req, err := s.client.NewRequest("PUT", u, opt)
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := s.client.Do(req, nil)
+	if err != nil {
+		return resp, err
+	}
+
+	return resp, err
+}
+
+// DeleteDroneCIService deletes Drone CI service settings for a project.
+//
+// GitLab API docs:
+// http://doc.gitlab.com/ce/api/services.html#delete-drone-ci-service
+func (s *ServicesService) DeleteDroneCIService(pid interface{}) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/services/drone-ci", url.QueryEscape(project))
+
+	req, err := s.client.NewRequest("DELETE", u, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := s.client.Do(req, nil)
+	if err != nil {
+		return resp, err
+	}
+
+	return resp, err
+}
+
+// DroneCIServiceProperties represents Drone CI specific properties.
+type DroneCIServiceProperties struct {
+	Token                   *string `url:"token"`
+	DroneURL                *string `url:"drone_url"`
+	EnableSSLVerification   *string `url:"enable_ssl_verification"`
+}
+
+// DroneCIService represents Drone CI service settings.
+type DroneCIService struct {
+	Service
+	Properties *DroneCIServiceProperties `json:"properties"`
+}
+
+// GetDroneCIService gets Drone CI service settings for a project.
+//
+// GitLab API docs:
+// http://doc.gitlab.com/ce/api/services.html#get-drone-ci-service-settings
+func (s *ServicesService) GetDroneCIService(pid interface{}) (*DroneCIService, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/services/drone-ci", url.QueryEscape(project))
+
+	req, err := s.client.NewRequest("GET", u, nil)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	opt := new(DroneCIService)
+	resp, err := s.client.Do(req, opt)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return opt, resp, err
 }
