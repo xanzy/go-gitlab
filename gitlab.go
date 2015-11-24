@@ -187,9 +187,6 @@ func (c *Client) SetBaseURL(urlStr string) error {
 		return err
 	}
 
-	// Set the encoded opaque data
-	c.baseURL.Opaque = c.baseURL.Path
-
 	return nil
 }
 
@@ -200,7 +197,8 @@ func (c *Client) SetBaseURL(urlStr string) error {
 // request body.
 func (c *Client) NewRequest(method, path string, opt interface{}) (*http.Request, error) {
 	u := *c.baseURL
-	u.Opaque += path
+	// Set the encoded opaque data
+	u.Opaque = c.baseURL.Path + path
 
 	q, err := query.Values(opt)
 	if err != nil {
