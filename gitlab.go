@@ -398,39 +398,6 @@ func CheckResponse(r *http.Response) error {
 	return errorResponse
 }
 
-// parseBoolResponse determines the boolean result from a GitLab API response.
-// Several GitLab API methods return boolean responses indicated by the HTTP
-// status code in the response (true indicated by a 204, false indicated by a
-// 404). This helper function will determine that result and hide the 404 error
-// if present. Any other error will be returned through as-is.
-func parseBoolResponse(err error) (bool, error) {
-	if err == nil {
-		return true, nil
-	}
-
-	if err, ok := err.(*ErrorResponse); ok && err.Response.StatusCode == http.StatusNotFound {
-		// Simply false. In this one case, we do not pass the error through.
-		return false, nil
-	}
-
-	// some other real error occurred
-	return false, err
-}
-
-// cloneRequest returns a clone of the provided *http.Request. The clone is a
-// shallow copy of the struct and its Header map.
-func cloneRequest(r *http.Request) *http.Request {
-	// shallow copy of the struct
-	r2 := new(http.Request)
-	*r2 = *r
-	// deep copy of the Header
-	r2.Header = make(http.Header)
-	for k, s := range r.Header {
-		r2.Header[k] = s
-	}
-	return r2
-}
-
 // Bool is a helper routine that allocates a new bool value
 // to store v and returns a pointer to it.
 func Bool(v bool) *bool {
