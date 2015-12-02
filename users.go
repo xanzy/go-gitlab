@@ -165,7 +165,7 @@ type ModifyUserOptions struct {
 
 // ModifyUser modifies an existing user. Only administrators can change attributes
 // of a user.
-//gitla
+//
 // GitLab API docs: http://doc.gitlab.com/ce/api/users.html#user-modification
 func (s *UsersService) ModifyUser(user int, opt *ModifyUserOptions) (*User, *Response, error) {
 	u := fmt.Sprintf("users/%d", user)
