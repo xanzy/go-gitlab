@@ -75,9 +75,9 @@ func (s *RepositoriesService) ListTags(pid interface{}) ([]*Tag, *Response, erro
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/repositories.html#create-a-new-tag
 type CreateTagOptions struct {
-	TagName string `url:"tag_name,omitempty"`
-	Ref     string `url:"ref,omitempty"`
-	Message string `url:"message,omitempty"`
+	TagName string `url:"tag_name,omitempty" json:"tag_name,omitempty"`
+	Ref     string `url:"ref,omitempty" json:"ref,omitempty"`
+	Message string `url:"message,omitempty" json:"message,omitempty"`
 }
 
 // CreateTag creates a new tag in the repository that points to the supplied ref.
@@ -127,8 +127,8 @@ func (t TreeNode) String() string {
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/repositories.html#list-repository-tree
 type ListTreeOptions struct {
-	Path    string `url:"path,omitempty"`
-	RefName string `url:"ref_name,omitempty"`
+	Path    string `url:"path,omitempty" json:"path,omitempty"`
+	RefName string `url:"ref_name,omitempty" json:"ref_name,omitempty"`
 }
 
 // ListTree gets a list of repository files and directories in a project.
@@ -163,7 +163,7 @@ func (s *RepositoriesService) ListTree(
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/repositories.html#raw-file-content
 type RawFileContentOptions struct {
-	FilePath string `url:"filepath,omitempty"`
+	FilePath string `url:"filepath,omitempty" json:"filepath,omitempty"`
 }
 
 // RawFileContent gets the raw file contents for a file by commit SHA and path
@@ -226,7 +226,7 @@ func (s *RepositoriesService) RawBlobContent(
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/repositories.html#get-file-archive
 type ArchiveOptions struct {
-	SHA string `url:"sha,omitempty"`
+	SHA string `url:"sha,omitempty" json:"sha,omitempty"`
 }
 
 // Archive gets an archive of the repository.
@@ -277,8 +277,8 @@ func (c Compare) String() string {
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/repositories.html#compare-branches-tags-or-commits
 type CompareOptions struct {
-	From string `url:"from,omitempty"`
-	To   string `url:"to,omitempty"`
+	From string `url:"from,omitempty" json:"from,omitempty"`
+	To   string `url:"to,omitempty" json:"to,omitempty"`
 }
 
 // Compare compares branches, tags or commits.

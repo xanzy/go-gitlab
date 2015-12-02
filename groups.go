@@ -45,7 +45,7 @@ type Group struct {
 // GitLab API docs: http://doc.gitlab.com/ce/api/groups.html#list-project-groups
 type ListGroupsOptions struct {
 	ListOptions
-	Search string `url:"search,omitempty"`
+	Search string `url:"search,omitempty" json:"search,omitempty"`
 }
 
 // ListGroups gets a list of groups. (As user: my groups, as admin: all groups)
@@ -95,9 +95,9 @@ func (s *GroupsService) GetGroup(gid interface{}) (*Group, *Response, error) {
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/groups.html#new-group
 type CreateGroupOptions struct {
-	Name        string `url:"name,omitempty"`
-	Path        string `url:"path,omitempty"`
-	Description string `url:"description,omitempty"`
+	Name        string `url:"name,omitempty" json:"name,omitempty"`
+	Path        string `url:"path,omitempty" json:"path,omitempty"`
+	Description string `url:"description,omitempty" json:"description,omitempty"`
 }
 
 // CreateGroup creates a new project group. Available only for users who can
@@ -173,7 +173,7 @@ func (s *GroupsService) DeleteGroup(gid interface{}) (*Response, error) {
 // GitLab API docs: http://doc.gitlab.com/ce/api/groups.html#search-for-group
 func (s *GroupsService) SearchGroup(query string) ([]*Group, *Response, error) {
 	var q struct {
-		Search string `url:"search,omitempty"`
+		Search string `url:"search,omitempty" json:"search,omitempty"`
 	}
 	q.Search = query
 
@@ -234,8 +234,8 @@ func (s *GroupsService) ListGroupMembers(gid interface{}) ([]*GroupMember, *Resp
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/groups.html#add-group-member
 type AddGroupMemberOptions struct {
-	UserID      int         `url:"user_id,omitempty"`
-	AccessLevel AccessLevel `url:"access_level,omitempty"`
+	UserID      int         `url:"user_id,omitempty" json:"user_id,omitempty"`
+	AccessLevel AccessLevel `url:"access_level,omitempty" json:"access_level,omitempty"`
 }
 
 // AddGroupMember adds a user to the list of group members.
@@ -271,7 +271,7 @@ func (s *GroupsService) AddGroupMember(
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/groups.html#edit-group-team-member
 type UpdateGroupMemberOptions struct {
-	AccessLevel AccessLevel `url:"access_level,omitempty"`
+	AccessLevel AccessLevel `url:"access_level,omitempty" json:"access_level,omitempty"`
 }
 
 // UpdateGroupMember updates a group team member to a specified access level.
