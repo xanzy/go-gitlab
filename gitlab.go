@@ -17,6 +17,7 @@
 package gitlab
 
 import (
+	"bytes"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -214,6 +215,19 @@ func (c *Client) NewRequest(method, path string, opt interface{}) (*http.Request
 		ProtoMinor: 1,
 		Header:     make(http.Header),
 		Host:       u.Host,
+	}
+
+	if method == "POST" || method == "PUT" {
+		bodyBytes, err := json.Marshal(opt)
+		if err != nil {
+			return nil, err
+		}
+		bodyReader := bytes.NewReader(bodyBytes)
+
+		u.RawQuery = ""
+		req.Body = ioutil.NopCloser(bodyReader)
+		req.ContentLength = int64(bodyReader.Len())
+		req.Header.Set("Content-Type", "application/json")
 	}
 
 	req.Header.Set("Accept", "application/json")
