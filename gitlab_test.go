@@ -1,6 +1,7 @@
 package gitlab
 
 import (
+	"encoding/json"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
@@ -71,6 +72,20 @@ func testBody(t *testing.T, r *http.Request, want string) {
 	}
 	if got := string(b); got != want {
 		t.Errorf("request Body is %s, want %s", got, want)
+	}
+}
+
+func testJsonBody(t *testing.T, r *http.Request, want values) {
+	b, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		t.Errorf("Error reading request body: %v", err)
+	}
+
+	var got values
+	json.Unmarshal(b, &got)
+
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("Request parameters: %v, want %v", got, want)
 	}
 }
 
