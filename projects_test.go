@@ -177,7 +177,7 @@ func TestCreateProject(t *testing.T) {
 
 	mux.HandleFunc("/projects", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "POST")
-		testFormValues(t, r, values{
+		testJsonBody(t, r, values{
 			"name": "n",
 		})
 

@@ -55,7 +55,7 @@ func (m Milestone) String() string {
 // http://doc.gitlab.com/ce/api/milestones.html#list-project-milestones
 type ListMilestonesOptions struct {
 	ListOptions
-	IID int `url:"iid,omitempty"`
+	IID int `url:"iid,omitempty" json:"iid,omitempty"`
 }
 
 // ListMilestones returns a list of project milestones.
@@ -117,9 +117,9 @@ func (s *MilestonesService) GetMilestone(
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/milestones.html#create-new-milestone
 type CreateMilestoneOptions struct {
-	Title       string `url:"title,omitempty"`
-	Description string `url:"description,omitempty"`
-	DueDate     string `url:"due_date,omitempty"`
+	Title       string `url:"title,omitempty" json:"title,omitempty"`
+	Description string `url:"description,omitempty" json:"description,omitempty"`
+	DueDate     string `url:"due_date,omitempty" json:"due_date,omitempty"`
 }
 
 // CreateMilestone creates a new project milestone.
@@ -154,10 +154,10 @@ func (s *MilestonesService) CreateMilestone(
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/milestones.html#edit-milestone
 type UpdateMilestoneOptions struct {
-	Title       string `url:"title,omitempty"`
-	Description string `url:"description,omitempty"`
-	DueDate     string `url:"due_date,omitempty"`
-	StateEvent  string `url:"state_event,omitempty"`
+	Title       string `url:"title,omitempty" json:"title,omitempty"`
+	Description string `url:"description,omitempty" json:"description,omitempty"`
+	DueDate     string `url:"due_date,omitempty" json:"due_date,omitempty"`
+	StateEvent  string `url:"state_event,omitempty" json:"state_event,omitempty"`
 }
 
 // UpdateMilestone updates an existing project milestone.

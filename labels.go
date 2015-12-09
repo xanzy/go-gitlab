@@ -69,8 +69,8 @@ func (s *LabelsService) ListLabels(pid interface{}) ([]*Label, *Response, error)
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/labels.html#create-a-new-label
 type CreateLabelOptions struct {
-	Name  string `url:"name,omitempty"`
-	Color string `url:"color,omitempty"`
+	Name  string `url:"name,omitempty" json:"name,omitempty"`
+	Color string `url:"color,omitempty" json:"color,omitempty"`
 }
 
 // CreateLabel creates a new label for given repository with given name and
@@ -104,7 +104,7 @@ func (s *LabelsService) CreateLabel(
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/labels.html#delete-a-label
 type DeleteLabelOptions struct {
-	Name string `url:"name,omitempty"`
+	Name string `url:"name,omitempty" json:"name,omitempty"`
 }
 
 // DeleteLabel deletes a label given by its name.
@@ -134,9 +134,9 @@ func (s *LabelsService) DeleteLabel(pid interface{}, opt *DeleteLabelOptions) (*
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/labels.html#delete-a-label
 type UpdateLabelOptions struct {
-	Name    string `url:"name,omitempty"`
-	NewName string `url:"new_name,omitempty"`
-	Color   string `url:"color,omitempty"`
+	Name    string `url:"name,omitempty" json:"name,omitempty"`
+	NewName string `url:"new_name,omitempty" json:"new_name,omitempty"`
+	Color   string `url:"color,omitempty" json:"color,omitempty"`
 }
 
 // UpdateLabel updates an existing label with new name or now color. At least

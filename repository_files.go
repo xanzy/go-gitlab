@@ -52,8 +52,8 @@ func (r File) String() string {
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/repository_files.html#get-file-from-respository
 type GetFileOptions struct {
-	FilePath string `url:"file_path,omitempty"`
-	Ref      string `url:"ref,omitempty"`
+	FilePath string `url:"file_path,omitempty" json:"file_path,omitempty"`
+	Ref      string `url:"ref,omitempty" json:"ref,omitempty"`
 }
 
 // GetFile allows you to receive information about a file in repository like
@@ -101,11 +101,11 @@ func (r FileInfo) String() string {
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/repository_files.html#create-new-file-in-repository
 type CreateFileOptions struct {
-	FilePath      string `url:"file_path,omitempty"`
-	BranchName    string `url:"branch_name,omitempty"`
-	Encoding      string `url:"encoding,omitempty"`
-	Content       string `url:"content,omitempty"`
-	CommitMessage string `url:"commit_message,omitempty"`
+	FilePath      string `url:"file_path,omitempty" json:"file_path,omitempty"`
+	BranchName    string `url:"branch_name,omitempty" json:"branch_name,omitempty"`
+	Encoding      string `url:"encoding,omitempty" json:"encoding,omitempty"`
+	Content       string `url:"content,omitempty" json:"content,omitempty"`
+	CommitMessage string `url:"commit_message,omitempty" json:"commit_message,omitempty"`
 }
 
 // CreateFile creates a new file in a repository.
@@ -140,11 +140,11 @@ func (s *RepositoryFilesService) CreateFile(
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/repository_files.html#update-existing-file-in-repository
 type UpdateFileOptions struct {
-	FilePath      string `url:"file_path,omitempty"`
-	BranchName    string `url:"branch_name,omitempty"`
-	Encoding      string `url:"encoding,omitempty"`
-	Content       string `url:"content,omitempty"`
-	CommitMessage string `url:"commit_message,omitempty"`
+	FilePath      string `url:"file_path,omitempty" json:"file_path,omitempty"`
+	BranchName    string `url:"branch_name,omitempty" json:"branch_name,omitempty"`
+	Encoding      string `url:"encoding,omitempty" json:"encoding,omitempty"`
+	Content       string `url:"content,omitempty" json:"content,omitempty"`
+	CommitMessage string `url:"commit_message,omitempty" json:"commit_message,omitempty"`
 }
 
 // UpdateFile updates an existing file in a repository
@@ -179,9 +179,9 @@ func (s *RepositoryFilesService) UpdateFile(
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/repository_files.html#delete-existing-file-in-repository
 type DeleteFileOptions struct {
-	FilePath      string `url:"file_path,omitempty"`
-	BranchName    string `url:"branch_name,omitempty"`
-	CommitMessage string `url:"commit_message,omitempty"`
+	FilePath      string `url:"file_path,omitempty" json:"file_path,omitempty"`
+	BranchName    string `url:"branch_name,omitempty" json:"branch_name,omitempty"`
+	CommitMessage string `url:"commit_message,omitempty" json:"commit_message,omitempty"`
 }
 
 // DeleteFile deletes an existing file in a repository

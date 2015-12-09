@@ -62,8 +62,8 @@ type User struct {
 // GitLab API docs: http://doc.gitlab.com/ce/api/users.html#list-users
 type ListUsersOptions struct {
 	ListOptions
-	Active bool   `url:"active,omitempty"`
-	Search string `url:"search,omitempty"`
+	Active bool   `url:"active,omitempty" json:"active,omitempty"`
+	Search string `url:"search,omitempty" json:"search,omitempty"`
 }
 
 // ListUsers gets a list of users.
@@ -108,21 +108,21 @@ func (s *UsersService) GetUser(user int) (*User, *Response, error) {
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/users.html#user-creation
 type CreateUserOptions struct {
-	Email          string `url:"email,omitempty"`
-	Password       string `url:"password,omitempty"`
-	Username       string `url:"username,omitempty"`
-	Name           string `url:"name,omitempty"`
-	Skype          string `url:"skype,omitempty"`
-	Linkedin       string `url:"linkedin,omitempty"`
-	Twitter        string `url:"twitter,omitempty"`
-	WebsiteURL     string `url:"website_url,omitempty"`
-	ProjectsLimit  int    `url:"projects_limit,omitempty"`
-	ExternUID      string `url:"extern_uid,omitempty"`
-	Provider       string `url:"provider,omitempty"`
-	Bio            string `url:"bio,omitempty"`
-	Admin          bool   `url:"admin,omitempty"`
-	CanCreateGroup bool   `url:"can_create_group,omitempty"`
-	Confirm        bool   `url:"confirm,omitempty"`
+	Email          string `url:"email,omitempty" json:"email,omitempty"`
+	Password       string `url:"password,omitempty" json:"password,omitempty"`
+	Username       string `url:"username,omitempty" json:"username,omitempty"`
+	Name           string `url:"name,omitempty" json:"name,omitempty"`
+	Skype          string `url:"skype,omitempty" json:"skype,omitempty"`
+	Linkedin       string `url:"linkedin,omitempty" json:"linkedin,omitempty"`
+	Twitter        string `url:"twitter,omitempty" json:"twitter,omitempty"`
+	WebsiteURL     string `url:"website_url,omitempty" json:"website_url,omitempty"`
+	ProjectsLimit  int    `url:"projects_limit,omitempty" json:"projects_limit,omitempty"`
+	ExternUID      string `url:"extern_uid,omitempty" json:"extern_uid,omitempty"`
+	Provider       string `url:"provider,omitempty" json:"provider,omitempty"`
+	Bio            string `url:"bio,omitempty" json:"bio,omitempty"`
+	Admin          bool   `url:"admin,omitempty" json:"admin,omitempty"`
+	CanCreateGroup bool   `url:"can_create_group,omitempty" json:"can_create_group,omitempty"`
+	Confirm        bool   `url:"confirm,omitempty" json:"confirm,omitempty"`
 }
 
 // CreateUser creates a new user. Note only administrators can create new users.
@@ -147,20 +147,20 @@ func (s *UsersService) CreateUser(opt *CreateUserOptions) (*User, *Response, err
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/users.html#user-modification
 type ModifyUserOptions struct {
-	Email          string `url:"email,omitempty"`
-	Password       string `url:"password,omitempty"`
-	Username       string `url:"username,omitempty"`
-	Name           string `url:"name,omitempty"`
-	Skype          string `url:"skype,omitempty"`
-	Linkedin       string `url:"linkedin,omitempty"`
-	Twitter        string `url:"twitter,omitempty"`
-	WebsiteURL     string `url:"website_url,omitempty"`
-	ProjectsLimit  int    `url:"projects_limit,omitempty"`
-	ExternUID      string `url:"extern_uid,omitempty"`
-	Provider       string `url:"provider,omitempty"`
-	Bio            string `url:"bio,omitempty"`
-	Admin          bool   `url:"admin,omitempty"`
-	CanCreateGroup bool   `url:"can_create_group,omitempty"`
+	Email          string `url:"email,omitempty" json:"email,omitempty"`
+	Password       string `url:"password,omitempty" json:"password,omitempty"`
+	Username       string `url:"username,omitempty" json:"username,omitempty"`
+	Name           string `url:"name,omitempty" json:"name,omitempty"`
+	Skype          string `url:"skype,omitempty" json:"skype,omitempty"`
+	Linkedin       string `url:"linkedin,omitempty" json:"linkedin,omitempty"`
+	Twitter        string `url:"twitter,omitempty" json:"twitter,omitempty"`
+	WebsiteURL     string `url:"website_url,omitempty" json:"website_url,omitempty"`
+	ProjectsLimit  int    `url:"projects_limit,omitempty" json:"projects_limit,omitempty"`
+	ExternUID      string `url:"extern_uid,omitempty" json:"extern_uid,omitempty"`
+	Provider       string `url:"provider,omitempty" json:"provider,omitempty"`
+	Bio            string `url:"bio,omitempty" json:"bio,omitempty"`
+	Admin          bool   `url:"admin,omitempty" json:"admin,omitempty"`
+	CanCreateGroup bool   `url:"can_create_group,omitempty" json:"can_create_group,omitempty"`
 }
 
 // ModifyUser modifies an existing user. Only administrators can change attributes
@@ -299,8 +299,8 @@ func (s *UsersService) GetSSHKey(kid int) (*SSHKey, *Response, error) {
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/projects.html#add-ssh-key
 type AddSSHKeyOptions struct {
-	Title string `url:"title,omitempty"`
-	Key   string `url:"key,omitempty"`
+	Title string `url:"title,omitempty" json:"title,omitempty"`
+	Key   string `url:"key,omitempty" json:"key,omitempty"`
 }
 
 // AddSSHKey creates a new key owned by the currently authenticated user.

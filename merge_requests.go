@@ -98,10 +98,10 @@ func (m MergeRequest) String() string {
 // http://doc.gitlab.com/ce/api/merge_requests.html#list-merge-requests
 type ListMergeRequestsOptions struct {
 	ListOptions
-	IID     int    `url:"iid,omitempty"`
-	State   string `url:"state,omitempty"`
-	OrderBy string `url:"order_by,omitempty"`
-	Sort    string `url:"sort,omitempty"`
+	IID     int    `url:"iid,omitempty" json:"iid,omitempty"`
+	State   string `url:"state,omitempty" json:"state,omitempty"`
+	OrderBy string `url:"order_by,omitempty" json:"order_by,omitempty"`
+	Sort    string `url:"sort,omitempty" json:"sort,omitempty"`
 }
 
 // ListMergeRequests gets all merge requests for this project. The state
@@ -195,12 +195,12 @@ func (s *MergeRequestsService) GetMergeRequestChanges(
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/merge_requests.html#create-mr
 type CreateMergeRequestOptions struct {
-	Title           string `url:"title,omitempty"`
-	Description     string `url:"description,omitempty"`
-	SourceBranch    string `url:"source_branch,omitemtpy"`
-	TargetBranch    string `url:"target_branch,omitemtpy"`
-	AssigneeID      int    `url:"assignee_id,omitempty"`
-	TargetProjectID int    `url:"target_project_id,omitempty"`
+	Title           string `url:"title,omitempty" json:"title,omitempty"`
+	Description     string `url:"description,omitempty" json:"description,omitempty"`
+	SourceBranch    string `url:"source_branch,omitemtpy" json:"source_branch,omitemtpy"`
+	TargetBranch    string `url:"target_branch,omitemtpy" json:"target_branch,omitemtpy"`
+	AssigneeID      int    `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
+	TargetProjectID int    `url:"target_project_id,omitempty" json:"target_project_id,omitempty"`
 }
 
 // CreateMergeRequest creates a new merge request.
@@ -236,11 +236,11 @@ func (s *MergeRequestsService) CreateMergeRequest(
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/merge_requests.html#update-mr
 type UpdateMergeRequestOptions struct {
-	Title        string `url:"title,omitempty"`
-	Description  string `url:"description,omitempty"`
-	TargetBranch string `url:"target_branch,omitemtpy"`
-	AssigneeID   int    `url:"assignee_id,omitempty"`
-	StateEvent   string `url:"state_event,omitempty"`
+	Title        string `url:"title,omitempty" json:"title,omitempty"`
+	Description  string `url:"description,omitempty" json:"description,omitempty"`
+	TargetBranch string `url:"target_branch,omitemtpy" json:"target_branch,omitemtpy"`
+	AssigneeID   int    `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
+	StateEvent   string `url:"state_event,omitempty" json:"state_event,omitempty"`
 }
 
 // UpdateMergeRequest updates an existing project milestone.
@@ -364,7 +364,7 @@ func (s *MergeRequestsService) GetMergeRequestComments(
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/commits.html#post-comment-to-mr
 type PostMergeRequestCommentOptions struct {
-	Note string `url:"note,omitempty"`
+	Note string `url:"note,omitempty" json:"note,omitempty"`
 }
 
 // PostMergeRequestComment dds a comment to a merge request.
