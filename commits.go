@@ -268,7 +268,7 @@ type CommitStatus struct {
 	ID          *int       `json:"id"`
 	SHA         *string    `json:"sha"`
 	Ref         *string    `json:"ref"`
-    Status      *string    `json:"status"`
+	Status      *string    `json:"status"`
 	Name        *string    `json:"name"`
 	TargetUrl   *string    `json:"target_url"`
 	Description *string    `json:"description"`
