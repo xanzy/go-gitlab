@@ -41,7 +41,7 @@ func TestSetCommitStatus(t *testing.T) {
 
 	mux.HandleFunc("/projects/1/statuses/b0b3a907f41409829b307a28b82fdbd552ee5a27", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "POST")
-		testFormValues(t, r, values{
+		testJsonBody(t, r, values{
 			"state": "running",
 			"ref": "master",
 			"name": "ci/jenkins",

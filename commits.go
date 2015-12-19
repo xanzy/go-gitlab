@@ -307,12 +307,12 @@ func (s *CommitsService) GetCommitStatuses(
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/commits.html#post-the-status-to-commit
 type SetCommitStatusOptions struct {
-	State       BuildState `url:"state"`
-	Ref         string     `url:"ref,omitempty"`
-	Name        string     `url:"name,omitempty"`
-	Context     string     `url:"context,omitempty"`
-	TargetUrl   string     `url:"target_url,omitempty"`
-	Description string     `url:"description,omitempty"`
+	State       BuildState `url:"state" json:"state"`
+	Ref         string     `url:"ref,omitempty" json:"ref,omitempty"`
+	Name        string     `url:"name,omitempty" json:"name,omitempty"`
+	Context     string     `url:"context,omitempty" json:"context,omitempty"`
+	TargetUrl   string     `url:"target_url,omitempty" json:"target_url,omitempty"`
+	Description string     `url:"description,omitempty" json:"description,omitempty"`
 }
 
 type BuildState string
