@@ -29,7 +29,7 @@ func TestGetCommitStatuses(t *testing.T) {
 		t.Errorf("Commits.GetCommitStatuses returned error: %v", err)
 	}
 
-	want := []*CommitStatus{{ID: Int(1)}}
+	want := []*CommitStatus{{ID: 1}}
 	if !reflect.DeepEqual(want, statuses) {
 		t.Errorf("Commits.GetCommitStatuses returned %+v, want %+v", statuses, want)
 	}
@@ -58,7 +58,7 @@ func TestSetCommitStatus(t *testing.T) {
 		t.Errorf("Commits.SetCommitStatus returned error: %v", err)
 	}
 
-	want := &CommitStatus{ID: Int(1)}
+	want := &CommitStatus{ID: 1}
 	if !reflect.DeepEqual(want, status) {
 		t.Errorf("Commits.SetCommitStatus returned %+v, want %+v", status, want)
 	}

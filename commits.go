@@ -169,13 +169,13 @@ type CommitComment struct {
 
 
 type Author struct {
-	ID        *int       `json:"id"`
-	Username  *string    `json:"username"`
-	Email     *string    `json:"email"`
-	Name      *string    `json:"name"`
-	State     *string    `json:"state"`
-	Blocked   *bool      `json:"blocked"`
-	CreatedAt *time.Time `json:"created_at"`
+	ID        int       `json:"id"`
+	Username  string    `json:"username"`
+	Email     string    `json:"email"`
+	Name      string    `json:"name"`
+	State     string    `json:"state"`
+	Blocked   bool      `json:"blocked"`
+	CreatedAt time.Time `json:"created_at"`
 }
 
 func (c CommitComment) String() string {
@@ -255,34 +255,36 @@ func (s *CommitsService) PostCommitComment(
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/commits.html#get-the-status-of-a-commit
 type GetCommitStatusesOptions struct {
-	Ref   string `url:"ref,omitempty"`
-	Stage string `url:"stage,omitempty"`
-	Name  string `url:"name,omitempty"`
-	All   bool   `url:"all,omitempty"`
+	Ref   string `url:"ref,omitempty" json:"ref,omitempty"`
+	Stage string `url:"stage,omitempty" json:"stage,omitempty"`
+	Name  string `url:"name,omitempty" json:"name,omitempty"`
+	All   bool   `url:"all,omitempty" json:"all,omitempty"`
 }
 
 // CommitStatus represents a GitLab commit status.
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/commits.html#get-the-status-of-a-commit
 type CommitStatus struct {
-	ID          *int       `json:"id"`
-	SHA         *string    `json:"sha"`
-	Ref         *string    `json:"ref"`
-	Status      *string    `json:"status"`
-	Name        *string    `json:"name"`
-	TargetUrl   *string    `json:"target_url"`
-	Description *string    `json:"description"`
-	CreatedAt   *time.Time `json:"created_at"`
-	StartedAt   *time.Time `json:"started_at"`
-	FinishedAt  *time.Time `json:"finished_at"`
-	Author      *Author    `json:"author"`
+	ID          int       `json:"id"`
+	SHA         string    `json:"sha"`
+	Ref         string    `json:"ref"`
+	Status      string    `json:"status"`
+	Name        string    `json:"name"`
+	TargetUrl   string    `json:"target_url"`
+	Description string    `json:"description"`
+	CreatedAt   time.Time `json:"created_at"`
+	StartedAt   time.Time `json:"started_at"`
+	FinishedAt  time.Time `json:"finished_at"`
+	Author      Author    `json:"author"`
 }
 
 // GetCommitStatuses gets the statuses of a commit in a project.
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/commits.html#get-the-status-of-a-commit
 func (s *CommitsService) GetCommitStatuses(
-	pid interface{}, sha string, opt *GetCommitStatusesOptions) ([]*CommitStatus, *Response, error) {
+	pid interface{},
+	sha string,
+	opt *GetCommitStatusesOptions) ([]*CommitStatus, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -329,8 +331,9 @@ const (
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/commits.html#post-the-status-to-commit
 func (s *CommitsService) SetCommitStatus(
-pid interface{},
-sha string, opt *SetCommitStatusOptions) (*CommitStatus, *Response, error) {
+	pid interface{},
+	sha string,
+	opt *SetCommitStatusOptions) (*CommitStatus, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
