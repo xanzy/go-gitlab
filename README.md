@@ -42,6 +42,7 @@ users:
 
 ```go
 git := gitlab.NewClient(nil, "yourtokengoeshere")
+//git.SetBaseURL("https://git.mydomain.com/api/v3")
 users, _, err := git.Users.ListUsers()
 ```
 
@@ -49,9 +50,9 @@ Some API methods have optional parameters that can be passed. For example,
 to list all projects for user "svanharmelen":
 
 ```go
-client := github.NewClient(nil)
+git := gitlab.NewClient(nil)
 opt := &ListProjectsOptions{Search: "svanharmelen"})
-projects, _, err := client.Projects.ListProjects(opt)
+projects, _, err := git.Projects.ListProjects(opt)
 ```
 
 ### Examples
