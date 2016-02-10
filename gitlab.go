@@ -19,7 +19,6 @@ package gitlab
 import (
 	"bytes"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -348,7 +347,7 @@ func parseID(id interface{}) (string, error) {
 	case string:
 		return v, nil
 	default:
-		return "", errors.New("the ID must be an int or a string")
+		return "", fmt.Errorf("the ID must be an int or a string but is %#v", id)
 	}
 }
 
