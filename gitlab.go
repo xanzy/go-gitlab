@@ -24,7 +24,6 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
-	"reflect"
 	"strconv"
 	"strings"
 
@@ -348,7 +347,7 @@ func parseID(id interface{}) (string, error) {
 	case string:
 		return v, nil
 	default:
-		return "", fmt.Errorf("the ID must be an int or a string but is %v", reflect.TypeOf(id))
+		return "", fmt.Errorf("the ID must be an int or a string but is %#v", id)
 	}
 }
 
