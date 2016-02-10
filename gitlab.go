@@ -347,7 +347,7 @@ func parseID(id interface{}) (string, error) {
 	case string:
 		return v, nil
 	default:
-		return "", fmt.Errorf("the ID must be an int or a string but is %#v", id)
+		return "", fmt.Errorf("invalid ID type %#v, the ID must be an int or a string", id)
 	}
 }
 
