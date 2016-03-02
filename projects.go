@@ -141,6 +141,28 @@ func (s *ProjectsService) ListOwnedProjects(
 	return p, resp, err
 }
 
+// ListOwnedProjects gets a list of projects which are starred by the
+// authenticated user.
+//
+// GitLab API docs:
+// http://doc.gitlab.com/ce/api/projects.html#list-starred-projects
+func (s *ProjectsService) ListStarredProjects(
+opt *ListProjectsOptions) ([]*Project, *Response, error) {
+	req, err := s.client.NewRequest("GET", "projects/starred", opt)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var p []*Project
+	resp, err := s.client.Do(req, &p)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return p, resp, err
+}
+
+
 // ListAllProjects gets a list of all GitLab projects (admin only).
 //
 // GitLab API docs:
