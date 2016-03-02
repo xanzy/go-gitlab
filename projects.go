@@ -147,7 +147,7 @@ func (s *ProjectsService) ListOwnedProjects(
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/projects.html#list-starred-projects
 func (s *ProjectsService) ListStarredProjects(
-opt *ListProjectsOptions) ([]*Project, *Response, error) {
+	opt *ListProjectsOptions) ([]*Project, *Response, error) {
 	req, err := s.client.NewRequest("GET", "projects/starred", opt)
 	if err != nil {
 		return nil, nil, err
