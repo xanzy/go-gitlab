@@ -69,6 +69,37 @@ func TestListOwnedProjects(t *testing.T) {
 	}
 }
 
+func TestListStarredProjects(t *testing.T) {
+	mux, server, client := setup()
+	defer teardown(server)
+
+	mux.HandleFunc("/projects/starred", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "GET")
+		testFormValues(t, r, values{
+			"page": "2",
+			"per_page": "3",
+			"archived": "true",
+			"order_by": "name",
+			"sort": "asc",
+			"search": "query",
+			"ci_enabled_first": "true",
+		})
+		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
+	})
+
+	opt := &ListProjectsOptions{ListOptions{2, 3}, true, "name", "asc", "query", true}
+	projects, _, err := client.Projects.ListStarredProjects(opt)
+
+	if err != nil {
+		t.Errorf("Projects.ListStarredProjects returned error: %v", err)
+	}
+
+	want := []*Project{{ID: Int(1)},{ID: Int(2)}}
+	if !reflect.DeepEqual(want, projects) {
+		t.Errorf("Projects.ListStarredProjects returned %+v, want %+v", projects, want)
+	}
+}
+
 func TestListAllProjects(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
