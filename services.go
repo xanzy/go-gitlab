@@ -261,3 +261,64 @@ func (s *ServicesService) GetDroneCIService(pid interface{}) (*DroneCIService, *
 
 	return opt, resp, err
 }
+
+// SetSlackServiceOptions represents the available SetSlackService()
+// options.
+//
+// GitLab API docs:
+// http://doc.gitlab.com/ce/api/services.html#edit-slack-service
+type SetSlackServiceOptions struct {
+	WebHook  string `url:"webhook,omitempty" json:"webhook,omitempty" `
+	Username string `url:"username,omitempty" json:"username,omitempty" `
+	Channel  string `url:"channel,omitempty" json:"channel,omitempty"`
+}
+
+// SetSlackService sets Slack service for a project
+//
+// GitLab API docs:
+// http://doc.gitlab.com/ce/api/services.html#edit-slack-service
+func (s *ServicesService) SetSlackService(
+	pid interface{},
+	opt *SetSlackServiceOptions) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/services/slack", url.QueryEscape(project))
+
+	req, err := s.client.NewRequest("PUT", u, opt)
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := s.client.Do(req, nil)
+	if err != nil {
+		return resp, err
+	}
+
+	return resp, err
+}
+
+// DeleteSlackService deletes Slack service for project.
+//
+// GitLab API docs:
+// http://doc.gitlab.com/ce/api/services.html#delete-slack-service
+func (s *ServicesService) DeleteSlackService(pid interface{}) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/services/slack", url.QueryEscape(project))
+
+	req, err := s.client.NewRequest("DELETE", u, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := s.client.Do(req, nil)
+	if err != nil {
+		return resp, err
+	}
+
+	return resp, err
+}
