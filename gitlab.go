@@ -230,7 +230,9 @@ func (c *Client) NewRequest(method, path string, opt interface{}) (*http.Request
 	}
 
 	req.Header.Set("Accept", "application/json")
-	req.Header.Set("PRIVATE-TOKEN", c.token)
+	if c.token != "" {
+		req.Header.Set("PRIVATE-TOKEN", c.token)
+	}
 	if c.UserAgent != "" {
 		req.Header.Set("User-Agent", c.UserAgent)
 	}
