@@ -17,6 +17,7 @@
 package gitlab
 
 import (
+	"errors"
 	"fmt"
 	"time"
 )
@@ -396,37 +397,56 @@ func (s *UsersService) DeleteSSHKeyForUser(user int, kid int) (*Response, error)
 // BlockUser blocks the specified user. Available only for admin.
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/users.html#block-user
-func (s *UsersService) BlockUser(user int) (*Response, error) {
+func (s *UsersService) BlockUser(user int) error {
 	u := fmt.Sprintf("users/%d/block", user)
 
 	req, err := s.client.NewRequest("PUT", u, nil)
 	if err != nil {
-		return nil, err
+		return err
 	}
 
 	resp, err := s.client.Do(req, nil)
 	if err != nil {
-		return resp, err
+		return err
 	}
 
-	return resp, err
+	switch resp.StatusCode {
+	case 200:
+		return nil
+	case 403:
+		return errors.New("Cannot block a user that is already blocked by LDAP synchronization")
+	case 404:
+		return errors.New("User does not exists")
+	default:
+		return fmt.Errorf("Received unexpected result code: %d", resp.StatusCode)
+	}
 }
 
 // UnblockUser unblocks the specified user. Available only for admin.
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/users.html#unblock-user
-func (s *UsersService) UnblockUser(user int) (*Response, error) {
+func (s *UsersService) UnblockUser(user int) error {
 	u := fmt.Sprintf("users/%d/unblock", user)
 
 	req, err := s.client.NewRequest("PUT", u, nil)
 	if err != nil {
-		return nil, err
+		return err
 	}
 
 	resp, err := s.client.Do(req, nil)
 	if err != nil {
-		return resp, err
+		return err
 	}
 
-	return resp, err
+	switch resp.StatusCode {
+	case 200:
+		return nil
+	case 403:
+		return errors.New("Cannot unblock a user that is blocked by LDAP synchronization")
+	case 404:
+		return errors.New("User does not exists")
+	default:
+		return fmt.Errorf("Received unexpected result code: %d", resp.StatusCode)
+	}
+	return err
 }
