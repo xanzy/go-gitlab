@@ -18,7 +18,6 @@ package gitlab
 
 import (
 	"fmt"
-	"io/ioutil"
 	"time"
 )
 
@@ -405,7 +404,7 @@ func (s *UsersService) BlockUser(user int) (*Response, error) {
 		return nil, err
 	}
 
-	resp, err := s.client.Do(req, ioutil.Discard)
+	resp, err := s.client.Do(req, nil)
 	if err != nil {
 		return resp, err
 	}
@@ -424,7 +423,7 @@ func (s *UsersService) UnblockUser(user int) (*Response, error) {
 		return nil, err
 	}
 
-	resp, err := s.client.Do(req, ioutil.Discard)
+	resp, err := s.client.Do(req, nil)
 	if err != nil {
 		return resp, err
 	}
