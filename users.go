@@ -18,6 +18,7 @@ package gitlab
 
 import (
 	"fmt"
+	"io/ioutil"
 	"time"
 )
 
@@ -396,39 +397,37 @@ func (s *UsersService) DeleteSSHKeyForUser(user int, kid int) (*Response, error)
 // BlockUser blocks the specified user. Available only for admin.
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/users.html#block-user
-func (s *UsersService) BlockUser(user int) (*User, *Response, error) {
+func (s *UsersService) BlockUser(user int) (*Response, error) {
 	u := fmt.Sprintf("users/%d/block", user)
 
 	req, err := s.client.NewRequest("PUT", u, nil)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
-	usr := new(User)
-	resp, err := s.client.Do(req, usr)
+	resp, err := s.client.Do(req, ioutil.Discard)
 	if err != nil {
-		return nil, resp, err
+		return resp, err
 	}
 
-	return usr, resp, err
+	return resp, err
 }
 
 // UnblockUser unblocks the specified user. Available only for admin.
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/users.html#unblock-user
-func (s *UsersService) UnblockUser(user int) (*User, *Response, error) {
+func (s *UsersService) UnblockUser(user int) (*Response, error) {
 	u := fmt.Sprintf("users/%d/unblock", user)
 
 	req, err := s.client.NewRequest("PUT", u, nil)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
-	usr := new(User)
-	resp, err := s.client.Do(req, usr)
+	resp, err := s.client.Do(req, ioutil.Discard)
 	if err != nil {
-		return nil, resp, err
+		return resp, err
 	}
 
-	return usr, resp, err
+	return resp, err
 }
