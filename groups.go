@@ -195,13 +195,13 @@ func (s *GroupsService) SearchGroup(query string) ([]*Group, *Response, error) {
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/groups.html
 type GroupMember struct {
-	ID          int       `json:"id"`
-	Username    string    `json:"username"`
-	Email       string    `json:"email"`
-	Name        string    `json:"name"`
-	State       string    `json:"state"`
-	CreatedAt   time.Time `json:"created_at"`
-	AccessLevel int       `json:"access_level"`
+	ID          int         `json:"id"`
+	Username    string      `json:"username"`
+	Email       string      `json:"email"`
+	Name        string      `json:"name"`
+	State       string      `json:"state"`
+	CreatedAt   time.Time   `json:"created_at"`
+	AccessLevel AccessLevel `json:"access_level"`
 }
 
 // ListGroupMembers get a list of group members viewable by the authenticated
