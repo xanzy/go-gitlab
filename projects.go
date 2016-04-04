@@ -502,13 +502,13 @@ func (s *ProjectsService) DeleteProject(pid interface{}) (*Response, error) {
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/projects.html#list-project-team-members
 type ProjectMember struct {
-	ID          int       `json:"id"`
-	Username    string    `json:"username"`
-	Email       string    `json:"email"`
-	Name        string    `json:"name"`
-	State       string    `json:"state"`
-	CreatedAt   time.Time `json:"created_at"`
-	AccessLevel int       `json:"access_level"`
+	ID          int         `json:"id"`
+	Username    string      `json:"username"`
+	Email       string      `json:"email"`
+	Name        string      `json:"name"`
+	State       string      `json:"state"`
+	CreatedAt   time.Time   `json:"created_at"`
+	AccessLevel AccessLevel `json:"access_level"`
 }
 
 // ListProjectMembersOptions represents the available ListProjectMembers()
