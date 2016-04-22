@@ -254,3 +254,26 @@ func (s *IssuesService) UpdateIssue(
 
 	return i, resp, err
 }
+
+// DeleteIssue deletes a single project issue.
+//
+// GitLab API docs: http://doc.gitlab.com/ce/api/issues.html#delete-an-issue
+func (s *IssuesService) DeleteIssue(pid interface{}, issue int) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/issues/%d", url.QueryEscape(project), issue)
+
+	req, err := s.client.NewRequest("DELETE", u, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := s.client.Do(req, nil)
+	if err != nil {
+		return resp, err
+	}
+
+	return resp, err
+}
