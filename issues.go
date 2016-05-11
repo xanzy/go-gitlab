@@ -194,7 +194,9 @@ func (s *IssuesService) CreateIssue(
 	u := fmt.Sprintf("projects/%s/issues", url.QueryEscape(project))
 
 	// This is needed to get a single, comma separated string
-	opt.Labels = []string{strings.Join(opt.Labels, ",")}
+	if len(opt.Labels) > 0 {
+		opt.Labels = []string{strings.Join(opt.Labels, ",")}
+	}
 
 	req, err := s.client.NewRequest("POST", u, opt)
 	if err != nil {
