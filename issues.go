@@ -76,15 +76,23 @@ func (i Issue) String() string {
 	return Stringify(i)
 }
 
+// Labels is a custom type with specific marshaling characteristics.
+type Labels []string
+
+// MarshalJSON implements the json.Marshaler interface.
+func (l *Labels) MarshalJSON() ([]byte, error) {
+	return []byte(strings.Join(*l, ",")), nil
+}
+
 // ListIssuesOptions represents the available ListIssues() options.
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/issues.html#list-issues
 type ListIssuesOptions struct {
 	ListOptions
-	State   string   `url:"state,omitempty" json:"state,omitempty"`
-	Labels  []string `url:"labels,omitempty" json:"labels,omitempty"`
-	OrderBy string   `url:"order_by,omitempty" json:"order_by,omitempty"`
-	Sort    string   `url:"sort,omitempty" json:"sort,omitempty"`
+	State   string `url:"state,omitempty" json:"state,omitempty"`
+	Labels  Labels `url:"labels,comma,omitempty" json:"labels,omitempty"`
+	OrderBy string `url:"order_by,omitempty" json:"order_by,omitempty"`
+	Sort    string `url:"sort,omitempty" json:"sort,omitempty"`
 }
 
 // ListIssues gets all issues created by authenticated user. This function
@@ -111,12 +119,12 @@ func (s *IssuesService) ListIssues(opt *ListIssuesOptions) ([]*Issue, *Response,
 // GitLab API docs: http://doc.gitlab.com/ce/api/issues.html#list-issues
 type ListProjectIssuesOptions struct {
 	ListOptions
-	IID       int      `url:"iid,omitempty" json:"iid,omitempty"`
-	State     string   `url:"state,omitempty" json:"state,omitempty"`
-	Labels    []string `url:"labels,omitempty" json:"labels,omitempty"`
-	Milestone string   `url:"milestone,omitempty" json:"milestone,omitempty"`
-	OrderBy   string   `url:"order_by,omitempty" json:"order_by,omitempty"`
-	Sort      string   `url:"sort,omitempty" json:"sort,omitempty"`
+	IID       int    `url:"iid,omitempty" json:"iid,omitempty"`
+	State     string `url:"state,omitempty" json:"state,omitempty"`
+	Labels    Labels `url:"labels,comma,omitempty" json:"labels,omitempty"`
+	Milestone string `url:"milestone,omitempty" json:"milestone,omitempty"`
+	OrderBy   string `url:"order_by,omitempty" json:"order_by,omitempty"`
+	Sort      string `url:"sort,omitempty" json:"sort,omitempty"`
 }
 
 // ListProjectIssues gets a list of project issues. This function accepts
@@ -174,11 +182,11 @@ func (s *IssuesService) GetIssue(pid interface{}, issue int) (*Issue, *Response,
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/issues.html#new-issues
 type CreateIssueOptions struct {
-	Title       string   `url:"title,omitempty" json:"title,omitempty"`
-	Description string   `url:"description,omitempty" json:"description,omitempty"`
-	AssigneeID  int      `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
-	MilestoneID int      `url:"milestone_id,omitempty" json:"milestone_id,omitempty"`
-	Labels      []string `url:"labels,omitempty" json:"labels,omitempty"`
+	Title       string `url:"title,omitempty" json:"title,omitempty"`
+	Description string `url:"description,omitempty" json:"description,omitempty"`
+	AssigneeID  int    `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
+	MilestoneID int    `url:"milestone_id,omitempty" json:"milestone_id,omitempty"`
+	Labels      Labels `url:"labels,comma,omitempty" json:"labels,omitempty"`
 }
 
 // CreateIssue creates a new project issue.
@@ -192,11 +200,6 @@ func (s *IssuesService) CreateIssue(
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/issues", url.QueryEscape(project))
-
-	// This is needed to get a single, comma separated string
-	if len(opt.Labels) > 0 {
-		opt.Labels = []string{strings.Join(opt.Labels, ",")}
-	}
 
 	req, err := s.client.NewRequest("POST", u, opt)
 	if err != nil {
@@ -218,12 +221,12 @@ func (s *IssuesService) CreateIssue(
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/issues.html#edit-issues
 type UpdateIssueOptions struct {
-	Title       string   `url:"title,omitempty" json:"title,omitempty"`
-	Description string   `url:"description,omitempty" json:"description,omitempty"`
-	AssigneeID  int      `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
-	MilestoneID int      `url:"milestone_id,omitempty" json:"milestone_id,omitempty"`
-	Labels      []string `url:"labels,omitempty" json:"labels,omitempty"`
-	StateEvent  string   `url:"state_event,omitempty" json:"state_event,omitempty"`
+	Title       string `url:"title,omitempty" json:"title,omitempty"`
+	Description string `url:"description,omitempty" json:"description,omitempty"`
+	AssigneeID  int    `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
+	MilestoneID int    `url:"milestone_id,omitempty" json:"milestone_id,omitempty"`
+	Labels      Labels `url:"labels,comma,omitempty" json:"labels,omitempty"`
+	StateEvent  string `url:"state_event,omitempty" json:"state_event,omitempty"`
 }
 
 // UpdateIssue updates an existing project issue. This function is also used
@@ -239,9 +242,6 @@ func (s *IssuesService) UpdateIssue(
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/issues/%d", url.QueryEscape(project), issue)
-
-	// This is needed to get a single, comma separated string
-	opt.Labels = []string{strings.Join(opt.Labels, ",")}
 
 	req, err := s.client.NewRequest("PUT", u, opt)
 	if err != nil {
