@@ -55,6 +55,7 @@ type User struct {
 	CanCreateProject bool            `json:"can_create_project"`
 	ProjectsLimit    int             `json:"projects_limit"`
 	CurrentSignInAt  *time.Time      `json:"current_sign_in_at"`
+	LastSignInAt     *time.Time      `json:"last_sign_in_at"`
 	TwoFactorEnabled bool            `json:"two_factor_enabled"`
 	Identities       []*UserIdentity `json:"identities"`
 }
