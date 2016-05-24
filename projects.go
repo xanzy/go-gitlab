@@ -908,3 +908,55 @@ func (s *ProjectsService) DeleteProjectForkRelation(pid int) (*Response, error) 
 
 	return resp, err
 }
+
+// Archives the project if the user is either admin or the project owner
+// of this project.
+//
+// GitLab API docs:
+// http://docs.gitlab.com/ce/api/projects.html#archive-a-project
+func (s *ProjectsService) ArchiveProject(pid interface{}) (*Project, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/archive", url.QueryEscape(project))
+
+	req, err := s.client.NewRequest("POST", u, nil)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	p := new(Project)
+	resp, err := s.client.Do(req, p)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return p, resp, err
+}
+
+// Unarchives the project if the user is either admin or the project owner
+// of this project.
+//
+// GitLab API docs:
+// http://docs.gitlab.com/ce/api/projects.html#unarchive-a-project
+func (s *ProjectsService) UnarchiveProject(pid interface{}) (*Project, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/unarchive", url.QueryEscape(project))
+
+	req, err := s.client.NewRequest("POST", u, nil)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	p := new(Project)
+	resp, err := s.client.Do(req, p)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return p, resp, err
+}
