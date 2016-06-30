@@ -82,6 +82,19 @@ const (
 	PublicVisibility   VisibilityLevel = 20
 )
 
+// TokenType represents a token type within GitLab.
+//
+// GitLab API docs: http://doc.gitlab.com/ce/api/
+type TokenType int
+
+// List of available token type
+//
+// GitLab API docs: http://doc.gitlab.com/ce/api/
+const (
+	PrivateToken TokenType = iota
+	OAuthToken
+)
+
 // A Client manages communication with the GitLab API.
 type Client struct {
 	// HTTP client used to communicate with the API.
@@ -92,7 +105,10 @@ type Client struct {
 	// should always be specified with a trailing slash.
 	baseURL *url.URL
 
-	// Private token used to make authenticated API calls.
+	// token type used to make authenticated API calls.
+	tokenType TokenType
+
+	// token used to make authenticated API calls.
 	token string
 
 	// User agent used when communicating with the GitLab API.
@@ -132,13 +148,13 @@ type ListOptions struct {
 
 // NewClient returns a new GitLab API client. If a nil httpClient is
 // provided, http.DefaultClient will be used. To use API methods which require
-// authentication, provide a valid private token.
-func NewClient(httpClient *http.Client, token string) *Client {
+// authentication, provide a valid token with its type.
+func NewClient(httpClient *http.Client, tokenType TokenType, token string) *Client {
 	if httpClient == nil {
 		httpClient = http.DefaultClient
 	}
 
-	c := &Client{client: httpClient, token: token, UserAgent: userAgent}
+	c := &Client{client: httpClient, tokenType: tokenType, token: token, UserAgent: userAgent}
 	if err := c.SetBaseURL(defaultBaseURL); err != nil {
 		// should never happen since defaultBaseURL is our constant
 		panic(err)
@@ -230,9 +246,14 @@ func (c *Client) NewRequest(method, path string, opt interface{}) (*http.Request
 	}
 
 	req.Header.Set("Accept", "application/json")
-	if c.token != "" {
+
+	switch c.tokenType {
+	case PrivateToken:
 		req.Header.Set("PRIVATE-TOKEN", c.token)
+	case OAuthToken:
+		req.Header.Set("Authorization", "Bearer "+c.token)
 	}
+
 	if c.UserAgent != "" {
 		req.Header.Set("User-Agent", c.UserAgent)
 	}
