@@ -8,7 +8,7 @@ import (
 )
 
 func repositoryFileExample() {
-	git := gitlab.NewClient(nil, "yourtokengoeshere")
+	git := gitlab.NewClient(nil, gitlab.PrivateToken, "yourtokengoeshere")
 
 	// Create a new repository file
 	cf := &gitlab.CreateFileOptions{

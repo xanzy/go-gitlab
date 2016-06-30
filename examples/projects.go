@@ -7,7 +7,7 @@ import (
 )
 
 func projectExample() {
-	git := gitlab.NewClient(nil, "yourtokengoeshere")
+	git := gitlab.NewClient(nil, gitlab.PrivateToken, "yourtokengoeshere")
 
 	// Create new project
 	p := &gitlab.CreateProjectOptions{

@@ -7,7 +7,7 @@ import (
 )
 
 func labelExample() {
-	git := gitlab.NewClient(nil, "yourtokengoeshere")
+	git := gitlab.NewClient(nil, gitlab.PrivateToken, "yourtokengoeshere")
 
 	// Create new label
 	l := &gitlab.CreateLabelOptions{
