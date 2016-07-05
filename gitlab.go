@@ -36,6 +36,19 @@ const (
 	userAgent      = "go-gitlab/" + libraryVersion
 )
 
+// tokenType represents a token type within GitLab.
+//
+// GitLab API docs: http://doc.gitlab.com/ce/api/
+type tokenType int
+
+// List of available token type
+//
+// GitLab API docs: http://doc.gitlab.com/ce/api/
+const (
+	privateToken tokenType = iota
+	oAuthToken
+)
+
 // AccessLevel represents a permission level within GitLab.
 //
 // GitLab API docs: http://doc.gitlab.com/ce/permissions/permissions.html
@@ -92,7 +105,10 @@ type Client struct {
 	// should always be specified with a trailing slash.
 	baseURL *url.URL
 
-	// Private token used to make authenticated API calls.
+	// token type used to make authenticated API calls.
+	tokenType tokenType
+
+	// token used to make authenticated API calls.
 	token string
 
 	// User agent used when communicating with the GitLab API.
@@ -134,11 +150,22 @@ type ListOptions struct {
 // provided, http.DefaultClient will be used. To use API methods which require
 // authentication, provide a valid private token.
 func NewClient(httpClient *http.Client, token string) *Client {
+	return newClient(httpClient, privateToken, token)
+}
+
+// NewOAuthClient returns a new GitLab API client. If a nil httpClient is
+// provided, http.DefaultClient will be used. To use API methods which require
+// authentication, provide a valid oauth token.
+func NewOAuthClient(httpClient *http.Client, token string) *Client {
+	return newClient(httpClient, oAuthToken, token)
+}
+
+func newClient(httpClient *http.Client, tokenType tokenType, token string) *Client {
 	if httpClient == nil {
 		httpClient = http.DefaultClient
 	}
 
-	c := &Client{client: httpClient, token: token, UserAgent: userAgent}
+	c := &Client{client: httpClient, tokenType: tokenType, token: token, UserAgent: userAgent}
 	if err := c.SetBaseURL(defaultBaseURL); err != nil {
 		// should never happen since defaultBaseURL is our constant
 		panic(err)
@@ -230,9 +257,14 @@ func (c *Client) NewRequest(method, path string, opt interface{}) (*http.Request
 	}
 
 	req.Header.Set("Accept", "application/json")
-	if c.token != "" {
+
+	switch c.tokenType {
+	case privateToken:
 		req.Header.Set("PRIVATE-TOKEN", c.token)
+	case oAuthToken:
+		req.Header.Set("Authorization", "Bearer "+c.token)
 	}
+
 	if c.UserAgent != "" {
 		req.Header.Set("User-Agent", c.UserAgent)
 	}
