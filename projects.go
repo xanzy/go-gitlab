@@ -148,7 +148,7 @@ func (s *ProjectsService) ListOwnedProjects(
 	return p, resp, err
 }
 
-// ListOwnedProjects gets a list of projects which are starred by the
+// ListStarredProjects gets a list of projects which are starred by the
 // authenticated user.
 //
 // GitLab API docs:
