@@ -98,6 +98,7 @@ type CreateGroupOptions struct {
 	Name        string `url:"name,omitempty" json:"name,omitempty"`
 	Path        string `url:"path,omitempty" json:"path,omitempty"`
 	Description string `url:"description,omitempty" json:"description,omitempty"`
+	Visibility  int    `url:"visibility_level" json:"visibility_level"`
 }
 
 // CreateGroup creates a new project group. Available only for users who can
