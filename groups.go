@@ -95,10 +95,10 @@ func (s *GroupsService) GetGroup(gid interface{}) (*Group, *Response, error) {
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/groups.html#new-group
 type CreateGroupOptions struct {
-	Name        string          `url:"name,omitempty" json:"name,omitempty"`
-	Path        string          `url:"path,omitempty" json:"path,omitempty"`
-	Description string          `url:"description,omitempty" json:"description,omitempty"`
-	Visibility  VisibilityLevel `url:"visibility_level" json:"visibility_level"`
+	Name            string          `url:"name,omitempty" json:"name,omitempty"`
+	Path            string          `url:"path,omitempty" json:"path,omitempty"`
+	Description     string          `url:"description,omitempty" json:"description,omitempty"`
+	VisibilityLevel VisibilityLevel `url:"visibility_level" json:"visibility_level"`
 }
 
 // CreateGroup creates a new project group. Available only for users who can
