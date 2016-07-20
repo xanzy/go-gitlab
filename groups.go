@@ -98,6 +98,12 @@ type CreateGroupOptions struct {
 	Name        string `url:"name,omitempty" json:"name,omitempty"`
 	Path        string `url:"path,omitempty" json:"path,omitempty"`
 	Description string `url:"description,omitempty" json:"description,omitempty"`
+
+	// TODO (SvH) This should have the `omitempty` tag, but until issue #29
+	// is implemented, there is no clean way of adding those tags and still
+	// being able to define private groups (as the visibility level for that
+	// is 0 and so it would be omitted defaulting to a public group instead).
+	VisibilityLevel VisibilityLevel `url:"visibility_level" json:"visibility_level"`
 }
 
 // CreateGroup creates a new project group. Available only for users who can
