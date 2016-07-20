@@ -31,7 +31,7 @@ import (
 )
 
 const (
-	libraryVersion = "0.1"
+	libraryVersion = "0.1.1"
 	defaultBaseURL = "https://gitlab.com/api/v3/"
 	userAgent      = "go-gitlab/" + libraryVersion
 )
@@ -67,12 +67,12 @@ const (
 
 // NotificationLevel represents a notification level within Gitlab.
 //
-// GitLab API docs: http://doc.gitlab.com/ce/...?
+// GitLab API docs: http://doc.gitlab.com/ce/api/
 type NotificationLevel int
 
 // List of available notification levels
 //
-// GitLab API docs: http://doc.gitlab.com/ce/...?
+// GitLab API docs: http://doc.gitlab.com/ce/api/
 const (
 	DisabledNotifications NotificationLevel = iota
 	ParticipatingNotifications
@@ -83,12 +83,12 @@ const (
 
 // VisibilityLevel represents a visibility level within GitLab.
 //
-// GitLab API docs: http://doc.gitlab.com/ce/...?
+// GitLab API docs: http://doc.gitlab.com/ce/api/
 type VisibilityLevel int
 
 // List of available visibility levels
 //
-// GitLab API docs: http://doc.gitlab.com/ce/...?
+// GitLab API docs: http://doc.gitlab.com/ce/api/
 const (
 	PrivateVisibility  VisibilityLevel = 0
 	InternalVisibility VisibilityLevel = 10
