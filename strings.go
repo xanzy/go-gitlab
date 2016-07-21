@@ -19,7 +19,6 @@ package gitlab
 import (
 	"bytes"
 	"fmt"
-	"io"
 
 	"reflect"
 )
@@ -35,9 +34,9 @@ func Stringify(message interface{}) string {
 }
 
 // stringifyValue was heavily inspired by the goprotobuf library.
-func stringifyValue(w io.Writer, val reflect.Value) {
+func stringifyValue(buf *bytes.Buffer, val reflect.Value) {
 	if val.Kind() == reflect.Ptr && val.IsNil() {
-		w.Write([]byte("<nil>"))
+		buf.WriteString("<nil>")
 		return
 	}
 
@@ -45,25 +44,25 @@ func stringifyValue(w io.Writer, val reflect.Value) {
 
 	switch v.Kind() {
 	case reflect.String:
-		fmt.Fprintf(w, `"%s"`, v)
+		fmt.Fprintf(buf, `"%s"`, v)
 	case reflect.Slice:
-		w.Write([]byte{'['})
+		buf.WriteByte('[')
 		for i := 0; i < v.Len(); i++ {
 			if i > 0 {
-				w.Write([]byte{' '})
+				buf.WriteByte(' ')
 			}
 
-			stringifyValue(w, v.Index(i))
+			stringifyValue(buf, v.Index(i))
 		}
 
-		w.Write([]byte{']'})
+		buf.WriteByte(']')
 		return
 	case reflect.Struct:
 		if v.Type().Name() != "" {
-			w.Write([]byte(v.Type().String()))
+			buf.WriteString(v.Type().String())
 		}
 
-		w.Write([]byte{'{'})
+		buf.WriteByte('{')
 
 		var sep bool
 		for i := 0; i < v.NumField(); i++ {
@@ -76,20 +75,20 @@ func stringifyValue(w io.Writer, val reflect.Value) {
 			}
 
 			if sep {
-				w.Write([]byte(", "))
+				buf.WriteString(", ")
 			} else {
 				sep = true
 			}
 
-			w.Write([]byte(v.Type().Field(i).Name))
-			w.Write([]byte{':'})
-			stringifyValue(w, fv)
+			buf.WriteString(v.Type().Field(i).Name)
+			buf.WriteByte(':')
+			stringifyValue(buf, fv)
 		}
 
-		w.Write([]byte{'}'})
+		buf.WriteByte('}')
 	default:
 		if v.CanInterface() {
-			fmt.Fprint(w, v.Interface())
+			fmt.Fprint(buf, v.Interface())
 		}
 	}
 }
