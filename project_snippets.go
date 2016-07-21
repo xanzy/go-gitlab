@@ -212,12 +212,7 @@ func (s *ProjectSnippetsService) DeleteSnippet(pid interface{}, snippet int) (*R
 		return nil, err
 	}
 
-	resp, err := s.client.Do(req, nil)
-	if err != nil {
-		return resp, err
-	}
-
-	return resp, err
+	return s.client.Do(req, nil)
 }
 
 // SnippetContent returns the raw project snippet as plain text.

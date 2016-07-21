@@ -71,12 +71,7 @@ func (s *ServicesService) SetGitLabCIService(
 		return nil, err
 	}
 
-	resp, err := s.client.Do(req, nil)
-	if err != nil {
-		return resp, err
-	}
-
-	return resp, err
+	return s.client.Do(req, nil)
 }
 
 // DeleteGitLabCIService deletes GitLab CI service settings for a project.
@@ -95,12 +90,7 @@ func (s *ServicesService) DeleteGitLabCIService(pid interface{}) (*Response, err
 		return nil, err
 	}
 
-	resp, err := s.client.Do(req, nil)
-	if err != nil {
-		return resp, err
-	}
-
-	return resp, err
+	return s.client.Do(req, nil)
 }
 
 // SetHipChatServiceOptions represents the available SetHipChatService()
@@ -131,12 +121,7 @@ func (s *ServicesService) SetHipChatService(
 		return nil, err
 	}
 
-	resp, err := s.client.Do(req, nil)
-	if err != nil {
-		return resp, err
-	}
-
-	return resp, err
+	return s.client.Do(req, nil)
 }
 
 // DeleteHipChatService deletes HipChat service for project.
@@ -155,12 +140,7 @@ func (s *ServicesService) DeleteHipChatService(pid interface{}) (*Response, erro
 		return nil, err
 	}
 
-	resp, err := s.client.Do(req, nil)
-	if err != nil {
-		return resp, err
-	}
-
-	return resp, err
+	return s.client.Do(req, nil)
 }
 
 // SetDroneCIServiceOptions represents the available SetDroneCIService()
@@ -192,12 +172,7 @@ func (s *ServicesService) SetDroneCIService(
 		return nil, err
 	}
 
-	resp, err := s.client.Do(req, nil)
-	if err != nil {
-		return resp, err
-	}
-
-	return resp, err
+	return s.client.Do(req, nil)
 }
 
 // DeleteDroneCIService deletes Drone CI service settings for a project.
@@ -216,12 +191,7 @@ func (s *ServicesService) DeleteDroneCIService(pid interface{}) (*Response, erro
 		return nil, err
 	}
 
-	resp, err := s.client.Do(req, nil)
-	if err != nil {
-		return resp, err
-	}
-
-	return resp, err
+	return s.client.Do(req, nil)
 }
 
 // DroneCIServiceProperties represents Drone CI specific properties.
@@ -291,12 +261,7 @@ func (s *ServicesService) SetSlackService(
 		return nil, err
 	}
 
-	resp, err := s.client.Do(req, nil)
-	if err != nil {
-		return resp, err
-	}
-
-	return resp, err
+	return s.client.Do(req, nil)
 }
 
 // DeleteSlackService deletes Slack service for project.
@@ -315,10 +280,5 @@ func (s *ServicesService) DeleteSlackService(pid interface{}) (*Response, error)
 		return nil, err
 	}
 
-	resp, err := s.client.Do(req, nil)
-	if err != nil {
-		return resp, err
-	}
-
-	return resp, err
+	return s.client.Do(req, nil)
 }

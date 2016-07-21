@@ -208,12 +208,7 @@ func (s *UsersService) DeleteUser(user int) (*Response, error) {
 		return nil, err
 	}
 
-	resp, err := s.client.Do(req, nil)
-	if err != nil {
-		return resp, err
-	}
-
-	return resp, err
+	return s.client.Do(req, nil)
 }
 
 // CurrentUser gets currently authenticated user.
@@ -367,12 +362,7 @@ func (s *UsersService) DeleteSSHKey(kid int) (*Response, error) {
 		return nil, err
 	}
 
-	resp, err := s.client.Do(req, nil)
-	if err != nil {
-		return resp, err
-	}
-
-	return resp, err
+	return s.client.Do(req, nil)
 }
 
 // DeleteSSHKeyForUser deletes key owned by a specified user. Available only
@@ -388,12 +378,7 @@ func (s *UsersService) DeleteSSHKeyForUser(user int, kid int) (*Response, error)
 		return nil, err
 	}
 
-	resp, err := s.client.Do(req, nil)
-	if err != nil {
-		return resp, err
-	}
-
-	return resp, err
+	return s.client.Do(req, nil)
 }
 
 // BlockUser blocks the specified user. Available only for admin.

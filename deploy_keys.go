@@ -148,10 +148,5 @@ func (s *DeployKeysService) DeleteDeployKey(pid interface{}, deployKey int) (*Re
 		return nil, err
 	}
 
-	resp, err := s.client.Do(req, nil)
-	if err != nil {
-		return resp, err
-	}
-
-	return resp, err
+	return s.client.Do(req, nil)
 }
