@@ -149,9 +149,9 @@ func (s *ServicesService) DeleteHipChatService(pid interface{}) (*Response, erro
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/services.html#createedit-drone-ci-service
 type SetDroneCIServiceOptions struct {
-	Token                   *string `url:"token" json:"token" `
-	DroneURL                *string `url:"drone_url" json:"drone_url"`
-	EnableSSLVerification   *string `url:"enable_ssl_verification,omitempty" json:"enable_ssl_verification,omitempty"`
+	Token                 *string `url:"token" json:"token" `
+	DroneURL              *string `url:"drone_url" json:"drone_url"`
+	EnableSSLVerification *string `url:"enable_ssl_verification,omitempty" json:"enable_ssl_verification,omitempty"`
 }
 
 // SetDroneCIService sets Drone CI service for a project.
@@ -196,9 +196,9 @@ func (s *ServicesService) DeleteDroneCIService(pid interface{}) (*Response, erro
 
 // DroneCIServiceProperties represents Drone CI specific properties.
 type DroneCIServiceProperties struct {
-	Token                   *string `url:"token" json:"token"`
-	DroneURL                *string `url:"drone_url" json:"drone_url"`
-	EnableSSLVerification   *string `url:"enable_ssl_verification" json:"enable_ssl_verification"`
+	Token                 *string `url:"token" json:"token"`
+	DroneURL              *string `url:"drone_url" json:"drone_url"`
+	EnableSSLVerification *string `url:"enable_ssl_verification" json:"enable_ssl_verification"`
 }
 
 // DroneCIService represents Drone CI service settings.
