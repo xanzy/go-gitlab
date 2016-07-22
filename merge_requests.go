@@ -75,7 +75,13 @@ type MergeRequest struct {
 		UpdatedAt   time.Time `json:"updated_at"`
 		DueDate     string    `json:"due_date"`
 	} `json:"milestone"`
-	Files []struct {
+	MergeWhenBuildSucceeds  bool   `json:"merge_when_build_succeeds"`
+	MergeStatus             string `json:"merge_status"`
+	Subscribed              bool   `json:"subscribed"`
+	UserNotesCount          int    `json:"user_notes_count"`
+	SouldRemoveSourceBranch bool   `json:"should_remove_source_branch"`
+	ForceRemoveSourceBranch bool   `json:"force_remove_source_branch"`
+	Changes                 []struct {
 		OldPath     string `json:"old_path"`
 		NewPath     string `json:"new_path"`
 		AMode       string `json:"a_mode"`
@@ -84,8 +90,7 @@ type MergeRequest struct {
 		NewFile     bool   `json:"new_file"`
 		RenamedFile bool   `json:"renamed_file"`
 		DeletedFile bool   `json:"deleted_file"`
-	} `json:"files"`
-	MergeStatus string `json:"merge_status"`
+	} `json:"changes"`
 }
 
 func (m MergeRequest) String() string {
