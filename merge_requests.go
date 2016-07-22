@@ -85,6 +85,7 @@ type MergeRequest struct {
 		RenamedFile bool   `json:"renamed_file"`
 		DeletedFile bool   `json:"deleted_file"`
 	} `json:"files"`
+	MergeStatus string `json:"merge_status"`
 }
 
 func (m MergeRequest) String() string {
