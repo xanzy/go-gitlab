@@ -55,7 +55,7 @@ func (c Commit) String() string {
 // GitLab API docs: http://doc.gitlab.com/ce/api/commits.html#list-commits
 type ListCommitsOptions struct {
 	ListOptions
-	RefName string `url:"ref_name,omitempty" json:"ref_name,omitempty"`
+	RefName *string `url:"ref_name,omitempty" json:"ref_name,omitempty"`
 }
 
 // ListCommits gets a list of repository commits in a project.
@@ -215,10 +215,10 @@ func (s *CommitsService) GetCommitComments(
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/commits.html#post-comment-to-commit
 type PostCommitCommentOptions struct {
-	Note     string `url:"note,omitempty" json:"note,omitempty"`
-	Path     string `url:"path" json:"path"`
-	Line     int    `url:"line" json:"line"`
-	LineType string `url:"line_type" json:"line_type"`
+	Note     *string `url:"note,omitempty" json:"note,omitempty"`
+	Path     *string `url:"path" json:"path"`
+	Line     *int    `url:"line" json:"line"`
+	LineType *string `url:"line_type" json:"line_type"`
 }
 
 // PostCommitComment adds a comment to a commit. Optionally you can post
@@ -255,10 +255,10 @@ func (s *CommitsService) PostCommitComment(
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/commits.html#get-the-status-of-a-commit
 type GetCommitStatusesOptions struct {
-	Ref   string `url:"ref,omitempty" json:"ref,omitempty"`
-	Stage string `url:"stage,omitempty" json:"stage,omitempty"`
-	Name  string `url:"name,omitempty" json:"name,omitempty"`
-	All   bool   `url:"all,omitempty" json:"all,omitempty"`
+	Ref   *string `url:"ref,omitempty" json:"ref,omitempty"`
+	Stage *string `url:"stage,omitempty" json:"stage,omitempty"`
+	Name  *string `url:"name,omitempty" json:"name,omitempty"`
+	All   *bool   `url:"all,omitempty" json:"all,omitempty"`
 }
 
 // CommitStatus represents a GitLab commit status.
@@ -310,11 +310,11 @@ func (s *CommitsService) GetCommitStatuses(
 // GitLab API docs: http://doc.gitlab.com/ce/api/commits.html#post-the-status-to-commit
 type SetCommitStatusOptions struct {
 	State       BuildState `url:"state" json:"state"`
-	Ref         string     `url:"ref,omitempty" json:"ref,omitempty"`
-	Name        string     `url:"name,omitempty" json:"name,omitempty"`
-	Context     string     `url:"context,omitempty" json:"context,omitempty"`
-	TargetUrl   string     `url:"target_url,omitempty" json:"target_url,omitempty"`
-	Description string     `url:"description,omitempty" json:"description,omitempty"`
+	Ref         *string     `url:"ref,omitempty" json:"ref,omitempty"`
+	Name        *string     `url:"name,omitempty" json:"name,omitempty"`
+	Context     *string     `url:"context,omitempty" json:"context,omitempty"`
+	TargetUrl   *string     `url:"target_url,omitempty" json:"target_url,omitempty"`
+	Description *string     `url:"description,omitempty" json:"description,omitempty"`
 }
 
 type BuildState string
