@@ -126,7 +126,7 @@ func (s *NotesService) GetIssueNote(
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/notes.html#create-new-issue-note
 type CreateIssueNoteOptions struct {
-	Body string `url:"body,omitempty" json:"body,omitempty"`
+	Body *string `url:"body,omitempty" json:"body,omitempty"`
 }
 
 // CreateIssueNote creates a new note to a single project issue.
@@ -163,7 +163,7 @@ func (s *NotesService) CreateIssueNote(
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/notes.html#modify-existing-issue-note
 type UpdateIssueNoteOptions struct {
-	Body string `url:"body,omitempty" json:"body,omitempty"`
+	Body *string `url:"body,omitempty" json:"body,omitempty"`
 }
 
 // UpdateIssueNote modifies existing note of an issue.
@@ -254,7 +254,7 @@ func (s *NotesService) GetSnippetNote(
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/notes.html#create-new-snippet-note
 type CreateSnippetNoteOptions struct {
-	Body string `url:"body,omitempty" json:"body,omitempty"`
+	Body *string `url:"body,omitempty" json:"body,omitempty"`
 }
 
 // CreateSnippetNote creates a new note for a single snippet. Snippet notes are
@@ -292,7 +292,7 @@ func (s *NotesService) CreateSnippetNote(
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/notes.html#modify-existing-snippet-note
 type UpdateSnippetNoteOptions struct {
-	Body string `url:"body,omitempty" json:"body,omitempty"`
+	Body *string `url:"body,omitempty" json:"body,omitempty"`
 }
 
 // UpdateSnippetNote modifies existing note of a snippet.
@@ -384,7 +384,7 @@ func (s *NotesService) GetMergeRequestNote(
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/notes.html#create-new-merge-request-note
 type CreateMergeRequestNoteOptions struct {
-	Body string `url:"body,omitempty" json:"body,omitempty"`
+	Body *string `url:"body,omitempty" json:"body,omitempty"`
 }
 
 // CreateMergeRequestNote creates a new note for a single merge request.
@@ -421,7 +421,7 @@ func (s *NotesService) CreateMergeRequestNote(
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/notes.html#modify-existing-merge-request-note
 type UpdateMergeRequestNoteOptions struct {
-	Body string `url:"body,omitempty" json:"body,omitempty"`
+	Body *string `url:"body,omitempty" json:"body,omitempty"`
 }
 
 // UpdateMergeRequestNote modifies existing note of a merge request.

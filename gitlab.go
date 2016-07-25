@@ -140,10 +140,10 @@ type Client struct {
 // support pagination.
 type ListOptions struct {
 	// For paginated result sets, page of results to retrieve.
-	Page int `url:"page,omitempty" json:"page,omitempty"`
+	Page *int `url:"page,omitempty" json:"page,omitempty"`
 
 	// For paginated result sets, the number of results to include per page.
-	PerPage int `url:"per_page,omitempty" json:"per_page,omitempty"`
+	PerPage *int `url:"per_page,omitempty" json:"per_page,omitempty"`
 }
 
 // NewClient returns a new GitLab API client. If a nil httpClient is
@@ -466,6 +466,22 @@ func Int(v int) *int {
 // to store v and returns a pointer to it.
 func String(v string) *string {
 	p := new(string)
+	*p = v
+	return p
+}
+
+// AccessLevelPtr is a helper routine that allocates a new AccessLevel value
+// to store v and returns a pointer to it.
+func AccessLevelPtr(v AccessLevel) *AccessLevel {
+	p := new(AccessLevel)
+	*p = v
+	return p
+}
+
+// VisibilityLevelPtr is a helper routine that allocates a new AccessLevel value
+// to store v and returns a pointer to it.
+func VisibilityLevelPtr(v VisibilityLevel) *VisibilityLevel {
+	p := new(VisibilityLevel)
 	*p = v
 	return p
 }

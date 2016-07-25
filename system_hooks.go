@@ -66,7 +66,7 @@ func (s *SystemHooksService) ListHooks() ([]*Hook, *Response, error) {
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/system_hooks.html#add-new-system-hook-hook
 type AddHookOptions struct {
-	URL string `url:"url,omitempty" json:"url,omitempty"`
+	URL *string `url:"url,omitempty" json:"url,omitempty"`
 }
 
 // AddHook adds a new system hook hook.
