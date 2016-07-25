@@ -49,50 +49,50 @@ const (
 	oAuthToken
 )
 
-// AccessLevel represents a permission level within GitLab.
+// AccessLevelValue represents a permission level within GitLab.
 //
 // GitLab API docs: http://doc.gitlab.com/ce/permissions/permissions.html
-type AccessLevel int
+type AccessLevelValue int
 
 // List of available access levels
 //
 // GitLab API docs: http://doc.gitlab.com/ce/permissions/permissions.html
 const (
-	GuestPermissions     AccessLevel = 10
-	ReporterPermissions  AccessLevel = 20
-	DeveloperPermissions AccessLevel = 30
-	MasterPermissions    AccessLevel = 40
-	OwnerPermission      AccessLevel = 50
+	GuestPermissions     AccessLevelValue = 10
+	ReporterPermissions  AccessLevelValue = 20
+	DeveloperPermissions AccessLevelValue = 30
+	MasterPermissions    AccessLevelValue = 40
+	OwnerPermission      AccessLevelValue = 50
 )
 
-// NotificationLevel represents a notification level within Gitlab.
+// NotificationLevelValue represents a notification level within Gitlab.
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/
-type NotificationLevel int
+type NotificationLevelValue int
 
 // List of available notification levels
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/
 const (
-	DisabledNotifications NotificationLevel = iota
+	DisabledNotifications NotificationLevelValue = iota
 	ParticipatingNotifications
 	WatchNotifications
 	GlobalNotifications
 	MentionNotifications
 )
 
-// VisibilityLevel represents a visibility level within GitLab.
+// VisibilityLevelValue represents a visibility level within GitLab.
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/
-type VisibilityLevel int
+type VisibilityLevelValue int
 
 // List of available visibility levels
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/
 const (
-	PrivateVisibility  VisibilityLevel = 0
-	InternalVisibility VisibilityLevel = 10
-	PublicVisibility   VisibilityLevel = 20
+	PrivateVisibility  VisibilityLevelValue = 0
+	InternalVisibility VisibilityLevelValue = 10
+	PublicVisibility   VisibilityLevelValue = 20
 )
 
 // A Client manages communication with the GitLab API.
@@ -470,18 +470,18 @@ func String(v string) *string {
 	return p
 }
 
-// AccessLevelPtr is a helper routine that allocates a new AccessLevel value
+// AccessLevel is a helper routine that allocates a new AccessLevelValue
 // to store v and returns a pointer to it.
-func AccessLevelPtr(v AccessLevel) *AccessLevel {
-	p := new(AccessLevel)
+func AccessLevel(v AccessLevelValue) *AccessLevelValue {
+	p := new(AccessLevelValue)
 	*p = v
 	return p
 }
 
-// VisibilityLevelPtr is a helper routine that allocates a new AccessLevel value
+// VisibilityLevel is a helper routine that allocates a new VisibilityLevelValue
 // to store v and returns a pointer to it.
-func VisibilityLevelPtr(v VisibilityLevel) *VisibilityLevel {
-	p := new(VisibilityLevel)
+func VisibilityLevel(v VisibilityLevelValue) *VisibilityLevelValue {
+	p := new(VisibilityLevelValue)
 	*p = v
 	return p
 }

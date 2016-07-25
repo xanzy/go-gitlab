@@ -120,10 +120,10 @@ func (s *ProjectSnippetsService) GetSnippet(
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/project_snippets.html#create-new-snippet
 type CreateSnippetOptions struct {
-	Title           *string          `url:"title,omitempty" json:"title,omitempty"`
-	FileName        *string          `url:"file_name,omitempty" json:"file_name,omitempty"`
-	Code            *string          `url:"code,omitempty" json:"code,omitempty"`
-	VisibilityLevel *VisibilityLevel `url:"visibility_level,omitempty" json:"visibility_level,omitempty"`
+	Title           *string               `url:"title,omitempty" json:"title,omitempty"`
+	FileName        *string               `url:"file_name,omitempty" json:"file_name,omitempty"`
+	Code            *string               `url:"code,omitempty" json:"code,omitempty"`
+	VisibilityLevel *VisibilityLevelValue `url:"visibility_level,omitempty" json:"visibility_level,omitempty"`
 }
 
 // CreateSnippet creates a new project snippet. The user must have permission
@@ -159,10 +159,10 @@ func (s *ProjectSnippetsService) CreateSnippet(
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/project_snippets.html#update-snippet
 type UpdateSnippetOptions struct {
-	Title           *string          `url:"title,omitempty" json:"title,omitempty"`
-	FileName        *string          `url:"file_name,omitempty" json:"file_name,omitempty"`
-	Code            *string          `url:"code,omitempty" json:"code,omitempty"`
-	VisibilityLevel *VisibilityLevel `url:"visibility_level,omitempty" json:"visibility_level,omitempty"`
+	Title           *string               `url:"title,omitempty" json:"title,omitempty"`
+	FileName        *string               `url:"file_name,omitempty" json:"file_name,omitempty"`
+	Code            *string               `url:"code,omitempty" json:"code,omitempty"`
+	VisibilityLevel *VisibilityLevelValue `url:"visibility_level,omitempty" json:"visibility_level,omitempty"`
 }
 
 // UpdateSnippet updates an existing project snippet. The user must have
