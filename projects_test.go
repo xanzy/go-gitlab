@@ -25,7 +25,7 @@ func TestListProjects(t *testing.T) {
 		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
 	})
 
-	opt := &ListProjectsOptions{ListOptions{Int(2), Int(3)}, Bool(true), String("name"), String("asc"), String("query"), Bool(true)}
+	opt := &ListProjectsOptions{ListOptions{Int(2), 3}, Bool(true), String("name"), String("asc"), String("query"), Bool(true)}
 	projects, _, err := client.Projects.ListProjects(opt)
 
 	if err != nil {
@@ -56,7 +56,7 @@ func TestListOwnedProjects(t *testing.T) {
 		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
 	})
 
-	opt := &ListProjectsOptions{ListOptions{Int(2), Int(3)}, Bool(true), String("name"), String("asc"), String("query"), Bool(true)}
+	opt := &ListProjectsOptions{ListOptions{Int(2), 3}, Bool(true), String("name"), String("asc"), String("query"), Bool(true)}
 	projects, _, err := client.Projects.ListOwnedProjects(opt)
 
 	if err != nil {
@@ -87,7 +87,7 @@ func TestListStarredProjects(t *testing.T) {
 		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
 	})
 
-	opt := &ListProjectsOptions{ListOptions{Int(2), Int(3)}, Bool(true), String("name"), String("asc"), String("query"), Bool(true)}
+	opt := &ListProjectsOptions{ListOptions{Int(2), 3}, Bool(true), String("name"), String("asc"), String("query"), Bool(true)}
 	projects, _, err := client.Projects.ListStarredProjects(opt)
 
 	if err != nil {
@@ -118,7 +118,7 @@ func TestListAllProjects(t *testing.T) {
 		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
 	})
 
-	opt := &ListProjectsOptions{ListOptions{Int(2), Int(3)}, Bool(true), String("name"), String("asc"), String("query"), Bool(true)}
+	opt := &ListProjectsOptions{ListOptions{Int(2), 3}, Bool(true), String("name"), String("asc"), String("query"), Bool(true)}
 	projects, _, err := client.Projects.ListAllProjects(opt)
 
 	if err != nil {
@@ -189,7 +189,7 @@ func TestSearchProjects(t *testing.T) {
 		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
 	})
 
-	opt := &SearchProjectsOptions{ListOptions{Int(2), Int(3)}, String("name"), String("asc")}
+	opt := &SearchProjectsOptions{ListOptions{Int(2), 3}, String("name"), String("asc")}
 	projects, _, err := client.Projects.SearchProjects("query", opt)
 
 	if err != nil {
