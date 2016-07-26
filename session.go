@@ -36,7 +36,7 @@ type Session struct {
 	Name             string      `json:"name"`
 	PrivateToken     string      `json:"private_token"`
 	Blocked          bool        `json:"blocked"`
-	CreatedAt        time.Time   `json:"created_at"`
+	CreatedAt        *time.Time  `json:"created_at"`
 	Bio              interface{} `json:"bio"`
 	Skype            string      `json:"skype"`
 	Linkedin         string      `json:"linkedin"`

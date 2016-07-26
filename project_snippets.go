@@ -39,16 +39,16 @@ type Snippet struct {
 	Title    string `json:"title"`
 	FileName string `json:"file_name"`
 	Author   struct {
-		ID        int       `json:"id"`
-		Username  string    `json:"username"`
-		Email     string    `json:"email"`
-		Name      string    `json:"name"`
-		State     string    `json:"state"`
-		CreatedAt time.Time `json:"created_at"`
+		ID        int        `json:"id"`
+		Username  string     `json:"username"`
+		Email     string     `json:"email"`
+		Name      string     `json:"name"`
+		State     string     `json:"state"`
+		CreatedAt *time.Time `json:"created_at"`
 	} `json:"author"`
 	ExpiresAt *time.Time `json:"expires_at"`
-	UpdatedAt time.Time  `json:"updated_at"`
-	CreatedAt time.Time  `json:"created_at"`
+	UpdatedAt *time.Time `json:"updated_at"`
+	CreatedAt *time.Time `json:"created_at"`
 }
 
 func (s Snippet) String() string {

@@ -32,7 +32,7 @@ func TestListProjects(t *testing.T) {
 		t.Errorf("Projects.ListProjects returned error: %v", err)
 	}
 
-	want := []*Project{{ID: Int(1)}, {ID: Int(2)}}
+	want := []*Project{{ID: 1}, {ID: 2}}
 	if !reflect.DeepEqual(want, projects) {
 		t.Errorf("Projects.ListProjects returned %+v, want %+v", projects, want)
 	}
@@ -63,7 +63,7 @@ func TestListOwnedProjects(t *testing.T) {
 		t.Errorf("Projects.ListOwnedProjects returned error: %v", err)
 	}
 
-	want := []*Project{{ID: Int(1)}, {ID: Int(2)}}
+	want := []*Project{{ID: 1}, {ID: 2}}
 	if !reflect.DeepEqual(want, projects) {
 		t.Errorf("Projects.ListOwnedProjects returned %+v, want %+v", projects, want)
 	}
@@ -94,7 +94,7 @@ func TestListStarredProjects(t *testing.T) {
 		t.Errorf("Projects.ListStarredProjects returned error: %v", err)
 	}
 
-	want := []*Project{{ID: Int(1)}, {ID: Int(2)}}
+	want := []*Project{{ID: 1}, {ID: 2}}
 	if !reflect.DeepEqual(want, projects) {
 		t.Errorf("Projects.ListStarredProjects returned %+v, want %+v", projects, want)
 	}
@@ -125,7 +125,7 @@ func TestListAllProjects(t *testing.T) {
 		t.Errorf("Projects.ListAllProjects returned error: %v", err)
 	}
 
-	want := []*Project{{ID: Int(1)}, {ID: Int(2)}}
+	want := []*Project{{ID: 1}, {ID: 2}}
 	if !reflect.DeepEqual(want, projects) {
 		t.Errorf("Projects.ListAllProjects returned %+v, want %+v", projects, want)
 	}
@@ -139,7 +139,7 @@ func TestGetProject_byID(t *testing.T) {
 		testMethod(t, r, "GET")
 		fmt.Fprint(w, `{"id":1}`)
 	})
-	want := &Project{ID: Int(1)}
+	want := &Project{ID: 1}
 
 	project, _, err := client.Projects.GetProject(1)
 
@@ -161,7 +161,7 @@ func TestGetProject_byName(t *testing.T) {
 		testMethod(t, r, "GET")
 		fmt.Fprint(w, `{"id":1}`)
 	})
-	want := &Project{ID: Int(1)}
+	want := &Project{ID: 1}
 
 	project, _, err := client.Projects.GetProject("namespace/name")
 
@@ -196,7 +196,7 @@ func TestSearchProjects(t *testing.T) {
 		t.Errorf("Projects.SearchProjects returned error: %v", err)
 	}
 
-	want := []*Project{{ID: Int(1)}, {ID: Int(2)}}
+	want := []*Project{{ID: 1}, {ID: 2}}
 	if !reflect.DeepEqual(want, projects) {
 		t.Errorf("Projects.SearchProjects returned %+v, want %+v", projects, want)
 	}
@@ -222,7 +222,7 @@ func TestCreateProject(t *testing.T) {
 		t.Errorf("Projects.CreateProject returned error: %v", err)
 	}
 
-	want := &Project{ID: Int(1)}
+	want := &Project{ID: 1}
 	if !reflect.DeepEqual(want, project) {
 		t.Errorf("Projects.CreateProject returned %+v, want %+v", project, want)
 	}

@@ -36,8 +36,8 @@ type Settings struct {
 	SigninEnabled              bool                   `json:"signin_enabled"`
 	GravatarEnabled            bool                   `json:"gravatar_enabled"`
 	SignInText                 string                 `json:"sign_in_text"`
-	CreatedAt                  time.Time              `json:"created_at"`
-	UpdatedAt                  time.Time              `json:"updated_at"`
+	CreatedAt                  *time.Time             `json:"created_at"`
+	UpdatedAt                  *time.Time             `json:"updated_at"`
 	HomePageURL                string                 `json:"home_page_url"`
 	DefaultBranchProtection    int                    `json:"default_branch_protection"`
 	TwitterSharingEnabled      bool                   `json:"twitter_sharing_enabled"`

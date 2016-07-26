@@ -33,9 +33,9 @@ type SystemHooksService struct {
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/system_hooks.html
 type Hook struct {
-	ID        int       `json:"id"`
-	URL       string    `json:"url"`
-	CreatedAt time.Time `json:"created_at"`
+	ID        int        `json:"id"`
+	URL       string     `json:"url"`
+	CreatedAt *time.Time `json:"created_at"`
 }
 
 func (h Hook) String() string {

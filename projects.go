@@ -34,47 +34,47 @@ type ProjectsService struct {
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/projects.html
 type Project struct {
-	ID                   *int                  `json:"id"`
-	Description          *string               `json:"description"`
-	DefaultBranch        *string               `json:"default_branch"`
-	Public               *bool                 `json:"public"`
-	VisibilityLevel      *VisibilityLevelValue `json:"visibility_level"`
-	SSHURLToRepo         *string               `json:"ssh_url_to_repo"`
-	HTTPURLToRepo        *string               `json:"http_url_to_repo"`
-	WebURL               *string               `json:"web_url"`
-	TagList              *[]string             `json:"tag_list"`
-	Owner                *User                 `json:"owner"`
-	Name                 *string               `json:"name"`
-	NameWithNamespace    *string               `json:"name_with_namespace"`
-	Path                 *string               `json:"path"`
-	PathWithNamespace    *string               `json:"path_with_namespace"`
-	IssuesEnabled        *bool                 `json:"issues_enabled"`
-	OpenIssuesCount      *int                  `json:"open_issues_count"`
-	MergeRequestsEnabled *bool                 `json:"merge_requests_enabled"`
-	BuildsEnabled        *bool                 `json:"builds_enabled"`
-	WikiEnabled          *bool                 `json:"wiki_enabled"`
-	SnippetsEnabled      *bool                 `json:"snippets_enabled"`
-	CreatedAt            *time.Time            `json:"created_at,omitempty"`
-	LastActivityAt       *time.Time            `json:"last_activity_at,omitempty"`
-	CreatorID            *int                  `json:"creator_id"`
-	Namespace            *ProjectNamespace     `json:"namespace"`
-	Permissions          *Permissions          `json:"permissions"`
-	Archived             *bool                 `json:"archived"`
-	AvatarURL            *string               `json:"avatar_url"`
-	SharedRunnersEnabled *bool                 `json:"shared_runners_enabled"`
-	ForksCount           *int                  `json:"forks_count"`
-	StarCount            *int                  `json:"star_count"`
-	RunnersToken         *string               `json:"runners_token"`
-	PublicBuilds         *bool                 `json:"public_builds"`
+	ID                   int                  `json:"id"`
+	Description          string               `json:"description"`
+	DefaultBranch        string               `json:"default_branch"`
+	Public               bool                 `json:"public"`
+	VisibilityLevel      VisibilityLevelValue `json:"visibility_level"`
+	SSHURLToRepo         string               `json:"ssh_url_to_repo"`
+	HTTPURLToRepo        string               `json:"http_url_to_repo"`
+	WebURL               string               `json:"web_url"`
+	TagList              []string             `json:"tag_list"`
+	Owner                *User                `json:"owner"`
+	Name                 string               `json:"name"`
+	NameWithNamespace    string               `json:"name_with_namespace"`
+	Path                 string               `json:"path"`
+	PathWithNamespace    string               `json:"path_with_namespace"`
+	IssuesEnabled        bool                 `json:"issues_enabled"`
+	OpenIssuesCount      int                  `json:"open_issues_count"`
+	MergeRequestsEnabled bool                 `json:"merge_requests_enabled"`
+	BuildsEnabled        bool                 `json:"builds_enabled"`
+	WikiEnabled          bool                 `json:"wiki_enabled"`
+	SnippetsEnabled      bool                 `json:"snippets_enabled"`
+	CreatedAt            *time.Time           `json:"created_at,omitempty"`
+	LastActivityAt       *time.Time           `json:"last_activity_at,omitempty"`
+	CreatorID            int                  `json:"creator_id"`
+	Namespace            *ProjectNamespace    `json:"namespace"`
+	Permissions          *Permissions         `json:"permissions"`
+	Archived             bool                 `json:"archived"`
+	AvatarURL            string               `json:"avatar_url"`
+	SharedRunnersEnabled bool                 `json:"shared_runners_enabled"`
+	ForksCount           int                  `json:"forks_count"`
+	StarCount            int                  `json:"star_count"`
+	RunnersToken         string               `json:"runners_token"`
+	PublicBuilds         bool                 `json:"public_builds"`
 }
 
 type ProjectNamespace struct {
 	CreatedAt   *time.Time `json:"created_at"`
-	Description *string    `json:"description"`
-	ID          *int       `json:"id"`
-	Name        *string    `json:"name"`
-	OwnerID     *int       `json:"owner_id"`
-	Path        *string    `json:"path"`
+	Description string     `json:"description"`
+	ID          int        `json:"id"`
+	Name        string     `json:"name"`
+	OwnerID     int        `json:"owner_id"`
+	Path        string     `json:"path"`
 	UpdatedAt   *time.Time `json:"updated_at"`
 }
 
@@ -273,10 +273,10 @@ type ProjectEvent struct {
 			Homepage    string `json:"homepage"`
 		} `json:"repository"`
 		Commits []struct {
-			ID        string    `json:"id"`
-			Message   string    `json:"message"`
-			Timestamp time.Time `json:"timestamp"`
-			URL       string    `json:"url"`
+			ID        string     `json:"id"`
+			Message   string     `json:"message"`
+			Timestamp *time.Time `json:"timestamp"`
+			URL       string     `json:"url"`
 			Author    struct {
 				Name  string `json:"name"`
 				Email string `json:"email"`
@@ -506,7 +506,7 @@ type ProjectMember struct {
 	Email       string           `json:"email"`
 	Name        string           `json:"name"`
 	State       string           `json:"state"`
-	CreatedAt   time.Time        `json:"created_at"`
+	CreatedAt   *time.Time       `json:"created_at"`
 	AccessLevel AccessLevelValue `json:"access_level"`
 }
 
@@ -678,13 +678,13 @@ func (s *ProjectsService) DeleteProjectMember(pid interface{}, user int) (*Respo
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/projects.html#list-project-hooks
 type ProjectHook struct {
-	ID                  int       `json:"id"`
-	URL                 string    `json:"url"`
-	ProjectID           int       `json:"project_id"`
-	PushEvents          bool      `json:"push_events"`
-	IssuesEvents        bool      `json:"issues_events"`
-	MergeRequestsEvents bool      `json:"merge_requests_events"`
-	CreatedAt           time.Time `json:"created_at"`
+	ID                  int        `json:"id"`
+	URL                 string     `json:"url"`
+	ProjectID           int        `json:"project_id"`
+	PushEvents          bool       `json:"push_events"`
+	IssuesEvents        bool       `json:"issues_events"`
+	MergeRequestsEvents bool       `json:"merge_requests_events"`
+	CreatedAt           *time.Time `json:"created_at"`
 }
 
 // ListProjectHooksOptions represents the available ListProjectHooks() options.
@@ -857,11 +857,11 @@ func (s *ProjectsService) DeleteProjectHook(pid interface{}, hook int) (*Respons
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/projects.html#admin-fork-relation
 type ProjectForkRelation struct {
-	ID                  int       `json:"id"`
-	ForkedToProjectID   int       `json:"forked_to_project_id"`
-	ForkedFromProjectID int       `json:"forked_from_project_id"`
-	CreatedAt           time.Time `json:"created_at"`
-	UpdatedAt           time.Time `json:"updated_at"`
+	ID                  int        `json:"id"`
+	ForkedToProjectID   int        `json:"forked_to_project_id"`
+	ForkedFromProjectID int        `json:"forked_from_project_id"`
+	CreatedAt           *time.Time `json:"created_at"`
+	UpdatedAt           *time.Time `json:"updated_at"`
 }
 
 // CreateProjectForkRelation creates a forked from/to relation between

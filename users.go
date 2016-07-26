@@ -39,7 +39,7 @@ type User struct {
 	Email            string          `json:"email"`
 	Name             string          `json:"name"`
 	State            string          `json:"state"`
-	CreatedAt        time.Time       `json:"created_at"`
+	CreatedAt        *time.Time      `json:"created_at"`
 	Bio              string          `json:"bio"`
 	Skype            string          `json:"skype"`
 	Linkedin         string          `json:"linkedin"`
@@ -60,6 +60,7 @@ type User struct {
 	Identities       []*UserIdentity `json:"identities"`
 }
 
+// UserIdentity represents a user identity
 type UserIdentity struct {
 	Provider  string `json:"provider"`
 	ExternUID string `json:"extern_uid"`
@@ -237,10 +238,10 @@ func (s *UsersService) CurrentUser() (*User, *Response, error) {
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/users.html#list-ssh-keys
 type SSHKey struct {
-	ID        int       `json:"id"`
-	Title     string    `json:"title"`
-	Key       string    `json:"key"`
-	CreatedAt time.Time `json:"created_at"`
+	ID        int        `json:"id"`
+	Title     string     `json:"title"`
+	Key       string     `json:"key"`
+	CreatedAt *time.Time `json:"created_at"`
 }
 
 // ListSSHKeys gets a list of currently authenticated user's SSH keys.
@@ -449,5 +450,4 @@ func (s *UsersService) UnblockUser(user int) error {
 	default:
 		return fmt.Errorf("Received unexpected result code: %d", resp.StatusCode)
 	}
-	return err
 }

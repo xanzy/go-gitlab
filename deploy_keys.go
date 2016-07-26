@@ -32,10 +32,10 @@ type DeployKeysService struct {
 
 // DeployKey represents a GitLab deploy key.
 type DeployKey struct {
-	ID        int       `json:"id"`
-	Title     string    `json:"title"`
-	Key       string    `json:"key"`
-	CreatedAt time.Time `json:"created_at"`
+	ID        int        `json:"id"`
+	Title     string     `json:"title"`
+	Key       string     `json:"key"`
+	CreatedAt *time.Time `json:"created_at"`
 }
 
 func (k DeployKey) String() string {

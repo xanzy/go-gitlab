@@ -34,19 +34,19 @@ type MergeRequestsService struct {
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/merge_requests.html
 type MergeRequest struct {
-	ID             int       `json:"id"`
-	IID            int       `json:"iid"`
-	ProjectID      int       `json:"project_id"`
-	Title          string    `json:"title"`
-	Description    string    `json:"description"`
-	WorkInProgress bool      `json:"work_in_progress"`
-	State          string    `json:"state"`
-	CreatedAt      time.Time `json:"created_at"`
-	UpdatedAt      time.Time `json:"updated_at"`
-	TargetBranch   string    `json:"target_branch"`
-	SourceBranch   string    `json:"source_branch"`
-	Upvotes        int       `json:"upvotes"`
-	Downvotes      int       `json:"downvotes"`
+	ID             int        `json:"id"`
+	IID            int        `json:"iid"`
+	ProjectID      int        `json:"project_id"`
+	Title          string     `json:"title"`
+	Description    string     `json:"description"`
+	WorkInProgress bool       `json:"work_in_progress"`
+	State          string     `json:"state"`
+	CreatedAt      *time.Time `json:"created_at"`
+	UpdatedAt      *time.Time `json:"updated_at"`
+	TargetBranch   string     `json:"target_branch"`
+	SourceBranch   string     `json:"source_branch"`
+	Upvotes        int        `json:"upvotes"`
+	Downvotes      int        `json:"downvotes"`
 	Author         struct {
 		Name      string `json:"name"`
 		Username  string `json:"username"`
@@ -65,15 +65,15 @@ type MergeRequest struct {
 	TargetProjectID int      `json:"target_project_id"`
 	Labels          []string `json:"labels"`
 	Milestone       struct {
-		ID          int       `json:"id"`
-		Iid         int       `json:"iid"`
-		ProjectID   int       `json:"project_id"`
-		Title       string    `json:"title"`
-		Description string    `json:"description"`
-		State       string    `json:"state"`
-		CreatedAt   time.Time `json:"created_at"`
-		UpdatedAt   time.Time `json:"updated_at"`
-		DueDate     string    `json:"due_date"`
+		ID          int        `json:"id"`
+		Iid         int        `json:"iid"`
+		ProjectID   int        `json:"project_id"`
+		Title       string     `json:"title"`
+		Description string     `json:"description"`
+		State       string     `json:"state"`
+		CreatedAt   *time.Time `json:"created_at"`
+		UpdatedAt   *time.Time `json:"updated_at"`
+		DueDate     string     `json:"due_date"`
 	} `json:"milestone"`
 	MergeWhenBuildSucceeds  bool   `json:"merge_when_build_succeeds"`
 	MergeStatus             string `json:"merge_status"`
@@ -313,12 +313,12 @@ func (s *MergeRequestsService) AcceptMergeRequest(
 type MergeRequestComment struct {
 	Note   string `json:"note"`
 	Author struct {
-		ID        int       `json:"id"`
-		Username  string    `json:"username"`
-		Email     string    `json:"email"`
-		Name      string    `json:"name"`
-		State     string    `json:"state"`
-		CreatedAt time.Time `json:"created_at"`
+		ID        int        `json:"id"`
+		Username  string     `json:"username"`
+		Email     string     `json:"email"`
+		Name      string     `json:"name"`
+		State     string     `json:"state"`
+		CreatedAt *time.Time `json:"created_at"`
 	} `json:"author"`
 }
 

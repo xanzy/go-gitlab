@@ -201,7 +201,7 @@ type GroupMember struct {
 	Email       string           `json:"email"`
 	Name        string           `json:"name"`
 	State       string           `json:"state"`
-	CreatedAt   time.Time        `json:"created_at"`
+	CreatedAt   *time.Time       `json:"created_at"`
 	AccessLevel AccessLevelValue `json:"access_level"`
 }
 

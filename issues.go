@@ -44,33 +44,33 @@ type Issue struct {
 	Description string   `json:"description"`
 	Labels      []string `json:"labels"`
 	Milestone   struct {
-		ID          int       `json:"id"`
-		Title       string    `json:"title"`
-		Description string    `json:"description"`
-		DueDate     string    `json:"due_date"`
-		State       string    `json:"state"`
-		UpdatedAt   time.Time `json:"updated_at"`
-		CreatedAt   time.Time `json:"created_at"`
+		ID          int        `json:"id"`
+		Title       string     `json:"title"`
+		Description string     `json:"description"`
+		DueDate     string     `json:"due_date"`
+		State       string     `json:"state"`
+		UpdatedAt   *time.Time `json:"updated_at"`
+		CreatedAt   *time.Time `json:"created_at"`
 	} `json:"milestone"`
 	Assignee struct {
-		ID        int       `json:"id"`
-		Username  string    `json:"username"`
-		Email     string    `json:"email"`
-		Name      string    `json:"name"`
-		State     string    `json:"state"`
-		CreatedAt time.Time `json:"created_at"`
+		ID        int        `json:"id"`
+		Username  string     `json:"username"`
+		Email     string     `json:"email"`
+		Name      string     `json:"name"`
+		State     string     `json:"state"`
+		CreatedAt *time.Time `json:"created_at"`
 	} `json:"assignee"`
 	Author struct {
-		ID        int       `json:"id"`
-		Username  string    `json:"username"`
-		Email     string    `json:"email"`
-		Name      string    `json:"name"`
-		State     string    `json:"state"`
-		CreatedAt time.Time `json:"created_at"`
+		ID        int        `json:"id"`
+		Username  string     `json:"username"`
+		Email     string     `json:"email"`
+		Name      string     `json:"name"`
+		State     string     `json:"state"`
+		CreatedAt *time.Time `json:"created_at"`
 	} `json:"author"`
-	State     string    `json:"state"`
-	UpdatedAt time.Time `json:"updated_at"`
-	CreatedAt time.Time `json:"created_at"`
+	State     string     `json:"state"`
+	UpdatedAt *time.Time `json:"updated_at"`
+	CreatedAt *time.Time `json:"created_at"`
 }
 
 func (i Issue) String() string {

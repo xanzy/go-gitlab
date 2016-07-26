@@ -34,15 +34,15 @@ type MilestonesService struct {
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/branches.html
 type Milestone struct {
-	ID          int       `json:"id"`
-	Iid         int       `json:"iid"`
-	ProjectID   int       `json:"project_id"`
-	Title       string    `json:"title"`
-	Description string    `json:"description"`
-	DueDate     string    `json:"due_date"`
-	State       string    `json:"state"`
-	UpdatedAt   time.Time `json:"updated_at"`
-	CreatedAt   time.Time `json:"created_at"`
+	ID          int        `json:"id"`
+	Iid         int        `json:"iid"`
+	ProjectID   int        `json:"project_id"`
+	Title       string     `json:"title"`
+	Description string     `json:"description"`
+	DueDate     string     `json:"due_date"`
+	State       string     `json:"state"`
+	UpdatedAt   *time.Time `json:"updated_at"`
+	CreatedAt   *time.Time `json:"created_at"`
 }
 
 func (m Milestone) String() string {
