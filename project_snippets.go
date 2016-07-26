@@ -39,16 +39,16 @@ type Snippet struct {
 	Title    string `json:"title"`
 	FileName string `json:"file_name"`
 	Author   struct {
-		ID        int       `json:"id"`
-		Username  string    `json:"username"`
-		Email     string    `json:"email"`
-		Name      string    `json:"name"`
-		State     string    `json:"state"`
-		CreatedAt time.Time `json:"created_at"`
+		ID        int        `json:"id"`
+		Username  string     `json:"username"`
+		Email     string     `json:"email"`
+		Name      string     `json:"name"`
+		State     string     `json:"state"`
+		CreatedAt *time.Time `json:"created_at"`
 	} `json:"author"`
 	ExpiresAt *time.Time `json:"expires_at"`
-	UpdatedAt time.Time  `json:"updated_at"`
-	CreatedAt time.Time  `json:"created_at"`
+	UpdatedAt *time.Time `json:"updated_at"`
+	CreatedAt *time.Time `json:"created_at"`
 }
 
 func (s Snippet) String() string {
@@ -120,10 +120,10 @@ func (s *ProjectSnippetsService) GetSnippet(
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/project_snippets.html#create-new-snippet
 type CreateSnippetOptions struct {
-	Title           string          `url:"title,omitempty" json:"title,omitempty"`
-	FileName        string          `url:"file_name,omitempty" json:"file_name,omitempty"`
-	Code            string          `url:"code,omitempty" json:"code,omitempty"`
-	VisibilityLevel VisibilityLevel `url:"visibility_level,omitempty" json:"visibility_level,omitempty"`
+	Title           *string               `url:"title,omitempty" json:"title,omitempty"`
+	FileName        *string               `url:"file_name,omitempty" json:"file_name,omitempty"`
+	Code            *string               `url:"code,omitempty" json:"code,omitempty"`
+	VisibilityLevel *VisibilityLevelValue `url:"visibility_level,omitempty" json:"visibility_level,omitempty"`
 }
 
 // CreateSnippet creates a new project snippet. The user must have permission
@@ -159,10 +159,10 @@ func (s *ProjectSnippetsService) CreateSnippet(
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/project_snippets.html#update-snippet
 type UpdateSnippetOptions struct {
-	Title           string          `url:"title,omitempty" json:"title,omitempty"`
-	FileName        string          `url:"file_name,omitempty" json:"file_name,omitempty"`
-	Code            string          `url:"code,omitempty" json:"code,omitempty"`
-	VisibilityLevel VisibilityLevel `url:"visibility_level,omitempty" json:"visibility_level,omitempty"`
+	Title           *string               `url:"title,omitempty" json:"title,omitempty"`
+	FileName        *string               `url:"file_name,omitempty" json:"file_name,omitempty"`
+	Code            *string               `url:"code,omitempty" json:"code,omitempty"`
+	VisibilityLevel *VisibilityLevelValue `url:"visibility_level,omitempty" json:"visibility_level,omitempty"`
 }
 
 // UpdateSnippet updates an existing project snippet. The user must have

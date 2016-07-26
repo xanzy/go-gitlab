@@ -45,7 +45,7 @@ type Group struct {
 // GitLab API docs: http://doc.gitlab.com/ce/api/groups.html#list-project-groups
 type ListGroupsOptions struct {
 	ListOptions
-	Search string `url:"search,omitempty" json:"search,omitempty"`
+	Search *string `url:"search,omitempty" json:"search,omitempty"`
 }
 
 // ListGroups gets a list of groups. (As user: my groups, as admin: all groups)
@@ -95,15 +95,10 @@ func (s *GroupsService) GetGroup(gid interface{}) (*Group, *Response, error) {
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/groups.html#new-group
 type CreateGroupOptions struct {
-	Name        string `url:"name,omitempty" json:"name,omitempty"`
-	Path        string `url:"path,omitempty" json:"path,omitempty"`
-	Description string `url:"description,omitempty" json:"description,omitempty"`
-
-	// TODO (SvH) This should have the `omitempty` tag, but until issue #29
-	// is implemented, there is no clean way of adding those tags and still
-	// being able to define private groups (as the visibility level for that
-	// is 0 and so it would be omitted defaulting to a public group instead).
-	VisibilityLevel VisibilityLevel `url:"visibility_level" json:"visibility_level"`
+	Name            *string               `url:"name,omitempty" json:"name,omitempty"`
+	Path            *string               `url:"path,omitempty" json:"path,omitempty"`
+	Description     *string               `url:"description,omitempty" json:"description,omitempty"`
+	VisibilityLevel *VisibilityLevelValue `url:"visibility_level" json:"visibility_level,omitempty"`
 }
 
 // CreateGroup creates a new project group. Available only for users who can
@@ -201,13 +196,13 @@ func (s *GroupsService) SearchGroup(query string) ([]*Group, *Response, error) {
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/groups.html
 type GroupMember struct {
-	ID          int         `json:"id"`
-	Username    string      `json:"username"`
-	Email       string      `json:"email"`
-	Name        string      `json:"name"`
-	State       string      `json:"state"`
-	CreatedAt   time.Time   `json:"created_at"`
-	AccessLevel AccessLevel `json:"access_level"`
+	ID          int              `json:"id"`
+	Username    string           `json:"username"`
+	Email       string           `json:"email"`
+	Name        string           `json:"name"`
+	State       string           `json:"state"`
+	CreatedAt   *time.Time       `json:"created_at"`
+	AccessLevel AccessLevelValue `json:"access_level"`
 }
 
 // ListGroupMembers get a list of group members viewable by the authenticated
@@ -240,8 +235,8 @@ func (s *GroupsService) ListGroupMembers(gid interface{}) ([]*GroupMember, *Resp
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/groups.html#add-group-member
 type AddGroupMemberOptions struct {
-	UserID      int         `url:"user_id,omitempty" json:"user_id,omitempty"`
-	AccessLevel AccessLevel `url:"access_level,omitempty" json:"access_level,omitempty"`
+	UserID      *int              `url:"user_id,omitempty" json:"user_id,omitempty"`
+	AccessLevel *AccessLevelValue `url:"access_level,omitempty" json:"access_level,omitempty"`
 }
 
 // AddGroupMember adds a user to the list of group members.
@@ -277,7 +272,7 @@ func (s *GroupsService) AddGroupMember(
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/groups.html#edit-group-team-member
 type UpdateGroupMemberOptions struct {
-	AccessLevel AccessLevel `url:"access_level,omitempty" json:"access_level,omitempty"`
+	AccessLevel *AccessLevelValue `url:"access_level,omitempty" json:"access_level,omitempty"`
 }
 
 // UpdateGroupMember updates a group team member to a specified access level.

@@ -34,63 +34,63 @@ type ProjectsService struct {
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/projects.html
 type Project struct {
-	ID                   *int              `json:"id"`
-	Description          *string           `json:"description"`
-	DefaultBranch        *string           `json:"default_branch"`
-	Public               *bool             `json:"public"`
-	VisibilityLevel      *VisibilityLevel  `json:"visibility_level"`
-	SSHURLToRepo         *string           `json:"ssh_url_to_repo"`
-	HTTPURLToRepo        *string           `json:"http_url_to_repo"`
-	WebURL               *string           `json:"web_url"`
-	TagList              *[]string         `json:"tag_list"`
-	Owner                *User             `json:"owner"`
-	Name                 *string           `json:"name"`
-	NameWithNamespace    *string           `json:"name_with_namespace"`
-	Path                 *string           `json:"path"`
-	PathWithNamespace    *string           `json:"path_with_namespace"`
-	IssuesEnabled        *bool             `json:"issues_enabled"`
-	OpenIssuesCount      *int              `json:"open_issues_count"`
-	MergeRequestsEnabled *bool             `json:"merge_requests_enabled"`
-	BuildsEnabled        *bool             `json:"builds_enabled"`
-	WikiEnabled          *bool             `json:"wiki_enabled"`
-	SnippetsEnabled      *bool             `json:"snippets_enabled"`
-	CreatedAt            *time.Time        `json:"created_at,omitempty"`
-	LastActivityAt       *time.Time        `json:"last_activity_at,omitempty"`
-	CreatorID            *int              `json:"creator_id"`
-	Namespace            *ProjectNamespace `json:"namespace"`
-	Permissions          *Permissions      `json:"permissions"`
-	Archived             *bool             `json:"archived"`
-	AvatarURL            *string           `json:"avatar_url"`
-	SharedRunnersEnabled *bool             `json:"shared_runners_enabled"`
-	ForksCount           *int              `json:"forks_count"`
-	StarCount            *int              `json:"star_count"`
-	RunnersToken         *string           `json:"runners_token"`
-	PublicBuilds         *bool             `json:"public_builds"`
+	ID                   int                  `json:"id"`
+	Description          string               `json:"description"`
+	DefaultBranch        string               `json:"default_branch"`
+	Public               bool                 `json:"public"`
+	VisibilityLevel      VisibilityLevelValue `json:"visibility_level"`
+	SSHURLToRepo         string               `json:"ssh_url_to_repo"`
+	HTTPURLToRepo        string               `json:"http_url_to_repo"`
+	WebURL               string               `json:"web_url"`
+	TagList              []string             `json:"tag_list"`
+	Owner                *User                `json:"owner"`
+	Name                 string               `json:"name"`
+	NameWithNamespace    string               `json:"name_with_namespace"`
+	Path                 string               `json:"path"`
+	PathWithNamespace    string               `json:"path_with_namespace"`
+	IssuesEnabled        bool                 `json:"issues_enabled"`
+	OpenIssuesCount      int                  `json:"open_issues_count"`
+	MergeRequestsEnabled bool                 `json:"merge_requests_enabled"`
+	BuildsEnabled        bool                 `json:"builds_enabled"`
+	WikiEnabled          bool                 `json:"wiki_enabled"`
+	SnippetsEnabled      bool                 `json:"snippets_enabled"`
+	CreatedAt            *time.Time           `json:"created_at,omitempty"`
+	LastActivityAt       *time.Time           `json:"last_activity_at,omitempty"`
+	CreatorID            int                  `json:"creator_id"`
+	Namespace            *ProjectNamespace    `json:"namespace"`
+	Permissions          *Permissions         `json:"permissions"`
+	Archived             bool                 `json:"archived"`
+	AvatarURL            string               `json:"avatar_url"`
+	SharedRunnersEnabled bool                 `json:"shared_runners_enabled"`
+	ForksCount           int                  `json:"forks_count"`
+	StarCount            int                  `json:"star_count"`
+	RunnersToken         string               `json:"runners_token"`
+	PublicBuilds         bool                 `json:"public_builds"`
 }
 
 type ProjectNamespace struct {
 	CreatedAt   *time.Time `json:"created_at"`
-	Description *string    `json:"description"`
-	ID          *int       `json:"id"`
-	Name        *string    `json:"name"`
-	OwnerID     *int       `json:"owner_id"`
-	Path        *string    `json:"path"`
+	Description string     `json:"description"`
+	ID          int        `json:"id"`
+	Name        string     `json:"name"`
+	OwnerID     int        `json:"owner_id"`
+	Path        string     `json:"path"`
 	UpdatedAt   *time.Time `json:"updated_at"`
 }
 
 type Permissions struct {
-	ProjectAccess    *ProjectAccess `json:"project_access"`
-	GroupAccess      *GroupAccess   `json:"group_access"`
+	ProjectAccess *ProjectAccess `json:"project_access"`
+	GroupAccess   *GroupAccess   `json:"group_access"`
 }
 
 type ProjectAccess struct {
-	AccessLevel       AccessLevel       `json:"access_level"`
-	NotificationLevel NotificationLevel `json:"notification_level"`
+	AccessLevel       AccessLevelValue       `json:"access_level"`
+	NotificationLevel NotificationLevelValue `json:"notification_level"`
 }
 
 type GroupAccess struct {
-	AccessLevel       AccessLevel       `json:"access_level"`
-	NotificationLevel NotificationLevel `json:"notification_level"`
+	AccessLevel       AccessLevelValue       `json:"access_level"`
+	NotificationLevel NotificationLevelValue `json:"notification_level"`
 }
 
 func (s Project) String() string {
@@ -102,11 +102,11 @@ func (s Project) String() string {
 // GitLab API docs: http://doc.gitlab.com/ce/api/projects.html#list-projects
 type ListProjectsOptions struct {
 	ListOptions
-	Archived       bool   `url:"archived,omitempty" json:"archived,omitempty"`
-	OrderBy        string `url:"order_by,omitempty" json:"order_by,omitempty"`
-	Sort           string `url:"sort,omitempty" json:"sort,omitempty"`
-	Search         string `url:"search,omitempty" json:"search,omitempty"`
-	CIEnabledFirst bool   `url:"ci_enabled_first,omitempty" json:"ci_enabled_first,omitempty"`
+	Archived       *bool   `url:"archived,omitempty" json:"archived,omitempty"`
+	OrderBy        *string `url:"order_by,omitempty" json:"order_by,omitempty"`
+	Sort           *string `url:"sort,omitempty" json:"sort,omitempty"`
+	Search         *string `url:"search,omitempty" json:"search,omitempty"`
+	CIEnabledFirst *bool   `url:"ci_enabled_first,omitempty" json:"ci_enabled_first,omitempty"`
 }
 
 // ListProjects gets a list of projects accessible by the authenticated user.
@@ -169,7 +169,6 @@ func (s *ProjectsService) ListStarredProjects(
 	return p, resp, err
 }
 
-
 // ListAllProjects gets a list of all GitLab projects (admin only).
 //
 // GitLab API docs:
@@ -221,8 +220,8 @@ func (s *ProjectsService) GetProject(pid interface{}) (*Project, *Response, erro
 // http://doc.gitlab.com/ce/api/projects.html#search-for-projects-by-name
 type SearchProjectsOptions struct {
 	ListOptions
-	OrderBy string `url:"order_by,omitempty" json:"order_by,omitempty"`
-	Sort    string `url:"sort,omitempty" json:"sort,omitempty"`
+	OrderBy *string `url:"order_by,omitempty" json:"order_by,omitempty"`
+	Sort    *string `url:"sort,omitempty" json:"sort,omitempty"`
 }
 
 // SearchProjects searches for projects by name which are accessible to the
@@ -274,10 +273,10 @@ type ProjectEvent struct {
 			Homepage    string `json:"homepage"`
 		} `json:"repository"`
 		Commits []struct {
-			ID        string    `json:"id"`
-			Message   string    `json:"message"`
-			Timestamp time.Time `json:"timestamp"`
-			URL       string    `json:"url"`
+			ID        string     `json:"id"`
+			Message   string     `json:"message"`
+			Timestamp *time.Time `json:"timestamp"`
+			URL       string     `json:"url"`
 			Author    struct {
 				Name  string `json:"name"`
 				Email string `json:"email"`
@@ -332,17 +331,17 @@ func (s *ProjectsService) GetProjectEvents(
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/projects.html#create-project
 type CreateProjectOptions struct {
-	Name                 string          `url:"name,omitempty" json:"name,omitempty"`
-	Path                 string          `url:"path,omitempty" json:"path,omitempty"`
-	NamespaceID          string          `url:"namespace_id,omitempty" json:"namespace_id,omitempty"`
-	Description          string          `url:"description,omitempty" json:"description,omitempty"`
-	IssuesEnabled        bool            `url:"issues_enabled,omitempty" json:"issues_enabled,omitempty"`
-	MergeRequestsEnabled bool            `url:"merge_requests_enabled,omitempty" json:"merge_requests_enabled,omitempty"`
-	WikiEnabled          bool            `url:"wiki_enabled,omitempty" json:"wiki_enabled,omitempty"`
-	SnippetsEnabled      bool            `url:"snippets_enabled,omitempty" json:"snippets_enabled,omitempty"`
-	Public               bool            `url:"public,omitempty" json:"public,omitempty"`
-	VisibilityLevel      VisibilityLevel `url:"visibility_level,omitempty" json:"visibility_level,omitempty"`
-	ImportURL            string          `url:"import_url,omitempty" json:"import_url,omitempty"`
+	Name                 *string               `url:"name,omitempty" json:"name,omitempty"`
+	Path                 *string               `url:"path,omitempty" json:"path,omitempty"`
+	NamespaceID          *string               `url:"namespace_id,omitempty" json:"namespace_id,omitempty"`
+	Description          *string               `url:"description,omitempty" json:"description,omitempty"`
+	IssuesEnabled        *bool                 `url:"issues_enabled,omitempty" json:"issues_enabled,omitempty"`
+	MergeRequestsEnabled *bool                 `url:"merge_requests_enabled,omitempty" json:"merge_requests_enabled,omitempty"`
+	WikiEnabled          *bool                 `url:"wiki_enabled,omitempty" json:"wiki_enabled,omitempty"`
+	SnippetsEnabled      *bool                 `url:"snippets_enabled,omitempty" json:"snippets_enabled,omitempty"`
+	Public               *bool                 `url:"public,omitempty" json:"public,omitempty"`
+	VisibilityLevel      *VisibilityLevelValue `url:"visibility_level,omitempty" json:"visibility_level,omitempty"`
+	ImportURL            *string               `url:"import_url,omitempty" json:"import_url,omitempty"`
 }
 
 // CreateProject creates a new project owned by the authenticated user.
@@ -370,16 +369,16 @@ func (s *ProjectsService) CreateProject(
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/projects.html#create-project-for-user
 type CreateProjectForUserOptions struct {
-	Name                 string          `url:"name,omitempty" json:"name,omitempty"`
-	Description          string          `url:"description,omitempty" json:"description,omitempty"`
-	DefaultBranch        string          `url:"default_branch,omitempty" json:"default_branch,omitempty"`
-	IssuesEnabled        bool            `url:"issues_enabled,omitempty" json:"issues_enabled,omitempty"`
-	MergeRequestsEnabled bool            `url:"merge_requests_enabled,omitempty" json:"merge_requests_enabled,omitempty"`
-	WikiEnabled          bool            `url:"wiki_enabled,omitempty" json:"wiki_enabled,omitempty"`
-	SnippetsEnabled      bool            `url:"snippets_enabled,omitempty" json:"snippets_enabled,omitempty"`
-	Public               bool            `url:"public,omitempty" json:"public,omitempty"`
-	VisibilityLevel      VisibilityLevel `url:"visibility_level,omitempty" json:"visibility_level,omitempty"`
-	ImportURL            string          `url:"import_url,omitempty" json:"import_url,omitempty"`
+	Name                 *string               `url:"name,omitempty" json:"name,omitempty"`
+	Description          *string               `url:"description,omitempty" json:"description,omitempty"`
+	DefaultBranch        *string               `url:"default_branch,omitempty" json:"default_branch,omitempty"`
+	IssuesEnabled        *bool                 `url:"issues_enabled,omitempty" json:"issues_enabled,omitempty"`
+	MergeRequestsEnabled *bool                 `url:"merge_requests_enabled,omitempty" json:"merge_requests_enabled,omitempty"`
+	WikiEnabled          *bool                 `url:"wiki_enabled,omitempty" json:"wiki_enabled,omitempty"`
+	SnippetsEnabled      *bool                 `url:"snippets_enabled,omitempty" json:"snippets_enabled,omitempty"`
+	Public               *bool                 `url:"public,omitempty" json:"public,omitempty"`
+	VisibilityLevel      *VisibilityLevelValue `url:"visibility_level,omitempty" json:"visibility_level,omitempty"`
+	ImportURL            *string               `url:"import_url,omitempty" json:"import_url,omitempty"`
 }
 
 // CreateProjectForUser creates a new project owned by the specified user.
@@ -410,16 +409,16 @@ func (s *ProjectsService) CreateProjectForUser(
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/projects.html#edit-project
 type EditProjectOptions struct {
-	Name                 string          `url:"name,omitempty" json:"name,omitempty"`
-	Path                 string          `url:"path,omitempty" json:"path,omitempty"`
-	Description          string          `url:"description,omitempty" json:"description,omitempty"`
-	DefaultBranch        string          `url:"default_branch,omitempty" json:"default_branch,omitempty"`
-	IssuesEnabled        bool            `url:"issues_enabled,omitempty" json:"issues_enabled,omitempty"`
-	MergeRequestsEnabled bool            `url:"merge_requests_enabled,omitempty" json:"merge_requests_enabled,omitempty"`
-	WikiEnabled          bool            `url:"wiki_enabled,omitempty" json:"wiki_enabled,omitempty"`
-	SnippetsEnabled      bool            `url:"snippets_enabled,omitempty" json:"snippets_enabled,omitempty"`
-	Public               bool            `url:"public,omitempty" json:"public,omitempty"`
-	VisibilityLevel      VisibilityLevel `url:"visibility_level,omitempty" json:"visibility_level,omitempty"`
+	Name                 *string               `url:"name,omitempty" json:"name,omitempty"`
+	Path                 *string               `url:"path,omitempty" json:"path,omitempty"`
+	Description          *string               `url:"description,omitempty" json:"description,omitempty"`
+	DefaultBranch        *string               `url:"default_branch,omitempty" json:"default_branch,omitempty"`
+	IssuesEnabled        *bool                 `url:"issues_enabled,omitempty" json:"issues_enabled,omitempty"`
+	MergeRequestsEnabled *bool                 `url:"merge_requests_enabled,omitempty" json:"merge_requests_enabled,omitempty"`
+	WikiEnabled          *bool                 `url:"wiki_enabled,omitempty" json:"wiki_enabled,omitempty"`
+	SnippetsEnabled      *bool                 `url:"snippets_enabled,omitempty" json:"snippets_enabled,omitempty"`
+	Public               *bool                 `url:"public,omitempty" json:"public,omitempty"`
+	VisibilityLevel      *VisibilityLevelValue `url:"visibility_level,omitempty" json:"visibility_level,omitempty"`
 }
 
 // EditProject updates an existing project.
@@ -502,13 +501,13 @@ func (s *ProjectsService) DeleteProject(pid interface{}) (*Response, error) {
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/projects.html#list-project-team-members
 type ProjectMember struct {
-	ID          int         `json:"id"`
-	Username    string      `json:"username"`
-	Email       string      `json:"email"`
-	Name        string      `json:"name"`
-	State       string      `json:"state"`
-	CreatedAt   time.Time   `json:"created_at"`
-	AccessLevel AccessLevel `json:"access_level"`
+	ID          int              `json:"id"`
+	Username    string           `json:"username"`
+	Email       string           `json:"email"`
+	Name        string           `json:"name"`
+	State       string           `json:"state"`
+	CreatedAt   *time.Time       `json:"created_at"`
+	AccessLevel AccessLevelValue `json:"access_level"`
 }
 
 // ListProjectMembersOptions represents the available ListProjectMembers()
@@ -518,7 +517,7 @@ type ProjectMember struct {
 // http://doc.gitlab.com/ce/api/projects.html#list-project-team-members
 type ListProjectMembersOptions struct {
 	ListOptions
-	Query string `url:"query,omitempty" json:"query,omitempty"`
+	Query *string `url:"query,omitempty" json:"query,omitempty"`
 }
 
 // ListProjectMembers gets a list of a project's team members.
@@ -580,8 +579,8 @@ func (s *ProjectsService) GetProjectMember(
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/projects.html#add-project-team-member
 type AddProjectMemberOptions struct {
-	UserID      int         `url:"user_id,omitempty" json:"user_id,omitempty"`
-	AccessLevel AccessLevel `url:"access_level,omitempty" json:"access_level,omitempty"`
+	UserID      *int              `url:"user_id,omitempty" json:"user_id,omitempty"`
+	AccessLevel *AccessLevelValue `url:"access_level,omitempty" json:"access_level,omitempty"`
 }
 
 // AddProjectMember adds a user to a project team. This is an idempotent
@@ -619,7 +618,7 @@ func (s *ProjectsService) AddProjectMember(
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/projects.html#edit-project-team-member
 type EditProjectMemberOptions struct {
-	AccessLevel AccessLevel `url:"access_level,omitempty" json:"access_level,omitempty"`
+	AccessLevel *AccessLevelValue `url:"access_level,omitempty" json:"access_level,omitempty"`
 }
 
 // EditProjectMember updates a project team member to a specified access level..
@@ -679,13 +678,13 @@ func (s *ProjectsService) DeleteProjectMember(pid interface{}, user int) (*Respo
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/projects.html#list-project-hooks
 type ProjectHook struct {
-	ID                  int       `json:"id"`
-	URL                 string    `json:"url"`
-	ProjectID           int       `json:"project_id"`
-	PushEvents          bool      `json:"push_events"`
-	IssuesEvents        bool      `json:"issues_events"`
-	MergeRequestsEvents bool      `json:"merge_requests_events"`
-	CreatedAt           time.Time `json:"created_at"`
+	ID                  int        `json:"id"`
+	URL                 string     `json:"url"`
+	ProjectID           int        `json:"project_id"`
+	PushEvents          bool       `json:"push_events"`
+	IssuesEvents        bool       `json:"issues_events"`
+	MergeRequestsEvents bool       `json:"merge_requests_events"`
+	CreatedAt           *time.Time `json:"created_at"`
 }
 
 // ListProjectHooksOptions represents the available ListProjectHooks() options.
@@ -754,11 +753,11 @@ func (s *ProjectsService) GetProjectHook(
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/projects.html#add-project-hook
 type AddProjectHookOptions struct {
-	URL                 string `url:"url,omitempty" json:"url,omitempty"`
-	PushEvents          bool   `url:"push_events,omitempty" json:"push_events,omitempty"`
-	IssuesEvents        bool   `url:"issues_events,omitempty" json:"issues_events,omitempty"`
-	MergeRequestsEvents bool   `url:"merge_requests_events,omitempty" json:"merge_requests_events,omitempty"`
-	TagPushEvents       bool   `url:"tag_push_events,omitempty" json:"tag_push_events,omitempty"`
+	URL                 *string `url:"url,omitempty" json:"url,omitempty"`
+	PushEvents          *bool   `url:"push_events,omitempty" json:"push_events,omitempty"`
+	IssuesEvents        *bool   `url:"issues_events,omitempty" json:"issues_events,omitempty"`
+	MergeRequestsEvents *bool   `url:"merge_requests_events,omitempty" json:"merge_requests_events,omitempty"`
+	TagPushEvents       *bool   `url:"tag_push_events,omitempty" json:"tag_push_events,omitempty"`
 }
 
 // AddProjectHook adds a hook to a specified project.
@@ -793,11 +792,11 @@ func (s *ProjectsService) AddProjectHook(
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/projects.html#edit-project-hook
 type EditProjectHookOptions struct {
-	URL                 string `url:"url,omitempty" json:"url,omitempty"`
-	PushEvents          bool   `url:"push_events,omitempty" json:"push_events,omitempty"`
-	IssuesEvents        bool   `url:"issues_events,omitempty" json:"issues_events,omitempty"`
-	MergeRequestsEvents bool   `url:"merge_requests_events,omitempty" json:"merge_requests_events,omitempty"`
-	TagPushEvents       bool   `url:"tag_push_events,omitempty" json:"tag_push_events,omitempty"`
+	URL                 *string `url:"url,omitempty" json:"url,omitempty"`
+	PushEvents          *bool   `url:"push_events,omitempty" json:"push_events,omitempty"`
+	IssuesEvents        *bool   `url:"issues_events,omitempty" json:"issues_events,omitempty"`
+	MergeRequestsEvents *bool   `url:"merge_requests_events,omitempty" json:"merge_requests_events,omitempty"`
+	TagPushEvents       *bool   `url:"tag_push_events,omitempty" json:"tag_push_events,omitempty"`
 }
 
 // EditProjectHook edits a hook for a specified project.
@@ -858,11 +857,11 @@ func (s *ProjectsService) DeleteProjectHook(pid interface{}, hook int) (*Respons
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/projects.html#admin-fork-relation
 type ProjectForkRelation struct {
-	ID                  int       `json:"id"`
-	ForkedToProjectID   int       `json:"forked_to_project_id"`
-	ForkedFromProjectID int       `json:"forked_from_project_id"`
-	CreatedAt           time.Time `json:"created_at"`
-	UpdatedAt           time.Time `json:"updated_at"`
+	ID                  int        `json:"id"`
+	ForkedToProjectID   int        `json:"forked_to_project_id"`
+	ForkedFromProjectID int        `json:"forked_from_project_id"`
+	CreatedAt           *time.Time `json:"created_at"`
+	UpdatedAt           *time.Time `json:"updated_at"`
 }
 
 // CreateProjectForkRelation creates a forked from/to relation between

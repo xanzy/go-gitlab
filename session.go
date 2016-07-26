@@ -36,7 +36,7 @@ type Session struct {
 	Name             string      `json:"name"`
 	PrivateToken     string      `json:"private_token"`
 	Blocked          bool        `json:"blocked"`
-	CreatedAt        time.Time   `json:"created_at"`
+	CreatedAt        *time.Time  `json:"created_at"`
 	Bio              interface{} `json:"bio"`
 	Skype            string      `json:"skype"`
 	Linkedin         string      `json:"linkedin"`
@@ -54,9 +54,9 @@ type Session struct {
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/session.html#session
 type GetSessionOptions struct {
-	Login    string `url:"login,omitempty" json:"login,omitempty"`
-	Email    string `url:"email,omitempty" json:"email,omitempty"`
-	Password string `url:"password,omitempty" json:"password,omitempty"`
+	Login    *string `url:"login,omitempty" json:"login,omitempty"`
+	Email    *string `url:"email,omitempty" json:"email,omitempty"`
+	Password *string `url:"password,omitempty" json:"password,omitempty"`
 }
 
 // GetSession logs in to get private token.

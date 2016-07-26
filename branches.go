@@ -154,8 +154,8 @@ func (s *BranchesService) UnprotectBranch(
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/branches.html#create-repository-branch
 type CreateBranchOptions struct {
-	BranchName string `url:"branch_name,omitempty" json:"branch_name,omitempty"`
-	Ref        string `url:"ref,omitempty" json:"ref,omitempty"`
+	BranchName *string `url:"branch_name,omitempty" json:"branch_name,omitempty"`
+	Ref        *string `url:"ref,omitempty" json:"ref,omitempty"`
 }
 
 // CreateBranch creates branch from commit SHA or existing branch.
