@@ -2,7 +2,7 @@
 
 A GitLab API client enabling Go programs to interact with GitLab in a simple and uniform way
 
-**Documentation:** [![GoDoc](https://godoc.org/github.com/xanzy/go-gitlab?status.svg)](https://godoc.org/github.com/xanzy/go-gitlab)  
+**Documentation:** [![GoDoc](https://godoc.org/github.com/xanzy/go-gitlab?status.svg)](https://godoc.org/github.com/xanzy/go-gitlab)
 **Build Status:** [![Build Status](https://travis-ci.org/xanzy/go-gitlab.svg?branch=master)](https://travis-ci.org/xanzy/go-gitlab)
 
 ## Coverage
@@ -51,7 +51,7 @@ to list all projects for user "svanharmelen":
 
 ```go
 git := gitlab.NewClient(nil)
-opt := &ListProjectsOptions{Search: "svanharmelen"})
+opt := &ListProjectsOptions{Search: gitlab.String("svanharmelen")})
 projects, _, err := git.Projects.ListProjects(opt)
 ```
 
@@ -74,11 +74,11 @@ func main() {
 
 	// Create new project
 	p := &gitlab.CreateProjectOptions{
-		Name:                 "My Project",
-		Description:          "Just a test project to play with",
-		MergeRequestsEnabled: true,
-		SnippetsEnabled:      true,
-		VisibilityLevel:      gitlab.PublicVisibility,
+		Name:                 gitlab.String("My Project"),
+		Description:          gitlab.String("Just a test project to play with"),
+		MergeRequestsEnabled: gitlab.Bool(true),
+		SnippetsEnabled:      gitlab.Bool(true),
+		VisibilityLevel:      gitlab.VisibilityLevel(gitlab.PublicVisibility),
 	}
 	project, _, err := git.Projects.CreateProject(p)
 	if err != nil {
@@ -87,10 +87,10 @@ func main() {
 
 	// Add a new snippet
 	s := &gitlab.CreateSnippetOptions{
-		Title:           "Dummy Snippet",
-		FileName:        "snippet.go",
-		Code:            "package main....",
-		VisibilityLevel: gitlab.PublicVisibility,
+		Title:           gitlab.String("Dummy Snippet"),
+		FileName:        gitlab.String("snippet.go"),
+		Code:            gitlab.String("package main...."),
+		VisibilityLevel: gitlab.VisibilityLevel(gitlab.PublicVisibility),
 	}
 	_, _, err = git.ProjectSnippets.CreateSnippet(project.ID, s)
 	if err != nil {

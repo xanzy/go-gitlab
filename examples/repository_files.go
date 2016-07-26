@@ -12,11 +12,11 @@ func repositoryFileExample() {
 
 	// Create a new repository file
 	cf := &gitlab.CreateFileOptions{
-		FilePath:      "file.go",
-		BranchName:    "master",
-		Encoding:      "text",
-		Content:       "My file contenxst",
-		CommitMessage: "Adding a test file",
+		FilePath:      gitlab.String("file.go"),
+		BranchName:    gitlab.String("master"),
+		Encoding:      gitlab.String("text"),
+		Content:       gitlab.String("My file contents"),
+		CommitMessage: gitlab.String("Adding a test file"),
 	}
 	file, _, err := git.RepositoryFiles.CreateFile("myname/myproject", cf)
 	if err != nil {
@@ -25,11 +25,11 @@ func repositoryFileExample() {
 
 	// Update a repository file
 	uf := &gitlab.UpdateFileOptions{
-		FilePath:      file.FilePath,
-		BranchName:    "master",
-		Encoding:      "text",
-		Content:       "My file content",
-		CommitMessage: "Fixing typo",
+		FilePath:      gitlab.String(file.FilePath),
+		BranchName:    gitlab.String("master"),
+		Encoding:      gitlab.String("text"),
+		Content:       gitlab.String("My file content"),
+		CommitMessage: gitlab.String("Fixing typo"),
 	}
 	_, _, err = git.RepositoryFiles.UpdateFile("myname/myproject", uf)
 	if err != nil {
@@ -37,8 +37,8 @@ func repositoryFileExample() {
 	}
 
 	gf := &gitlab.GetFileOptions{
-		FilePath: file.FilePath,
-		Ref:      "master",
+		FilePath: gitlab.String(file.FilePath),
+		Ref:      gitlab.String("master"),
 	}
 	f, _, err := git.RepositoryFiles.GetFile("myname/myproject", gf)
 	if err != nil {

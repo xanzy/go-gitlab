@@ -30,25 +30,25 @@ type SettingsService struct {
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/settings.html
 type Settings struct {
-	ID                         int               `json:"id"`
-	DefaultProjectsLimit       int               `json:"default_projects_limit"`
-	SignupEnabled              bool              `json:"signup_enabled"`
-	SigninEnabled              bool              `json:"signin_enabled"`
-	GravatarEnabled            bool              `json:"gravatar_enabled"`
-	SignInText                 string            `json:"sign_in_text"`
-	CreatedAt                  time.Time         `json:"created_at"`
-	UpdatedAt                  time.Time         `json:"updated_at"`
-	HomePageURL                string            `json:"home_page_url"`
-	DefaultBranchProtection    int               `json:"default_branch_protection"`
-	TwitterSharingEnabled      bool              `json:"twitter_sharing_enabled"`
-	RestrictedVisibilityLevels []VisibilityLevel `json:"restricted_visibility_levels"`
-	MaxAttachmentSize          int               `json:"max_attachment_size"`
-	SessionExpireDelay         int               `json:"session_expire_delay"`
-	DefaultProjectVisibility   int               `json:"default_project_visibility"`
-	DefaultSnippetVisibility   int               `json:"default_snippet_visibility"`
-	RestrictedSignupDomains    []string          `json:"restricted_signup_domains"`
-	UserOauthApplications      bool              `json:"user_oauth_applications"`
-	AfterSignOutPath           string            `json:"after_sign_out_path"`
+	ID                         int                    `json:"id"`
+	DefaultProjectsLimit       int                    `json:"default_projects_limit"`
+	SignupEnabled              bool                   `json:"signup_enabled"`
+	SigninEnabled              bool                   `json:"signin_enabled"`
+	GravatarEnabled            bool                   `json:"gravatar_enabled"`
+	SignInText                 string                 `json:"sign_in_text"`
+	CreatedAt                  time.Time              `json:"created_at"`
+	UpdatedAt                  time.Time              `json:"updated_at"`
+	HomePageURL                string                 `json:"home_page_url"`
+	DefaultBranchProtection    int                    `json:"default_branch_protection"`
+	TwitterSharingEnabled      bool                   `json:"twitter_sharing_enabled"`
+	RestrictedVisibilityLevels []VisibilityLevelValue `json:"restricted_visibility_levels"`
+	MaxAttachmentSize          int                    `json:"max_attachment_size"`
+	SessionExpireDelay         int                    `json:"session_expire_delay"`
+	DefaultProjectVisibility   int                    `json:"default_project_visibility"`
+	DefaultSnippetVisibility   int                    `json:"default_snippet_visibility"`
+	RestrictedSignupDomains    []string               `json:"restricted_signup_domains"`
+	UserOauthApplications      bool                   `json:"user_oauth_applications"`
+	AfterSignOutPath           string                 `json:"after_sign_out_path"`
 }
 
 func (s Settings) String() string {
@@ -79,22 +79,22 @@ func (s *SettingsService) GetSettings() (*Settings, *Response, error) {
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/settings.html#change-application.settings
 type UpdateSettingsOptions struct {
-	DefaultProjectsLimit       int               `url:"default_projects_limit,omitempty" json:"default_projects_limit,omitempty"`
-	SignupEnabled              bool              `url:"signup_enabled,omitempty" json:"signup_enabled,omitempty"`
-	SigninEnabled              bool              `url:"signin_enabled,omitempty" json:"signin_enabled,omitempty"`
-	GravatarEnabled            bool              `url:"gravatar_enabled,omitempty" json:"gravatar_enabled,omitempty"`
-	SignInText                 string            `url:"sign_in_text,omitempty" json:"sign_in_text,omitempty"`
-	HomePageURL                string            `url:"home_page_url,omitempty" json:"home_page_url,omitempty"`
-	DefaultBranchProtection    int               `url:"default_branch_protection,omitempty" json:"default_branch_protection,omitempty"`
-	TwitterSharingEnabled      bool              `url:"twitter_sharing_enabled,omitempty" json:"twitter_sharing_enabled,omitempty"`
-	RestrictedVisibilityLevels []VisibilityLevel `url:"restricted_visibility_levels,omitempty" json:"restricted_visibility_levels,omitempty"`
-	MaxAttachmentSize          int               `url:"max_attachment_size,omitempty" json:"max_attachment_size,omitempty"`
-	SessionExpireDelay         int               `url:"session_expire_delay,omitempty" json:"session_expire_delay,omitempty"`
-	DefaultProjectVisibility   int               `url:"default_project_visibility,omitempty" json:"default_project_visibility,omitempty"`
-	DefaultSnippetVisibility   int               `url:"default_snippet_visibility,omitempty" json:"default_snippet_visibility,omitempty"`
-	RestrictedSignupDomains    []string          `url:"restricted_signup_domains,omitempty" json:"restricted_signup_domains,omitempty"`
-	UserOauthApplications      bool              `url:"user_oauth_applications,omitempty" json:"user_oauth_applications,omitempty"`
-	AfterSignOutPath           string            `url:"after_sign_out_path,omitempty" json:"after_sign_out_path,omitempty"`
+	DefaultProjectsLimit       *int                   `url:"default_projects_limit,omitempty" json:"default_projects_limit,omitempty"`
+	SignupEnabled              *bool                  `url:"signup_enabled,omitempty" json:"signup_enabled,omitempty"`
+	SigninEnabled              *bool                  `url:"signin_enabled,omitempty" json:"signin_enabled,omitempty"`
+	GravatarEnabled            *bool                  `url:"gravatar_enabled,omitempty" json:"gravatar_enabled,omitempty"`
+	SignInText                 *string                `url:"sign_in_text,omitempty" json:"sign_in_text,omitempty"`
+	HomePageURL                *string                `url:"home_page_url,omitempty" json:"home_page_url,omitempty"`
+	DefaultBranchProtection    *int                   `url:"default_branch_protection,omitempty" json:"default_branch_protection,omitempty"`
+	TwitterSharingEnabled      *bool                  `url:"twitter_sharing_enabled,omitempty" json:"twitter_sharing_enabled,omitempty"`
+	RestrictedVisibilityLevels []VisibilityLevelValue `url:"restricted_visibility_levels,omitempty" json:"restricted_visibility_levels,omitempty"`
+	MaxAttachmentSize          *int                   `url:"max_attachment_size,omitempty" json:"max_attachment_size,omitempty"`
+	SessionExpireDelay         *int                   `url:"session_expire_delay,omitempty" json:"session_expire_delay,omitempty"`
+	DefaultProjectVisibility   *int                   `url:"default_project_visibility,omitempty" json:"default_project_visibility,omitempty"`
+	DefaultSnippetVisibility   *int                   `url:"default_snippet_visibility,omitempty" json:"default_snippet_visibility,omitempty"`
+	RestrictedSignupDomains    []string               `url:"restricted_signup_domains,omitempty" json:"restricted_signup_domains,omitempty"`
+	UserOauthApplications      *bool                  `url:"user_oauth_applications,omitempty" json:"user_oauth_applications,omitempty"`
+	AfterSignOutPath           *string                `url:"after_sign_out_path,omitempty" json:"after_sign_out_path,omitempty"`
 }
 
 // UpdateSettings updates the application settings.

@@ -42,7 +42,7 @@ func (n Namespace) String() string {
 // GitLab API docs: http://doc.gitlab.com/ce/api/namespaces.html#list-namespaces
 type ListNamespacesOptions struct {
 	ListOptions
-	Search string `url:"search,omitempty" json:"search,omitempty"`
+	Search *string `url:"search,omitempty" json:"search,omitempty"`
 }
 
 // ListNamespaces gets a list of projects accessible by the authenticated user.
