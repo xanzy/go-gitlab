@@ -488,12 +488,7 @@ func (s *ProjectsService) DeleteProject(pid interface{}) (*Response, error) {
 		return nil, err
 	}
 
-	resp, err := s.client.Do(req, nil)
-	if err != nil {
-		return resp, err
-	}
-
-	return resp, err
+	return s.client.Do(req, nil)
 }
 
 // ProjectMember represents a project member.
@@ -665,12 +660,7 @@ func (s *ProjectsService) DeleteProjectMember(pid interface{}, user int) (*Respo
 		return nil, err
 	}
 
-	resp, err := s.client.Do(req, nil)
-	if err != nil {
-		return resp, err
-	}
-
-	return resp, err
+	return s.client.Do(req, nil)
 }
 
 // ProjectHook represents a project hook.
@@ -844,12 +834,7 @@ func (s *ProjectsService) DeleteProjectHook(pid interface{}, hook int) (*Respons
 		return nil, err
 	}
 
-	resp, err := s.client.Do(req, nil)
-	if err != nil {
-		return resp, err
-	}
-
-	return resp, err
+	return s.client.Do(req, nil)
 }
 
 // ProjectForkRelation represents a project fork relationship.
@@ -900,12 +885,7 @@ func (s *ProjectsService) DeleteProjectForkRelation(pid int) (*Response, error) 
 		return nil, err
 	}
 
-	resp, err := s.client.Do(req, nil)
-	if err != nil {
-		return resp, err
-	}
-
-	return resp, err
+	return s.client.Do(req, nil)
 }
 
 // Archives the project if the user is either admin or the project owner

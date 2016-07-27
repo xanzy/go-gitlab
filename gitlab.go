@@ -210,11 +210,7 @@ func (c *Client) SetBaseURL(urlStr string) error {
 
 	var err error
 	c.baseURL, err = url.Parse(urlStr)
-	if err != nil {
-		return err
-	}
-
-	return nil
+	return err
 }
 
 // NewRequest creates an API request. A relative URL path can be provided in

@@ -161,12 +161,7 @@ func (s *GroupsService) DeleteGroup(gid interface{}) (*Response, error) {
 		return nil, err
 	}
 
-	resp, err := s.client.Do(req, nil)
-	if err != nil {
-		return resp, err
-	}
-
-	return resp, err
+	return s.client.Do(req, nil)
 }
 
 // SearchGroup get all groups that match your string in their name or path.
@@ -319,10 +314,5 @@ func (s *GroupsService) RemoveGroupMember(gid interface{}, user int) (*Response,
 		return nil, err
 	}
 
-	resp, err := s.client.Do(req, nil)
-	if err != nil {
-		return resp, err
-	}
-
-	return resp, err
+	return s.client.Do(req, nil)
 }
