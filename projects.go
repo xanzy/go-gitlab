@@ -668,13 +668,19 @@ func (s *ProjectsService) DeleteProjectMember(pid interface{}, user int) (*Respo
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/projects.html#list-project-hooks
 type ProjectHook struct {
-	ID                  int        `json:"id"`
-	URL                 string     `json:"url"`
-	ProjectID           int        `json:"project_id"`
-	PushEvents          bool       `json:"push_events"`
-	IssuesEvents        bool       `json:"issues_events"`
-	MergeRequestsEvents bool       `json:"merge_requests_events"`
-	CreatedAt           *time.Time `json:"created_at"`
+	ID                    int        `json:"id"`
+	URL                   string     `json:"url"`
+	ProjectID             int        `json:"project_id"`
+	PushEvents            bool       `json:"push_events"`
+	IssuesEvents          bool       `json:"issues_events"`
+	MergeRequestsEvents   bool       `json:"merge_requests_events"`
+	TagPushEvents         bool       `json:"tag_push_events"`
+	NoteEvents            bool       `json:"note_events"`
+	BuildEvents           bool       `json:"build_events"`
+	PipelineEvents        bool       `json:"pipeline_events"`
+	WikiPageEvents        bool       `json:"wiki_page_events"`
+	EnableSSLVerification bool       `json:"enable_ssl_verification"`
+	CreatedAt             *time.Time `json:"created_at"`
 }
 
 // ListProjectHooksOptions represents the available ListProjectHooks() options.
@@ -743,11 +749,16 @@ func (s *ProjectsService) GetProjectHook(
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/projects.html#add-project-hook
 type AddProjectHookOptions struct {
-	URL                 *string `url:"url,omitempty" json:"url,omitempty"`
-	PushEvents          *bool   `url:"push_events,omitempty" json:"push_events,omitempty"`
-	IssuesEvents        *bool   `url:"issues_events,omitempty" json:"issues_events,omitempty"`
-	MergeRequestsEvents *bool   `url:"merge_requests_events,omitempty" json:"merge_requests_events,omitempty"`
-	TagPushEvents       *bool   `url:"tag_push_events,omitempty" json:"tag_push_events,omitempty"`
+	URL                   *string `url:"url,omitempty" json:"url,omitempty"`
+	PushEvents            *bool   `url:"push_events,omitempty" json:"push_events,omitempty"`
+	IssuesEvents          *bool   `url:"issues_events,omitempty" json:"issues_events,omitempty"`
+	MergeRequestsEvents   *bool   `url:"merge_requests_events,omitempty" json:"merge_requests_events,omitempty"`
+	TagPushEvents         *bool   `url:"tag_push_events,omitempty" json:"tag_push_events,omitempty"`
+	NoteEvents            *bool   `url:"note_events,omitempty" json:"note_events,omitempty"`
+	BuildEvents           *bool   `url:"build_events,omitempty" json:"build_events,omitempty"`
+	PipelineEvents        *bool   `url:"pipeline_events,omitempty" json:"pipeline_events,omitempty"`
+	WikiPageEvents        *bool   `url:"wiki_page_events,omitempty" json:"wiki_page_events,omitempty"`
+	EnableSSLVerification *bool   `url:"enable_ssl_verification,omitempty" json:"enable_ssl_verification,omitempty"`
 }
 
 // AddProjectHook adds a hook to a specified project.
@@ -783,10 +794,15 @@ func (s *ProjectsService) AddProjectHook(
 // http://doc.gitlab.com/ce/api/projects.html#edit-project-hook
 type EditProjectHookOptions struct {
 	URL                 *string `url:"url,omitempty" json:"url,omitempty"`
-	PushEvents          *bool   `url:"push_events,omitempty" json:"push_events,omitempty"`
-	IssuesEvents        *bool   `url:"issues_events,omitempty" json:"issues_events,omitempty"`
-	MergeRequestsEvents *bool   `url:"merge_requests_events,omitempty" json:"merge_requests_events,omitempty"`
-	TagPushEvents       *bool   `url:"tag_push_events,omitempty" json:"tag_push_events,omitempty"`
+	PushEvents            *bool   `url:"push_events,omitempty" json:"push_events,omitempty"`
+	IssuesEvents          *bool   `url:"issues_events,omitempty" json:"issues_events,omitempty"`
+	MergeRequestsEvents   *bool   `url:"merge_requests_events,omitempty" json:"merge_requests_events,omitempty"`
+	TagPushEvents         *bool   `url:"tag_push_events,omitempty" json:"tag_push_events,omitempty"`
+	NoteEvents            *bool   `url:"note_events,omitempty" json:"note_events,omitempty"`
+	BuildEvents           *bool   `url:"build_events,omitempty" json:"build_events,omitempty"`
+	PipelineEvents        *bool   `url:"pipeline_events,omitempty" json:"pipeline_events,omitempty"`
+	WikiPageEvents        *bool   `url:"wiki_page_events,omitempty" json:"wiki_page_events,omitempty"`
+	EnableSSLVerification *bool   `url:"enable_ssl_verification,omitempty" json:"enable_ssl_verification,omitempty"`
 }
 
 // EditProjectHook edits a hook for a specified project.
