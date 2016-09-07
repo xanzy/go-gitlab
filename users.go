@@ -71,8 +71,9 @@ type UserIdentity struct {
 // GitLab API docs: http://doc.gitlab.com/ce/api/users.html#list-users
 type ListUsersOptions struct {
 	ListOptions
-	Active *bool   `url:"active,omitempty" json:"active,omitempty"`
-	Search *string `url:"search,omitempty" json:"search,omitempty"`
+	Active   *bool   `url:"active,omitempty" json:"active,omitempty"`
+	Search   *string `url:"search,omitempty" json:"search,omitempty"`
+	Username *string `url:"username,omitempty" json:"username,omitempty"`
 }
 
 // ListUsers gets a list of users.
