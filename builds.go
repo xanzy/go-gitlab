@@ -67,11 +67,11 @@ type ListBuildsOptions struct {
 // For example, BuildListBuildsOptions(BuildPending | BuildRunning | BuildFailed) will build
 // an option with "pending", "running" and "failed" scopes.
 func BuildListBuildsOptions(scopes int) *ListBuildsOptions {
-	opts := &listBuildsOptions{
+	opts := &ListBuildsOptions{
 		Scope: &[]string{},
 	}
 
-	if scopes == BuildNone {
+	if scopes == 0 {
 		return nil
 	}
 
@@ -154,7 +154,7 @@ type Build struct {
 //
 // GitLab API docs:
 // http://docs.gitlab.com/ce/api/builds.html#list-project-builds
-func (s *BuildsService) ListProjectBuilds(pid interface{}, opt *ListBuildsOptions) ([]Build, *Response, error) {
+func (s *BuildsService) ListProjectBuilds(pid interface{}, opts *ListBuildsOptions) ([]Build, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
