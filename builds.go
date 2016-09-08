@@ -150,7 +150,8 @@ type Build struct {
 
 // ListProjectBuilds gets a list of builds in a project.
 //
-// The scope of builds to show, one or array of: pending, running, failed, success, canceled; showing all builds if none provided.
+// The scope of builds to show, one or array of: pending, running,
+// failed, success, canceled; showing all builds if none provided.
 //
 // GitLab API docs:
 // http://docs.gitlab.com/ce/api/builds.html#list-project-builds
@@ -175,7 +176,8 @@ func (s *BuildsService) ListProjectBuilds(pid interface{}, opts *ListBuildsOptio
 	return builds, resp, err
 }
 
-// ListCommitBuilds gets a list of builds for specific commit in a project. If the commit SHA is not found, it will respond with 404.
+// ListCommitBuilds gets a list of builds for specific commit in a
+// project. If the commit SHA is not found, it will respond with 404.
 //
 // GitLab API docs:
 // http://docs.gitlab.com/ce/api/builds.html#list-commit-builds
@@ -250,7 +252,8 @@ func (s *BuildsService) GetBuildArtifacts(pid interface{}, buildID int) (io.Read
 	return artifactsBuf, resp, err
 }
 
-// DownloadArtifactsFile download the artifacts file from the given reference name and job provided the build finished successfully.
+// DownloadArtifactsFile download the artifacts file from the given
+// reference name and job provided the build finished successfully.
 //
 // GitLab API docs:
 // http://docs.gitlab.com/ce/api/builds.html#download-the-artifacts-file
@@ -350,7 +353,8 @@ func (s *BuildsService) RetryBuild(pid interface{}, buildID int) (*Build, *Respo
 	return build, resp, err
 }
 
-// EraseBuild erases a single build of a project, removes a build artifacts and a build trace.
+// EraseBuild erases a single build of a project, removes a build
+// artifacts and a build trace.
 //
 // GitLab API docs:
 // http://docs.gitlab.com/ce/api/builds.html#erase-a-build
@@ -375,7 +379,8 @@ func (s *BuildsService) EraseBuild(pid interface{}, buildID int) (*Build, *Respo
 	return build, resp, err
 }
 
-// KeepArtifacts prevents artifacts from being deleted when expiration is set.
+// KeepArtifacts prevents artifacts from being deleted when
+// expiration is set.
 //
 // GitLab API docs:
 // http://docs.gitlab.com/ce/api/builds.html#keep-artifacts
