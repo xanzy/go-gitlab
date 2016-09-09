@@ -45,30 +45,35 @@ type Runner struct {
 	Description string `json:"description"`
 	Active      bool   `json:"active"`
 	IsShared    bool   `json:"is_shared"`
-	Name        string `json:"Name"`
+	Name        string `json:"name"`
+}
+
+// ArtifactsFile represents an artifacts file (.gitlab.yml)
+//
+// GitLab API docs: http://docs.gitlab.com/ce/api/builds.html
+type ArtifactsFile struct {
+	Filename string `json:"filename"`
+	Size     int    `json:"size"`
 }
 
 // Build represents a ci build.
 //
 // GitLab API docs: http://docs.gitlab.com/ce/api/builds.html
 type Build struct {
-	Commit        Commit     `json:"commit"`
-	Coverage      string    `json:"coverage"`
-	CreatedAt     *time.Time `json:"created_at"`
-	ArtifactsFile struct {
-		Filename string `json:"filename"`
-		Size     int    `json:"size"`
-	} `json:"artifacts_file"`
-	FinishedAt *time.Time `json:"finished_at"`
-	ID         int        `json:"id"`
-	Name       string     `json:"name"`
-	Ref        string     `json:"ref"`
-	Runner     Runner     `json:"runner"`
-	Stage      string     `json:"stage"`
-	StartedAt  *time.Time `json:"started_at"`
-	Status     string     `json:"status"`
-	Tag        bool       `json:"tag"`
-	User       User       `json:"user"`
+	Commit        Commit        `json:"commit"`
+	Coverage      string        `json:"coverage"`
+	CreatedAt     *time.Time    `json:"created_at"`
+	ArtifactsFile ArtifactsFile `json:"artifacts_file"`
+	FinishedAt    *time.Time    `json:"finished_at"`
+	ID            int           `json:"id"`
+	Name          string        `json:"name"`
+	Ref           string        `json:"ref"`
+	Runner        Runner        `json:"runner"`
+	Stage         string        `json:"stage"`
+	StartedAt     *time.Time    `json:"started_at"`
+	Status        string        `json:"status"`
+	Tag           bool          `json:"tag"`
+	User          User          `json:"user"`
 }
 
 // ListProjectBuilds gets a list of builds in a project.
