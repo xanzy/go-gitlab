@@ -24,65 +24,9 @@ import (
 	"time"
 )
 
-// BuildScope specifies five build status: pending, running, failed, success and canceled
-type BuildScope int
-
-// Build scopes: pending, running, failed, success, canceled
-const (
-	BuildPending BuildScope = 1 << iota
-	BuildRunning
-	BuildFailed
-	BuildSuccess
-	BuildCanceled
-)
-
-func buildScope(scope BuildScope) string {
-	switch scope {
-	case BuildPending:
-		return "pending"
-	case BuildRunning:
-		return "running"
-	case BuildFailed:
-		return "failed"
-	case BuildSuccess:
-		return "success"
-	case BuildCanceled:
-		return "canceled"
-	default:
-		return "null"
-	}
-}
-
 // ListBuildsOptions are options for two list apis
 type ListBuildsOptions struct {
-	Scope *[]string `url:"scope, omitempty", json:"scope, omitempty"`
-}
-
-// BuildListBuildsOptions builds ListBuildsOptions from scopes in the form of integer.
-//
-// For example, BuildListBuildsOptions(BuildPending | BuildRunning | BuildFailed) will build
-// an option with "pending", "running" and "failed" scopes.
-func BuildListBuildsOptions(scopes int) *ListBuildsOptions {
-	opts := &ListBuildsOptions{
-		Scope: &[]string{},
-	}
-
-	if scopes == 0 {
-		return nil
-	}
-
-	for i := BuildPending; i <= BuildCanceled; i = i << 1 {
-		if (scopes & int(i)) != 0 {
-			temp := append(*opts.Scope, buildScope(i))
-			opts.Scope = &temp
-		}
-	}
-
-	if len(*opts.Scope) == 0 {
-		return nil
-	}
-
-	return opts
+	Scope []string `url:"scope,omitempty", json:"scope,omitempty"`
 }
 
 // BuildsService handles communication with the ci builds related methods
@@ -97,18 +41,10 @@ type BuildsService struct {
 //
 // GitLab API docs: http://docs.gitlab.com/ce/api/builds.html
 type Build struct {
-	Commit *struct {
-		AuthorEmail string     `json:"author_email"`
-		AuthorName  string     `json:"author_name"`
-		CreatedAt   *time.Time `json:"created_at"`
-		ID          string     `json:"id"`
-		Message     string     `json:"message"`
-		ShortID     string     `json:"short_id"`
-		Title       string     `json:"title"`
-	} `json:"commit"`
-	Coverage      *string    `json:"coverage, omitempty"`
+	Commit        Commit     `json:"commit"`
+	Coverage      *string    `json:"coverage"`
 	CreatedAt     *time.Time `json:"created_at"`
-	ArtifactsFile *struct {
+	ArtifactsFile struct {
 		Filename string `json:"filename"`
 		Size     int    `json:"size"`
 	} `json:"artifacts_file"`
@@ -116,32 +52,18 @@ type Build struct {
 	ID         int        `json:"id"`
 	Name       string     `json:"name"`
 	Ref        string     `json:"ref"`
-	Runner     *struct {
+	Runner     struct {
 		ID          int    `json:"id"`
 		Description string `json:"description"`
 		Active      bool   `json:"active"`
 		IsShared    bool   `json:"is_shared"`
 		Name        string `json:"Name"`
-	} `json:"runner, omitempty"`
+	} `json:"runner"`
 	Stage     string     `json:"stage"`
 	StartedAt *time.Time `json:"started_at"`
 	Status    string     `json:"status"`
 	Tag       bool       `json:"tag"`
-	User      *struct {
-		AvatarURL  string     `json:"avatar_url"`
-		BIO        string     `json:"bio"`
-		CreatedAt  *time.Time `json:"created_at"`
-		ID         int        `json:"id"`
-		IsAdmin    bool       `json:"is_admin"`
-		Linkedin   string     `json:"linkedin"`
-		Name       string     `json:"name"`
-		Skype      string     `json:"skype"`
-		State      string     `json:"state"`
-		Twitter    string     `json:"twitter"`
-		Username   string     `json:"username"`
-		WebURL     string     `json:"web_url"`
-		WebsiteURL string     `json:"website_url"`
-	} `json:"user, omitempty"`
+	User      User       `json:"user"`
 }
 
 // ListProjectBuilds gets a list of builds in a project.
@@ -163,7 +85,7 @@ func (s *BuildsService) ListProjectBuilds(pid interface{}, opts *ListBuildsOptio
 		return nil, nil, err
 	}
 
-	builds := []Build{}
+	var builds []Build
 	resp, err := s.client.Do(req, &builds)
 	if err != nil {
 		return nil, resp, err
@@ -189,7 +111,7 @@ func (s *BuildsService) ListCommitBuilds(pid interface{}, sha string, opts *List
 		return nil, nil, err
 	}
 
-	builds := []Build{}
+	var builds []Build
 	resp, err := s.client.Do(req, &builds)
 	if err != nil {
 		return nil, resp, err
@@ -207,14 +129,14 @@ func (s *BuildsService) GetSingleBuild(pid interface{}, buildID int) (*Build, *R
 	if err != nil {
 		return nil, nil, err
 	}
-
 	u := fmt.Sprintf("projects/%s/builds/%d", project, buildID)
+
 	req, err := s.client.NewRequest("GET", u, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	build := &Build{}
+	build := new(Build)
 	resp, err := s.client.Do(req, build)
 	if err != nil {
 		return nil, resp, err
@@ -232,14 +154,14 @@ func (s *BuildsService) GetBuildArtifacts(pid interface{}, buildID int) (io.Read
 	if err != nil {
 		return nil, nil, err
 	}
-
 	u := fmt.Sprintf("projects/%s/builds/%d/artifacts", project, buildID)
+
 	req, err := s.client.NewRequest("GET", u, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	artifactsBuf := &bytes.Buffer{}
+	artifactsBuf := new(bytes.Buffer)
 	resp, err := s.client.Do(req, artifactsBuf)
 	if err != nil {
 		return nil, resp, err
@@ -258,14 +180,14 @@ func (s *BuildsService) DownloadArtifactsFile(pid interface{}, refName string, j
 	if err != nil {
 		return nil, nil, err
 	}
-
 	u := fmt.Sprintf("projects/%s/builds/artifacts/%s/download?job=%s", project, refName, job)
+
 	req, err := s.client.NewRequest("GET", u, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	artifactsBuf := &bytes.Buffer{}
+	artifactsBuf := new(bytes.Buffer)
 	resp, err := s.client.Do(req, artifactsBuf)
 	if err != nil {
 		return nil, resp, err
@@ -283,14 +205,14 @@ func (s *BuildsService) GetTraceFile(pid interface{}, buildID int) (io.Reader, *
 	if err != nil {
 		return nil, nil, err
 	}
-
 	u := fmt.Sprintf("projects/%s/builds/%d/trace", project, buildID)
+
 	req, err := s.client.NewRequest("GET", u, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	traceBuf := &bytes.Buffer{}
+	traceBuf := new(bytes.Buffer)
 	resp, err := s.client.Do(req, traceBuf)
 	if err != nil {
 		return nil, resp, err
@@ -308,14 +230,14 @@ func (s *BuildsService) CancelBuild(pid interface{}, buildID int) (*Build, *Resp
 	if err != nil {
 		return nil, nil, err
 	}
-
 	u := fmt.Sprintf("projects/%s/builds/%d/cancel", project, buildID)
+
 	req, err := s.client.NewRequest("POST", u, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	build := &Build{}
+	build := new(Build)
 	resp, err := s.client.Do(req, build)
 	if err != nil {
 		return nil, resp, err
@@ -333,14 +255,14 @@ func (s *BuildsService) RetryBuild(pid interface{}, buildID int) (*Build, *Respo
 	if err != nil {
 		return nil, nil, err
 	}
-
 	u := fmt.Sprintf("projects/%s/builds/%d/retry", project, buildID)
+
 	req, err := s.client.NewRequest("POST", u, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	build := &Build{}
+	build := new(Build)
 	resp, err := s.client.Do(req, build)
 	if err != nil {
 		return nil, resp, err
@@ -359,14 +281,14 @@ func (s *BuildsService) EraseBuild(pid interface{}, buildID int) (*Build, *Respo
 	if err != nil {
 		return nil, nil, err
 	}
-
 	u := fmt.Sprintf("projects/%s/builds/%d/erase", project, buildID)
+
 	req, err := s.client.NewRequest("POST", u, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	build := &Build{}
+	build := new(Build)
 	resp, err := s.client.Do(req, build)
 	if err != nil {
 		return nil, resp, err
@@ -385,14 +307,14 @@ func (s *BuildsService) KeepArtifacts(pid interface{}, buildID int) (*Build, *Re
 	if err != nil {
 		return nil, nil, err
 	}
-
 	u := fmt.Sprintf("projects/%s/builds/%d/artifacts/keep", project, buildID)
+
 	req, err := s.client.NewRequest("POST", u, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	build := &Build{}
+	build := new(Build)
 	resp, err := s.client.Do(req, build)
 	if err != nil {
 		return nil, resp, err
@@ -410,14 +332,14 @@ func (s *BuildsService) PlayBuild(pid interface{}, buildID int) (*Build, *Respon
 	if err != nil {
 		return nil, nil, err
 	}
-
 	u := fmt.Sprintf("projects/%s/builds/%d/play", project, buildID)
+
 	req, err := s.client.NewRequest("POST", u, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	build := &Build{}
+	build := new(Build)
 	resp, err := s.client.Do(req, build)
 	if err != nil {
 		return nil, resp, err

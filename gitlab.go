@@ -116,6 +116,7 @@ type Client struct {
 
 	// Services used for talking to different parts of the GitLab API.
 	Branches        *BranchesService
+	Builds          *BuildsService
 	Commits         *CommitsService
 	DeployKeys      *DeployKeysService
 	Groups          *GroupsService
@@ -134,7 +135,6 @@ type Client struct {
 	Settings        *SettingsService
 	SystemHooks     *SystemHooksService
 	Users           *UsersService
-	Builds          *BuildsService
 }
 
 // ListOptions specifies the optional parameters to various List methods that
@@ -173,6 +173,7 @@ func newClient(httpClient *http.Client, tokenType tokenType, token string) *Clie
 	}
 
 	c.Branches = &BranchesService{client: c}
+	c.Builds = &BuildsService{client: c}
 	c.Commits = &CommitsService{client: c}
 	c.DeployKeys = &DeployKeysService{client: c}
 	c.Groups = &GroupsService{client: c}
@@ -191,7 +192,6 @@ func newClient(httpClient *http.Client, tokenType tokenType, token string) *Clie
 	c.Settings = &SettingsService{client: c}
 	c.SystemHooks = &SystemHooksService{client: c}
 	c.Users = &UsersService{client: c}
-	c.Builds = &BuildsService{client: c}
 
 	return c
 }
