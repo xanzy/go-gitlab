@@ -27,16 +27,12 @@ import (
 // BuildScope specifies five build status: pending, running, failed, success and canceled
 type BuildScope int
 
+// Build scopes: pending, running, failed, success, canceled
 const (
-	// BuildPending is one of five builds status.
 	BuildPending BuildScope = 1 << iota
-	// BuildRunning is one of five builds status.
 	BuildRunning
-	// BuildFailed is one of five builds status.
 	BuildFailed
-	// BuildSuccess is one of five builds status.
 	BuildSuccess
-	// BuildCanceled is one of five builds status.
 	BuildCanceled
 )
 
