@@ -793,7 +793,7 @@ func (s *ProjectsService) AddProjectHook(
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/projects.html#edit-project-hook
 type EditProjectHookOptions struct {
-	URL                 *string `url:"url,omitempty" json:"url,omitempty"`
+	URL                   *string `url:"url,omitempty" json:"url,omitempty"`
 	PushEvents            *bool   `url:"push_events,omitempty" json:"push_events,omitempty"`
 	IssuesEvents          *bool   `url:"issues_events,omitempty" json:"issues_events,omitempty"`
 	MergeRequestsEvents   *bool   `url:"merge_requests_events,omitempty" json:"merge_requests_events,omitempty"`
