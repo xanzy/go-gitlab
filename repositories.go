@@ -30,87 +30,9 @@ type RepositoriesService struct {
 	client *Client
 }
 
-// Tag represents a GitLab repository tag.
-//
-// GitLab API docs:
-// http://doc.gitlab.com/ce/api/repositories.html#list-project-repository-tags
-type Tag struct {
-	Commit  *Commit `json:"commit"`
-	Name    string  `json:"name"`
-	Message string  `json:"message"`
-}
-
-func (r Tag) String() string {
-	return Stringify(r)
-}
-
-// ListTags gets a list of repository tags from a project, sorted by name in
-// reverse alphabetical order.
-//
-// GitLab API docs:
-// http://doc.gitlab.com/ce/api/repositories.html#list-project-repository-tags
-func (s *RepositoriesService) ListTags(pid interface{}) ([]*Tag, *Response, error) {
-	project, err := parseID(pid)
-	if err != nil {
-		return nil, nil, err
-	}
-	u := fmt.Sprintf("projects/%s/repository/tags", url.QueryEscape(project))
-
-	req, err := s.client.NewRequest("GET", u, nil)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	var t []*Tag
-	resp, err := s.client.Do(req, &t)
-	if err != nil {
-		return nil, resp, err
-	}
-
-	return t, resp, err
-}
-
-// CreateTagOptions represents the available CreateTag() options.
-//
-// GitLab API docs:
-// http://doc.gitlab.com/ce/api/repositories.html#create-a-new-tag
-type CreateTagOptions struct {
-	TagName *string `url:"tag_name,omitempty" json:"tag_name,omitempty"`
-	Ref     *string `url:"ref,omitempty" json:"ref,omitempty"`
-	Message *string `url:"message,omitempty" json:"message,omitempty"`
-}
-
-// CreateTag creates a new tag in the repository that points to the supplied ref.
-//
-// GitLab API docs:
-// http://doc.gitlab.com/ce/api/repositories.html#create-a-new-tag
-func (s *RepositoriesService) CreateTag(
-	pid interface{},
-	opt *CreateTagOptions) (*Tag, *Response, error) {
-	project, err := parseID(pid)
-	if err != nil {
-		return nil, nil, err
-	}
-	u := fmt.Sprintf("projects/%s/repository/tags", url.QueryEscape(project))
-
-	req, err := s.client.NewRequest("POST", u, opt)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	t := new(Tag)
-	resp, err := s.client.Do(req, t)
-	if err != nil {
-		return nil, resp, err
-	}
-
-	return t, resp, err
-}
-
 // TreeNode represents a GitLab repository file or directory.
 //
-// GitLab API docs:
-// http://doc.gitlab.com/ce/api/repositories.html#list-repository-tree
+// GitLab API docs: http://doc.gitlab.com/ce/api/repositories.html
 type TreeNode struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
