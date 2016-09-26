@@ -134,6 +134,7 @@ type Client struct {
 	Session         *SessionService
 	Settings        *SettingsService
 	SystemHooks     *SystemHooksService
+	Tags            *TagsService
 	Users           *UsersService
 }
 
@@ -191,6 +192,7 @@ func newClient(httpClient *http.Client, tokenType tokenType, token string) *Clie
 	c.Session = &SessionService{client: c}
 	c.Settings = &SettingsService{client: c}
 	c.SystemHooks = &SystemHooksService{client: c}
+	c.Tags = &TagsService{client: c}
 	c.Users = &UsersService{client: c}
 
 	return c

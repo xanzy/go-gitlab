@@ -104,6 +104,8 @@ type CreateFileOptions struct {
 	FilePath      *string `url:"file_path,omitempty" json:"file_path,omitempty"`
 	BranchName    *string `url:"branch_name,omitempty" json:"branch_name,omitempty"`
 	Encoding      *string `url:"encoding,omitempty" json:"encoding,omitempty"`
+	AuthorEmail   *string `url:"author_email,omitempty" json:"author_email,omitempty"`
+	AuthorName    *string `url:"author_name,omitempty" json:"author_name,omitempty"`
 	Content       *string `url:"content,omitempty" json:"content,omitempty"`
 	CommitMessage *string `url:"commit_message,omitempty" json:"commit_message,omitempty"`
 }
@@ -143,6 +145,8 @@ type UpdateFileOptions struct {
 	FilePath      *string `url:"file_path,omitempty" json:"file_path,omitempty"`
 	BranchName    *string `url:"branch_name,omitempty" json:"branch_name,omitempty"`
 	Encoding      *string `url:"encoding,omitempty" json:"encoding,omitempty"`
+	AuthorEmail   *string `url:"author_email,omitempty" json:"author_email,omitempty"`
+	AuthorName    *string `url:"author_name,omitempty" json:"author_name,omitempty"`
 	Content       *string `url:"content,omitempty" json:"content,omitempty"`
 	CommitMessage *string `url:"commit_message,omitempty" json:"commit_message,omitempty"`
 }
@@ -181,6 +185,8 @@ func (s *RepositoryFilesService) UpdateFile(
 type DeleteFileOptions struct {
 	FilePath      *string `url:"file_path,omitempty" json:"file_path,omitempty"`
 	BranchName    *string `url:"branch_name,omitempty" json:"branch_name,omitempty"`
+	AuthorEmail   *string `url:"author_email,omitempty" json:"author_email,omitempty"`
+	AuthorName    *string `url:"author_name,omitempty" json:"author_name,omitempty"`
 	CommitMessage *string `url:"commit_message,omitempty" json:"commit_message,omitempty"`
 }
 
