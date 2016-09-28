@@ -68,6 +68,25 @@ type Project struct {
 	PublicBuilds         bool                 `json:"public_builds"`
 }
 
+// Repository represents a repository.
+type Repository struct {
+	Name              string `json:"name"`
+	Description       string `json:"description"`
+	WebURL            string `json:"web_url"`
+	AvatarURL         string `json:"avatar_url"`
+	GitSSHURL         string `json:"git_ssh_url"`
+	GitHTTPURL        string `json:"git_http_url"`
+	Namespace         string `json:"namespace"`
+	VisibilityLevel   int    `json:"visibility_level"`
+	PathWithNamespace string `json:"path_with_namespace"`
+	DefaultBranch     string `json:"default_branch"`
+	Homepage          string `json:"homepage"`
+	URL               string `json:"url"`
+	SSHURL            string `json:"ssh_url"`
+	HTTPURL           string `json:"http_url"`
+}
+
+// ProjectNamespace represents a project namespace.
 type ProjectNamespace struct {
 	CreatedAt   *time.Time `json:"created_at"`
 	Description string     `json:"description"`
@@ -78,16 +97,19 @@ type ProjectNamespace struct {
 	UpdatedAt   *time.Time `json:"updated_at"`
 }
 
+// Permissions represents premissions.
 type Permissions struct {
 	ProjectAccess *ProjectAccess `json:"project_access"`
 	GroupAccess   *GroupAccess   `json:"group_access"`
 }
 
+// ProjectAccess represents project access.
 type ProjectAccess struct {
 	AccessLevel       AccessLevelValue       `json:"access_level"`
 	NotificationLevel NotificationLevelValue `json:"notification_level"`
 }
 
+// GroupAccess represents group access.
 type GroupAccess struct {
 	AccessLevel       AccessLevelValue       `json:"access_level"`
 	NotificationLevel NotificationLevelValue `json:"notification_level"`
@@ -261,28 +283,14 @@ type ProjectEvent struct {
 	AuthorID       int         `json:"author_id"`
 	AuthorUsername string      `json:"author_username"`
 	Data           struct {
-		Before     string `json:"before"`
-		After      string `json:"after"`
-		Ref        string `json:"ref"`
-		UserID     int    `json:"user_id"`
-		UserName   string `json:"user_name"`
-		Repository struct {
-			Name        string `json:"name"`
-			URL         string `json:"url"`
-			Description string `json:"description"`
-			Homepage    string `json:"homepage"`
-		} `json:"repository"`
-		Commits []struct {
-			ID        string     `json:"id"`
-			Message   string     `json:"message"`
-			Timestamp *time.Time `json:"timestamp"`
-			URL       string     `json:"url"`
-			Author    struct {
-				Name  string `json:"name"`
-				Email string `json:"email"`
-			} `json:"author"`
-		} `json:"commits"`
-		TotalCommitsCount int `json:"total_commits_count"`
+		Before            string      `json:"before"`
+		After             string      `json:"after"`
+		Ref               string      `json:"ref"`
+		UserID            int         `json:"user_id"`
+		UserName          string      `json:"user_name"`
+		Repository        *Repository `json:"repository"`
+		Commits           []*Commit   `json:"commits"`
+		TotalCommitsCount int         `json:"total_commits_count"`
 	} `json:"data"`
 	TargetTitle interface{} `json:"target_title"`
 }
@@ -904,8 +912,8 @@ func (s *ProjectsService) DeleteProjectForkRelation(pid int) (*Response, error) 
 	return s.client.Do(req, nil)
 }
 
-// Archives the project if the user is either admin or the project owner
-// of this project.
+// ArchiveProject archives the project if the user is either admin or the
+// project owner of this project.
 //
 // GitLab API docs:
 // http://docs.gitlab.com/ce/api/projects.html#archive-a-project
@@ -930,8 +938,8 @@ func (s *ProjectsService) ArchiveProject(pid interface{}) (*Project, *Response, 
 	return p, resp, err
 }
 
-// Unarchives the project if the user is either admin or the project owner
-// of this project.
+// UnarchiveProject unarchives the project if the user is either admin or
+// the project owner of this project.
 //
 // GitLab API docs:
 // http://docs.gitlab.com/ce/api/projects.html#unarchive-a-project
