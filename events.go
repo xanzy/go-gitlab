@@ -16,8 +16,6 @@
 
 package gitlab
 
-import "time"
-
 // PushEvent represents a push event.
 //
 // GitLab API docs:
@@ -69,21 +67,21 @@ type IssueEvent struct {
 	Project          *Project    `json:"project"`
 	Repository       *Repository `json:"repository"`
 	ObjectAttributes struct {
-		ID          int        `json:"id"`
-		Title       string     `json:"title"`
-		AssigneeID  int        `json:"assignee_id"`
-		AuthorID    int        `json:"author_id"`
-		ProjectID   int        `json:"project_id"`
-		CreatedAt   *time.Time `json:"created_at"`
-		UpdatedAt   *time.Time `json:"updated_at"`
-		Position    int        `json:"position"`
-		BranchName  string     `json:"branch_name"`
-		Description string     `json:"description"`
-		MilestoneID int        `json:"milestone_id"`
-		State       string     `json:"state"`
-		Iid         int        `json:"iid"`
-		URL         string     `json:"url"`
-		Action      string     `json:"action"`
+		ID          int    `json:"id"`
+		Title       string `json:"title"`
+		AssigneeID  int    `json:"assignee_id"`
+		AuthorID    int    `json:"author_id"`
+		ProjectID   int    `json:"project_id"`
+		CreatedAt   string `json:"created_at"` // Should be *time.Time (see Gitlab issue #21468)
+		UpdatedAt   string `json:"updated_at"` // Should be *time.Time (see Gitlab issue #21468)
+		Position    int    `json:"position"`
+		BranchName  string `json:"branch_name"`
+		Description string `json:"description"`
+		MilestoneID int    `json:"milestone_id"`
+		State       string `json:"state"`
+		Iid         int    `json:"iid"`
+		URL         string `json:"url"`
+		Action      string `json:"action"`
 	} `json:"object_attributes"`
 	Assignee struct {
 		Name      string `json:"name"`
@@ -231,8 +229,8 @@ type MergeEvent struct {
 		AuthorID        int         `json:"author_id"`
 		AssigneeID      int         `json:"assignee_id"`
 		Title           string      `json:"title"`
-		CreatedAt       *time.Time  `json:"created_at"`
-		UpdatedAt       *time.Time  `json:"updated_at"`
+		CreatedAt       string      `json:"created_at"` // Should be *time.Time (see Gitlab issue #21468)
+		UpdatedAt       string      `json:"updated_at"` // Should be *time.Time (see Gitlab issue #21468)
 		StCommits       []*Commit   `json:"st_commits"`
 		StDiffs         []*Diff     `json:"st_diffs"`
 		MilestoneID     int         `json:"milestone_id"`
