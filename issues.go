@@ -70,6 +70,7 @@ type Issue struct {
 	State     string     `json:"state"`
 	UpdatedAt *time.Time `json:"updated_at"`
 	CreatedAt *time.Time `json:"created_at"`
+	WebUrl    string     `json:"web_url"`
 }
 
 func (i Issue) String() string {
