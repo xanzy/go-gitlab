@@ -67,10 +67,14 @@ type Issue struct {
 		State     string     `json:"state"`
 		CreatedAt *time.Time `json:"created_at"`
 	} `json:"author"`
-	State     string     `json:"state"`
-	UpdatedAt *time.Time `json:"updated_at"`
-	CreatedAt *time.Time `json:"created_at"`
-	WebUrl    string     `json:"web_url"`
+	State          string     `json:"state"`
+	UpdatedAt      *time.Time `json:"updated_at"`
+	CreatedAt      *time.Time `json:"created_at"`
+	Subscribed     bool       `json:"subscribed"`
+	UserNotesCount int        `json:"user_notes_count"`
+	Confidential   bool       `json:"confidential"`
+	DueDate        string     `json:"due_date"`
+	WebURL         string     `json:"web_url"`
 }
 
 func (i Issue) String() string {
