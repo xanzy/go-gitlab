@@ -18,6 +18,7 @@ package gitlab
 
 import (
 	"fmt"
+	"github.com/google/go-querystring/query"
 	"net/url"
 	"time"
 )
@@ -277,6 +278,18 @@ func (s *MergeRequestsService) UpdateMergeRequest(
 	return m, resp, err
 }
 
+// AcceptMergeRequestOptions represents the available AcceptMergeRequest()
+// options.
+//
+// GitLab API docs:
+// http://doc.gitlab.com/ce/api/merge_requests.html#accept-mr
+type AcceptMergeRequestOptions struct {
+	Message                  *string `url:"merge_commit_message,omitempty" json:"merge_commit_message,omitempty"`
+	ShouldRemoveSourceBranch *bool   `url:"should_remove_source_branch,omitempty" json:"should_remove_source_branch,omitempty"`
+	MergeWhenBuildSucceeds   *bool   `url:"merge_when_build_succeeds,omitempty" json:"merge_when_build_succeeds,omitempty"`
+	Sha                      *string `url:"sha,omitempty" json:"sha,omitempty"`
+}
+
 // AcceptMergeRequest merges changes submitted with MR using this API. If merge
 // success you get 200 OK. If it has some conflicts and can not be merged - you
 // get 405 and error message 'Branch cannot be merged'. If merge request is
@@ -286,12 +299,21 @@ func (s *MergeRequestsService) UpdateMergeRequest(
 // http://doc.gitlab.com/ce/api/merge_requests.html#accept-mr
 func (s *MergeRequestsService) AcceptMergeRequest(
 	pid interface{},
-	mergeRequest int) (*MergeRequest, *Response, error) {
+	mergeRequest int,
+	opt *AcceptMergeRequestOptions) (*MergeRequest, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/merge_request/%d/merge", url.QueryEscape(project), mergeRequest)
+
+	v, err := query.Values(opt)
+
+	if err != nil {
+		return nil, nil, err
+	}
+
+	//For some reason putting struct to body doesn't work
+	u := fmt.Sprintf("projects/%s/merge_request/%d/merge?%s", url.QueryEscape(project), mergeRequest, v.Encode())
 
 	req, err := s.client.NewRequest("PUT", u, nil)
 	if err != nil {
