@@ -339,17 +339,23 @@ func (s *ProjectsService) GetProjectEvents(
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/projects.html#create-project
 type CreateProjectOptions struct {
-	Name                 *string               `url:"name,omitempty" json:"name,omitempty"`
-	Path                 *string               `url:"path,omitempty" json:"path,omitempty"`
-	NamespaceID          *string               `url:"namespace_id,omitempty" json:"namespace_id,omitempty"`
-	Description          *string               `url:"description,omitempty" json:"description,omitempty"`
-	IssuesEnabled        *bool                 `url:"issues_enabled,omitempty" json:"issues_enabled,omitempty"`
-	MergeRequestsEnabled *bool                 `url:"merge_requests_enabled,omitempty" json:"merge_requests_enabled,omitempty"`
-	WikiEnabled          *bool                 `url:"wiki_enabled,omitempty" json:"wiki_enabled,omitempty"`
-	SnippetsEnabled      *bool                 `url:"snippets_enabled,omitempty" json:"snippets_enabled,omitempty"`
-	Public               *bool                 `url:"public,omitempty" json:"public,omitempty"`
-	VisibilityLevel      *VisibilityLevelValue `url:"visibility_level,omitempty" json:"visibility_level,omitempty"`
-	ImportURL            *string               `url:"import_url,omitempty" json:"import_url,omitempty"`
+	Name                          *string               `url:"name,omitempty" json:"name,omitempty"`
+	Path                          *string               `url:"path,omitempty" json:"path,omitempty"`
+	NamespaceID                   *int                  `url:"namespace_id,omitempty" json:"namespace_id,omitempty"`
+	Description                   *string               `url:"description,omitempty" json:"description,omitempty"`
+	IssuesEnabled                 *bool                 `url:"issues_enabled,omitempty" json:"issues_enabled,omitempty"`
+	MergeRequestsEnabled          *bool                 `url:"merge_requests_enabled,omitempty" json:"merge_requests_enabled,omitempty"`
+	BuildsEnabled                 *bool                 `url:"builds_enabled,omitempty" json:"build_events,omitempty"`
+	WikiEnabled                   *bool                 `url:"wiki_enabled,omitempty" json:"wiki_enabled,omitempty"`
+	SnippetsEnabled               *bool                 `url:"snippets_enabled,omitempty" json:"snippets_enabled,omitempty"`
+	SharedRunnersEnabled          *bool                 `url:"shared_runners_enabled,omitempty" json:"shared_runners_enabled,omitempty"`
+	Public                        *bool                 `url:"public,omitempty" json:"public,omitempty"`
+	VisibilityLevel               *VisibilityLevelValue `url:"visibility_level,omitempty" json:"visibility_level,omitempty"`
+	ImportURL                     *string               `url:"import_url,omitempty" json:"import_url,omitempty"`
+	PublicBuilds                  *bool                 `url:"public_builds,omitempty" json:"public_builds,omitempty"`
+	OnlyAllowMergeIfBuildSucceeds *bool                 `url:"only_allow_merge_if_build_succeeds,omitempty" json:"only_allow_merge_if_build_succeeds,omitempty"`
+	LFSEnabled                    *bool                 `url:"lfs_enabled,omitempty" json:"lfs_enabled,omitempty"`
+	RequestAccessEnabled          *bool                 `url:"request_access_enabled,omitempty" json:"request_access_enabled,omitempty"`
 }
 
 // CreateProject creates a new project owned by the authenticated user.
