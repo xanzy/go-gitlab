@@ -26,7 +26,8 @@ import (
 
 // ListBuildsOptions are options for two list apis
 type ListBuildsOptions struct {
-	Scope []BuildState `url:"scope,omitempty", json:"scope,omitempty"`
+	ListOptions
+	Scope []BuildState `url:"scope,omitempty" json:"scope,omitempty"`
 }
 
 // BuildsService handles communication with the ci builds related methods
@@ -41,7 +42,7 @@ type BuildsService struct {
 //
 // GitLab API docs: http://docs.gitlab.com/ce/api/builds.html
 type Build struct {
-	Commit *Commit `json:"commit"`
+	Commit        *Commit    `json:"commit"`
 	CreatedAt     *time.Time `json:"created_at"`
 	ArtifactsFile struct {
 		Filename string `json:"filename"`
