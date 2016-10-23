@@ -52,10 +52,12 @@ func (c Commit) String() string {
 
 // ListCommitsOptions represents the available ListCommits() options.
 //
-// GitLab API docs: http://doc.gitlab.com/ce/api/commits.html#list-commits
+// GitLab API docs: https://docs.gitlab.com/ce/api/commits.html#list-repository-commits
 type ListCommitsOptions struct {
 	ListOptions
-	RefName *string `url:"ref_name,omitempty" json:"ref_name,omitempty"`
+	RefName *string   `url:"ref_name,omitempty" json:"ref_name,omitempty"`
+	Since   time.Time `url:"since,omitempty" json:"since,omitempty"`
+	Until   time.Time `url:"until,omitempty" json:"until,omitempty"`
 }
 
 // ListCommits gets a list of repository commits in a project.
