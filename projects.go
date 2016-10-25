@@ -345,7 +345,7 @@ type CreateProjectOptions struct {
 	Description                   *string               `url:"description,omitempty" json:"description,omitempty"`
 	IssuesEnabled                 *bool                 `url:"issues_enabled,omitempty" json:"issues_enabled,omitempty"`
 	MergeRequestsEnabled          *bool                 `url:"merge_requests_enabled,omitempty" json:"merge_requests_enabled,omitempty"`
-	BuildsEnabled                 *bool                 `url:"builds_enabled,omitempty" json:"build_events,omitempty"`
+	BuildsEnabled                 *bool                 `url:"builds_enabled,omitempty" json:"builds_enabled,omitempty"`
 	WikiEnabled                   *bool                 `url:"wiki_enabled,omitempty" json:"wiki_enabled,omitempty"`
 	SnippetsEnabled               *bool                 `url:"snippets_enabled,omitempty" json:"snippets_enabled,omitempty"`
 	SharedRunnersEnabled          *bool                 `url:"shared_runners_enabled,omitempty" json:"shared_runners_enabled,omitempty"`
