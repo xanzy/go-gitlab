@@ -438,58 +438,58 @@ func (s *UsersService) UnblockUser(user int) error {
 	}
 }
 
-// EMail represents an EMail.
+// Email represents an Email.
 //
-// GitLab API docs: https://doc.gitlab.com//help/api/users.md#list-emails
-type EMail struct {
+// GitLab API docs: https://doc.gitlab.com/ce/api/users.html#list-emails
+type Email struct {
 	ID    int    `json:"id"`
-	EMail string `json:"email"`
+	Email string `json:"email"`
 }
 
-// ListEMails gets a list of currently authenticated user's EMails.
+// ListEmails gets a list of currently authenticated user's Emails.
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/users.html#list-emails
-func (s *UsersService) ListEMails() ([]*EMail, *Response, error) {
+func (s *UsersService) ListEmails() ([]*Email, *Response, error) {
 	req, err := s.client.NewRequest("GET", "user/emails", nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	var k []*EMail
-	resp, err := s.client.Do(req, &k)
+	var e []*Email
+	resp, err := s.client.Do(req, &e)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return k, resp, err
+	return e, resp, err
 }
 
-// ListEMailsForUser gets a list of a specified user's EMails. Available
+// ListEmailsForUser gets a list of a specified user's Emails. Available
 // only for admin
 //
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/users.html#list-emails-for-user
-func (s *UsersService) ListEMailsForUser(user int) ([]*EMail, *Response, error) {
-	u := fmt.Sprintf("users/%d/emails", user)
+func (s *UsersService) ListEmailsForUser(uid int) ([]*Email, *Response, error) {
+	u := fmt.Sprintf("users/%d/emails", uid)
 
 	req, err := s.client.NewRequest("GET", u, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	var k []*EMail
-	resp, err := s.client.Do(req, &k)
+	var e []*Email
+	resp, err := s.client.Do(req, &e)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return k, resp, err
+	return e, resp, err
 }
 
-// GetEMail gets a single email.
+// GetEmail gets a single email.
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/users.html#single-email
-func (s *UsersService) GetEMail(eid int) (*EMail, *Response, error) {
+func (s *UsersService) GetEmail(eid int) (*Email, *Response, error) {
 	u := fmt.Sprintf("user/emails/%d", eid)
 
 	req, err := s.client.NewRequest("GET", u, nil)
@@ -497,7 +497,7 @@ func (s *UsersService) GetEMail(eid int) (*EMail, *Response, error) {
 		return nil, nil, err
 	}
 
-	e := new(EMail)
+	e := new(Email)
 	resp, err := s.client.Do(req, e)
 	if err != nil {
 		return nil, resp, err
@@ -506,23 +506,23 @@ func (s *UsersService) GetEMail(eid int) (*EMail, *Response, error) {
 	return e, resp, err
 }
 
-// AddEMailOptions represents the available AddEMail() options.
+// AddEmailOptions represents the available AddEmail() options.
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/projects.html#add-email
-type AddEMailOptions struct {
-	EMail *string `url:"email,omitempty" json:"email,omitempty"`
+type AddEmailOptions struct {
+	Email *string `url:"email,omitempty" json:"email,omitempty"`
 }
 
-// AddEMail creates a new email owned by the currently authenticated user.
+// AddEmail creates a new email owned by the currently authenticated user.
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/users.html#add-email
-func (s *UsersService) AddEMail(opt *AddEMailOptions) (*EMail, *Response, error) {
+func (s *UsersService) AddEmail(opt *AddEmailOptions) (*Email, *Response, error) {
 	req, err := s.client.NewRequest("POST", "user/emails", opt)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	e := new(EMail)
+	e := new(Email)
 	resp, err := s.client.Do(req, e)
 	if err != nil {
 		return nil, resp, err
@@ -531,21 +531,21 @@ func (s *UsersService) AddEMail(opt *AddEMailOptions) (*EMail, *Response, error)
 	return e, resp, err
 }
 
-// AddEMailForUser creates new email owned by specified user. Available only for
+// AddEmailForUser creates new email owned by specified user. Available only for
 // admin.
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/users.html#add-email-for-user
-func (s *UsersService) AddEMailForUser(
-	user int,
-	opt *AddEMailOptions) (*EMail, *Response, error) {
-	u := fmt.Sprintf("users/%d/emails", user)
+func (s *UsersService) AddEmailForUser(
+	uid int,
+	opt *AddEmailOptions) (*Email, *Response, error) {
+	u := fmt.Sprintf("users/%d/emails", uid)
 
 	req, err := s.client.NewRequest("POST", u, opt)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	e := new(EMail)
+	e := new(Email)
 	resp, err := s.client.Do(req, e)
 	if err != nil {
 		return nil, resp, err
@@ -554,14 +554,14 @@ func (s *UsersService) AddEMailForUser(
 	return e, resp, err
 }
 
-// DeleteEMail deletes email owned by currently authenticated user. This is an
+// DeleteEmail deletes email owned by currently authenticated user. This is an
 // idempotent function and calling it on a key that is already deleted or not
 // available results in 200 OK.
 //
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/users.html#delete-email-for-current-owner
-func (s *UsersService) DeleteEMail(kid int) (*Response, error) {
-	u := fmt.Sprintf("user/emails/%d", kid)
+func (s *UsersService) DeleteEmail(eid int) (*Response, error) {
+	u := fmt.Sprintf("user/emails/%d", eid)
 
 	req, err := s.client.NewRequest("DELETE", u, nil)
 	if err != nil {
@@ -571,13 +571,13 @@ func (s *UsersService) DeleteEMail(kid int) (*Response, error) {
 	return s.client.Do(req, nil)
 }
 
-// DeleteEMailForUser deletes email owned by a specified user. Available only
+// DeleteEmailForUser deletes email owned by a specified user. Available only
 // for admin.
 //
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/users.html#delete-email-for-given-user
-func (s *UsersService) DeleteEMailForUser(user int, kid int) (*Response, error) {
-	u := fmt.Sprintf("users/%d/emails/%d", user, kid)
+func (s *UsersService) DeleteEmailForUser(uid int, eid int) (*Response, error) {
+	u := fmt.Sprintf("users/%d/emails/%d", uid, eid)
 
 	req, err := s.client.NewRequest("DELETE", u, nil)
 	if err != nil {
