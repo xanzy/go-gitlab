@@ -46,6 +46,7 @@ type Issue struct {
 		ID          int        `json:"id"`
 		Title       string     `json:"title"`
 		Description string     `json:"description"`
+		StartDate   string     `json:"start_date"`
 		DueDate     string     `json:"due_date"`
 		State       string     `json:"state"`
 		UpdatedAt   *time.Time `json:"updated_at"`
