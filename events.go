@@ -21,17 +21,32 @@ package gitlab
 // GitLab API docs:
 // https://docs.gitlab.com/ce/web_hooks/web_hooks.html#push-events
 type PushEvent struct {
-	ObjectKind        string      `json:"object_kind"`
-	Before            string      `json:"before"`
-	After             string      `json:"after"`
-	Ref               string      `json:"ref"`
-	CheckoutSha       string      `json:"checkout_sha"`
-	UserID            int         `json:"user_id"`
-	UserName          string      `json:"user_name"`
-	UserEmail         string      `json:"user_email"`
-	UserAvatar        string      `json:"user_avatar"`
-	ProjectID         int         `json:"project_id"`
-	Project           *Project    `json:"project"`
+	ObjectKind  string `json:"object_kind"`
+	Before      string `json:"before"`
+	After       string `json:"after"`
+	Ref         string `json:"ref"`
+	CheckoutSha string `json:"checkout_sha"`
+	UserID      int    `json:"user_id"`
+	UserName    string `json:"user_name"`
+	UserEmail   string `json:"user_email"`
+	UserAvatar  string `json:"user_avatar"`
+	ProjectID   int    `json:"project_id"`
+	Project     struct {
+		Name              string               `json:"name"`
+		Description       string               `json:"description"`
+		AvatarURL         string               `json:"avatar_url"`
+		GitSSHURL         string               `json:"git_ssh_url"`
+		GitHTTPURL        string               `json:"git_http_url"`
+		Namespace         string               `json:"namespace"`
+		PathWithNamespace string               `json:"path_with_namespace"`
+		DefaultBranch     string               `json:"default_branch"`
+		Homepage          string               `json:"homepage"`
+		URL               string               `json:"url"`
+		SSHURL            string               `json:"ssh_url"`
+		HTTPURL           string               `json:"http_url"`
+		WebURL            string               `json:"web_url"`
+		VisibilityLevel   VisibilityLevelValue `json:"visibility_level"`
+	} `json:"project"`
 	Repository        *Repository `json:"repository"`
 	Commits           []*Commit   `json:"commits"`
 	TotalCommitsCount int         `json:"total_commits_count"`
