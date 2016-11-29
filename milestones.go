@@ -32,13 +32,14 @@ type MilestonesService struct {
 
 // Milestone represents a GitLab milestone.
 //
-// GitLab API docs: http://doc.gitlab.com/ce/api/branches.html
+// GitLab API docs: http://doc.gitlab.com/ce/api/milestones.html
 type Milestone struct {
 	ID          int        `json:"id"`
 	Iid         int        `json:"iid"`
 	ProjectID   int        `json:"project_id"`
 	Title       string     `json:"title"`
 	Description string     `json:"description"`
+	StartDate   string     `json:"start_date"`
 	DueDate     string     `json:"due_date"`
 	State       string     `json:"state"`
 	UpdatedAt   *time.Time `json:"updated_at"`
@@ -119,6 +120,7 @@ func (s *MilestonesService) GetMilestone(
 type CreateMilestoneOptions struct {
 	Title       *string `url:"title,omitempty" json:"title,omitempty"`
 	Description *string `url:"description,omitempty" json:"description,omitempty"`
+	StartDate   *string `url:"start_date,omitempty" json:"start_date,omitempty"`
 	DueDate     *string `url:"due_date,omitempty" json:"due_date,omitempty"`
 }
 
@@ -156,6 +158,7 @@ func (s *MilestonesService) CreateMilestone(
 type UpdateMilestoneOptions struct {
 	Title       *string `url:"title,omitempty" json:"title,omitempty"`
 	Description *string `url:"description,omitempty" json:"description,omitempty"`
+	StartDate   *string `url:"start_date,omitempty" json:"start_date,omitempty"`
 	DueDate     *string `url:"due_date,omitempty" json:"due_date,omitempty"`
 	StateEvent  *string `url:"state_event,omitempty" json:"state_event,omitempty"`
 }
