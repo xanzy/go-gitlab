@@ -36,23 +36,14 @@ type IssuesService struct {
 //
 // GitLab API docs: http://doc.gitlab.com/ce/api/issues.html
 type Issue struct {
-	ID          int      `json:"id"`
-	IID         int      `json:"iid"`
-	ProjectID   int      `json:"project_id"`
-	Title       string   `json:"title"`
-	Description string   `json:"description"`
-	Labels      []string `json:"labels"`
-	Milestone   struct {
-		ID          int        `json:"id"`
-		Title       string     `json:"title"`
-		Description string     `json:"description"`
-		StartDate   string     `json:"start_date"`
-		DueDate     string     `json:"due_date"`
-		State       string     `json:"state"`
-		UpdatedAt   *time.Time `json:"updated_at"`
-		CreatedAt   *time.Time `json:"created_at"`
-	} `json:"milestone"`
-	Assignee struct {
+	ID          int       `json:"id"`
+	IID         int       `json:"iid"`
+	ProjectID   int       `json:"project_id"`
+	Title       string    `json:"title"`
+	Description string    `json:"description"`
+	Labels      []string  `json:"labels"`
+	Milestone   Milestone `json:"milestone"`
+	Assignee    struct {
 		ID        int        `json:"id"`
 		Username  string     `json:"username"`
 		Email     string     `json:"email"`
