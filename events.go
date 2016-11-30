@@ -296,7 +296,7 @@ type WikiPageEvent struct {
 	} `json:"object_attributes"`
 }
 
-// PipelineEvent represents a pipline event.
+// PipelineEvent represents a pipeline event.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/web_hooks/web_hooks.html#pipeline-events
