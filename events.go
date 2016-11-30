@@ -320,16 +320,16 @@ type PipelineEvent struct {
 		AvatarURL string `json:"avatar_url"`
 	} `json:"user"`
 	Project struct {
-		Name              string      `json:"name"`
-		Description       string      `json:"description"`
-		WebURL            string      `json:"web_url"`
-		AvatarURL         interface{} `json:"avatar_url"`
-		GitSSHURL         string      `json:"git_ssh_url"`
-		GitHTTPURL        string      `json:"git_http_url"`
-		Namespace         string      `json:"namespace"`
-		VisibilityLevel   int         `json:"visibility_level"`
-		PathWithNamespace string      `json:"path_with_namespace"`
-		DefaultBranch     string      `json:"default_branch"`
+		Name              string `json:"name"`
+		Description       string `json:"description"`
+		WebURL            string `json:"web_url"`
+		AvatarURL         string `json:"avatar_url"`
+		GitSSHURL         string `json:"git_ssh_url"`
+		GitHTTPURL        string `json:"git_http_url"`
+		Namespace         string `json:"namespace"`
+		VisibilityLevel   int    `json:"visibility_level"`
+		PathWithNamespace string `json:"path_with_namespace"`
+		DefaultBranch     string `json:"default_branch"`
 	} `json:"project"`
 	Commit struct {
 		ID        string    `json:"id"`
@@ -390,15 +390,15 @@ type BuildEvent struct {
 		Email string `json:"email"`
 	} `json:"user"`
 	Commit struct {
-		ID          int         `json:"id"`
-		Sha         string      `json:"sha"`
-		Message     string      `json:"message"`
-		AuthorName  string      `json:"author_name"`
-		AuthorEmail string      `json:"author_email"`
-		Status      string      `json:"status"`
-		Duration    interface{} `json:"duration"`
-		StartedAt   interface{} `json:"started_at"`
-		FinishedAt  interface{} `json:"finished_at"`
+		ID          int    `json:"id"`
+		Sha         string `json:"sha"`
+		Message     string `json:"message"`
+		AuthorName  string `json:"author_name"`
+		AuthorEmail string `json:"author_email"`
+		Status      string `json:"status"`
+		Duration    string `json:"duration"`
+		StartedAt   string `json:"started_at"`
+		FinishedAt  string `json:"finished_at"`
 	} `json:"commit"`
 	Repository *Repository `json:"repository"`
 }
