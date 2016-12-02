@@ -181,7 +181,15 @@ func TestMergeEventUnmarshal(t *testing.T) {
 	}
 
 	if event.ObjectAttributes.ID != 99 {
-		t.Errorf("ObjectAttributes is %v, want %v", event.ObjectAttributes.ID, 99)
+		t.Errorf("ObjectAttributes.ID is %v, want %v", event.ObjectAttributes.ID, 99)
+	}
+
+	if event.ObjectAttributes.Assignee.Name != "User1" {
+		t.Errorf("Assignee.Name is %v, want %v", event.ObjectAttributes.ID, "User1")
+	}
+
+	if event.ObjectAttributes.Assignee.Username != "user1" {
+		t.Errorf("ObjectAttributes is %v, want %v", event.ObjectAttributes.Assignee.Username, "user1")
 	}
 
 }
