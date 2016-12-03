@@ -70,6 +70,11 @@ type Project struct {
 	OnlyAllowMergeIfBuildSucceeds bool                 `json:"only_allow_merge_if_build_succeeds"`
 	LFSEnabled                    bool                 `json:"lfs_enabled"`
 	RequestAccessEnabled          bool                 `json:"request_access_enabled"`
+	SharedWithGroups              []struct {
+		GroupID          int    `json:"group_id"`
+		GroupName        string `json:"group_name"`
+		GroupAccessLevel int    `json:"group_access_level"`
+	} `json:"shared_with_groups"`
 }
 
 // Repository represents a repository.
