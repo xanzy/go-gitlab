@@ -18,7 +18,6 @@ package gitlab
 
 import (
 	"fmt"
-	"github.com/google/go-querystring/query"
 	"net/url"
 	"time"
 )
@@ -284,7 +283,7 @@ func (s *MergeRequestsService) UpdateMergeRequest(
 // GitLab API docs:
 // http://doc.gitlab.com/ce/api/merge_requests.html#accept-mr
 type AcceptMergeRequestOptions struct {
-	Message                  *string `url:"merge_commit_message,omitempty" json:"merge_commit_message,omitempty"`
+	MergeCommitMessage       *string `url:"merge_commit_message,omitempty" json:"merge_commit_message,omitempty"`
 	ShouldRemoveSourceBranch *bool   `url:"should_remove_source_branch,omitempty" json:"should_remove_source_branch,omitempty"`
 	MergeWhenBuildSucceeds   *bool   `url:"merge_when_build_succeeds,omitempty" json:"merge_when_build_succeeds,omitempty"`
 	Sha                      *string `url:"sha,omitempty" json:"sha,omitempty"`
@@ -305,17 +304,9 @@ func (s *MergeRequestsService) AcceptMergeRequest(
 	if err != nil {
 		return nil, nil, err
 	}
+	u := fmt.Sprintf("projects/%s/merge_request/%d/merge", url.QueryEscape(project), mergeRequest)
 
-	v, err := query.Values(opt)
-
-	if err != nil {
-		return nil, nil, err
-	}
-
-	//For some reason putting struct to body doesn't work
-	u := fmt.Sprintf("projects/%s/merge_request/%d/merge?%s", url.QueryEscape(project), mergeRequest, v.Encode())
-
-	req, err := s.client.NewRequest("PUT", u, nil)
+	req, err := s.client.NewRequest("PUT", u, opt)
 	if err != nil {
 		return nil, nil, err
 	}
