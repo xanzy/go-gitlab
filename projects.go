@@ -139,6 +139,7 @@ type ListProjectsOptions struct {
 	Search         *string `url:"search,omitempty" json:"search,omitempty"`
 	CIEnabledFirst *bool   `url:"ci_enabled_first,omitempty" json:"ci_enabled_first,omitempty"`
 	Simple         *bool   `url:"simple,omitempty" json:"simple,omitempty"`
+	Visibility     *string `url:"visibility,omitempty" json:"visibility,omitempty"`
 }
 
 // ListProjects gets a list of projects accessible by the authenticated user.
