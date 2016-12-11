@@ -25,7 +25,7 @@ import (
 // DeployKeysService handles communication with the keys related methods
 // of the GitLab API.
 //
-// GitLab API docs: http://doc.gitlab.com/ce/api/deploy_keys.html
+// GitLab API docs: https://docs.gitlab.com/ce/api/deploy_keys.html
 type DeployKeysService struct {
 	client *Client
 }
@@ -45,7 +45,7 @@ func (k DeployKey) String() string {
 // ListDeployKeys gets a list of a project's deploy keys
 //
 // GitLab API docs:
-// http://doc.gitlab.com/ce/api/deploy_keys.html#list-deploy-keys
+// https://docs.gitlab.com/ce/api/deploy_keys.html#list-deploy-keys
 func (s *DeployKeysService) ListDeployKeys(pid interface{}) ([]*DeployKey, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -70,7 +70,7 @@ func (s *DeployKeysService) ListDeployKeys(pid interface{}) ([]*DeployKey, *Resp
 // GetDeployKey gets a single deploy key.
 //
 // GitLab API docs:
-// http://doc.gitlab.com/ce/api/deploy_keys.html#single-deploy-key
+// https://docs.gitlab.com/ce/api/deploy_keys.html#single-deploy-key
 func (s *DeployKeysService) GetDeployKey(
 	pid interface{},
 	deployKey int) (*DeployKey, *Response, error) {
@@ -97,7 +97,7 @@ func (s *DeployKeysService) GetDeployKey(
 // AddDeployKeyOptions represents the available ADDDeployKey() options.
 //
 // GitLab API docs:
-// http://doc.gitlab.com/ce/api/deploy_keys.html#add-deploy-key
+// https://docs.gitlab.com/ce/api/deploy_keys.html#add-deploy-key
 type AddDeployKeyOptions struct {
 	Title *string `url:"title,omitempty" json:"title,omitempty"`
 	Key   *string `url:"key,omitempty" json:"key,omitempty"`
@@ -108,7 +108,7 @@ type AddDeployKeyOptions struct {
 // original one was is accessible by same user.
 //
 // GitLab API docs:
-// http://doc.gitlab.com/ce/api/deploy_keys.html#add-deploy-key
+// https://docs.gitlab.com/ce/api/deploy_keys.html#add-deploy-key
 func (s *DeployKeysService) AddDeployKey(
 	pid interface{},
 	opt *AddDeployKeyOptions) (*DeployKey, *Response, error) {
@@ -135,7 +135,7 @@ func (s *DeployKeysService) AddDeployKey(
 // DeleteDeployKey deletes a deploy key from a project.
 //
 // GitLab API docs:
-// http://doc.gitlab.com/ce/api/deploy_keys.html#delete-deploy-key
+// https://docs.gitlab.com/ce/api/deploy_keys.html#delete-deploy-key
 func (s *DeployKeysService) DeleteDeployKey(pid interface{}, deployKey int) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
