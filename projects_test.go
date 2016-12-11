@@ -14,20 +14,19 @@ func TestListProjects(t *testing.T) {
 	mux.HandleFunc("/projects", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
 		testFormValues(t, r, values{
-			"page":             "2",
-			"per_page":         "3",
-			"archived":         "true",
-			"order_by":         "name",
-			"sort":             "asc",
-			"search":           "query",
-			"ci_enabled_first": "true",
-			"simple":           "true",
-			"visibility":       "public",
+			"page":       "2",
+			"per_page":   "3",
+			"archived":   "true",
+			"order_by":   "name",
+			"sort":       "asc",
+			"search":     "query",
+			"simple":     "true",
+			"visibility": "public",
 		})
 		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
 	})
 
-	opt := &ListProjectsOptions{ListOptions{2, 3}, Bool(true), String("name"), String("asc"), String("query"), Bool(true), Bool(true), String("public")}
+	opt := &ListProjectsOptions{ListOptions{2, 3}, Bool(true), String("name"), String("asc"), String("query"), Bool(true), String("public")}
 	projects, _, err := client.Projects.ListProjects(opt)
 
 	if err != nil {
@@ -47,20 +46,19 @@ func TestListOwnedProjects(t *testing.T) {
 	mux.HandleFunc("/projects/owned", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
 		testFormValues(t, r, values{
-			"page":             "2",
-			"per_page":         "3",
-			"archived":         "true",
-			"order_by":         "name",
-			"sort":             "asc",
-			"search":           "query",
-			"ci_enabled_first": "true",
-			"simple":           "true",
-			"visibility":       "public",
+			"page":       "2",
+			"per_page":   "3",
+			"archived":   "true",
+			"order_by":   "name",
+			"sort":       "asc",
+			"search":     "query",
+			"simple":     "true",
+			"visibility": "public",
 		})
 		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
 	})
 
-	opt := &ListProjectsOptions{ListOptions{2, 3}, Bool(true), String("name"), String("asc"), String("query"), Bool(true), Bool(true), String("public")}
+	opt := &ListProjectsOptions{ListOptions{2, 3}, Bool(true), String("name"), String("asc"), String("query"), Bool(true), String("public")}
 	projects, _, err := client.Projects.ListOwnedProjects(opt)
 
 	if err != nil {
@@ -80,20 +78,19 @@ func TestListStarredProjects(t *testing.T) {
 	mux.HandleFunc("/projects/starred", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
 		testFormValues(t, r, values{
-			"page":             "2",
-			"per_page":         "3",
-			"archived":         "true",
-			"order_by":         "name",
-			"sort":             "asc",
-			"search":           "query",
-			"ci_enabled_first": "true",
-			"simple":           "true",
-			"visibility":       "public",
+			"page":       "2",
+			"per_page":   "3",
+			"archived":   "true",
+			"order_by":   "name",
+			"sort":       "asc",
+			"search":     "query",
+			"simple":     "true",
+			"visibility": "public",
 		})
 		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
 	})
 
-	opt := &ListProjectsOptions{ListOptions{2, 3}, Bool(true), String("name"), String("asc"), String("query"), Bool(true), Bool(true), String("public")}
+	opt := &ListProjectsOptions{ListOptions{2, 3}, Bool(true), String("name"), String("asc"), String("query"), Bool(true), String("public")}
 	projects, _, err := client.Projects.ListStarredProjects(opt)
 
 	if err != nil {
@@ -113,20 +110,19 @@ func TestListAllProjects(t *testing.T) {
 	mux.HandleFunc("/projects/all", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
 		testFormValues(t, r, values{
-			"page":             "2",
-			"per_page":         "3",
-			"archived":         "true",
-			"order_by":         "name",
-			"sort":             "asc",
-			"search":           "query",
-			"ci_enabled_first": "true",
-			"simple":           "true",
-			"visibility":       "public",
+			"page":       "2",
+			"per_page":   "3",
+			"archived":   "true",
+			"order_by":   "name",
+			"sort":       "asc",
+			"search":     "query",
+			"simple":     "true",
+			"visibility": "public",
 		})
 		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
 	})
 
-	opt := &ListProjectsOptions{ListOptions{2, 3}, Bool(true), String("name"), String("asc"), String("query"), Bool(true), Bool(true), String("public")}
+	opt := &ListProjectsOptions{ListOptions{2, 3}, Bool(true), String("name"), String("asc"), String("query"), Bool(true), String("public")}
 	projects, _, err := client.Projects.ListAllProjects(opt)
 
 	if err != nil {

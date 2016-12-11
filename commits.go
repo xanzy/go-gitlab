@@ -25,14 +25,14 @@ import (
 // CommitsService handles communication with the commit related methods
 // of the GitLab API.
 //
-// GitLab API docs: http://doc.gitlab.com/ce/api/commits.html
+// GitLab API docs: https://docs.gitlab.com/ce/api/commits.html
 type CommitsService struct {
 	client *Client
 }
 
 // Commit represents a GitLab commit.
 //
-// GitLab API docs: http://doc.gitlab.com/ce/api/commits.html
+// GitLab API docs: https://docs.gitlab.com/ce/api/commits.html
 type Commit struct {
 	ID            string     `json:"id"`
 	ShortID       string     `json:"short_id"`
@@ -62,7 +62,7 @@ type ListCommitsOptions struct {
 
 // ListCommits gets a list of repository commits in a project.
 //
-// GitLab API docs: http://doc.gitlab.com/ce/api/commits.html#list-commits
+// GitLab API docs: https://docs.gitlab.com/ce/api/commits.html#list-commits
 func (s *CommitsService) ListCommits(
 	pid interface{},
 	opt *ListCommitsOptions) ([]*Commit, *Response, error) {
@@ -89,7 +89,7 @@ func (s *CommitsService) ListCommits(
 // GetCommit gets a specific commit identified by the commit hash or name of a
 // branch or tag.
 //
-// GitLab API docs: http://doc.gitlab.com/ce/api/commits.html#get-a-single-commit
+// GitLab API docs: https://docs.gitlab.com/ce/api/commits.html#get-a-single-commit
 func (s *CommitsService) GetCommit(
 	pid interface{},
 	sha string) (*Commit, *Response, error) {
@@ -115,7 +115,7 @@ func (s *CommitsService) GetCommit(
 
 // Diff represents a GitLab diff.
 //
-// GitLab API docs: http://doc.gitlab.com/ce/api/commits.html
+// GitLab API docs: https://docs.gitlab.com/ce/api/commits.html
 type Diff struct {
 	Diff        string `json:"diff"`
 	NewPath     string `json:"new_path"`
@@ -134,7 +134,7 @@ func (d Diff) String() string {
 // GetCommitDiff gets the diff of a commit in a project..
 //
 // GitLab API docs:
-// http://doc.gitlab.com/ce/api/commits.html#get-the-diff-of-a-commit
+// https://docs.gitlab.com/ce/api/commits.html#get-the-diff-of-a-commit
 func (s *CommitsService) GetCommitDiff(
 	pid interface{},
 	sha string) ([]*Diff, *Response, error) {
@@ -160,7 +160,7 @@ func (s *CommitsService) GetCommitDiff(
 
 // CommitComment represents a GitLab commit comment.
 //
-// GitLab API docs: http://doc.gitlab.com/ce/api/commits.html
+// GitLab API docs: https://docs.gitlab.com/ce/api/commits.html
 type CommitComment struct {
 	Note     string `json:"note"`
 	Path     string `json:"path"`
@@ -186,7 +186,7 @@ func (c CommitComment) String() string {
 // GetCommitComments gets the comments of a commit in a project.
 //
 // GitLab API docs:
-// http://doc.gitlab.com/ce/api/commits.html#get-the-comments-of-a-commit
+// https://docs.gitlab.com/ce/api/commits.html#get-the-comments-of-a-commit
 func (s *CommitsService) GetCommitComments(
 	pid interface{},
 	sha string) ([]*CommitComment, *Response, error) {
@@ -214,7 +214,7 @@ func (s *CommitsService) GetCommitComments(
 // options.
 //
 // GitLab API docs:
-// http://doc.gitlab.com/ce/api/commits.html#post-comment-to-commit
+// https://docs.gitlab.com/ce/api/commits.html#post-comment-to-commit
 type PostCommitCommentOptions struct {
 	Note     *string `url:"note,omitempty" json:"note,omitempty"`
 	Path     *string `url:"path" json:"path"`
@@ -227,7 +227,7 @@ type PostCommitCommentOptions struct {
 // line_old are required.
 //
 // GitLab API docs:
-// http://doc.gitlab.com/ce/api/commits.html#post-comment-to-commit
+// https://docs.gitlab.com/ce/api/commits.html#post-comment-to-commit
 func (s *CommitsService) PostCommitComment(
 	pid interface{},
 	sha string,
@@ -254,7 +254,7 @@ func (s *CommitsService) PostCommitComment(
 
 // GetCommitStatusesOptions represents the available GetCommitStatuses() options.
 //
-// GitLab API docs: http://doc.gitlab.com/ce/api/commits.html#get-the-status-of-a-commit
+// GitLab API docs: https://docs.gitlab.com/ce/api/commits.html#get-the-status-of-a-commit
 type GetCommitStatusesOptions struct {
 	Ref   *string `url:"ref,omitempty" json:"ref,omitempty"`
 	Stage *string `url:"stage,omitempty" json:"stage,omitempty"`
@@ -264,7 +264,7 @@ type GetCommitStatusesOptions struct {
 
 // CommitStatus represents a GitLab commit status.
 //
-// GitLab API docs: http://doc.gitlab.com/ce/api/commits.html#get-the-status-of-a-commit
+// GitLab API docs: https://docs.gitlab.com/ce/api/commits.html#get-the-status-of-a-commit
 type CommitStatus struct {
 	ID          int        `json:"id"`
 	SHA         string     `json:"sha"`
@@ -281,7 +281,7 @@ type CommitStatus struct {
 
 // GetCommitStatuses gets the statuses of a commit in a project.
 //
-// GitLab API docs: http://doc.gitlab.com/ce/api/commits.html#get-the-status-of-a-commit
+// GitLab API docs: https://docs.gitlab.com/ce/api/commits.html#get-the-status-of-a-commit
 func (s *CommitsService) GetCommitStatuses(
 	pid interface{},
 	sha string,
@@ -308,7 +308,7 @@ func (s *CommitsService) GetCommitStatuses(
 
 // SetCommitStatusOptions represents the available SetCommitStatus() options.
 //
-// GitLab API docs: http://doc.gitlab.com/ce/api/commits.html#post-the-status-to-commit
+// GitLab API docs: https://docs.gitlab.com/ce/api/commits.html#post-the-status-to-commit
 type SetCommitStatusOptions struct {
 	State       BuildState `url:"state" json:"state"`
 	Ref         *string    `url:"ref,omitempty" json:"ref,omitempty"`
@@ -330,7 +330,7 @@ const (
 
 // SetCommitStatus sets the status of a commit in a project.
 //
-// GitLab API docs: http://doc.gitlab.com/ce/api/commits.html#post-the-status-to-commit
+// GitLab API docs: https://docs.gitlab.com/ce/api/commits.html#post-the-status-to-commit
 func (s *CommitsService) SetCommitStatus(
 	pid interface{},
 	sha string,

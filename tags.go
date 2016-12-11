@@ -24,14 +24,14 @@ import (
 // TagsService handles communication with the tags related methods
 // of the GitLab API.
 //
-// GitLab API docs: http://doc.gitlab.com/ce/api/tags.html
+// GitLab API docs: https://docs.gitlab.com/ce/api/tags.html
 type TagsService struct {
 	client *Client
 }
 
 // Tag represents a GitLab tag.
 //
-// GitLab API docs: http://doc.gitlab.com/ce/api/tags.html
+// GitLab API docs: https://docs.gitlab.com/ce/api/tags.html
 type Tag struct {
 	Commit  *Commit `json:"commit"`
 	Name    string  `json:"name"`
@@ -97,7 +97,7 @@ func (s *TagsService) GetSingleTag(pid interface{}, tag string) (*Tag, *Response
 // CreateTagOptions represents the available CreateTag() options.
 //
 // GitLab API docs:
-// http://doc.gitlab.com/ce/api/tags.html#create-a-new-tag
+// https://docs.gitlab.com/ce/api/tags.html#create-a-new-tag
 type CreateTagOptions struct {
 	TagName *string `url:"tag_name,omitempty" json:"tag_name,omitempty"`
 	Ref     *string `url:"ref,omitempty" json:"ref,omitempty"`
