@@ -25,14 +25,14 @@ import (
 // MergeRequestsService handles communication with the merge requests related
 // methods of the GitLab API.
 //
-// GitLab API docs: http://doc.gitlab.com/ce/api/merge_requests.html
+// GitLab API docs: https://docs.gitlab.com/ce/api/merge_requests.html
 type MergeRequestsService struct {
 	client *Client
 }
 
 // MergeRequest represents a GitLab merge request.
 //
-// GitLab API docs: http://doc.gitlab.com/ce/api/merge_requests.html
+// GitLab API docs: https://docs.gitlab.com/ce/api/merge_requests.html
 type MergeRequest struct {
 	ID             int        `json:"id"`
 	IID            int        `json:"iid"`
@@ -101,7 +101,7 @@ func (m MergeRequest) String() string {
 // options.
 //
 // GitLab API docs:
-// http://doc.gitlab.com/ce/api/merge_requests.html#list-merge-requests
+// https://docs.gitlab.com/ce/api/merge_requests.html#list-merge-requests
 type ListMergeRequestsOptions struct {
 	ListOptions
 	IID     *int    `url:"iid,omitempty" json:"iid,omitempty"`
@@ -116,7 +116,7 @@ type ListMergeRequestsOptions struct {
 // per_page can be used to restrict the list of merge requests.
 //
 // GitLab API docs:
-// http://doc.gitlab.com/ce/api/merge_requests.html#list-merge-requests
+// https://docs.gitlab.com/ce/api/merge_requests.html#list-merge-requests
 func (s *MergeRequestsService) ListMergeRequests(
 	pid interface{},
 	opt *ListMergeRequestsOptions) ([]*MergeRequest, *Response, error) {
@@ -143,7 +143,7 @@ func (s *MergeRequestsService) ListMergeRequests(
 // GetMergeRequest shows information about a single merge request.
 //
 // GitLab API docs:
-// http://doc.gitlab.com/ce/api/merge_requests.html#get-single-mr
+// https://docs.gitlab.com/ce/api/merge_requests.html#get-single-mr
 func (s *MergeRequestsService) GetMergeRequest(
 	pid interface{},
 	mergeRequest int) (*MergeRequest, *Response, error) {
@@ -171,7 +171,7 @@ func (s *MergeRequestsService) GetMergeRequest(
 // its files and changes.
 //
 // GitLab API docs:
-// http://doc.gitlab.com/ce/api/merge_requests.html#get-single-mr-changes
+// https://docs.gitlab.com/ce/api/merge_requests.html#get-single-mr-changes
 func (s *MergeRequestsService) GetMergeRequestChanges(
 	pid interface{},
 	mergeRequest int) (*MergeRequest, *Response, error) {
@@ -199,7 +199,7 @@ func (s *MergeRequestsService) GetMergeRequestChanges(
 // options.
 //
 // GitLab API docs:
-// http://doc.gitlab.com/ce/api/merge_requests.html#create-mr
+// https://docs.gitlab.com/ce/api/merge_requests.html#create-mr
 type CreateMergeRequestOptions struct {
 	Title           *string `url:"title,omitempty" json:"title,omitempty"`
 	Description     *string `url:"description,omitempty" json:"description,omitempty"`
@@ -212,7 +212,7 @@ type CreateMergeRequestOptions struct {
 // CreateMergeRequest creates a new merge request.
 //
 // GitLab API docs:
-// http://doc.gitlab.com/ce/api/merge_requests.html#create-mr
+// https://docs.gitlab.com/ce/api/merge_requests.html#create-mr
 func (s *MergeRequestsService) CreateMergeRequest(
 	pid interface{},
 	opt *CreateMergeRequestOptions) (*MergeRequest, *Response, error) {
@@ -240,7 +240,7 @@ func (s *MergeRequestsService) CreateMergeRequest(
 // options.
 //
 // GitLab API docs:
-// http://doc.gitlab.com/ce/api/merge_requests.html#update-mr
+// https://docs.gitlab.com/ce/api/merge_requests.html#update-mr
 type UpdateMergeRequestOptions struct {
 	Title        *string `url:"title,omitempty" json:"title,omitempty"`
 	Description  *string `url:"description,omitempty" json:"description,omitempty"`
@@ -252,7 +252,7 @@ type UpdateMergeRequestOptions struct {
 // UpdateMergeRequest updates an existing project milestone.
 //
 // GitLab API docs:
-// http://doc.gitlab.com/ce/api/merge_requests.html#update-mr
+// https://docs.gitlab.com/ce/api/merge_requests.html#update-mr
 func (s *MergeRequestsService) UpdateMergeRequest(
 	pid interface{},
 	mergeRequest int,
@@ -277,23 +277,36 @@ func (s *MergeRequestsService) UpdateMergeRequest(
 	return m, resp, err
 }
 
+// AcceptMergeRequestOptions represents the available AcceptMergeRequest()
+// options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/merge_requests.html#accept-mr
+type AcceptMergeRequestOptions struct {
+	MergeCommitMessage       *string `url:"merge_commit_message,omitempty" json:"merge_commit_message,omitempty"`
+	ShouldRemoveSourceBranch *bool   `url:"should_remove_source_branch,omitempty" json:"should_remove_source_branch,omitempty"`
+	MergeWhenBuildSucceeds   *bool   `url:"merge_when_build_succeeds,omitempty" json:"merge_when_build_succeeds,omitempty"`
+	Sha                      *string `url:"sha,omitempty" json:"sha,omitempty"`
+}
+
 // AcceptMergeRequest merges changes submitted with MR using this API. If merge
 // success you get 200 OK. If it has some conflicts and can not be merged - you
 // get 405 and error message 'Branch cannot be merged'. If merge request is
 // already merged or closed - you get 405 and error message 'Method Not Allowed'
 //
 // GitLab API docs:
-// http://doc.gitlab.com/ce/api/merge_requests.html#accept-mr
+// https://docs.gitlab.com/ce/api/merge_requests.html#accept-mr
 func (s *MergeRequestsService) AcceptMergeRequest(
 	pid interface{},
-	mergeRequest int) (*MergeRequest, *Response, error) {
+	mergeRequest int,
+	opt *AcceptMergeRequestOptions) (*MergeRequest, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/merge_request/%d/merge", url.QueryEscape(project), mergeRequest)
 
-	req, err := s.client.NewRequest("PUT", u, nil)
+	req, err := s.client.NewRequest("PUT", u, opt)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -309,7 +322,7 @@ func (s *MergeRequestsService) AcceptMergeRequest(
 
 // MergeRequestComment represents a GitLab merge request comment.
 //
-// GitLab API docs: http://doc.gitlab.com/ce/api/merge_requests.html
+// GitLab API docs: https://docs.gitlab.com/ce/api/merge_requests.html
 type MergeRequestComment struct {
 	Note   string `json:"note"`
 	Author struct {
@@ -330,7 +343,7 @@ func (m MergeRequestComment) String() string {
 // options.
 //
 // GitLab API docs:
-// http://doc.gitlab.com/ce/api/merge_requests.html#get-the-comments-on-a-mr
+// https://docs.gitlab.com/ce/api/merge_requests.html#get-the-comments-on-a-mr
 type GetMergeRequestCommentsOptions struct {
 	ListOptions
 }
@@ -339,7 +352,7 @@ type GetMergeRequestCommentsOptions struct {
 // request.
 //
 // GitLab API docs:
-// http://doc.gitlab.com/ce/api/merge_requests.html#get-the-comments-on-a-mr
+// https://docs.gitlab.com/ce/api/merge_requests.html#get-the-comments-on-a-mr
 func (s *MergeRequestsService) GetMergeRequestComments(
 	pid interface{},
 	mergeRequest int,
@@ -368,7 +381,7 @@ func (s *MergeRequestsService) GetMergeRequestComments(
 // PostMergeRequestComment() options.
 //
 // GitLab API docs:
-// http://doc.gitlab.com/ce/api/commits.html#post-comment-to-mr
+// https://docs.gitlab.com/ce/api/commits.html#post-comment-to-mr
 type PostMergeRequestCommentOptions struct {
 	Note *string `url:"note,omitempty" json:"note,omitempty"`
 }
@@ -376,7 +389,7 @@ type PostMergeRequestCommentOptions struct {
 // PostMergeRequestComment dds a comment to a merge request.
 //
 // GitLab API docs:
-// http://doc.gitlab.com/ce/api/commits.html#post-comment-to-mr
+// https://docs.gitlab.com/ce/api/commits.html#post-comment-to-mr
 func (s *MergeRequestsService) PostMergeRequestComment(
 	pid interface{},
 	mergeRequest int,

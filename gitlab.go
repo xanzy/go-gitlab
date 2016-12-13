@@ -38,12 +38,12 @@ const (
 
 // tokenType represents a token type within GitLab.
 //
-// GitLab API docs: http://doc.gitlab.com/ce/api/
+// GitLab API docs: https://docs.gitlab.com/ce/api/
 type tokenType int
 
 // List of available token type
 //
-// GitLab API docs: http://doc.gitlab.com/ce/api/
+// GitLab API docs: https://docs.gitlab.com/ce/api/
 const (
 	privateToken tokenType = iota
 	oAuthToken
@@ -51,12 +51,12 @@ const (
 
 // AccessLevelValue represents a permission level within GitLab.
 //
-// GitLab API docs: http://doc.gitlab.com/ce/permissions/permissions.html
+// GitLab API docs: https://docs.gitlab.com/ce/permissions/permissions.html
 type AccessLevelValue int
 
 // List of available access levels
 //
-// GitLab API docs: http://doc.gitlab.com/ce/permissions/permissions.html
+// GitLab API docs: https://docs.gitlab.com/ce/permissions/permissions.html
 const (
 	GuestPermissions     AccessLevelValue = 10
 	ReporterPermissions  AccessLevelValue = 20
@@ -67,12 +67,12 @@ const (
 
 // NotificationLevelValue represents a notification level within Gitlab.
 //
-// GitLab API docs: http://doc.gitlab.com/ce/api/
+// GitLab API docs: https://docs.gitlab.com/ce/api/
 type NotificationLevelValue int
 
 // List of available notification levels
 //
-// GitLab API docs: http://doc.gitlab.com/ce/api/
+// GitLab API docs: https://docs.gitlab.com/ce/api/
 const (
 	DisabledNotifications NotificationLevelValue = iota
 	ParticipatingNotifications
@@ -83,12 +83,12 @@ const (
 
 // VisibilityLevelValue represents a visibility level within GitLab.
 //
-// GitLab API docs: http://doc.gitlab.com/ce/api/
+// GitLab API docs: https://docs.gitlab.com/ce/api/
 type VisibilityLevelValue int
 
 // List of available visibility levels
 //
-// GitLab API docs: http://doc.gitlab.com/ce/api/
+// GitLab API docs: https://docs.gitlab.com/ce/api/
 const (
 	PrivateVisibility  VisibilityLevelValue = 0
 	InternalVisibility VisibilityLevelValue = 10
@@ -353,7 +353,6 @@ func (c *Client) Do(req *http.Request, v interface{}) (*Response, error) {
 	if err != nil {
 		return nil, err
 	}
-
 	defer resp.Body.Close()
 
 	response := newResponse(resp)
@@ -391,7 +390,7 @@ func parseID(id interface{}) (string, error) {
 // An ErrorResponse reports one or more errors caused by an API request.
 //
 // GitLab API docs:
-// http://doc.gitlab.com/ce/api/README.html#data-validation-and-error-reporting
+// https://docs.gitlab.com/ce/api/README.html#data-validation-and-error-reporting
 type ErrorResponse struct {
 	Response *http.Response // HTTP response that caused this error
 	Message  string         `json:"message"` // error message
@@ -419,7 +418,7 @@ func (r *ErrorResponse) Error() string {
 //         another resource has the same valid as this field
 //
 // GitLab API docs:
-// http://doc.gitlab.com/ce/api/README.html#data-validation-and-error-reporting
+// https://docs.gitlab.com/ce/api/README.html#data-validation-and-error-reporting
 type Error struct {
 	Resource string `json:"resource"` // resource on which the error occurred
 	Field    string `json:"field"`    // field on which the error occurred

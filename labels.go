@@ -24,14 +24,14 @@ import (
 // LabelsService handles communication with the label related methods
 // of the GitLab API.
 //
-// GitLab API docs: http://doc.gitlab.com/ce/api/labels.html
+// GitLab API docs: https://docs.gitlab.com/ce/api/labels.html
 type LabelsService struct {
 	client *Client
 }
 
 // Label represents a GitLab label.
 //
-// GitLab API docs: http://doc.gitlab.com/ce/api/labels.html
+// GitLab API docs: https://docs.gitlab.com/ce/api/labels.html
 type Label struct {
 	Name                   string `json:"name"`
 	Color                  string `json:"color"`
@@ -47,7 +47,7 @@ func (l Label) String() string {
 
 // ListLabels gets all labels for given project.
 //
-// GitLab API docs: http://doc.gitlab.com/ce/api/labels.html#list-labels
+// GitLab API docs: https://docs.gitlab.com/ce/api/labels.html#list-labels
 func (s *LabelsService) ListLabels(pid interface{}) ([]*Label, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -71,7 +71,7 @@ func (s *LabelsService) ListLabels(pid interface{}) ([]*Label, *Response, error)
 
 // CreateLabelOptions represents the available CreateLabel() options.
 //
-// GitLab API docs: http://doc.gitlab.com/ce/api/labels.html#create-a-new-label
+// GitLab API docs: https://docs.gitlab.com/ce/api/labels.html#create-a-new-label
 type CreateLabelOptions struct {
 	Name        *string `url:"name,omitempty" json:"name,omitempty"`
 	Color       *string `url:"color,omitempty" json:"color,omitempty"`
@@ -81,7 +81,7 @@ type CreateLabelOptions struct {
 // CreateLabel creates a new label for given repository with given name and
 // color.
 //
-// GitLab API docs: http://doc.gitlab.com/ce/api/labels.html#create-a-new-label
+// GitLab API docs: https://docs.gitlab.com/ce/api/labels.html#create-a-new-label
 func (s *LabelsService) CreateLabel(
 	pid interface{},
 	opt *CreateLabelOptions) (*Label, *Response, error) {
@@ -107,14 +107,14 @@ func (s *LabelsService) CreateLabel(
 
 // DeleteLabelOptions represents the available DeleteLabel() options.
 //
-// GitLab API docs: http://doc.gitlab.com/ce/api/labels.html#delete-a-label
+// GitLab API docs: https://docs.gitlab.com/ce/api/labels.html#delete-a-label
 type DeleteLabelOptions struct {
 	Name *string `url:"name,omitempty" json:"name,omitempty"`
 }
 
 // DeleteLabel deletes a label given by its name.
 //
-// GitLab API docs: http://doc.gitlab.com/ce/api/labels.html#delete-a-label
+// GitLab API docs: https://docs.gitlab.com/ce/api/labels.html#delete-a-label
 func (s *LabelsService) DeleteLabel(pid interface{}, opt *DeleteLabelOptions) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -132,7 +132,7 @@ func (s *LabelsService) DeleteLabel(pid interface{}, opt *DeleteLabelOptions) (*
 
 // UpdateLabelOptions represents the available UpdateLabel() options.
 //
-// GitLab API docs: http://doc.gitlab.com/ce/api/labels.html#delete-a-label
+// GitLab API docs: https://docs.gitlab.com/ce/api/labels.html#delete-a-label
 type UpdateLabelOptions struct {
 	Name        *string `url:"name,omitempty" json:"name,omitempty"`
 	NewName     *string `url:"new_name,omitempty" json:"new_name,omitempty"`
@@ -143,7 +143,7 @@ type UpdateLabelOptions struct {
 // UpdateLabel updates an existing label with new name or now color. At least
 // one parameter is required, to update the label.
 //
-// GitLab API docs: http://doc.gitlab.com/ce/api/labels.html#edit-an-existing-label
+// GitLab API docs: https://docs.gitlab.com/ce/api/labels.html#edit-an-existing-label
 func (s *LabelsService) UpdateLabel(
 	pid interface{},
 	opt *UpdateLabelOptions) (*Label, *Response, error) {

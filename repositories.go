@@ -25,14 +25,14 @@ import (
 // RepositoriesService handles communication with the repositories related
 // methods of the GitLab API.
 //
-// GitLab API docs: http://doc.gitlab.com/ce/api/repositories.html
+// GitLab API docs: https://docs.gitlab.com/ce/api/repositories.html
 type RepositoriesService struct {
 	client *Client
 }
 
 // TreeNode represents a GitLab repository file or directory.
 //
-// GitLab API docs: http://doc.gitlab.com/ce/api/repositories.html
+// GitLab API docs: https://docs.gitlab.com/ce/api/repositories.html
 type TreeNode struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
@@ -47,7 +47,7 @@ func (t TreeNode) String() string {
 // ListTreeOptions represents the available ListTree() options.
 //
 // GitLab API docs:
-// http://doc.gitlab.com/ce/api/repositories.html#list-repository-tree
+// https://docs.gitlab.com/ce/api/repositories.html#list-repository-tree
 type ListTreeOptions struct {
 	Path    *string `url:"path,omitempty" json:"path,omitempty"`
 	RefName *string `url:"ref_name,omitempty" json:"ref_name,omitempty"`
@@ -56,7 +56,7 @@ type ListTreeOptions struct {
 // ListTree gets a list of repository files and directories in a project.
 //
 // GitLab API docs:
-// http://doc.gitlab.com/ce/api/repositories.html#list-repository-tree
+// https://docs.gitlab.com/ce/api/repositories.html#list-repository-tree
 func (s *RepositoriesService) ListTree(
 	pid interface{},
 	opt *ListTreeOptions) ([]*TreeNode, *Response, error) {
@@ -83,7 +83,7 @@ func (s *RepositoriesService) ListTree(
 // RawFileContentOptions represents the available RawFileContent() options.
 //
 // GitLab API docs:
-// http://doc.gitlab.com/ce/api/repositories.html#raw-file-content
+// https://docs.gitlab.com/ce/api/repositories.html#raw-file-content
 type RawFileContentOptions struct {
 	FilePath *string `url:"filepath,omitempty" json:"filepath,omitempty"`
 }
@@ -91,7 +91,7 @@ type RawFileContentOptions struct {
 // RawFileContent gets the raw file contents for a file by commit SHA and path
 //
 // GitLab API docs:
-// http://doc.gitlab.com/ce/api/repositories.html#raw-file-content
+// https://docs.gitlab.com/ce/api/repositories.html#raw-file-content
 func (s *RepositoriesService) RawFileContent(
 	pid interface{},
 	sha string,
@@ -119,7 +119,7 @@ func (s *RepositoriesService) RawFileContent(
 // RawBlobContent gets the raw file contents for a blob by blob SHA.
 //
 // GitLab API docs:
-// http://doc.gitlab.com/ce/api/repositories.html#raw-blob-content
+// https://docs.gitlab.com/ce/api/repositories.html#raw-blob-content
 func (s *RepositoriesService) RawBlobContent(
 	pid interface{},
 	sha string) ([]byte, *Response, error) {
@@ -146,7 +146,7 @@ func (s *RepositoriesService) RawBlobContent(
 // ArchiveOptions represents the available Archive() options.
 //
 // GitLab API docs:
-// http://doc.gitlab.com/ce/api/repositories.html#get-file-archive
+// https://docs.gitlab.com/ce/api/repositories.html#get-file-archive
 type ArchiveOptions struct {
 	SHA *string `url:"sha,omitempty" json:"sha,omitempty"`
 }
@@ -154,7 +154,7 @@ type ArchiveOptions struct {
 // Archive gets an archive of the repository.
 //
 // GitLab API docs:
-// http://doc.gitlab.com/ce/api/repositories.html#get-file-archive
+// https://docs.gitlab.com/ce/api/repositories.html#get-file-archive
 func (s *RepositoriesService) Archive(
 	pid interface{},
 	opt *ArchiveOptions) ([]byte, *Response, error) {
@@ -181,7 +181,7 @@ func (s *RepositoriesService) Archive(
 // Compare represents the result of a comparison of branches, tags or commits.
 //
 // GitLab API docs:
-// http://doc.gitlab.com/ce/api/repositories.html#compare-branches-tags-or-commits
+// https://docs.gitlab.com/ce/api/repositories.html#compare-branches-tags-or-commits
 type Compare struct {
 	Commit         *Commit   `json:"commit"`
 	Commits        []*Commit `json:"commits"`
@@ -197,7 +197,7 @@ func (c Compare) String() string {
 // CompareOptions represents the available Compare() options.
 //
 // GitLab API docs:
-// http://doc.gitlab.com/ce/api/repositories.html#compare-branches-tags-or-commits
+// https://docs.gitlab.com/ce/api/repositories.html#compare-branches-tags-or-commits
 type CompareOptions struct {
 	From *string `url:"from,omitempty" json:"from,omitempty"`
 	To   *string `url:"to,omitempty" json:"to,omitempty"`
@@ -206,7 +206,7 @@ type CompareOptions struct {
 // Compare compares branches, tags or commits.
 //
 // GitLab API docs:
-// http://doc.gitlab.com/ce/api/repositories.html#compare-branches-tags-or-commits
+// https://docs.gitlab.com/ce/api/repositories.html#compare-branches-tags-or-commits
 func (s *RepositoriesService) Compare(
 	pid interface{},
 	opt *CompareOptions) (*Compare, *Response, error) {
@@ -232,7 +232,7 @@ func (s *RepositoriesService) Compare(
 
 // Contributor represents a GitLap contributor.
 //
-// GitLab API docs: http://doc.gitlab.com/ce/api/repositories.html#contributer
+// GitLab API docs: https://docs.gitlab.com/ce/api/repositories.html#contributer
 type Contributor struct {
 	Name      string `json:"name,omitempty"`
 	Email     string `json:"email,omitempty"`
@@ -247,7 +247,7 @@ func (c Contributor) String() string {
 
 // Contributors gets the repository contributors list.
 //
-// GitLab API docs: http://doc.gitlab.com/ce/api/repositories.html#contributer
+// GitLab API docs: https://docs.gitlab.com/ce/api/repositories.html#contributer
 func (s *RepositoriesService) Contributors(pid interface{}) ([]*Contributor, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
