@@ -33,7 +33,7 @@ func teardown(server *httptest.Server) {
 	server.Close()
 }
 
-func testUrl(t *testing.T, r *http.Request, want string) {
+func testURL(t *testing.T, r *http.Request, want string) {
 	if got := r.RequestURI; got != want {
 		t.Errorf("Request url: %+v, want %s", got, want)
 	}
@@ -53,7 +53,11 @@ func testFormValues(t *testing.T, r *http.Request, values values) {
 		want.Add(k, v)
 	}
 
-	r.ParseForm()
+	err := r.ParseForm()
+	if err != nil {
+		t.Errorf("Error parsing form: %v", err)
+	}
+
 	if got := r.Form; !reflect.DeepEqual(got, want) {
 		t.Errorf("Request parameters: %v, want %v", got, want)
 	}
@@ -70,19 +74,23 @@ func testBody(t *testing.T, r *http.Request, want string) {
 	if err != nil {
 		t.Errorf("Error reading request body: %v", err)
 	}
+
 	if got := string(b); got != want {
 		t.Errorf("request Body is %s, want %s", got, want)
 	}
 }
 
-func testJsonBody(t *testing.T, r *http.Request, want values) {
+func testJSONBody(t *testing.T, r *http.Request, want values) {
 	b, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		t.Errorf("Error reading request body: %v", err)
 	}
 
 	var got values
-	json.Unmarshal(b, &got)
+	err = json.Unmarshal(b, &got)
+	if err != nil {
+		t.Errorf("Error unmarshalling request body: %v", err)
+	}
 
 	if !reflect.DeepEqual(got, want) {
 		t.Errorf("Request parameters: %v, want %v", got, want)

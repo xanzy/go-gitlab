@@ -13,7 +13,7 @@ func TestSetDroneCIService(t *testing.T) {
 
 	mux.HandleFunc("/projects/1/services/drone-ci", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "PUT")
-		testJsonBody(t, r, values{
+		testJSONBody(t, r, values{
 			"token":                   "t",
 			"drone_url":               "u",
 			"enable_ssl_verification": "true",

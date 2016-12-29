@@ -169,6 +169,7 @@ type CommitComment struct {
 	Author   Author `json:"author"`
 }
 
+// Author represents a GitLab commit author
 type Author struct {
 	ID        int        `json:"id"`
 	Username  string     `json:"username"`
@@ -271,7 +272,7 @@ type CommitStatus struct {
 	Ref         string     `json:"ref"`
 	Status      string     `json:"status"`
 	Name        string     `json:"name"`
-	TargetUrl   string     `json:"target_url"`
+	TargetURL   string     `json:"target_url"`
 	Description string     `json:"description"`
 	CreatedAt   *time.Time `json:"created_at"`
 	StartedAt   *time.Time `json:"started_at"`
@@ -314,12 +315,14 @@ type SetCommitStatusOptions struct {
 	Ref         *string    `url:"ref,omitempty" json:"ref,omitempty"`
 	Name        *string    `url:"name,omitempty" json:"name,omitempty"`
 	Context     *string    `url:"context,omitempty" json:"context,omitempty"`
-	TargetUrl   *string    `url:"target_url,omitempty" json:"target_url,omitempty"`
+	TargetURL   *string    `url:"target_url,omitempty" json:"target_url,omitempty"`
 	Description *string    `url:"description,omitempty" json:"description,omitempty"`
 }
 
+// BuildState represents a GitLab build state
 type BuildState string
 
+// These constants represent all valid build states
 const (
 	Pending  BuildState = "pending"
 	Running  BuildState = "running"
