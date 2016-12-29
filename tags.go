@@ -68,12 +68,12 @@ func (s *TagsService) ListTags(pid interface{}) ([]*Tag, *Response, error) {
 	return t, resp, err
 }
 
-// Get a specific repository tag determined by its name. It returns 200 together
+// GetTag a specific repository tag determined by its name. It returns 200 together
 // with the tag information if the tag exists. It returns 404 if the tag does not exist.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/tags.html#get-a-single-repository-tag
-func (s *TagsService) GetSingleTag(pid interface{}, tag string) (*Tag, *Response, error) {
+func (s *TagsService) GetTag(pid interface{}, tag string) (*Tag, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
