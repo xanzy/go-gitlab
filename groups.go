@@ -205,14 +205,14 @@ type GroupMember struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/groups.html#list-group-members
-func (s *GroupsService) ListGroupMembers(gid interface{}) ([]*GroupMember, *Response, error) {
+func (s *GroupsService) ListGroupMembers(gid interface{}, opt *ListOptions) ([]*GroupMember, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("groups/%s/members", group)
 
-	req, err := s.client.NewRequest("GET", u, nil)
+	req, err := s.client.NewRequest("GET", u, opt)
 	if err != nil {
 		return nil, nil, err
 	}
