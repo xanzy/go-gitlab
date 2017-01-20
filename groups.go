@@ -200,12 +200,21 @@ type GroupMember struct {
 	AccessLevel AccessLevelValue `json:"access_level"`
 }
 
+// ListGroupMembersOptions represents the available ListGroupMembers()
+// options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/groups.html#list-group-members
+type ListGroupMembersOptions struct {
+	ListOptions
+}
+
 // ListGroupMembers get a list of group members viewable by the authenticated
 // user.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/groups.html#list-group-members
-func (s *GroupsService) ListGroupMembers(gid interface{}, opt *ListOptions) ([]*GroupMember, *Response, error) {
+func (s *GroupsService) ListGroupMembers(gid interface{}, opt *ListGroupMembersOptions) ([]*GroupMember, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
 		return nil, nil, err
