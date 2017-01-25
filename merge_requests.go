@@ -91,6 +91,7 @@ type MergeRequest struct {
 		RenamedFile bool   `json:"renamed_file"`
 		DeletedFile bool   `json:"deleted_file"`
 	} `json:"changes"`
+	WebURL string `json:"web_url"`
 }
 
 func (m MergeRequest) String() string {
