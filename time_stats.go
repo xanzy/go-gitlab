@@ -14,14 +14,14 @@ type TimeStatsService struct {
 	client *Client
 }
 
-// Times represents the time estimates and time spent for an issue.
+// TimeStats represents the time estimates and time spent for an issue.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/issues.html
 type TimeStats struct {
-	TimeEstimate        int    `json:"time_estimate"`
-	TotalTimeSpent      int    `json:"total_time_spent"`
 	HumanTimeEstimate   string `json:"human_time_estimate"`
 	HumanTotalTimeSpent string `json:"human_total_time_spent"`
+	TimeEstimate        int    `json:"time_estimate"`
+	TotalTimeSpent      int    `json:"total_time_spent"`
 }
 
 func (t TimeStats) String() string {
