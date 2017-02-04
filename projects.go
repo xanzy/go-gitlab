@@ -796,6 +796,7 @@ type AddProjectHookOptions struct {
 	PipelineEvents        *bool   `url:"pipeline_events,omitempty" json:"pipeline_events,omitempty"`
 	WikiPageEvents        *bool   `url:"wiki_page_events,omitempty" json:"wiki_page_events,omitempty"`
 	EnableSSLVerification *bool   `url:"enable_ssl_verification,omitempty" json:"enable_ssl_verification,omitempty"`
+	Token                 *string `url:"token,omitempty" json:"token,omitempty"`
 }
 
 // AddProjectHook adds a hook to a specified project.
@@ -840,6 +841,7 @@ type EditProjectHookOptions struct {
 	PipelineEvents        *bool   `url:"pipeline_events,omitempty" json:"pipeline_events,omitempty"`
 	WikiPageEvents        *bool   `url:"wiki_page_events,omitempty" json:"wiki_page_events,omitempty"`
 	EnableSSLVerification *bool   `url:"enable_ssl_verification,omitempty" json:"enable_ssl_verification,omitempty"`
+	Token                 *string `url:"token,omitempty" json:"token,omitempty"`
 }
 
 // EditProjectHook edits a hook for a specified project.
