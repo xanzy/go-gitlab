@@ -34,43 +34,45 @@ type ProjectsService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/projects.html
 type Project struct {
-	ID                            int                  `json:"id"`
-	Description                   string               `json:"description"`
-	DefaultBranch                 string               `json:"default_branch"`
-	Public                        bool                 `json:"public"`
-	VisibilityLevel               VisibilityLevelValue `json:"visibility_level"`
-	SSHURLToRepo                  string               `json:"ssh_url_to_repo"`
-	HTTPURLToRepo                 string               `json:"http_url_to_repo"`
-	WebURL                        string               `json:"web_url"`
-	TagList                       []string             `json:"tag_list"`
-	Owner                         *User                `json:"owner"`
-	Name                          string               `json:"name"`
-	NameWithNamespace             string               `json:"name_with_namespace"`
-	Path                          string               `json:"path"`
-	PathWithNamespace             string               `json:"path_with_namespace"`
-	IssuesEnabled                 bool                 `json:"issues_enabled"`
-	OpenIssuesCount               int                  `json:"open_issues_count"`
-	MergeRequestsEnabled          bool                 `json:"merge_requests_enabled"`
-	BuildsEnabled                 bool                 `json:"builds_enabled"`
-	WikiEnabled                   bool                 `json:"wiki_enabled"`
-	SnippetsEnabled               bool                 `json:"snippets_enabled"`
-	ContainerRegistryEnabled      bool                 `json:"container_registry_enabled"`
-	CreatedAt                     *time.Time           `json:"created_at,omitempty"`
-	LastActivityAt                *time.Time           `json:"last_activity_at,omitempty"`
-	CreatorID                     int                  `json:"creator_id"`
-	Namespace                     *ProjectNamespace    `json:"namespace"`
-	Permissions                   *Permissions         `json:"permissions"`
-	Archived                      bool                 `json:"archived"`
-	AvatarURL                     string               `json:"avatar_url"`
-	SharedRunnersEnabled          bool                 `json:"shared_runners_enabled"`
-	ForksCount                    int                  `json:"forks_count"`
-	StarCount                     int                  `json:"star_count"`
-	RunnersToken                  string               `json:"runners_token"`
-	PublicBuilds                  bool                 `json:"public_builds"`
-	OnlyAllowMergeIfBuildSucceeds bool                 `json:"only_allow_merge_if_build_succeeds"`
-	LFSEnabled                    bool                 `json:"lfs_enabled"`
-	RequestAccessEnabled          bool                 `json:"request_access_enabled"`
-	SharedWithGroups              []struct {
+	ID                                        int                  `json:"id"`
+	Description                               string               `json:"description"`
+	DefaultBranch                             string               `json:"default_branch"`
+	Public                                    bool                 `json:"public"`
+	VisibilityLevel                           VisibilityLevelValue `json:"visibility_level"`
+	SSHURLToRepo                              string               `json:"ssh_url_to_repo"`
+	HTTPURLToRepo                             string               `json:"http_url_to_repo"`
+	WebURL                                    string               `json:"web_url"`
+	TagList                                   []string             `json:"tag_list"`
+	Owner                                     *User                `json:"owner"`
+	Name                                      string               `json:"name"`
+	NameWithNamespace                         string               `json:"name_with_namespace"`
+	Path                                      string               `json:"path"`
+	PathWithNamespace                         string               `json:"path_with_namespace"`
+	IssuesEnabled                             bool                 `json:"issues_enabled"`
+	OpenIssuesCount                           int                  `json:"open_issues_count"`
+	MergeRequestsEnabled                      bool                 `json:"merge_requests_enabled"`
+	ApprovalsBeforeMerge                      int                  `json:"approvals_before_merge"`
+	BuildsEnabled                             bool                 `json:"builds_enabled"`
+	WikiEnabled                               bool                 `json:"wiki_enabled"`
+	SnippetsEnabled                           bool                 `json:"snippets_enabled"`
+	ContainerRegistryEnabled                  bool                 `json:"container_registry_enabled"`
+	CreatedAt                                 *time.Time           `json:"created_at,omitempty"`
+	LastActivityAt                            *time.Time           `json:"last_activity_at,omitempty"`
+	CreatorID                                 int                  `json:"creator_id"`
+	Namespace                                 *ProjectNamespace    `json:"namespace"`
+	Permissions                               *Permissions         `json:"permissions"`
+	Archived                                  bool                 `json:"archived"`
+	AvatarURL                                 string               `json:"avatar_url"`
+	SharedRunnersEnabled                      bool                 `json:"shared_runners_enabled"`
+	ForksCount                                int                  `json:"forks_count"`
+	StarCount                                 int                  `json:"star_count"`
+	RunnersToken                              string               `json:"runners_token"`
+	PublicBuilds                              bool                 `json:"public_builds"`
+	OnlyAllowMergeIfBuildSucceeds             bool                 `json:"only_allow_merge_if_build_succeeds"`
+	OnlyAllowMergeIfAllDiscussionsAreResolved bool                 `json:"only_allow_merge_if_all_discussions_are_resolved"`
+	LFSEnabled                                bool                 `json:"lfs_enabled"`
+	RequestAccessEnabled                      bool                 `json:"request_access_enabled"`
+	SharedWithGroups                          []struct {
 		GroupID          int    `json:"group_id"`
 		GroupName        string `json:"group_name"`
 		GroupAccessLevel int    `json:"group_access_level"`
@@ -434,24 +436,26 @@ func (s *ProjectsService) CreateProjectForUser(
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#edit-project
 type EditProjectOptions struct {
-	Name                          *string               `url:"name,omitempty" json:"name,omitempty"`
-	Path                          *string               `url:"path,omitempty" json:"path,omitempty"`
-	Description                   *string               `url:"description,omitempty" json:"description,omitempty"`
-	DefaultBranch                 *string               `url:"default_branch,omitempty" json:"default_branch,omitempty"`
-	IssuesEnabled                 *bool                 `url:"issues_enabled,omitempty" json:"issues_enabled,omitempty"`
-	MergeRequestsEnabled          *bool                 `url:"merge_requests_enabled,omitempty" json:"merge_requests_enabled,omitempty"`
-	BuildsEnabled                 *bool                 `url:"builds_enabled,omitempty" json:"builds_enabled,omitempty"`
-	WikiEnabled                   *bool                 `url:"wiki_enabled,omitempty" json:"wiki_enabled,omitempty"`
-	SnippetsEnabled               *bool                 `url:"snippets_enabled,omitempty" json:"snippets_enabled,omitempty"`
-	ContainerRegistryEnabled      *bool                 `url:"container_registry_enabled,omitempty" json:"container_registry_enabled,omitempty"`
-	SharedRunnersEnabled          *bool                 `url:"shared_runners_enabled,omitempty" json:"shared_runners_enabled,omitempty"`
-	Public                        *bool                 `url:"public,omitempty" json:"public,omitempty"`
-	VisibilityLevel               *VisibilityLevelValue `url:"visibility_level,omitempty" json:"visibility_level,omitempty"`
-	ImportURL                     *bool                 `url:"import_url,omitempty" json:"import_url,omitempty"`
-	PublicBuilds                  *bool                 `url:"public_builds,omitempty" json:"public_builds,omitempty"`
-	OnlyAllowMergeIfBuildSucceeds *bool                 `url:"only_allow_merge_if_build_succeeds,omitempty" json:"only_allow_merge_if_build_succeeds,omitempty"`
-	LFSEnabled                    *bool                 `url:"lfs_enabled,omitempty" json:"lfs_enabled,omitempty"`
-	RequestAccessEnabled          *bool                 `url:"request_access_enabled,omitempty" json:"request_access_enabled,omitempty"`
+	Name                                      *string               `url:"name,omitempty" json:"name,omitempty"`
+	Path                                      *string               `url:"path,omitempty" json:"path,omitempty"`
+	Description                               *string               `url:"description,omitempty" json:"description,omitempty"`
+	DefaultBranch                             *string               `url:"default_branch,omitempty" json:"default_branch,omitempty"`
+	IssuesEnabled                             *bool                 `url:"issues_enabled,omitempty" json:"issues_enabled,omitempty"`
+	MergeRequestsEnabled                      *bool                 `url:"merge_requests_enabled,omitempty" json:"merge_requests_enabled,omitempty"`
+	ApprovalsBeforeMerge                      *int                  `url:"approvals_before_merge,omitempty" json:"approvals_before_merge,omitempty"`
+	BuildsEnabled                             *bool                 `url:"builds_enabled,omitempty" json:"builds_enabled,omitempty"`
+	WikiEnabled                               *bool                 `url:"wiki_enabled,omitempty" json:"wiki_enabled,omitempty"`
+	SnippetsEnabled                           *bool                 `url:"snippets_enabled,omitempty" json:"snippets_enabled,omitempty"`
+	ContainerRegistryEnabled                  *bool                 `url:"container_registry_enabled,omitempty" json:"container_registry_enabled,omitempty"`
+	SharedRunnersEnabled                      *bool                 `url:"shared_runners_enabled,omitempty" json:"shared_runners_enabled,omitempty"`
+	Public                                    *bool                 `url:"public,omitempty" json:"public,omitempty"`
+	VisibilityLevel                           *VisibilityLevelValue `url:"visibility_level,omitempty" json:"visibility_level,omitempty"`
+	ImportURL                                 *bool                 `url:"import_url,omitempty" json:"import_url,omitempty"`
+	PublicBuilds                              *bool                 `url:"public_builds,omitempty" json:"public_builds,omitempty"`
+	OnlyAllowMergeIfBuildSucceeds             *bool                 `url:"only_allow_merge_if_build_succeeds,omitempty" json:"only_allow_merge_if_build_succeeds,omitempty"`
+	OnlyAllowMergeIfAllDiscussionsAreResolved *bool                 `url:"only_allow_merge_if_all_discussions_are_resolved,omitempty" json:"only_allow_merge_if_all_discussions_are_resolved,omitempty"`
+	LFSEnabled                                *bool                 `url:"lfs_enabled,omitempty" json:"lfs_enabled,omitempty"`
+	RequestAccessEnabled                      *bool                 `url:"request_access_enabled,omitempty" json:"request_access_enabled,omitempty"`
 }
 
 // EditProject updates an existing project.
@@ -792,6 +796,7 @@ type AddProjectHookOptions struct {
 	PipelineEvents        *bool   `url:"pipeline_events,omitempty" json:"pipeline_events,omitempty"`
 	WikiPageEvents        *bool   `url:"wiki_page_events,omitempty" json:"wiki_page_events,omitempty"`
 	EnableSSLVerification *bool   `url:"enable_ssl_verification,omitempty" json:"enable_ssl_verification,omitempty"`
+	Token                 *string `url:"token,omitempty" json:"token,omitempty"`
 }
 
 // AddProjectHook adds a hook to a specified project.
@@ -836,6 +841,7 @@ type EditProjectHookOptions struct {
 	PipelineEvents        *bool   `url:"pipeline_events,omitempty" json:"pipeline_events,omitempty"`
 	WikiPageEvents        *bool   `url:"wiki_page_events,omitempty" json:"wiki_page_events,omitempty"`
 	EnableSSLVerification *bool   `url:"enable_ssl_verification,omitempty" json:"enable_ssl_verification,omitempty"`
+	Token                 *string `url:"token,omitempty" json:"token,omitempty"`
 }
 
 // EditProjectHook edits a hook for a specified project.

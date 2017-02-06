@@ -30,6 +30,9 @@ type ServicesService struct {
 	client *Client
 }
 
+// Service represents a GitLab service.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/services.html
 type Service struct {
 	ID                  *int       `json:"id"`
 	Title               *string    `json:"title"`

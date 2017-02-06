@@ -116,6 +116,7 @@ type Client struct {
 
 	// Services used for talking to different parts of the GitLab API.
 	Branches        *BranchesService
+	BuildVariables  *BuildVariablesService
 	Builds          *BuildsService
 	Commits         *CommitsService
 	DeployKeys      *DeployKeysService
@@ -128,6 +129,7 @@ type Client struct {
 	Notes           *NotesService
 	Projects        *ProjectsService
 	ProjectSnippets *ProjectSnippetsService
+	Pipelines       *PipelinesService
 	Repositories    *RepositoriesService
 	RepositoryFiles *RepositoryFilesService
 	Services        *ServicesService
@@ -135,6 +137,7 @@ type Client struct {
 	Settings        *SettingsService
 	SystemHooks     *SystemHooksService
 	Tags            *TagsService
+	TimeStats       *TimeStatsService
 	Users           *UsersService
 }
 
@@ -174,6 +177,7 @@ func newClient(httpClient *http.Client, tokenType tokenType, token string) *Clie
 	}
 
 	c.Branches = &BranchesService{client: c}
+	c.BuildVariables = &BuildVariablesService{client: c}
 	c.Builds = &BuildsService{client: c}
 	c.Commits = &CommitsService{client: c}
 	c.DeployKeys = &DeployKeysService{client: c}
@@ -186,6 +190,7 @@ func newClient(httpClient *http.Client, tokenType tokenType, token string) *Clie
 	c.Namespaces = &NamespacesService{client: c}
 	c.Projects = &ProjectsService{client: c}
 	c.ProjectSnippets = &ProjectSnippetsService{client: c}
+	c.Pipelines = &PipelinesService{client: c}
 	c.Repositories = &RepositoriesService{client: c}
 	c.RepositoryFiles = &RepositoryFilesService{client: c}
 	c.Services = &ServicesService{client: c}
@@ -193,6 +198,7 @@ func newClient(httpClient *http.Client, tokenType tokenType, token string) *Clie
 	c.Settings = &SettingsService{client: c}
 	c.SystemHooks = &SystemHooksService{client: c}
 	c.Tags = &TagsService{client: c}
+	c.TimeStats = &TimeStatsService{client: c}
 	c.Users = &UsersService{client: c}
 
 	return c
@@ -233,7 +239,6 @@ func (c *Client) NewRequest(method, path string, opt interface{}) (*http.Request
 			return nil, err
 		}
 		u.RawQuery = q.Encode()
-
 	}
 
 	req := &http.Request{

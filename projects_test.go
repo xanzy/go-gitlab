@@ -161,7 +161,7 @@ func TestGetProject_byName(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/projects/", func(w http.ResponseWriter, r *http.Request) {
-		testUrl(t, r, "/projects/namespace%2Fname")
+		testURL(t, r, "/projects/namespace%2Fname")
 		testMethod(t, r, "GET")
 		fmt.Fprint(w, `{"id":1}`)
 	})
@@ -212,7 +212,7 @@ func TestCreateProject(t *testing.T) {
 
 	mux.HandleFunc("/projects", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "POST")
-		testJsonBody(t, r, values{
+		testJSONBody(t, r, values{
 			"name": "n",
 		})
 

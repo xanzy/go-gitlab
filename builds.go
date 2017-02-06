@@ -120,11 +120,11 @@ func (s *BuildsService) ListCommitBuilds(pid interface{}, sha string, opts *List
 	return builds, resp, err
 }
 
-// GetSingleBuild gets a single build of a project.
+// GetBuild gets a single build of a project.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/builds.html#get-a-single-build
-func (s *BuildsService) GetSingleBuild(pid interface{}, buildID int) (*Build, *Response, error) {
+func (s *BuildsService) GetBuild(pid interface{}, buildID int) (*Build, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
