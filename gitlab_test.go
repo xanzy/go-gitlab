@@ -135,3 +135,59 @@ func TestCheckResponse(t *testing.T) {
 		t.Errorf("Error = %#v, want %#v", err, want)
 	}
 }
+
+func TestCheckResponseValidationError(t *testing.T) {
+	res := &http.Response{
+		Request:    &http.Request{},
+		StatusCode: http.StatusBadRequest,
+		Body: ioutil.NopCloser(strings.NewReader(`
+		{
+			"message":{
+				"prop1":[
+					"message 1",
+					"message 2"
+				],
+				"prop2":[
+					"message 3"
+				],
+				"embed1":{
+					"prop3":[
+						"msg 1",
+						"msg2"
+					]
+				},
+				"embed2":{
+					"prop4":[
+						"some msg"
+					]
+				}
+			}
+			}`)),
+	}
+
+	wantMessage := map[string]interface{}{
+		"prop1": []string{"message 1", "message 2"},
+		"prop2": []string{"message 3"},
+		"embed1": map[string][]string{
+			"prop3": []string{"msg 1", "msg2"},
+		},
+		"embed2": map[string][]string{
+			"prop4": []string{"some msg"},
+		},
+	}
+
+	want := &ValidationErrorResponse{
+		Response: res,
+		Message:  wantMessage,
+	}
+
+	err := CheckResponse(res).(*ValidationErrorResponse)
+
+	if err == nil {
+		t.Errorf("Expected validation error response.")
+	}
+
+	if !reflect.DeepEqual(err, want) {
+		t.Errorf("Error = %#v, want %#v", err, want)
+	}
+}
