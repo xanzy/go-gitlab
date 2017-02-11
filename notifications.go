@@ -1,6 +1,10 @@
 package gitlab
 
-import "net/http"
+import (
+	"fmt"
+	"net/http"
+	"net/url"
+)
 
 // NotificationSettingsService handles communication with the notification settings related methods
 // of the GitLab API.
@@ -15,12 +19,12 @@ type NotificationLevel string
 
 // List of valid notification levels
 const (
-	DisabledNotificationLevel      string = "disabled"
-	ParticipatingNotificationLevel        = "participating"
-	WatchNotificationLevel                = "watch"
-	GlobalNotificationLevel               = "global"
-	MentionNotificationLevel              = "mention"
-	CustomNotificationLevel               = "custom"
+	DisabledNotificationLevel      = "disabled"
+	ParticipatingNotificationLevel = "participating"
+	WatchNotificationLevel         = "watch"
+	GlobalNotificationLevel        = "global"
+	MentionNotificationLevel       = "mention"
+	CustomNotificationLevel        = "custom"
 )
 
 // NotificationEventOptions specifies which events should trigger email notifications if notification level is set to "custom""
@@ -39,48 +43,28 @@ type NotificationEventOptions struct {
 	SuccessPipelineEvent      bool `json:"success_pipeline"`
 }
 
-// // List of notification email events (used together with CustomNotificationLevel)
-// const (
-// 	NewNoteEvent              string = "new_note"
-// 	NewIssueEvent                    = "new_issue"
-// 	ReOpenIssueEvent                 = "reopen_issue"
-// 	CloseIssueEvent                  = "close_issue"
-// 	ReAssignIssueEvent               = "reassign_issue"
-// 	NewMergeRequestEvent             = "new_merge_request"
-// 	ReOpenMergeRequestEvent          = "reopen_merge_request"
-// 	CloseMergeRequestEvent           = "close_merge_request"
-// 	ReAssignMergeRequestEvent        = "reassign_merge_request"
-// 	MergeMergeRequestEvent           = "merge_merge_request"
-// 	FailedPipelineEvent              = "failed_pipeline"
-// 	SuccessPipelineEvent             = "success_pipeline"
-// )
-
 // NotificationSettings represents a Gitlab notification setting
 type NotificationSettings struct {
-	Level                     NotificationLevel `json:"level"`
-	Email                     string            `json:"notification_email"`
-	*NotificationEventOptions `json:"events,omitempty"`
-}
-
-// ImpersonateUserOption can be used to impersonate the API call as an arbitrary user.
-// The authenticated user must be an administrator. User can be a username or user ID.
-// See https://docs.gitlab.com/ce/api/README.html#sudo for more information
-type ImpersonateUserOption struct {
-	User string
+	Level  NotificationLevel         `json:"level"`
+	Email  string                    `json:"notification_email,omitempty"`
+	Events *NotificationEventOptions `json:"events,omitempty"`
 }
 
 // GetGlobalSettings returns current notification settings and email address.
-// If opt is nil, the API call will be performed as the authenticated user.
-// Otherwise the API call wlil be performed as the impersonated user (SUDO).
+// The API call can be performed as another user if the parameter "sudoUser" contains a valid user ID or username.
+// Otherwise the call is performed as the authenticated user.
+// The authenticated user must be administrator in order to impersonate another user.
+// If the authenticated user is not administrator or the provided user ID/uername is not found an error is returned.
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/notification_settings.html#global-notification-settings
-func (s *NotificationSettingsService) GetGlobalSettings(opt *ImpersonateUserOption) (*NotificationSettings, *Response, error) {
+// https://docs.gitlab.com/ce/api/README.html#sudo
+func (s *NotificationSettingsService) GetGlobalSettings(sudoUser *string) (*NotificationSettings, *Response, error) {
 	req, err := s.client.NewRequest("GET", "notification_settings", nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	setSudo(req, opt)
+	checkSudo(req, sudoUser)
 
 	ns := new(NotificationSettings)
 	resp, err := s.client.Do(req, ns)
@@ -92,19 +76,139 @@ func (s *NotificationSettingsService) GetGlobalSettings(opt *ImpersonateUserOpti
 }
 
 // UpdateGlobalSettings updates current notification settings and email address.
-// If opt is nil, the API call will be performed as the authenticated user.
-// Otherwise the API call wlil be performed as the impersonated user (SUDO).
+// The API call can be performed as another user if the parameter "sudoUser" contains a valid user ID or username.
+// Otherwise the call is performed as the authenticated user.
+// The authenticated user must be administrator in order to impersonate another user.
+// If the authenticated user is not administrator or the provided user ID/uername is not found an error is returned.
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/notification_settings.html#update-global-notification-settings
-func (s *NotificationSettingsService) UpdateGlobalSettings(settings NotificationSettings, opt *ImpersonateUserOption) (*NotificationSettings, *Response, error) {
+// https://docs.gitlab.com/ce/api/README.html#sudo
+func (s *NotificationSettingsService) UpdateGlobalSettings(settings NotificationSettings, sudoUser *string) (*NotificationSettings, *Response, error) {
 
-	req, err := s.client.NewRequest("PUT", "notification_settings", settings)
+	url := fmt.Sprintf("notification_settings?level=%s&notification_email=%s",
+		url.QueryEscape(string(settings.Level)), url.QueryEscape(settings.Email))
+
+	req, err := s.client.NewRequest("PUT", url, settings.Events)
 
 	if err != nil {
 		return nil, nil, err
 	}
 
-	setSudo(req, opt)
+	checkSudo(req, sudoUser)
+
+	ns := new(NotificationSettings)
+	resp, err := s.client.Do(req, ns)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return ns, resp, err
+}
+
+// GetSettingsForGroup returns current group notification settings.
+// id - the group ID or path
+// Note: the email field is ignored for group level settings.
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/notification_settings.html#group-project-level-notification-settings
+func (s *NotificationSettingsService) GetSettingsForGroup(id interface{}) (*NotificationSettings, *Response, error) {
+
+	group, err := parseID(id)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	url := fmt.Sprintf("groups/%s/notification_settings", url.QueryEscape(group))
+	req, err := s.client.NewRequest("GET", url, nil)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	ns := new(NotificationSettings)
+	resp, err := s.client.Do(req, ns)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return ns, resp, err
+}
+
+// GetSettingsForProject returns current project notification settings.
+// id - the project ID or path
+// Note: the email field is ignored for project level settings.
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/notification_settings.html#group-project-level-notification-settings
+func (s *NotificationSettingsService) GetSettingsForProject(id interface{}) (*NotificationSettings, *Response, error) {
+
+	project, err := parseID(id)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	url := fmt.Sprintf("projects/%s/notification_settings", url.QueryEscape(project))
+	req, err := s.client.NewRequest("GET", url, nil)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	ns := new(NotificationSettings)
+	resp, err := s.client.Do(req, ns)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return ns, resp, err
+}
+
+// UpdateSettingsForGroup updates current group notification settings.
+// id - the group ID or path (e.g. <group_name> or 123)
+// Note: the email field is ignored for group level settings.
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/notification_settings.html#update-group-project-level-notification-settings
+func (s *NotificationSettingsService) UpdateSettingsForGroup(id interface{}, settings NotificationSettings) (*NotificationSettings, *Response, error) {
+
+	group, err := parseID(id)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	url := fmt.Sprintf("groups/%s/notification_settings?level=%s",
+		url.QueryEscape(group), url.QueryEscape(string(settings.Level)))
+
+	req, err := s.client.NewRequest("PUT", url, settings.Events)
+
+	if err != nil {
+		return nil, nil, err
+	}
+
+	ns := new(NotificationSettings)
+	resp, err := s.client.Do(req, ns)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return ns, resp, err
+}
+
+// UpdateSettingsForProject updates current project notification settings.
+// id - the project ID or path (e.g. <group_name>/<project_name> or 123)
+// Note: the email field is ignored for project level settings.
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/notification_settings.html#update-group-project-level-notification-settings
+func (s *NotificationSettingsService) UpdateSettingsForProject(id interface{}, settings NotificationSettings) (*NotificationSettings, *Response, error) {
+
+	project, err := parseID(id)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	url := fmt.Sprintf("projects/%s/notification_settings?level=%s",
+		url.QueryEscape(project), url.QueryEscape(string(settings.Level)))
+
+	req, err := s.client.NewRequest("PUT", url, settings.Events)
+
+	if err != nil {
+		return nil, nil, err
+	}
 
 	ns := new(NotificationSettings)
 	resp, err := s.client.Do(req, ns)
@@ -119,13 +223,10 @@ func (s NotificationSettings) String() string {
 	return Stringify(s)
 }
 
-// // MarshalJSON marshalls the NotificationSettings struct to a JSON representation expected by the API.
-// func (s NotificationSettings) MarshalJSON([]byte, error) {
-
-// }
-
-func setSudo(req *http.Request, opt *ImpersonateUserOption) {
-	if req != nil && opt != nil && len(opt.User) > 0 {
-		req.Header.Set("SUDO", opt.User)
+func checkSudo(req *http.Request, sudoUser *string) bool {
+	if req != nil && sudoUser != nil && len(*sudoUser) > 0 {
+		req.Header.Set("SUDO", *sudoUser)
+		return true
 	}
+	return false
 }
