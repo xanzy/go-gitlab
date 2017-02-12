@@ -1,6 +1,7 @@
 package gitlab
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -58,13 +59,15 @@ type NotificationSettings struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/notification_settings.html#global-notification-settings
 // https://docs.gitlab.com/ce/api/README.html#sudo
-func (s *NotificationSettingsService) GetGlobalSettings(sudoUser *string) (*NotificationSettings, *Response, error) {
+func (s *NotificationSettingsService) GetGlobalSettings(sudoUser interface{}) (*NotificationSettings, *Response, error) {
 	req, err := s.client.NewRequest("GET", "notification_settings", nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	checkSudo(req, sudoUser)
+	if err := sudo(req, sudoUser); err != nil {
+		return nil, nil, err
+	}
 
 	ns := new(NotificationSettings)
 	resp, err := s.client.Do(req, ns)
@@ -83,18 +86,26 @@ func (s *NotificationSettingsService) GetGlobalSettings(sudoUser *string) (*Noti
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/notification_settings.html#update-global-notification-settings
 // https://docs.gitlab.com/ce/api/README.html#sudo
-func (s *NotificationSettingsService) UpdateGlobalSettings(settings NotificationSettings, sudoUser *string) (*NotificationSettings, *Response, error) {
+func (s *NotificationSettingsService) UpdateGlobalSettings(settings NotificationSettings, sudoUser interface{}) (*NotificationSettings, *Response, error) {
 
-	url := fmt.Sprintf("notification_settings?level=%s&notification_email=%s",
-		url.QueryEscape(string(settings.Level)), url.QueryEscape(settings.Email))
+	if settings.Level == GlobalNotificationLevel {
+		return nil, nil, errors.New("notification level 'global' is not valid for global notification settings")
+	}
 
-	req, err := s.client.NewRequest("PUT", url, settings.Events)
+	u := fmt.Sprintf("notification_settings?level=%s", url.QueryEscape(string(settings.Level)))
 
+	if len(settings.Email) > 0 {
+		u += fmt.Sprintf("&notification_email=%s", url.QueryEscape(settings.Email))
+	}
+
+	req, err := s.client.NewRequest("PUT", u, settings.Events)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	checkSudo(req, sudoUser)
+	if err := sudo(req, sudoUser); err != nil {
+		return nil, nil, err
+	}
 
 	ns := new(NotificationSettings)
 	resp, err := s.client.Do(req, ns)
@@ -223,10 +234,14 @@ func (s NotificationSettings) String() string {
 	return Stringify(s)
 }
 
-func checkSudo(req *http.Request, sudoUser *string) bool {
-	if req != nil && sudoUser != nil && len(*sudoUser) > 0 {
-		req.Header.Set("SUDO", *sudoUser)
-		return true
+func sudo(req *http.Request, sudoUser interface{}) error {
+	if req != nil && sudoUser != nil {
+		user, err := parseID(sudoUser)
+		if err != nil {
+			return err
+		}
+		req.Header.Set("SUDO", user)
+		return nil
 	}
-	return false
+	return nil
 }
