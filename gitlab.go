@@ -443,35 +443,7 @@ func (r *ErrorResponse) Error() string {
 // https://docs.gitlab.com/ce/api/README.html#data-validation-and-error-reporting
 type ValidationErrorResponse struct {
 	Response *http.Response
-	Message  map[string]FieldErrorsOrEmbedEntity
-}
-
-// FieldErrorsOrEmbedEntity can hold either field errors as a slice of strings,
-// or a map of embedded entities with field errors (map[string][]string)
-// depending on the structure of the validation error response.
-type FieldErrorsOrEmbedEntity struct {
-	Object interface{}
-}
-
-// func (f * FieldErrorsOrEmbedEntity) IsFieldErrors() bool {
-// 	if _,ok  f.Object.()
-// }
-
-func (m *FieldErrorsOrEmbedEntity) UnmarshalJSON(b []byte) error {
-
-	var errorMsgs []string
-	if err := json.Unmarshal(b, &errorMsgs); err == nil {
-		m.Object = errorMsgs
-		return nil
-	}
-
-	var embedFieldsMap map[string][]string
-	if err := json.Unmarshal(b, &embedFieldsMap); err == nil {
-		m.Object = embedFieldsMap
-		return nil
-	}
-
-	return errors.New("unrecognized error response format")
+	Message  map[string]interface{}
 }
 
 func (e *ValidationErrorResponse) Error() string {
@@ -482,7 +454,7 @@ func (e *ValidationErrorResponse) Error() string {
 	}
 
 	for k, v := range e.Message {
-		switch vTyped := v.Object.(type) {
+		switch vTyped := v.(type) {
 		case []string:
 			buf.WriteString(fieldErrors(k, vTyped) + ". ")
 		case map[string][]string:
@@ -495,6 +467,45 @@ func (e *ValidationErrorResponse) Error() string {
 		}
 	}
 	return strings.TrimRight(buf.String(), " ")
+}
+
+func (m *ValidationErrorResponse) UnmarshalJSON(b []byte) error {
+	var tmpStruct struct {
+		Message map[string]fieldErrorsOrEmbedEntity
+	}
+
+	if err := json.Unmarshal(b, &tmpStruct); err != nil {
+		return err
+	}
+
+	msg := map[string]interface{}{}
+	for k, v := range tmpStruct.Message {
+		msg[k] = v.Object
+	}
+
+	m.Message = msg
+	return nil
+}
+
+// Only used internally to unmarshal the JSON representation of a validation error response
+type fieldErrorsOrEmbedEntity struct {
+	Object interface{}
+}
+
+func (m *fieldErrorsOrEmbedEntity) UnmarshalJSON(b []byte) error {
+	var errorMsgs []string
+	if err := json.Unmarshal(b, &errorMsgs); err == nil {
+		m.Object = errorMsgs
+		return nil
+	}
+
+	var embedFieldsMap map[string][]string
+	if err := json.Unmarshal(b, &embedFieldsMap); err == nil {
+		m.Object = embedFieldsMap
+		return nil
+	}
+
+	return errors.New("Unrecognized error response format. Must be []string or map[string][]string.")
 }
 
 // An Error reports more details on an individual error in an ErrorResponse.
@@ -539,6 +550,7 @@ func CheckResponse(r *http.Response) error {
 			if r.StatusCode == http.StatusBadRequest {
 				errorResponse = &ValidationErrorResponse{Response: r}
 				if err := json.Unmarshal(data, errorResponse); err != nil {
+					// fallback if all attempts to unmarshal fails
 					errorResponse = &ErrorResponse{Response: r, Message: string(data)}
 				}
 			}

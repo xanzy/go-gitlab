@@ -165,15 +165,15 @@ func TestCheckResponseNew(t *testing.T) {
 			}`)),
 	}
 
-	wantMessage := map[string]FieldErrorsOrEmbedEntity{
-		"prop1": FieldErrorsOrEmbedEntity{Object: []string{"message 1", "message 2"}},
-		"prop2": FieldErrorsOrEmbedEntity{Object: []string{"message 3"}},
-		"embed1": FieldErrorsOrEmbedEntity{Object: map[string][]string{
+	wantMessage := map[string]interface{}{
+		"prop1": []string{"message 1", "message 2"},
+		"prop2": []string{"message 3"},
+		"embed1": map[string][]string{
 			"prop3": []string{"msg 1", "msg2"},
-		}},
-		"embed2": FieldErrorsOrEmbedEntity{Object: map[string][]string{
+		},
+		"embed2": map[string][]string{
 			"prop4": []string{"some msg"},
-		}},
+		},
 	}
 
 	want := &ValidationErrorResponse{
@@ -190,6 +190,4 @@ func TestCheckResponseNew(t *testing.T) {
 	if !reflect.DeepEqual(err, want) {
 		t.Errorf("Error = %#v, want %#v", err, want)
 	}
-
-	t.Log("error:", err)
 }
