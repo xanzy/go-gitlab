@@ -19,6 +19,7 @@ package gitlab
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -412,6 +413,90 @@ func (r *ErrorResponse) Error() string {
 		r.Response.Request.Method, ru, r.Response.StatusCode, r.Message, r.Errors)
 }
 
+// A ValidationErrorResponse reports one or more errors caused by a validation error
+// Format:
+// {
+//     "message": {
+//         "<property-name>": [
+//             "<error-message>",
+//             "<error-message>",
+//             ...
+//         ],
+//         "<embed-entity>": {
+//             "<property-name>": [
+//                 "<error-message>",
+//                 "<error-message>",
+//                 ...
+//             ],
+//         }
+//     }
+// }
+// The 'Message' map is constructed as follows:
+//
+// 		without embedded entities:
+//			<property-name> as keys and list of <error-message> as values ([]string)
+//		with embedded entities:
+//			<embed-entity> as keys and a another map of <property-name>, and
+// 			<error-message> as values (map[string][]string)
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/README.html#data-validation-and-error-reporting
+type ValidationErrorResponse struct {
+	Response *http.Response
+	Message  map[string]FieldErrorsOrEmbedEntity
+}
+
+// FieldErrorsOrEmbedEntity can hold either field errors as a slice of strings,
+// or a map of embedded entities with field errors (map[string][]string)
+// depending on the structure of the validation error response.
+type FieldErrorsOrEmbedEntity struct {
+	Object interface{}
+}
+
+// func (f * FieldErrorsOrEmbedEntity) IsFieldErrors() bool {
+// 	if _,ok  f.Object.()
+// }
+
+func (m *FieldErrorsOrEmbedEntity) UnmarshalJSON(b []byte) error {
+
+	var errorMsgs []string
+	if err := json.Unmarshal(b, &errorMsgs); err == nil {
+		m.Object = errorMsgs
+		return nil
+	}
+
+	var embedFieldsMap map[string][]string
+	if err := json.Unmarshal(b, &embedFieldsMap); err == nil {
+		m.Object = embedFieldsMap
+		return nil
+	}
+
+	return errors.New("unrecognized error response format")
+}
+
+func (e *ValidationErrorResponse) Error() string {
+	var buf bytes.Buffer
+
+	fieldErrors := func(field string, messages []string) string {
+		return fmt.Sprintf("%s %s", field, strings.Join(messages, ", "))
+	}
+
+	for k, v := range e.Message {
+		switch vTyped := v.Object.(type) {
+		case []string:
+			buf.WriteString(fieldErrors(k, vTyped) + ". ")
+		case map[string][]string:
+			var errors []string
+			for field, msgs := range vTyped {
+				errors = append(errors, fieldErrors(field, msgs))
+			}
+			s := strings.TrimRight(strings.Join(errors, ". "), " ")
+			buf.WriteString(fmt.Sprintf("[%s] %s. ", k, s))
+		}
+	}
+	return strings.TrimRight(buf.String(), " ")
+}
+
 // An Error reports more details on an individual error in an ErrorResponse.
 // These are the possible validation error codes:
 //
@@ -446,10 +531,18 @@ func CheckResponse(r *http.Response) error {
 	if c := r.StatusCode; 200 <= c && c <= 299 {
 		return nil
 	}
-	errorResponse := &ErrorResponse{Response: r}
+	var errorResponse error
+	errorResponse = &ErrorResponse{Response: r}
 	data, err := ioutil.ReadAll(r.Body)
 	if err == nil && data != nil {
-		json.Unmarshal(data, errorResponse)
+		if err := json.Unmarshal(data, errorResponse); err != nil {
+			if r.StatusCode == http.StatusBadRequest {
+				errorResponse = &ValidationErrorResponse{Response: r}
+				if err := json.Unmarshal(data, errorResponse); err != nil {
+					errorResponse = &ErrorResponse{Response: r, Message: string(data)}
+				}
+			}
+		}
 	}
 	return errorResponse
 }
