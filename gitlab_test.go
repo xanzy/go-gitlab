@@ -136,7 +136,7 @@ func TestCheckResponse(t *testing.T) {
 	}
 }
 
-func TestCheckResponseNew(t *testing.T) {
+func TestCheckResponseValidationError(t *testing.T) {
 	res := &http.Response{
 		Request:    &http.Request{},
 		StatusCode: http.StatusBadRequest,

@@ -464,7 +464,12 @@ func (e *ValidationErrorResponse) Error() string {
 			buf.WriteString(fmt.Sprintf("[%s] %s. ", k, s))
 		}
 	}
-	return strings.TrimRight(buf.String(), " ")
+	errFormatted := strings.TrimRight(buf.String(), " ")
+
+	path, _ := url.QueryUnescape(e.Response.Request.URL.Opaque)
+	ru := fmt.Sprintf("%s://%s%s", e.Response.Request.URL.Scheme, e.Response.Request.URL.Host, path)
+
+	return fmt.Sprintf("%s %s: %d %s", e.Response.Request.Method, ru, e.Response.StatusCode, errFormatted)
 }
 
 func (m *ValidationErrorResponse) UnmarshalJSON(b []byte) error {
