@@ -48,8 +48,8 @@ type ListNamespacesOptions struct {
 // ListNamespaces gets a list of projects accessible by the authenticated user.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/namespaces.html#list-namespaces
-func (s *NamespacesService) ListNamespaces(opt *ListNamespacesOptions) ([]*Namespace, *Response, error) {
-	req, err := s.client.NewRequest("GET", "namespaces", opt)
+func (s *NamespacesService) ListNamespaces(opt *ListNamespacesOptions, sudoFunc ...SudoFunc) ([]*Namespace, *Response, error) {
+	req, err := s.client.NewRequest("GET", "namespaces", opt, sudoFunc)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -68,13 +68,13 @@ func (s *NamespacesService) ListNamespaces(opt *ListNamespacesOptions) ([]*Names
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/namespaces.html#search-for-namespace
-func (s *NamespacesService) SearchNamespace(query string) ([]*Namespace, *Response, error) {
+func (s *NamespacesService) SearchNamespace(query string, sudoFunc ...SudoFunc) ([]*Namespace, *Response, error) {
 	var q struct {
 		Search string `url:"search,omitempty" json:"search,omitempty"`
 	}
 	q.Search = query
 
-	req, err := s.client.NewRequest("GET", "namespaces", &q)
+	req, err := s.client.NewRequest("GET", "namespaces", &q, sudoFunc)
 	if err != nil {
 		return nil, nil, err
 	}
