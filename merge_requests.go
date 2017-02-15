@@ -148,7 +148,7 @@ func (s *MergeRequestsService) GetMergeRequest(pid interface{}, mergeRequest int
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/merge_request/%d", url.QueryEscape(project), mergeRequest)
+	u := fmt.Sprintf("projects/%s/merge_requests/%d", url.QueryEscape(project), mergeRequest)
 
 	req, err := s.client.NewRequest("GET", u, nil)
 	if err != nil {
@@ -199,7 +199,7 @@ func (s *MergeRequestsService) GetMergeRequestChanges(pid interface{}, mergeRequ
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/merge_request/%d/changes", url.QueryEscape(project), mergeRequest)
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/changes", url.QueryEscape(project), mergeRequest)
 
 	req, err := s.client.NewRequest("GET", u, nil)
 	if err != nil {
@@ -276,7 +276,7 @@ func (s *MergeRequestsService) UpdateMergeRequest(pid interface{}, mergeRequest 
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/merge_request/%d", url.QueryEscape(project), mergeRequest)
+	u := fmt.Sprintf("projects/%s/merge_requests/%d", url.QueryEscape(project), mergeRequest)
 
 	req, err := s.client.NewRequest("PUT", u, opt)
 	if err != nil {
@@ -316,7 +316,7 @@ func (s *MergeRequestsService) AcceptMergeRequest(pid interface{}, mergeRequest 
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/merge_request/%d/merge", url.QueryEscape(project), mergeRequest)
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/merge", url.QueryEscape(project), mergeRequest)
 
 	req, err := s.client.NewRequest("PUT", u, opt)
 	if err != nil {
