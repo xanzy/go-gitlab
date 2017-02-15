@@ -19,12 +19,12 @@ package gitlab
 import (
 	"bytes"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"sort"
 	"strconv"
 	"strings"
 
@@ -394,24 +394,6 @@ func parseID(id interface{}) (string, error) {
 }
 
 // An ErrorResponse reports one or more errors caused by an API request.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ce/api/README.html#data-validation-and-error-reporting
-type ErrorResponse struct {
-	Response *http.Response // HTTP response that caused this error
-	Message  string         `json:"message"` // error message
-	Errors   []Error        `json:"errors"`  // more detail on individual errors
-}
-
-func (r *ErrorResponse) Error() string {
-	path, _ := url.QueryUnescape(r.Response.Request.URL.Opaque)
-	ru := fmt.Sprintf("%s://%s%s", r.Response.Request.URL.Scheme, r.Response.Request.URL.Host, path)
-
-	return fmt.Sprintf("%v %s: %d %v %+v",
-		r.Response.Request.Method, ru, r.Response.StatusCode, r.Message, r.Errors)
-}
-
-// A ValidationErrorResponse reports one or more errors caused by a validation error
 // Format:
 // {
 //     "message": {
@@ -429,137 +411,64 @@ func (r *ErrorResponse) Error() string {
 //         }
 //     }
 // }
-// The 'Message' map is constructed as follows:
-//
-// 		without embedded entities:
-//			<property-name> as keys and list of <error-message> as values ([]string)
-//		with embedded entities:
-//			<embed-entity> as keys and a another map of <property-name>, and
-// 			<error-message> as values (map[string][]string)
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/README.html#data-validation-and-error-reporting
-type ValidationErrorResponse struct {
+type ErrorResponse struct {
 	Response *http.Response
-	Message  map[string]interface{}
+	Message  string
 }
 
-func (e *ValidationErrorResponse) Error() string {
-	var buf bytes.Buffer
-
-	fieldErrors := func(field string, messages []string) string {
-		return fmt.Sprintf("%s %s", field, strings.Join(messages, ", "))
-	}
-
-	for k, v := range e.Message {
-		switch vTyped := v.(type) {
-		case []string:
-			buf.WriteString(fieldErrors(k, vTyped) + ". ")
-		case map[string][]string:
-			var errors []string
-			for field, msgs := range vTyped {
-				errors = append(errors, fieldErrors(field, msgs))
-			}
-			s := strings.TrimRight(strings.Join(errors, ". "), " ")
-			buf.WriteString(fmt.Sprintf("[%s] %s. ", k, s))
-		}
-	}
-	errFormatted := strings.TrimRight(buf.String(), " ")
-
+func (e *ErrorResponse) Error() string {
 	path, _ := url.QueryUnescape(e.Response.Request.URL.Opaque)
-	ru := fmt.Sprintf("%s://%s%s", e.Response.Request.URL.Scheme, e.Response.Request.URL.Host, path)
-
-	return fmt.Sprintf("%s %s: %d %s", e.Response.Request.Method, ru, e.Response.StatusCode, errFormatted)
+	u := fmt.Sprintf("%s://%s%s", e.Response.Request.URL.Scheme, e.Response.Request.URL.Host, path)
+	return fmt.Sprintf("%s %s: %d %s", e.Response.Request.Method, u, e.Response.StatusCode, e.Message)
 }
 
-func (m *ValidationErrorResponse) UnmarshalJSON(b []byte) error {
-	var tmpStruct struct {
-		Message map[string]fieldErrorsOrEmbedEntity
-	}
-
-	if err := json.Unmarshal(b, &tmpStruct); err != nil {
-		return err
-	}
-
-	msg := map[string]interface{}{}
-	for k, v := range tmpStruct.Message {
-		msg[k] = v.Object
-	}
-
-	m.Message = msg
-	return nil
-}
-
-// Only used internally to unmarshal the JSON representation of a validation error response
-type fieldErrorsOrEmbedEntity struct {
-	Object interface{}
-}
-
-func (m *fieldErrorsOrEmbedEntity) UnmarshalJSON(b []byte) error {
-	var errorMsgs []string
-	if err := json.Unmarshal(b, &errorMsgs); err == nil {
-		m.Object = errorMsgs
-		return nil
-	}
-
-	var embedFieldsMap map[string][]string
-	if err := json.Unmarshal(b, &embedFieldsMap); err == nil {
-		m.Object = embedFieldsMap
-		return nil
-	}
-
-	return errors.New("Unrecognized error response format. Must be []string or map[string][]string.")
-}
-
-// An Error reports more details on an individual error in an ErrorResponse.
-// These are the possible validation error codes:
-//
-//     missing:
-//         resource does not exist
-//     missing_field:
-//         a required field on a resource has not been set
-//     invalid:
-//         the formatting of a field is invalid
-//     already_exists:
-//         another resource has the same valid as this field
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ce/api/README.html#data-validation-and-error-reporting
-type Error struct {
-	Resource string `json:"resource"` // resource on which the error occurred
-	Field    string `json:"field"`    // field on which the error occurred
-	Code     string `json:"code"`     // validation error code
-}
-
-func (e *Error) Error() string {
-	return fmt.Sprintf("%v error caused by %v field on %v resource",
-		e.Code, e.Field, e.Resource)
-}
-
-// CheckResponse checks the API response for errors, and returns them if
-// present.  A response is considered an error if it has a status code outside
-// the 200 range.  API error responses are expected to have either no response
-// body, or a JSON response body that maps to ErrorResponse.  Any other
-// response body will be silently ignored.
+// CheckResponse checks the API response for errors, and returns them if present.
 func CheckResponse(r *http.Response) error {
-	if c := r.StatusCode; 200 <= c && c <= 299 {
+	switch r.StatusCode {
+	case 200, 201, 304:
 		return nil
 	}
-	var errorResponse error
-	errorResponse = &ErrorResponse{Response: r}
+
+	errorResponse := &ErrorResponse{Response: r}
 	data, err := ioutil.ReadAll(r.Body)
 	if err == nil && data != nil {
-		if err := json.Unmarshal(data, errorResponse); err != nil {
-			if r.StatusCode == http.StatusBadRequest {
-				errorResponse = &ValidationErrorResponse{Response: r}
-				if err := json.Unmarshal(data, errorResponse); err != nil {
-					// fallback if all attempts to unmarshal fails
-					errorResponse = &ErrorResponse{Response: r, Message: string(data)}
-				}
-			}
+		var raw interface{}
+		if err := json.Unmarshal(data, &raw); err != nil {
+			errorResponse.Message = "failed to parse unknown error format"
 		}
+
+		errorResponse.Message = parseError(raw)
 	}
+
 	return errorResponse
+}
+
+func parseError(raw interface{}) string {
+	switch raw := raw.(type) {
+	case string:
+		return raw
+
+	case []interface{}:
+		var errs []string
+		for _, v := range raw {
+			errs = append(errs, parseError(v))
+		}
+		return fmt.Sprintf("[%s]", strings.Join(errs, ", "))
+
+	case map[string]interface{}:
+		var errs []string
+		for k, v := range raw {
+			errs = append(errs, fmt.Sprintf("{%s: %s}", k, parseError(v)))
+		}
+		sort.Strings(errs)
+		return fmt.Sprintf("%s", strings.Join(errs, ", "))
+
+	default:
+		return fmt.Sprintf("failed to parse unexpected error type: %T", raw)
+	}
 }
 
 // Bool is a helper routine that allocates a new bool value
