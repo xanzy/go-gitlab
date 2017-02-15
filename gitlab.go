@@ -127,6 +127,7 @@ type Client struct {
 	Milestones           *MilestonesService
 	Namespaces           *NamespacesService
 	Notes                *NotesService
+	NotificationSettings *NotificationSettingsService
 	Projects             *ProjectsService
 	ProjectSnippets      *ProjectSnippetsService
 	Pipelines            *PipelinesService
@@ -139,7 +140,6 @@ type Client struct {
 	Tags                 *TagsService
 	TimeStats            *TimeStatsService
 	Users                *UsersService
-	NotificationSettings *NotificationSettingsService
 }
 
 // ListOptions specifies the optional parameters to various List methods that
@@ -187,8 +187,9 @@ func newClient(httpClient *http.Client, tokenType tokenType, token string) *Clie
 	c.Labels = &LabelsService{client: c}
 	c.MergeRequests = &MergeRequestsService{client: c}
 	c.Milestones = &MilestonesService{client: c}
-	c.Notes = &NotesService{client: c}
 	c.Namespaces = &NamespacesService{client: c}
+	c.Notes = &NotesService{client: c}
+	c.NotificationSettings = &NotificationSettingsService{client: c}
 	c.Projects = &ProjectsService{client: c}
 	c.ProjectSnippets = &ProjectSnippetsService{client: c}
 	c.Pipelines = &PipelinesService{client: c}
@@ -201,7 +202,6 @@ func newClient(httpClient *http.Client, tokenType tokenType, token string) *Clie
 	c.Tags = &TagsService{client: c}
 	c.TimeStats = &TimeStatsService{client: c}
 	c.Users = &UsersService{client: c}
-	c.NotificationSettings = &NotificationSettingsService{client: c}
 
 	return c
 }
