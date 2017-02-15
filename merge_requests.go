@@ -173,7 +173,7 @@ func (s *MergeRequestsService) GetMergeRequestCommits(pid interface{}, mergeRequ
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/merge_request/%d/commits", url.QueryEscape(project), mergeRequest)
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/commits", url.QueryEscape(project), mergeRequest)
 
 	req, err := s.client.NewRequest("GET", u, nil)
 	if err != nil {
