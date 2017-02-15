@@ -61,9 +61,7 @@ type GetFileOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/repository_files.html#get-file-from-respository
-func (s *RepositoryFilesService) GetFile(
-	pid interface{},
-	opt *GetFileOptions) (*File, *Response, error) {
+func (s *RepositoryFilesService) GetFile(pid interface{}, opt *GetFileOptions) (*File, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -114,9 +112,7 @@ type CreateFileOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/repository_files.html#create-new-file-in-repository
-func (s *RepositoryFilesService) CreateFile(
-	pid interface{},
-	opt *CreateFileOptions) (*FileInfo, *Response, error) {
+func (s *RepositoryFilesService) CreateFile(pid interface{}, opt *CreateFileOptions) (*FileInfo, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -155,9 +151,7 @@ type UpdateFileOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/repository_files.html#update-existing-file-in-repository
-func (s *RepositoryFilesService) UpdateFile(
-	pid interface{},
-	opt *UpdateFileOptions) (*FileInfo, *Response, error) {
+func (s *RepositoryFilesService) UpdateFile(pid interface{}, opt *UpdateFileOptions) (*FileInfo, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -194,9 +188,7 @@ type DeleteFileOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/repository_files.html#delete-existing-file-in-repository
-func (s *RepositoryFilesService) DeleteFile(
-	pid interface{},
-	opt *DeleteFileOptions) (*FileInfo, *Response, error) {
+func (s *RepositoryFilesService) DeleteFile(pid interface{}, opt *DeleteFileOptions) (*FileInfo, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err

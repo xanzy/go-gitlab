@@ -272,9 +272,7 @@ type AddGroupMemberOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/groups.html#list-group-members
-func (s *GroupsService) AddGroupMember(
-	gid interface{},
-	opt *AddGroupMemberOptions) (*GroupMember, *Response, error) {
+func (s *GroupsService) AddGroupMember(gid interface{}, opt *AddGroupMemberOptions) (*GroupMember, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
 		return nil, nil, err
@@ -308,10 +306,7 @@ type UpdateGroupMemberOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/groups.html#list-group-members
-func (s *GroupsService) UpdateGroupMember(
-	gid interface{},
-	user int,
-	opt *UpdateGroupMemberOptions) (*GroupMember, *Response, error) {
+func (s *GroupsService) UpdateGroupMember(gid interface{}, user int, opt *UpdateGroupMemberOptions) (*GroupMember, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
 		return nil, nil, err

@@ -57,9 +57,7 @@ type ListTreeOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/repositories.html#list-repository-tree
-func (s *RepositoriesService) ListTree(
-	pid interface{},
-	opt *ListTreeOptions) ([]*TreeNode, *Response, error) {
+func (s *RepositoriesService) ListTree(pid interface{}, opt *ListTreeOptions) ([]*TreeNode, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -92,10 +90,7 @@ type RawFileContentOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/repositories.html#raw-file-content
-func (s *RepositoriesService) RawFileContent(
-	pid interface{},
-	sha string,
-	opt *RawFileContentOptions) ([]byte, *Response, error) {
+func (s *RepositoriesService) RawFileContent(pid interface{}, sha string, opt *RawFileContentOptions) ([]byte, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -120,9 +115,7 @@ func (s *RepositoriesService) RawFileContent(
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/repositories.html#raw-blob-content
-func (s *RepositoriesService) RawBlobContent(
-	pid interface{},
-	sha string) ([]byte, *Response, error) {
+func (s *RepositoriesService) RawBlobContent(pid interface{}, sha string) ([]byte, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -155,9 +148,7 @@ type ArchiveOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/repositories.html#get-file-archive
-func (s *RepositoriesService) Archive(
-	pid interface{},
-	opt *ArchiveOptions) ([]byte, *Response, error) {
+func (s *RepositoriesService) Archive(pid interface{}, opt *ArchiveOptions) ([]byte, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -207,9 +198,7 @@ type CompareOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/repositories.html#compare-branches-tags-or-commits
-func (s *RepositoriesService) Compare(
-	pid interface{},
-	opt *CompareOptions) (*Compare, *Response, error) {
+func (s *RepositoriesService) Compare(pid interface{}, opt *CompareOptions) (*Compare, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err

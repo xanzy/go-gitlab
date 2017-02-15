@@ -82,9 +82,7 @@ type CreateLabelOptions struct {
 // color.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/labels.html#create-a-new-label
-func (s *LabelsService) CreateLabel(
-	pid interface{},
-	opt *CreateLabelOptions) (*Label, *Response, error) {
+func (s *LabelsService) CreateLabel(pid interface{}, opt *CreateLabelOptions) (*Label, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -144,9 +142,7 @@ type UpdateLabelOptions struct {
 // one parameter is required, to update the label.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/labels.html#edit-an-existing-label
-func (s *LabelsService) UpdateLabel(
-	pid interface{},
-	opt *UpdateLabelOptions) (*Label, *Response, error) {
+func (s *LabelsService) UpdateLabel(pid interface{}, opt *UpdateLabelOptions) (*Label, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err

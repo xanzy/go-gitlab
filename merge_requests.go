@@ -118,9 +118,7 @@ type ListMergeRequestsOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/merge_requests.html#list-merge-requests
-func (s *MergeRequestsService) ListMergeRequests(
-	pid interface{},
-	opt *ListMergeRequestsOptions) ([]*MergeRequest, *Response, error) {
+func (s *MergeRequestsService) ListMergeRequests(pid interface{}, opt *ListMergeRequestsOptions) ([]*MergeRequest, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -145,9 +143,7 @@ func (s *MergeRequestsService) ListMergeRequests(
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/merge_requests.html#get-single-mr
-func (s *MergeRequestsService) GetMergeRequest(
-	pid interface{},
-	mergeRequest int) (*MergeRequest, *Response, error) {
+func (s *MergeRequestsService) GetMergeRequest(pid interface{}, mergeRequest int) (*MergeRequest, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -173,9 +169,7 @@ func (s *MergeRequestsService) GetMergeRequest(
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/merge_requests.html#get-single-mr-changes
-func (s *MergeRequestsService) GetMergeRequestChanges(
-	pid interface{},
-	mergeRequest int) (*MergeRequest, *Response, error) {
+func (s *MergeRequestsService) GetMergeRequestChanges(pid interface{}, mergeRequest int) (*MergeRequest, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -214,9 +208,7 @@ type CreateMergeRequestOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/merge_requests.html#create-mr
-func (s *MergeRequestsService) CreateMergeRequest(
-	pid interface{},
-	opt *CreateMergeRequestOptions) (*MergeRequest, *Response, error) {
+func (s *MergeRequestsService) CreateMergeRequest(pid interface{}, opt *CreateMergeRequestOptions) (*MergeRequest, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -254,10 +246,7 @@ type UpdateMergeRequestOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/merge_requests.html#update-mr
-func (s *MergeRequestsService) UpdateMergeRequest(
-	pid interface{},
-	mergeRequest int,
-	opt *UpdateMergeRequestOptions) (*MergeRequest, *Response, error) {
+func (s *MergeRequestsService) UpdateMergeRequest(pid interface{}, mergeRequest int, opt *UpdateMergeRequestOptions) (*MergeRequest, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -297,10 +286,7 @@ type AcceptMergeRequestOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/merge_requests.html#accept-mr
-func (s *MergeRequestsService) AcceptMergeRequest(
-	pid interface{},
-	mergeRequest int,
-	opt *AcceptMergeRequestOptions) (*MergeRequest, *Response, error) {
+func (s *MergeRequestsService) AcceptMergeRequest(pid interface{}, mergeRequest int, opt *AcceptMergeRequestOptions) (*MergeRequest, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -354,10 +340,7 @@ type GetMergeRequestCommentsOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/merge_requests.html#get-the-comments-on-a-mr
-func (s *MergeRequestsService) GetMergeRequestComments(
-	pid interface{},
-	mergeRequest int,
-	opt *GetMergeRequestCommentsOptions) ([]*MergeRequestComment, *Response, error) {
+func (s *MergeRequestsService) GetMergeRequestComments(pid interface{}, mergeRequest int, opt *GetMergeRequestCommentsOptions) ([]*MergeRequestComment, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -391,10 +374,7 @@ type PostMergeRequestCommentOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/commits.html#post-comment-to-mr
-func (s *MergeRequestsService) PostMergeRequestComment(
-	pid interface{},
-	mergeRequest int,
-	opt *PostMergeRequestCommentOptions) (*MergeRequestComment, *Response, error) {
+func (s *MergeRequestsService) PostMergeRequestComment(pid interface{}, mergeRequest int, opt *PostMergeRequestCommentOptions) (*MergeRequestComment, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err

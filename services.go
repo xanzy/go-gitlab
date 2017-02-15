@@ -60,9 +60,7 @@ type SetGitLabCIServiceOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/services.html#edit-gitlab-ci-service
-func (s *ServicesService) SetGitLabCIService(
-	pid interface{},
-	opt *SetGitLabCIServiceOptions) (*Response, error) {
+func (s *ServicesService) SetGitLabCIService(pid interface{}, opt *SetGitLabCIServiceOptions) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, err
@@ -110,9 +108,7 @@ type SetHipChatServiceOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/services.html#edit-hipchat-service
-func (s *ServicesService) SetHipChatService(
-	pid interface{},
-	opt *SetHipChatServiceOptions) (*Response, error) {
+func (s *ServicesService) SetHipChatService(pid interface{}, opt *SetHipChatServiceOptions) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, err
@@ -161,9 +157,7 @@ type SetDroneCIServiceOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/services.html#createedit-drone-ci-service
-func (s *ServicesService) SetDroneCIService(
-	pid interface{},
-	opt *SetDroneCIServiceOptions) (*Response, error) {
+func (s *ServicesService) SetDroneCIService(pid interface{}, opt *SetDroneCIServiceOptions) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, err
@@ -250,9 +244,7 @@ type SetSlackServiceOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/services.html#edit-slack-service
-func (s *ServicesService) SetSlackService(
-	pid interface{},
-	opt *SetSlackServiceOptions) (*Response, error) {
+func (s *ServicesService) SetSlackService(pid interface{}, opt *SetSlackServiceOptions) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, err
