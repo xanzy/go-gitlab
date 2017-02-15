@@ -68,10 +68,7 @@ type ListIssueNotesOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/notes.html#list-project-issue-notes
-func (s *NotesService) ListIssueNotes(
-	pid interface{},
-	issue int,
-	opt *ListIssueNotesOptions) ([]*Note, *Response, error) {
+func (s *NotesService) ListIssueNotes(pid interface{}, issue int, opt *ListIssueNotesOptions) ([]*Note, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -96,10 +93,7 @@ func (s *NotesService) ListIssueNotes(
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/notes.html#get-single-issue-note
-func (s *NotesService) GetIssueNote(
-	pid interface{},
-	issue int,
-	note int) (*Note, *Response, error) {
+func (s *NotesService) GetIssueNote(pid interface{}, issue int, note int) (*Note, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -133,10 +127,7 @@ type CreateIssueNoteOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/notes.html#create-new-issue-note
-func (s *NotesService) CreateIssueNote(
-	pid interface{},
-	issue int,
-	opt *CreateIssueNoteOptions) (*Note, *Response, error) {
+func (s *NotesService) CreateIssueNote(pid interface{}, issue int, opt *CreateIssueNoteOptions) (*Note, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -169,11 +160,7 @@ type UpdateIssueNoteOptions struct {
 // UpdateIssueNote modifies existing note of an issue.
 //
 // https://docs.gitlab.com/ce/api/notes.html#modify-existing-issue-note
-func (s *NotesService) UpdateIssueNote(
-	pid interface{},
-	issue int,
-	note int,
-	opt *UpdateIssueNoteOptions) (*Note, *Response, error) {
+func (s *NotesService) UpdateIssueNote(pid interface{}, issue int, note int, opt *UpdateIssueNoteOptions) (*Note, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -224,10 +211,7 @@ func (s *NotesService) ListSnippetNotes(pid interface{}, snippet int) ([]*Note, 
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/notes.html#get-single-snippet-note
-func (s *NotesService) GetSnippetNote(
-	pid interface{},
-	snippet int,
-	note int) (*Note, *Response, error) {
+func (s *NotesService) GetSnippetNote(pid interface{}, snippet int, note int) (*Note, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -262,10 +246,7 @@ type CreateSnippetNoteOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/notes.html#create-new-snippet-note
-func (s *NotesService) CreateSnippetNote(
-	pid interface{},
-	snippet int,
-	opt *CreateSnippetNoteOptions) (*Note, *Response, error) {
+func (s *NotesService) CreateSnippetNote(pid interface{}, snippet int, opt *CreateSnippetNoteOptions) (*Note, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -298,11 +279,7 @@ type UpdateSnippetNoteOptions struct {
 // UpdateSnippetNote modifies existing note of a snippet.
 //
 // https://docs.gitlab.com/ce/api/notes.html#modify-existing-snippet-note
-func (s *NotesService) UpdateSnippetNote(
-	pid interface{},
-	snippet int,
-	note int,
-	opt *UpdateSnippetNoteOptions) (*Note, *Response, error) {
+func (s *NotesService) UpdateSnippetNote(pid interface{}, snippet int, note int, opt *UpdateSnippetNoteOptions) (*Note, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -327,9 +304,7 @@ func (s *NotesService) UpdateSnippetNote(
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/notes.html#list-all-merge-request-notes
-func (s *NotesService) ListMergeRequestNotes(
-	pid interface{},
-	mergeRequest int) ([]*Note, *Response, error) {
+func (s *NotesService) ListMergeRequestNotes(pid interface{}, mergeRequest int) ([]*Note, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -354,10 +329,7 @@ func (s *NotesService) ListMergeRequestNotes(
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/notes.html#get-single-merge-request-note
-func (s *NotesService) GetMergeRequestNote(
-	pid interface{},
-	mergeRequest int,
-	note int) (*Note, *Response, error) {
+func (s *NotesService) GetMergeRequestNote(pid interface{}, mergeRequest int, note int) (*Note, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -391,10 +363,7 @@ type CreateMergeRequestNoteOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/notes.html#create-new-merge-request-note
-func (s *NotesService) CreateMergeRequestNote(
-	pid interface{},
-	mergeRequest int,
-	opt *CreateMergeRequestNoteOptions) (*Note, *Response, error) {
+func (s *NotesService) CreateMergeRequestNote(pid interface{}, mergeRequest int, opt *CreateMergeRequestNoteOptions) (*Note, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -427,11 +396,7 @@ type UpdateMergeRequestNoteOptions struct {
 // UpdateMergeRequestNote modifies existing note of a merge request.
 //
 // https://docs.gitlab.com/ce/api/notes.html#modify-existing-merge-request-note
-func (s *NotesService) UpdateMergeRequestNote(
-	pid interface{},
-	mergeRequest int,
-	note int,
-	opt *UpdateMergeRequestNoteOptions) (*Note, *Response, error) {
+func (s *NotesService) UpdateMergeRequestNote(pid interface{}, mergeRequest int, note int, opt *UpdateMergeRequestNoteOptions) (*Note, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err

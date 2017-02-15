@@ -128,9 +128,7 @@ type ListProjectIssuesOptions struct {
 // pagination parameters page and per_page to return the list of project issues.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/issues.html#list-project-issues
-func (s *IssuesService) ListProjectIssues(
-	pid interface{},
-	opt *ListProjectIssuesOptions) ([]*Issue, *Response, error) {
+func (s *IssuesService) ListProjectIssues(pid interface{}, opt *ListProjectIssuesOptions) ([]*Issue, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -189,9 +187,7 @@ type CreateIssueOptions struct {
 // CreateIssue creates a new project issue.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/issues.html#new-issues
-func (s *IssuesService) CreateIssue(
-	pid interface{},
-	opt *CreateIssueOptions) (*Issue, *Response, error) {
+func (s *IssuesService) CreateIssue(pid interface{}, opt *CreateIssueOptions) (*Issue, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -228,10 +224,7 @@ type UpdateIssueOptions struct {
 // to mark an issue as closed.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/issues.html#edit-issues
-func (s *IssuesService) UpdateIssue(
-	pid interface{},
-	issue int,
-	opt *UpdateIssueOptions) (*Issue, *Response, error) {
+func (s *IssuesService) UpdateIssue(pid interface{}, issue int, opt *UpdateIssueOptions) (*Issue, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err

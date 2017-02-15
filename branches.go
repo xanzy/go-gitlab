@@ -126,9 +126,7 @@ func (s *BranchesService) ProtectBranch(pid interface{}, branch string) (*Branch
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/branches.html#unprotect-repository-branch
-func (s *BranchesService) UnprotectBranch(
-	pid interface{},
-	branch string) (*Branch, *Response, error) {
+func (s *BranchesService) UnprotectBranch(pid interface{}, branch string) (*Branch, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -162,9 +160,7 @@ type CreateBranchOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/branches.html#create-repository-branch
-func (s *BranchesService) CreateBranch(
-	pid interface{},
-	opt *CreateBranchOptions) (*Branch, *Response, error) {
+func (s *BranchesService) CreateBranch(pid interface{}, opt *CreateBranchOptions) (*Branch, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err

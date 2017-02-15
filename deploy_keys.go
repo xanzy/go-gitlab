@@ -71,9 +71,7 @@ func (s *DeployKeysService) ListDeployKeys(pid interface{}) ([]*DeployKey, *Resp
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/deploy_keys.html#single-deploy-key
-func (s *DeployKeysService) GetDeployKey(
-	pid interface{},
-	deployKey int) (*DeployKey, *Response, error) {
+func (s *DeployKeysService) GetDeployKey(pid interface{}, deployKey int) (*DeployKey, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -109,9 +107,7 @@ type AddDeployKeyOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/deploy_keys.html#add-deploy-key
-func (s *DeployKeysService) AddDeployKey(
-	pid interface{},
-	opt *AddDeployKeyOptions) (*DeployKey, *Response, error) {
+func (s *DeployKeysService) AddDeployKey(pid interface{}, opt *AddDeployKeyOptions) (*DeployKey, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err

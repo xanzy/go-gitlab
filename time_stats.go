@@ -41,10 +41,7 @@ type SetTimeEstimateOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/issues.html#set-a-time-estimate-for-an-issue
-func (s *TimeStatsService) SetTimeEstimate(
-	pid interface{},
-	issue int,
-	opt *SetTimeEstimateOptions) (*TimeStats, *Response, error) {
+func (s *TimeStatsService) SetTimeEstimate(pid interface{}, issue int, opt *SetTimeEstimateOptions) (*TimeStats, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -69,9 +66,7 @@ func (s *TimeStatsService) SetTimeEstimate(
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/issues.html#reset-the-time-estimate-for-an-issue
-func (s *TimeStatsService) ResetTimeEstimate(
-	pid interface{},
-	issue int) (*TimeStats, *Response, error) {
+func (s *TimeStatsService) ResetTimeEstimate(pid interface{}, issue int) (*TimeStats, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -104,10 +99,7 @@ type AddSpentTimeOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/issues.html#add-spent-time-for-an-issue
-func (s *TimeStatsService) AddSpentTime(
-	pid interface{},
-	issue int,
-	opt *AddSpentTimeOptions) (*TimeStats, *Response, error) {
+func (s *TimeStatsService) AddSpentTime(pid interface{}, issue int, opt *AddSpentTimeOptions) (*TimeStats, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -132,9 +124,7 @@ func (s *TimeStatsService) AddSpentTime(
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/issues.html#reset-spent-time-for-an-issue
-func (s *TimeStatsService) ResetSpentTime(
-	pid interface{},
-	issue int) (*TimeStats, *Response, error) {
+func (s *TimeStatsService) ResetSpentTime(pid interface{}, issue int) (*TimeStats, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -159,9 +149,7 @@ func (s *TimeStatsService) ResetSpentTime(
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/issues.html#get-time-tracking-stats
-func (s *TimeStatsService) GetTimeSpent(
-	pid interface{},
-	issue int) (*TimeStats, *Response, error) {
+func (s *TimeStatsService) GetTimeSpent(pid interface{}, issue int) (*TimeStats, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err

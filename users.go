@@ -330,9 +330,7 @@ func (s *UsersService) AddSSHKey(opt *AddSSHKeyOptions) (*SSHKey, *Response, err
 // admin.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/users.html#add-ssh-key-for-user
-func (s *UsersService) AddSSHKeyForUser(
-	user int,
-	opt *AddSSHKeyOptions) (*SSHKey, *Response, error) {
+func (s *UsersService) AddSSHKeyForUser(user int, opt *AddSSHKeyOptions) (*SSHKey, *Response, error) {
 	u := fmt.Sprintf("users/%d/keys", user)
 
 	req, err := s.client.NewRequest("POST", u, opt)
@@ -535,9 +533,7 @@ func (s *UsersService) AddEmail(opt *AddEmailOptions) (*Email, *Response, error)
 // admin.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/users.html#add-email-for-user
-func (s *UsersService) AddEmailForUser(
-	uid int,
-	opt *AddEmailOptions) (*Email, *Response, error) {
+func (s *UsersService) AddEmailForUser(uid int, opt *AddEmailOptions) (*Email, *Response, error) {
 	u := fmt.Sprintf("users/%d/emails", uid)
 
 	req, err := s.client.NewRequest("POST", u, opt)

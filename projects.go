@@ -166,8 +166,7 @@ func (s *ProjectsService) ListProjects(opt *ListProjectsOptions) ([]*Project, *R
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/projects.html#list-owned-projects
-func (s *ProjectsService) ListOwnedProjects(
-	opt *ListProjectsOptions) ([]*Project, *Response, error) {
+func (s *ProjectsService) ListOwnedProjects(opt *ListProjectsOptions) ([]*Project, *Response, error) {
 	req, err := s.client.NewRequest("GET", "projects/owned", opt)
 	if err != nil {
 		return nil, nil, err
@@ -187,8 +186,7 @@ func (s *ProjectsService) ListOwnedProjects(
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/projects.html#list-starred-projects
-func (s *ProjectsService) ListStarredProjects(
-	opt *ListProjectsOptions) ([]*Project, *Response, error) {
+func (s *ProjectsService) ListStarredProjects(opt *ListProjectsOptions) ([]*Project, *Response, error) {
 	req, err := s.client.NewRequest("GET", "projects/starred", opt)
 	if err != nil {
 		return nil, nil, err
@@ -263,9 +261,7 @@ type SearchProjectsOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/projects.html#search-for-projects-by-name
-func (s *ProjectsService) SearchProjects(
-	query string,
-	opt *SearchProjectsOptions) ([]*Project, *Response, error) {
+func (s *ProjectsService) SearchProjects(query string, opt *SearchProjectsOptions) ([]*Project, *Response, error) {
 	u := fmt.Sprintf("projects/search/%s", query)
 
 	req, err := s.client.NewRequest("GET", u, opt)
@@ -324,9 +320,7 @@ type GetProjectEventsOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/projects.html#get-project-events
-func (s *ProjectsService) GetProjectEvents(
-	pid interface{},
-	opt *GetProjectEventsOptions) ([]*ProjectEvent, *Response, error) {
+func (s *ProjectsService) GetProjectEvents(pid interface{}, opt *GetProjectEventsOptions) ([]*ProjectEvent, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -374,8 +368,7 @@ type CreateProjectOptions struct {
 // CreateProject creates a new project owned by the authenticated user.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#create-project
-func (s *ProjectsService) CreateProject(
-	opt *CreateProjectOptions) (*Project, *Response, error) {
+func (s *ProjectsService) CreateProject(opt *CreateProjectOptions) (*Project, *Response, error) {
 	req, err := s.client.NewRequest("POST", "projects", opt)
 	if err != nil {
 		return nil, nil, err
@@ -413,9 +406,7 @@ type CreateProjectForUserOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/projects.html#create-project-for-user
-func (s *ProjectsService) CreateProjectForUser(
-	user int,
-	opt *CreateProjectForUserOptions) (*Project, *Response, error) {
+func (s *ProjectsService) CreateProjectForUser(user int, opt *CreateProjectForUserOptions) (*Project, *Response, error) {
 	u := fmt.Sprintf("projects/user/%d", user)
 
 	req, err := s.client.NewRequest("POST", u, opt)
@@ -461,9 +452,7 @@ type EditProjectOptions struct {
 // EditProject updates an existing project.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#edit-project
-func (s *ProjectsService) EditProject(
-	pid interface{},
-	opt *EditProjectOptions) (*Project, *Response, error) {
+func (s *ProjectsService) EditProject(pid interface{}, opt *EditProjectOptions) (*Project, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -556,9 +545,7 @@ type ListProjectMembersOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/projects.html#list-project-team-members
-func (s *ProjectsService) ListProjectMembers(
-	pid interface{},
-	opt *ListProjectMembersOptions) ([]*ProjectMember, *Response, error) {
+func (s *ProjectsService) ListProjectMembers(pid interface{}, opt *ListProjectMembersOptions) ([]*ProjectMember, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -583,9 +570,7 @@ func (s *ProjectsService) ListProjectMembers(
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/projects.html#get-project-team-member
-func (s *ProjectsService) GetProjectMember(
-	pid interface{},
-	user int) (*ProjectMember, *Response, error) {
+func (s *ProjectsService) GetProjectMember(pid interface{}, user int) (*ProjectMember, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -622,9 +607,7 @@ type AddProjectMemberOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/projects.html#add-project-team-member
-func (s *ProjectsService) AddProjectMember(
-	pid interface{},
-	opt *AddProjectMemberOptions) (*ProjectMember, *Response, error) {
+func (s *ProjectsService) AddProjectMember(pid interface{}, opt *AddProjectMemberOptions) (*ProjectMember, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -657,10 +640,7 @@ type EditProjectMemberOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/projects.html#edit-project-team-member
-func (s *ProjectsService) EditProjectMember(
-	pid interface{},
-	user int,
-	opt *EditProjectMemberOptions) (*ProjectMember, *Response, error) {
+func (s *ProjectsService) EditProjectMember(pid interface{}, user int, opt *EditProjectMemberOptions) (*ProjectMember, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -731,9 +711,7 @@ type ListProjectHooksOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/projects.html#list-project-hooks
-func (s *ProjectsService) ListProjectHooks(
-	pid interface{},
-	opt *ListProjectHooksOptions) ([]*ProjectHook, *Response, error) {
+func (s *ProjectsService) ListProjectHooks(pid interface{}, opt *ListProjectHooksOptions) ([]*ProjectHook, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -758,9 +736,7 @@ func (s *ProjectsService) ListProjectHooks(
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/projects.html#get-project-hook
-func (s *ProjectsService) GetProjectHook(
-	pid interface{},
-	hook int) (*ProjectHook, *Response, error) {
+func (s *ProjectsService) GetProjectHook(pid interface{}, hook int) (*ProjectHook, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -803,9 +779,7 @@ type AddProjectHookOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/projects.html#add-project-hook
-func (s *ProjectsService) AddProjectHook(
-	pid interface{},
-	opt *AddProjectHookOptions) (*ProjectHook, *Response, error) {
+func (s *ProjectsService) AddProjectHook(pid interface{}, opt *AddProjectHookOptions) (*ProjectHook, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -848,10 +822,7 @@ type EditProjectHookOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/projects.html#edit-project-hook
-func (s *ProjectsService) EditProjectHook(
-	pid interface{},
-	hook int,
-	opt *EditProjectHookOptions) (*ProjectHook, *Response, error) {
+func (s *ProjectsService) EditProjectHook(pid interface{}, hook int, opt *EditProjectHookOptions) (*ProjectHook, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -909,9 +880,7 @@ type ProjectForkRelation struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/projects.html#create-a-forked-fromto-relation-between-existing-projects.
-func (s *ProjectsService) CreateProjectForkRelation(
-	pid int,
-	fork int) (*ProjectForkRelation, *Response, error) {
+func (s *ProjectsService) CreateProjectForkRelation(pid int, fork int) (*ProjectForkRelation, *Response, error) {
 	u := fmt.Sprintf("projects/%d/fork/%d", pid, fork)
 
 	req, err := s.client.NewRequest("POST", u, nil)
