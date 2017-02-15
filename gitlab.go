@@ -115,30 +115,31 @@ type Client struct {
 	UserAgent string
 
 	// Services used for talking to different parts of the GitLab API.
-	Branches        *BranchesService
-	BuildVariables  *BuildVariablesService
-	Builds          *BuildsService
-	Commits         *CommitsService
-	DeployKeys      *DeployKeysService
-	Groups          *GroupsService
-	Issues          *IssuesService
-	Labels          *LabelsService
-	MergeRequests   *MergeRequestsService
-	Milestones      *MilestonesService
-	Namespaces      *NamespacesService
-	Notes           *NotesService
-	Projects        *ProjectsService
-	ProjectSnippets *ProjectSnippetsService
-	Pipelines       *PipelinesService
-	Repositories    *RepositoriesService
-	RepositoryFiles *RepositoryFilesService
-	Services        *ServicesService
-	Session         *SessionService
-	Settings        *SettingsService
-	SystemHooks     *SystemHooksService
-	Tags            *TagsService
-	TimeStats       *TimeStatsService
-	Users           *UsersService
+	Branches             *BranchesService
+	BuildVariables       *BuildVariablesService
+	Builds               *BuildsService
+	Commits              *CommitsService
+	DeployKeys           *DeployKeysService
+	Groups               *GroupsService
+	Issues               *IssuesService
+	Labels               *LabelsService
+	MergeRequests        *MergeRequestsService
+	Milestones           *MilestonesService
+	Namespaces           *NamespacesService
+	Notes                *NotesService
+	NotificationSettings *NotificationSettingsService
+	Projects             *ProjectsService
+	ProjectSnippets      *ProjectSnippetsService
+	Pipelines            *PipelinesService
+	Repositories         *RepositoriesService
+	RepositoryFiles      *RepositoryFilesService
+	Services             *ServicesService
+	Session              *SessionService
+	Settings             *SettingsService
+	SystemHooks          *SystemHooksService
+	Tags                 *TagsService
+	TimeStats            *TimeStatsService
+	Users                *UsersService
 }
 
 // ListOptions specifies the optional parameters to various List methods that
@@ -186,8 +187,9 @@ func newClient(httpClient *http.Client, tokenType tokenType, token string) *Clie
 	c.Labels = &LabelsService{client: c}
 	c.MergeRequests = &MergeRequestsService{client: c}
 	c.Milestones = &MilestonesService{client: c}
-	c.Notes = &NotesService{client: c}
 	c.Namespaces = &NamespacesService{client: c}
+	c.Notes = &NotesService{client: c}
+	c.NotificationSettings = &NotificationSettingsService{client: c}
 	c.Projects = &ProjectsService{client: c}
 	c.ProjectSnippets = &ProjectSnippetsService{client: c}
 	c.Pipelines = &PipelinesService{client: c}
