@@ -92,7 +92,7 @@ func TestNewClient(t *testing.T) {
 }
 
 func TestCheckResponse(t *testing.T) {
-	req, err := NewClient(nil, "").NewRequest("GET", "test", nil)
+	req, err := NewClient(nil, "").NewRequest("GET", "test", nil, nil)
 	if err != nil {
 		t.Fatalf("Failed to create request: %v", err)
 	}

@@ -59,8 +59,8 @@ func (s Settings) String() string {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/settings.html#get-current-application.settings
-func (s *SettingsService) GetSettings() (*Settings, *Response, error) {
-	req, err := s.client.NewRequest("GET", "application/settings", nil)
+func (s *SettingsService) GetSettings(sudoFunc ...SudoFunc) (*Settings, *Response, error) {
+	req, err := s.client.NewRequest("GET", "application/settings", nil, sudoFunc)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -101,8 +101,8 @@ type UpdateSettingsOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/settings.html#change-application.settings
-func (s *SettingsService) UpdateSettings(opt *UpdateSettingsOptions) (*Settings, *Response, error) {
-	req, err := s.client.NewRequest("PUT", "application/settings", opt)
+func (s *SettingsService) UpdateSettings(opt *UpdateSettingsOptions, sudoFunc ...SudoFunc) (*Settings, *Response, error) {
+	req, err := s.client.NewRequest("PUT", "application/settings", opt, sudoFunc)
 	if err != nil {
 		return nil, nil, err
 	}

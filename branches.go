@@ -47,14 +47,14 @@ func (b Branch) String() string {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/branches.html#list-repository-branches
-func (s *BranchesService) ListBranches(pid interface{}) ([]*Branch, *Response, error) {
+func (s *BranchesService) ListBranches(pid interface{}, sudoFunc ...SudoFunc) ([]*Branch, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/repository/branches", url.QueryEscape(project))
 
-	req, err := s.client.NewRequest("GET", u, nil)
+	req, err := s.client.NewRequest("GET", u, nil, sudoFunc)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -72,14 +72,14 @@ func (s *BranchesService) ListBranches(pid interface{}) ([]*Branch, *Response, e
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/branches.html#get-single-repository-branch
-func (s *BranchesService) GetBranch(pid interface{}, branch string) (*Branch, *Response, error) {
+func (s *BranchesService) GetBranch(pid interface{}, branch string, sudoFunc ...SudoFunc) (*Branch, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/repository/branches/%s", url.QueryEscape(project), branch)
 
-	req, err := s.client.NewRequest("GET", u, nil)
+	req, err := s.client.NewRequest("GET", u, nil, sudoFunc)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -99,14 +99,14 @@ func (s *BranchesService) GetBranch(pid interface{}, branch string) (*Branch, *R
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/branches.html#protect-repository-branch
-func (s *BranchesService) ProtectBranch(pid interface{}, branch string) (*Branch, *Response, error) {
+func (s *BranchesService) ProtectBranch(pid interface{}, branch string, sudoFunc ...SudoFunc) (*Branch, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/repository/branches/%s/protect", url.QueryEscape(project), branch)
 
-	req, err := s.client.NewRequest("PUT", u, nil)
+	req, err := s.client.NewRequest("PUT", u, nil, sudoFunc)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -126,14 +126,14 @@ func (s *BranchesService) ProtectBranch(pid interface{}, branch string) (*Branch
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/branches.html#unprotect-repository-branch
-func (s *BranchesService) UnprotectBranch(pid interface{}, branch string) (*Branch, *Response, error) {
+func (s *BranchesService) UnprotectBranch(pid interface{}, branch string, sudoFunc ...SudoFunc) (*Branch, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/repository/branches/%s/unprotect", url.QueryEscape(project), branch)
 
-	req, err := s.client.NewRequest("PUT", u, nil)
+	req, err := s.client.NewRequest("PUT", u, nil, sudoFunc)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -160,14 +160,14 @@ type CreateBranchOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/branches.html#create-repository-branch
-func (s *BranchesService) CreateBranch(pid interface{}, opt *CreateBranchOptions) (*Branch, *Response, error) {
+func (s *BranchesService) CreateBranch(pid interface{}, opt *CreateBranchOptions, sudoFunc ...SudoFunc) (*Branch, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/repository/branches", url.QueryEscape(project))
 
-	req, err := s.client.NewRequest("POST", u, opt)
+	req, err := s.client.NewRequest("POST", u, opt, sudoFunc)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -185,14 +185,14 @@ func (s *BranchesService) CreateBranch(pid interface{}, opt *CreateBranchOptions
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/branches.html#delete-repository-branch
-func (s *BranchesService) DeleteBranch(pid interface{}, branch string) (*Response, error) {
+func (s *BranchesService) DeleteBranch(pid interface{}, branch string, sudoFunc ...SudoFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, err
 	}
 	u := fmt.Sprintf("projects/%s/repository/branches/%s", url.QueryEscape(project), branch)
 
-	req, err := s.client.NewRequest("DELETE", u, nil)
+	req, err := s.client.NewRequest("DELETE", u, nil, sudoFunc)
 	if err != nil {
 		return nil, err
 	}

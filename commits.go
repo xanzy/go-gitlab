@@ -63,14 +63,14 @@ type ListCommitsOptions struct {
 // ListCommits gets a list of repository commits in a project.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/commits.html#list-commits
-func (s *CommitsService) ListCommits(pid interface{}, opt *ListCommitsOptions) ([]*Commit, *Response, error) {
+func (s *CommitsService) ListCommits(pid interface{}, opt *ListCommitsOptions, sudoFunc ...SudoFunc) ([]*Commit, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/repository/commits", url.QueryEscape(project))
 
-	req, err := s.client.NewRequest("GET", u, opt)
+	req, err := s.client.NewRequest("GET", u, opt, sudoFunc)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -88,14 +88,14 @@ func (s *CommitsService) ListCommits(pid interface{}, opt *ListCommitsOptions) (
 // branch or tag.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/commits.html#get-a-single-commit
-func (s *CommitsService) GetCommit(pid interface{}, sha string) (*Commit, *Response, error) {
+func (s *CommitsService) GetCommit(pid interface{}, sha string, sudoFunc ...SudoFunc) (*Commit, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/repository/commits/%s", url.QueryEscape(project), sha)
 
-	req, err := s.client.NewRequest("GET", u, nil)
+	req, err := s.client.NewRequest("GET", u, nil, sudoFunc)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -131,14 +131,14 @@ func (d Diff) String() string {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/commits.html#get-the-diff-of-a-commit
-func (s *CommitsService) GetCommitDiff(pid interface{}, sha string) ([]*Diff, *Response, error) {
+func (s *CommitsService) GetCommitDiff(pid interface{}, sha string, sudoFunc ...SudoFunc) ([]*Diff, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/repository/commits/%s/diff", url.QueryEscape(project), sha)
 
-	req, err := s.client.NewRequest("GET", u, nil)
+	req, err := s.client.NewRequest("GET", u, nil, sudoFunc)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -182,14 +182,14 @@ func (c CommitComment) String() string {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/commits.html#get-the-comments-of-a-commit
-func (s *CommitsService) GetCommitComments(pid interface{}, sha string) ([]*CommitComment, *Response, error) {
+func (s *CommitsService) GetCommitComments(pid interface{}, sha string, sudoFunc ...SudoFunc) ([]*CommitComment, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/repository/commits/%s/comments", url.QueryEscape(project), sha)
 
-	req, err := s.client.NewRequest("GET", u, nil)
+	req, err := s.client.NewRequest("GET", u, nil, sudoFunc)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -221,14 +221,14 @@ type PostCommitCommentOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/commits.html#post-comment-to-commit
-func (s *CommitsService) PostCommitComment(pid interface{}, sha string, opt *PostCommitCommentOptions) (*CommitComment, *Response, error) {
+func (s *CommitsService) PostCommitComment(pid interface{}, sha string, opt *PostCommitCommentOptions, sudoFunc ...SudoFunc) (*CommitComment, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/repository/commits/%s/comments", url.QueryEscape(project), sha)
 
-	req, err := s.client.NewRequest("POST", u, opt)
+	req, err := s.client.NewRequest("POST", u, opt, sudoFunc)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -272,14 +272,14 @@ type CommitStatus struct {
 // GetCommitStatuses gets the statuses of a commit in a project.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/commits.html#get-the-status-of-a-commit
-func (s *CommitsService) GetCommitStatuses(pid interface{}, sha string, opt *GetCommitStatusesOptions) ([]*CommitStatus, *Response, error) {
+func (s *CommitsService) GetCommitStatuses(pid interface{}, sha string, opt *GetCommitStatusesOptions, sudoFunc ...SudoFunc) ([]*CommitStatus, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/repository/commits/%s/statuses", url.QueryEscape(project), sha)
 
-	req, err := s.client.NewRequest("GET", u, opt)
+	req, err := s.client.NewRequest("GET", u, opt, sudoFunc)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -320,14 +320,14 @@ const (
 // SetCommitStatus sets the status of a commit in a project.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/commits.html#post-the-status-to-commit
-func (s *CommitsService) SetCommitStatus(pid interface{}, sha string, opt *SetCommitStatusOptions) (*CommitStatus, *Response, error) {
+func (s *CommitsService) SetCommitStatus(pid interface{}, sha string, opt *SetCommitStatusOptions, sudoFunc ...SudoFunc) (*CommitStatus, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/statuses/%s", url.QueryEscape(project), sha)
 
-	req, err := s.client.NewRequest("POST", u, opt)
+	req, err := s.client.NewRequest("POST", u, opt, sudoFunc)
 	if err != nil {
 		return nil, nil, err
 	}

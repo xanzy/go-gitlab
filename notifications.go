@@ -14,27 +14,14 @@ type NotificationSettingsService struct {
 	client *Client
 }
 
-// NotificationLevel represents a notification level.
-type NotificationLevel string
-
-// List of valid notification levels.
-const (
-	CustomNotificationLevel        NotificationLevel = "custom"
-	DisabledNotificationLevel      NotificationLevel = "disabled"
-	GlobalNotificationLevel        NotificationLevel = "global"
-	MentionNotificationLevel       NotificationLevel = "mention"
-	ParticipatingNotificationLevel NotificationLevel = "participating"
-	WatchNotificationLevel         NotificationLevel = "watch"
-)
-
 // NotificationSettings represents the Gitlab notification setting.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/notification_settings.html#notification-settings
 type NotificationSettings struct {
-	Level             NotificationLevel   `json:"level"`
-	NotificationEmail string              `json:"notification_email"`
-	Events            *NotificationEvents `json:"events"`
+	Level             NotificationLevelValue `json:"level"`
+	NotificationEmail string                 `json:"notification_email"`
+	Events            *NotificationEvents    `json:"events"`
 }
 
 // NotificationEvents represents the avialable notification setting events.
@@ -64,10 +51,10 @@ func (ns NotificationSettings) String() string {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/notification_settings.html#global-notification-settings
-func (s *NotificationSettingsService) GetGlobalSettings() (*NotificationSettings, *Response, error) {
+func (s *NotificationSettingsService) GetGlobalSettings(sudoFunc ...SudoFunc) (*NotificationSettings, *Response, error) {
 	u := "notification_settings"
 
-	req, err := s.client.NewRequest("GET", u, nil)
+	req, err := s.client.NewRequest("GET", u, nil, sudoFunc)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -84,27 +71,27 @@ func (s *NotificationSettingsService) GetGlobalSettings() (*NotificationSettings
 // NotificationSettingsOptions represents the available options that can be passed
 // to the API when updating the notification settings.
 type NotificationSettingsOptions struct {
-	Level                *NotificationLevel `url:"level,omitempty" json:"level,omitempty"`
-	NotificationEmail    *string            `url:"notification_email,omitempty" json:"notification_email,omitempty"`
-	CloseIssue           *bool              `url:"close_issue,omitempty" json:"close_issue,omitempty"`
-	CloseMergeRequest    *bool              `url:"close_merge_request,omitempty" json:"close_merge_request,omitempty"`
-	FailedPipeline       *bool              `url:"failed_pipeline,omitempty" json:"failed_pipeline,omitempty"`
-	MergeMergeRequest    *bool              `url:"merge_merge_request,omitempty" json:"merge_merge_request,omitempty"`
-	NewIssue             *bool              `url:"new_issue,omitempty" json:"new_issue,omitempty"`
-	NewMergeRequest      *bool              `url:"new_merge_request,omitempty" json:"new_merge_request,omitempty"`
-	NewNote              *bool              `url:"new_note,omitempty" json:"new_note,omitempty"`
-	ReassignIssue        *bool              `url:"reassign_issue,omitempty" json:"reassign_issue,omitempty"`
-	ReassignMergeRequest *bool              `url:"reassign_merge_request,omitempty" json:"reassign_merge_request,omitempty"`
-	ReopenIssue          *bool              `url:"reopen_issue,omitempty" json:"reopen_issue,omitempty"`
-	ReopenMergeRequest   *bool              `url:"reopen_merge_request,omitempty" json:"reopen_merge_request,omitempty"`
-	SuccessPipeline      *bool              `url:"success_pipeline,omitempty" json:"success_pipeline,omitempty"`
+	Level                *NotificationLevelValue `url:"level,omitempty" json:"level,omitempty"`
+	NotificationEmail    *string                 `url:"notification_email,omitempty" json:"notification_email,omitempty"`
+	CloseIssue           *bool                   `url:"close_issue,omitempty" json:"close_issue,omitempty"`
+	CloseMergeRequest    *bool                   `url:"close_merge_request,omitempty" json:"close_merge_request,omitempty"`
+	FailedPipeline       *bool                   `url:"failed_pipeline,omitempty" json:"failed_pipeline,omitempty"`
+	MergeMergeRequest    *bool                   `url:"merge_merge_request,omitempty" json:"merge_merge_request,omitempty"`
+	NewIssue             *bool                   `url:"new_issue,omitempty" json:"new_issue,omitempty"`
+	NewMergeRequest      *bool                   `url:"new_merge_request,omitempty" json:"new_merge_request,omitempty"`
+	NewNote              *bool                   `url:"new_note,omitempty" json:"new_note,omitempty"`
+	ReassignIssue        *bool                   `url:"reassign_issue,omitempty" json:"reassign_issue,omitempty"`
+	ReassignMergeRequest *bool                   `url:"reassign_merge_request,omitempty" json:"reassign_merge_request,omitempty"`
+	ReopenIssue          *bool                   `url:"reopen_issue,omitempty" json:"reopen_issue,omitempty"`
+	ReopenMergeRequest   *bool                   `url:"reopen_merge_request,omitempty" json:"reopen_merge_request,omitempty"`
+	SuccessPipeline      *bool                   `url:"success_pipeline,omitempty" json:"success_pipeline,omitempty"`
 }
 
 // UpdateGlobalSettings updates current notification settings and email address.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/notification_settings.html#update-global-notification-settings
-func (s *NotificationSettingsService) UpdateGlobalSettings(opt *NotificationSettingsOptions) (*NotificationSettings, *Response, error) {
+func (s *NotificationSettingsService) UpdateGlobalSettings(opt *NotificationSettingsOptions, sudoFunc ...SudoFunc) (*NotificationSettings, *Response, error) {
 	if opt.Level != nil && *opt.Level == GlobalNotificationLevel {
 		return nil, nil, errors.New(
 			"notification level 'global' is not valid for global notification settings")
@@ -112,7 +99,7 @@ func (s *NotificationSettingsService) UpdateGlobalSettings(opt *NotificationSett
 
 	u := "notification_settings"
 
-	req, err := s.client.NewRequest("PUT", u, opt)
+	req, err := s.client.NewRequest("PUT", u, opt, sudoFunc)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -130,14 +117,14 @@ func (s *NotificationSettingsService) UpdateGlobalSettings(opt *NotificationSett
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/notification_settings.html#group-project-level-notification-settings
-func (s *NotificationSettingsService) GetSettingsForGroup(gid interface{}) (*NotificationSettings, *Response, error) {
+func (s *NotificationSettingsService) GetSettingsForGroup(gid interface{}, sudoFunc ...SudoFunc) (*NotificationSettings, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("groups/%s/notification_settings", url.QueryEscape(group))
 
-	req, err := s.client.NewRequest("GET", u, nil)
+	req, err := s.client.NewRequest("GET", u, nil, sudoFunc)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -155,14 +142,14 @@ func (s *NotificationSettingsService) GetSettingsForGroup(gid interface{}) (*Not
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/notification_settings.html#group-project-level-notification-settings
-func (s *NotificationSettingsService) GetSettingsForProject(pid interface{}) (*NotificationSettings, *Response, error) {
+func (s *NotificationSettingsService) GetSettingsForProject(pid interface{}, sudoFunc ...SudoFunc) (*NotificationSettings, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/notification_settings", url.QueryEscape(project))
 
-	req, err := s.client.NewRequest("GET", u, nil)
+	req, err := s.client.NewRequest("GET", u, nil, sudoFunc)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -180,14 +167,14 @@ func (s *NotificationSettingsService) GetSettingsForProject(pid interface{}) (*N
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/notification_settings.html#update-group-project-level-notification-settings
-func (s *NotificationSettingsService) UpdateSettingsForGroup(gid interface{}, opt *NotificationSettingsOptions) (*NotificationSettings, *Response, error) {
+func (s *NotificationSettingsService) UpdateSettingsForGroup(gid interface{}, opt *NotificationSettingsOptions, sudoFunc ...SudoFunc) (*NotificationSettings, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("groups/%s/notification_settings", url.QueryEscape(group))
 
-	req, err := s.client.NewRequest("PUT", u, opt)
+	req, err := s.client.NewRequest("PUT", u, opt, sudoFunc)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -205,14 +192,14 @@ func (s *NotificationSettingsService) UpdateSettingsForGroup(gid interface{}, op
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/notification_settings.html#update-group-project-level-notification-settings
-func (s *NotificationSettingsService) UpdateSettingsForProject(pid interface{}, opt *NotificationSettingsOptions) (*NotificationSettings, *Response, error) {
+func (s *NotificationSettingsService) UpdateSettingsForProject(pid interface{}, opt *NotificationSettingsOptions, sudoFunc ...SudoFunc) (*NotificationSettings, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/notification_settings", url.QueryEscape(project))
 
-	req, err := s.client.NewRequest("PUT", u, opt)
+	req, err := s.client.NewRequest("PUT", u, opt, sudoFunc)
 	if err != nil {
 		return nil, nil, err
 	}

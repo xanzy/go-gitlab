@@ -66,21 +66,60 @@ const (
 	OwnerPermission      AccessLevelValue = 50
 )
 
-// NotificationLevelValue represents a notification level within Gitlab.
-//
-// GitLab API docs: https://docs.gitlab.com/ce/api/
+// NotificationLevelValue represents a notification level.
 type NotificationLevelValue int
 
-// List of available notification levels
-//
-// GitLab API docs: https://docs.gitlab.com/ce/api/
+// String implements the fmt.Stringer interface.
+func (l NotificationLevelValue) String() string {
+	return notificationLevelNames[l]
+}
+
+// UnmarshalJSON implements the json.Unmarshaler interface.
+func (l *NotificationLevelValue) UnmarshalJSON(data []byte) error {
+	var raw interface{}
+	if err := json.Unmarshal(data, &raw); err != nil {
+		return err
+	}
+
+	switch raw := raw.(type) {
+	case float64:
+		*l = NotificationLevelValue(raw)
+	case string:
+		*l = notificationLevelTypes[raw]
+	default:
+		return fmt.Errorf("json: cannot unmarshal %T into Go value of type %T", raw, *l)
+	}
+
+	return nil
+}
+
+// List of valid notification levels.
 const (
-	DisabledNotifications NotificationLevelValue = iota
-	ParticipatingNotifications
-	WatchNotifications
-	GlobalNotifications
-	MentionNotifications
+	DisabledNotificationLevel NotificationLevelValue = iota
+	ParticipatingNotificationLevel
+	WatchNotificationLevel
+	GlobalNotificationLevel
+	MentionNotificationLevel
+	CustomNotificationLevel
 )
+
+var notificationLevelNames = [...]string{
+	"disabled",
+	"participating",
+	"watch",
+	"global",
+	"mention",
+	"custom",
+}
+
+var notificationLevelTypes = map[string]NotificationLevelValue{
+	"disabled":      DisabledNotificationLevel,
+	"participating": ParticipatingNotificationLevel,
+	"watch":         WatchNotificationLevel,
+	"global":        GlobalNotificationLevel,
+	"mention":       MentionNotificationLevel,
+	"custom":        CustomNotificationLevel,
+}
 
 // VisibilityLevelValue represents a visibility level within GitLab.
 //
@@ -231,7 +270,7 @@ func (c *Client) SetBaseURL(urlStr string) error {
 // Relative URL paths should always be specified without a preceding slash. If
 // specified, the value pointed to by body is JSON encoded and included as the
 // request body.
-func (c *Client) NewRequest(method, path string, opt interface{}) (*http.Request, error) {
+func (c *Client) NewRequest(method, path string, opt interface{}, sudoFunc []SudoFunc) (*http.Request, error) {
 	u := *c.baseURL
 	// Set the encoded opaque data
 	u.Opaque = c.baseURL.Path + path
@@ -252,6 +291,12 @@ func (c *Client) NewRequest(method, path string, opt interface{}) (*http.Request
 		ProtoMinor: 1,
 		Header:     make(http.Header),
 		Host:       u.Host,
+	}
+
+	for _, fn := range sudoFunc {
+		if err := fn(req); err != nil {
+			return nil, err
+		}
 	}
 
 	if method == "POST" || method == "PUT" {
@@ -396,23 +441,6 @@ func parseID(id interface{}) (string, error) {
 }
 
 // An ErrorResponse reports one or more errors caused by an API request.
-// Format:
-// {
-//     "message": {
-//         "<property-name>": [
-//             "<error-message>",
-//             "<error-message>",
-//             ...
-//         ],
-//         "<embed-entity>": {
-//             "<property-name>": [
-//                 "<error-message>",
-//                 "<error-message>",
-//                 ...
-//             ],
-//         }
-//     }
-// }
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/README.html#data-validation-and-error-reporting
@@ -448,6 +476,24 @@ func CheckResponse(r *http.Response) error {
 	return errorResponse
 }
 
+// Format:
+// {
+//     "message": {
+//         "<property-name>": [
+//             "<error-message>",
+//             "<error-message>",
+//             ...
+//         ],
+//         "<embed-entity>": {
+//             "<property-name>": [
+//                 "<error-message>",
+//                 "<error-message>",
+//                 ...
+//             ],
+//         }
+//     },
+//     "error": "<error-message>"
+// }
 func parseError(raw interface{}) string {
 	switch raw := raw.(type) {
 	case string:
@@ -470,6 +516,28 @@ func parseError(raw interface{}) string {
 
 	default:
 		return fmt.Sprintf("failed to parse unexpected error type: %T", raw)
+	}
+}
+
+// SudoFunc can be passed to all API requests to make the API call as if you were
+// another user, provided your private token is from an administrator account.
+//
+// GitLab docs: https://docs.gitlab.com/ce/api/README.html#sudo
+type SudoFunc func(*http.Request) error
+
+// SudoUser takes either a username or user ID and sets the SUDO request header
+func SudoUser(uid interface{}) SudoFunc {
+	return func(req *http.Request) error {
+		switch uid := uid.(type) {
+		case int:
+			req.Header.Set("SUDO", strconv.Itoa(uid))
+			return nil
+		case string:
+			req.Header.Set("SUDO", uid)
+			return nil
+		default:
+			return fmt.Errorf("uid must be either a username or user ID")
+		}
 	}
 }
 
@@ -502,6 +570,14 @@ func String(v string) *string {
 // to store v and returns a pointer to it.
 func AccessLevel(v AccessLevelValue) *AccessLevelValue {
 	p := new(AccessLevelValue)
+	*p = v
+	return p
+}
+
+// NotificationLevel is a helper routine that allocates a new NotificationLevelValue
+// to store v and returns a pointer to it.
+func NotificationLevel(v NotificationLevelValue) *NotificationLevelValue {
+	p := new(NotificationLevelValue)
 	*p = v
 	return p
 }
