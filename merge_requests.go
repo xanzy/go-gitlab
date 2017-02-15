@@ -164,6 +164,31 @@ func (s *MergeRequestsService) GetMergeRequest(pid interface{}, mergeRequest int
 	return m, resp, err
 }
 
+// GetMergeRequestCommits gets a list of merge request commits.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/merge_requests.html#get-single-mr-commits
+func (s *MergeRequestsService) GetMergeRequestCommits(pid interface{}, mergeRequest int) ([]*Commit, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/merge_request/%d/commits", url.QueryEscape(project), mergeRequest)
+
+	req, err := s.client.NewRequest("GET", u, nil)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var c []*Commit
+	resp, err := s.client.Do(req, &c)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return c, resp, err
+}
+
 // GetMergeRequestChanges shows information about the merge request including
 // its files and changes.
 //
