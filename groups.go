@@ -235,18 +235,27 @@ func (s *GroupsService) ListGroupMembers(gid interface{}, opt *ListGroupMembersO
 	return g, resp, err
 }
 
+// ListGroupProjectsOptions represents the available ListGroupProjects()
+// options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/groups.html#list-a-group-s-projects
+type ListGroupProjectsOptions struct {
+	ListOptions
+}
+
 // ListGroupProjects get a list of group projects
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/groups.html#list-a-group-s-projects
-func (s *GroupsService) ListGroupProjects(gid interface{}) ([]*Project, *Response, error) {
+func (s *GroupsService) ListGroupProjects(gid interface{}, opt *ListGroupProjectsOptions) ([]*Project, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("groups/%s/projects", group)
 
-	req, err := s.client.NewRequest("GET", u, nil)
+	req, err := s.client.NewRequest("GET", u, opt)
 	if err != nil {
 		return nil, nil, err
 	}
