@@ -63,23 +63,6 @@ func testFormValues(t *testing.T, r *http.Request, values values) {
 	}
 }
 
-func testHeader(t *testing.T, r *http.Request, header string, want string) {
-	if got := r.Header.Get(header); got != want {
-		t.Errorf("Header.Get(%q) returned %s, want %s", header, got, want)
-	}
-}
-
-func testBody(t *testing.T, r *http.Request, want string) {
-	b, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		t.Errorf("Error reading request body: %v", err)
-	}
-
-	if got := string(b); got != want {
-		t.Errorf("request Body is %s, want %s", got, want)
-	}
-}
-
 func testJSONBody(t *testing.T, r *http.Request, want values) {
 	b, err := ioutil.ReadAll(r.Body)
 	if err != nil {
@@ -97,11 +80,6 @@ func testJSONBody(t *testing.T, r *http.Request, want values) {
 	}
 }
 
-func responseBody(w http.ResponseWriter, filename string) {
-	body, _ := ioutil.ReadFile(filename)
-	w.Write([]byte(body))
-}
-
 func TestNewClient(t *testing.T) {
 	c := NewClient(nil, "")
 
@@ -114,24 +92,48 @@ func TestNewClient(t *testing.T) {
 }
 
 func TestCheckResponse(t *testing.T) {
-	res := &http.Response{
-		Request:    &http.Request{},
+	req, err := NewClient(nil, "").NewRequest("GET", "test", nil)
+	if err != nil {
+		t.Fatalf("Failed to create request: %v", err)
+	}
+
+	resp := &http.Response{
+		Request:    req,
 		StatusCode: http.StatusBadRequest,
-		Body: ioutil.NopCloser(strings.NewReader(`{"message":"m",
-			"errors": [{"resource": "r", "field": "f", "code": "c"}]}`)),
+		Body: ioutil.NopCloser(strings.NewReader(`
+		{
+			"message": {
+				"prop1": [
+					"message 1",
+					"message 2"
+				],
+				"prop2":[
+					"message 3"
+				],
+				"embed1": {
+					"prop3": [
+						"msg 1",
+						"msg2"
+					]
+				},
+				"embed2": {
+					"prop4": [
+						"some msg"
+					]
+				}
+			},
+			"error": "message 1"
+		}`)),
 	}
-	err := CheckResponse(res).(*ErrorResponse)
 
-	if err == nil {
-		t.Errorf("Expected error response.")
+	errResp := CheckResponse(resp)
+	if errResp == nil {
+		t.Fatal("Expected error response.")
 	}
 
-	want := &ErrorResponse{
-		Response: res,
-		Message:  "m",
-		Errors:   []Error{{Resource: "r", Field: "f", Code: "c"}},
-	}
-	if !reflect.DeepEqual(err, want) {
-		t.Errorf("Error = %#v, want %#v", err, want)
+	want := "GET https://gitlab.com/api/v3/test: 400 {error: message 1}, {message: {embed1: {prop3: [msg 1, msg2]}}, {embed2: {prop4: [some msg]}}, {prop1: [message 1, message 2]}, {prop2: [message 3]}}"
+
+	if errResp.Error() != want {
+		t.Errorf("Expected error: %s, got %s", want, errResp.Error())
 	}
 }

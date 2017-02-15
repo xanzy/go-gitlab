@@ -24,6 +24,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"sort"
 	"strconv"
 	"strings"
 
@@ -395,63 +396,81 @@ func parseID(id interface{}) (string, error) {
 }
 
 // An ErrorResponse reports one or more errors caused by an API request.
+// Format:
+// {
+//     "message": {
+//         "<property-name>": [
+//             "<error-message>",
+//             "<error-message>",
+//             ...
+//         ],
+//         "<embed-entity>": {
+//             "<property-name>": [
+//                 "<error-message>",
+//                 "<error-message>",
+//                 ...
+//             ],
+//         }
+//     }
+// }
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/README.html#data-validation-and-error-reporting
 type ErrorResponse struct {
-	Response *http.Response // HTTP response that caused this error
-	Message  string         `json:"message"` // error message
-	Errors   []Error        `json:"errors"`  // more detail on individual errors
+	Response *http.Response
+	Message  string
 }
 
-func (r *ErrorResponse) Error() string {
-	path, _ := url.QueryUnescape(r.Response.Request.URL.Opaque)
-	ru := fmt.Sprintf("%s://%s%s", r.Response.Request.URL.Scheme, r.Response.Request.URL.Host, path)
-
-	return fmt.Sprintf("%v %s: %d %v %+v",
-		r.Response.Request.Method, ru, r.Response.StatusCode, r.Message, r.Errors)
+func (e *ErrorResponse) Error() string {
+	path, _ := url.QueryUnescape(e.Response.Request.URL.Opaque)
+	u := fmt.Sprintf("%s://%s%s", e.Response.Request.URL.Scheme, e.Response.Request.URL.Host, path)
+	return fmt.Sprintf("%s %s: %d %s", e.Response.Request.Method, u, e.Response.StatusCode, e.Message)
 }
 
-// An Error reports more details on an individual error in an ErrorResponse.
-// These are the possible validation error codes:
-//
-//     missing:
-//         resource does not exist
-//     missing_field:
-//         a required field on a resource has not been set
-//     invalid:
-//         the formatting of a field is invalid
-//     already_exists:
-//         another resource has the same valid as this field
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ce/api/README.html#data-validation-and-error-reporting
-type Error struct {
-	Resource string `json:"resource"` // resource on which the error occurred
-	Field    string `json:"field"`    // field on which the error occurred
-	Code     string `json:"code"`     // validation error code
-}
-
-func (e *Error) Error() string {
-	return fmt.Sprintf("%v error caused by %v field on %v resource",
-		e.Code, e.Field, e.Resource)
-}
-
-// CheckResponse checks the API response for errors, and returns them if
-// present.  A response is considered an error if it has a status code outside
-// the 200 range.  API error responses are expected to have either no response
-// body, or a JSON response body that maps to ErrorResponse.  Any other
-// response body will be silently ignored.
+// CheckResponse checks the API response for errors, and returns them if present.
 func CheckResponse(r *http.Response) error {
-	if c := r.StatusCode; 200 <= c && c <= 299 {
+	switch r.StatusCode {
+	case 200, 201, 304:
 		return nil
 	}
+
 	errorResponse := &ErrorResponse{Response: r}
 	data, err := ioutil.ReadAll(r.Body)
 	if err == nil && data != nil {
-		json.Unmarshal(data, errorResponse)
+		var raw interface{}
+		if err := json.Unmarshal(data, &raw); err != nil {
+			errorResponse.Message = "failed to parse unknown error format"
+		}
+
+		errorResponse.Message = parseError(raw)
 	}
+
 	return errorResponse
+}
+
+func parseError(raw interface{}) string {
+	switch raw := raw.(type) {
+	case string:
+		return raw
+
+	case []interface{}:
+		var errs []string
+		for _, v := range raw {
+			errs = append(errs, parseError(v))
+		}
+		return fmt.Sprintf("[%s]", strings.Join(errs, ", "))
+
+	case map[string]interface{}:
+		var errs []string
+		for k, v := range raw {
+			errs = append(errs, fmt.Sprintf("{%s: %s}", k, parseError(v)))
+		}
+		sort.Strings(errs)
+		return fmt.Sprintf("%s", strings.Join(errs, ", "))
+
+	default:
+		return fmt.Sprintf("failed to parse unexpected error type: %T", raw)
+	}
 }
 
 // Bool is a helper routine that allocates a new bool value
