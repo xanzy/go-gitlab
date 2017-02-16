@@ -48,14 +48,14 @@ func (l Label) String() string {
 // ListLabels gets all labels for given project.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/labels.html#list-labels
-func (s *LabelsService) ListLabels(pid interface{}, sudoFunc ...SudoFunc) ([]*Label, *Response, error) {
+func (s *LabelsService) ListLabels(pid interface{}, options ...OptionFunc) ([]*Label, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/labels", url.QueryEscape(project))
 
-	req, err := s.client.NewRequest("GET", u, nil, sudoFunc)
+	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -82,14 +82,14 @@ type CreateLabelOptions struct {
 // color.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/labels.html#create-a-new-label
-func (s *LabelsService) CreateLabel(pid interface{}, opt *CreateLabelOptions, sudoFunc ...SudoFunc) (*Label, *Response, error) {
+func (s *LabelsService) CreateLabel(pid interface{}, opt *CreateLabelOptions, options ...OptionFunc) (*Label, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/labels", url.QueryEscape(project))
 
-	req, err := s.client.NewRequest("POST", u, opt, sudoFunc)
+	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -113,14 +113,14 @@ type DeleteLabelOptions struct {
 // DeleteLabel deletes a label given by its name.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/labels.html#delete-a-label
-func (s *LabelsService) DeleteLabel(pid interface{}, opt *DeleteLabelOptions, sudoFunc ...SudoFunc) (*Response, error) {
+func (s *LabelsService) DeleteLabel(pid interface{}, opt *DeleteLabelOptions, options ...OptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, err
 	}
 	u := fmt.Sprintf("projects/%s/labels", url.QueryEscape(project))
 
-	req, err := s.client.NewRequest("DELETE", u, opt, sudoFunc)
+	req, err := s.client.NewRequest("DELETE", u, opt, options)
 	if err != nil {
 		return nil, err
 	}
@@ -142,14 +142,14 @@ type UpdateLabelOptions struct {
 // one parameter is required, to update the label.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/labels.html#edit-an-existing-label
-func (s *LabelsService) UpdateLabel(pid interface{}, opt *UpdateLabelOptions, sudoFunc ...SudoFunc) (*Label, *Response, error) {
+func (s *LabelsService) UpdateLabel(pid interface{}, opt *UpdateLabelOptions, options ...OptionFunc) (*Label, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/labels", url.QueryEscape(project))
 
-	req, err := s.client.NewRequest("PUT", u, opt, sudoFunc)
+	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}

@@ -270,7 +270,7 @@ func (c *Client) SetBaseURL(urlStr string) error {
 // Relative URL paths should always be specified without a preceding slash. If
 // specified, the value pointed to by body is JSON encoded and included as the
 // request body.
-func (c *Client) NewRequest(method, path string, opt interface{}, sudoFunc []SudoFunc) (*http.Request, error) {
+func (c *Client) NewRequest(method, path string, opt interface{}, options []OptionFunc) (*http.Request, error) {
 	u := *c.baseURL
 	// Set the encoded opaque data
 	u.Opaque = c.baseURL.Path + path
@@ -293,7 +293,7 @@ func (c *Client) NewRequest(method, path string, opt interface{}, sudoFunc []Sud
 		Host:       u.Host,
 	}
 
-	for _, fn := range sudoFunc {
+	for _, fn := range options {
 		if err := fn(req); err != nil {
 			return nil, err
 		}
@@ -519,14 +519,14 @@ func parseError(raw interface{}) string {
 	}
 }
 
-// SudoFunc can be passed to all API requests to make the API call as if you were
+// OptionFunc can be passed to all API requests to make the API call as if you were
 // another user, provided your private token is from an administrator account.
 //
 // GitLab docs: https://docs.gitlab.com/ce/api/README.html#sudo
-type SudoFunc func(*http.Request) error
+type OptionFunc func(*http.Request) error
 
-// SudoUser takes either a username or user ID and sets the SUDO request header
-func SudoUser(uid interface{}) SudoFunc {
+// WithSudo takes either a username or user ID and sets the SUDO request header
+func WithSudo(uid interface{}) OptionFunc {
 	return func(req *http.Request) error {
 		switch uid := uid.(type) {
 		case int:

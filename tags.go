@@ -47,14 +47,14 @@ func (r Tag) String() string {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/tags.html#list-project-repository-tags
-func (s *TagsService) ListTags(pid interface{}, sudoFunc ...SudoFunc) ([]*Tag, *Response, error) {
+func (s *TagsService) ListTags(pid interface{}, options ...OptionFunc) ([]*Tag, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/repository/tags", url.QueryEscape(project))
 
-	req, err := s.client.NewRequest("GET", u, nil, sudoFunc)
+	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -73,14 +73,14 @@ func (s *TagsService) ListTags(pid interface{}, sudoFunc ...SudoFunc) ([]*Tag, *
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/tags.html#get-a-single-repository-tag
-func (s *TagsService) GetTag(pid interface{}, tag string, sudoFunc ...SudoFunc) (*Tag, *Response, error) {
+func (s *TagsService) GetTag(pid interface{}, tag string, options ...OptionFunc) (*Tag, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/repository/tags/%s", url.QueryEscape(project), tag)
 
-	req, err := s.client.NewRequest("GET", u, nil, sudoFunc)
+	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -108,14 +108,14 @@ type CreateTagOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/tags.html#create-a-new-tag
-func (s *TagsService) CreateTag(pid interface{}, opt *CreateTagOptions, sudoFunc ...SudoFunc) (*Tag, *Response, error) {
+func (s *TagsService) CreateTag(pid interface{}, opt *CreateTagOptions, options ...OptionFunc) (*Tag, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/repository/tags", url.QueryEscape(project))
 
-	req, err := s.client.NewRequest("POST", u, opt, sudoFunc)
+	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -133,14 +133,14 @@ func (s *TagsService) CreateTag(pid interface{}, opt *CreateTagOptions, sudoFunc
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/tags.html#delete-a-tag
-func (s *TagsService) DeleteTag(pid interface{}, tag string, sudoFunc ...SudoFunc) (*Response, error) {
+func (s *TagsService) DeleteTag(pid interface{}, tag string, options ...OptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, err
 	}
 	u := fmt.Sprintf("projects/%s/repository/tags/%s", url.QueryEscape(project), tag)
 
-	req, err := s.client.NewRequest("DELETE", u, nil, sudoFunc)
+	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {
 		return nil, err
 	}

@@ -79,8 +79,8 @@ type ListUsersOptions struct {
 // ListUsers gets a list of users.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/users.html#list-users
-func (s *UsersService) ListUsers(opt *ListUsersOptions, sudoFunc ...SudoFunc) ([]*User, *Response, error) {
-	req, err := s.client.NewRequest("GET", "users", opt, sudoFunc)
+func (s *UsersService) ListUsers(opt *ListUsersOptions, options ...OptionFunc) ([]*User, *Response, error) {
+	req, err := s.client.NewRequest("GET", "users", opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -97,10 +97,10 @@ func (s *UsersService) ListUsers(opt *ListUsersOptions, sudoFunc ...SudoFunc) ([
 // GetUser gets a single user.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/users.html#single-user
-func (s *UsersService) GetUser(user int, sudoFunc ...SudoFunc) (*User, *Response, error) {
+func (s *UsersService) GetUser(user int, options ...OptionFunc) (*User, *Response, error) {
 	u := fmt.Sprintf("users/%d", user)
 
-	req, err := s.client.NewRequest("GET", u, nil, sudoFunc)
+	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -138,8 +138,8 @@ type CreateUserOptions struct {
 // CreateUser creates a new user. Note only administrators can create new users.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/users.html#user-creation
-func (s *UsersService) CreateUser(opt *CreateUserOptions, sudoFunc ...SudoFunc) (*User, *Response, error) {
-	req, err := s.client.NewRequest("POST", "users", opt, sudoFunc)
+func (s *UsersService) CreateUser(opt *CreateUserOptions, options ...OptionFunc) (*User, *Response, error) {
+	req, err := s.client.NewRequest("POST", "users", opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -177,10 +177,10 @@ type ModifyUserOptions struct {
 // of a user.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/users.html#user-modification
-func (s *UsersService) ModifyUser(user int, opt *ModifyUserOptions, sudoFunc ...SudoFunc) (*User, *Response, error) {
+func (s *UsersService) ModifyUser(user int, opt *ModifyUserOptions, options ...OptionFunc) (*User, *Response, error) {
 	u := fmt.Sprintf("users/%d", user)
 
-	req, err := s.client.NewRequest("PUT", u, opt, sudoFunc)
+	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -201,10 +201,10 @@ func (s *UsersService) ModifyUser(user int, opt *ModifyUserOptions, sudoFunc ...
 // latter not.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/users.html#user-deletion
-func (s *UsersService) DeleteUser(user int, sudoFunc ...SudoFunc) (*Response, error) {
+func (s *UsersService) DeleteUser(user int, options ...OptionFunc) (*Response, error) {
 	u := fmt.Sprintf("users/%d", user)
 
-	req, err := s.client.NewRequest("DELETE", u, nil, sudoFunc)
+	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {
 		return nil, err
 	}
@@ -215,8 +215,8 @@ func (s *UsersService) DeleteUser(user int, sudoFunc ...SudoFunc) (*Response, er
 // CurrentUser gets currently authenticated user.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/users.html#current-user
-func (s *UsersService) CurrentUser(sudoFunc ...SudoFunc) (*User, *Response, error) {
-	req, err := s.client.NewRequest("GET", "user", nil, sudoFunc)
+func (s *UsersService) CurrentUser(options ...OptionFunc) (*User, *Response, error) {
+	req, err := s.client.NewRequest("GET", "user", nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -243,8 +243,8 @@ type SSHKey struct {
 // ListSSHKeys gets a list of currently authenticated user's SSH keys.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/users.html#list-ssh-keys
-func (s *UsersService) ListSSHKeys(sudoFunc ...SudoFunc) ([]*SSHKey, *Response, error) {
-	req, err := s.client.NewRequest("GET", "user/keys", nil, sudoFunc)
+func (s *UsersService) ListSSHKeys(options ...OptionFunc) ([]*SSHKey, *Response, error) {
+	req, err := s.client.NewRequest("GET", "user/keys", nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -263,10 +263,10 @@ func (s *UsersService) ListSSHKeys(sudoFunc ...SudoFunc) ([]*SSHKey, *Response, 
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/users.html#list-ssh-keys-for-user
-func (s *UsersService) ListSSHKeysForUser(user int, sudoFunc ...SudoFunc) ([]*SSHKey, *Response, error) {
+func (s *UsersService) ListSSHKeysForUser(user int, options ...OptionFunc) ([]*SSHKey, *Response, error) {
 	u := fmt.Sprintf("users/%d/keys", user)
 
-	req, err := s.client.NewRequest("GET", u, nil, sudoFunc)
+	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -283,10 +283,10 @@ func (s *UsersService) ListSSHKeysForUser(user int, sudoFunc ...SudoFunc) ([]*SS
 // GetSSHKey gets a single key.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/users.html#single-ssh-key
-func (s *UsersService) GetSSHKey(kid int, sudoFunc ...SudoFunc) (*SSHKey, *Response, error) {
+func (s *UsersService) GetSSHKey(kid int, options ...OptionFunc) (*SSHKey, *Response, error) {
 	u := fmt.Sprintf("user/keys/%d", kid)
 
-	req, err := s.client.NewRequest("GET", u, nil, sudoFunc)
+	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -311,8 +311,8 @@ type AddSSHKeyOptions struct {
 // AddSSHKey creates a new key owned by the currently authenticated user.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/users.html#add-ssh-key
-func (s *UsersService) AddSSHKey(opt *AddSSHKeyOptions, sudoFunc ...SudoFunc) (*SSHKey, *Response, error) {
-	req, err := s.client.NewRequest("POST", "user/keys", opt, sudoFunc)
+func (s *UsersService) AddSSHKey(opt *AddSSHKeyOptions, options ...OptionFunc) (*SSHKey, *Response, error) {
+	req, err := s.client.NewRequest("POST", "user/keys", opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -330,10 +330,10 @@ func (s *UsersService) AddSSHKey(opt *AddSSHKeyOptions, sudoFunc ...SudoFunc) (*
 // admin.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/users.html#add-ssh-key-for-user
-func (s *UsersService) AddSSHKeyForUser(user int, opt *AddSSHKeyOptions, sudoFunc ...SudoFunc) (*SSHKey, *Response, error) {
+func (s *UsersService) AddSSHKeyForUser(user int, opt *AddSSHKeyOptions, options ...OptionFunc) (*SSHKey, *Response, error) {
 	u := fmt.Sprintf("users/%d/keys", user)
 
-	req, err := s.client.NewRequest("POST", u, opt, sudoFunc)
+	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -353,10 +353,10 @@ func (s *UsersService) AddSSHKeyForUser(user int, opt *AddSSHKeyOptions, sudoFun
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/users.html#delete-ssh-key-for-current-owner
-func (s *UsersService) DeleteSSHKey(kid int, sudoFunc ...SudoFunc) (*Response, error) {
+func (s *UsersService) DeleteSSHKey(kid int, options ...OptionFunc) (*Response, error) {
 	u := fmt.Sprintf("user/keys/%d", kid)
 
-	req, err := s.client.NewRequest("DELETE", u, nil, sudoFunc)
+	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {
 		return nil, err
 	}
@@ -369,10 +369,10 @@ func (s *UsersService) DeleteSSHKey(kid int, sudoFunc ...SudoFunc) (*Response, e
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/users.html#delete-ssh-key-for-given-user
-func (s *UsersService) DeleteSSHKeyForUser(user int, kid int, sudoFunc ...SudoFunc) (*Response, error) {
+func (s *UsersService) DeleteSSHKeyForUser(user int, kid int, options ...OptionFunc) (*Response, error) {
 	u := fmt.Sprintf("users/%d/keys/%d", user, kid)
 
-	req, err := s.client.NewRequest("DELETE", u, nil, sudoFunc)
+	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {
 		return nil, err
 	}
@@ -383,10 +383,10 @@ func (s *UsersService) DeleteSSHKeyForUser(user int, kid int, sudoFunc ...SudoFu
 // BlockUser blocks the specified user. Available only for admin.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/users.html#block-user
-func (s *UsersService) BlockUser(user int, sudoFunc ...SudoFunc) error {
+func (s *UsersService) BlockUser(user int, options ...OptionFunc) error {
 	u := fmt.Sprintf("users/%d/block", user)
 
-	req, err := s.client.NewRequest("PUT", u, nil, sudoFunc)
+	req, err := s.client.NewRequest("PUT", u, nil, options)
 	if err != nil {
 		return err
 	}
@@ -411,10 +411,10 @@ func (s *UsersService) BlockUser(user int, sudoFunc ...SudoFunc) error {
 // UnblockUser unblocks the specified user. Available only for admin.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/users.html#unblock-user
-func (s *UsersService) UnblockUser(user int, sudoFunc ...SudoFunc) error {
+func (s *UsersService) UnblockUser(user int, options ...OptionFunc) error {
 	u := fmt.Sprintf("users/%d/unblock", user)
 
-	req, err := s.client.NewRequest("PUT", u, nil, sudoFunc)
+	req, err := s.client.NewRequest("PUT", u, nil, options)
 	if err != nil {
 		return err
 	}
@@ -447,8 +447,8 @@ type Email struct {
 // ListEmails gets a list of currently authenticated user's Emails.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/users.html#list-emails
-func (s *UsersService) ListEmails(sudoFunc ...SudoFunc) ([]*Email, *Response, error) {
-	req, err := s.client.NewRequest("GET", "user/emails", nil, sudoFunc)
+func (s *UsersService) ListEmails(options ...OptionFunc) ([]*Email, *Response, error) {
+	req, err := s.client.NewRequest("GET", "user/emails", nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -467,10 +467,10 @@ func (s *UsersService) ListEmails(sudoFunc ...SudoFunc) ([]*Email, *Response, er
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/users.html#list-emails-for-user
-func (s *UsersService) ListEmailsForUser(uid int, sudoFunc ...SudoFunc) ([]*Email, *Response, error) {
+func (s *UsersService) ListEmailsForUser(uid int, options ...OptionFunc) ([]*Email, *Response, error) {
 	u := fmt.Sprintf("users/%d/emails", uid)
 
-	req, err := s.client.NewRequest("GET", u, nil, sudoFunc)
+	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -487,10 +487,10 @@ func (s *UsersService) ListEmailsForUser(uid int, sudoFunc ...SudoFunc) ([]*Emai
 // GetEmail gets a single email.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/users.html#single-email
-func (s *UsersService) GetEmail(eid int, sudoFunc ...SudoFunc) (*Email, *Response, error) {
+func (s *UsersService) GetEmail(eid int, options ...OptionFunc) (*Email, *Response, error) {
 	u := fmt.Sprintf("user/emails/%d", eid)
 
-	req, err := s.client.NewRequest("GET", u, nil, sudoFunc)
+	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -514,8 +514,8 @@ type AddEmailOptions struct {
 // AddEmail creates a new email owned by the currently authenticated user.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/users.html#add-email
-func (s *UsersService) AddEmail(opt *AddEmailOptions, sudoFunc ...SudoFunc) (*Email, *Response, error) {
-	req, err := s.client.NewRequest("POST", "user/emails", opt, sudoFunc)
+func (s *UsersService) AddEmail(opt *AddEmailOptions, options ...OptionFunc) (*Email, *Response, error) {
+	req, err := s.client.NewRequest("POST", "user/emails", opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -533,10 +533,10 @@ func (s *UsersService) AddEmail(opt *AddEmailOptions, sudoFunc ...SudoFunc) (*Em
 // admin.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/users.html#add-email-for-user
-func (s *UsersService) AddEmailForUser(uid int, opt *AddEmailOptions, sudoFunc ...SudoFunc) (*Email, *Response, error) {
+func (s *UsersService) AddEmailForUser(uid int, opt *AddEmailOptions, options ...OptionFunc) (*Email, *Response, error) {
 	u := fmt.Sprintf("users/%d/emails", uid)
 
-	req, err := s.client.NewRequest("POST", u, opt, sudoFunc)
+	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -556,10 +556,10 @@ func (s *UsersService) AddEmailForUser(uid int, opt *AddEmailOptions, sudoFunc .
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/users.html#delete-email-for-current-owner
-func (s *UsersService) DeleteEmail(eid int, sudoFunc ...SudoFunc) (*Response, error) {
+func (s *UsersService) DeleteEmail(eid int, options ...OptionFunc) (*Response, error) {
 	u := fmt.Sprintf("user/emails/%d", eid)
 
-	req, err := s.client.NewRequest("DELETE", u, nil, sudoFunc)
+	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {
 		return nil, err
 	}
@@ -572,10 +572,10 @@ func (s *UsersService) DeleteEmail(eid int, sudoFunc ...SudoFunc) (*Response, er
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/users.html#delete-email-for-given-user
-func (s *UsersService) DeleteEmailForUser(uid int, eid int, sudoFunc ...SudoFunc) (*Response, error) {
+func (s *UsersService) DeleteEmailForUser(uid int, eid int, options ...OptionFunc) (*Response, error) {
 	u := fmt.Sprintf("users/%d/emails/%d", uid, eid)
 
-	req, err := s.client.NewRequest("DELETE", u, nil, sudoFunc)
+	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {
 		return nil, err
 	}

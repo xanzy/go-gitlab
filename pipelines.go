@@ -65,14 +65,14 @@ func (i Pipeline) String() string {
 // ListProjectPipelines gets a list of project piplines.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/pipelines.html#list-project-pipelines
-func (s *PipelinesService) ListProjectPipelines(pid interface{}, sudoFunc ...SudoFunc) ([]*Pipeline, *Response, error) {
+func (s *PipelinesService) ListProjectPipelines(pid interface{}, options ...OptionFunc) ([]*Pipeline, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/pipelines", url.QueryEscape(project))
 
-	req, err := s.client.NewRequest("GET", u, nil, sudoFunc)
+	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -88,14 +88,14 @@ func (s *PipelinesService) ListProjectPipelines(pid interface{}, sudoFunc ...Sud
 // GetPipeline gets a single project pipeline.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/pipelines.html#get-a-single-pipeline
-func (s *PipelinesService) GetPipeline(pid interface{}, pipeline int, sudoFunc ...SudoFunc) (*Pipeline, *Response, error) {
+func (s *PipelinesService) GetPipeline(pid interface{}, pipeline int, options ...OptionFunc) (*Pipeline, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/pipelines/%d", url.QueryEscape(project), pipeline)
 
-	req, err := s.client.NewRequest("GET", u, nil, sudoFunc)
+	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -119,14 +119,14 @@ type CreatePipelineOptions struct {
 // CreatePipeline creates a new project pipeline.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/pipelines.html#create-a-new-pipeline
-func (s *PipelinesService) CreatePipeline(pid interface{}, opt *CreatePipelineOptions, sudoFunc ...SudoFunc) (*Pipeline, *Response, error) {
+func (s *PipelinesService) CreatePipeline(pid interface{}, opt *CreatePipelineOptions, options ...OptionFunc) (*Pipeline, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/pipeline", url.QueryEscape(project))
 
-	req, err := s.client.NewRequest("POST", u, opt, sudoFunc)
+	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -144,14 +144,14 @@ func (s *PipelinesService) CreatePipeline(pid interface{}, opt *CreatePipelineOp
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/pipelines.html#retry-failed-builds-in-a-pipeline
-func (s *PipelinesService) RetryPipelineBuild(pid interface{}, pipelineID int, sudoFunc ...SudoFunc) (*Pipeline, *Response, error) {
+func (s *PipelinesService) RetryPipelineBuild(pid interface{}, pipelineID int, options ...OptionFunc) (*Pipeline, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/pipelines/%d/retry", project, pipelineID)
 
-	req, err := s.client.NewRequest("POST", u, nil, sudoFunc)
+	req, err := s.client.NewRequest("POST", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -169,14 +169,14 @@ func (s *PipelinesService) RetryPipelineBuild(pid interface{}, pipelineID int, s
 //
 // GitLab API docs:
 //https://docs.gitlab.com/ce/api/pipelines.html#cancel-a-pipelines-builds
-func (s *PipelinesService) CancelPipelineBuild(pid interface{}, pipelineID int, sudoFunc ...SudoFunc) (*Pipeline, *Response, error) {
+func (s *PipelinesService) CancelPipelineBuild(pid interface{}, pipelineID int, options ...OptionFunc) (*Pipeline, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/pipelines/%d/cancel", project, pipelineID)
 
-	req, err := s.client.NewRequest("POST", u, nil, sudoFunc)
+	req, err := s.client.NewRequest("POST", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}

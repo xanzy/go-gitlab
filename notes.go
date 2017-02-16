@@ -68,14 +68,14 @@ type ListIssueNotesOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/notes.html#list-project-issue-notes
-func (s *NotesService) ListIssueNotes(pid interface{}, issue int, opt *ListIssueNotesOptions, sudoFunc ...SudoFunc) ([]*Note, *Response, error) {
+func (s *NotesService) ListIssueNotes(pid interface{}, issue int, opt *ListIssueNotesOptions, options ...OptionFunc) ([]*Note, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/issues/%d/notes", url.QueryEscape(project), issue)
 
-	req, err := s.client.NewRequest("GET", u, opt, sudoFunc)
+	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -93,14 +93,14 @@ func (s *NotesService) ListIssueNotes(pid interface{}, issue int, opt *ListIssue
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/notes.html#get-single-issue-note
-func (s *NotesService) GetIssueNote(pid interface{}, issue int, note int, sudoFunc ...SudoFunc) (*Note, *Response, error) {
+func (s *NotesService) GetIssueNote(pid interface{}, issue int, note int, options ...OptionFunc) (*Note, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/issues/%d/notes/%d", url.QueryEscape(project), issue, note)
 
-	req, err := s.client.NewRequest("GET", u, nil, sudoFunc)
+	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -127,14 +127,14 @@ type CreateIssueNoteOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/notes.html#create-new-issue-note
-func (s *NotesService) CreateIssueNote(pid interface{}, issue int, opt *CreateIssueNoteOptions, sudoFunc ...SudoFunc) (*Note, *Response, error) {
+func (s *NotesService) CreateIssueNote(pid interface{}, issue int, opt *CreateIssueNoteOptions, options ...OptionFunc) (*Note, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/issues/%d/notes", url.QueryEscape(project), issue)
 
-	req, err := s.client.NewRequest("POST", u, opt, sudoFunc)
+	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -160,14 +160,14 @@ type UpdateIssueNoteOptions struct {
 // UpdateIssueNote modifies existing note of an issue.
 //
 // https://docs.gitlab.com/ce/api/notes.html#modify-existing-issue-note
-func (s *NotesService) UpdateIssueNote(pid interface{}, issue int, note int, opt *UpdateIssueNoteOptions, sudoFunc ...SudoFunc) (*Note, *Response, error) {
+func (s *NotesService) UpdateIssueNote(pid interface{}, issue int, note int, opt *UpdateIssueNoteOptions, options ...OptionFunc) (*Note, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/issues/%d/notes/%d", url.QueryEscape(project), issue, note)
 
-	req, err := s.client.NewRequest("PUT", u, opt, sudoFunc)
+	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -186,14 +186,14 @@ func (s *NotesService) UpdateIssueNote(pid interface{}, issue int, note int, opt
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/notes.html#list-all-snippet-notes
-func (s *NotesService) ListSnippetNotes(pid interface{}, snippet int, sudoFunc ...SudoFunc) ([]*Note, *Response, error) {
+func (s *NotesService) ListSnippetNotes(pid interface{}, snippet int, options ...OptionFunc) ([]*Note, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/snippets/%d/notes", url.QueryEscape(project), snippet)
 
-	req, err := s.client.NewRequest("GET", u, nil, sudoFunc)
+	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -211,14 +211,14 @@ func (s *NotesService) ListSnippetNotes(pid interface{}, snippet int, sudoFunc .
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/notes.html#get-single-snippet-note
-func (s *NotesService) GetSnippetNote(pid interface{}, snippet int, note int, sudoFunc ...SudoFunc) (*Note, *Response, error) {
+func (s *NotesService) GetSnippetNote(pid interface{}, snippet int, note int, options ...OptionFunc) (*Note, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/snippets/%d/notes/%d", url.QueryEscape(project), snippet, note)
 
-	req, err := s.client.NewRequest("GET", u, nil, sudoFunc)
+	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -246,14 +246,14 @@ type CreateSnippetNoteOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/notes.html#create-new-snippet-note
-func (s *NotesService) CreateSnippetNote(pid interface{}, snippet int, opt *CreateSnippetNoteOptions, sudoFunc ...SudoFunc) (*Note, *Response, error) {
+func (s *NotesService) CreateSnippetNote(pid interface{}, snippet int, opt *CreateSnippetNoteOptions, options ...OptionFunc) (*Note, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/snippets/%d/notes", url.QueryEscape(project), snippet)
 
-	req, err := s.client.NewRequest("POST", u, opt, sudoFunc)
+	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -279,14 +279,14 @@ type UpdateSnippetNoteOptions struct {
 // UpdateSnippetNote modifies existing note of a snippet.
 //
 // https://docs.gitlab.com/ce/api/notes.html#modify-existing-snippet-note
-func (s *NotesService) UpdateSnippetNote(pid interface{}, snippet int, note int, opt *UpdateSnippetNoteOptions, sudoFunc ...SudoFunc) (*Note, *Response, error) {
+func (s *NotesService) UpdateSnippetNote(pid interface{}, snippet int, note int, opt *UpdateSnippetNoteOptions, options ...OptionFunc) (*Note, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/snippets/%d/notes/%d", url.QueryEscape(project), snippet, note)
 
-	req, err := s.client.NewRequest("PUT", u, opt, sudoFunc)
+	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -304,14 +304,14 @@ func (s *NotesService) UpdateSnippetNote(pid interface{}, snippet int, note int,
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/notes.html#list-all-merge-request-notes
-func (s *NotesService) ListMergeRequestNotes(pid interface{}, mergeRequest int, sudoFunc ...SudoFunc) ([]*Note, *Response, error) {
+func (s *NotesService) ListMergeRequestNotes(pid interface{}, mergeRequest int, options ...OptionFunc) ([]*Note, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/merge_requests/%d/notes", url.QueryEscape(project), mergeRequest)
 
-	req, err := s.client.NewRequest("GET", u, nil, sudoFunc)
+	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -329,14 +329,14 @@ func (s *NotesService) ListMergeRequestNotes(pid interface{}, mergeRequest int, 
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/notes.html#get-single-merge-request-note
-func (s *NotesService) GetMergeRequestNote(pid interface{}, mergeRequest int, note int, sudoFunc ...SudoFunc) (*Note, *Response, error) {
+func (s *NotesService) GetMergeRequestNote(pid interface{}, mergeRequest int, note int, options ...OptionFunc) (*Note, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/merge_requests/%d/notes/%d", url.QueryEscape(project), mergeRequest, note)
 
-	req, err := s.client.NewRequest("GET", u, nil, sudoFunc)
+	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -363,14 +363,14 @@ type CreateMergeRequestNoteOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/notes.html#create-new-merge-request-note
-func (s *NotesService) CreateMergeRequestNote(pid interface{}, mergeRequest int, opt *CreateMergeRequestNoteOptions, sudoFunc ...SudoFunc) (*Note, *Response, error) {
+func (s *NotesService) CreateMergeRequestNote(pid interface{}, mergeRequest int, opt *CreateMergeRequestNoteOptions, options ...OptionFunc) (*Note, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/merge_requests/%d/notes", url.QueryEscape(project), mergeRequest)
 
-	req, err := s.client.NewRequest("POST", u, opt, sudoFunc)
+	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -396,14 +396,14 @@ type UpdateMergeRequestNoteOptions struct {
 // UpdateMergeRequestNote modifies existing note of a merge request.
 //
 // https://docs.gitlab.com/ce/api/notes.html#modify-existing-merge-request-note
-func (s *NotesService) UpdateMergeRequestNote(pid interface{}, mergeRequest int, note int, opt *UpdateMergeRequestNoteOptions, sudoFunc ...SudoFunc) (*Note, *Response, error) {
+func (s *NotesService) UpdateMergeRequestNote(pid interface{}, mergeRequest int, note int, opt *UpdateMergeRequestNoteOptions, options ...OptionFunc) (*Note, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf(
 		"projects/%s/merge_requests/%d/notes/%d", url.QueryEscape(project), mergeRequest, note)
-	req, err := s.client.NewRequest("PUT", u, opt, sudoFunc)
+	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}

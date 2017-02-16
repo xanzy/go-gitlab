@@ -62,8 +62,8 @@ type GetSessionOptions struct {
 // GetSession logs in to get private token.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/session.html#session
-func (s *SessionService) GetSession(opt *GetSessionOptions, sudoFunc ...SudoFunc) (*Session, *Response, error) {
-	req, err := s.client.NewRequest("POST", "session", opt, sudoFunc)
+func (s *SessionService) GetSession(opt *GetSessionOptions, options ...OptionFunc) (*Session, *Response, error) {
+	req, err := s.client.NewRequest("POST", "session", opt, options)
 	if err != nil {
 		return nil, nil, err
 	}

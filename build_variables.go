@@ -29,14 +29,14 @@ func (v BuildVariable) String() string {
 //
 // Gitlab API Docs:
 // https://docs.gitlab.com/ce/api/build_variables.html#list-project-variables
-func (s *BuildVariablesService) ListBuildVariables(pid interface{}, sudoFunc ...SudoFunc) ([]*BuildVariable, *Response, error) {
+func (s *BuildVariablesService) ListBuildVariables(pid interface{}, options ...OptionFunc) ([]*BuildVariable, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/variables", url.QueryEscape(project))
 
-	req, err := s.client.NewRequest("GET", u, nil, sudoFunc)
+	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -54,14 +54,14 @@ func (s *BuildVariablesService) ListBuildVariables(pid interface{}, sudoFunc ...
 //
 // Gitlab API Docs:
 // https://docs.gitlab.com/ce/api/build_variables.html#show-variable-details
-func (s *BuildVariablesService) GetBuildVariable(pid interface{}, key string, sudoFunc ...SudoFunc) (*BuildVariable, *Response, error) {
+func (s *BuildVariablesService) GetBuildVariable(pid interface{}, key string, options ...OptionFunc) (*BuildVariable, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/variables/%s", url.QueryEscape(project), key)
 
-	req, err := s.client.NewRequest("GET", u, nil, sudoFunc)
+	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -79,14 +79,14 @@ func (s *BuildVariablesService) GetBuildVariable(pid interface{}, key string, su
 //
 // Gitlab API Docs:
 // https://docs.gitlab.com/ce/api/build_variables.html#create-variable
-func (s *BuildVariablesService) CreateBuildVariable(pid interface{}, key, value string, sudoFunc ...SudoFunc) (*BuildVariable, *Response, error) {
+func (s *BuildVariablesService) CreateBuildVariable(pid interface{}, key, value string, options ...OptionFunc) (*BuildVariable, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/variables", url.QueryEscape(project))
 
-	req, err := s.client.NewRequest("POST", u, BuildVariable{key, value}, sudoFunc)
+	req, err := s.client.NewRequest("POST", u, BuildVariable{key, value}, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -105,14 +105,14 @@ func (s *BuildVariablesService) CreateBuildVariable(pid interface{}, key, value 
 //
 // Gitlab API Docs:
 // https://docs.gitlab.com/ce/api/build_variables.html#update-variable
-func (s *BuildVariablesService) UpdateBuildVariable(pid interface{}, key, value string, sudoFunc ...SudoFunc) (*BuildVariable, *Response, error) {
+func (s *BuildVariablesService) UpdateBuildVariable(pid interface{}, key, value string, options ...OptionFunc) (*BuildVariable, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/variables/%s", url.QueryEscape(project), key)
 
-	req, err := s.client.NewRequest("PUT", u, BuildVariable{key, value}, sudoFunc)
+	req, err := s.client.NewRequest("PUT", u, BuildVariable{key, value}, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -130,14 +130,14 @@ func (s *BuildVariablesService) UpdateBuildVariable(pid interface{}, key, value 
 //
 // Gitlab API Docs:
 // https://docs.gitlab.com/ce/api/build_variables.html#remove-variable
-func (s *BuildVariablesService) RemoveBuildVariable(pid interface{}, key string, sudoFunc ...SudoFunc) (*Response, error) {
+func (s *BuildVariablesService) RemoveBuildVariable(pid interface{}, key string, options ...OptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, err
 	}
 	u := fmt.Sprintf("projects/%s/variables/%s", url.QueryEscape(project), key)
 
-	req, err := s.client.NewRequest("DELETE", u, nil, sudoFunc)
+	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {
 		return nil, err
 	}
