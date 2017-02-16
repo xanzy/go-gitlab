@@ -96,8 +96,8 @@ type ListIssuesOptions struct {
 // takes pagination parameters page and per_page to restrict the list of issues.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/issues.html#list-issues
-func (s *IssuesService) ListIssues(opt *ListIssuesOptions, sudoFunc ...SudoFunc) ([]*Issue, *Response, error) {
-	req, err := s.client.NewRequest("GET", "issues", opt, sudoFunc)
+func (s *IssuesService) ListIssues(opt *ListIssuesOptions, options ...OptionFunc) ([]*Issue, *Response, error) {
+	req, err := s.client.NewRequest("GET", "issues", opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -128,14 +128,14 @@ type ListProjectIssuesOptions struct {
 // pagination parameters page and per_page to return the list of project issues.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/issues.html#list-project-issues
-func (s *IssuesService) ListProjectIssues(pid interface{}, opt *ListProjectIssuesOptions, sudoFunc ...SudoFunc) ([]*Issue, *Response, error) {
+func (s *IssuesService) ListProjectIssues(pid interface{}, opt *ListProjectIssuesOptions, options ...OptionFunc) ([]*Issue, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/issues", url.QueryEscape(project))
 
-	req, err := s.client.NewRequest("GET", u, opt, sudoFunc)
+	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -152,14 +152,14 @@ func (s *IssuesService) ListProjectIssues(pid interface{}, opt *ListProjectIssue
 // GetIssue gets a single project issue.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/issues.html#single-issues
-func (s *IssuesService) GetIssue(pid interface{}, issue int, sudoFunc ...SudoFunc) (*Issue, *Response, error) {
+func (s *IssuesService) GetIssue(pid interface{}, issue int, options ...OptionFunc) (*Issue, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/issues/%d", url.QueryEscape(project), issue)
 
-	req, err := s.client.NewRequest("GET", u, nil, sudoFunc)
+	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -187,14 +187,14 @@ type CreateIssueOptions struct {
 // CreateIssue creates a new project issue.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/issues.html#new-issues
-func (s *IssuesService) CreateIssue(pid interface{}, opt *CreateIssueOptions, sudoFunc ...SudoFunc) (*Issue, *Response, error) {
+func (s *IssuesService) CreateIssue(pid interface{}, opt *CreateIssueOptions, options ...OptionFunc) (*Issue, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/issues", url.QueryEscape(project))
 
-	req, err := s.client.NewRequest("POST", u, opt, sudoFunc)
+	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -224,14 +224,14 @@ type UpdateIssueOptions struct {
 // to mark an issue as closed.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/issues.html#edit-issues
-func (s *IssuesService) UpdateIssue(pid interface{}, issue int, opt *UpdateIssueOptions, sudoFunc ...SudoFunc) (*Issue, *Response, error) {
+func (s *IssuesService) UpdateIssue(pid interface{}, issue int, opt *UpdateIssueOptions, options ...OptionFunc) (*Issue, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/issues/%d", url.QueryEscape(project), issue)
 
-	req, err := s.client.NewRequest("PUT", u, opt, sudoFunc)
+	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -248,14 +248,14 @@ func (s *IssuesService) UpdateIssue(pid interface{}, issue int, opt *UpdateIssue
 // DeleteIssue deletes a single project issue.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/issues.html#delete-an-issue
-func (s *IssuesService) DeleteIssue(pid interface{}, issue int, sudoFunc ...SudoFunc) (*Response, error) {
+func (s *IssuesService) DeleteIssue(pid interface{}, issue int, options ...OptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, err
 	}
 	u := fmt.Sprintf("projects/%s/issues/%d", url.QueryEscape(project), issue)
 
-	req, err := s.client.NewRequest("DELETE", u, nil, sudoFunc)
+	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {
 		return nil, err
 	}

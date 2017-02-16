@@ -118,14 +118,14 @@ type ListMergeRequestsOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/merge_requests.html#list-merge-requests
-func (s *MergeRequestsService) ListMergeRequests(pid interface{}, opt *ListMergeRequestsOptions, sudoFunc ...SudoFunc) ([]*MergeRequest, *Response, error) {
+func (s *MergeRequestsService) ListMergeRequests(pid interface{}, opt *ListMergeRequestsOptions, options ...OptionFunc) ([]*MergeRequest, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/merge_requests", url.QueryEscape(project))
 
-	req, err := s.client.NewRequest("GET", u, opt, sudoFunc)
+	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -143,14 +143,14 @@ func (s *MergeRequestsService) ListMergeRequests(pid interface{}, opt *ListMerge
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/merge_requests.html#get-single-mr
-func (s *MergeRequestsService) GetMergeRequest(pid interface{}, mergeRequest int, sudoFunc ...SudoFunc) (*MergeRequest, *Response, error) {
+func (s *MergeRequestsService) GetMergeRequest(pid interface{}, mergeRequest int, options ...OptionFunc) (*MergeRequest, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/merge_requests/%d", url.QueryEscape(project), mergeRequest)
 
-	req, err := s.client.NewRequest("GET", u, nil, sudoFunc)
+	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -168,14 +168,14 @@ func (s *MergeRequestsService) GetMergeRequest(pid interface{}, mergeRequest int
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/merge_requests.html#get-single-mr-commits
-func (s *MergeRequestsService) GetMergeRequestCommits(pid interface{}, mergeRequest int, sudoFunc ...SudoFunc) ([]*Commit, *Response, error) {
+func (s *MergeRequestsService) GetMergeRequestCommits(pid interface{}, mergeRequest int, options ...OptionFunc) ([]*Commit, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/merge_requests/%d/commits", url.QueryEscape(project), mergeRequest)
 
-	req, err := s.client.NewRequest("GET", u, nil, sudoFunc)
+	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -194,14 +194,14 @@ func (s *MergeRequestsService) GetMergeRequestCommits(pid interface{}, mergeRequ
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/merge_requests.html#get-single-mr-changes
-func (s *MergeRequestsService) GetMergeRequestChanges(pid interface{}, mergeRequest int, sudoFunc ...SudoFunc) (*MergeRequest, *Response, error) {
+func (s *MergeRequestsService) GetMergeRequestChanges(pid interface{}, mergeRequest int, options ...OptionFunc) (*MergeRequest, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/merge_requests/%d/changes", url.QueryEscape(project), mergeRequest)
 
-	req, err := s.client.NewRequest("GET", u, nil, sudoFunc)
+	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -233,14 +233,14 @@ type CreateMergeRequestOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/merge_requests.html#create-mr
-func (s *MergeRequestsService) CreateMergeRequest(pid interface{}, opt *CreateMergeRequestOptions, sudoFunc ...SudoFunc) (*MergeRequest, *Response, error) {
+func (s *MergeRequestsService) CreateMergeRequest(pid interface{}, opt *CreateMergeRequestOptions, options ...OptionFunc) (*MergeRequest, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/merge_requests", url.QueryEscape(project))
 
-	req, err := s.client.NewRequest("POST", u, opt, sudoFunc)
+	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -271,14 +271,14 @@ type UpdateMergeRequestOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/merge_requests.html#update-mr
-func (s *MergeRequestsService) UpdateMergeRequest(pid interface{}, mergeRequest int, opt *UpdateMergeRequestOptions, sudoFunc ...SudoFunc) (*MergeRequest, *Response, error) {
+func (s *MergeRequestsService) UpdateMergeRequest(pid interface{}, mergeRequest int, opt *UpdateMergeRequestOptions, options ...OptionFunc) (*MergeRequest, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/merge_requests/%d", url.QueryEscape(project), mergeRequest)
 
-	req, err := s.client.NewRequest("PUT", u, opt, sudoFunc)
+	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -311,14 +311,14 @@ type AcceptMergeRequestOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/merge_requests.html#accept-mr
-func (s *MergeRequestsService) AcceptMergeRequest(pid interface{}, mergeRequest int, opt *AcceptMergeRequestOptions, sudoFunc ...SudoFunc) (*MergeRequest, *Response, error) {
+func (s *MergeRequestsService) AcceptMergeRequest(pid interface{}, mergeRequest int, opt *AcceptMergeRequestOptions, options ...OptionFunc) (*MergeRequest, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/merge_requests/%d/merge", url.QueryEscape(project), mergeRequest)
 
-	req, err := s.client.NewRequest("PUT", u, opt, sudoFunc)
+	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}

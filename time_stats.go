@@ -41,14 +41,14 @@ type SetTimeEstimateOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/issues.html#set-a-time-estimate-for-an-issue
-func (s *TimeStatsService) SetTimeEstimate(pid interface{}, issue int, opt *SetTimeEstimateOptions, sudoFunc ...SudoFunc) (*TimeStats, *Response, error) {
+func (s *TimeStatsService) SetTimeEstimate(pid interface{}, issue int, opt *SetTimeEstimateOptions, options ...OptionFunc) (*TimeStats, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/issues/%d/time_estimate", url.QueryEscape(project), issue)
 
-	req, err := s.client.NewRequest("POST", u, opt, sudoFunc)
+	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -66,14 +66,14 @@ func (s *TimeStatsService) SetTimeEstimate(pid interface{}, issue int, opt *SetT
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/issues.html#reset-the-time-estimate-for-an-issue
-func (s *TimeStatsService) ResetTimeEstimate(pid interface{}, issue int, sudoFunc ...SudoFunc) (*TimeStats, *Response, error) {
+func (s *TimeStatsService) ResetTimeEstimate(pid interface{}, issue int, options ...OptionFunc) (*TimeStats, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/issues/%d/reset_time_estimate", url.QueryEscape(project), issue)
 
-	req, err := s.client.NewRequest("POST", u, nil, sudoFunc)
+	req, err := s.client.NewRequest("POST", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -99,14 +99,14 @@ type AddSpentTimeOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/issues.html#add-spent-time-for-an-issue
-func (s *TimeStatsService) AddSpentTime(pid interface{}, issue int, opt *AddSpentTimeOptions, sudoFunc ...SudoFunc) (*TimeStats, *Response, error) {
+func (s *TimeStatsService) AddSpentTime(pid interface{}, issue int, opt *AddSpentTimeOptions, options ...OptionFunc) (*TimeStats, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/issues/%d/add_spent_time", url.QueryEscape(project), issue)
 
-	req, err := s.client.NewRequest("POST", u, opt, sudoFunc)
+	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -124,14 +124,14 @@ func (s *TimeStatsService) AddSpentTime(pid interface{}, issue int, opt *AddSpen
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/issues.html#reset-spent-time-for-an-issue
-func (s *TimeStatsService) ResetSpentTime(pid interface{}, issue int, sudoFunc ...SudoFunc) (*TimeStats, *Response, error) {
+func (s *TimeStatsService) ResetSpentTime(pid interface{}, issue int, options ...OptionFunc) (*TimeStats, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/issues/%d/reset_spent_time", url.QueryEscape(project), issue)
 
-	req, err := s.client.NewRequest("POST", u, nil, sudoFunc)
+	req, err := s.client.NewRequest("POST", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -149,14 +149,14 @@ func (s *TimeStatsService) ResetSpentTime(pid interface{}, issue int, sudoFunc .
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/issues.html#get-time-tracking-stats
-func (s *TimeStatsService) GetTimeSpent(pid interface{}, issue int, sudoFunc ...SudoFunc) (*TimeStats, *Response, error) {
+func (s *TimeStatsService) GetTimeSpent(pid interface{}, issue int, options ...OptionFunc) (*TimeStats, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/issues/%d/time_stats", url.QueryEscape(project), issue)
 
-	req, err := s.client.NewRequest("GET", u, nil, sudoFunc)
+	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}

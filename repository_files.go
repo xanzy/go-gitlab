@@ -61,14 +61,14 @@ type GetFileOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/repository_files.html#get-file-from-respository
-func (s *RepositoryFilesService) GetFile(pid interface{}, opt *GetFileOptions, sudoFunc ...SudoFunc) (*File, *Response, error) {
+func (s *RepositoryFilesService) GetFile(pid interface{}, opt *GetFileOptions, options ...OptionFunc) (*File, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/repository/files", url.QueryEscape(project))
 
-	req, err := s.client.NewRequest("GET", u, opt, sudoFunc)
+	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -112,14 +112,14 @@ type CreateFileOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/repository_files.html#create-new-file-in-repository
-func (s *RepositoryFilesService) CreateFile(pid interface{}, opt *CreateFileOptions, sudoFunc ...SudoFunc) (*FileInfo, *Response, error) {
+func (s *RepositoryFilesService) CreateFile(pid interface{}, opt *CreateFileOptions, options ...OptionFunc) (*FileInfo, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/repository/files", url.QueryEscape(project))
 
-	req, err := s.client.NewRequest("POST", u, opt, sudoFunc)
+	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -151,14 +151,14 @@ type UpdateFileOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/repository_files.html#update-existing-file-in-repository
-func (s *RepositoryFilesService) UpdateFile(pid interface{}, opt *UpdateFileOptions, sudoFunc ...SudoFunc) (*FileInfo, *Response, error) {
+func (s *RepositoryFilesService) UpdateFile(pid interface{}, opt *UpdateFileOptions, options ...OptionFunc) (*FileInfo, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/repository/files", url.QueryEscape(project))
 
-	req, err := s.client.NewRequest("PUT", u, opt, sudoFunc)
+	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -188,14 +188,14 @@ type DeleteFileOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/repository_files.html#delete-existing-file-in-repository
-func (s *RepositoryFilesService) DeleteFile(pid interface{}, opt *DeleteFileOptions, sudoFunc ...SudoFunc) (*FileInfo, *Response, error) {
+func (s *RepositoryFilesService) DeleteFile(pid interface{}, opt *DeleteFileOptions, options ...OptionFunc) (*FileInfo, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/repository/files", url.QueryEscape(project))
 
-	req, err := s.client.NewRequest("DELETE", u, opt, sudoFunc)
+	req, err := s.client.NewRequest("DELETE", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}

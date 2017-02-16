@@ -57,14 +57,14 @@ type ListTreeOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/repositories.html#list-repository-tree
-func (s *RepositoriesService) ListTree(pid interface{}, opt *ListTreeOptions, sudoFunc ...SudoFunc) ([]*TreeNode, *Response, error) {
+func (s *RepositoriesService) ListTree(pid interface{}, opt *ListTreeOptions, options ...OptionFunc) ([]*TreeNode, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/repository/tree", url.QueryEscape(project))
 
-	req, err := s.client.NewRequest("GET", u, opt, sudoFunc)
+	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -90,14 +90,14 @@ type RawFileContentOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/repositories.html#raw-file-content
-func (s *RepositoriesService) RawFileContent(pid interface{}, sha string, opt *RawFileContentOptions, sudoFunc ...SudoFunc) ([]byte, *Response, error) {
+func (s *RepositoriesService) RawFileContent(pid interface{}, sha string, opt *RawFileContentOptions, options ...OptionFunc) ([]byte, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/repository/blobs/%s", url.QueryEscape(project), sha)
 
-	req, err := s.client.NewRequest("GET", u, opt, sudoFunc)
+	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -115,14 +115,14 @@ func (s *RepositoriesService) RawFileContent(pid interface{}, sha string, opt *R
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/repositories.html#raw-blob-content
-func (s *RepositoriesService) RawBlobContent(pid interface{}, sha string, sudoFunc ...SudoFunc) ([]byte, *Response, error) {
+func (s *RepositoriesService) RawBlobContent(pid interface{}, sha string, options ...OptionFunc) ([]byte, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/repository/raw_blobs/%s", url.QueryEscape(project), sha)
 
-	req, err := s.client.NewRequest("GET", u, nil, sudoFunc)
+	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -148,14 +148,14 @@ type ArchiveOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/repositories.html#get-file-archive
-func (s *RepositoriesService) Archive(pid interface{}, opt *ArchiveOptions, sudoFunc ...SudoFunc) ([]byte, *Response, error) {
+func (s *RepositoriesService) Archive(pid interface{}, opt *ArchiveOptions, options ...OptionFunc) ([]byte, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/repository/archive", url.QueryEscape(project))
 
-	req, err := s.client.NewRequest("GET", u, opt, sudoFunc)
+	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -198,14 +198,14 @@ type CompareOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/repositories.html#compare-branches-tags-or-commits
-func (s *RepositoriesService) Compare(pid interface{}, opt *CompareOptions, sudoFunc ...SudoFunc) (*Compare, *Response, error) {
+func (s *RepositoriesService) Compare(pid interface{}, opt *CompareOptions, options ...OptionFunc) (*Compare, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/repository/compare", url.QueryEscape(project))
 
-	req, err := s.client.NewRequest("GET", u, opt, sudoFunc)
+	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -237,14 +237,14 @@ func (c Contributor) String() string {
 // Contributors gets the repository contributors list.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/repositories.html#contributer
-func (s *RepositoriesService) Contributors(pid interface{}, sudoFunc ...SudoFunc) ([]*Contributor, *Response, error) {
+func (s *RepositoriesService) Contributors(pid interface{}, options ...OptionFunc) ([]*Contributor, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/repository/contributors", url.QueryEscape(project))
 
-	req, err := s.client.NewRequest("GET", u, nil, sudoFunc)
+	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}

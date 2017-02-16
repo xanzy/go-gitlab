@@ -73,14 +73,14 @@ type Build struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/builds.html#list-project-builds
-func (s *BuildsService) ListProjectBuilds(pid interface{}, opts *ListBuildsOptions, sudoFunc ...SudoFunc) ([]Build, *Response, error) {
+func (s *BuildsService) ListProjectBuilds(pid interface{}, opts *ListBuildsOptions, options ...OptionFunc) ([]Build, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/builds", url.QueryEscape(project))
 
-	req, err := s.client.NewRequest("GET", u, opts, sudoFunc)
+	req, err := s.client.NewRequest("GET", u, opts, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -99,14 +99,14 @@ func (s *BuildsService) ListProjectBuilds(pid interface{}, opts *ListBuildsOptio
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/builds.html#list-commit-builds
-func (s *BuildsService) ListCommitBuilds(pid interface{}, sha string, opts *ListBuildsOptions, sudoFunc ...SudoFunc) ([]Build, *Response, error) {
+func (s *BuildsService) ListCommitBuilds(pid interface{}, sha string, opts *ListBuildsOptions, options ...OptionFunc) ([]Build, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/repository/commits/%s/builds", project, sha)
 
-	req, err := s.client.NewRequest("GET", u, opts, sudoFunc)
+	req, err := s.client.NewRequest("GET", u, opts, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -124,14 +124,14 @@ func (s *BuildsService) ListCommitBuilds(pid interface{}, sha string, opts *List
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/builds.html#get-a-single-build
-func (s *BuildsService) GetBuild(pid interface{}, buildID int, sudoFunc ...SudoFunc) (*Build, *Response, error) {
+func (s *BuildsService) GetBuild(pid interface{}, buildID int, options ...OptionFunc) (*Build, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/builds/%d", project, buildID)
 
-	req, err := s.client.NewRequest("GET", u, nil, sudoFunc)
+	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -149,14 +149,14 @@ func (s *BuildsService) GetBuild(pid interface{}, buildID int, sudoFunc ...SudoF
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/builds.html#get-build-artifacts
-func (s *BuildsService) GetBuildArtifacts(pid interface{}, buildID int, sudoFunc ...SudoFunc) (io.Reader, *Response, error) {
+func (s *BuildsService) GetBuildArtifacts(pid interface{}, buildID int, options ...OptionFunc) (io.Reader, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/builds/%d/artifacts", project, buildID)
 
-	req, err := s.client.NewRequest("GET", u, nil, sudoFunc)
+	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -175,14 +175,14 @@ func (s *BuildsService) GetBuildArtifacts(pid interface{}, buildID int, sudoFunc
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/builds.html#download-the-artifacts-file
-func (s *BuildsService) DownloadArtifactsFile(pid interface{}, refName string, job string, sudoFunc ...SudoFunc) (io.Reader, *Response, error) {
+func (s *BuildsService) DownloadArtifactsFile(pid interface{}, refName string, job string, options ...OptionFunc) (io.Reader, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/builds/artifacts/%s/download?job=%s", project, refName, job)
 
-	req, err := s.client.NewRequest("GET", u, nil, sudoFunc)
+	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -200,14 +200,14 @@ func (s *BuildsService) DownloadArtifactsFile(pid interface{}, refName string, j
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/builds.html#get-a-trace-file
-func (s *BuildsService) GetTraceFile(pid interface{}, buildID int, sudoFunc ...SudoFunc) (io.Reader, *Response, error) {
+func (s *BuildsService) GetTraceFile(pid interface{}, buildID int, options ...OptionFunc) (io.Reader, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/builds/%d/trace", project, buildID)
 
-	req, err := s.client.NewRequest("GET", u, nil, sudoFunc)
+	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -225,14 +225,14 @@ func (s *BuildsService) GetTraceFile(pid interface{}, buildID int, sudoFunc ...S
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/builds.html#cancel-a-build
-func (s *BuildsService) CancelBuild(pid interface{}, buildID int, sudoFunc ...SudoFunc) (*Build, *Response, error) {
+func (s *BuildsService) CancelBuild(pid interface{}, buildID int, options ...OptionFunc) (*Build, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/builds/%d/cancel", project, buildID)
 
-	req, err := s.client.NewRequest("POST", u, nil, sudoFunc)
+	req, err := s.client.NewRequest("POST", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -250,14 +250,14 @@ func (s *BuildsService) CancelBuild(pid interface{}, buildID int, sudoFunc ...Su
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/builds.html#retry-a-build
-func (s *BuildsService) RetryBuild(pid interface{}, buildID int, sudoFunc ...SudoFunc) (*Build, *Response, error) {
+func (s *BuildsService) RetryBuild(pid interface{}, buildID int, options ...OptionFunc) (*Build, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/builds/%d/retry", project, buildID)
 
-	req, err := s.client.NewRequest("POST", u, nil, sudoFunc)
+	req, err := s.client.NewRequest("POST", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -276,14 +276,14 @@ func (s *BuildsService) RetryBuild(pid interface{}, buildID int, sudoFunc ...Sud
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/builds.html#erase-a-build
-func (s *BuildsService) EraseBuild(pid interface{}, buildID int, sudoFunc ...SudoFunc) (*Build, *Response, error) {
+func (s *BuildsService) EraseBuild(pid interface{}, buildID int, options ...OptionFunc) (*Build, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/builds/%d/erase", project, buildID)
 
-	req, err := s.client.NewRequest("POST", u, nil, sudoFunc)
+	req, err := s.client.NewRequest("POST", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -302,14 +302,14 @@ func (s *BuildsService) EraseBuild(pid interface{}, buildID int, sudoFunc ...Sud
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/builds.html#keep-artifacts
-func (s *BuildsService) KeepArtifacts(pid interface{}, buildID int, sudoFunc ...SudoFunc) (*Build, *Response, error) {
+func (s *BuildsService) KeepArtifacts(pid interface{}, buildID int, options ...OptionFunc) (*Build, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/builds/%d/artifacts/keep", project, buildID)
 
-	req, err := s.client.NewRequest("POST", u, nil, sudoFunc)
+	req, err := s.client.NewRequest("POST", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -327,14 +327,14 @@ func (s *BuildsService) KeepArtifacts(pid interface{}, buildID int, sudoFunc ...
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/builds.html#play-a-build
-func (s *BuildsService) PlayBuild(pid interface{}, buildID int, sudoFunc ...SudoFunc) (*Build, *Response, error) {
+func (s *BuildsService) PlayBuild(pid interface{}, buildID int, options ...OptionFunc) (*Build, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/builds/%d/play", project, buildID)
 
-	req, err := s.client.NewRequest("POST", u, nil, sudoFunc)
+	req, err := s.client.NewRequest("POST", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
