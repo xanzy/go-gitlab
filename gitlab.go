@@ -74,6 +74,11 @@ func (l NotificationLevelValue) String() string {
 	return notificationLevelNames[l]
 }
 
+// MarshalJSON implements the json.Marshaler interface.
+func (l NotificationLevelValue) MarshalJSON() ([]byte, error) {
+	return json.Marshal(l.String())
+}
+
 // UnmarshalJSON implements the json.Unmarshaler interface.
 func (l *NotificationLevelValue) UnmarshalJSON(data []byte) error {
 	var raw interface{}
