@@ -43,7 +43,7 @@ type Commit struct {
 	CommittedDate *time.Time `json:"committed_date"`
 	CreatedAt     *time.Time `json:"created_at"`
 	Message       string     `json:"message"`
-	ParentsIds    []string   `json:"parents_ids"`
+	ParentIds     []string   `json:"parent_ids"`
 }
 
 func (c Commit) String() string {
