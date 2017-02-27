@@ -95,7 +95,7 @@ type Commit struct {
 	Message        string       `json:"message"`
 	CommittedDate  *time.Time   `json:"committed_date"`
 	AuthoredDate   *time.Time   `json:"authored_date"`
-	ParentsIds     []string     `json:"parents_ids"`
+	ParentIds      []string     `json:"parent_ids"`
 	Stats          *CommitStats `json:"stats"`
 	Status         *BuildState  `json:"status"`
 }
