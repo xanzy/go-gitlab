@@ -72,24 +72,32 @@ type CreateCommitOptions struct {
 	AuthorName    *string        `url:"author_name,omitempty" json:"author_name,omitempty"`
 }
 
+// CherryPickCommitOptions represents the available options for cherry-picking a commit.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/commits.html#cherry-pick-a-commit
+type CherryPickCommitOptions struct {
+	// TargetBranch is the branch where the commit will be added.
+	TargetBranch string `url:"branch" json:"branch"`
+}
+
 // Commit represents a GitLab commit.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/commits.html
 type Commit struct {
-	ID             string      `json:"id"`
-	ShortID        string      `json:"short_id"`
-	Title          string      `json:"title"`
-	AuthorName     string      `json:"author_name"`
-	AuthorEmail    string      `json:"author_email"`
-	CommitterName  string      `json:"committer_name"`
-	CommitterEmail string      `json:"committer_email"`
-	CreatedAt      *time.Time  `json:"created_at"`
-	Message        string      `json:"message"`
-	CommittedDate  *time.Time  `json:"committed_date"`
-	AuthoredDate   *time.Time  `json:"authored_date"`
-	ParentsIds     []string    `json:"parents_ids"`
-	Stats          CommitStats `json:"stats"`
-	Status         *BuildState `json:"status,omitempty"`
+	ID             string       `json:"id"`
+	ShortID        string       `json:"short_id"`
+	Title          string       `json:"title"`
+	AuthorName     string       `json:"author_name"`
+	AuthorEmail    string       `json:"author_email"`
+	CommitterName  string       `json:"committer_name"`
+	CommitterEmail string       `json:"committer_email"`
+	CreatedAt      *time.Time   `json:"created_at"`
+	Message        string       `json:"message"`
+	CommittedDate  *time.Time   `json:"committed_date"`
+	AuthoredDate   *time.Time   `json:"authored_date"`
+	ParentsIds     []string     `json:"parents_ids"`
+	Stats          *CommitStats `json:"stats"`
+	Status         *BuildState  `json:"status"`
 }
 
 func (c Commit) String() string {
@@ -351,10 +359,10 @@ type SetCommitStatusOptions struct {
 	Description *string    `url:"description,omitempty" json:"description,omitempty"`
 }
 
-// BuildState represents a GitLab build state
+// BuildState represents a GitLab build state.
 type BuildState string
 
-// These constants represent all valid build states
+// These constants represent all valid build states.
 const (
 	Pending  BuildState = "pending"
 	Running  BuildState = "running"
@@ -387,7 +395,7 @@ func (s *CommitsService) SetCommitStatus(pid interface{}, sha string, opt *SetCo
 	return cs, resp, err
 }
 
-// CreateCommit creates a commit with multiple files and actions
+// CreateCommit creates a commit with multiple files and actions.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/commits.html#create-a-commit-with-multiple-files-and-actions
 func (s *CommitsService) CreateCommit(pid interface{}, opt *CreateCommitOptions, options ...OptionFunc) (*Commit, *Response, error) {
@@ -396,6 +404,31 @@ func (s *CommitsService) CreateCommit(pid interface{}, opt *CreateCommitOptions,
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/repository/commits", url.QueryEscape(project))
+
+	req, err := s.client.NewRequest("POST", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var c *Commit
+	resp, err := s.client.Do(req, &c)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return c, resp, err
+}
+
+// CherryPickCommit sherry picks a commit to a given branch.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/commits.html#cherry-pick-a-commit
+func (s *CommitsService) CherryPickCommit(pid interface{}, sha string, opt *CherryPickCommitOptions, options ...OptionFunc) (*Commit, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/repository/commits/%s/cherry_pick",
+		url.QueryEscape(project), url.QueryEscape(sha))
 
 	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
