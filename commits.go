@@ -30,56 +30,6 @@ type CommitsService struct {
 	client *Client
 }
 
-// CommitStats represents the number of added and deleted files in a commit.
-//
-// GitLab API docs: https://docs.gitlab.com/ce/api/commits.html
-type CommitStats struct {
-	Additions int `json:"additions"`
-	Deletions int `json:"deletions"`
-	Total     int `json:"total"`
-}
-
-// FileAction represents the available actions that can be performed on a file.
-//
-// GitLab API docs: https://docs.gitlab.com/ce/api/commits.html#create-a-commit-with-multiple-files-and-actions
-type FileAction string
-
-// The available file actions.
-const (
-	FileCreate FileAction = "create"
-	FileDelete FileAction = "delete"
-	FileMove   FileAction = "move"
-	FileUpdate FileAction = "update"
-)
-
-// CommitAction represents a single file action within a commit.
-type CommitAction struct {
-	Action       FileAction `url:"action" json:"action"`
-	FilePath     string     `url:"file_path" json:"file_path"`
-	PreviousPath *string    `url:"previous_path,omitempty" json:"previous_path,omitempty"`
-	Content      *string    `url:"content,omitempty" json:"content,omitempty"`
-	Encoding     *string    `url:"encoding,omitempty" json:"encoding,omitempty"`
-}
-
-// CreateCommitOptions represents the available options for a new commit.
-//
-// GitLab API docs: https://docs.gitlab.com/ce/api/commits.html#create-a-commit-with-multiple-files-and-actions
-type CreateCommitOptions struct {
-	BranchName    string         `url:"branch_name" json:"branch_name"`
-	CommitMessage string         `url:"commit_message" json:"commit_message"`
-	Actions       []CommitAction `url:"actions" json:"actions"`
-	AuthorEmail   *string        `url:"author_email,omitempty" json:"author_email,omitempty"`
-	AuthorName    *string        `url:"author_name,omitempty" json:"author_name,omitempty"`
-}
-
-// CherryPickCommitOptions represents the available options for cherry-picking a commit.
-//
-// GitLab API docs: https://docs.gitlab.com/ce/api/commits.html#cherry-pick-a-commit
-type CherryPickCommitOptions struct {
-	// TargetBranch is the branch where the commit will be added.
-	TargetBranch string `url:"branch" json:"branch"`
-}
-
 // Commit represents a GitLab commit.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/commits.html
@@ -89,15 +39,24 @@ type Commit struct {
 	Title          string       `json:"title"`
 	AuthorName     string       `json:"author_name"`
 	AuthorEmail    string       `json:"author_email"`
-  	AuthoredDate   *time.Time   `json:"authored_date"`
+	AuthoredDate   *time.Time   `json:"authored_date"`
 	CommitterName  string       `json:"committer_name"`
 	CommitterEmail string       `json:"committer_email"`
-  	CommittedDate  *time.Time   `json:"committed_date"`
+	CommittedDate  *time.Time   `json:"committed_date"`
 	CreatedAt      *time.Time   `json:"created_at"`
 	Message        string       `json:"message"`
 	ParentIDs      []string     `json:"parent_ids"`
 	Stats          *CommitStats `json:"stats"`
 	Status         *BuildState  `json:"status"`
+}
+
+// CommitStats represents the number of added and deleted files in a commit.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/commits.html
+type CommitStats struct {
+	Additions int `json:"additions"`
+	Deletions int `json:"deletions"`
+	Total     int `json:"total"`
 }
 
 func (c Commit) String() string {
@@ -130,6 +89,63 @@ func (s *CommitsService) ListCommits(pid interface{}, opt *ListCommitsOptions, o
 	}
 
 	var c []*Commit
+	resp, err := s.client.Do(req, &c)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return c, resp, err
+}
+
+// FileAction represents the available actions that can be performed on a file.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/commits.html#create-a-commit-with-multiple-files-and-actions
+type FileAction string
+
+// The available file actions.
+const (
+	FileCreate FileAction = "create"
+	FileDelete FileAction = "delete"
+	FileMove   FileAction = "move"
+	FileUpdate FileAction = "update"
+)
+
+// CommitAction represents a single file action within a commit.
+type CommitAction struct {
+	Action       FileAction `url:"action" json:"action,omitempty"`
+	FilePath     string     `url:"file_path" json:"file_path,omitempty"`
+	PreviousPath string     `url:"previous_path,omitempty" json:"previous_path,omitempty"`
+	Content      string     `url:"content,omitempty" json:"content,omitempty"`
+	Encoding     string     `url:"encoding,omitempty" json:"encoding,omitempty"`
+}
+
+// CreateCommitOptions represents the available options for a new commit.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/commits.html#create-a-commit-with-multiple-files-and-actions
+type CreateCommitOptions struct {
+	BranchName    *string         `url:"branch_name" json:"branch_name,omitempty"`
+	CommitMessage *string         `url:"commit_message" json:"commit_message,omitempty"`
+	Actions       []*CommitAction `url:"actions" json:"actions,omitempty"`
+	AuthorEmail   *string         `url:"author_email,omitempty" json:"author_email,omitempty"`
+	AuthorName    *string         `url:"author_name,omitempty" json:"author_name,omitempty"`
+}
+
+// CreateCommit creates a commit with multiple files and actions.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/commits.html#create-a-commit-with-multiple-files-and-actions
+func (s *CommitsService) CreateCommit(pid interface{}, opt *CreateCommitOptions, options ...OptionFunc) (*Commit, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/repository/commits", url.QueryEscape(project))
+
+	req, err := s.client.NewRequest("POST", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var c *Commit
 	resp, err := s.client.Do(req, &c)
 	if err != nil {
 		return nil, resp, err
@@ -395,28 +411,11 @@ func (s *CommitsService) SetCommitStatus(pid interface{}, sha string, opt *SetCo
 	return cs, resp, err
 }
 
-// CreateCommit creates a commit with multiple files and actions.
+// CherryPickCommitOptions represents the available options for cherry-picking a commit.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/commits.html#create-a-commit-with-multiple-files-and-actions
-func (s *CommitsService) CreateCommit(pid interface{}, opt *CreateCommitOptions, options ...OptionFunc) (*Commit, *Response, error) {
-	project, err := parseID(pid)
-	if err != nil {
-		return nil, nil, err
-	}
-	u := fmt.Sprintf("projects/%s/repository/commits", url.QueryEscape(project))
-
-	req, err := s.client.NewRequest("POST", u, opt, options)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	var c *Commit
-	resp, err := s.client.Do(req, &c)
-	if err != nil {
-		return nil, resp, err
-	}
-
-	return c, resp, err
+// GitLab API docs: https://docs.gitlab.com/ce/api/commits.html#cherry-pick-a-commit
+type CherryPickCommitOptions struct {
+	TargetBranch *string `url:"branch" json:"branch,omitempty"`
 }
 
 // CherryPickCommit sherry picks a commit to a given branch.
