@@ -38,7 +38,7 @@ type Group struct {
 	Path        string            `json:"path"`
 	Description string            `json:"description"`
 	Projects    *[]Project        `json:"projects,omitempty"`
-	Statistics  ProjectStatistics `json:"statistics"`
+	Statistics  StorageStatistics `json:"statistics"`
 }
 
 // ListGroupsOptions represents the available ListGroups() options.
