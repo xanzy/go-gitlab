@@ -33,11 +33,12 @@ type GroupsService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/groups.html
 type Group struct {
-	ID          int        `json:"id"`
-	Name        string     `json:"name"`
-	Path        string     `json:"path"`
-	Description string     `json:"description"`
-	Projects    *[]Project `json:"projects,omitempty"`
+	ID          int                `json:"id"`
+	Name        string             `json:"name"`
+	Path        string             `json:"path"`
+	Description string             `json:"description"`
+	Projects    *[]Project         `json:"projects"`
+	Statistics  *StorageStatistics `json:"statistics"`
 }
 
 // ListGroupsOptions represents the available ListGroups() options.
@@ -45,7 +46,8 @@ type Group struct {
 // GitLab API docs: https://docs.gitlab.com/ce/api/groups.html#list-project-groups
 type ListGroupsOptions struct {
 	ListOptions
-	Search *string `url:"search,omitempty" json:"search,omitempty"`
+	Search     *string `url:"search,omitempty" json:"search,omitempty"`
+	Statistics *bool   `url:"statistics,omitempty" json:"statistics,omitempty"`
 }
 
 // ListGroups gets a list of groups. (As user: my groups, as admin: all groups)
