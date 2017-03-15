@@ -77,6 +77,7 @@ type Project struct {
 		GroupName        string `json:"group_name"`
 		GroupAccessLevel int    `json:"group_access_level"`
 	} `json:"shared_with_groups"`
+	Statistics ProjectStatistics `json:"statistics"`
 }
 
 // Repository represents a repository.
@@ -106,6 +107,20 @@ type ProjectNamespace struct {
 	OwnerID     int        `json:"owner_id"`
 	Path        string     `json:"path"`
 	UpdatedAt   *time.Time `json:"updated_at"`
+}
+
+// StorageStatistics represents a statistics record for a group or project.
+type StorageStatistics struct {
+	StorageSize        int64 `json:"storage_size"`
+	RepositorySize     int64 `json:"repository_size"`
+	LfsObjectsSize     int64 `json:"lfs_objects_size"`
+	BuildArtifactsSize int64 `json:"build_artifacts_size"`
+}
+
+// ProjectStatistics represents a statistics record for a project.
+type ProjectStatistics struct {
+	StorageStatistics
+	CommitCount int64 `json:"commit_count"`
 }
 
 // Permissions represents premissions.
@@ -141,6 +156,7 @@ type ListProjectsOptions struct {
 	Search     *string `url:"search,omitempty" json:"search,omitempty"`
 	Simple     *bool   `url:"simple,omitempty" json:"simple,omitempty"`
 	Visibility *string `url:"visibility,omitempty" json:"visibility,omitempty"`
+	Statistics *bool   `url:"statistics,omitempty" json:"statistics,omitempty"`
 }
 
 // ListProjects gets a list of projects accessible by the authenticated user.
