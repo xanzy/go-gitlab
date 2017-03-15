@@ -37,7 +37,7 @@ type Group struct {
 	Name        string             `json:"name"`
 	Path        string             `json:"path"`
 	Description string             `json:"description"`
-	Projects    *[]Project         `json:"projects"`
+	Projects    []*Project         `json:"projects"`
 	Statistics  *StorageStatistics `json:"statistics"`
 }
 
