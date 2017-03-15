@@ -77,7 +77,7 @@ type Project struct {
 		GroupName        string `json:"group_name"`
 		GroupAccessLevel int    `json:"group_access_level"`
 	} `json:"shared_with_groups"`
-	Statistics ProjectStatistics `json:"statistics"`
+	Statistics *ProjectStatistics `json:"statistics"`
 }
 
 // Repository represents a repository.
@@ -111,16 +111,16 @@ type ProjectNamespace struct {
 
 // StorageStatistics represents a statistics record for a group or project.
 type StorageStatistics struct {
-	StorageSize        uint64 `json:"storage_size"`
-	RepositorySize     uint64 `json:"repository_size"`
-	LfsObjectsSize     uint64 `json:"lfs_objects_size"`
-	BuildArtifactsSize uint64 `json:"build_artifacts_size"`
+	StorageSize        int64 `json:"storage_size"`
+	RepositorySize     int64 `json:"repository_size"`
+	LfsObjectsSize     int64 `json:"lfs_objects_size"`
+	BuildArtifactsSize int64 `json:"build_artifacts_size"`
 }
 
 // ProjectStatistics represents a statistics record for a project.
 type ProjectStatistics struct {
 	StorageStatistics
-	CommitCount uint64 `json:"commit_count"`
+	CommitCount int `json:"commit_count"`
 }
 
 // Permissions represents premissions.
