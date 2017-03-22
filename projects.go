@@ -915,13 +915,13 @@ func (s *ProjectsService) ListBuildTriggers(pid interface{}, opt *ListBuildTrigg
 		return nil, nil, err
 	}
 
-	var ph []*BuildTrigger
-	resp, err := s.client.Do(req, &ph)
+	var bt []*BuildTrigger
+	resp, err := s.client.Do(req, &bt)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return ph, resp, err
+	return bt, resp, err
 }
 
 // GetBuildTrigger gets a specific build trigger for a project.
@@ -940,13 +940,13 @@ func (s *ProjectsService) GetBuildTrigger(pid interface{}, token string, options
 		return nil, nil, err
 	}
 
-	ph := new(BuildTrigger)
-	resp, err := s.client.Do(req, ph)
+	bt := new(BuildTrigger)
+	resp, err := s.client.Do(req, bt)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return ph, resp, err
+	return bt, resp, err
 }
 
 // AddBuildTrigger adds a build trigger to a specified project.
@@ -965,13 +965,13 @@ func (s *ProjectsService) AddBuildTrigger(pid interface{}, options ...OptionFunc
 		return nil, nil, err
 	}
 
-	ph := new(BuildTrigger)
-	resp, err := s.client.Do(req, ph)
+	bt := new(BuildTrigger)
+	resp, err := s.client.Do(req, bt)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return ph, resp, err
+	return bt, resp, err
 }
 
 // DeleteBuildTrigger removes a trigger from a project.
