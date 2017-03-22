@@ -140,7 +140,7 @@ func TestCheckResponse(t *testing.T) {
 }
 
 func TestRequestWithContext(t *testing.T) {
-	ctx := context.Background()
+	ctx := context.WithValue(context.Background(), interface{}("myKey"), interface{}("myValue"))
 	req, err := NewClient(nil, "").NewRequest("GET", "test", nil, []OptionFunc{WithContext(ctx)})
 	if err != nil {
 		t.Fatalf("Failed to create request: %v", err)
