@@ -546,6 +546,15 @@ func WithSudo(uid interface{}) OptionFunc {
 	}
 }
 
+// WithContext runs the request with the provided context
+func WithContext(ctx context.Context) OptionFunc {
+	return func(req *http.Request) error {
+			req = req.WithContext(ctx)
+			return nil
+		}
+	}
+}
+
 // Bool is a helper routine that allocates a new bool value
 // to store v and returns a pointer to it.
 func Bool(v bool) *bool {
