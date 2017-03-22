@@ -7,11 +7,8 @@ A GitLab API client enabling Go programs to interact with GitLab in a simple and
 
 ## NOTE
 
-Release v0.2.0 (released on 26-07-2016), is unfortunately backwards incompatible. We 
-understand very well that this will cause some additional work in order to get your
-code working again, but we believe this is a necessary eval to improve functionality
-and fix some use cases (see [GH-29](https://github.com/xanzy/go-gitlab/issues/29) and
-[GH-53](https://github.com/xanzy/go-gitlab/issues/53)).
+Release v0.5.0 (released on 22-03-2017) no longer supports Go versions older
+then 1.7.x If you want (or need) to use an older Go version please use v0.4.1
 
 ## Coverage
 
