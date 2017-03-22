@@ -36,6 +36,7 @@ type DeployKey struct {
 	Title     string     `json:"title"`
 	Key       string     `json:"key"`
 	CreatedAt *time.Time `json:"created_at"`
+	CanPush   *bool      `json:"can_push"`
 }
 
 func (k DeployKey) String() string {
@@ -97,8 +98,9 @@ func (s *DeployKeysService) GetDeployKey(pid interface{}, deployKey int, options
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/deploy_keys.html#add-deploy-key
 type AddDeployKeyOptions struct {
-	Title *string `url:"title,omitempty" json:"title,omitempty"`
-	Key   *string `url:"key,omitempty" json:"key,omitempty"`
+	Title   *string `url:"title,omitempty" json:"title,omitempty"`
+	Key     *string `url:"key,omitempty" json:"key,omitempty"`
+	CanPush *bool   `url:"can_push,omitempty" json:"can_push,omitempty"`
 }
 
 // AddDeployKey creates a new deploy key for a project. If deploy key already
