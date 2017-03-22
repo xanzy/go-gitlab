@@ -1,6 +1,7 @@
 package gitlab
 
 import (
+	"context"
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
@@ -135,5 +136,17 @@ func TestCheckResponse(t *testing.T) {
 
 	if errResp.Error() != want {
 		t.Errorf("Expected error: %s, got %s", want, errResp.Error())
+	}
+}
+
+func TestRequestWithContext(t *testing.T) {
+	ctx := context.Background()
+	req, err := NewClient(nil, "").NewRequest("GET", "test", nil, []OptionFunc{WithContext(ctx)})
+	if err != nil {
+		t.Fatalf("Failed to create request: %v", err)
+	}
+
+	if req.Context() != ctx {
+		t.Fatal("Context was not set correctly")
 	}
 }
