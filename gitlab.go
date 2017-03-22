@@ -18,6 +18,7 @@ package gitlab
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -543,6 +544,14 @@ func WithSudo(uid interface{}) OptionFunc {
 		default:
 			return fmt.Errorf("uid must be either a username or user ID")
 		}
+	}
+}
+
+// WithContext runs the request with the provided context
+func WithContext(ctx context.Context) OptionFunc {
+	return func(req *http.Request) error {
+		req = req.WithContext(ctx)
+		return nil
 	}
 }
 
