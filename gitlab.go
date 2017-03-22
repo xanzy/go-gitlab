@@ -550,7 +550,7 @@ func WithSudo(uid interface{}) OptionFunc {
 // WithContext runs the request with the provided context
 func WithContext(ctx context.Context) OptionFunc {
 	return func(req *http.Request) error {
-		req = req.WithContext(ctx)
+		*req = *req.WithContext(ctx)
 		return nil
 	}
 }
