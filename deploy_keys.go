@@ -35,8 +35,8 @@ type DeployKey struct {
 	ID        int        `json:"id"`
 	Title     string     `json:"title"`
 	Key       string     `json:"key"`
-	CreatedAt *time.Time `json:"created_at"`
 	CanPush   *bool      `json:"can_push"`
+	CreatedAt *time.Time `json:"created_at"`
 }
 
 func (k DeployKey) String() string {
