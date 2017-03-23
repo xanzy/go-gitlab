@@ -879,31 +879,34 @@ func (s *ProjectsService) DeleteProjectHook(pid interface{}, hook int, options .
 	return s.client.Do(req, nil)
 }
 
-// BuildTrigger represents a project build trigger.
+// PipelineTrigger represents a project pipeline trigger.
 //
 // GitLab API docs:
-// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/build_triggers.md#build-triggers
-type BuildTrigger struct {
-	CreatedAt *time.Time `json:"created_at"`
-	DeletedAt *time.Time `json:"deleted_at"`
-	LastUsed  *time.Time `json:"last_used"`
-	Token     string     `json:"token"`
-	UpdatedAt *time.Time `json:"updated_at"`
+// https://docs.gitlab.com/ce/api/pipeline_triggers.html#pipeline-triggers
+type PipelineTrigger struct {
+	ID          int        `json:"id"`
+	Description string     `json:"description"`
+	CreatedAt   *time.Time `json:"created_at"`
+	DeletedAt   *time.Time `json:"deleted_at"`
+	LastUsed    *time.Time `json:"last_used"`
+	Token       string     `json:"token"`
+	UpdatedAt   *time.Time `json:"updated_at"`
+	Owner       *User      `json:"owner"`
 }
 
-// ListBuildTriggersOptions represents the available ListBuildTriggers() options.
+// ListPipelineTriggersOptions represents the available ListPipelineTriggers() options.
 //
 // GitLab API docs:
-// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/build_triggers.md#list-project-triggers
-type ListBuildTriggersOptions struct {
+// https://docs.gitlab.com/ce/api/pipeline_triggers.html#list-project-triggers
+type ListPipelineTriggersOptions struct {
 	ListOptions
 }
 
-// ListBuildTriggers gets a list of project triggers.
+// ListPipelineTriggers gets a list of project triggers.
 //
 // GitLab API docs:
-// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/build_triggers.md#list-project-triggers
-func (s *ProjectsService) ListBuildTriggers(pid interface{}, opt *ListBuildTriggersOptions, options ...OptionFunc) ([]*BuildTrigger, *Response, error) {
+// https://docs.gitlab.com/ce/api/pipeline_triggers.html#list-project-triggers
+func (s *ProjectsService) ListPipelineTriggers(pid interface{}, opt *ListPipelineTriggersOptions, options ...OptionFunc) ([]*PipelineTrigger, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -915,75 +918,142 @@ func (s *ProjectsService) ListBuildTriggers(pid interface{}, opt *ListBuildTrigg
 		return nil, nil, err
 	}
 
-	var bt []*BuildTrigger
-	resp, err := s.client.Do(req, &bt)
+	var pt []*PipelineTrigger
+	resp, err := s.client.Do(req, &pt)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return bt, resp, err
+	return pt, resp, err
 }
 
-// GetBuildTrigger gets a specific build trigger for a project.
+// GetPipelineTrigger gets a specific pipeline trigger for a project.
 //
 // GitLab API docs:
-// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/build_triggers.md#get-trigger-details
-func (s *ProjectsService) GetBuildTrigger(pid interface{}, token string, options ...OptionFunc) (*BuildTrigger, *Response, error) {
+// https://docs.gitlab.com/ce/api/pipeline_triggers.html#get-trigger-details
+func (s *ProjectsService) GetPipelineTrigger(pid interface{}, trigger int, options ...OptionFunc) (*PipelineTrigger, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/triggers/%v", url.QueryEscape(project), token)
+	u := fmt.Sprintf("projects/%s/triggers/%d", url.QueryEscape(project), trigger)
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	bt := new(BuildTrigger)
-	resp, err := s.client.Do(req, bt)
+	pt := new(PipelineTrigger)
+	resp, err := s.client.Do(req, pt)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return bt, resp, err
+	return pt, resp, err
 }
 
-// AddBuildTrigger adds a build trigger to a specified project.
+// AddPipelineTriggerOptions represents the available AddPipelineTrigger() options.
 //
 // GitLab API docs:
-// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/build_triggers.md#create-a-project-trigger
-func (s *ProjectsService) AddBuildTrigger(pid interface{}, options ...OptionFunc) (*BuildTrigger, *Response, error) {
+// https://docs.gitlab.com/ce/api/pipeline_triggers.html#create-a-project-trigger
+type AddPipelineTriggerOptions struct {
+	Description *string `url:"description,omitempty" json:"description,omitempty"`
+}
+
+// AddPipelineTrigger adds a pipeline trigger to a specified project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/pipeline_triggers.html#create-a-project-trigger
+func (s *ProjectsService) AddPipelineTrigger(pid interface{}, opt *AddPipelineTriggerOptions, options ...OptionFunc) (*PipelineTrigger, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/triggers", url.QueryEscape(project))
 
+	req, err := s.client.NewRequest("POST", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	pt := new(PipelineTrigger)
+	resp, err := s.client.Do(req, pt)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return pt, resp, err
+}
+
+// EditPipelineTriggerOptions represents the available EditPipelineTrigger() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/pipeline_triggers.html#update-a-project-trigger
+type EditPipelineTriggerOptions struct {
+	Description *string `url:"description,omitempty" json:"description,omitempty"`
+}
+
+// EditPipelineTrigger edits a trigger for a specified project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/pipeline_triggers.html#update-a-project-trigger
+func (s *ProjectsService) EditPipelineTrigger(pid interface{}, trigger int, opt *EditPipelineTriggerOptions, options ...OptionFunc) (*PipelineTrigger, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/triggers/%d", url.QueryEscape(project), trigger)
+
+	req, err := s.client.NewRequest("PUT", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	pt := new(PipelineTrigger)
+	resp, err := s.client.Do(req, pt)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return pt, resp, err
+}
+
+// TakeOwnershipOfPipelineTrigger sets the owner of the specified
+// pipeline trigger to the user issuing the request.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/pipeline_triggers.html#take-ownership-of-a-project-trigger
+func (s *ProjectsService) TakeOwnershipOfPipelineTrigger(pid interface{}, trigger int, options ...OptionFunc) (*PipelineTrigger, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/triggers/%d/take_ownership", url.QueryEscape(project), trigger)
+
 	req, err := s.client.NewRequest("POST", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	bt := new(BuildTrigger)
-	resp, err := s.client.Do(req, bt)
+	pt := new(PipelineTrigger)
+	resp, err := s.client.Do(req, pt)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return bt, resp, err
+	return pt, resp, err
 }
 
-// DeleteBuildTrigger removes a trigger from a project.
+// DeletePipelineTrigger removes a trigger from a project.
 //
 // GitLab API docs:
-// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/build_triggers.md#remove-a-project-trigger
-func (s *ProjectsService) DeleteBuildTrigger(pid interface{}, token string, options ...OptionFunc) (*Response, error) {
+// https://docs.gitlab.com/ce/api/pipeline_triggers.html#remove-a-project-trigger
+func (s *ProjectsService) DeletePipelineTrigger(pid interface{}, trigger int, options ...OptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/triggers/%s", url.QueryEscape(project), token)
+	u := fmt.Sprintf("projects/%s/triggers/%d", url.QueryEscape(project), trigger)
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {
