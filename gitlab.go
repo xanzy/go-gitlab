@@ -177,6 +177,7 @@ type Client struct {
 	Projects             *ProjectsService
 	ProjectSnippets      *ProjectSnippetsService
 	Pipelines            *PipelinesService
+	PipelineTriggers     *PipelineTriggersService
 	Repositories         *RepositoriesService
 	RepositoryFiles      *RepositoryFilesService
 	Services             *ServicesService
@@ -239,6 +240,7 @@ func newClient(httpClient *http.Client, tokenType tokenType, token string) *Clie
 	c.Projects = &ProjectsService{client: c}
 	c.ProjectSnippets = &ProjectSnippetsService{client: c}
 	c.Pipelines = &PipelinesService{client: c}
+	c.PipelineTriggers = &PipelineTriggersService{client: c}
 	c.Repositories = &RepositoriesService{client: c}
 	c.RepositoryFiles = &RepositoryFilesService{client: c}
 	c.Services = &ServicesService{client: c}
