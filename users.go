@@ -402,7 +402,7 @@ func (s *UsersService) BlockUser(user int, options ...OptionFunc) error {
 	case 403:
 		return errors.New("Cannot block a user that is already blocked by LDAP synchronization")
 	case 404:
-		return errors.New("User does not exists")
+		return errors.New("User does not exist")
 	default:
 		return fmt.Errorf("Received unexpected result code: %d", resp.StatusCode)
 	}
@@ -430,7 +430,7 @@ func (s *UsersService) UnblockUser(user int, options ...OptionFunc) error {
 	case 403:
 		return errors.New("Cannot unblock a user that is blocked by LDAP synchronization")
 	case 404:
-		return errors.New("User does not exists")
+		return errors.New("User does not exist")
 	default:
 		return fmt.Errorf("Received unexpected result code: %d", resp.StatusCode)
 	}
