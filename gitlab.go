@@ -464,7 +464,7 @@ func (e *ErrorResponse) Error() string {
 // CheckResponse checks the API response for errors, and returns them if present.
 func CheckResponse(r *http.Response) error {
 	switch r.StatusCode {
-	case 200, 201, 304:
+	case http.StatusOK, http.StatusCreated, http.StatusNoContent, http.StatusNotModified:
 		return nil
 	}
 
