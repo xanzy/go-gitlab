@@ -520,7 +520,7 @@ func parseError(raw interface{}) string {
 			errs = append(errs, fmt.Sprintf("{%s: %s}", k, parseError(v)))
 		}
 		sort.Strings(errs)
-		return fmt.Sprintf("%s", strings.Join(errs, ", "))
+		return strings.Join(errs, ", ")
 
 	default:
 		return fmt.Sprintf("failed to parse unexpected error type: %T", raw)
