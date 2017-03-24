@@ -86,10 +86,12 @@ func (l *Labels) MarshalJSON() ([]byte, error) {
 // GitLab API docs: https://docs.gitlab.com/ce/api/issues.html#list-issues
 type ListIssuesOptions struct {
 	ListOptions
-	State   *string `url:"state,omitempty" json:"state,omitempty"`
-	Labels  Labels  `url:"labels,comma,omitempty" json:"labels,omitempty"`
-	OrderBy *string `url:"order_by,omitempty" json:"order_by,omitempty"`
-	Sort    *string `url:"sort,omitempty" json:"sort,omitempty"`
+	IIDs      []int   `url:"iids[],omitempty" json:"iids,omitempty"`
+	State     *string `url:"state,omitempty" json:"state,omitempty"`
+	Labels    Labels  `url:"labels,comma,omitempty" json:"labels,omitempty"`
+	Milestone *string `url:"milestone,omitempty" json:"milestone,omitempty"`
+	OrderBy   *string `url:"order_by,omitempty" json:"order_by,omitempty"`
+	Sort      *string `url:"sort,omitempty" json:"sort,omitempty"`
 }
 
 // ListIssues gets all issues created by authenticated user. This function
@@ -111,12 +113,50 @@ func (s *IssuesService) ListIssues(opt *ListIssuesOptions, options ...OptionFunc
 	return i, resp, err
 }
 
+// ListGroupIssuesOptions represents the available ListGroupIssues() options.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/issues.html#list-group-issues
+type ListGroupIssuesOptions struct {
+	ListOptions
+	IIDs      []int   `url:"iids[],omitempty" json:"iids,omitempty"`
+	State     *string `url:"state,omitempty" json:"state,omitempty"`
+	Labels    Labels  `url:"labels,comma,omitempty" json:"labels,omitempty"`
+	Milestone *string `url:"milestone,omitempty" json:"milestone,omitempty"`
+	OrderBy   *string `url:"order_by,omitempty" json:"order_by,omitempty"`
+	Sort      *string `url:"sort,omitempty" json:"sort,omitempty"`
+}
+
+// ListGroupIssues gets a list of group issues. This function accepts
+// pagination parameters page and per_page to return the list of group issues.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/issues.html#list-group-issues
+func (s *IssuesService) ListGroupIssues(pid interface{}, opt *ListGroupIssuesOptions, options ...OptionFunc) ([]*Issue, *Response, error) {
+	group, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("group/%s/issues", url.QueryEscape(group))
+
+	req, err := s.client.NewRequest("GET", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var i []*Issue
+	resp, err := s.client.Do(req, &i)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return i, resp, err
+}
+
 // ListProjectIssuesOptions represents the available ListProjectIssues() options.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/issues.html#list-issues
+// GitLab API docs: https://docs.gitlab.com/ce/api/issues.html#list-project-issues
 type ListProjectIssuesOptions struct {
 	ListOptions
-	IID       *int    `url:"iid,omitempty" json:"iid,omitempty"`
+	IIDs      []int   `url:"iids[],omitempty" json:"iids,omitempty"`
 	State     *string `url:"state,omitempty" json:"state,omitempty"`
 	Labels    Labels  `url:"labels,comma,omitempty" json:"labels,omitempty"`
 	Milestone *string `url:"milestone,omitempty" json:"milestone,omitempty"`
