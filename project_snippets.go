@@ -46,7 +46,6 @@ type Snippet struct {
 		State     string     `json:"state"`
 		CreatedAt *time.Time `json:"created_at"`
 	} `json:"author"`
-	ExpiresAt *time.Time `json:"expires_at"`
 	UpdatedAt *time.Time `json:"updated_at"`
 	CreatedAt *time.Time `json:"created_at"`
 }
