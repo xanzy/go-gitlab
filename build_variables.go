@@ -25,18 +25,26 @@ func (v BuildVariable) String() string {
 	return Stringify(v)
 }
 
+// ListBuildVariablesOptions are the parameters to ListBuildVariables()
+//
+// Gitlab API Docs:
+// https://docs.gitlab.com/ce/api/build_variables.html#list-project-variables
+type ListBuildVariablesOptions struct {
+	ListOptions
+}
+
 // ListBuildVariables gets the a list of project variables in a project
 //
 // Gitlab API Docs:
 // https://docs.gitlab.com/ce/api/build_variables.html#list-project-variables
-func (s *BuildVariablesService) ListBuildVariables(pid interface{}, options ...OptionFunc) ([]*BuildVariable, *Response, error) {
+func (s *BuildVariablesService) ListBuildVariables(pid interface{}, opts *ListBuildVariablesOptions, options ...OptionFunc) ([]*BuildVariable, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/variables", url.QueryEscape(project))
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest("GET", u, opts, options)
 	if err != nil {
 		return nil, nil, err
 	}
