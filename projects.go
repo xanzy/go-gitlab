@@ -262,38 +262,6 @@ func (s *ProjectsService) GetProject(pid interface{}, options ...OptionFunc) (*P
 	return p, resp, err
 }
 
-// SearchProjectsOptions represents the available SearchProjects() options.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ce/api/projects.html#search-for-projects-by-name
-type SearchProjectsOptions struct {
-	ListOptions
-	OrderBy *string `url:"order_by,omitempty" json:"order_by,omitempty"`
-	Sort    *string `url:"sort,omitempty" json:"sort,omitempty"`
-}
-
-// SearchProjects searches for projects by name which are accessible to the
-// authenticated user.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ce/api/projects.html#search-for-projects-by-name
-func (s *ProjectsService) SearchProjects(query string, opt *SearchProjectsOptions, options ...OptionFunc) ([]*Project, *Response, error) {
-	u := fmt.Sprintf("projects/search/%s", query)
-
-	req, err := s.client.NewRequest("GET", u, opt, options)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	var p []*Project
-	resp, err := s.client.Do(req, &p)
-	if err != nil {
-		return nil, resp, err
-	}
-
-	return p, resp, err
-}
-
 // ProjectEvent represents a GitLab project event.
 //
 // GitLab API docs:
