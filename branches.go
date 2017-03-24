@@ -24,14 +24,16 @@ import (
 // BranchesService handles communication with the branch related methods
 // of the GitLab API.
 //
-// GitLab API docs: https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/branches.md
+// GitLab API docs:
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/branches.md
 type BranchesService struct {
 	client *Client
 }
 
 // Branch represents a GitLab branch.
 //
-// GitLab API docs: https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/branches.md
+// GitLab API docs:
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/branches.md
 type Branch struct {
 	Commit             *Commit `json:"commit"`
 	Name               string  `json:"name"`

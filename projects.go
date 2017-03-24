@@ -25,14 +25,16 @@ import (
 // ProjectsService handles communication with the repositories related methods
 // of the GitLab API.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/projects.html
+// GitLab API docs:
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/projects.md
 type ProjectsService struct {
 	client *Client
 }
 
 // Project represents a GitLab project.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/projects.html
+// GitLab API docs:
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/projects.md
 type Project struct {
 	ID                                        int                  `json:"id"`
 	Description                               string               `json:"description"`
@@ -147,7 +149,8 @@ func (s Project) String() string {
 
 // ListProjectsOptions represents the available ListProjects() options.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#list-projects
+// GitLab API docs:
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/projects.md#list-projects
 type ListProjectsOptions struct {
 	ListOptions
 	Archived   *bool   `url:"archived,omitempty" json:"archived,omitempty"`
@@ -161,7 +164,8 @@ type ListProjectsOptions struct {
 
 // ListProjects gets a list of projects accessible by the authenticated user.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#list-projects
+// GitLab API docs:
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/projects.md#list-projects
 func (s *ProjectsService) ListProjects(opt *ListProjectsOptions, options ...OptionFunc) ([]*Project, *Response, error) {
 	req, err := s.client.NewRequest("GET", "projects", opt, options)
 	if err != nil {
@@ -181,7 +185,7 @@ func (s *ProjectsService) ListProjects(opt *ListProjectsOptions, options ...Opti
 // authenticated user.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/projects.html#list-owned-projects
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/projects.md#list-owned-projects
 func (s *ProjectsService) ListOwnedProjects(opt *ListProjectsOptions, options ...OptionFunc) ([]*Project, *Response, error) {
 	req, err := s.client.NewRequest("GET", "projects/owned", opt, options)
 	if err != nil {
@@ -201,7 +205,7 @@ func (s *ProjectsService) ListOwnedProjects(opt *ListProjectsOptions, options ..
 // authenticated user.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/projects.html#list-starred-projects
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/projects.md#list-starred-projects
 func (s *ProjectsService) ListStarredProjects(opt *ListProjectsOptions, options ...OptionFunc) ([]*Project, *Response, error) {
 	req, err := s.client.NewRequest("GET", "projects/starred", opt, options)
 	if err != nil {
@@ -220,7 +224,7 @@ func (s *ProjectsService) ListStarredProjects(opt *ListProjectsOptions, options 
 // ListAllProjects gets a list of all GitLab projects (admin only).
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/projects.html#list-all-projects
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/projects.md#list-all-projects
 func (s *ProjectsService) ListAllProjects(opt *ListProjectsOptions, options ...OptionFunc) ([]*Project, *Response, error) {
 	req, err := s.client.NewRequest("GET", "projects/all", opt, options)
 	if err != nil {
@@ -240,7 +244,7 @@ func (s *ProjectsService) ListAllProjects(opt *ListProjectsOptions, options ...O
 // NAMESPACE/PROJECT_NAME, which is owned by the authenticated user.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/projects.html#get-single-project
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/projects.md#get-single-project
 func (s *ProjectsService) GetProject(pid interface{}, options ...OptionFunc) (*Project, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -265,7 +269,7 @@ func (s *ProjectsService) GetProject(pid interface{}, options ...OptionFunc) (*P
 // SearchProjectsOptions represents the available SearchProjects() options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/projects.html#search-for-projects-by-name
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/projects.md#search-for-projects-by-name
 type SearchProjectsOptions struct {
 	ListOptions
 	OrderBy *string `url:"order_by,omitempty" json:"order_by,omitempty"`
@@ -276,7 +280,7 @@ type SearchProjectsOptions struct {
 // authenticated user.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/projects.html#search-for-projects-by-name
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/projects.md#search-for-projects-by-name
 func (s *ProjectsService) SearchProjects(query string, opt *SearchProjectsOptions, options ...OptionFunc) ([]*Project, *Response, error) {
 	u := fmt.Sprintf("projects/search/%s", query)
 
@@ -297,7 +301,7 @@ func (s *ProjectsService) SearchProjects(query string, opt *SearchProjectsOption
 // ProjectEvent represents a GitLab project event.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/projects.html#get-project-events
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/projects.md#get-project-events
 type ProjectEvent struct {
 	Title          interface{} `json:"title"`
 	ProjectID      int         `json:"project_id"`
@@ -326,7 +330,7 @@ func (s ProjectEvent) String() string {
 // GetProjectEventsOptions represents the available GetProjectEvents() options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/projects.html#get-project-events
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/projects.md#get-project-events
 type GetProjectEventsOptions struct {
 	ListOptions
 }
@@ -335,7 +339,7 @@ type GetProjectEventsOptions struct {
 // newest to latest.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/projects.html#get-project-events
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/projects.md#get-project-events
 func (s *ProjectsService) GetProjectEvents(pid interface{}, opt *GetProjectEventsOptions, options ...OptionFunc) ([]*ProjectEvent, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -359,7 +363,8 @@ func (s *ProjectsService) GetProjectEvents(pid interface{}, opt *GetProjectEvent
 
 // CreateProjectOptions represents the available CreateProjects() options.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#create-project
+// GitLab API docs:
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/projects.md#create-project
 type CreateProjectOptions struct {
 	Name                          *string               `url:"name,omitempty" json:"name,omitempty"`
 	Path                          *string               `url:"path,omitempty" json:"path,omitempty"`
@@ -383,7 +388,8 @@ type CreateProjectOptions struct {
 
 // CreateProject creates a new project owned by the authenticated user.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#create-project
+// GitLab API docs:
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/projects.md#create-project
 func (s *ProjectsService) CreateProject(opt *CreateProjectOptions, options ...OptionFunc) (*Project, *Response, error) {
 	req, err := s.client.NewRequest("POST", "projects", opt, options)
 	if err != nil {
@@ -403,7 +409,7 @@ func (s *ProjectsService) CreateProject(opt *CreateProjectOptions, options ...Op
 // options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/projects.html#create-project-for-user
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/projects.md#create-project-for-user
 type CreateProjectForUserOptions struct {
 	Name                 *string               `url:"name,omitempty" json:"name,omitempty"`
 	Description          *string               `url:"description,omitempty" json:"description,omitempty"`
@@ -421,7 +427,7 @@ type CreateProjectForUserOptions struct {
 // Available only for admins.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/projects.html#create-project-for-user
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/projects.md#create-project-for-user
 func (s *ProjectsService) CreateProjectForUser(user int, opt *CreateProjectForUserOptions, options ...OptionFunc) (*Project, *Response, error) {
 	u := fmt.Sprintf("projects/user/%d", user)
 
@@ -441,7 +447,8 @@ func (s *ProjectsService) CreateProjectForUser(user int, opt *CreateProjectForUs
 
 // EditProjectOptions represents the available EditProject() options.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#edit-project
+// GitLab API docs:
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/projects.md#edit-project
 type EditProjectOptions struct {
 	Name                                      *string               `url:"name,omitempty" json:"name,omitempty"`
 	Path                                      *string               `url:"path,omitempty" json:"path,omitempty"`
@@ -467,7 +474,8 @@ type EditProjectOptions struct {
 
 // EditProject updates an existing project.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#edit-project
+// GitLab API docs:
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/projects.md#edit-project
 func (s *ProjectsService) EditProject(pid interface{}, opt *EditProjectOptions, options ...OptionFunc) (*Project, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -492,7 +500,8 @@ func (s *ProjectsService) EditProject(pid interface{}, opt *EditProjectOptions, 
 // ForkProject forks a project into the user namespace of the authenticated
 // user.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#fork-project
+// GitLab API docs:
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/projects.md#fork-project
 func (s *ProjectsService) ForkProject(pid interface{}, options ...OptionFunc) (*Project, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -517,7 +526,8 @@ func (s *ProjectsService) ForkProject(pid interface{}, options ...OptionFunc) (*
 // DeleteProject removes a project including all associated resources
 // (issues, merge requests etc.)
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#remove-project
+// GitLab API docs:
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/projects.md#remove-project
 func (s *ProjectsService) DeleteProject(pid interface{}, options ...OptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -536,7 +546,7 @@ func (s *ProjectsService) DeleteProject(pid interface{}, options ...OptionFunc) 
 // ProjectMember represents a project member.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/projects.html#list-project-team-members
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/projects.md#list-project-team-members
 type ProjectMember struct {
 	ID          int              `json:"id"`
 	Username    string           `json:"username"`
@@ -551,7 +561,7 @@ type ProjectMember struct {
 // options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/projects.html#list-project-team-members
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/projects.md#list-project-team-members
 type ListProjectMembersOptions struct {
 	ListOptions
 	Query *string `url:"query,omitempty" json:"query,omitempty"`
@@ -560,7 +570,7 @@ type ListProjectMembersOptions struct {
 // ListProjectMembers gets a list of a project's team members.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/projects.html#list-project-team-members
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/projects.md#list-project-team-members
 func (s *ProjectsService) ListProjectMembers(pid interface{}, opt *ListProjectMembersOptions, options ...OptionFunc) ([]*ProjectMember, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -585,7 +595,7 @@ func (s *ProjectsService) ListProjectMembers(pid interface{}, opt *ListProjectMe
 // GetProjectMember gets a project team member.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/projects.html#get-project-team-member
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/projects.md#get-project-team-member
 func (s *ProjectsService) GetProjectMember(pid interface{}, user int, options ...OptionFunc) (*ProjectMember, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -610,7 +620,7 @@ func (s *ProjectsService) GetProjectMember(pid interface{}, user int, options ..
 // AddProjectMemberOptions represents the available AddProjectMember() options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/projects.html#add-project-team-member
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/projects.md#add-project-team-member
 type AddProjectMemberOptions struct {
 	UserID      *int              `url:"user_id,omitempty" json:"user_id,omitempty"`
 	AccessLevel *AccessLevelValue `url:"access_level,omitempty" json:"access_level,omitempty"`
@@ -622,7 +632,7 @@ type AddProjectMemberOptions struct {
 // existing membership.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/projects.html#add-project-team-member
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/projects.md#add-project-team-member
 func (s *ProjectsService) AddProjectMember(pid interface{}, opt *AddProjectMemberOptions, options ...OptionFunc) (*ProjectMember, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -647,7 +657,7 @@ func (s *ProjectsService) AddProjectMember(pid interface{}, opt *AddProjectMembe
 // EditProjectMemberOptions represents the available EditProjectMember() options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/projects.html#edit-project-team-member
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/projects.md#edit-project-team-member
 type EditProjectMemberOptions struct {
 	AccessLevel *AccessLevelValue `url:"access_level,omitempty" json:"access_level,omitempty"`
 }
@@ -655,7 +665,7 @@ type EditProjectMemberOptions struct {
 // EditProjectMember updates a project team member to a specified access level..
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/projects.html#edit-project-team-member
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/projects.md#edit-project-team-member
 func (s *ProjectsService) EditProjectMember(pid interface{}, user int, opt *EditProjectMemberOptions, options ...OptionFunc) (*ProjectMember, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -680,7 +690,7 @@ func (s *ProjectsService) EditProjectMember(pid interface{}, user int, opt *Edit
 // DeleteProjectMember removes a user from a project team.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/projects.html#remove-project-team-member
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/projects.md#remove-project-team-member
 func (s *ProjectsService) DeleteProjectMember(pid interface{}, user int, options ...OptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -699,7 +709,7 @@ func (s *ProjectsService) DeleteProjectMember(pid interface{}, user int, options
 // ProjectHook represents a project hook.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/projects.html#list-project-hooks
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/projects.md#list-project-hooks
 type ProjectHook struct {
 	ID                    int        `json:"id"`
 	URL                   string     `json:"url"`
@@ -718,7 +728,8 @@ type ProjectHook struct {
 
 // ListProjectHooksOptions represents the available ListProjectHooks() options.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#list-project-hooks
+// GitLab API docs:
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/projects.md#list-project-hooks
 type ListProjectHooksOptions struct {
 	ListOptions
 }
@@ -726,7 +737,7 @@ type ListProjectHooksOptions struct {
 // ListProjectHooks gets a list of project hooks.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/projects.html#list-project-hooks
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/projects.md#list-project-hooks
 func (s *ProjectsService) ListProjectHooks(pid interface{}, opt *ListProjectHooksOptions, options ...OptionFunc) ([]*ProjectHook, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -751,7 +762,7 @@ func (s *ProjectsService) ListProjectHooks(pid interface{}, opt *ListProjectHook
 // GetProjectHook gets a specific hook for a project.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/projects.html#get-project-hook
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/projects.md#get-project-hook
 func (s *ProjectsService) GetProjectHook(pid interface{}, hook int, options ...OptionFunc) (*ProjectHook, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -776,7 +787,7 @@ func (s *ProjectsService) GetProjectHook(pid interface{}, hook int, options ...O
 // AddProjectHookOptions represents the available AddProjectHook() options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/projects.html#add-project-hook
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/projects.md#add-project-hook
 type AddProjectHookOptions struct {
 	URL                   *string `url:"url,omitempty" json:"url,omitempty"`
 	PushEvents            *bool   `url:"push_events,omitempty" json:"push_events,omitempty"`
@@ -794,7 +805,7 @@ type AddProjectHookOptions struct {
 // AddProjectHook adds a hook to a specified project.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/projects.html#add-project-hook
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/projects.md#add-project-hook
 func (s *ProjectsService) AddProjectHook(pid interface{}, opt *AddProjectHookOptions, options ...OptionFunc) (*ProjectHook, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -819,7 +830,7 @@ func (s *ProjectsService) AddProjectHook(pid interface{}, opt *AddProjectHookOpt
 // EditProjectHookOptions represents the available EditProjectHook() options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/projects.html#edit-project-hook
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/projects.md#edit-project-hook
 type EditProjectHookOptions struct {
 	URL                   *string `url:"url,omitempty" json:"url,omitempty"`
 	PushEvents            *bool   `url:"push_events,omitempty" json:"push_events,omitempty"`
@@ -837,7 +848,7 @@ type EditProjectHookOptions struct {
 // EditProjectHook edits a hook for a specified project.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/projects.html#edit-project-hook
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/projects.md#edit-project-hook
 func (s *ProjectsService) EditProjectHook(pid interface{}, hook int, opt *EditProjectHookOptions, options ...OptionFunc) (*ProjectHook, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -863,7 +874,7 @@ func (s *ProjectsService) EditProjectHook(pid interface{}, hook int, opt *EditPr
 // method and can be called multiple times. Either the hook is available or not.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/projects.html#delete-project-hook
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/projects.md#delete-project-hook
 func (s *ProjectsService) DeleteProjectHook(pid interface{}, hook int, options ...OptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -996,7 +1007,7 @@ func (s *ProjectsService) DeleteBuildTrigger(pid interface{}, token string, opti
 // ProjectForkRelation represents a project fork relationship.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/projects.html#admin-fork-relation
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/projects.md#admin-fork-relation
 type ProjectForkRelation struct {
 	ID                  int        `json:"id"`
 	ForkedToProjectID   int        `json:"forked_to_project_id"`
@@ -1009,7 +1020,7 @@ type ProjectForkRelation struct {
 // existing projects.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/projects.html#create-a-forked-fromto-relation-between-existing-projects.
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/projects.md#create-a-forked-fromto-relation-between-existing-projects.
 func (s *ProjectsService) CreateProjectForkRelation(pid int, fork int, options ...OptionFunc) (*ProjectForkRelation, *Response, error) {
 	u := fmt.Sprintf("projects/%d/fork/%d", pid, fork)
 
@@ -1030,7 +1041,7 @@ func (s *ProjectsService) CreateProjectForkRelation(pid int, fork int, options .
 // DeleteProjectForkRelation deletes an existing forked from relationship.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/projects.html#delete-an-existing-forked-from-relationship
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/projects.md#delete-an-existing-forked-from-relationship
 func (s *ProjectsService) DeleteProjectForkRelation(pid int, options ...OptionFunc) (*Response, error) {
 	u := fmt.Sprintf("projects/%d/fork", pid)
 
@@ -1046,7 +1057,7 @@ func (s *ProjectsService) DeleteProjectForkRelation(pid int, options ...OptionFu
 // project owner of this project.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/projects.html#archive-a-project
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/projects.md#archive-a-project
 func (s *ProjectsService) ArchiveProject(pid interface{}, options ...OptionFunc) (*Project, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -1072,7 +1083,7 @@ func (s *ProjectsService) ArchiveProject(pid interface{}, options ...OptionFunc)
 // the project owner of this project.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/projects.html#unarchive-a-project
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/projects.md#unarchive-a-project
 func (s *ProjectsService) UnarchiveProject(pid interface{}, options ...OptionFunc) (*Project, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
