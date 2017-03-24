@@ -25,7 +25,7 @@ func TestListBuildVariables(t *testing.T) {
 			`[{"key":"%s","value":"%s"},{"key":"%s","value":"%s"}]`, myKey, myValue, myKey2, myValue2)
 	})
 
-	variables, _, err := client.BuildVariables.ListBuildVariables(1)
+	variables, _, err := client.BuildVariables.ListBuildVariables(1, nil)
 	if err != nil {
 		t.Errorf("ListBuildVariables returned error: %v", err)
 	}
