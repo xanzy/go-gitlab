@@ -58,6 +58,9 @@ type Pipeline struct {
 	Coverage    string     `json:"coverage"`
 }
 
+// RootPipeline represents a GitLab list project pipelines
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/pipelines.html#list-project-pipelines
 type RootPipeline struct {
 	ID     int    `json:"id"`
 	Status string `json:"status"`
