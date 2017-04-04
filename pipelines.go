@@ -62,10 +62,24 @@ func (i Pipeline) String() string {
 	return Stringify(i)
 }
 
+// PipelineList represents a GitLab list project pipelines
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/pipelines.html#list-project-pipelines
+type PipelineList []struct {
+	ID     int    `json:"id"`
+	Status string `json:"status"`
+	Ref    string `json:"ref"`
+	Sha    string `json:"sha"`
+}
+
+func (i PipelineList) String() string {
+	return Stringify(i)
+}
+
 // ListProjectPipelines gets a list of project piplines.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/pipelines.html#list-project-pipelines
-func (s *PipelinesService) ListProjectPipelines(pid interface{}, options ...OptionFunc) ([]*Pipeline, *Response, error) {
+func (s *PipelinesService) ListProjectPipelines(pid interface{}, options ...OptionFunc) (PipelineList, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -77,7 +91,7 @@ func (s *PipelinesService) ListProjectPipelines(pid interface{}, options ...Opti
 		return nil, nil, err
 	}
 
-	var p []*Pipeline
+	var p PipelineList
 	resp, err := s.client.Do(req, &p)
 	if err != nil {
 		return nil, resp, err
