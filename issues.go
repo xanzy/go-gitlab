@@ -302,3 +302,35 @@ func (s *IssuesService) DeleteIssue(pid interface{}, issue int, options ...Optio
 
 	return s.client.Do(req, nil)
 }
+
+// MoveIssueOptions represents the available MoveIssue() options.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/issues.html#move-an-issue
+type MoveIssueOptions struct {
+	IssueIID    *int `url:"issue_iid" json:"issue_iid"`
+	ToProjectID *int `url:"to_project_id" json:"to_project_id"`
+}
+
+// MoveIssue moves an issue to a different project
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/issues.html#move-an-issue
+func (s *IssuesService) MoveIssue(pid interface{}, issueIID int, opt *MoveIssueOptions, options ...OptionFunc) (*Issue, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	u := fmt.Sprintf("projects/%s/issues/%d/move", url.QueryEscape(project), issueIID)
+	req, err := s.client.NewRequest("POST", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	i := new(Issue)
+	resp, err := s.client.Do(req, i)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return i, resp, err
+}
