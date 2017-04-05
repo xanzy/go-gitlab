@@ -44,20 +44,20 @@ type Issue struct {
 	Labels      []string   `json:"labels"`
 	Milestone   *Milestone `json:"milestone"`
 	Assignee    struct {
-		ID        int        `json:"id"`
-		Username  string     `json:"username"`
-		Email     string     `json:"email"`
-		Name      string     `json:"name"`
-		State     string     `json:"state"`
-		CreatedAt *time.Time `json:"created_at"`
+		ID        int    `json:"id"`
+		Username  string `json:"username"`
+		AvatarURL string `json:"avatar_url,omitempty"`
+		WebURL    string `json:"web_url"`
+		Name      string `json:"name"`
+		State     string `json:"state"`
 	} `json:"assignee"`
 	Author struct {
-		ID        int        `json:"id"`
-		Username  string     `json:"username"`
-		Email     string     `json:"email"`
-		Name      string     `json:"name"`
-		State     string     `json:"state"`
-		CreatedAt *time.Time `json:"created_at"`
+		ID        int    `json:"id"`
+		Username  string `json:"username"`
+		AvatarURL string `json:"avatar_url,omitempty"`
+		WebURL    string `json:"web_url"`
+		Name      string `json:"name"`
+		State     string `json:"state"`
 	} `json:"author"`
 	State          string     `json:"state"`
 	UpdatedAt      *time.Time `json:"updated_at"`
