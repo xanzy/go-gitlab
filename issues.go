@@ -334,3 +334,35 @@ func (s *IssuesService) MoveIssue(pid interface{}, issueIID int, opt *MoveIssueO
 
 	return i, resp, err
 }
+
+// SubscribeIssueOptions represents the available SubscribeIssue() options.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/issues.html#subscribe-to-an-issue
+type SubscribeIssueOptions struct {
+	ID       int  `url:"id,omitempty" json:"id,omitempty"`
+	IssueIID *int `url:"issue_iid" json:"issue_iid"`
+}
+
+// SubscribeIssue subscribe the authenticated user to an issue to receive notifications
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/issues.html#subscribe-to-an-issue
+func (s *IssuesService) SubscribeIssue(pid interface{}, issueIID int, opt *SubscribeIssueOptions, options ...OptionFunc) (*Issue, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	u := fmt.Sprintf("projects/%s/issues/%d/subscribe", url.QueryEscape(project), issueIID)
+	req, err := s.client.NewRequest("POST", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	i := new(Issue)
+	resp, err := s.client.Do(req, i)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return i, resp, err
+}
