@@ -307,6 +307,7 @@ func (s *IssuesService) DeleteIssue(pid interface{}, issue int, options ...Optio
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/issues.html#move-an-issue
 type MoveIssueOptions struct {
+	ID          *int `url:"id" json:"id"`
 	IssueIID    *int `url:"issue_iid" json:"issue_iid"`
 	ToProjectID *int `url:"to_project_id" json:"to_project_id"`
 }
@@ -339,11 +340,11 @@ func (s *IssuesService) MoveIssue(pid interface{}, issueIID int, opt *MoveIssueO
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/issues.html#subscribe-to-an-issue
 type SubscribeIssueOptions struct {
-	ID       int  `url:"id,omitempty" json:"id,omitempty"`
+	ID       *int `url:"id" json:"id"`
 	IssueIID *int `url:"issue_iid" json:"issue_iid"`
 }
 
-// SubscribeIssue subscribe the authenticated user to an issue to receive notifications
+// SubscribeIssue subscribe the authenticated user to an issue to receive notifications.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/issues.html#subscribe-to-an-issue
 func (s *IssuesService) SubscribeIssue(pid interface{}, issueIID int, opt *SubscribeIssueOptions, options ...OptionFunc) (*Issue, *Response, error) {
@@ -353,6 +354,38 @@ func (s *IssuesService) SubscribeIssue(pid interface{}, issueIID int, opt *Subsc
 	}
 
 	u := fmt.Sprintf("projects/%s/issues/%d/subscribe", url.QueryEscape(project), issueIID)
+	req, err := s.client.NewRequest("POST", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	i := new(Issue)
+	resp, err := s.client.Do(req, i)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return i, resp, err
+}
+
+// UnsubscribeIssueOptions represents the available UnsubscribeIssue() options.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/issues.html#unsubscribe-from-an-issue
+type UnsubscribeIssueOptions struct {
+	ID       *int `url:"id" json:"id"`
+	IssueIID *int `url:"issue_iid" json:"issue_iid"`
+}
+
+// UnsubscribeIssue unsubscribes the authenticated user from the issue to not receive notifications from it.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/issues.html#unsubscribe-from-an-issue
+func (s *IssuesService) UnsubscribeIssue(pid interface{}, issueIID int, opt *UnsubscribeIssueOptions, options ...OptionFunc) (*Issue, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	u := fmt.Sprintf("projects/%s/issues/%d/unsubscribe", url.QueryEscape(project), issueIID)
 	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
 		return nil, nil, err
