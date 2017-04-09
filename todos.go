@@ -12,7 +12,6 @@ type TodosService struct {
 }
 
 // TodoAction represents the available actions that can be performed on a todo.
-// Todo represents a GitLab todo.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/todos.html
 type TodoAction string
@@ -26,6 +25,62 @@ const (
 	TodoApprovalRequired  TodoAction = "approval_required"
 	TodoDirectlyAddressed TodoAction = "directly_addressed"
 )
+
+// TodoTarget represents a todo target of type Issue or MergeRequest
+type TodoTarget struct {
+	// TODO: replace both Assignee and Author structs with v4 User struct
+	Assignee struct {
+		Name      string `json:"name"`
+		Username  string `json:"username"`
+		ID        int    `json:"id"`
+		State     string `json:"state"`
+		AvatarURL string `json:"avatar_url"`
+		WebURL    string `json:"web_url"`
+	} `json:"assignee"`
+	Author struct {
+		Name      string `json:"name"`
+		Username  string `json:"username"`
+		ID        int    `json:"id"`
+		State     string `json:"state"`
+		AvatarURL string `json:"avatar_url"`
+		WebURL    string `json:"web_url"`
+	} `json:"author"`
+	CreatedAt      *time.Time `json:"created_at"`
+	Description    string     `json:"description"`
+	Downvotes      int        `json:"downvotes"`
+	ID             int        `json:"id"`
+	IID            int        `json:"iid"`
+	Labels         []string   `json:"labels"`
+	Milestone      Milestone  `json:"milestone"`
+	ProjectID      int        `json:"project_id"`
+	State          string     `json:"state"`
+	Subscribed     bool       `json:"subscribed"`
+	Title          string     `json:"title"`
+	UpdatedAt      *time.Time `json:"updated_at"`
+	Upvotes        int        `json:"upvotes"`
+	UserNotesCount int        `json:"user_notes_count"`
+	WebURL         string     `json:"web_url"`
+
+	// Only available for type Issue
+	Confidential bool   `json:"confidential"`
+	DueDate      string `json:"due_date"`
+	Weight       int    `json:"weight"`
+
+	// Only available for type MergeRequest
+	ApprovalsBeforeMerge      bool   `json:"approvals_before_merge"`
+	ForceRemoveSourceBranch   bool   `json:"force_remove_source_branch"`
+	MergeCommitSha            string `json:"merge_commit_sha"`
+	MergeWhenPipelineSucceeds bool   `json:"merge_when_pipeline_succeeds"`
+	MergeStatus               string `json:"merge_status"`
+	Sha                       string `json:"sha"`
+	ShouldRemoveSourceBranch  bool   `json:"should_remove_source_branch"`
+	SourceBranch              string `json:"source_branch"`
+	SourceProjectID           int    `json:"source_project_id"`
+	Squash                    bool   `json:"squash"`
+	TargetBranch              string `json:"target_branch"`
+	TargetProjectID           int    `json:"target_project_id"`
+	WorkInProgress            bool   `json:"work_in_progress"`
+}
 
 // Todo represents a GitLab todo.
 //
@@ -49,13 +104,13 @@ type Todo struct {
 		AvatarURL string `json:"avatar_url"`
 		WebURL    string `json:"web_url"`
 	} `json:"author"`
-	ActionName TodoAction  `json:"action_name"`
-	TargetType string      `json:"target_type"`
-	Target     interface{} `json:"target"`
-	TargetURL  string      `json:"target_url"`
-	Body       string      `json:"body"`
-	State      string      `json:"state"`
-	CreatedAt  *time.Time  `json:"created_at"`
+	ActionName TodoAction `json:"action_name"`
+	TargetType string     `json:"target_type"`
+	Target     TodoTarget `json:"target"`
+	TargetURL  string     `json:"target_url"`
+	Body       string     `json:"body"`
+	State      string     `json:"state"`
+	CreatedAt  *time.Time `json:"created_at"`
 }
 
 func (t Todo) String() string {
