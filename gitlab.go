@@ -192,6 +192,7 @@ type Client struct {
 	SystemHooks          *SystemHooksService
 	Tags                 *TagsService
 	TimeStats            *TimeStatsService
+	Todos                *TodosService
 	Users                *UsersService
 	Version              *VersionService
 }
@@ -256,6 +257,7 @@ func newClient(httpClient *http.Client, tokenType tokenType, token string) *Clie
 	c.SystemHooks = &SystemHooksService{client: c}
 	c.Tags = &TagsService{client: c}
 	c.TimeStats = &TimeStatsService{client: c}
+	c.Todos = &TodosService{client: c}
 	c.Users = &UsersService{client: c}
 	c.Version = &VersionService{client: c}
 
