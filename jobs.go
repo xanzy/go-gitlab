@@ -24,24 +24,24 @@ import (
 	"time"
 )
 
-// ListBuildsOptions are options for two list apis
-type ListBuildsOptions struct {
+// ListJobsOptions are options for two list apis
+type ListJobsOptions struct {
 	ListOptions
 	Scope []BuildState `url:"scope,omitempty" json:"scope,omitempty"`
 }
 
-// BuildsService handles communication with the ci builds related methods
+// JobsService handles communication with the ci builds related methods
 // of the GitLab API.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/builds.html
-type BuildsService struct {
+// GitLab API docs: https://docs.gitlab.com/ce/api/jobs.html
+type JobsService struct {
 	client *Client
 }
 
-// Build represents a ci build.
+// Job represents a ci build.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/builds.html
-type Build struct {
+// GitLab API docs: https://docs.gitlab.com/ce/api/jobs.html
+type Job struct {
 	Commit        *Commit    `json:"commit"`
 	CreatedAt     *time.Time `json:"created_at"`
 	ArtifactsFile struct {
@@ -66,95 +66,95 @@ type Build struct {
 	User      *User      `json:"user"`
 }
 
-// ListProjectBuilds gets a list of builds in a project.
+// ListProjectJobs gets a list of jobs in a project.
 //
-// The scope of builds to show, one or array of: pending, running,
-// failed, success, canceled; showing all builds if none provided.
+// The scope of jobs to show, one or array of: created, pending, running,
+// failed, success, canceled, skipped; showing all jobs if none provided
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/builds.html#list-project-builds
-func (s *BuildsService) ListProjectBuilds(pid interface{}, opts *ListBuildsOptions, options ...OptionFunc) ([]Build, *Response, error) {
+// https://docs.gitlab.com/ce/api/jobs.html#list-project-jobs
+func (s *JobsService) ListProjectJobs(pid interface{}, opts *ListJobsOptions, options ...OptionFunc) ([]Job, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/builds", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/jobs", url.QueryEscape(project))
 
 	req, err := s.client.NewRequest("GET", u, opts, options)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	var builds []Build
-	resp, err := s.client.Do(req, &builds)
+	var jobs []Job
+	resp, err := s.client.Do(req, &jobs)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return builds, resp, err
+	return jobs, resp, err
 }
 
-// ListCommitBuilds gets a list of builds for specific commit in a
-// project. If the commit SHA is not found, it will respond with 404.
+// ListPipelineJobs gets a list of jobs for specific pipeline in a
+// project. If the pipeline ID is not found, it will respond with 404.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/builds.html#list-commit-builds
-func (s *BuildsService) ListCommitBuilds(pid interface{}, sha string, opts *ListBuildsOptions, options ...OptionFunc) ([]Build, *Response, error) {
+// https://docs.gitlab.com/ce/api/jobs.html#list-pipeline-jobs
+func (s *JobsService) ListPipelineJobs(pid interface{}, pipelineID int, opts *ListJobsOptions, options ...OptionFunc) ([]Job, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/repository/commits/%s/builds", project, sha)
+	u := fmt.Sprintf("projects/%s/pipeline/%d/jobs", project, pipelineID)
 
 	req, err := s.client.NewRequest("GET", u, opts, options)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	var builds []Build
-	resp, err := s.client.Do(req, &builds)
+	var jobs []Job
+	resp, err := s.client.Do(req, &jobs)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return builds, resp, err
+	return jobs, resp, err
 }
 
-// GetBuild gets a single build of a project.
+// GetJob gets a single job of a project.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/builds.html#get-a-single-build
-func (s *BuildsService) GetBuild(pid interface{}, buildID int, options ...OptionFunc) (*Build, *Response, error) {
+// https://docs.gitlab.com/ce/api/jobs.html#get-a-single-job
+func (s *JobsService) GetJob(pid interface{}, jobID int, options ...OptionFunc) (*Job, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/builds/%d", project, buildID)
+	u := fmt.Sprintf("projects/%s/jobs/%d", project, jobID)
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	build := new(Build)
-	resp, err := s.client.Do(req, build)
+	job := new(Job)
+	resp, err := s.client.Do(req, job)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return build, resp, err
+	return job, resp, err
 }
 
-// GetBuildArtifacts get builds artifacts of a project
+// GetJobArtifacts get jobs artifacts of a project
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/builds.html#get-build-artifacts
-func (s *BuildsService) GetBuildArtifacts(pid interface{}, buildID int, options ...OptionFunc) (io.Reader, *Response, error) {
+// https://docs.gitlab.com/ce/api/jobs.html#get-job-artifacts
+func (s *JobsService) GetJobArtifacts(pid interface{}, jobID int, options ...OptionFunc) (io.Reader, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/builds/%d/artifacts", project, buildID)
+	u := fmt.Sprintf("projects/%s/jobs/%d/artifacts", project, jobID)
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
@@ -171,16 +171,16 @@ func (s *BuildsService) GetBuildArtifacts(pid interface{}, buildID int, options 
 }
 
 // DownloadArtifactsFile download the artifacts file from the given
-// reference name and job provided the build finished successfully.
+// reference name and job provided the job finished successfully.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/builds.html#download-the-artifacts-file
-func (s *BuildsService) DownloadArtifactsFile(pid interface{}, refName string, job string, options ...OptionFunc) (io.Reader, *Response, error) {
+// https://docs.gitlab.com/ce/api/jobs.html#download-the-artifacts-file
+func (s *JobsService) DownloadArtifactsFile(pid interface{}, refName string, job string, options ...OptionFunc) (io.Reader, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/builds/artifacts/%s/download?job=%s", project, refName, job)
+	u := fmt.Sprintf("projects/%s/jobs/artifacts/%s/download?job=%s", project, refName, job)
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
@@ -196,16 +196,16 @@ func (s *BuildsService) DownloadArtifactsFile(pid interface{}, refName string, j
 	return artifactsBuf, resp, err
 }
 
-// GetTraceFile gets a trace of a specific build of a project
+// GetTraceFile gets a trace of a specific job of a project
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/builds.html#get-a-trace-file
-func (s *BuildsService) GetTraceFile(pid interface{}, buildID int, options ...OptionFunc) (io.Reader, *Response, error) {
+// https://docs.gitlab.com/ce/api/jobs.html#get-a-trace-file
+func (s *JobsService) GetTraceFile(pid interface{}, jobID int, options ...OptionFunc) (io.Reader, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/builds/%d/trace", project, buildID)
+	u := fmt.Sprintf("projects/%s/jobs/%d/trace", project, jobID)
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
@@ -221,129 +221,129 @@ func (s *BuildsService) GetTraceFile(pid interface{}, buildID int, options ...Op
 	return traceBuf, resp, err
 }
 
-// CancelBuild cancels a single build of a project.
+// CancelJob cancels a single job of a project.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/builds.html#cancel-a-build
-func (s *BuildsService) CancelBuild(pid interface{}, buildID int, options ...OptionFunc) (*Build, *Response, error) {
+// https://docs.gitlab.com/ce/api/jobs.html#cancel-a-job
+func (s *JobsService) CancelJob(pid interface{}, jobID int, options ...OptionFunc) (*Job, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/builds/%d/cancel", project, buildID)
+	u := fmt.Sprintf("projects/%s/jobs/%d/cancel", project, jobID)
 
 	req, err := s.client.NewRequest("POST", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	build := new(Build)
-	resp, err := s.client.Do(req, build)
+	job := new(Job)
+	resp, err := s.client.Do(req, job)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return build, resp, err
+	return job, resp, err
 }
 
-// RetryBuild retries a single build of a project
+// RetryJob retries a single job of a project
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/builds.html#retry-a-build
-func (s *BuildsService) RetryBuild(pid interface{}, buildID int, options ...OptionFunc) (*Build, *Response, error) {
+// https://docs.gitlab.com/ce/api/jobs.html#retry-a-job
+func (s *JobsService) RetryJob(pid interface{}, jobID int, options ...OptionFunc) (*Job, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/builds/%d/retry", project, buildID)
+	u := fmt.Sprintf("projects/%s/jobs/%d/retry", project, jobID)
 
 	req, err := s.client.NewRequest("POST", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	build := new(Build)
-	resp, err := s.client.Do(req, build)
+	job := new(Job)
+	resp, err := s.client.Do(req, job)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return build, resp, err
+	return job, resp, err
 }
 
-// EraseBuild erases a single build of a project, removes a build
-// artifacts and a build trace.
+// EraseJob erases a single job of a project, removes a job
+// artifacts and a job trace.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/builds.html#erase-a-build
-func (s *BuildsService) EraseBuild(pid interface{}, buildID int, options ...OptionFunc) (*Build, *Response, error) {
+// https://docs.gitlab.com/ce/api/jobs.html#erase-a-job
+func (s *JobsService) EraseJob(pid interface{}, jobID int, options ...OptionFunc) (*Job, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/builds/%d/erase", project, buildID)
+	u := fmt.Sprintf("projects/%s/jobs/%d/erase", project, jobID)
 
 	req, err := s.client.NewRequest("POST", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	build := new(Build)
-	resp, err := s.client.Do(req, build)
+	job := new(Job)
+	resp, err := s.client.Do(req, job)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return build, resp, err
+	return job, resp, err
 }
 
 // KeepArtifacts prevents artifacts from being deleted when
 // expiration is set.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/builds.html#keep-artifacts
-func (s *BuildsService) KeepArtifacts(pid interface{}, buildID int, options ...OptionFunc) (*Build, *Response, error) {
+// https://docs.gitlab.com/ce/api/jobs.html#keep-artifacts
+func (s *JobsService) KeepArtifacts(pid interface{}, jobID int, options ...OptionFunc) (*Job, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/builds/%d/artifacts/keep", project, buildID)
+	u := fmt.Sprintf("projects/%s/jobs/%d/artifacts/keep", project, jobID)
 
 	req, err := s.client.NewRequest("POST", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	build := new(Build)
-	resp, err := s.client.Do(req, build)
+	job := new(Job)
+	resp, err := s.client.Do(req, job)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return build, resp, err
+	return job, resp, err
 }
 
-// PlayBuild triggers a nanual action to start a build.
+// PlayJob triggers a nanual action to start a job.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/builds.html#play-a-build
-func (s *BuildsService) PlayBuild(pid interface{}, buildID int, options ...OptionFunc) (*Build, *Response, error) {
+// https://docs.gitlab.com/ce/api/jobs.html#play-a-job
+func (s *JobsService) PlayJob(pid interface{}, jobID int, options ...OptionFunc) (*Job, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/builds/%d/play", project, buildID)
+	u := fmt.Sprintf("projects/%s/jobs/%d/play", project, jobID)
 
 	req, err := s.client.NewRequest("POST", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	build := new(Build)
-	resp, err := s.client.Do(req, build)
+	job := new(Job)
+	resp, err := s.client.Do(req, job)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return build, resp, err
+	return job, resp, err
 }
