@@ -367,6 +367,28 @@ func (s *ProjectsService) CreateProject(opt *CreateProjectOptions, options ...Op
 	return p, resp, err
 }
 
+// ShareWithGroupOptions represents the available CreateProjects() options.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#create-project
+type ShareWithGroupOptions struct {
+	ID          *int              `url:"id" json:"id"`
+	GroupID     *int              `url:"group_id" json:"group_id"`
+	GroupAccess *AccessLevelValue `url:"group_access" json:"group_access"`
+	ExpiresAt   *string           `url:"expires_at" json:"expires_at"`
+}
+
+func (s *ProjectsService) ShareProjectWithGroup(opt *ShareWithGroupOptions, options ...OptionFunc) (*Response, error) {
+	u := fmt.Sprintf("projects/%d/share", *opt.ID)
+
+	req, err := s.client.NewRequest("POST", u, opt, options)
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := s.client.Do(req, nil)
+	return resp, err
+}
+
 // CreateProjectForUserOptions represents the available CreateProjectForUser()
 // options.
 //
