@@ -367,9 +367,8 @@ func (s *ProjectsService) CreateProject(opt *CreateProjectOptions, options ...Op
 	return p, resp, err
 }
 
-// ShareWithGroupOptions represents the available CreateProjects() options.
+// ShareWithGroupOptions represents options to share project with groups
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#create-project
 type ShareWithGroupOptions struct {
 	ID          *int              `url:"id" json:"id"`
 	GroupID     *int              `url:"group_id" json:"group_id"`
