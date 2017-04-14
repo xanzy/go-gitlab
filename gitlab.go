@@ -169,11 +169,11 @@ type Client struct {
 	// Services used for talking to different parts of the GitLab API.
 	Branches             *BranchesService
 	BuildVariables       *BuildVariablesService
-	Builds               *BuildsService
 	Commits              *CommitsService
 	DeployKeys           *DeployKeysService
 	Groups               *GroupsService
 	Issues               *IssuesService
+	Jobs                 *JobsService
 	Labels               *LabelsService
 	MergeRequests        *MergeRequestsService
 	Milestones           *MilestonesService
@@ -234,11 +234,11 @@ func newClient(httpClient *http.Client, tokenType tokenType, token string) *Clie
 
 	c.Branches = &BranchesService{client: c}
 	c.BuildVariables = &BuildVariablesService{client: c}
-	c.Builds = &BuildsService{client: c}
 	c.Commits = &CommitsService{client: c}
 	c.DeployKeys = &DeployKeysService{client: c}
 	c.Groups = &GroupsService{client: c}
 	c.Issues = &IssuesService{client: c}
+	c.Jobs = &JobsService{client: c}
 	c.Labels = &LabelsService{client: c}
 	c.MergeRequests = &MergeRequestsService{client: c}
 	c.Milestones = &MilestonesService{client: c}
