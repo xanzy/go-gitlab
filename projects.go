@@ -82,20 +82,20 @@ type Project struct {
 
 // Repository represents a repository.
 type Repository struct {
-	Name              string `json:"name"`
-	Description       string `json:"description"`
-	WebURL            string `json:"web_url"`
-	AvatarURL         string `json:"avatar_url"`
-	GitSSHURL         string `json:"git_ssh_url"`
-	GitHTTPURL        string `json:"git_http_url"`
-	Namespace         string `json:"namespace"`
-	VisibilityLevel   int    `json:"visibility_level"`
-	PathWithNamespace string `json:"path_with_namespace"`
-	DefaultBranch     string `json:"default_branch"`
-	Homepage          string `json:"homepage"`
-	URL               string `json:"url"`
-	SSHURL            string `json:"ssh_url"`
-	HTTPURL           string `json:"http_url"`
+	Name              string                `json:"name"`
+	Description       string                `json:"description"`
+	WebURL            string                `json:"web_url"`
+	AvatarURL         string                `json:"avatar_url"`
+	GitSSHURL         string                `json:"git_ssh_url"`
+	GitHTTPURL        string                `json:"git_http_url"`
+	Namespace         string                `json:"namespace"`
+	VisibilityLevel   *VisibilityLevelValue `json:"visibility"`
+	PathWithNamespace string                `json:"path_with_namespace"`
+	DefaultBranch     string                `json:"default_branch"`
+	Homepage          string                `json:"homepage"`
+	URL               string                `json:"url"`
+	SSHURL            string                `json:"ssh_url"`
+	HTTPURL           string                `json:"http_url"`
 }
 
 // ProjectNamespace represents a project namespace.
@@ -150,13 +150,13 @@ func (s Project) String() string {
 // GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#list-projects
 type ListProjectsOptions struct {
 	ListOptions
-	Archived   *bool                `url:"archived,omitempty" json:"archived,omitempty"`
-	OrderBy    *string              `url:"order_by,omitempty" json:"order_by,omitempty"`
-	Sort       *string              `url:"sort,omitempty" json:"sort,omitempty"`
-	Search     *string              `url:"search,omitempty" json:"search,omitempty"`
-	Simple     *bool                `url:"simple,omitempty" json:"simple,omitempty"`
-	Visibility VisibilityLevelValue `url:"visibility,omitempty" json:"visibility,omitempty"`
-	Statistics *bool                `url:"statistics,omitempty" json:"statistics,omitempty"`
+	Archived   *bool                 `url:"archived,omitempty" json:"archived,omitempty"`
+	OrderBy    *string               `url:"order_by,omitempty" json:"order_by,omitempty"`
+	Sort       *string               `url:"sort,omitempty" json:"sort,omitempty"`
+	Search     *string               `url:"search,omitempty" json:"search,omitempty"`
+	Simple     *bool                 `url:"simple,omitempty" json:"simple,omitempty"`
+	Visibility *VisibilityLevelValue `url:"visibility,omitempty" json:"visibility,omitempty"`
+	Statistics *bool                 `url:"statistics,omitempty" json:"statistics,omitempty"`
 }
 
 // ListProjects gets a list of projects accessible by the authenticated user.
