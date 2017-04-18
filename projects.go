@@ -451,7 +451,7 @@ type EditProjectOptions struct {
 	ContainerRegistryEnabled                  *bool                 `url:"container_registry_enabled,omitempty" json:"container_registry_enabled,omitempty"`
 	SharedRunnersEnabled                      *bool                 `url:"shared_runners_enabled,omitempty" json:"shared_runners_enabled,omitempty"`
 	Public                                    *bool                 `url:"public,omitempty" json:"public,omitempty"`
-	VisibilityLevel                           *VisibilityLevelValue `url:"visibility_level,omitempty" json:"visibility_level,omitempty"`
+	VisibilityLevel                           *VisibilityLevelValue `url:"visibility,omitempty" json:"visibility,omitempty"`
 	ImportURL                                 *bool                 `url:"import_url,omitempty" json:"import_url,omitempty"`
 	PublicBuilds                              *bool                 `url:"public_builds,omitempty" json:"public_builds,omitempty"`
 	OnlyAllowMergeIfBuildSucceeds             *bool                 `url:"only_allow_merge_if_build_succeeds,omitempty" json:"only_allow_merge_if_build_succeeds,omitempty"`
