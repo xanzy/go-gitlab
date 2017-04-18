@@ -21,22 +21,6 @@ import (
 	"time"
 )
 
-// defines visibility level for groups
-type GroupVisibilityLevelValue string
-
-const (
-	PrivateGroupVisibility  GroupVisibilityLevelValue = "private"
-	PublicGroupVisibility   GroupVisibilityLevelValue = "public"
-	InternalGroupVisibility GroupVisibilityLevelValue = "internal"
-)
-
-// GroupVisibilityLevel as helper for setting visibility in options, same as like VisibilityLevel
-func GroupVisibilityLevel(v GroupVisibilityLevelValue) *GroupVisibilityLevelValue {
-	p := new(GroupVisibilityLevelValue)
-	*p = v
-	return p
-}
-
 // GroupsService handles communication with the group related methods of
 // the GitLab API.
 //
@@ -113,10 +97,10 @@ func (s *GroupsService) GetGroup(gid interface{}, options ...OptionFunc) (*Group
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/groups.html#new-group
 type CreateGroupOptions struct {
-	Name                 *string                    `url:"name,omitempty" json:"name,omitempty"`
-	Path                 *string                    `url:"path,omitempty" json:"path,omitempty"`
-	Description          *string                    `url:"description,omitempty" json:"description,omitempty"`
-	GroupVisibilityLevel *GroupVisibilityLevelValue `url:"visibility" json:"visibility,omitempty"`
+	Name            *string               `url:"name,omitempty" json:"name,omitempty"`
+	Path            *string               `url:"path,omitempty" json:"path,omitempty"`
+	Description     *string               `url:"description,omitempty" json:"description,omitempty"`
+	VisibilityLevel *VisibilityLevelValue `url:"visibility" json:"visibility,omitempty"`
 }
 
 // CreateGroup creates a new project group. Available only for users who can
