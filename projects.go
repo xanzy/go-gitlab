@@ -74,6 +74,7 @@ type Project struct {
 	OnlyAllowMergeIfAllDiscussionsAreResolved bool                 `json:"only_allow_merge_if_all_discussions_are_resolved"`
 	LFSEnabled                                bool                 `json:"lfs_enabled"`
 	RequestAccessEnabled                      bool                 `json:"request_access_enabled"`
+	ForkedFromProject                         *ForkParent          `json:"forked_from_project"`
 	SharedWithGroups                          []struct {
 		GroupID          int    `json:"group_id"`
 		GroupName        string `json:"group_name"`
@@ -141,6 +142,17 @@ type ProjectAccess struct {
 type GroupAccess struct {
 	AccessLevel       AccessLevelValue       `json:"access_level"`
 	NotificationLevel NotificationLevelValue `json:"notification_level"`
+}
+
+// ForkParent represents the parent project when this is a fork.
+type ForkParent struct {
+	HTTPURLToRepo     string `json:"http_url_to_repo"`
+	ID                int    `json:"id"`
+	Name              string `json:"name"`
+	NameWithNamespace string `json:"name_with_namespace"`
+	Path              string `json:"path"`
+	PathWithNamespace string `json:"path_with_namespace"`
+	WebURL            string `json:"web_url"`
 }
 
 func (s Project) String() string {
