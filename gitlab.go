@@ -130,15 +130,15 @@ var notificationLevelTypes = map[string]NotificationLevelValue{
 // VisibilityLevelValue represents a visibility level within GitLab.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/
-type VisibilityLevelValue int
+type VisibilityLevelValue string
 
 // List of available visibility levels
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/
 const (
-	PrivateVisibility  VisibilityLevelValue = 0
-	InternalVisibility VisibilityLevelValue = 10
-	PublicVisibility   VisibilityLevelValue = 20
+	PrivateVisibility  VisibilityLevelValue = "private"
+	InternalVisibility VisibilityLevelValue = "internal"
+	PublicVisibility   VisibilityLevelValue = "public"
 )
 
 // A Client manages communication with the GitLab API.
