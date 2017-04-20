@@ -47,7 +47,7 @@ type PushEvent struct {
 		SSHURL            string               `json:"ssh_url"`
 		HTTPURL           string               `json:"http_url"`
 		WebURL            string               `json:"web_url"`
-		VisibilityLevel   VisibilityLevelValue `json:"visibility_level"`
+		VisibilityLevel   VisibilityLevelValue `json:"visibility"`
 	} `json:"project"`
 	Repository        *Repository `json:"repository"`
 	Commits           []*Commit   `json:"commits"`
@@ -82,7 +82,7 @@ type TagEvent struct {
 		SSHURL            string               `json:"ssh_url"`
 		HTTPURL           string               `json:"http_url"`
 		WebURL            string               `json:"web_url"`
-		VisibilityLevel   VisibilityLevelValue `json:"visibility_level"`
+		VisibilityLevel   VisibilityLevelValue `json:"visibility"`
 	} `json:"project"`
 	Repository        *Repository `json:"repository"`
 	Commits           []*Commit   `json:"commits"`
@@ -110,7 +110,7 @@ type IssueEvent struct {
 		SSHURL            string               `json:"ssh_url"`
 		HTTPURL           string               `json:"http_url"`
 		WebURL            string               `json:"web_url"`
-		VisibilityLevel   VisibilityLevelValue `json:"visibility_level"`
+		VisibilityLevel   VisibilityLevelValue `json:"visibility"`
 	} `json:"project"`
 	Repository       *Repository `json:"repository"`
 	ObjectAttributes struct {
@@ -159,7 +159,7 @@ type CommitCommentEvent struct {
 		SSHURL            string               `json:"ssh_url"`
 		HTTPURL           string               `json:"http_url"`
 		WebURL            string               `json:"web_url"`
-		VisibilityLevel   VisibilityLevelValue `json:"visibility_level"`
+		VisibilityLevel   VisibilityLevelValue `json:"visibility"`
 	} `json:"project"`
 	Repository       *Repository `json:"repository"`
 	ObjectAttributes struct {
@@ -211,7 +211,7 @@ type MergeCommentEvent struct {
 		SSHURL            string               `json:"ssh_url"`
 		HTTPURL           string               `json:"http_url"`
 		WebURL            string               `json:"web_url"`
-		VisibilityLevel   VisibilityLevelValue `json:"visibility_level"`
+		VisibilityLevel   VisibilityLevelValue `json:"visibility"`
 	} `json:"project"`
 	Repository       *Repository `json:"repository"`
 	ObjectAttributes struct {
@@ -255,7 +255,7 @@ type IssueCommentEvent struct {
 		SSHURL            string               `json:"ssh_url"`
 		HTTPURL           string               `json:"http_url"`
 		WebURL            string               `json:"web_url"`
-		VisibilityLevel   VisibilityLevelValue `json:"visibility_level"`
+		VisibilityLevel   VisibilityLevelValue `json:"visibility"`
 	} `json:"project"`
 	Repository       *Repository `json:"repository"`
 	ObjectAttributes struct {
@@ -299,7 +299,7 @@ type SnippetCommentEvent struct {
 		SSHURL            string               `json:"ssh_url"`
 		HTTPURL           string               `json:"http_url"`
 		WebURL            string               `json:"web_url"`
-		VisibilityLevel   VisibilityLevelValue `json:"visibility_level"`
+		VisibilityLevel   VisibilityLevelValue `json:"visibility"`
 	} `json:"project"`
 	Repository       *Repository `json:"repository"`
 	ObjectAttributes struct {
@@ -342,7 +342,7 @@ type MergeEvent struct {
 		SSHURL            string               `json:"ssh_url"`
 		HTTPURL           string               `json:"http_url"`
 		WebURL            string               `json:"web_url"`
-		VisibilityLevel   VisibilityLevelValue `json:"visibility_level"`
+		VisibilityLevel   VisibilityLevelValue `json:"visibility"`
 	} `json:"project"`
 	ObjectAttributes struct {
 		ID              int       `json:"id"`
@@ -425,7 +425,7 @@ type WikiPageEvent struct {
 		SSHURL            string               `json:"ssh_url"`
 		HTTPURL           string               `json:"http_url"`
 		WebURL            string               `json:"web_url"`
-		VisibilityLevel   VisibilityLevelValue `json:"visibility_level"`
+		VisibilityLevel   VisibilityLevelValue `json:"visibility"`
 	} `json:"project"`
 	Wiki struct {
 		WebURL            string `json:"web_url"`
@@ -482,7 +482,7 @@ type PipelineEvent struct {
 		SSHURL            string               `json:"ssh_url"`
 		HTTPURL           string               `json:"http_url"`
 		WebURL            string               `json:"web_url"`
-		VisibilityLevel   VisibilityLevelValue `json:"visibility_level"`
+		VisibilityLevel   VisibilityLevelValue `json:"visibility"`
 	} `json:"project"`
 	Commit struct {
 		ID        string    `json:"id"`

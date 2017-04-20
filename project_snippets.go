@@ -122,7 +122,7 @@ type CreateSnippetOptions struct {
 	Title           *string               `url:"title,omitempty" json:"title,omitempty"`
 	FileName        *string               `url:"file_name,omitempty" json:"file_name,omitempty"`
 	Code            *string               `url:"code,omitempty" json:"code,omitempty"`
-	VisibilityLevel *VisibilityLevelValue `url:"visibility_level,omitempty" json:"visibility_level,omitempty"`
+	VisibilityLevel *VisibilityLevelValue `url:"visibility,omitempty" json:"visibility,omitempty"`
 }
 
 // CreateSnippet creates a new project snippet. The user must have permission
@@ -159,7 +159,7 @@ type UpdateSnippetOptions struct {
 	Title           *string               `url:"title,omitempty" json:"title,omitempty"`
 	FileName        *string               `url:"file_name,omitempty" json:"file_name,omitempty"`
 	Code            *string               `url:"code,omitempty" json:"code,omitempty"`
-	VisibilityLevel *VisibilityLevelValue `url:"visibility_level,omitempty" json:"visibility_level,omitempty"`
+	VisibilityLevel *VisibilityLevelValue `url:"visibility,omitempty" json:"visibility,omitempty"`
 }
 
 // UpdateSnippet updates an existing project snippet. The user must have
