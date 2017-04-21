@@ -38,7 +38,7 @@ type Project struct {
 	Description                               string               `json:"description"`
 	DefaultBranch                             string               `json:"default_branch"`
 	Public                                    bool                 `json:"public"`
-	VisibilityLevel                           VisibilityLevelValue `json:"visibility_level"`
+	VisibilityLevel                           VisibilityLevelValue `json:"visibility"`
 	SSHURLToRepo                              string               `json:"ssh_url_to_repo"`
 	HTTPURLToRepo                             string               `json:"http_url_to_repo"`
 	WebURL                                    string               `json:"web_url"`
@@ -72,6 +72,7 @@ type Project struct {
 	OnlyAllowMergeIfAllDiscussionsAreResolved bool                 `json:"only_allow_merge_if_all_discussions_are_resolved"`
 	LFSEnabled                                bool                 `json:"lfs_enabled"`
 	RequestAccessEnabled                      bool                 `json:"request_access_enabled"`
+	ForkedFromProject                         *ForkParent          `json:"forked_from_project"`
 	SharedWithGroups                          []struct {
 		GroupID          int    `json:"group_id"`
 		GroupName        string `json:"group_name"`
@@ -82,20 +83,20 @@ type Project struct {
 
 // Repository represents a repository.
 type Repository struct {
-	Name              string `json:"name"`
-	Description       string `json:"description"`
-	WebURL            string `json:"web_url"`
-	AvatarURL         string `json:"avatar_url"`
-	GitSSHURL         string `json:"git_ssh_url"`
-	GitHTTPURL        string `json:"git_http_url"`
-	Namespace         string `json:"namespace"`
-	VisibilityLevel   int    `json:"visibility_level"`
-	PathWithNamespace string `json:"path_with_namespace"`
-	DefaultBranch     string `json:"default_branch"`
-	Homepage          string `json:"homepage"`
-	URL               string `json:"url"`
-	SSHURL            string `json:"ssh_url"`
-	HTTPURL           string `json:"http_url"`
+	Name              string               `json:"name"`
+	Description       string               `json:"description"`
+	WebURL            string               `json:"web_url"`
+	AvatarURL         string               `json:"avatar_url"`
+	GitSSHURL         string               `json:"git_ssh_url"`
+	GitHTTPURL        string               `json:"git_http_url"`
+	Namespace         string               `json:"namespace"`
+	VisibilityLevel   VisibilityLevelValue `json:"visibility"`
+	PathWithNamespace string               `json:"path_with_namespace"`
+	DefaultBranch     string               `json:"default_branch"`
+	Homepage          string               `json:"homepage"`
+	URL               string               `json:"url"`
+	SSHURL            string               `json:"ssh_url"`
+	HTTPURL           string               `json:"http_url"`
 }
 
 // ProjectNamespace represents a project namespace.
@@ -141,6 +142,17 @@ type GroupAccess struct {
 	NotificationLevel NotificationLevelValue `json:"notification_level"`
 }
 
+// ForkParent represents the parent project when this is a fork.
+type ForkParent struct {
+	HTTPURLToRepo     string `json:"http_url_to_repo"`
+	ID                int    `json:"id"`
+	Name              string `json:"name"`
+	NameWithNamespace string `json:"name_with_namespace"`
+	Path              string `json:"path"`
+	PathWithNamespace string `json:"path_with_namespace"`
+	WebURL            string `json:"web_url"`
+}
+
 func (s Project) String() string {
 	return Stringify(s)
 }
@@ -150,13 +162,13 @@ func (s Project) String() string {
 // GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#list-projects
 type ListProjectsOptions struct {
 	ListOptions
-	Archived   *bool   `url:"archived,omitempty" json:"archived,omitempty"`
-	OrderBy    *string `url:"order_by,omitempty" json:"order_by,omitempty"`
-	Sort       *string `url:"sort,omitempty" json:"sort,omitempty"`
-	Search     *string `url:"search,omitempty" json:"search,omitempty"`
-	Simple     *bool   `url:"simple,omitempty" json:"simple,omitempty"`
-	Visibility *string `url:"visibility,omitempty" json:"visibility,omitempty"`
-	Statistics *bool   `url:"statistics,omitempty" json:"statistics,omitempty"`
+	Archived   *bool                 `url:"archived,omitempty" json:"archived,omitempty"`
+	OrderBy    *string               `url:"order_by,omitempty" json:"order_by,omitempty"`
+	Sort       *string               `url:"sort,omitempty" json:"sort,omitempty"`
+	Search     *string               `url:"search,omitempty" json:"search,omitempty"`
+	Simple     *bool                 `url:"simple,omitempty" json:"simple,omitempty"`
+	Visibility *VisibilityLevelValue `url:"visibility,omitempty" json:"visibility,omitempty"`
+	Statistics *bool                 `url:"statistics,omitempty" json:"statistics,omitempty"`
 }
 
 // ListProjects gets a list of projects accessible by the authenticated user.
@@ -341,7 +353,7 @@ type CreateProjectOptions struct {
 	ContainerRegistryEnabled      *bool                 `url:"container_registry_enabled,omitempty" json:"container_registry_enabled,omitempty"`
 	SharedRunnersEnabled          *bool                 `url:"shared_runners_enabled,omitempty" json:"shared_runners_enabled,omitempty"`
 	Public                        *bool                 `url:"public,omitempty" json:"public,omitempty"`
-	VisibilityLevel               *VisibilityLevelValue `url:"visibility_level,omitempty" json:"visibility_level,omitempty"`
+	VisibilityLevel               *VisibilityLevelValue `url:"visibility,omitempty" json:"visibility,omitempty"`
 	ImportURL                     *string               `url:"import_url,omitempty" json:"import_url,omitempty"`
 	PublicBuilds                  *bool                 `url:"public_builds,omitempty" json:"public_builds,omitempty"`
 	OnlyAllowMergeIfBuildSucceeds *bool                 `url:"only_allow_merge_if_build_succeeds,omitempty" json:"only_allow_merge_if_build_succeeds,omitempty"`
@@ -367,6 +379,33 @@ func (s *ProjectsService) CreateProject(opt *CreateProjectOptions, options ...Op
 	return p, resp, err
 }
 
+// ShareWithGroupOptions represents options to share project with groups
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#share-project-with-group
+type ShareWithGroupOptions struct {
+	GroupID     *int              `url:"group_id" json:"group_id"`
+	GroupAccess *AccessLevelValue `url:"group_access" json:"group_access"`
+	ExpiresAt   *string           `url:"expires_at" json:"expires_at"`
+}
+
+// ShareProjectWithGroup allows to share a project with a group.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#share-project-with-group
+func (s *ProjectsService) ShareProjectWithGroup(pid interface{}, opt *ShareWithGroupOptions, options ...OptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/share", url.QueryEscape(project))
+
+	req, err := s.client.NewRequest("POST", u, opt, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
+
 // CreateProjectForUserOptions represents the available CreateProjectForUser()
 // options.
 //
@@ -381,7 +420,7 @@ type CreateProjectForUserOptions struct {
 	WikiEnabled          *bool                 `url:"wiki_enabled,omitempty" json:"wiki_enabled,omitempty"`
 	SnippetsEnabled      *bool                 `url:"snippets_enabled,omitempty" json:"snippets_enabled,omitempty"`
 	Public               *bool                 `url:"public,omitempty" json:"public,omitempty"`
-	VisibilityLevel      *VisibilityLevelValue `url:"visibility_level,omitempty" json:"visibility_level,omitempty"`
+	VisibilityLevel      *VisibilityLevelValue `url:"visibility,omitempty" json:"visibility,omitempty"`
 	ImportURL            *string               `url:"import_url,omitempty" json:"import_url,omitempty"`
 }
 
@@ -424,7 +463,7 @@ type EditProjectOptions struct {
 	ContainerRegistryEnabled                  *bool                 `url:"container_registry_enabled,omitempty" json:"container_registry_enabled,omitempty"`
 	SharedRunnersEnabled                      *bool                 `url:"shared_runners_enabled,omitempty" json:"shared_runners_enabled,omitempty"`
 	Public                                    *bool                 `url:"public,omitempty" json:"public,omitempty"`
-	VisibilityLevel                           *VisibilityLevelValue `url:"visibility_level,omitempty" json:"visibility_level,omitempty"`
+	VisibilityLevel                           *VisibilityLevelValue `url:"visibility,omitempty" json:"visibility,omitempty"`
 	ImportURL                                 *bool                 `url:"import_url,omitempty" json:"import_url,omitempty"`
 	PublicBuilds                              *bool                 `url:"public_builds,omitempty" json:"public_builds,omitempty"`
 	OnlyAllowMergeIfBuildSucceeds             *bool                 `url:"only_allow_merge_if_build_succeeds,omitempty" json:"only_allow_merge_if_build_succeeds,omitempty"`

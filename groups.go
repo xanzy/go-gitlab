@@ -100,7 +100,7 @@ type CreateGroupOptions struct {
 	Name            *string               `url:"name,omitempty" json:"name,omitempty"`
 	Path            *string               `url:"path,omitempty" json:"path,omitempty"`
 	Description     *string               `url:"description,omitempty" json:"description,omitempty"`
-	VisibilityLevel *VisibilityLevelValue `url:"visibility_level" json:"visibility_level,omitempty"`
+	VisibilityLevel *VisibilityLevelValue `url:"visibility" json:"visibility,omitempty"`
 }
 
 // CreateGroup creates a new project group. Available only for users who can
