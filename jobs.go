@@ -104,7 +104,7 @@ func (s *JobsService) ListPipelineJobs(pid interface{}, pipelineID int, opts *Li
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/pipeline/%d/jobs", project, pipelineID)
+	u := fmt.Sprintf("projects/%s/pipelines/%d/jobs", project, pipelineID)
 
 	req, err := s.client.NewRequest("GET", u, opts, options)
 	if err != nil {
