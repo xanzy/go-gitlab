@@ -34,7 +34,7 @@ import (
 
 const (
 	libraryVersion = "0.1.2"
-	defaultBaseURL = "https://gitlab.com/api/v4/"
+	defaultBaseURL = "https://gitlab.com/api/v3/"
 	userAgent      = "go-gitlab/" + libraryVersion
 )
 

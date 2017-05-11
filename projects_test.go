@@ -29,7 +29,7 @@ func TestListProjects(t *testing.T) {
 		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
 	})
 
-	opt := &ListProjectsOptions{ListOptions{2, 3}, Bool(true), String("name"), String("asc"), String("query"), Bool(true), VisibilityLevel(PublicVisibility), Bool(true)}
+	opt := &ListProjectsOptions{ListOptions{2, 3}, Bool(true), String("name"), String("asc"), String("query"), Bool(true), VisibilityLevel(PublicVisibility), Bool(false), Bool(false), Bool(false)}
 	projects, _, err := client.Projects.ListProjects(opt)
 
 	if err != nil {
@@ -46,7 +46,7 @@ func TestListOwnedProjects(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
-	mux.HandleFunc("/projects/owned", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/projects", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
 		testFormValues(t, r, values{
 			"page":       "2",
@@ -64,8 +64,8 @@ func TestListOwnedProjects(t *testing.T) {
 		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
 	})
 
-	opt := &ListProjectsOptions{ListOptions{2, 3}, Bool(true), String("name"), String("asc"), String("query"), Bool(true), VisibilityLevel(PublicVisibility), Bool(false)}
-	projects, _, err := client.Projects.ListOwnedProjects(opt)
+	opt := &ListProjectsOptions{ListOptions{2, 3}, Bool(true), String("name"), String("asc"), String("query"), Bool(true), VisibilityLevel(PublicVisibility), Bool(true), Bool(false), Bool(false)}
+	projects, _, err := client.Projects.ListProjects(opt)
 
 	if err != nil {
 		t.Errorf("Projects.ListOwnedProjects returned error: %v", err)
@@ -81,7 +81,7 @@ func TestListStarredProjects(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
-	mux.HandleFunc("/projects/starred", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/projects", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
 		testFormValues(t, r, values{
 			"page":       "2",
@@ -99,8 +99,8 @@ func TestListStarredProjects(t *testing.T) {
 		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
 	})
 
-	opt := &ListProjectsOptions{ListOptions{2, 3}, Bool(true), String("name"), String("asc"), String("query"), Bool(true), VisibilityLevel(PublicVisibility), Bool(false)}
-	projects, _, err := client.Projects.ListStarredProjects(opt)
+	opt := &ListProjectsOptions{ListOptions{2, 3}, Bool(true), String("name"), String("asc"), String("query"), Bool(true), VisibilityLevel(PublicVisibility), Bool(false), Bool(false), Bool(true)}
+	projects, _, err := client.Projects.ListProjects(opt)
 
 	if err != nil {
 		t.Errorf("Projects.ListStarredProjects returned error: %v", err)
