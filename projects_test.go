@@ -22,6 +22,7 @@ func TestListProjects(t *testing.T) {
 			"search":     "query",
 			"simple":     "true",
 			"visibility": "public",
+			"statistics": "false",
 			"owned": "false",
 			"membership": "false",
 			"starred": "false",
@@ -29,7 +30,7 @@ func TestListProjects(t *testing.T) {
 		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
 	})
 
-	opt := &ListProjectsOptions{ListOptions{2, 3}, Bool(true), String("name"), String("asc"), String("query"), Bool(true), VisibilityLevel(PublicVisibility), Bool(false), Bool(false), Bool(false)}
+	opt := &ListProjectsOptions{ListOptions{2, 3}, Bool(true), String("name"), String("asc"), String("query"), Bool(true), VisibilityLevel(PublicVisibility), Bool(false), Bool(false), Bool(false), Bool(false)}
 	projects, _, err := client.Projects.ListProjects(opt)
 
 	if err != nil {
@@ -57,6 +58,7 @@ func TestListOwnedProjects(t *testing.T) {
 			"search":     "query",
 			"simple":     "true",
 			"visibility": "public",
+			"statistics": "false",
 			"owned": "true",
 			"membership": "false",
 			"starred": "false",
@@ -64,7 +66,7 @@ func TestListOwnedProjects(t *testing.T) {
 		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
 	})
 
-	opt := &ListProjectsOptions{ListOptions{2, 3}, Bool(true), String("name"), String("asc"), String("query"), Bool(true), VisibilityLevel(PublicVisibility), Bool(true), Bool(false), Bool(false)}
+	opt := &ListProjectsOptions{ListOptions{2, 3}, Bool(true), String("name"), String("asc"), String("query"), Bool(true), VisibilityLevel(PublicVisibility), Bool(false), Bool(true), Bool(false), Bool(false)}
 	projects, _, err := client.Projects.ListProjects(opt)
 
 	if err != nil {
@@ -92,6 +94,7 @@ func TestListStarredProjects(t *testing.T) {
 			"search":     "query",
 			"simple":     "true",
 			"visibility": "public",
+			"statistics": "false",
 			"owned": "false",
 			"membership": "false",
 			"starred": "true",
@@ -99,7 +102,7 @@ func TestListStarredProjects(t *testing.T) {
 		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
 	})
 
-	opt := &ListProjectsOptions{ListOptions{2, 3}, Bool(true), String("name"), String("asc"), String("query"), Bool(true), VisibilityLevel(PublicVisibility), Bool(false), Bool(false), Bool(true)}
+	opt := &ListProjectsOptions{ListOptions{2, 3}, Bool(true), String("name"), String("asc"), String("query"), Bool(true), VisibilityLevel(PublicVisibility), Bool(false), Bool(false), Bool(false), Bool(true)}
 	projects, _, err := client.Projects.ListProjects(opt)
 
 	if err != nil {

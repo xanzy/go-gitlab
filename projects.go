@@ -168,6 +168,7 @@ type ListProjectsOptions struct {
 	Search     *string               `url:"search,omitempty" json:"search,omitempty"`
 	Simple     *bool                 `url:"simple,omitempty" json:"simple,omitempty"`
 	Visibility *VisibilityLevelValue `url:"visibility,omitempty" json:"visibility,omitempty"`
+	Statistics *bool                 `url:"statistics,omitempty" json:"statistics,omitempty"`
 	Owned      *bool                 `url:"owned,omitempty" json:"owned,omitempty"`
 	Membership *bool                 `url:"membership,omitempty" json:"membership,omitempty"`
 	Starred    *bool                 `url:"starred,omitempty" json:"starred,omitempty"`
