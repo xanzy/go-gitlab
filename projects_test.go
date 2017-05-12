@@ -22,17 +22,21 @@ func TestListProjects(t *testing.T) {
 			"search":     "query",
 			"simple":     "true",
 			"visibility": "public",
-			"statistics": "false",
-			"owned": "false",
-			"membership": "false",
-			"starred": "false",
 		})
 		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
 	})
 
-	opt := &ListProjectsOptions{ListOptions{2, 3}, Bool(true), String("name"), String("asc"), String("query"), Bool(true), VisibilityLevel(PublicVisibility), Bool(false), Bool(false), Bool(false), Bool(false)}
-	projects, _, err := client.Projects.ListProjects(opt)
+	opt := &ListProjectsOptions{
+		ListOptions: ListOptions{2, 3},
+		Archived:    Bool(true),
+		OrderBy:     String("name"),
+		Sort:        String("asc"),
+		Search:      String("query"),
+		Simple:      Bool(true),
+		Visibility:  VisibilityLevel(PublicVisibility),
+	}
 
+	projects, _, err := client.Projects.ListProjects(opt)
 	if err != nil {
 		t.Errorf("Projects.ListProjects returned error: %v", err)
 	}
@@ -57,18 +61,24 @@ func TestListOwnedProjects(t *testing.T) {
 			"sort":       "asc",
 			"search":     "query",
 			"simple":     "true",
+			"owned":      "true",
 			"visibility": "public",
-			"statistics": "false",
-			"owned": "true",
-			"membership": "false",
-			"starred": "false",
 		})
 		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
 	})
 
-	opt := &ListProjectsOptions{ListOptions{2, 3}, Bool(true), String("name"), String("asc"), String("query"), Bool(true), VisibilityLevel(PublicVisibility), Bool(false), Bool(true), Bool(false), Bool(false)}
-	projects, _, err := client.Projects.ListProjects(opt)
+	opt := &ListProjectsOptions{
+		ListOptions: ListOptions{2, 3},
+		Archived:    Bool(true),
+		OrderBy:     String("name"),
+		Sort:        String("asc"),
+		Search:      String("query"),
+		Simple:      Bool(true),
+		Owned:       Bool(true),
+		Visibility:  VisibilityLevel(PublicVisibility),
+	}
 
+	projects, _, err := client.Projects.ListProjects(opt)
 	if err != nil {
 		t.Errorf("Projects.ListOwnedProjects returned error: %v", err)
 	}
@@ -93,18 +103,24 @@ func TestListStarredProjects(t *testing.T) {
 			"sort":       "asc",
 			"search":     "query",
 			"simple":     "true",
+			"starred":    "true",
 			"visibility": "public",
-			"statistics": "false",
-			"owned": "false",
-			"membership": "false",
-			"starred": "true",
 		})
 		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
 	})
 
-	opt := &ListProjectsOptions{ListOptions{2, 3}, Bool(true), String("name"), String("asc"), String("query"), Bool(true), VisibilityLevel(PublicVisibility), Bool(false), Bool(false), Bool(false), Bool(true)}
-	projects, _, err := client.Projects.ListProjects(opt)
+	opt := &ListProjectsOptions{
+		ListOptions: ListOptions{2, 3},
+		Archived:    Bool(true),
+		OrderBy:     String("name"),
+		Sort:        String("asc"),
+		Search:      String("query"),
+		Simple:      Bool(true),
+		Starred:     Bool(true),
+		Visibility:  VisibilityLevel(PublicVisibility),
+	}
 
+	projects, _, err := client.Projects.ListProjects(opt)
 	if err != nil {
 		t.Errorf("Projects.ListStarredProjects returned error: %v", err)
 	}
@@ -126,7 +142,6 @@ func TestGetProject_byID(t *testing.T) {
 	want := &Project{ID: 1}
 
 	project, _, err := client.Projects.GetProject(1)
-
 	if err != nil {
 		t.Fatalf("Projects.GetProject returns an error: %v", err)
 	}
@@ -148,7 +163,6 @@ func TestGetProject_byName(t *testing.T) {
 	want := &Project{ID: 1}
 
 	project, _, err := client.Projects.GetProject("namespace/name")
-
 	if err != nil {
 		t.Fatalf("Projects.GetProject returns an error: %v", err)
 	}
@@ -172,8 +186,8 @@ func TestCreateProject(t *testing.T) {
 	})
 
 	opt := &CreateProjectOptions{Name: String("n")}
-	project, _, err := client.Projects.CreateProject(opt)
 
+	project, _, err := client.Projects.CreateProject(opt)
 	if err != nil {
 		t.Errorf("Projects.CreateProject returned error: %v", err)
 	}
