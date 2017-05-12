@@ -157,6 +157,9 @@ type ListProjectsOptions struct {
 	Simple     *bool                 `url:"simple,omitempty" json:"simple,omitempty"`
 	Visibility *VisibilityLevelValue `url:"visibility,omitempty" json:"visibility,omitempty"`
 	Statistics *bool                 `url:"statistics,omitempty" json:"statistics,omitempty"`
+	Owned      *bool                 `url:"owned,omitempty" json:"owned,omitempty"`
+	Membership *bool                 `url:"membership,omitempty" json:"membership,omitempty"`
+	Starred    *bool                 `url:"starred,omitempty" json:"starred,omitempty"`
 }
 
 // ListProjects gets a list of projects accessible by the authenticated user.
@@ -164,65 +167,6 @@ type ListProjectsOptions struct {
 // GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#list-projects
 func (s *ProjectsService) ListProjects(opt *ListProjectsOptions, options ...OptionFunc) ([]*Project, *Response, error) {
 	req, err := s.client.NewRequest("GET", "projects", opt, options)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	var p []*Project
-	resp, err := s.client.Do(req, &p)
-	if err != nil {
-		return nil, resp, err
-	}
-
-	return p, resp, err
-}
-
-// ListOwnedProjects gets a list of projects which are owned by the
-// authenticated user.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ce/api/projects.html#list-owned-projects
-func (s *ProjectsService) ListOwnedProjects(opt *ListProjectsOptions, options ...OptionFunc) ([]*Project, *Response, error) {
-	req, err := s.client.NewRequest("GET", "projects/owned", opt, options)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	var p []*Project
-	resp, err := s.client.Do(req, &p)
-	if err != nil {
-		return nil, resp, err
-	}
-
-	return p, resp, err
-}
-
-// ListStarredProjects gets a list of projects which are starred by the
-// authenticated user.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ce/api/projects.html#list-starred-projects
-func (s *ProjectsService) ListStarredProjects(opt *ListProjectsOptions, options ...OptionFunc) ([]*Project, *Response, error) {
-	req, err := s.client.NewRequest("GET", "projects/starred", opt, options)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	var p []*Project
-	resp, err := s.client.Do(req, &p)
-	if err != nil {
-		return nil, resp, err
-	}
-
-	return p, resp, err
-}
-
-// ListAllProjects gets a list of all GitLab projects (admin only).
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ce/api/projects.html#list-all-projects
-func (s *ProjectsService) ListAllProjects(opt *ListProjectsOptions, options ...OptionFunc) ([]*Project, *Response, error) {
-	req, err := s.client.NewRequest("GET", "projects/all", opt, options)
 	if err != nil {
 		return nil, nil, err
 	}

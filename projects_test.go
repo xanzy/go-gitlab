@@ -22,12 +22,15 @@ func TestListProjects(t *testing.T) {
 			"search":     "query",
 			"simple":     "true",
 			"visibility": "public",
-			"statistics": "true",
+			"statistics": "false",
+			"owned": "false",
+			"membership": "false",
+			"starred": "false",
 		})
 		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
 	})
 
-	opt := &ListProjectsOptions{ListOptions{2, 3}, Bool(true), String("name"), String("asc"), String("query"), Bool(true), VisibilityLevel(PublicVisibility), Bool(true)}
+	opt := &ListProjectsOptions{ListOptions{2, 3}, Bool(true), String("name"), String("asc"), String("query"), Bool(true), VisibilityLevel(PublicVisibility), Bool(false), Bool(false), Bool(false), Bool(false)}
 	projects, _, err := client.Projects.ListProjects(opt)
 
 	if err != nil {
@@ -44,7 +47,7 @@ func TestListOwnedProjects(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
-	mux.HandleFunc("/projects/owned", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/projects", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
 		testFormValues(t, r, values{
 			"page":       "2",
@@ -56,12 +59,15 @@ func TestListOwnedProjects(t *testing.T) {
 			"simple":     "true",
 			"visibility": "public",
 			"statistics": "false",
+			"owned": "true",
+			"membership": "false",
+			"starred": "false",
 		})
 		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
 	})
 
-	opt := &ListProjectsOptions{ListOptions{2, 3}, Bool(true), String("name"), String("asc"), String("query"), Bool(true), VisibilityLevel(PublicVisibility), Bool(false)}
-	projects, _, err := client.Projects.ListOwnedProjects(opt)
+	opt := &ListProjectsOptions{ListOptions{2, 3}, Bool(true), String("name"), String("asc"), String("query"), Bool(true), VisibilityLevel(PublicVisibility), Bool(false), Bool(true), Bool(false), Bool(false)}
+	projects, _, err := client.Projects.ListProjects(opt)
 
 	if err != nil {
 		t.Errorf("Projects.ListOwnedProjects returned error: %v", err)
@@ -77,7 +83,7 @@ func TestListStarredProjects(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
-	mux.HandleFunc("/projects/starred", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/projects", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
 		testFormValues(t, r, values{
 			"page":       "2",
@@ -89,12 +95,15 @@ func TestListStarredProjects(t *testing.T) {
 			"simple":     "true",
 			"visibility": "public",
 			"statistics": "false",
+			"owned": "false",
+			"membership": "false",
+			"starred": "true",
 		})
 		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
 	})
 
-	opt := &ListProjectsOptions{ListOptions{2, 3}, Bool(true), String("name"), String("asc"), String("query"), Bool(true), VisibilityLevel(PublicVisibility), Bool(false)}
-	projects, _, err := client.Projects.ListStarredProjects(opt)
+	opt := &ListProjectsOptions{ListOptions{2, 3}, Bool(true), String("name"), String("asc"), String("query"), Bool(true), VisibilityLevel(PublicVisibility), Bool(false), Bool(false), Bool(false), Bool(true)}
+	projects, _, err := client.Projects.ListProjects(opt)
 
 	if err != nil {
 		t.Errorf("Projects.ListStarredProjects returned error: %v", err)
@@ -103,39 +112,6 @@ func TestListStarredProjects(t *testing.T) {
 	want := []*Project{{ID: 1}, {ID: 2}}
 	if !reflect.DeepEqual(want, projects) {
 		t.Errorf("Projects.ListStarredProjects returned %+v, want %+v", projects, want)
-	}
-}
-
-func TestListAllProjects(t *testing.T) {
-	mux, server, client := setup()
-	defer teardown(server)
-
-	mux.HandleFunc("/projects/all", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
-		testFormValues(t, r, values{
-			"page":       "2",
-			"per_page":   "3",
-			"archived":   "true",
-			"order_by":   "name",
-			"sort":       "asc",
-			"search":     "query",
-			"simple":     "true",
-			"visibility": "public",
-			"statistics": "false",
-		})
-		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
-	})
-
-	opt := &ListProjectsOptions{ListOptions{2, 3}, Bool(true), String("name"), String("asc"), String("query"), Bool(true), VisibilityLevel(PublicVisibility), Bool(false)}
-	projects, _, err := client.Projects.ListAllProjects(opt)
-
-	if err != nil {
-		t.Errorf("Projects.ListAllProjects returned error: %v", err)
-	}
-
-	want := []*Project{{ID: 1}, {ID: 2}}
-	if !reflect.DeepEqual(want, projects) {
-		t.Errorf("Projects.ListAllProjects returned %+v, want %+v", projects, want)
 	}
 }
 
