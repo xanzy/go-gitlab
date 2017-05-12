@@ -155,11 +155,11 @@ type ListProjectsOptions struct {
 	Sort       *string               `url:"sort,omitempty" json:"sort,omitempty"`
 	Search     *string               `url:"search,omitempty" json:"search,omitempty"`
 	Simple     *bool                 `url:"simple,omitempty" json:"simple,omitempty"`
-	Visibility *VisibilityLevelValue `url:"visibility,omitempty" json:"visibility,omitempty"`
-	Statistics *bool                 `url:"statistics,omitempty" json:"statistics,omitempty"`
 	Owned      *bool                 `url:"owned,omitempty" json:"owned,omitempty"`
 	Membership *bool                 `url:"membership,omitempty" json:"membership,omitempty"`
 	Starred    *bool                 `url:"starred,omitempty" json:"starred,omitempty"`
+	Statistics *bool                 `url:"statistics,omitempty" json:"statistics,omitempty"`
+	Visibility *VisibilityLevelValue `url:"visibility,omitempty" json:"visibility,omitempty"`
 }
 
 // ListProjects gets a list of projects accessible by the authenticated user.
