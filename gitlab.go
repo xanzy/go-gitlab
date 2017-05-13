@@ -192,6 +192,7 @@ type Client struct {
 	Tags                 *TagsService
 	TimeStats            *TimeStatsService
 	Users                *UsersService
+	Version              *VersionService
 }
 
 // ListOptions specifies the optional parameters to various List methods that
@@ -254,6 +255,7 @@ func newClient(httpClient *http.Client, tokenType tokenType, token string) *Clie
 	c.Tags = &TagsService{client: c}
 	c.TimeStats = &TimeStatsService{client: c}
 	c.Users = &UsersService{client: c}
+	c.Version = &VersionService{client: c}
 
 	return c
 }
