@@ -35,12 +35,15 @@ type GroupsService struct {
 // GitLab API docs:
 // https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/groups.md
 type Group struct {
-	ID          int                `json:"id"`
-	Name        string             `json:"name"`
-	Path        string             `json:"path"`
-	Description string             `json:"description"`
-	Projects    []*Project         `json:"projects"`
-	Statistics  *StorageStatistics `json:"statistics"`
+	ID                   int                  `json:"id"`
+	Name                 string               `json:"name"`
+	Path                 string               `json:"path"`
+	Description          string               `json:"description"`
+	VisibilityLevel      VisibilityLevelValue `json:"visibility_level"`
+	LFSEnabled           bool                 `json:"lfs_enabled"`
+	RequestAccessEnabled bool                 `json:"request_access_enabled"`
+	Projects             []*Project           `json:"projects"`
+	Statistics           *StorageStatistics   `json:"statistics"`
 }
 
 // ListGroupsOptions represents the available ListGroups() options.
@@ -102,10 +105,12 @@ func (s *GroupsService) GetGroup(gid interface{}, options ...OptionFunc) (*Group
 // GitLab API docs:
 // https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/groups.md#new-group
 type CreateGroupOptions struct {
-	Name            *string               `url:"name,omitempty" json:"name,omitempty"`
-	Path            *string               `url:"path,omitempty" json:"path,omitempty"`
-	Description     *string               `url:"description,omitempty" json:"description,omitempty"`
-	VisibilityLevel *VisibilityLevelValue `url:"visibility_level" json:"visibility_level,omitempty"`
+	Name                 *string               `url:"name,omitempty" json:"name,omitempty"`
+	Path                 *string               `url:"path,omitempty" json:"path,omitempty"`
+	Description          *string               `url:"description,omitempty" json:"description,omitempty"`
+	VisibilityLevel      *VisibilityLevelValue `url:"visibility_level" json:"visibility_level,omitempty"`
+	LFSEnabled           *bool                 `url:"lfs_enabled" json:"lfs_enabled,omitempty"`
+	RequestAccessEnabled *bool                 `url:"request_access_enabled" json:"request_access_enabled,omitempty"`
 }
 
 // CreateGroup creates a new project group. Available only for users who can
