@@ -18,6 +18,7 @@ package gitlab
 
 import (
 	"fmt"
+	"net/url"
 	"time"
 )
 
@@ -108,9 +109,9 @@ type CreateGroupOptions struct {
 	Name                 *string               `url:"name,omitempty" json:"name,omitempty"`
 	Path                 *string               `url:"path,omitempty" json:"path,omitempty"`
 	Description          *string               `url:"description,omitempty" json:"description,omitempty"`
-	VisibilityLevel      *VisibilityLevelValue `url:"visibility_level" json:"visibility_level,omitempty"`
-	LFSEnabled           *bool                 `url:"lfs_enabled" json:"lfs_enabled,omitempty"`
-	RequestAccessEnabled *bool                 `url:"request_access_enabled" json:"request_access_enabled,omitempty"`
+	VisibilityLevel      *VisibilityLevelValue `url:"visibility_level,omitempty" json:"visibility_level,omitempty"`
+	LFSEnabled           *bool                 `url:"lfs_enabled,omitempty" json:"lfs_enabled,omitempty"`
+	RequestAccessEnabled *bool                 `url:"request_access_enabled,omitempty" json:"request_access_enabled,omitempty"`
 }
 
 // CreateGroup creates a new project group. Available only for users who can
@@ -120,6 +121,39 @@ type CreateGroupOptions struct {
 // https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/groups.md#new-group
 func (s *GroupsService) CreateGroup(opt *CreateGroupOptions, options ...OptionFunc) (*Group, *Response, error) {
 	req, err := s.client.NewRequest("POST", "groups", opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	g := new(Group)
+	resp, err := s.client.Do(req, g)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return g, resp, err
+}
+
+// UpdateGroupOptions represents the set of available options to update a Group;
+// as of today these are exactly the same available when creating a new Group.
+//
+// GitLab API docs:
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/groups.md#update-group
+type UpdateGroupOptions CreateGroupOptions
+
+// UpdateGroup updates an existing group; only available to group owners and
+// administrators.
+//
+// GitLab API docs:
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/groups.md#update-group
+func (s *GroupsService) UpdateGroup(gid interface{}, opt *UpdateGroupOptions, options ...OptionFunc) (*Group, *Response, error) {
+	group, err := parseID(gid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("groups/%s", url.QueryEscape(group))
+
+	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
