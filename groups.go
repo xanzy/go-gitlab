@@ -40,13 +40,13 @@ type Group struct {
 	Name                 string               `json:"name"`
 	Path                 string               `json:"path"`
 	Description          string               `json:"description"`
-	VisibilityLevel      VisibilityLevelValue `json:"visibility_level"`
 	AvatarURL            string               `json:"avatar_url"`
-	WebURL               string               `json:"web_url"`
-	RequestAccessEnabled bool                 `json:"request_access_enabled"`
 	LFSEnabled           bool                 `json:"lfs_enabled"`
 	Projects             []*Project           `json:"projects"`
 	Statistics           *StorageStatistics   `json:"statistics"`
+	RequestAccessEnabled bool                 `json:"request_access_enabled"`
+	VisibilityLevel      VisibilityLevelValue `json:"visibility_level"`
+	WebURL               string               `json:"web_url"`
 }
 
 // ListGroupsOptions represents the available ListGroups() options.
