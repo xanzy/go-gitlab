@@ -36,14 +36,17 @@ type GroupsService struct {
 // GitLab API docs:
 // https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/groups.md
 type Group struct {
-	ID              int                  `json:"id"`
-	Name            string               `json:"name"`
-	Path            string               `json:"path"`
-	Description     string               `json:"description"`
-	LFSEnabled      bool                 `json:"lfs_enabled"`
-	Projects        []*Project           `json:"projects"`
-	Statistics      *StorageStatistics   `json:"statistics"`
-	VisibilityLevel VisibilityLevelValue `json:"visibility_level"`
+	ID                   int                  `json:"id"`
+	Name                 string               `json:"name"`
+	Path                 string               `json:"path"`
+	Description          string               `json:"description"`
+	VisibilityLevel      VisibilityLevelValue `json:"visibility_level"`
+	AvatarURL            string               `json:"avatar_url"`
+	WebURL               string               `json:"web_url"`
+	RequestAccessEnabled bool                 `json:"request_access_enabled"`
+	LFSEnabled           bool                 `json:"lfs_enabled"`
+	Projects             []*Project           `json:"projects"`
+	Statistics           *StorageStatistics   `json:"statistics"`
 }
 
 // ListGroupsOptions represents the available ListGroups() options.
