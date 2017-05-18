@@ -119,10 +119,10 @@ func (s *ProjectSnippetsService) GetSnippet(pid interface{}, snippet int, option
 // GitLab API docs:
 // https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/project_snippets.md#create-new-snippet
 type CreateSnippetOptions struct {
-	Title           *string               `url:"title,omitempty" json:"title,omitempty"`
-	FileName        *string               `url:"file_name,omitempty" json:"file_name,omitempty"`
-	Code            *string               `url:"code,omitempty" json:"code,omitempty"`
-	VisibilityLevel *VisibilityLevelValue `url:"visibility,omitempty" json:"visibility,omitempty"`
+	Title      *string          `url:"title,omitempty" json:"title,omitempty"`
+	FileName   *string          `url:"file_name,omitempty" json:"file_name,omitempty"`
+	Code       *string          `url:"code,omitempty" json:"code,omitempty"`
+	Visibility *VisibilityValue `url:"visibility,omitempty" json:"visibility,omitempty"`
 }
 
 // CreateSnippet creates a new project snippet. The user must have permission
@@ -156,10 +156,10 @@ func (s *ProjectSnippetsService) CreateSnippet(pid interface{}, opt *CreateSnipp
 // GitLab API docs:
 // https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/project_snippets.md#update-snippet
 type UpdateSnippetOptions struct {
-	Title           *string               `url:"title,omitempty" json:"title,omitempty"`
-	FileName        *string               `url:"file_name,omitempty" json:"file_name,omitempty"`
-	Code            *string               `url:"code,omitempty" json:"code,omitempty"`
-	VisibilityLevel *VisibilityLevelValue `url:"visibility,omitempty" json:"visibility,omitempty"`
+	Title      *string          `url:"title,omitempty" json:"title,omitempty"`
+	FileName   *string          `url:"file_name,omitempty" json:"file_name,omitempty"`
+	Code       *string          `url:"code,omitempty" json:"code,omitempty"`
+	Visibility *VisibilityValue `url:"visibility,omitempty" json:"visibility,omitempty"`
 }
 
 // UpdateSnippet updates an existing project snippet. The user must have
