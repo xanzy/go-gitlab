@@ -127,18 +127,18 @@ var notificationLevelTypes = map[string]NotificationLevelValue{
 	"custom":        CustomNotificationLevel,
 }
 
-// VisibilityLevelValue represents a visibility level within GitLab.
+// VisibilityValue represents a visibility level within GitLab.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/
-type VisibilityLevelValue string
+type VisibilityValue string
 
 // List of available visibility levels
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/
 const (
-	PrivateVisibility  VisibilityLevelValue = "private"
-	InternalVisibility VisibilityLevelValue = "internal"
-	PublicVisibility   VisibilityLevelValue = "public"
+	PrivateVisibility  VisibilityValue = "private"
+	InternalVisibility VisibilityValue = "internal"
+	PublicVisibility   VisibilityValue = "public"
 )
 
 // A Client manages communication with the GitLab API.
@@ -602,10 +602,10 @@ func NotificationLevel(v NotificationLevelValue) *NotificationLevelValue {
 	return p
 }
 
-// VisibilityLevel is a helper routine that allocates a new VisibilityLevelValue
+// Visibility is a helper routine that allocates a new VisibilityValue
 // to store v and returns a pointer to it.
-func VisibilityLevel(v VisibilityLevelValue) *VisibilityLevelValue {
-	p := new(VisibilityLevelValue)
+func Visibility(v VisibilityValue) *VisibilityValue {
+	p := new(VisibilityValue)
 	*p = v
 	return p
 }
