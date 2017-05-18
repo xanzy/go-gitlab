@@ -34,19 +34,19 @@ type GroupsService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/groups.html
 type Group struct {
-	ID                   int                   `json:"id"`
-	Name                 string                `json:"name"`
-	Path                 string                `json:"path"`
-	Description          string                `json:"description"`
-	AvatarURL            string                `json:"avatar_url"`
-	FullName             string                `json:"full_name"`
-	FullPath             string                `json:"full_path"`
-	LFSEnabled           bool                  `json:"lfs_enabled"`
-	Projects             []*Project            `json:"projects"`
-	Statistics           *StorageStatistics    `json:"statistics"`
-	RequestAccessEnabled bool                  `json:"request_access_enabled"`
-	Visibility           *VisibilityLevelValue `json:"visibility"`
-	WebURL               string                `json:"web_url"`
+	ID                   int                `json:"id"`
+	Name                 string             `json:"name"`
+	Path                 string             `json:"path"`
+	Description          string             `json:"description"`
+	AvatarURL            string             `json:"avatar_url"`
+	FullName             string             `json:"full_name"`
+	FullPath             string             `json:"full_path"`
+	LFSEnabled           bool               `json:"lfs_enabled"`
+	Projects             []*Project         `json:"projects"`
+	Statistics           *StorageStatistics `json:"statistics"`
+	RequestAccessEnabled bool               `json:"request_access_enabled"`
+	Visibility           *VisibilityValue   `json:"visibility"`
+	WebURL               string             `json:"web_url"`
 }
 
 // ListGroupsOptions represents the available ListGroups() options.
@@ -109,12 +109,12 @@ func (s *GroupsService) GetGroup(gid interface{}, options ...OptionFunc) (*Group
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/groups.html#new-group
 type CreateGroupOptions struct {
-	Name                 *string               `url:"name,omitempty" json:"name,omitempty"`
-	Path                 *string               `url:"path,omitempty" json:"path,omitempty"`
-	Description          *string               `url:"description,omitempty" json:"description,omitempty"`
-	LFSEnabled           *bool                 `url:"lfs_enabled,omitempty" json:"lfs_enabled,omitempty"`
-	RequestAccessEnabled *bool                 `url:"request_access_enabled,omitempty" json:"request_access_enabled,omitempty"`
-	VisibilityLevel      *VisibilityLevelValue `url:"visibility,omitempty" json:"visibility,omitempty"`
+	Name                 *string          `url:"name,omitempty" json:"name,omitempty"`
+	Path                 *string          `url:"path,omitempty" json:"path,omitempty"`
+	Description          *string          `url:"description,omitempty" json:"description,omitempty"`
+	LFSEnabled           *bool            `url:"lfs_enabled,omitempty" json:"lfs_enabled,omitempty"`
+	RequestAccessEnabled *bool            `url:"request_access_enabled,omitempty" json:"request_access_enabled,omitempty"`
+	Visibility           *VisibilityValue `url:"visibility,omitempty" json:"visibility,omitempty"`
 }
 
 // CreateGroup creates a new project group. Available only for users who can

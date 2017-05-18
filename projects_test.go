@@ -33,7 +33,7 @@ func TestListProjects(t *testing.T) {
 		Sort:        String("asc"),
 		Search:      String("query"),
 		Simple:      Bool(true),
-		Visibility:  VisibilityLevel(PublicVisibility),
+		Visibility:  Visibility(PublicVisibility),
 	}
 
 	projects, _, err := client.Projects.ListProjects(opt)
@@ -75,7 +75,7 @@ func TestListOwnedProjects(t *testing.T) {
 		Search:      String("query"),
 		Simple:      Bool(true),
 		Owned:       Bool(true),
-		Visibility:  VisibilityLevel(PublicVisibility),
+		Visibility:  Visibility(PublicVisibility),
 	}
 
 	projects, _, err := client.Projects.ListProjects(opt)
@@ -117,7 +117,7 @@ func TestListStarredProjects(t *testing.T) {
 		Search:      String("query"),
 		Simple:      Bool(true),
 		Starred:     Bool(true),
-		Visibility:  VisibilityLevel(PublicVisibility),
+		Visibility:  Visibility(PublicVisibility),
 	}
 
 	projects, _, err := client.Projects.ListProjects(opt)
