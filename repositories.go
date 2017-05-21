@@ -37,6 +37,7 @@ type TreeNode struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
 	Type string `json:"type"`
+	Path string `json:"path"`
 	Mode string `json:"mode"`
 }
 
@@ -49,8 +50,9 @@ func (t TreeNode) String() string {
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/repositories.html#list-repository-tree
 type ListTreeOptions struct {
-	Path    *string `url:"path,omitempty" json:"path,omitempty"`
-	RefName *string `url:"ref_name,omitempty" json:"ref_name,omitempty"`
+	Path      *string `url:"path,omitempty" json:"path,omitempty"`
+	Ref       *string `url:"ref,omitempty" json:"ref,omitempty"`
+	Recursive *bool   `url:"recursive,omitempty" json:"recursive,omitempty"`
 }
 
 // ListTree gets a list of repository files and directories in a project.
