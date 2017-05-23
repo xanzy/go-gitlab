@@ -174,12 +174,31 @@ type ListProjectsOptions struct {
 	Statistics *bool   `url:"statistics,omitempty" json:"statistics,omitempty"`
 }
 
-// ListProjects gets a list of projects accessible by the authenticated user.
+// ListProjects gets a list of projects for which the authenticated user is a member
 //
 // GitLab API docs:
 // https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/projects.md#list-projects
 func (s *ProjectsService) ListProjects(opt *ListProjectsOptions, options ...OptionFunc) ([]*Project, *Response, error) {
 	req, err := s.client.NewRequest("GET", "projects", opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var p []*Project
+	resp, err := s.client.Do(req, &p)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return p, resp, err
+}
+
+// ListVisibleProjects gets a list of projects accessible by the authenticated user.
+//
+// GitLab API docs:
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/projects.md#list-projects
+func (s *ProjectsService) ListVisibleProjects(opt *ListProjectsOptions, options ...OptionFunc) ([]*Project, *Response, error) {
+	req, err := s.client.NewRequest("GET", "projects/visible", opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
