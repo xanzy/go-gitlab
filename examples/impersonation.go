@@ -6,41 +6,30 @@ import (
 	"github.com/xanzy/go-gitlab"
 )
 
-func projectExample() {
+func impersonationExample() {
 	git := gitlab.NewClient(nil, "yourtokengoeshere")
 
-	// Create new project
-	p := &gitlab.CreateProjectOptions{
-		Name:                 gitlab.String("My Project"),
-		Description:          gitlab.String("Just a test project to play with"),
-		MergeRequestsEnabled: gitlab.Bool(true),
-		SnippetsEnabled:      gitlab.Bool(true),
-		VisibilityLevel:      gitlab.VisibilityLevel(gitlab.PublicVisibility),
-	}
-	project, _, err := git.Projects.CreateProject(p)
+	userID := 1
+
+	//list impersonation token from an user
+	impersonationTList, _, err := git.Users.GetAllImpersonationTokens(userID, &gitlab.GetAllImpersonationTokensOptions{
+		State: gitlab.String("active"),
+	})
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 
-	// Add a new snippet
-	s := &gitlab.CreateSnippetOptions{
-		Title:           gitlab.String("Dummy Snippet"),
-		FileName:        gitlab.String("snippet.go"),
-		Code:            gitlab.String("package main...."),
-		VisibilityLevel: gitlab.VisibilityLevel(gitlab.PublicVisibility),
-	}
-	_, _, err = git.ProjectSnippets.CreateSnippet(project.ID, s)
-	if err != nil {
-		log.Fatal(err)
+	for _, token := range impersonationTList {
+		log.Println(token.Token)
 	}
 
-	// List all project snippets
-	snippets, _, err := git.ProjectSnippets.ListSnippets(project.PathWithNamespace, &gitlab.ListSnippetsOptions{})
+	//create an impersonation token of an user
+	impersonationT, _, err := git.Users.CreateImpersonationToken(userID, &gitlab.CreateImpersonationTokenOptions{
+		Scopes: &[]string{"api"},
+	})
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 
-	for _, snippet := range snippets {
-		log.Printf("Found snippet: %s", snippet.Title)
-	}
+	log.Println(impersonationT.Token)
 }
