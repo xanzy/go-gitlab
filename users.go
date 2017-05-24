@@ -582,3 +582,113 @@ func (s *UsersService) DeleteEmailForUser(uid int, eid int, options ...OptionFun
 
 	return s.client.Do(req, nil)
 }
+
+// ImpersonationToken represents an ImpersonationToken.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/users.html#get-all-impersonation-tokens-of-a-user
+type ImpersonationToken struct {
+	ID        int        `json:"id"`
+	Active    *bool      `json:"active"`
+	Token     *string    `json:"token"`
+	Scopes    *[]string  `json:"scopes"`
+	Revoked   *bool      `json:"revoked"`
+	Name      *string    `json:"name"`
+	CreatedAt *time.Time `json:"created_at"`
+	ExpiresAt *time.Time `json:"expires_at"`
+}
+
+// GetAllImpersonationTokensOptions represents the available GetAllImpersonationTokens() options.
+//
+// GitLab API docs:
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/9-0-stable/doc/api/users.md#get-all-impersonation-tokens-of-a-user
+type GetAllImpersonationTokensOptions struct {
+	State *string `url:"state,omitempty" json:"state,omitempty"`
+}
+
+// Get all impersonation tokens of a user.
+//
+// GitLab API docs:
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/9-0-stable/doc/api/users.md#get-all-impersonation-tokens-of-a-user
+func (s *UsersService) GetAllImpersonationTokens(uid int, opt *GetAllImpersonationTokensOptions, options ...OptionFunc) ([]*ImpersonationToken, *Response, error) {
+	u := fmt.Sprintf("users/%d/impersonation_tokens", uid)
+
+	req, err := s.client.NewRequest("GET", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var i []*ImpersonationToken
+	resp, err := s.client.Do(req, &i)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return i, resp, err
+}
+
+// Get an impersonation token of a user.
+//
+// GitLab API docs:
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/9-0-stable/doc/api/users.md#get-an-impersonation-token-of-a-user
+func (s *UsersService) GetImpersonationToken(uid int, itid int, options ...OptionFunc) (*ImpersonationToken, *Response, error) {
+	u := fmt.Sprintf("users/%d/impersonation_tokens/%d", uid, itid)
+
+	req, err := s.client.NewRequest("GET", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	i := new(ImpersonationToken)
+	resp, err := s.client.Do(req, &i)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return i, resp, err
+}
+
+// CreateImpersonationTokenOptions represents the available CreateImpersonationToken() options.
+//
+// GitLab API docs:
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/9-0-stable/doc/api/users.md#create-an-impersonation-token
+type CreateImpersonationTokenOptions struct {
+	Name      *string   `url:"name" json:"name"`
+	Scopes    *[]string `url:"scopes" json:"scopes"`
+	ExpiresAt time.Time `url:"expires_at,omitempty" json:"expires_at,omitempty"`
+}
+
+// Create an impersonation token.
+//
+// GitLab API docs:
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/9-0-stable/doc/api/users.md#create-an-impersonation-token
+func (s *UsersService) CreateImpersonationToken(uid int, opt *CreateImpersonationTokenOptions, options ...OptionFunc) (*ImpersonationToken, *Response, error) {
+	u := fmt.Sprintf("users/%d/impersonation_tokens", uid)
+
+	req, err := s.client.NewRequest("POST", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	i := new(ImpersonationToken)
+	resp, err := s.client.Do(req, &i)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return i, resp, err
+}
+
+// Revoke an impersonation token.
+//
+// GitLab API docs:
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/9-0-stable/doc/api/users.md#revoke-an-impersonation-token
+func (s *UsersService) RevokeImpersonationToken(uid int, itid int, options ...OptionFunc) (*Response, error) {
+	u := fmt.Sprintf("users/%d/impersonation_tokens/%d", uid, itid)
+
+	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
