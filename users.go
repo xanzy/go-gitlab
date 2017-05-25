@@ -654,7 +654,7 @@ func (s *UsersService) GetImpersonationToken(uid int, itid int, options ...Optio
 type CreateImpersonationTokenOptions struct {
 	Name      *string   `url:"name" json:"name"`
 	Scopes    *[]string `url:"scopes" json:"scopes"`
-	ExpiresAt time.Time `url:"expires_at,omitempty" json:"expires_at,omitempty"`
+	ExpiresAt *time.Time `url:"expires_at,omitempty" json:"expires_at,omitempty"`
 }
 
 // Create an impersonation token.
