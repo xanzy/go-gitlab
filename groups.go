@@ -60,7 +60,6 @@ type ListGroupsOptions struct {
 	Search       *string          `url:"search,omitempty" json:"search,omitempty"`
 	Sort         *string          `url:"sort,omitempty" json:"sort,omitempty"`
 	Statistics   *bool            `url:"statistics,omitempty" json:"statistics,omitempty"`
-	Visibility   *VisibilityValue `url:"visibility,omitempty" json:"visibility_level,omitempty"`
 }
 
 // ListGroups gets a list of groups (as user: my groups, as admin: all groups).
