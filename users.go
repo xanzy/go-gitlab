@@ -608,7 +608,7 @@ type GetAllImpersonationTokensOptions struct {
 // Get all impersonation tokens of a user.
 //
 // GitLab API docs:
-// https://gitlab.com/gitlab-org/gitlab-ce/blob/9-0-stable/doc/api/users.md#get-all-impersonation-tokens-of-a-user
+// https://docs.gitlab.com/ce/api/users.html#get-all-impersonation-tokens-of-a-user
 func (s *UsersService) GetAllImpersonationTokens(uid int, opt *GetAllImpersonationTokensOptions, options ...OptionFunc) ([]*ImpersonationToken, *Response, error) {
 	u := fmt.Sprintf("users/%d/impersonation_tokens", uid)
 
@@ -629,7 +629,7 @@ func (s *UsersService) GetAllImpersonationTokens(uid int, opt *GetAllImpersonati
 // Get an impersonation token of a user.
 //
 // GitLab API docs:
-// https://gitlab.com/gitlab-org/gitlab-ce/blob/9-0-stable/doc/api/users.md#get-an-impersonation-token-of-a-user
+// https://docs.gitlab.com/ce/api/users.html#get-an-impersonation-token-of-a-user
 func (s *UsersService) GetImpersonationToken(uid int, itid int, options ...OptionFunc) (*ImpersonationToken, *Response, error) {
 	u := fmt.Sprintf("users/%d/impersonation_tokens/%d", uid, itid)
 
@@ -650,7 +650,7 @@ func (s *UsersService) GetImpersonationToken(uid int, itid int, options ...Optio
 // CreateImpersonationTokenOptions represents the available CreateImpersonationToken() options.
 //
 // GitLab API docs:
-// https://gitlab.com/gitlab-org/gitlab-ce/blob/9-0-stable/doc/api/users.md#create-an-impersonation-token
+// https://docs.gitlab.com/ce/api/users.html#create-an-impersonation-token
 type CreateImpersonationTokenOptions struct {
 	Name      *string   `url:"name,omitempty" json:"name,omitempty"`
 	Scopes    *[]string `url:"scopes,omitempty" json:"scopes,omitempty"`
@@ -660,7 +660,7 @@ type CreateImpersonationTokenOptions struct {
 // Create an impersonation token.
 //
 // GitLab API docs:
-// https://gitlab.com/gitlab-org/gitlab-ce/blob/9-0-stable/doc/api/users.md#create-an-impersonation-token
+// https://docs.gitlab.com/ce/api/users.html#create-an-impersonation-token
 func (s *UsersService) CreateImpersonationToken(uid int, opt *CreateImpersonationTokenOptions, options ...OptionFunc) (*ImpersonationToken, *Response, error) {
 	u := fmt.Sprintf("users/%d/impersonation_tokens", uid)
 
@@ -681,7 +681,7 @@ func (s *UsersService) CreateImpersonationToken(uid int, opt *CreateImpersonatio
 // Revoke an impersonation token.
 //
 // GitLab API docs:
-// https://gitlab.com/gitlab-org/gitlab-ce/blob/9-0-stable/doc/api/users.md#revoke-an-impersonation-token
+// https://docs.gitlab.com/ce/api/users.html#revoke-an-impersonation-token
 func (s *UsersService) RevokeImpersonationToken(uid int, itid int, options ...OptionFunc) (*Response, error) {
 	u := fmt.Sprintf("users/%d/impersonation_tokens/%d", uid, itid)
 
