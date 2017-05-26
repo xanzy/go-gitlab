@@ -588,11 +588,11 @@ func (s *UsersService) DeleteEmailForUser(uid int, eid int, options ...OptionFun
 // GitLab API docs: https://docs.gitlab.com/ce/api/users.html#get-all-impersonation-tokens-of-a-user
 type ImpersonationToken struct {
 	ID        int        `json:"id"`
-	Active    bool      `json:"active"`
-	Token     string    `json:"token"`
-	Scopes    []string  `json:"scopes"`
-	Revoked   bool      `json:"revoked"`
-	Name      string    `json:"name"`
+	Active    bool       `json:"active"`
+	Token     string     `json:"token"`
+	Scopes    []string   `json:"scopes"`
+	Revoked   bool       `json:"revoked"`
+	Name      string     `json:"name"`
 	CreatedAt *time.Time `json:"created_at"`
 	ExpiresAt *time.Time `json:"expires_at"`
 }
@@ -600,7 +600,7 @@ type ImpersonationToken struct {
 // GetAllImpersonationTokensOptions represents the available GetAllImpersonationTokens() options.
 //
 // GitLab API docs:
-// https://gitlab.com/gitlab-org/gitlab-ce/blob/9-0-stable/doc/api/users.md#get-all-impersonation-tokens-of-a-user
+// https://docs.gitlab.com/ce/api/users.html#get-all-impersonation-tokens-of-a-user
 type GetAllImpersonationTokensOptions struct {
 	State *string `url:"state,omitempty" json:"state,omitempty"`
 }
@@ -609,8 +609,8 @@ type GetAllImpersonationTokensOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/users.html#get-all-impersonation-tokens-of-a-user
-func (s *UsersService) GetAllImpersonationTokens(uid int, opt *GetAllImpersonationTokensOptions, options ...OptionFunc) ([]*ImpersonationToken, *Response, error) {
-	u := fmt.Sprintf("users/%d/impersonation_tokens", uid)
+func (s *UsersService) GetAllImpersonationTokens(user int, opt *GetAllImpersonationTokensOptions, options ...OptionFunc) ([]*ImpersonationToken, *Response, error) {
+	u := fmt.Sprintf("users/%d/impersonation_tokens", user)
 
 	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
@@ -630,8 +630,8 @@ func (s *UsersService) GetAllImpersonationTokens(uid int, opt *GetAllImpersonati
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/users.html#get-an-impersonation-token-of-a-user
-func (s *UsersService) GetImpersonationToken(uid int, itid int, options ...OptionFunc) (*ImpersonationToken, *Response, error) {
-	u := fmt.Sprintf("users/%d/impersonation_tokens/%d", uid, itid)
+func (s *UsersService) GetImpersonationToken(user int, token int, options ...OptionFunc) (*ImpersonationToken, *Response, error) {
+	u := fmt.Sprintf("users/%d/impersonation_tokens/%d", user, token)
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
@@ -652,8 +652,8 @@ func (s *UsersService) GetImpersonationToken(uid int, itid int, options ...Optio
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/users.html#create-an-impersonation-token
 type CreateImpersonationTokenOptions struct {
-	Name      *string   `url:"name,omitempty" json:"name,omitempty"`
-	Scopes    *[]string `url:"scopes,omitempty" json:"scopes,omitempty"`
+	Name      *string    `url:"name,omitempty" json:"name,omitempty"`
+	Scopes    *[]string  `url:"scopes,omitempty" json:"scopes,omitempty"`
 	ExpiresAt *time.Time `url:"expires_at,omitempty" json:"expires_at,omitempty"`
 }
 
@@ -661,8 +661,8 @@ type CreateImpersonationTokenOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/users.html#create-an-impersonation-token
-func (s *UsersService) CreateImpersonationToken(uid int, opt *CreateImpersonationTokenOptions, options ...OptionFunc) (*ImpersonationToken, *Response, error) {
-	u := fmt.Sprintf("users/%d/impersonation_tokens", uid)
+func (s *UsersService) CreateImpersonationToken(user int, opt *CreateImpersonationTokenOptions, options ...OptionFunc) (*ImpersonationToken, *Response, error) {
+	u := fmt.Sprintf("users/%d/impersonation_tokens", user)
 
 	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
@@ -682,8 +682,8 @@ func (s *UsersService) CreateImpersonationToken(uid int, opt *CreateImpersonatio
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/users.html#revoke-an-impersonation-token
-func (s *UsersService) RevokeImpersonationToken(uid int, itid int, options ...OptionFunc) (*Response, error) {
-	u := fmt.Sprintf("users/%d/impersonation_tokens/%d", uid, itid)
+func (s *UsersService) RevokeImpersonationToken(user int, token int, options ...OptionFunc) (*Response, error) {
+	u := fmt.Sprintf("users/%d/impersonation_tokens/%d", user, token)
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {
