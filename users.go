@@ -588,11 +588,11 @@ func (s *UsersService) DeleteEmailForUser(uid int, eid int, options ...OptionFun
 // GitLab API docs: https://docs.gitlab.com/ce/api/users.html#get-all-impersonation-tokens-of-a-user
 type ImpersonationToken struct {
 	ID        int        `json:"id"`
-	Active    *bool      `json:"active"`
-	Token     *string    `json:"token"`
-	Scopes    *[]string  `json:"scopes"`
-	Revoked   *bool      `json:"revoked"`
-	Name      *string    `json:"name"`
+	Active    bool      `json:"active"`
+	Token     string    `json:"token"`
+	Scopes    []string  `json:"scopes"`
+	Revoked   bool      `json:"revoked"`
+	Name      string    `json:"name"`
 	CreatedAt *time.Time `json:"created_at"`
 	ExpiresAt *time.Time `json:"expires_at"`
 }
@@ -652,8 +652,8 @@ func (s *UsersService) GetImpersonationToken(uid int, itid int, options ...Optio
 // GitLab API docs:
 // https://gitlab.com/gitlab-org/gitlab-ce/blob/9-0-stable/doc/api/users.md#create-an-impersonation-token
 type CreateImpersonationTokenOptions struct {
-	Name      *string   `url:"name" json:"name"`
-	Scopes    *[]string `url:"scopes" json:"scopes"`
+	Name      *string   `url:"name,omitempty" json:"name,omitempty"`
+	Scopes    *[]string `url:"scopes,omitempty" json:"scopes,omitempty"`
 	ExpiresAt *time.Time `url:"expires_at,omitempty" json:"expires_at,omitempty"`
 }
 
