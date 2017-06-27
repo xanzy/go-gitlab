@@ -118,8 +118,8 @@ const (
 
 // CommitAction represents a single file action within a commit.
 type CommitAction struct {
-	Action       FileAction `url:"action" json:"action,omitempty"`
-	FilePath     string     `url:"file_path" json:"file_path,omitempty"`
+	Action       FileAction `url:"action" json:"action"`
+	FilePath     string     `url:"file_path" json:"file_path"`
 	PreviousPath string     `url:"previous_path,omitempty" json:"previous_path,omitempty"`
 	Content      string     `url:"content,omitempty" json:"content,omitempty"`
 	Encoding     string     `url:"encoding,omitempty" json:"encoding,omitempty"`
@@ -130,9 +130,9 @@ type CommitAction struct {
 // GitLab API docs:
 // https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/commits.md#create-a-commit-with-multiple-files-and-actions
 type CreateCommitOptions struct {
-	BranchName    *string         `url:"branch_name" json:"branch_name,omitempty"`
-	CommitMessage *string         `url:"commit_message" json:"commit_message,omitempty"`
-	Actions       []*CommitAction `url:"actions" json:"actions,omitempty"`
+	BranchName    *string         `url:"branch_name" json:"branch_name"`
+	CommitMessage *string         `url:"commit_message" json:"commit_message"`
+	Actions       []*CommitAction `url:"actions" json:"actions"`
 	AuthorEmail   *string         `url:"author_email,omitempty" json:"author_email,omitempty"`
 	AuthorName    *string         `url:"author_name,omitempty" json:"author_name,omitempty"`
 }

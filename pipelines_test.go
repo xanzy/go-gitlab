@@ -53,7 +53,6 @@ func TestCreatePipeline(t *testing.T) {
 
 	mux.HandleFunc("/projects/1/pipeline", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "POST")
-		testJSONBody(t, r, values{"ref": "master"})
 		fmt.Fprint(w, `{"id":1, "status":"pending"}`)
 	})
 

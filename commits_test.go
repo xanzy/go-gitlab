@@ -13,12 +13,6 @@ func TestGetCommitStatuses(t *testing.T) {
 
 	mux.HandleFunc("/projects/1/repository/commits/b0b3a907f41409829b307a28b82fdbd552ee5a27/statuses", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
-		testFormValues(t, r, values{
-			"ref":   "master",
-			"stage": "test",
-			"name":  "ci/jenkins",
-			"all":   "true",
-		})
 		fmt.Fprint(w, `[{"id":1}]`)
 	})
 
@@ -41,14 +35,6 @@ func TestSetCommitStatus(t *testing.T) {
 
 	mux.HandleFunc("/projects/1/statuses/b0b3a907f41409829b307a28b82fdbd552ee5a27", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "POST")
-		testJSONBody(t, r, values{
-			"state":       "running",
-			"context":     "",
-			"ref":         "master",
-			"name":        "ci/jenkins",
-			"target_url":  "http://abc",
-			"description": "build",
-		})
 		fmt.Fprint(w, `{"id":1}`)
 	})
 

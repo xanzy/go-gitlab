@@ -13,14 +13,9 @@ func TestSetDroneCIService(t *testing.T) {
 
 	mux.HandleFunc("/projects/1/services/drone-ci", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "PUT")
-		testJSONBody(t, r, values{
-			"token":                   "t",
-			"drone_url":               "u",
-			"enable_ssl_verification": "true",
-		})
 	})
 
-	opt := &SetDroneCIServiceOptions{String("t"), String("u"), String("true")}
+	opt := &SetDroneCIServiceOptions{String("t"), String("u"), Bool(true)}
 	_, err := client.Services.SetDroneCIService(1, opt)
 
 	if err != nil {
