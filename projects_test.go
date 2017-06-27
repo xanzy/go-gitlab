@@ -13,16 +13,6 @@ func TestListProjects(t *testing.T) {
 
 	mux.HandleFunc("/projects", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
-		testFormValues(t, r, values{
-			"page":       "2",
-			"per_page":   "3",
-			"archived":   "true",
-			"order_by":   "name",
-			"sort":       "asc",
-			"search":     "query",
-			"simple":     "true",
-			"visibility": "public",
-		})
 		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
 	})
 
@@ -53,17 +43,6 @@ func TestListOwnedProjects(t *testing.T) {
 
 	mux.HandleFunc("/projects", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
-		testFormValues(t, r, values{
-			"page":       "2",
-			"per_page":   "3",
-			"archived":   "true",
-			"order_by":   "name",
-			"sort":       "asc",
-			"search":     "query",
-			"simple":     "true",
-			"owned":      "true",
-			"visibility": "public",
-		})
 		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
 	})
 
@@ -95,17 +74,6 @@ func TestListStarredProjects(t *testing.T) {
 
 	mux.HandleFunc("/projects", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
-		testFormValues(t, r, values{
-			"page":       "2",
-			"per_page":   "3",
-			"archived":   "true",
-			"order_by":   "name",
-			"sort":       "asc",
-			"search":     "query",
-			"simple":     "true",
-			"starred":    "true",
-			"visibility": "public",
-		})
 		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
 	})
 
@@ -178,10 +146,6 @@ func TestCreateProject(t *testing.T) {
 
 	mux.HandleFunc("/projects", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "POST")
-		testJSONBody(t, r, values{
-			"name": "n",
-		})
-
 		fmt.Fprint(w, `{"id":1}`)
 	})
 

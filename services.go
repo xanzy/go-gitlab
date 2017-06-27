@@ -150,7 +150,7 @@ func (s *ServicesService) DeleteHipChatService(pid interface{}, options ...Optio
 type SetDroneCIServiceOptions struct {
 	Token                 *string `url:"token" json:"token" `
 	DroneURL              *string `url:"drone_url" json:"drone_url"`
-	EnableSSLVerification *string `url:"enable_ssl_verification,omitempty" json:"enable_ssl_verification,omitempty"`
+	EnableSSLVerification *bool   `url:"enable_ssl_verification,omitempty" json:"enable_ssl_verification,omitempty"`
 }
 
 // SetDroneCIService sets Drone CI service for a project.
@@ -195,7 +195,7 @@ func (s *ServicesService) DeleteDroneCIService(pid interface{}, options ...Optio
 type DroneCIServiceProperties struct {
 	Token                 *string `url:"token" json:"token"`
 	DroneURL              *string `url:"drone_url" json:"drone_url"`
-	EnableSSLVerification *string `url:"enable_ssl_verification" json:"enable_ssl_verification"`
+	EnableSSLVerification *bool   `url:"enable_ssl_verification" json:"enable_ssl_verification"`
 }
 
 // DroneCIService represents Drone CI service settings.
