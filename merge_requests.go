@@ -111,6 +111,7 @@ type ListMergeRequestsOptions struct {
 	State   *string `url:"state,omitempty" json:"state,omitempty"`
 	OrderBy *string `url:"order_by,omitempty" json:"order_by,omitempty"`
 	Sort    *string `url:"sort,omitempty" json:"sort,omitempty"`
+	Search  *string `url:"search,omitempty" json:"search,omitempty"`
 }
 
 // ListMergeRequests gets all merge requests for this project. The state
