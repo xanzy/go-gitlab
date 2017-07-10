@@ -162,6 +162,7 @@ type ListProjectIssuesOptions struct {
 	Milestone *string `url:"milestone,omitempty" json:"milestone,omitempty"`
 	OrderBy   *string `url:"order_by,omitempty" json:"order_by,omitempty"`
 	Sort      *string `url:"sort,omitempty" json:"sort,omitempty"`
+	Search    *string `url:"search,omitempty" json:"search,omitempty"`
 }
 
 // ListProjectIssues gets a list of project issues. This function accepts
