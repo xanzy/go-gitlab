@@ -37,10 +37,9 @@ func repositoryFileExample() {
 	}
 
 	gf := &gitlab.GetFileOptions{
-		FilePath: gitlab.String(file.FilePath),
-		Ref:      gitlab.String("master"),
+		Ref: gitlab.String("master"),
 	}
-	f, _, err := git.RepositoryFiles.GetFile("myname/myproject", gf)
+	f, _, err := git.RepositoryFiles.GetFile("myname/myproject", file.FilePath, gf)
 	if err != nil {
 		log.Fatal(err)
 	}
