@@ -16,6 +16,6 @@ func pipelineExample() {
 	}
 
 	for _, pipeline := range pipelines {
-		log.Printf("Found pipeline: %s", pipeline)
+		log.Printf("Found pipeline: %v", pipeline)
 	}
 }

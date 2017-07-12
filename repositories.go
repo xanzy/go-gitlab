@@ -80,26 +80,18 @@ func (s *RepositoriesService) ListTree(pid interface{}, opt *ListTreeOptions, op
 	return t, resp, err
 }
 
-// RawFileContentOptions represents the available RawFileContent() options.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ce/api/repositories.html#raw-file-content
-type RawFileContentOptions struct {
-	FilePath *string `url:"filepath,omitempty" json:"filepath,omitempty"`
-}
-
 // RawFileContent gets the raw file contents for a file by commit SHA and path
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/repositories.html#raw-file-content
-func (s *RepositoriesService) RawFileContent(pid interface{}, sha string, opt *RawFileContentOptions, options ...OptionFunc) ([]byte, *Response, error) {
+func (s *RepositoriesService) RawFileContent(pid interface{}, sha string, options ...OptionFunc) ([]byte, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/repository/blobs/%s", url.QueryEscape(project), sha)
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -122,7 +114,7 @@ func (s *RepositoriesService) RawBlobContent(pid interface{}, sha string, option
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/repository/raw_blobs/%s", url.QueryEscape(project), sha)
+	u := fmt.Sprintf("projects/%s/repository/blobs/%s/raw", url.QueryEscape(project), sha)
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
