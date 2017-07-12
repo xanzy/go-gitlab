@@ -52,8 +52,7 @@ func (r File) String() string {
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/repository_files.html#get-file-from-respository
 type GetFileOptions struct {
-	FilePath *string `url:"file_path,omitempty" json:"file_path,omitempty"`
-	Ref      *string `url:"ref,omitempty" json:"ref,omitempty"`
+	Ref *string `url:"ref,omitempty" json:"ref,omitempty"`
 }
 
 // GetFile allows you to receive information about a file in repository like
@@ -61,12 +60,12 @@ type GetFileOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/repository_files.html#get-file-from-respository
-func (s *RepositoryFilesService) GetFile(pid interface{}, opt *GetFileOptions, options ...OptionFunc) (*File, *Response, error) {
+func (s *RepositoryFilesService) GetFile(pid interface{}, fileName string, opt *GetFileOptions, options ...OptionFunc) (*File, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/repository/files", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/repository/files/%s", url.QueryEscape(project), url.QueryEscape(fileName))
 
 	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
