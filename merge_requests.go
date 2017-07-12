@@ -333,3 +333,128 @@ func (s *MergeRequestsService) AcceptMergeRequest(pid interface{}, mergeRequest 
 
 	return m, resp, err
 }
+
+// SetTimeEstimate sets the time estimate for a single project merge request.
+//
+// GitLab API docs:
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/merge_requests.md#set-a-time-estimate-for-a-merge-request
+func (s *MergeRequestsService) SetTimeEstimate(pid interface{}, mergeRequest int, opt *SetTimeEstimateOptions, options ...OptionFunc) (*TimeStats, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/time_estimate", url.QueryEscape(project), mergeRequest)
+
+	req, err := s.client.NewRequest("POST", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	t := new(TimeStats)
+	resp, err := s.client.Do(req, t)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return t, resp, err
+}
+
+// ResetTimeEstimate resets the time estimate for a single project merge request.
+//
+// GitLab API docs:
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/merge_requests.md#reset-the-time-estimate-for-a-merge-request
+func (s *MergeRequestsService) ResetTimeEstimate(pid interface{}, mergeRequest int, options ...OptionFunc) (*TimeStats, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/reset_time_estimate", url.QueryEscape(project), mergeRequest)
+
+	req, err := s.client.NewRequest("POST", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	t := new(TimeStats)
+	resp, err := s.client.Do(req, t)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return t, resp, err
+}
+
+// AddSpentTime adds spent time for a single project merge request.
+//
+// GitLab API docs:
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/merge_requests.md#add-spent-time-for-a-merge-request
+func (s *MergeRequestsService) AddSpentTime(pid interface{}, mergeRequest int, opt *AddSpentTimeOptions, options ...OptionFunc) (*TimeStats, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/add_spent_time", url.QueryEscape(project), mergeRequest)
+
+	req, err := s.client.NewRequest("POST", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	t := new(TimeStats)
+	resp, err := s.client.Do(req, t)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return t, resp, err
+}
+
+// ResetSpentTime resets the spent time for a single project merge request.
+//
+// GitLab API docs:
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/merge_requests.md#reset-spent-time-for-a-merge-request
+func (s *MergeRequestsService) ResetSpentTime(pid interface{}, mergeRequest int, options ...OptionFunc) (*TimeStats, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/reset_spent_time", url.QueryEscape(project), mergeRequest)
+
+	req, err := s.client.NewRequest("POST", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	t := new(TimeStats)
+	resp, err := s.client.Do(req, t)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return t, resp, err
+}
+
+// GetTimeSpent gets the spent time for a single project merge request.
+//
+// GitLab API docs:
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/merge_requests.md#get-time-tracking-stats
+func (s *MergeRequestsService) GetTimeSpent(pid interface{}, mergeRequest int, options ...OptionFunc) (*TimeStats, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/time_stats", url.QueryEscape(project), mergeRequest)
+
+	req, err := s.client.NewRequest("GET", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	t := new(TimeStats)
+	resp, err := s.client.Do(req, t)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return t, resp, err
+}
