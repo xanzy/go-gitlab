@@ -79,6 +79,7 @@ type MergeRequest struct {
 	} `json:"milestone"`
 	MergeWhenBuildSucceeds  bool   `json:"merge_when_build_succeeds"`
 	MergeStatus             string `json:"merge_status"`
+	SHA                     string `json:"sha"`
 	Subscribed              bool   `json:"subscribed"`
 	UserNotesCount          int    `json:"user_notes_count"`
 	SouldRemoveSourceBranch bool   `json:"should_remove_source_branch"`
