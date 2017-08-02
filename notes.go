@@ -95,7 +95,7 @@ func (s *NotesService) ListIssueNotes(pid interface{}, issue int, opt *ListIssue
 //
 // GitLab API docs:
 // https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/notes.md#get-single-issue-note
-func (s *NotesService) GetIssueNote(pid interface{}, issue int, note int, options ...OptionFunc) (*Note, *Response, error) {
+func (s *NotesService) GetIssueNote(pid interface{}, issue, note int, options ...OptionFunc) (*Note, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -162,7 +162,7 @@ type UpdateIssueNoteOptions struct {
 // UpdateIssueNote modifies existing note of an issue.
 //
 // https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/notes.md#modify-existing-issue-note
-func (s *NotesService) UpdateIssueNote(pid interface{}, issue int, note int, opt *UpdateIssueNoteOptions, options ...OptionFunc) (*Note, *Response, error) {
+func (s *NotesService) UpdateIssueNote(pid interface{}, issue, note int, opt *UpdateIssueNoteOptions, options ...OptionFunc) (*Note, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -181,6 +181,24 @@ func (s *NotesService) UpdateIssueNote(pid interface{}, issue int, note int, opt
 	}
 
 	return n, resp, err
+}
+
+// DeleteIssueNote deletes an existing note of an issue.
+//
+// https://docs.gitlab.com/ce/api/notes.html#delete-an-issue-note
+func (s *NotesService) DeleteIssueNote(pid interface{}, issue, note int, options ...OptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/issues/%d/notes/%d", url.QueryEscape(project), issue, note)
+
+	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
 }
 
 // ListSnippetNotes gets a list of all notes for a single snippet. Snippet
@@ -213,7 +231,7 @@ func (s *NotesService) ListSnippetNotes(pid interface{}, snippet int, options ..
 //
 // GitLab API docs:
 // https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/notes.md#get-single-snippet-note
-func (s *NotesService) GetSnippetNote(pid interface{}, snippet int, note int, options ...OptionFunc) (*Note, *Response, error) {
+func (s *NotesService) GetSnippetNote(pid interface{}, snippet, note int, options ...OptionFunc) (*Note, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -281,7 +299,7 @@ type UpdateSnippetNoteOptions struct {
 // UpdateSnippetNote modifies existing note of a snippet.
 //
 // https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/notes.md#modify-existing-snippet-note
-func (s *NotesService) UpdateSnippetNote(pid interface{}, snippet int, note int, opt *UpdateSnippetNoteOptions, options ...OptionFunc) (*Note, *Response, error) {
+func (s *NotesService) UpdateSnippetNote(pid interface{}, snippet, note int, opt *UpdateSnippetNoteOptions, options ...OptionFunc) (*Note, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -300,6 +318,24 @@ func (s *NotesService) UpdateSnippetNote(pid interface{}, snippet int, note int,
 	}
 
 	return n, resp, err
+}
+
+// DeleteSnippetNote deletes an existing note of a snippet.
+//
+// https://docs.gitlab.com/ce/api/notes.html#delete-a-snippet-note
+func (s *NotesService) DeleteSnippetNote(pid interface{}, snippet, note int, options ...OptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/snippets/%d/notes/%d", url.QueryEscape(project), snippet, note)
+
+	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
 }
 
 // ListMergeRequestNotes gets a list of all notes for a single merge request.
@@ -331,7 +367,7 @@ func (s *NotesService) ListMergeRequestNotes(pid interface{}, mergeRequest int, 
 //
 // GitLab API docs:
 // https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/notes.md#get-single-merge-request-note
-func (s *NotesService) GetMergeRequestNote(pid interface{}, mergeRequest int, note int, options ...OptionFunc) (*Note, *Response, error) {
+func (s *NotesService) GetMergeRequestNote(pid interface{}, mergeRequest, note int, options ...OptionFunc) (*Note, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -398,7 +434,7 @@ type UpdateMergeRequestNoteOptions struct {
 // UpdateMergeRequestNote modifies existing note of a merge request.
 //
 // https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/notes.md#modify-existing-merge-request-note
-func (s *NotesService) UpdateMergeRequestNote(pid interface{}, mergeRequest int, note int, opt *UpdateMergeRequestNoteOptions, options ...OptionFunc) (*Note, *Response, error) {
+func (s *NotesService) UpdateMergeRequestNote(pid interface{}, mergeRequest, note int, opt *UpdateMergeRequestNoteOptions, options ...OptionFunc) (*Note, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -417,4 +453,23 @@ func (s *NotesService) UpdateMergeRequestNote(pid interface{}, mergeRequest int,
 	}
 
 	return n, resp, err
+}
+
+// DeleteMergeRequestNote deletes an existing note of a merge request.
+//
+// https://docs.gitlab.com/ce/api/notes.html#delete-a-merge-request-note
+func (s *NotesService) DeleteMergeRequestNote(pid interface{}, mergeRequest, note int, options ...OptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf(
+		"projects/%s/merge_requests/%d/notes/%d", url.QueryEscape(project), mergeRequest, note)
+
+	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
 }
