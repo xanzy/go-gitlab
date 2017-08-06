@@ -47,6 +47,9 @@ type Note struct {
 		State     string     `json:"state"`
 		CreatedAt *time.Time `json:"created_at"`
 	} `json:"author"`
+	System    bool       `json:"system"`
+	Upvote    bool       `json:"upvote"`
+	Downvote  bool       `json:"downvote"`
 	ExpiresAt *time.Time `json:"expires_at"`
 	UpdatedAt *time.Time `json:"updated_at"`
 	CreatedAt *time.Time `json:"created_at"`
