@@ -44,20 +44,20 @@ type Issue struct {
 	Labels      []string   `json:"labels"`
 	Milestone   *Milestone `json:"milestone"`
 	Assignee    struct {
-		ID        int        `json:"id"`
-		Username  string     `json:"username"`
-		Email     string     `json:"email"`
-		Name      string     `json:"name"`
-		State     string     `json:"state"`
-		CreatedAt *time.Time `json:"created_at"`
+		ID        int    `json:"id"`
+		Username  string `json:"username"`
+		AvatarURL string `json:"avatar_url,omitempty"`
+		WebURL    string `json:"web_url"`
+		Name      string `json:"name"`
+		State     string `json:"state"`
 	} `json:"assignee"`
 	Author struct {
-		ID        int        `json:"id"`
-		Username  string     `json:"username"`
-		Email     string     `json:"email"`
-		Name      string     `json:"name"`
-		State     string     `json:"state"`
-		CreatedAt *time.Time `json:"created_at"`
+		ID        int    `json:"id"`
+		Username  string `json:"username"`
+		AvatarURL string `json:"avatar_url,omitempty"`
+		WebURL    string `json:"web_url"`
+		Name      string `json:"name"`
+		State     string `json:"state"`
 	} `json:"author"`
 	State          string     `json:"state"`
 	UpdatedAt      *time.Time `json:"updated_at"`
@@ -301,4 +301,101 @@ func (s *IssuesService) DeleteIssue(pid interface{}, issue int, options ...Optio
 	}
 
 	return s.client.Do(req, nil)
+}
+
+// MoveIssueOptions represents the available MoveIssue() options.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/issues.html#move-an-issue
+type MoveIssueOptions struct {
+	ID          *int `url:"id" json:"id"`
+	IssueIID    *int `url:"issue_iid" json:"issue_iid"`
+	ToProjectID *int `url:"to_project_id" json:"to_project_id"`
+}
+
+// MoveIssue moves an issue to a different project
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/issues.html#move-an-issue
+func (s *IssuesService) MoveIssue(pid interface{}, issueIID int, opt *MoveIssueOptions, options ...OptionFunc) (*Issue, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	u := fmt.Sprintf("projects/%s/issues/%d/move", url.QueryEscape(project), issueIID)
+	req, err := s.client.NewRequest("POST", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	i := new(Issue)
+	resp, err := s.client.Do(req, i)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return i, resp, err
+}
+
+// SubscribeIssueOptions represents the available SubscribeIssue() options.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/issues.html#subscribe-to-an-issue
+type SubscribeIssueOptions struct {
+	ID       *int `url:"id" json:"id"`
+	IssueIID *int `url:"issue_iid" json:"issue_iid"`
+}
+
+// SubscribeIssue subscribe the authenticated user to an issue to receive notifications.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/issues.html#subscribe-to-an-issue
+func (s *IssuesService) SubscribeIssue(pid interface{}, issueIID int, opt *SubscribeIssueOptions, options ...OptionFunc) (*Issue, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	u := fmt.Sprintf("projects/%s/issues/%d/subscribe", url.QueryEscape(project), issueIID)
+	req, err := s.client.NewRequest("POST", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	i := new(Issue)
+	resp, err := s.client.Do(req, i)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return i, resp, err
+}
+
+// UnsubscribeIssueOptions represents the available UnsubscribeIssue() options.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/issues.html#unsubscribe-from-an-issue
+type UnsubscribeIssueOptions struct {
+	ID       *int `url:"id" json:"id"`
+	IssueIID *int `url:"issue_iid" json:"issue_iid"`
+}
+
+// UnsubscribeIssue unsubscribes the authenticated user from the issue to not receive notifications from it.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/issues.html#unsubscribe-from-an-issue
+func (s *IssuesService) UnsubscribeIssue(pid interface{}, issueIID int, opt *UnsubscribeIssueOptions, options ...OptionFunc) (*Issue, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	u := fmt.Sprintf("projects/%s/issues/%d/unsubscribe", url.QueryEscape(project), issueIID)
+	req, err := s.client.NewRequest("POST", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	i := new(Issue)
+	resp, err := s.client.Do(req, i)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return i, resp, err
 }
