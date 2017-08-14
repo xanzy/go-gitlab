@@ -265,8 +265,10 @@ func (s *MergeRequestsService) CreateMergeRequest(pid interface{}, opt *CreateMe
 type UpdateMergeRequestOptions struct {
 	Title        *string `url:"title,omitempty" json:"title,omitempty"`
 	Description  *string `url:"description,omitempty" json:"description,omitempty"`
-	TargetBranch *string `url:"target_branch,omitemtpy" json:"target_branch,omitemtpy"`
 	AssigneeID   *int    `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
+	MilestoneID  *int    `url:"milestone_id,omitempty" json:"milestone_id,omitempty"`
+	Labels       Labels  `url:"labels,comma,omitempty" json:"labels,omitempty"`
+	TargetBranch *string `url:"target_branch,omitemtpy" json:"target_branch,omitemtpy"`
 	StateEvent   *string `url:"state_event,omitempty" json:"state_event,omitempty"`
 }
 

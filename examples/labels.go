@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	"github.com/xanzy/go-gitlab"
+	"github.com/skilld-labs/go-gitlab"
 )
 
 func labelExample() {
