@@ -114,6 +114,7 @@ type CreateGroupOptions struct {
 	LFSEnabled           *bool                 `url:"lfs_enabled,omitempty" json:"lfs_enabled,omitempty"`
 	RequestAccessEnabled *bool                 `url:"request_access_enabled,omitempty" json:"request_access_enabled,omitempty"`
 	VisibilityLevel      *VisibilityLevelValue `url:"visibility_level,omitempty" json:"visibility_level,omitempty"`
+	ParentID             *int                  `url:"parent_id,omitempty" json:"parent_id,omitempty"`
 }
 
 // CreateGroup creates a new project group. Available only for users who can
