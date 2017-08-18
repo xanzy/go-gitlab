@@ -4,7 +4,7 @@ import (
 	"encoding/base64"
 	"log"
 
-	"github.com/xanzy/go-gitlab"
+	"github.com/skilld-labs/go-gitlab"
 )
 
 func repositoryFileExample() {

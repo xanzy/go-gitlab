@@ -100,28 +100,29 @@ func (m MergeRequest) String() string {
 	return Stringify(m)
 }
 
-// ListMergeRequestsOptions represents the available ListMergeRequests()
+// ListProjectMergeRequestsOptions represents the available ListProjectMergeRequests()
 // options.
 //
 // GitLab API docs:
 // https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/merge_requests.md#list-merge-requests
-type ListMergeRequestsOptions struct {
+type ListProjectMergeRequestsOptions struct {
 	ListOptions
 	IID     *int    `url:"iid,omitempty" json:"iid,omitempty"`
 	State   *string `url:"state,omitempty" json:"state,omitempty"`
 	OrderBy *string `url:"order_by,omitempty" json:"order_by,omitempty"`
 	Sort    *string `url:"sort,omitempty" json:"sort,omitempty"`
 	Search  *string `url:"search,omitempty" json:"search,omitempty"`
+	Labels  Labels  `url:"labels,comma,omitempty" json:"labels,omitempty"`
 }
 
-// ListMergeRequests gets all merge requests for this project. The state
+// ListProjectMergeRequests gets all merge requests for this project. The state
 // parameter can be used to get only merge requests with a given state (opened,
 // closed, or merged) or all of them (all). The pagination parameters page and
 // per_page can be used to restrict the list of merge requests.
 //
 // GitLab API docs:
 // https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/merge_requests.md#list-merge-requests
-func (s *MergeRequestsService) ListMergeRequests(pid interface{}, opt *ListMergeRequestsOptions, options ...OptionFunc) ([]*MergeRequest, *Response, error) {
+func (s *MergeRequestsService) ListProjectMergeRequests(pid interface{}, opt *ListProjectMergeRequestsOptions, options ...OptionFunc) ([]*MergeRequest, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -269,7 +270,6 @@ type UpdateMergeRequestOptions struct {
 	MilestoneID  *int    `url:"milestone_id,omitempty" json:"milestone_id,omitempty"`
 	Labels       Labels  `url:"labels,comma,omitempty" json:"labels,omitempty"`
 	TargetBranch *string `url:"target_branch,omitemtpy" json:"target_branch,omitemtpy"`
-	AssigneeID   *int    `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
 	StateEvent   *string `url:"state_event,omitempty" json:"state_event,omitempty"`
 }
 
@@ -336,4 +336,129 @@ func (s *MergeRequestsService) AcceptMergeRequest(pid interface{}, mergeRequest 
 	}
 
 	return m, resp, err
+}
+
+// SetTimeEstimate sets the time estimate for a single project merge request.
+//
+// GitLab API docs:
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/merge_requests.md#set-a-time-estimate-for-a-merge-request
+func (s *MergeRequestsService) SetTimeEstimate(pid interface{}, mergeRequest int, opt *SetTimeEstimateOptions, options ...OptionFunc) (*TimeStats, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/time_estimate", url.QueryEscape(project), mergeRequest)
+
+	req, err := s.client.NewRequest("POST", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	t := new(TimeStats)
+	resp, err := s.client.Do(req, t)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return t, resp, err
+}
+
+// ResetTimeEstimate resets the time estimate for a single project merge request.
+//
+// GitLab API docs:
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/merge_requests.md#reset-the-time-estimate-for-a-merge-request
+func (s *MergeRequestsService) ResetTimeEstimate(pid interface{}, mergeRequest int, options ...OptionFunc) (*TimeStats, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/reset_time_estimate", url.QueryEscape(project), mergeRequest)
+
+	req, err := s.client.NewRequest("POST", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	t := new(TimeStats)
+	resp, err := s.client.Do(req, t)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return t, resp, err
+}
+
+// AddSpentTime adds spent time for a single project merge request.
+//
+// GitLab API docs:
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/merge_requests.md#add-spent-time-for-a-merge-request
+func (s *MergeRequestsService) AddSpentTime(pid interface{}, mergeRequest int, opt *AddSpentTimeOptions, options ...OptionFunc) (*TimeStats, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/add_spent_time", url.QueryEscape(project), mergeRequest)
+
+	req, err := s.client.NewRequest("POST", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	t := new(TimeStats)
+	resp, err := s.client.Do(req, t)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return t, resp, err
+}
+
+// ResetSpentTime resets the spent time for a single project merge request.
+//
+// GitLab API docs:
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/merge_requests.md#reset-spent-time-for-a-merge-request
+func (s *MergeRequestsService) ResetSpentTime(pid interface{}, mergeRequest int, options ...OptionFunc) (*TimeStats, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/reset_spent_time", url.QueryEscape(project), mergeRequest)
+
+	req, err := s.client.NewRequest("POST", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	t := new(TimeStats)
+	resp, err := s.client.Do(req, t)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return t, resp, err
+}
+
+// GetTimeSpent gets the spent time for a single project merge request.
+//
+// GitLab API docs:
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/merge_requests.md#get-time-tracking-stats
+func (s *MergeRequestsService) GetTimeSpent(pid interface{}, mergeRequest int, options ...OptionFunc) (*TimeStats, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/time_stats", url.QueryEscape(project), mergeRequest)
+
+	req, err := s.client.NewRequest("GET", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	t := new(TimeStats)
+	resp, err := s.client.Do(req, t)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return t, resp, err
 }
