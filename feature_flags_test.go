@@ -48,3 +48,45 @@ func TestListFeatureFlags(t *testing.T) {
 		t.Errorf("Features.ListFeatures returned %+v, want %+v", features, want)
 	}
 }
+
+func TestSetFeatureFlag(t *testing.T) {
+	mux, server, client := setup()
+	defer teardown(server)
+
+	mux.HandleFunc("/features/new_library", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "POST")
+		fmt.Fprint(w, `
+		{
+			"name": "new_library",
+			"state": "conditional",
+			"gates": [
+			  {
+				"key": "boolean",
+				"value": false
+			  },
+			  {
+				"key": "percentage_of_time",
+				"value": 30
+			  }
+			]
+		  }
+		`)
+	})
+
+	feature, _, err := client.Features.SetFeatureFlag("new_library", "percentage_of_time", "30")
+	if err != nil {
+		t.Errorf("Features.SetFeatureFlag returned error: %v", err)
+	}
+
+	want := &Feature{
+		Name:  "new_library",
+		State: "conditional",
+		Gates: []Gate{
+			{Key: "boolean", Value: false},
+			{Key: "percentage_of_time", Value: 30.0},
+		},
+	}
+	if !reflect.DeepEqual(want, feature) {
+		t.Errorf("Features.SetFeatureFlag returned %+v, want %+v", feature, want)
+	}
+}
