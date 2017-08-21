@@ -100,6 +100,49 @@ func (m MergeRequest) String() string {
 	return Stringify(m)
 }
 
+// ListMergeRequestsOptions represents the available ListProjectMergeRequests()
+// options.
+//
+// GitLab API docs:
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/merge_requests.md#list-merge-requests
+type ListMergeRequestsOptions struct {
+	ListOptions
+	IID     *int    `url:"iid,omitempty" json:"iid,omitempty"`
+	State   *string `url:"state,omitempty" json:"state,omitempty"`
+	OrderBy *string `url:"order_by,omitempty" json:"order_by,omitempty"`
+	Sort    *string `url:"sort,omitempty" json:"sort,omitempty"`
+	Search  *string `url:"search,omitempty" json:"search,omitempty"`
+	Labels  Labels  `url:"labels,comma,omitempty" json:"labels,omitempty"`
+}
+
+// ListMergeRequests gets all merge requests for this project. The state
+// parameter can be used to get only merge requests with a given state (opened,
+// closed, or merged) or all of them (all). The pagination parameters page and
+// per_page can be used to restrict the list of merge requests.
+//
+// GitLab API docs:
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/merge_requests.md#list-merge-requests
+func (s *MergeRequestsService) ListMergeRequests(pid interface{}, opt *ListMergeRequestsOptions, options ...OptionFunc) ([]*MergeRequest, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/merge_requests", url.QueryEscape(project))
+
+	req, err := s.client.NewRequest("GET", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var m []*MergeRequest
+	resp, err := s.client.Do(req, &m)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return m, resp, err
+}
+
 // ListProjectMergeRequestsOptions represents the available ListProjectMergeRequests()
 // options.
 //
