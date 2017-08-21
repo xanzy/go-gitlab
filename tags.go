@@ -38,6 +38,7 @@ type Tag struct {
 	Commit  *Commit `json:"commit"`
 	Name    string  `json:"name"`
 	Message string  `json:"message"`
+	ReleaseDescription string `json:"release_description"`
 }
 
 func (r Tag) String() string {
@@ -104,6 +105,7 @@ type CreateTagOptions struct {
 	TagName *string `url:"tag_name,omitempty" json:"tag_name,omitempty"`
 	Ref     *string `url:"ref,omitempty" json:"ref,omitempty"`
 	Message *string `url:"message,omitempty" json:"message,omitempty"`
+	ReleaseDescription *string `url:"release_description:omitempty" json:"release_description,omitempty"`
 }
 
 // CreateTag creates a new tag in the repository that points to the supplied ref.
