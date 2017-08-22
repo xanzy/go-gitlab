@@ -73,7 +73,7 @@ func TestSetFeatureFlag(t *testing.T) {
 		`)
 	})
 
-	feature, _, err := client.Features.SetFeatureFlag("new_library", "percentage_of_time", "30")
+	feature, _, err := client.Features.SetFeatureFlag("new_library", "30")
 	if err != nil {
 		t.Errorf("Features.SetFeatureFlag returned error: %v", err)
 	}
