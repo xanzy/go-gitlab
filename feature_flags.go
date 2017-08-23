@@ -8,16 +8,14 @@ import (
 // FeaturesService handles the communication with the application FeaturesService
 // related methods of the GitLab API.
 //
-// GitLab API docs:
-// https://docs.gitlab.com/ce/api/features.html
+// GitLab API docs: https://docs.gitlab.com/ce/api/features.html
 type FeaturesService struct {
 	client *Client
 }
 
 // Feature represents a GitLab feature flag.
 //
-// GitLab API docs:
-// https://docs.gitlab.com/ce/api/features.html
+// GitLab API docs: https://docs.gitlab.com/ce/api/features.html
 type Feature struct {
 	Name  string `json:"name"`
 	State string `json:"state"`
@@ -26,8 +24,7 @@ type Feature struct {
 
 // Gate represents a gate of a GitLab feature flag.
 //
-// GitLab API docs:
-// https://docs.gitlab.com/ce/api/features.html
+// GitLab API docs: https://docs.gitlab.com/ce/api/features.html
 type Gate struct {
 	Key   string      `json:"key"`
 	Value interface{} `json:"value"`
@@ -40,7 +37,7 @@ func (f Feature) String() string {
 // ListFeatures gets a list of feature flags
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/features.html
+// https://docs.gitlab.com/ce/api/features.html#list-all-features
 func (s *FeaturesService) ListFeatures(options ...OptionFunc) ([]*Feature, *Response, error) {
 	req, err := s.client.NewRequest("GET", "features", nil, options)
 	if err != nil {
@@ -58,7 +55,7 @@ func (s *FeaturesService) ListFeatures(options ...OptionFunc) ([]*Feature, *Resp
 // SetFeatureFlag sets or creates a feature flag gate
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/features.html
+// https://docs.gitlab.com/ce/api/features.html#set-or-create-a-feature
 func (s *FeaturesService) SetFeatureFlag(name string, value interface{}, options ...OptionFunc) (*Feature, *Response, error) {
 	u := fmt.Sprintf("features/%s", url.QueryEscape(name))
 
