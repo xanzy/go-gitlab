@@ -165,6 +165,7 @@ type Client struct {
 	BuildVariables       *BuildVariablesService
 	Commits              *CommitsService
 	DeployKeys           *DeployKeysService
+	Features             *FeaturesService
 	Groups               *GroupsService
 	Issues               *IssuesService
 	Jobs                 *JobsService
@@ -230,6 +231,7 @@ func newClient(httpClient *http.Client, tokenType tokenType, token string) *Clie
 	c.BuildVariables = &BuildVariablesService{client: c}
 	c.Commits = &CommitsService{client: c}
 	c.DeployKeys = &DeployKeysService{client: c}
+	c.Features = &FeaturesService{client: c}
 	c.Groups = &GroupsService{client: c}
 	c.Issues = &IssuesService{client: c}
 	c.Jobs = &JobsService{client: c}
