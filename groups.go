@@ -112,9 +112,9 @@ type CreateGroupOptions struct {
 	Name                 *string          `url:"name,omitempty" json:"name,omitempty"`
 	Path                 *string          `url:"path,omitempty" json:"path,omitempty"`
 	Description          *string          `url:"description,omitempty" json:"description,omitempty"`
+	Visibility           *VisibilityValue `url:"visibility,omitempty" json:"visibility,omitempty"`
 	LFSEnabled           *bool            `url:"lfs_enabled,omitempty" json:"lfs_enabled,omitempty"`
 	RequestAccessEnabled *bool            `url:"request_access_enabled,omitempty" json:"request_access_enabled,omitempty"`
-	Visibility           *VisibilityValue `url:"visibility,omitempty" json:"visibility,omitempty"`
 	ParentID             *int             `url:"parent_id,omitempty" json:"parent_id,omitempty"`
 }
 
