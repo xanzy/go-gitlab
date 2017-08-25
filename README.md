@@ -7,10 +7,9 @@ A GitLab API client enabling Go programs to interact with GitLab in a simple and
 
 ## NOTE
 
-Support for the V4 API (which contains some backwards incompatible changes) is being worked on in the `f-api-v4` branch. So please use that branch if you need features specific to the V4 API. I hope to get some time/support on short term to be able to fix the work in that branch and merge it into master (progress and things left to do can be followed [here](https://github.com/xanzy/go-gitlab/issues/151)).
-
-Release v0.5.0 (released on 22-03-2017) no longer supports Go versions older
-then 1.7.x If you want (or need) to use an older Go version please use v0.4.1
+This branch contains the last version that fully supports the V3 Gitlab API. There will be
+no active maintenance on this branch other then bugfixes. Please use `master` to get the
+latest version supporting the V4 API.
 
 ## Coverage
 
