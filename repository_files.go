@@ -118,8 +118,8 @@ func (s *RepositoryFilesService) GetRawFile(pid interface{}, fileName string, op
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/repository_files.html
 type FileInfo struct {
-	FilePath   string `json:"file_path"`
-	BranchName string `json:"branch_name"`
+	FilePath string `json:"file_path"`
+	Branch   string `json:"branch"`
 }
 
 func (r FileInfo) String() string {
