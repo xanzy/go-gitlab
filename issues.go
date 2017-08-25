@@ -162,6 +162,7 @@ type ListProjectIssuesOptions struct {
 	Milestone *string `url:"milestone,omitempty" json:"milestone,omitempty"`
 	OrderBy   *string `url:"order_by,omitempty" json:"order_by,omitempty"`
 	Sort      *string `url:"sort,omitempty" json:"sort,omitempty"`
+	Search    *string `url:"search,omitempty" json:"search,omitempty"`
 }
 
 // ListProjectIssues gets a list of project issues. This function accepts
@@ -301,4 +302,44 @@ func (s *IssuesService) DeleteIssue(pid interface{}, issue int, options ...Optio
 	}
 
 	return s.client.Do(req, nil)
+}
+
+// SetTimeEstimate sets the time estimate for a single project issue.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/issues.html#set-a-time-estimate-for-an-issue
+func (s *IssuesService) SetTimeEstimate(pid interface{}, issue int, opt *SetTimeEstimateOptions, options ...OptionFunc) (*TimeStats, *Response, error) {
+	return s.client.timeStats.setTimeEstimate(pid, "issues", issue, opt, options...)
+}
+
+// ResetTimeEstimate resets the time estimate for a single project issue.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/issues.html#reset-the-time-estimate-for-an-issue
+func (s *IssuesService) ResetTimeEstimate(pid interface{}, issue int, options ...OptionFunc) (*TimeStats, *Response, error) {
+	return s.client.timeStats.resetTimeEstimate(pid, "issues", issue, options...)
+}
+
+// AddSpentTime adds spent time for a single project issue.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/issues.html#add-spent-time-for-an-issue
+func (s *IssuesService) AddSpentTime(pid interface{}, issue int, opt *AddSpentTimeOptions, options ...OptionFunc) (*TimeStats, *Response, error) {
+	return s.client.timeStats.addSpentTime(pid, "issues", issue, opt, options...)
+}
+
+// ResetSpentTime resets the spent time for a single project issue.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/issues.html#reset-spent-time-for-an-issue
+func (s *IssuesService) ResetSpentTime(pid interface{}, issue int, options ...OptionFunc) (*TimeStats, *Response, error) {
+	return s.client.timeStats.resetSpentTime(pid, "issues", issue, options...)
+}
+
+// GetTimeSpent gets the spent time for a single project issue.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/issues.html#get-time-tracking-stats
+func (s *IssuesService) GetTimeSpent(pid interface{}, issue int, options ...OptionFunc) (*TimeStats, *Response, error) {
+	return s.client.timeStats.getTimeSpent(pid, "issues", issue, options...)
 }
