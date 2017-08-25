@@ -21,16 +21,14 @@ import "time"
 // SessionService handles communication with the session related methods of
 // the GitLab API.
 //
-// GitLab API docs:
-// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/session.md
+// GitLab API docs: https://docs.gitlab.com/ce/api/session.html
 type SessionService struct {
 	client *Client
 }
 
 // Session represents a GitLab session.
 //
-// GitLab API docs:
-// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/session.md#session
+// GitLab API docs: https://docs.gitlab.com/ce/api/session.html#session
 type Session struct {
 	ID               int         `json:"id"`
 	Username         string      `json:"username"`
@@ -54,8 +52,7 @@ type Session struct {
 
 // GetSessionOptions represents the available Session() options.
 //
-// GitLab API docs:
-// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/session.md#session
+// GitLab API docs: https://docs.gitlab.com/ce/api/session.html#session
 type GetSessionOptions struct {
 	Login    *string `url:"login,omitempty" json:"login,omitempty"`
 	Email    *string `url:"email,omitempty" json:"email,omitempty"`
@@ -64,8 +61,7 @@ type GetSessionOptions struct {
 
 // GetSession logs in to get private token.
 //
-// GitLab API docs:
-// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/session.md#session
+// GitLab API docs: https://docs.gitlab.com/ce/api/session.html#session
 func (s *SessionService) GetSession(opt *GetSessionOptions, options ...OptionFunc) (*Session, *Response, error) {
 	req, err := s.client.NewRequest("POST", "session", opt, options)
 	if err != nil {
