@@ -307,124 +307,39 @@ func (s *IssuesService) DeleteIssue(pid interface{}, issue int, options ...Optio
 // SetTimeEstimate sets the time estimate for a single project issue.
 //
 // GitLab API docs:
-// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/issues.md#set-a-time-estimate-for-an-issue
+// https://docs.gitlab.com/ce/api/issues.html#set-a-time-estimate-for-an-issue
 func (s *IssuesService) SetTimeEstimate(pid interface{}, issue int, opt *SetTimeEstimateOptions, options ...OptionFunc) (*TimeStats, *Response, error) {
-	project, err := parseID(pid)
-	if err != nil {
-		return nil, nil, err
-	}
-	u := fmt.Sprintf("projects/%s/issues/%d/time_estimate", url.QueryEscape(project), issue)
-
-	req, err := s.client.NewRequest("POST", u, opt, options)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	t := new(TimeStats)
-	resp, err := s.client.Do(req, t)
-	if err != nil {
-		return nil, resp, err
-	}
-
-	return t, resp, err
+	return s.client.timeStats.setTimeEstimate(pid, "issues", issue, opt, options...)
 }
 
 // ResetTimeEstimate resets the time estimate for a single project issue.
 //
 // GitLab API docs:
-// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/issues.md#reset-the-time-estimate-for-an-issue
+// https://docs.gitlab.com/ce/api/issues.html#reset-the-time-estimate-for-an-issue
 func (s *IssuesService) ResetTimeEstimate(pid interface{}, issue int, options ...OptionFunc) (*TimeStats, *Response, error) {
-	project, err := parseID(pid)
-	if err != nil {
-		return nil, nil, err
-	}
-	u := fmt.Sprintf("projects/%s/issues/%d/reset_time_estimate", url.QueryEscape(project), issue)
-
-	req, err := s.client.NewRequest("POST", u, nil, options)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	t := new(TimeStats)
-	resp, err := s.client.Do(req, t)
-	if err != nil {
-		return nil, resp, err
-	}
-
-	return t, resp, err
+	return s.client.timeStats.resetTimeEstimate(pid, "issues", issue, options...)
 }
 
 // AddSpentTime adds spent time for a single project issue.
 //
 // GitLab API docs:
-// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/issues.md#add-spent-time-for-an-issue
+// https://docs.gitlab.com/ce/api/issues.html#add-spent-time-for-an-issue
 func (s *IssuesService) AddSpentTime(pid interface{}, issue int, opt *AddSpentTimeOptions, options ...OptionFunc) (*TimeStats, *Response, error) {
-	project, err := parseID(pid)
-	if err != nil {
-		return nil, nil, err
-	}
-	u := fmt.Sprintf("projects/%s/issues/%d/add_spent_time", url.QueryEscape(project), issue)
-
-	req, err := s.client.NewRequest("POST", u, opt, options)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	t := new(TimeStats)
-	resp, err := s.client.Do(req, t)
-	if err != nil {
-		return nil, resp, err
-	}
-
-	return t, resp, err
+	return s.client.timeStats.addSpentTime(pid, "issues", issue, opt, options...)
 }
 
 // ResetSpentTime resets the spent time for a single project issue.
 //
 // GitLab API docs:
-// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/issues.md#reset-spent-time-for-an-issue
+// https://docs.gitlab.com/ce/api/issues.html#reset-spent-time-for-an-issue
 func (s *IssuesService) ResetSpentTime(pid interface{}, issue int, options ...OptionFunc) (*TimeStats, *Response, error) {
-	project, err := parseID(pid)
-	if err != nil {
-		return nil, nil, err
-	}
-	u := fmt.Sprintf("projects/%s/issues/%d/reset_spent_time", url.QueryEscape(project), issue)
-
-	req, err := s.client.NewRequest("POST", u, nil, options)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	t := new(TimeStats)
-	resp, err := s.client.Do(req, t)
-	if err != nil {
-		return nil, resp, err
-	}
-
-	return t, resp, err
+	return s.client.timeStats.resetSpentTime(pid, "issues", issue, options...)
 }
 
 // GetTimeSpent gets the spent time for a single project issue.
 //
 // GitLab API docs:
-// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/issues.md#get-time-tracking-stats
+// https://docs.gitlab.com/ce/api/issues.html#get-time-tracking-stats
 func (s *IssuesService) GetTimeSpent(pid interface{}, issue int, options ...OptionFunc) (*TimeStats, *Response, error) {
-	project, err := parseID(pid)
-	if err != nil {
-		return nil, nil, err
-	}
-	u := fmt.Sprintf("projects/%s/issues/%d/time_stats", url.QueryEscape(project), issue)
-
-	req, err := s.client.NewRequest("GET", u, nil, options)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	t := new(TimeStats)
-	resp, err := s.client.Do(req, t)
-	if err != nil {
-		return nil, resp, err
-	}
-
-	return t, resp, err
+	return s.client.timeStats.getTimeSpent(pid, "issues", issue, options...)
 }

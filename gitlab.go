@@ -160,6 +160,9 @@ type Client struct {
 	// User agent used when communicating with the GitLab API.
 	UserAgent string
 
+	// timeStats is an internal service used by other services.
+	timeStats *timeStatsService
+
 	// Services used for talking to different parts of the GitLab API.
 	Branches             *BranchesService
 	BuildVariables       *BuildVariablesService
@@ -187,7 +190,6 @@ type Client struct {
 	Settings             *SettingsService
 	SystemHooks          *SystemHooksService
 	Tags                 *TagsService
-	TimeStats            *TimeStatsService
 	Todos                *TodosService
 	Users                *UsersService
 	Version              *VersionService
@@ -224,10 +226,14 @@ func newClient(httpClient *http.Client, tokenType tokenType, token string) *Clie
 
 	c := &Client{client: httpClient, tokenType: tokenType, token: token, UserAgent: userAgent}
 	if err := c.SetBaseURL(defaultBaseURL); err != nil {
-		// should never happen since defaultBaseURL is our constant
+		// Should never happen since defaultBaseURL is our constant.
 		panic(err)
 	}
 
+	// Create the internal timeStats service.
+	c.timeStats = &timeStatsService{client: c}
+
+	// Create all the public services.
 	c.Branches = &BranchesService{client: c}
 	c.BuildVariables = &BuildVariablesService{client: c}
 	c.Commits = &CommitsService{client: c}
@@ -254,7 +260,6 @@ func newClient(httpClient *http.Client, tokenType tokenType, token string) *Clie
 	c.Settings = &SettingsService{client: c}
 	c.SystemHooks = &SystemHooksService{client: c}
 	c.Tags = &TagsService{client: c}
-	c.TimeStats = &TimeStatsService{client: c}
 	c.Todos = &TodosService{client: c}
 	c.Users = &UsersService{client: c}
 	c.Version = &VersionService{client: c}
@@ -440,6 +445,7 @@ func (c *Client) Do(req *http.Request, v interface{}) (*Response, error) {
 			err = json.NewDecoder(resp.Body).Decode(v)
 		}
 	}
+
 	return response, err
 }
 
