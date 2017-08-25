@@ -1,5 +1,5 @@
 //
-// Copyright 2015, Sander van Harmelen
+// Copyright 2017, Sander van Harmelen
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -324,33 +324,6 @@ func (s *ProjectsService) CreateProject(opt *CreateProjectOptions, options ...Op
 	return p, resp, err
 }
 
-// ShareWithGroupOptions represents options to share project with groups
-//
-// GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#share-project-with-group
-type ShareWithGroupOptions struct {
-	GroupID     *int              `url:"group_id" json:"group_id"`
-	GroupAccess *AccessLevelValue `url:"group_access" json:"group_access"`
-	ExpiresAt   *string           `url:"expires_at" json:"expires_at"`
-}
-
-// ShareProjectWithGroup allows to share a project with a group.
-//
-// GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#share-project-with-group
-func (s *ProjectsService) ShareProjectWithGroup(pid interface{}, opt *ShareWithGroupOptions, options ...OptionFunc) (*Response, error) {
-	project, err := parseID(pid)
-	if err != nil {
-		return nil, err
-	}
-	u := fmt.Sprintf("projects/%s/share", url.QueryEscape(project))
-
-	req, err := s.client.NewRequest("POST", u, opt, options)
-	if err != nil {
-		return nil, err
-	}
-
-	return s.client.Do(req, nil)
-}
-
 // CreateProjectForUserOptions represents the available CreateProjectForUser()
 // options.
 //
@@ -434,6 +407,108 @@ func (s *ProjectsService) ForkProject(pid interface{}, options ...OptionFunc) (*
 	return p, resp, err
 }
 
+// StarProject stars a given the project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/projects.html#star-a-project
+func (s *ProjectsService) StarProject(pid interface{}, options ...OptionFunc) (*Project, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/star", url.QueryEscape(project))
+
+	req, err := s.client.NewRequest("POST", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	p := new(Project)
+	resp, err := s.client.Do(req, p)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return p, resp, err
+}
+
+// UnstarProject unstars a given project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/projects.html#unstar-a-project
+func (s *ProjectsService) UnstarProject(pid interface{}, options ...OptionFunc) (*Project, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/unstar", url.QueryEscape(project))
+
+	req, err := s.client.NewRequest("POST", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	p := new(Project)
+	resp, err := s.client.Do(req, p)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return p, resp, err
+}
+
+// ArchiveProject archives the project if the user is either admin or the
+// project owner of this project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/projects.html#archive-a-project
+func (s *ProjectsService) ArchiveProject(pid interface{}, options ...OptionFunc) (*Project, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/archive", url.QueryEscape(project))
+
+	req, err := s.client.NewRequest("POST", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	p := new(Project)
+	resp, err := s.client.Do(req, p)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return p, resp, err
+}
+
+// UnarchiveProject unarchives the project if the user is either admin or
+// the project owner of this project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/projects.html#unarchive-a-project
+func (s *ProjectsService) UnarchiveProject(pid interface{}, options ...OptionFunc) (*Project, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/unarchive", url.QueryEscape(project))
+
+	req, err := s.client.NewRequest("POST", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	p := new(Project)
+	resp, err := s.client.Do(req, p)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return p, resp, err
+}
+
 // DeleteProject removes a project including all associated resources
 // (issues, merge requests etc.)
 //
@@ -453,6 +528,33 @@ func (s *ProjectsService) DeleteProject(pid interface{}, options ...OptionFunc) 
 	return s.client.Do(req, nil)
 }
 
+// ShareWithGroupOptions represents options to share project with groups
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#share-project-with-group
+type ShareWithGroupOptions struct {
+	GroupID     *int              `url:"group_id" json:"group_id"`
+	GroupAccess *AccessLevelValue `url:"group_access" json:"group_access"`
+	ExpiresAt   *string           `url:"expires_at" json:"expires_at"`
+}
+
+// ShareProjectWithGroup allows to share a project with a group.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#share-project-with-group
+func (s *ProjectsService) ShareProjectWithGroup(pid interface{}, opt *ShareWithGroupOptions, options ...OptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/share", url.QueryEscape(project))
+
+	req, err := s.client.NewRequest("POST", u, opt, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
+
 // ProjectMember represents a project member.
 //
 // GitLab API docs:
@@ -465,155 +567,6 @@ type ProjectMember struct {
 	State       string           `json:"state"`
 	CreatedAt   *time.Time       `json:"created_at"`
 	AccessLevel AccessLevelValue `json:"access_level"`
-}
-
-// ListProjectMembersOptions represents the available ListProjectMembers()
-// options.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ce/api/projects.html#list-project-team-members
-type ListProjectMembersOptions struct {
-	ListOptions
-	Query *string `url:"query,omitempty" json:"query,omitempty"`
-}
-
-// ListProjectMembers gets a list of a project's team members.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ce/api/projects.html#list-project-team-members
-func (s *ProjectsService) ListProjectMembers(pid interface{}, opt *ListProjectMembersOptions, options ...OptionFunc) ([]*ProjectMember, *Response, error) {
-	project, err := parseID(pid)
-	if err != nil {
-		return nil, nil, err
-	}
-	u := fmt.Sprintf("projects/%s/members", url.QueryEscape(project))
-
-	req, err := s.client.NewRequest("GET", u, opt, options)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	var pm []*ProjectMember
-	resp, err := s.client.Do(req, &pm)
-	if err != nil {
-		return nil, resp, err
-	}
-
-	return pm, resp, err
-}
-
-// GetProjectMember gets a project team member.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ce/api/projects.html#get-project-team-member
-func (s *ProjectsService) GetProjectMember(pid interface{}, user int, options ...OptionFunc) (*ProjectMember, *Response, error) {
-	project, err := parseID(pid)
-	if err != nil {
-		return nil, nil, err
-	}
-	u := fmt.Sprintf("projects/%s/members/%d", url.QueryEscape(project), user)
-
-	req, err := s.client.NewRequest("GET", u, nil, options)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	pm := new(ProjectMember)
-	resp, err := s.client.Do(req, pm)
-	if err != nil {
-		return nil, resp, err
-	}
-
-	return pm, resp, err
-}
-
-// AddProjectMemberOptions represents the available AddProjectMember() options.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ce/api/projects.html#add-project-team-member
-type AddProjectMemberOptions struct {
-	UserID      *int              `url:"user_id,omitempty" json:"user_id,omitempty"`
-	AccessLevel *AccessLevelValue `url:"access_level,omitempty" json:"access_level,omitempty"`
-}
-
-// AddProjectMember adds a user to a project team. This is an idempotent
-// method and can be called multiple times with the same parameters. Adding
-// team membership to a user that is already a member does not affect the
-// existing membership.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ce/api/projects.html#add-project-team-member
-func (s *ProjectsService) AddProjectMember(pid interface{}, opt *AddProjectMemberOptions, options ...OptionFunc) (*ProjectMember, *Response, error) {
-	project, err := parseID(pid)
-	if err != nil {
-		return nil, nil, err
-	}
-	u := fmt.Sprintf("projects/%s/members", url.QueryEscape(project))
-
-	req, err := s.client.NewRequest("POST", u, opt, options)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	pm := new(ProjectMember)
-	resp, err := s.client.Do(req, pm)
-	if err != nil {
-		return nil, resp, err
-	}
-
-	return pm, resp, err
-}
-
-// EditProjectMemberOptions represents the available EditProjectMember() options.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ce/api/projects.html#edit-project-team-member
-type EditProjectMemberOptions struct {
-	AccessLevel *AccessLevelValue `url:"access_level,omitempty" json:"access_level,omitempty"`
-}
-
-// EditProjectMember updates a project team member to a specified access level..
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ce/api/projects.html#edit-project-team-member
-func (s *ProjectsService) EditProjectMember(pid interface{}, user int, opt *EditProjectMemberOptions, options ...OptionFunc) (*ProjectMember, *Response, error) {
-	project, err := parseID(pid)
-	if err != nil {
-		return nil, nil, err
-	}
-	u := fmt.Sprintf("projects/%s/members/%d", url.QueryEscape(project), user)
-
-	req, err := s.client.NewRequest("PUT", u, opt, options)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	pm := new(ProjectMember)
-	resp, err := s.client.Do(req, pm)
-	if err != nil {
-		return nil, resp, err
-	}
-
-	return pm, resp, err
-}
-
-// DeleteProjectMember removes a user from a project team.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ce/api/projects.html#remove-project-team-member
-func (s *ProjectsService) DeleteProjectMember(pid interface{}, user int, options ...OptionFunc) (*Response, error) {
-	project, err := parseID(pid)
-	if err != nil {
-		return nil, err
-	}
-	u := fmt.Sprintf("projects/%s/members/%d", url.QueryEscape(project), user)
-
-	req, err := s.client.NewRequest("DELETE", u, nil, options)
-	if err != nil {
-		return nil, err
-	}
-
-	return s.client.Do(req, nil)
 }
 
 // ProjectHook represents a project hook.
@@ -846,56 +799,4 @@ func (s *ProjectsService) DeleteProjectForkRelation(pid int, options ...OptionFu
 	}
 
 	return s.client.Do(req, nil)
-}
-
-// ArchiveProject archives the project if the user is either admin or the
-// project owner of this project.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ce/api/projects.html#archive-a-project
-func (s *ProjectsService) ArchiveProject(pid interface{}, options ...OptionFunc) (*Project, *Response, error) {
-	project, err := parseID(pid)
-	if err != nil {
-		return nil, nil, err
-	}
-	u := fmt.Sprintf("projects/%s/archive", url.QueryEscape(project))
-
-	req, err := s.client.NewRequest("POST", u, nil, options)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	p := new(Project)
-	resp, err := s.client.Do(req, p)
-	if err != nil {
-		return nil, resp, err
-	}
-
-	return p, resp, err
-}
-
-// UnarchiveProject unarchives the project if the user is either admin or
-// the project owner of this project.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ce/api/projects.html#unarchive-a-project
-func (s *ProjectsService) UnarchiveProject(pid interface{}, options ...OptionFunc) (*Project, *Response, error) {
-	project, err := parseID(pid)
-	if err != nil {
-		return nil, nil, err
-	}
-	u := fmt.Sprintf("projects/%s/unarchive", url.QueryEscape(project))
-
-	req, err := s.client.NewRequest("POST", u, nil, options)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	p := new(Project)
-	resp, err := s.client.Do(req, p)
-	if err != nil {
-		return nil, resp, err
-	}
-
-	return p, resp, err
 }
