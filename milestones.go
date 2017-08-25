@@ -56,7 +56,7 @@ func (m Milestone) String() string {
 // https://docs.gitlab.com/ce/api/milestones.html#list-project-milestones
 type ListMilestonesOptions struct {
 	ListOptions
-	IID *int `url:"iid,omitempty" json:"iid,omitempty"`
+	IIDs []int `url:"iids,omitempty" json:"iids,omitempty"`
 }
 
 // ListMilestones returns a list of project milestones.
