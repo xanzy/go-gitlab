@@ -28,7 +28,8 @@ import (
 // GitLab API docs:
 // https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/merge_requests.md
 type MergeRequestsService struct {
-	client *Client
+	client    *Client
+	timeStats *timeStatsService
 }
 
 // MergeRequest represents a GitLab merge request.
@@ -342,7 +343,7 @@ func (s *MergeRequestsService) AcceptMergeRequest(pid interface{}, mergeRequest 
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/merge_requests.html#set-a-time-estimate-for-a-merge-request
 func (s *MergeRequestsService) SetTimeEstimate(pid interface{}, mergeRequest int, opt *SetTimeEstimateOptions, options ...OptionFunc) (*TimeStats, *Response, error) {
-	return s.client.timeStats.setTimeEstimate(pid, "merge_requests", mergeRequest, opt, options...)
+	return s.timeStats.setTimeEstimate(pid, "merge_requests", mergeRequest, opt, options...)
 }
 
 // ResetTimeEstimate resets the time estimate for a single project merge request.
@@ -350,7 +351,7 @@ func (s *MergeRequestsService) SetTimeEstimate(pid interface{}, mergeRequest int
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/merge_requests.html#reset-the-time-estimate-for-a-merge-request
 func (s *MergeRequestsService) ResetTimeEstimate(pid interface{}, mergeRequest int, options ...OptionFunc) (*TimeStats, *Response, error) {
-	return s.client.timeStats.resetTimeEstimate(pid, "merge_requests", mergeRequest, options...)
+	return s.timeStats.resetTimeEstimate(pid, "merge_requests", mergeRequest, options...)
 }
 
 // AddSpentTime adds spent time for a single project merge request.
@@ -358,7 +359,7 @@ func (s *MergeRequestsService) ResetTimeEstimate(pid interface{}, mergeRequest i
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/merge_requests.html#add-spent-time-for-a-merge-request
 func (s *MergeRequestsService) AddSpentTime(pid interface{}, mergeRequest int, opt *AddSpentTimeOptions, options ...OptionFunc) (*TimeStats, *Response, error) {
-	return s.client.timeStats.addSpentTime(pid, "merge_requests", mergeRequest, opt, options...)
+	return s.timeStats.addSpentTime(pid, "merge_requests", mergeRequest, opt, options...)
 }
 
 // ResetSpentTime resets the spent time for a single project merge request.
@@ -366,7 +367,7 @@ func (s *MergeRequestsService) AddSpentTime(pid interface{}, mergeRequest int, o
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/merge_requests.html#reset-spent-time-for-a-merge-request
 func (s *MergeRequestsService) ResetSpentTime(pid interface{}, mergeRequest int, options ...OptionFunc) (*TimeStats, *Response, error) {
-	return s.client.timeStats.resetSpentTime(pid, "merge_requests", mergeRequest, options...)
+	return s.timeStats.resetSpentTime(pid, "merge_requests", mergeRequest, options...)
 }
 
 // GetTimeSpent gets the spent time for a single project merge request.
@@ -374,5 +375,5 @@ func (s *MergeRequestsService) ResetSpentTime(pid interface{}, mergeRequest int,
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/merge_requests.html#get-time-tracking-stats
 func (s *MergeRequestsService) GetTimeSpent(pid interface{}, mergeRequest int, options ...OptionFunc) (*TimeStats, *Response, error) {
-	return s.client.timeStats.getTimeSpent(pid, "merge_requests", mergeRequest, options...)
+	return s.timeStats.getTimeSpent(pid, "merge_requests", mergeRequest, options...)
 }

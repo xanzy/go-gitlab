@@ -160,9 +160,6 @@ type Client struct {
 	// User agent used when communicating with the GitLab API.
 	UserAgent string
 
-	// timeStats is an internal service used by other services.
-	timeStats *timeStatsService
-
 	// Services used for talking to different parts of the GitLab API.
 	Branches             *BranchesService
 	BuildVariables       *BuildVariablesService
@@ -231,7 +228,7 @@ func newClient(httpClient *http.Client, tokenType tokenType, token string) *Clie
 	}
 
 	// Create the internal timeStats service.
-	c.timeStats = &timeStatsService{client: c}
+	timeStats := &timeStatsService{client: c}
 
 	// Create all the public services.
 	c.Branches = &BranchesService{client: c}
@@ -240,10 +237,10 @@ func newClient(httpClient *http.Client, tokenType tokenType, token string) *Clie
 	c.DeployKeys = &DeployKeysService{client: c}
 	c.Features = &FeaturesService{client: c}
 	c.Groups = &GroupsService{client: c}
-	c.Issues = &IssuesService{client: c}
+	c.Issues = &IssuesService{client: c, timeStats: timeStats}
 	c.Jobs = &JobsService{client: c}
 	c.Labels = &LabelsService{client: c}
-	c.MergeRequests = &MergeRequestsService{client: c}
+	c.MergeRequests = &MergeRequestsService{client: c, timeStats: timeStats}
 	c.Milestones = &MilestonesService{client: c}
 	c.Namespaces = &NamespacesService{client: c}
 	c.Notes = &NotesService{client: c}
