@@ -7,10 +7,9 @@ A GitLab API client enabling Go programs to interact with GitLab in a simple and
 
 ## NOTE
 
-Support for the V4 API (which contains some backwards incompatible changes) is being worked on in the `f-api-v4` branch. So please use that branch if you need features specific to the V4 API. I hope to get some time/support on short term to be able to fix the work in that branch and merge it into master (progress and things left to do can be followed [here](https://github.com/xanzy/go-gitlab/issues/151)).
-
-Release v0.5.0 (released on 22-03-2017) no longer supports Go versions older
-then 1.7.x If you want (or need) to use an older Go version please use v0.4.1
+Release v0.6.0 (released on 25-08-2017) no longer supports the older V3 Gitlab API. If
+you need V3 support, please use the `f-api-v3` branch. This release contains some backwards
+incompatible changes that were needed to fully support the V4 Gitlab API.
 
 ## Coverage
 
@@ -87,7 +86,7 @@ func main() {
 		Description:          gitlab.String("Just a test project to play with"),
 		MergeRequestsEnabled: gitlab.Bool(true),
 		SnippetsEnabled:      gitlab.Bool(true),
-		VisibilityLevel:      gitlab.VisibilityLevel(gitlab.PublicVisibility),
+		Visibility:           gitlab.VisibilityLevel(gitlab.PublicVisibility),
 	}
 	project, _, err := git.Projects.CreateProject(p)
 	if err != nil {
@@ -99,7 +98,7 @@ func main() {
 		Title:           gitlab.String("Dummy Snippet"),
 		FileName:        gitlab.String("snippet.go"),
 		Code:            gitlab.String("package main...."),
-		VisibilityLevel: gitlab.VisibilityLevel(gitlab.PublicVisibility),
+		Visibility:      gitlab.VisibilityLevel(gitlab.PublicVisibility),
 	}
 	_, _, err = git.ProjectSnippets.CreateSnippet(project.ID, s)
 	if err != nil {

@@ -13,23 +13,20 @@ func TestListProjects(t *testing.T) {
 
 	mux.HandleFunc("/projects", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
-		testFormValues(t, r, values{
-			"page":       "2",
-			"per_page":   "3",
-			"archived":   "true",
-			"order_by":   "name",
-			"sort":       "asc",
-			"search":     "query",
-			"simple":     "true",
-			"visibility": "public",
-			"statistics": "true",
-		})
 		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
 	})
 
-	opt := &ListProjectsOptions{ListOptions{2, 3}, Bool(true), String("name"), String("asc"), String("query"), Bool(true), String("public"), Bool(true)}
-	projects, _, err := client.Projects.ListProjects(opt)
+	opt := &ListProjectsOptions{
+		ListOptions: ListOptions{2, 3},
+		Archived:    Bool(true),
+		OrderBy:     String("name"),
+		Sort:        String("asc"),
+		Search:      String("query"),
+		Simple:      Bool(true),
+		Visibility:  Visibility(PublicVisibility),
+	}
 
+	projects, _, err := client.Projects.ListProjects(opt)
 	if err != nil {
 		t.Errorf("Projects.ListProjects returned error: %v", err)
 	}
@@ -44,25 +41,23 @@ func TestListOwnedProjects(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
-	mux.HandleFunc("/projects/owned", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/projects", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
-		testFormValues(t, r, values{
-			"page":       "2",
-			"per_page":   "3",
-			"archived":   "true",
-			"order_by":   "name",
-			"sort":       "asc",
-			"search":     "query",
-			"simple":     "true",
-			"visibility": "public",
-			"statistics": "false",
-		})
 		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
 	})
 
-	opt := &ListProjectsOptions{ListOptions{2, 3}, Bool(true), String("name"), String("asc"), String("query"), Bool(true), String("public"), Bool(false)}
-	projects, _, err := client.Projects.ListOwnedProjects(opt)
+	opt := &ListProjectsOptions{
+		ListOptions: ListOptions{2, 3},
+		Archived:    Bool(true),
+		OrderBy:     String("name"),
+		Sort:        String("asc"),
+		Search:      String("query"),
+		Simple:      Bool(true),
+		Owned:       Bool(true),
+		Visibility:  Visibility(PublicVisibility),
+	}
 
+	projects, _, err := client.Projects.ListProjects(opt)
 	if err != nil {
 		t.Errorf("Projects.ListOwnedProjects returned error: %v", err)
 	}
@@ -77,25 +72,23 @@ func TestListStarredProjects(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
-	mux.HandleFunc("/projects/starred", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/projects", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
-		testFormValues(t, r, values{
-			"page":       "2",
-			"per_page":   "3",
-			"archived":   "true",
-			"order_by":   "name",
-			"sort":       "asc",
-			"search":     "query",
-			"simple":     "true",
-			"visibility": "public",
-			"statistics": "false",
-		})
 		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
 	})
 
-	opt := &ListProjectsOptions{ListOptions{2, 3}, Bool(true), String("name"), String("asc"), String("query"), Bool(true), String("public"), Bool(false)}
-	projects, _, err := client.Projects.ListStarredProjects(opt)
+	opt := &ListProjectsOptions{
+		ListOptions: ListOptions{2, 3},
+		Archived:    Bool(true),
+		OrderBy:     String("name"),
+		Sort:        String("asc"),
+		Search:      String("query"),
+		Simple:      Bool(true),
+		Starred:     Bool(true),
+		Visibility:  Visibility(PublicVisibility),
+	}
 
+	projects, _, err := client.Projects.ListProjects(opt)
 	if err != nil {
 		t.Errorf("Projects.ListStarredProjects returned error: %v", err)
 	}
@@ -103,39 +96,6 @@ func TestListStarredProjects(t *testing.T) {
 	want := []*Project{{ID: 1}, {ID: 2}}
 	if !reflect.DeepEqual(want, projects) {
 		t.Errorf("Projects.ListStarredProjects returned %+v, want %+v", projects, want)
-	}
-}
-
-func TestListAllProjects(t *testing.T) {
-	mux, server, client := setup()
-	defer teardown(server)
-
-	mux.HandleFunc("/projects/all", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
-		testFormValues(t, r, values{
-			"page":       "2",
-			"per_page":   "3",
-			"archived":   "true",
-			"order_by":   "name",
-			"sort":       "asc",
-			"search":     "query",
-			"simple":     "true",
-			"visibility": "public",
-			"statistics": "false",
-		})
-		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
-	})
-
-	opt := &ListProjectsOptions{ListOptions{2, 3}, Bool(true), String("name"), String("asc"), String("query"), Bool(true), String("public"), Bool(false)}
-	projects, _, err := client.Projects.ListAllProjects(opt)
-
-	if err != nil {
-		t.Errorf("Projects.ListAllProjects returned error: %v", err)
-	}
-
-	want := []*Project{{ID: 1}, {ID: 2}}
-	if !reflect.DeepEqual(want, projects) {
-		t.Errorf("Projects.ListAllProjects returned %+v, want %+v", projects, want)
 	}
 }
 
@@ -150,7 +110,6 @@ func TestGetProject_byID(t *testing.T) {
 	want := &Project{ID: 1}
 
 	project, _, err := client.Projects.GetProject(1)
-
 	if err != nil {
 		t.Fatalf("Projects.GetProject returns an error: %v", err)
 	}
@@ -172,7 +131,6 @@ func TestGetProject_byName(t *testing.T) {
 	want := &Project{ID: 1}
 
 	project, _, err := client.Projects.GetProject("namespace/name")
-
 	if err != nil {
 		t.Fatalf("Projects.GetProject returns an error: %v", err)
 	}
@@ -182,50 +140,18 @@ func TestGetProject_byName(t *testing.T) {
 	}
 }
 
-func TestSearchProjects(t *testing.T) {
-	mux, server, client := setup()
-	defer teardown(server)
-
-	mux.HandleFunc("/projects/search/query", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
-		testFormValues(t, r, values{
-			"page":     "2",
-			"per_page": "3",
-			"order_by": "name",
-			"sort":     "asc",
-		})
-		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
-	})
-
-	opt := &SearchProjectsOptions{ListOptions{2, 3}, String("name"), String("asc")}
-	projects, _, err := client.Projects.SearchProjects("query", opt)
-
-	if err != nil {
-		t.Errorf("Projects.SearchProjects returned error: %v", err)
-	}
-
-	want := []*Project{{ID: 1}, {ID: 2}}
-	if !reflect.DeepEqual(want, projects) {
-		t.Errorf("Projects.SearchProjects returned %+v, want %+v", projects, want)
-	}
-}
-
 func TestCreateProject(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
 	mux.HandleFunc("/projects", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "POST")
-		testJSONBody(t, r, values{
-			"name": "n",
-		})
-
 		fmt.Fprint(w, `{"id":1}`)
 	})
 
 	opt := &CreateProjectOptions{Name: String("n")}
-	project, _, err := client.Projects.CreateProject(opt)
 
+	project, _, err := client.Projects.CreateProject(opt)
 	if err != nil {
 		t.Errorf("Projects.CreateProject returned error: %v", err)
 	}

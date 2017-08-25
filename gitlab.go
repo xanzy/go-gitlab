@@ -1,5 +1,5 @@
 //
-// Copyright 2015, Sander van Harmelen
+// Copyright 2017, Sander van Harmelen
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -33,21 +33,19 @@ import (
 )
 
 const (
-	libraryVersion = "0.1.1"
-	defaultBaseURL = "https://gitlab.com/api/v3/"
+	libraryVersion = "0.2.0"
+	defaultBaseURL = "https://gitlab.com/api/v4/"
 	userAgent      = "go-gitlab/" + libraryVersion
 )
 
 // tokenType represents a token type within GitLab.
 //
-// GitLab API docs:
-// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/
+// GitLab API docs: https://docs.gitlab.com/ce/api/
 type tokenType int
 
 // List of available token type
 //
-// GitLab API docs:
-// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/
+// GitLab API docs: https://docs.gitlab.com/ce/api/
 const (
 	privateToken tokenType = iota
 	oAuthToken
@@ -55,14 +53,12 @@ const (
 
 // AccessLevelValue represents a permission level within GitLab.
 //
-// GitLab API docs:
-// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/permissions/permissions.md
+// GitLab API docs: https://docs.gitlab.com/ce/permissions/permissions.html
 type AccessLevelValue int
 
 // List of available access levels
 //
-// GitLab API docs:
-// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/permissions/permissions.md
+// GitLab API docs: https://docs.gitlab.com/ce/permissions/permissions.html
 const (
 	GuestPermissions     AccessLevelValue = 10
 	ReporterPermissions  AccessLevelValue = 20
@@ -131,20 +127,18 @@ var notificationLevelTypes = map[string]NotificationLevelValue{
 	"custom":        CustomNotificationLevel,
 }
 
-// VisibilityLevelValue represents a visibility level within GitLab.
+// VisibilityValue represents a visibility level within GitLab.
 //
-// GitLab API docs:
-// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/
-type VisibilityLevelValue int
+// GitLab API docs: https://docs.gitlab.com/ce/api/
+type VisibilityValue string
 
 // List of available visibility levels
 //
-// GitLab API docs:
-// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/
+// GitLab API docs: https://docs.gitlab.com/ce/api/
 const (
-	PrivateVisibility  VisibilityLevelValue = 0
-	InternalVisibility VisibilityLevelValue = 10
-	PublicVisibility   VisibilityLevelValue = 20
+	PrivateVisibility  VisibilityValue = "private"
+	InternalVisibility VisibilityValue = "internal"
+	PublicVisibility   VisibilityValue = "public"
 )
 
 // A Client manages communication with the GitLab API.
@@ -169,11 +163,12 @@ type Client struct {
 	// Services used for talking to different parts of the GitLab API.
 	Branches             *BranchesService
 	BuildVariables       *BuildVariablesService
-	Builds               *BuildsService
 	Commits              *CommitsService
 	DeployKeys           *DeployKeysService
+	Features             *FeaturesService
 	Groups               *GroupsService
 	Issues               *IssuesService
+	Jobs                 *JobsService
 	Labels               *LabelsService
 	MergeRequests        *MergeRequestsService
 	Milestones           *MilestonesService
@@ -181,8 +176,10 @@ type Client struct {
 	Notes                *NotesService
 	NotificationSettings *NotificationSettingsService
 	Projects             *ProjectsService
+	ProjectMembers       *ProjectMembersService
 	ProjectSnippets      *ProjectSnippetsService
 	Pipelines            *PipelinesService
+	PipelineTriggers     *PipelineTriggersService
 	Repositories         *RepositoriesService
 	RepositoryFiles      *RepositoryFilesService
 	Services             *ServicesService
@@ -190,7 +187,7 @@ type Client struct {
 	Settings             *SettingsService
 	SystemHooks          *SystemHooksService
 	Tags                 *TagsService
-	TimeStats            *TimeStatsService
+	Todos                *TodosService
 	Users                *UsersService
 	Version              *VersionService
 }
@@ -226,26 +223,33 @@ func newClient(httpClient *http.Client, tokenType tokenType, token string) *Clie
 
 	c := &Client{client: httpClient, tokenType: tokenType, token: token, UserAgent: userAgent}
 	if err := c.SetBaseURL(defaultBaseURL); err != nil {
-		// should never happen since defaultBaseURL is our constant
+		// Should never happen since defaultBaseURL is our constant.
 		panic(err)
 	}
 
+	// Create the internal timeStats service.
+	timeStats := &timeStatsService{client: c}
+
+	// Create all the public services.
 	c.Branches = &BranchesService{client: c}
 	c.BuildVariables = &BuildVariablesService{client: c}
-	c.Builds = &BuildsService{client: c}
 	c.Commits = &CommitsService{client: c}
 	c.DeployKeys = &DeployKeysService{client: c}
+	c.Features = &FeaturesService{client: c}
 	c.Groups = &GroupsService{client: c}
-	c.Issues = &IssuesService{client: c}
+	c.Issues = &IssuesService{client: c, timeStats: timeStats}
+	c.Jobs = &JobsService{client: c}
 	c.Labels = &LabelsService{client: c}
-	c.MergeRequests = &MergeRequestsService{client: c}
+	c.MergeRequests = &MergeRequestsService{client: c, timeStats: timeStats}
 	c.Milestones = &MilestonesService{client: c}
 	c.Namespaces = &NamespacesService{client: c}
 	c.Notes = &NotesService{client: c}
 	c.NotificationSettings = &NotificationSettingsService{client: c}
 	c.Projects = &ProjectsService{client: c}
+	c.ProjectMembers = &ProjectMembersService{client: c}
 	c.ProjectSnippets = &ProjectSnippetsService{client: c}
 	c.Pipelines = &PipelinesService{client: c}
+	c.PipelineTriggers = &PipelineTriggersService{client: c}
 	c.Repositories = &RepositoriesService{client: c}
 	c.RepositoryFiles = &RepositoryFilesService{client: c}
 	c.Services = &ServicesService{client: c}
@@ -253,7 +257,7 @@ func newClient(httpClient *http.Client, tokenType tokenType, token string) *Clie
 	c.Settings = &SettingsService{client: c}
 	c.SystemHooks = &SystemHooksService{client: c}
 	c.Tags = &TagsService{client: c}
-	c.TimeStats = &TimeStatsService{client: c}
+	c.Todos = &TodosService{client: c}
 	c.Users = &UsersService{client: c}
 	c.Version = &VersionService{client: c}
 
@@ -349,7 +353,7 @@ type Response struct {
 	*http.Response
 
 	// These fields provide the page values for paginating through a set of
-	// results.  Any or all of these may be set to the zero value for
+	// results. Any or all of these may be set to the zero value for
 	// responses that are not part of a paginated set, or for which there
 	// are no additional pages.
 
@@ -438,6 +442,7 @@ func (c *Client) Do(req *http.Request, v interface{}) (*Response, error) {
 			err = json.NewDecoder(resp.Body).Decode(v)
 		}
 	}
+
 	return response, err
 }
 
@@ -457,7 +462,7 @@ func parseID(id interface{}) (string, error) {
 // An ErrorResponse reports one or more errors caused by an API request.
 //
 // GitLab API docs:
-// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/README.md#data-validation-and-error-reporting
+// https://docs.gitlab.com/ce/api/README.html#data-validation-and-error-reporting
 type ErrorResponse struct {
 	Response *http.Response
 	Message  string
@@ -472,7 +477,7 @@ func (e *ErrorResponse) Error() string {
 // CheckResponse checks the API response for errors, and returns them if present.
 func CheckResponse(r *http.Response) error {
 	switch r.StatusCode {
-	case 200, 201, 304:
+	case 200, 201, 202, 204, 304:
 		return nil
 	}
 
@@ -536,7 +541,7 @@ func parseError(raw interface{}) string {
 // OptionFunc can be passed to all API requests to make the API call as if you were
 // another user, provided your private token is from an administrator account.
 //
-// GitLab docs: https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/README.md#sudo
+// GitLab docs: https://docs.gitlab.com/ce/api/README.html#sudo
 type OptionFunc func(*http.Request) error
 
 // WithSudo takes either a username or user ID and sets the SUDO request header
@@ -604,10 +609,10 @@ func NotificationLevel(v NotificationLevelValue) *NotificationLevelValue {
 	return p
 }
 
-// VisibilityLevel is a helper routine that allocates a new VisibilityLevelValue
+// Visibility is a helper routine that allocates a new VisibilityValue
 // to store v and returns a pointer to it.
-func VisibilityLevel(v VisibilityLevelValue) *VisibilityLevelValue {
-	p := new(VisibilityLevelValue)
+func Visibility(v VisibilityValue) *VisibilityValue {
+	p := new(VisibilityValue)
 	*p = v
 	return p
 }
