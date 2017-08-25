@@ -386,7 +386,7 @@ func (s *UsersService) DeleteSSHKeyForUser(user, key int, options ...OptionFunc)
 func (s *UsersService) BlockUser(user int, options ...OptionFunc) error {
 	u := fmt.Sprintf("users/%d/block", user)
 
-	req, err := s.client.NewRequest("PUT", u, nil, options)
+	req, err := s.client.NewRequest("POST", u, nil, options)
 	if err != nil {
 		return err
 	}
@@ -414,7 +414,7 @@ func (s *UsersService) BlockUser(user int, options ...OptionFunc) error {
 func (s *UsersService) UnblockUser(user int, options ...OptionFunc) error {
 	u := fmt.Sprintf("users/%d/unblock", user)
 
-	req, err := s.client.NewRequest("PUT", u, nil, options)
+	req, err := s.client.NewRequest("POST", u, nil, options)
 	if err != nil {
 		return err
 	}
