@@ -265,6 +265,8 @@ type UpdateMergeRequestOptions struct {
 	Description  *string `url:"description,omitempty" json:"description,omitempty"`
 	TargetBranch *string `url:"target_branch,omitemtpy" json:"target_branch,omitemtpy"`
 	AssigneeID   *int    `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
+	Labels       Labels  `url:"labels,comma,omitempty" json:"labels,omitempty"`
+	MilestoneID  *int    `url:"milestone_id,omitempty" json:"milestone_id,omitempty"`
 	StateEvent   *string `url:"state_event,omitempty" json:"state_event,omitempty"`
 }
 
@@ -331,4 +333,44 @@ func (s *MergeRequestsService) AcceptMergeRequest(pid interface{}, mergeRequest 
 	}
 
 	return m, resp, err
+}
+
+// SetTimeEstimate sets the time estimate for a single project merge request.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/merge_requests.html#set-a-time-estimate-for-a-merge-request
+func (s *MergeRequestsService) SetTimeEstimate(pid interface{}, mergeRequest int, opt *SetTimeEstimateOptions, options ...OptionFunc) (*TimeStats, *Response, error) {
+	return s.client.timeStats.setTimeEstimate(pid, "merge_requests", mergeRequest, opt, options...)
+}
+
+// ResetTimeEstimate resets the time estimate for a single project merge request.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/merge_requests.html#reset-the-time-estimate-for-a-merge-request
+func (s *MergeRequestsService) ResetTimeEstimate(pid interface{}, mergeRequest int, options ...OptionFunc) (*TimeStats, *Response, error) {
+	return s.client.timeStats.resetTimeEstimate(pid, "merge_requests", mergeRequest, options...)
+}
+
+// AddSpentTime adds spent time for a single project merge request.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/merge_requests.html#add-spent-time-for-a-merge-request
+func (s *MergeRequestsService) AddSpentTime(pid interface{}, mergeRequest int, opt *AddSpentTimeOptions, options ...OptionFunc) (*TimeStats, *Response, error) {
+	return s.client.timeStats.addSpentTime(pid, "merge_requests", mergeRequest, opt, options...)
+}
+
+// ResetSpentTime resets the spent time for a single project merge request.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/merge_requests.html#reset-spent-time-for-a-merge-request
+func (s *MergeRequestsService) ResetSpentTime(pid interface{}, mergeRequest int, options ...OptionFunc) (*TimeStats, *Response, error) {
+	return s.client.timeStats.resetSpentTime(pid, "merge_requests", mergeRequest, options...)
+}
+
+// GetTimeSpent gets the spent time for a single project merge request.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/merge_requests.html#get-time-tracking-stats
+func (s *MergeRequestsService) GetTimeSpent(pid interface{}, mergeRequest int, options ...OptionFunc) (*TimeStats, *Response, error) {
+	return s.client.timeStats.getTimeSpent(pid, "merge_requests", mergeRequest, options...)
 }
