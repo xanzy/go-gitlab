@@ -176,6 +176,7 @@ type Client struct {
 	Notes                *NotesService
 	NotificationSettings *NotificationSettingsService
 	Projects             *ProjectsService
+	ProjectMembers       *ProjectMembersService
 	ProjectSnippets      *ProjectSnippetsService
 	Pipelines            *PipelinesService
 	PipelineTriggers     *PipelineTriggersService
@@ -242,6 +243,7 @@ func newClient(httpClient *http.Client, tokenType tokenType, token string) *Clie
 	c.Notes = &NotesService{client: c}
 	c.NotificationSettings = &NotificationSettingsService{client: c}
 	c.Projects = &ProjectsService{client: c}
+	c.ProjectMembers = &ProjectMembersService{client: c}
 	c.ProjectSnippets = &ProjectSnippetsService{client: c}
 	c.Pipelines = &PipelinesService{client: c}
 	c.PipelineTriggers = &PipelineTriggersService{client: c}
@@ -349,7 +351,7 @@ type Response struct {
 	*http.Response
 
 	// These fields provide the page values for paginating through a set of
-	// results.  Any or all of these may be set to the zero value for
+	// results. Any or all of these may be set to the zero value for
 	// responses that are not part of a paginated set, or for which there
 	// are no additional pages.
 
