@@ -29,7 +29,8 @@ import (
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/issues.html
 type IssuesService struct {
-	client *Client
+	client    *Client
+	timeStats *timeStatsService
 }
 
 // Issue represents a GitLab issue.
@@ -309,7 +310,7 @@ func (s *IssuesService) DeleteIssue(pid interface{}, issue int, options ...Optio
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/issues.html#set-a-time-estimate-for-an-issue
 func (s *IssuesService) SetTimeEstimate(pid interface{}, issue int, opt *SetTimeEstimateOptions, options ...OptionFunc) (*TimeStats, *Response, error) {
-	return s.client.timeStats.setTimeEstimate(pid, "issues", issue, opt, options...)
+	return s.timeStats.setTimeEstimate(pid, "issues", issue, opt, options...)
 }
 
 // ResetTimeEstimate resets the time estimate for a single project issue.
@@ -317,7 +318,7 @@ func (s *IssuesService) SetTimeEstimate(pid interface{}, issue int, opt *SetTime
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/issues.html#reset-the-time-estimate-for-an-issue
 func (s *IssuesService) ResetTimeEstimate(pid interface{}, issue int, options ...OptionFunc) (*TimeStats, *Response, error) {
-	return s.client.timeStats.resetTimeEstimate(pid, "issues", issue, options...)
+	return s.timeStats.resetTimeEstimate(pid, "issues", issue, options...)
 }
 
 // AddSpentTime adds spent time for a single project issue.
@@ -325,7 +326,7 @@ func (s *IssuesService) ResetTimeEstimate(pid interface{}, issue int, options ..
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/issues.html#add-spent-time-for-an-issue
 func (s *IssuesService) AddSpentTime(pid interface{}, issue int, opt *AddSpentTimeOptions, options ...OptionFunc) (*TimeStats, *Response, error) {
-	return s.client.timeStats.addSpentTime(pid, "issues", issue, opt, options...)
+	return s.timeStats.addSpentTime(pid, "issues", issue, opt, options...)
 }
 
 // ResetSpentTime resets the spent time for a single project issue.
@@ -333,7 +334,7 @@ func (s *IssuesService) AddSpentTime(pid interface{}, issue int, opt *AddSpentTi
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/issues.html#reset-spent-time-for-an-issue
 func (s *IssuesService) ResetSpentTime(pid interface{}, issue int, options ...OptionFunc) (*TimeStats, *Response, error) {
-	return s.client.timeStats.resetSpentTime(pid, "issues", issue, options...)
+	return s.timeStats.resetSpentTime(pid, "issues", issue, options...)
 }
 
 // GetTimeSpent gets the spent time for a single project issue.
@@ -341,5 +342,5 @@ func (s *IssuesService) ResetSpentTime(pid interface{}, issue int, options ...Op
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/issues.html#get-time-tracking-stats
 func (s *IssuesService) GetTimeSpent(pid interface{}, issue int, options ...OptionFunc) (*TimeStats, *Response, error) {
-	return s.client.timeStats.getTimeSpent(pid, "issues", issue, options...)
+	return s.timeStats.getTimeSpent(pid, "issues", issue, options...)
 }
