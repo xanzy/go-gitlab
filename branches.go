@@ -1,5 +1,5 @@
 //
-// Copyright 2015, Sander van Harmelen
+// Copyright 2017, Sander van Harmelen
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -172,8 +172,8 @@ func (s *BranchesService) UnprotectBranch(pid interface{}, branch string, option
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/branches.html#create-repository-branch
 type CreateBranchOptions struct {
-	BranchName *string `url:"branch_name,omitempty" json:"branch_name,omitempty"`
-	Ref        *string `url:"ref,omitempty" json:"ref,omitempty"`
+	Branch *string `url:"branch,omitempty" json:"branch,omitempty"`
+	Ref    *string `url:"ref,omitempty" json:"ref,omitempty"`
 }
 
 // CreateBranch creates branch from commit SHA or existing branch.
