@@ -15,7 +15,7 @@ func projectExample() {
 		Description:          gitlab.String("Just a test project to play with"),
 		MergeRequestsEnabled: gitlab.Bool(true),
 		SnippetsEnabled:      gitlab.Bool(true),
-		VisibilityLevel:      gitlab.VisibilityLevel(gitlab.PublicVisibility),
+		Visibility:           gitlab.Visibility(gitlab.PublicVisibility),
 	}
 	project, _, err := git.Projects.CreateProject(p)
 	if err != nil {
@@ -24,10 +24,10 @@ func projectExample() {
 
 	// Add a new snippet
 	s := &gitlab.CreateSnippetOptions{
-		Title:           gitlab.String("Dummy Snippet"),
-		FileName:        gitlab.String("snippet.go"),
-		Code:            gitlab.String("package main...."),
-		VisibilityLevel: gitlab.VisibilityLevel(gitlab.PublicVisibility),
+		Title:      gitlab.String("Dummy Snippet"),
+		FileName:   gitlab.String("snippet.go"),
+		Code:       gitlab.String("package main...."),
+		Visibility: gitlab.Visibility(gitlab.PublicVisibility),
 	}
 	_, _, err = git.ProjectSnippets.CreateSnippet(project.ID, s)
 	if err != nil {

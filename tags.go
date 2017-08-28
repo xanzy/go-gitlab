@@ -1,5 +1,5 @@
 //
-// Copyright 2015, Sander van Harmelen
+// Copyright 2017, Sander van Harmelen
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,32 +24,33 @@ import (
 // TagsService handles communication with the tags related methods
 // of the GitLab API.
 //
-// GitLab API docs:
-// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/tags.md
+// GitLab API docs: https://docs.gitlab.com/ce/api/tags.html
 type TagsService struct {
 	client *Client
 }
 
 // Tag represents a GitLab tag.
 //
-// GitLab API docs:
-// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/tags.md
+// GitLab API docs: https://docs.gitlab.com/ce/api/tags.html
 type Tag struct {
 	Commit  *Commit `json:"commit"`
-	Name    string  `json:"name"`
-	Message string  `json:"message"`
-	ReleaseDescription string `json:"release_description"`
+	Release struct {
+		TagName     string `json:"tag_name"`
+		Description string `json:"description"`
+	} `json:"release"`
+	Name    string `json:"name"`
+	Message string `json:"message"`
 }
 
-func (r Tag) String() string {
-	return Stringify(r)
+func (t Tag) String() string {
+	return Stringify(t)
 }
 
 // ListTags gets a list of tags from a project, sorted by name in reverse
 // alphabetical order.
 //
 // GitLab API docs:
-// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/tags.md#list-project-repository-tags
+// https://docs.gitlab.com/ce/api/tags.html#list-project-repository-tags
 func (s *TagsService) ListTags(pid interface{}, options ...OptionFunc) ([]*Tag, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -75,7 +76,7 @@ func (s *TagsService) ListTags(pid interface{}, options ...OptionFunc) ([]*Tag, 
 // with the tag information if the tag exists. It returns 404 if the tag does not exist.
 //
 // GitLab API docs:
-// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/tags.md#get-a-single-repository-tag
+// https://docs.gitlab.com/ce/api/tags.html#get-a-single-repository-tag
 func (s *TagsService) GetTag(pid interface{}, tag string, options ...OptionFunc) (*Tag, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -100,18 +101,18 @@ func (s *TagsService) GetTag(pid interface{}, tag string, options ...OptionFunc)
 // CreateTagOptions represents the available CreateTag() options.
 //
 // GitLab API docs:
-// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/tags.md#create-a-new-tag
+// https://docs.gitlab.com/ce/api/tags.html#create-a-new-tag
 type CreateTagOptions struct {
-	TagName *string `url:"tag_name,omitempty" json:"tag_name,omitempty"`
-	Ref     *string `url:"ref,omitempty" json:"ref,omitempty"`
-	Message *string `url:"message,omitempty" json:"message,omitempty"`
+	TagName            *string `url:"tag_name,omitempty" json:"tag_name,omitempty"`
+	Ref                *string `url:"ref,omitempty" json:"ref,omitempty"`
+	Message            *string `url:"message,omitempty" json:"message,omitempty"`
 	ReleaseDescription *string `url:"release_description:omitempty" json:"release_description,omitempty"`
 }
 
 // CreateTag creates a new tag in the repository that points to the supplied ref.
 //
 // GitLab API docs:
-// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/tags.md#create-a-new-tag
+// https://docs.gitlab.com/ce/api/tags.html#create-a-new-tag
 func (s *TagsService) CreateTag(pid interface{}, opt *CreateTagOptions, options ...OptionFunc) (*Tag, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -136,7 +137,7 @@ func (s *TagsService) CreateTag(pid interface{}, opt *CreateTagOptions, options 
 // DeleteTag deletes a tag of a repository with given name.
 //
 // GitLab API docs:
-// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/tags.md#delete-a-tag
+// https://docs.gitlab.com/ce/api/tags.html#delete-a-tag
 func (s *TagsService) DeleteTag(pid interface{}, tag string, options ...OptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {

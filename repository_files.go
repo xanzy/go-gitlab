@@ -1,5 +1,5 @@
 //
-// Copyright 2015, Sander van Harmelen
+// Copyright 2017, Sander van Harmelen
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,16 +24,14 @@ import (
 // RepositoryFilesService handles communication with the repository files
 // related methods of the GitLab API.
 //
-// GitLab API docs:
-// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/repository_files.md
+// GitLab API docs: https://docs.gitlab.com/ce/api/repository_files.html
 type RepositoryFilesService struct {
 	client *Client
 }
 
 // File represents a GitLab repository file.
 //
-// GitLab API docs:
-// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/repository_files.md
+// GitLab API docs: https://docs.gitlab.com/ce/api/repository_files.html
 type File struct {
 	FileName string `json:"file_name"`
 	FilePath string `json:"file_path"`
@@ -52,23 +50,55 @@ func (r File) String() string {
 // GetFileOptions represents the available GetFile() options.
 //
 // GitLab API docs:
-// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/repository_files.md#get-file-from-respository
+// https://docs.gitlab.com/ce/api/repository_files.html#get-file-from-repository
 type GetFileOptions struct {
-	FilePath *string `url:"file_path,omitempty" json:"file_path,omitempty"`
-	Ref      *string `url:"ref,omitempty" json:"ref,omitempty"`
+	Ref *string `url:"ref,omitempty" json:"ref,omitempty"`
 }
 
 // GetFile allows you to receive information about a file in repository like
 // name, size, content. Note that file content is Base64 encoded.
 //
 // GitLab API docs:
-// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/repository_files.md#get-file-from-respository
-func (s *RepositoryFilesService) GetFile(pid interface{}, opt *GetFileOptions, options ...OptionFunc) (*File, *Response, error) {
+// https://docs.gitlab.com/ce/api/repository_files.html#get-file-from-repository
+func (s *RepositoryFilesService) GetFile(pid interface{}, fileName string, opt *GetFileOptions, options ...OptionFunc) (*File, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/repository/files", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/repository/files/%s", url.QueryEscape(project), url.QueryEscape(fileName))
+
+	req, err := s.client.NewRequest("GET", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	f := new(File)
+	resp, err := s.client.Do(req, f)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return f, resp, err
+}
+
+// GetRawFileOptions represents the available GetRawFile() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/repository_files.html#get-raw-file-from-repository
+type GetRawFileOptions struct {
+	Ref *string `url:"ref,omitempty" json:"ref,omitempty"`
+}
+
+// GetRawFile allows you to receive the raw file in repository.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/repository_files.html#get-raw-file-from-repository
+func (s *RepositoryFilesService) GetRawFile(pid interface{}, fileName string, opt *GetRawFileOptions, options ...OptionFunc) (*File, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/repository/files/%s/raw", url.QueryEscape(project), url.QueryEscape(fileName))
 
 	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
@@ -86,11 +116,10 @@ func (s *RepositoryFilesService) GetFile(pid interface{}, opt *GetFileOptions, o
 
 // FileInfo represents file details of a GitLab repository file.
 //
-// GitLab API docs:
-// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/repository_files.md
+// GitLab API docs: https://docs.gitlab.com/ce/api/repository_files.html
 type FileInfo struct {
-	FilePath   string `json:"file_path"`
-	BranchName string `json:"branch_name"`
+	FilePath string `json:"file_path"`
+	Branch   string `json:"branch"`
 }
 
 func (r FileInfo) String() string {
@@ -100,10 +129,9 @@ func (r FileInfo) String() string {
 // CreateFileOptions represents the available CreateFile() options.
 //
 // GitLab API docs:
-// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/repository_files.md#create-new-file-in-repository
+// https://docs.gitlab.com/ce/api/repository_files.html#create-new-file-in-repository
 type CreateFileOptions struct {
-	FilePath      *string `url:"file_path,omitempty" json:"file_path,omitempty"`
-	BranchName    *string `url:"branch_name,omitempty" json:"branch_name,omitempty"`
+	Branch        *string `url:"branch,omitempty" json:"branch,omitempty"`
 	Encoding      *string `url:"encoding,omitempty" json:"encoding,omitempty"`
 	AuthorEmail   *string `url:"author_email,omitempty" json:"author_email,omitempty"`
 	AuthorName    *string `url:"author_name,omitempty" json:"author_name,omitempty"`
@@ -114,13 +142,13 @@ type CreateFileOptions struct {
 // CreateFile creates a new file in a repository.
 //
 // GitLab API docs:
-// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/repository_files.md#create-new-file-in-repository
-func (s *RepositoryFilesService) CreateFile(pid interface{}, opt *CreateFileOptions, options ...OptionFunc) (*FileInfo, *Response, error) {
+// https://docs.gitlab.com/ce/api/repository_files.html#create-new-file-in-repository
+func (s *RepositoryFilesService) CreateFile(pid interface{}, fileName string, opt *CreateFileOptions, options ...OptionFunc) (*FileInfo, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/repository/files", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/repository/files/%s", url.QueryEscape(project), url.QueryEscape(fileName))
 
 	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
@@ -139,27 +167,27 @@ func (s *RepositoryFilesService) CreateFile(pid interface{}, opt *CreateFileOpti
 // UpdateFileOptions represents the available UpdateFile() options.
 //
 // GitLab API docs:
-// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/repository_files.md#update-existing-file-in-repository
+// https://docs.gitlab.com/ce/api/repository_files.html#update-existing-file-in-repository
 type UpdateFileOptions struct {
-	FilePath      *string `url:"file_path,omitempty" json:"file_path,omitempty"`
-	BranchName    *string `url:"branch_name,omitempty" json:"branch_name,omitempty"`
+	Branch        *string `url:"branch,omitempty" json:"branch,omitempty"`
 	Encoding      *string `url:"encoding,omitempty" json:"encoding,omitempty"`
 	AuthorEmail   *string `url:"author_email,omitempty" json:"author_email,omitempty"`
 	AuthorName    *string `url:"author_name,omitempty" json:"author_name,omitempty"`
 	Content       *string `url:"content,omitempty" json:"content,omitempty"`
 	CommitMessage *string `url:"commit_message,omitempty" json:"commit_message,omitempty"`
+	LastCommitID  *string `url:"last_commit_id,omitempty" json:"last_commit_id,omitempty"`
 }
 
 // UpdateFile updates an existing file in a repository
 //
 // GitLab API docs:
-// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/repository_files.md#update-existing-file-in-repository
-func (s *RepositoryFilesService) UpdateFile(pid interface{}, opt *UpdateFileOptions, options ...OptionFunc) (*FileInfo, *Response, error) {
+// https://docs.gitlab.com/ce/api/repository_files.html#update-existing-file-in-repository
+func (s *RepositoryFilesService) UpdateFile(pid interface{}, fileName string, opt *UpdateFileOptions, options ...OptionFunc) (*FileInfo, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/repository/files", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/repository/files/%s", url.QueryEscape(project), url.QueryEscape(fileName))
 
 	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
@@ -178,10 +206,9 @@ func (s *RepositoryFilesService) UpdateFile(pid interface{}, opt *UpdateFileOpti
 // DeleteFileOptions represents the available DeleteFile() options.
 //
 // GitLab API docs:
-// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/repository_files.md#delete-existing-file-in-repository
+// https://docs.gitlab.com/ce/api/repository_files.html#delete-existing-file-in-repository
 type DeleteFileOptions struct {
-	FilePath      *string `url:"file_path,omitempty" json:"file_path,omitempty"`
-	BranchName    *string `url:"branch_name,omitempty" json:"branch_name,omitempty"`
+	Branch        *string `url:"branch,omitempty" json:"branch,omitempty"`
 	AuthorEmail   *string `url:"author_email,omitempty" json:"author_email,omitempty"`
 	AuthorName    *string `url:"author_name,omitempty" json:"author_name,omitempty"`
 	CommitMessage *string `url:"commit_message,omitempty" json:"commit_message,omitempty"`
@@ -190,13 +217,13 @@ type DeleteFileOptions struct {
 // DeleteFile deletes an existing file in a repository
 //
 // GitLab API docs:
-// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/repository_files.md#delete-existing-file-in-repository
-func (s *RepositoryFilesService) DeleteFile(pid interface{}, opt *DeleteFileOptions, options ...OptionFunc) (*FileInfo, *Response, error) {
+// https://docs.gitlab.com/ce/api/repository_files.html#delete-existing-file-in-repository
+func (s *RepositoryFilesService) DeleteFile(pid interface{}, fileName string, opt *DeleteFileOptions, options ...OptionFunc) (*FileInfo, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/repository/files", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/repository/files/%s", url.QueryEscape(project), url.QueryEscape(fileName))
 
 	req, err := s.client.NewRequest("DELETE", u, opt, options)
 	if err != nil {

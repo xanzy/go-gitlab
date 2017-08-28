@@ -2,12 +2,9 @@ package gitlab
 
 import (
 	"context"
-	"encoding/json"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
-	"net/url"
-	"reflect"
 	"strings"
 	"testing"
 )
@@ -43,41 +40,6 @@ func testURL(t *testing.T, r *http.Request, want string) {
 func testMethod(t *testing.T, r *http.Request, want string) {
 	if got := r.Method; got != want {
 		t.Errorf("Request method: %s, want %s", got, want)
-	}
-}
-
-type values map[string]string
-
-func testFormValues(t *testing.T, r *http.Request, values values) {
-	want := url.Values{}
-	for k, v := range values {
-		want.Add(k, v)
-	}
-
-	err := r.ParseForm()
-	if err != nil {
-		t.Errorf("Error parsing form: %v", err)
-	}
-
-	if got := r.Form; !reflect.DeepEqual(got, want) {
-		t.Errorf("Request parameters: %v, want %v", got, want)
-	}
-}
-
-func testJSONBody(t *testing.T, r *http.Request, want values) {
-	b, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		t.Errorf("Error reading request body: %v", err)
-	}
-
-	var got values
-	err = json.Unmarshal(b, &got)
-	if err != nil {
-		t.Errorf("Error unmarshalling request body: %v", err)
-	}
-
-	if !reflect.DeepEqual(got, want) {
-		t.Errorf("Request parameters: %v, want %v", got, want)
 	}
 }
 
@@ -132,7 +94,7 @@ func TestCheckResponse(t *testing.T) {
 		t.Fatal("Expected error response.")
 	}
 
-	want := "GET https://gitlab.com/api/v3/test: 400 {error: message 1}, {message: {embed1: {prop3: [msg 1, msg2]}}, {embed2: {prop4: [some msg]}}, {prop1: [message 1, message 2]}, {prop2: [message 3]}}"
+	want := "GET https://gitlab.com/api/v4/test: 400 {error: message 1}, {message: {embed1: {prop3: [msg 1, msg2]}}, {embed2: {prop4: [some msg]}}, {prop1: [message 1, message 2]}, {prop2: [message 3]}}"
 
 	if errResp.Error() != want {
 		t.Errorf("Expected error: %s, got %s", want, errResp.Error())

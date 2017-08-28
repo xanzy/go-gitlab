@@ -19,16 +19,14 @@ package gitlab
 // VersionService handles communication with the GitLab server instance to
 // retrieve its version information via the GitLab API.
 //
-// GitLab API docs:
-// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/version.md
+// GitLab API docs: https://docs.gitlab.com/ce/api/version.md
 type VersionService struct {
 	client *Client
 }
 
 // Version represents a GitLab instance version.
 //
-// GitLab API docs:
-// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/version.md
+// GitLab API docs: https://docs.gitlab.com/ce/api/version.md
 type Version struct {
 	Version  string `json:"version"`
 	Revision string `json:"revision"`
@@ -41,8 +39,7 @@ func (s Version) String() string {
 // GetVersion gets a GitLab server instance version; it is only available to
 // authenticated users.
 //
-// GitLab API docs:
-// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/version.md
+// GitLab API docs: https://docs.gitlab.com/ce/api/version.md
 func (s *VersionService) GetVersion() (*Version, *Response, error) {
 	req, err := s.client.NewRequest("GET", "version", nil, nil)
 	if err != nil {
