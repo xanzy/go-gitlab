@@ -37,7 +37,7 @@ type Service struct {
 	ID                  *int       `json:"id"`
 	Title               *string    `json:"title"`
 	CreatedAt           *time.Time `json:"created_at"`
-	UpdatedAt           *time.Time `json:"created_at"`
+	UpdatedAt           *time.Time `json:"update_at"`
 	Active              *bool      `json:"active"`
 	PushEvents          *bool      `json:"push_events"`
 	IssuesEvents        *bool      `json:"issues_events"`
@@ -276,4 +276,68 @@ func (s *ServicesService) DeleteSlackService(pid interface{}, options ...OptionF
 	}
 
 	return s.client.Do(req, nil)
+}
+
+// SetJenkinsCIServiceOptions represents the available SetJenkinsCIService()
+// options.
+//
+type SetJenkinsCIServiceOptions struct {
+	URL         *string `url:"jenkins_url" json:"jenkins_url" `
+	ProjectName *string `url:"project_name" json:"project_name" `
+	Username    *string `url:"username" json:"username"`
+	Password    *string `url:"password" json:"password"`
+}
+
+// SetJenkinsCIService sets Jenkins service for a project
+//
+//
+func (s *ServicesService) SetJenkinsCIService(pid interface{}, opt *SetJenkinsCIServiceOptions, options ...OptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/services/jenkins", url.QueryEscape(project))
+
+	req, err := s.client.NewRequest("PUT", u, opt, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
+
+// JenkinsCIServiceProperties represents Jenkins CI specific properties.
+type JenkinsCIServiceProperties struct {
+	URL         *string `url:"jenkins_url" json:"jenkins_url" `
+	ProjectName *string `url:"project_name" json:"project_name" `
+	Username    *string `url:"username" json:"username"`
+}
+
+// JenkinsCIService represents Jenkins CI service settings.
+type JenkinsCIService struct {
+	Service
+	Properties *JenkinsCIServiceProperties `json:"properties"`
+}
+
+// GetJenkinsCIService gets Jenkins CI service settings for a project.
+//
+func (s *ServicesService) GetJenkinsCIService(pid interface{}, options ...OptionFunc) (*JenkinsCIService, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/services/jenkins", url.QueryEscape(project))
+
+	req, err := s.client.NewRequest("GET", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	opt := new(JenkinsCIService)
+	resp, err := s.client.Do(req, opt)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return opt, resp, err
 }
