@@ -218,23 +218,17 @@ type DeleteFileOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/repository_files.html#delete-existing-file-in-repository
-func (s *RepositoryFilesService) DeleteFile(pid interface{}, fileName string, opt *DeleteFileOptions, options ...OptionFunc) (*FileInfo, *Response, error) {
+func (s *RepositoryFilesService) DeleteFile(pid interface{}, fileName string, opt *DeleteFileOptions, options ...OptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 	u := fmt.Sprintf("projects/%s/repository/files/%s", url.QueryEscape(project), url.QueryEscape(fileName))
 
 	req, err := s.client.NewRequest("DELETE", u, opt, options)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
-	f := new(FileInfo)
-	resp, err := s.client.Do(req, f)
-	if err != nil {
-		return nil, resp, err
-	}
-
-	return f, resp, err
+	return s.client.Do(req, nil)
 }
