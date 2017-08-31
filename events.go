@@ -509,10 +509,15 @@ type PipelineEvent struct {
 			Username  string `json:"username"`
 			AvatarURL string `json:"avatar_url"`
 		} `json:"user"`
-		Runner        string `json:"runner"`
+		Runner struct {
+			Id          int    `json:"id"`
+			Description string `json:"description"`
+			Active      bool   `json:"active"`
+			IsShared    bool   `json:"is_shared"`
+		} `json:"runner"`
 		ArtifactsFile struct {
 			Filename string `json:"filename"`
-			Size     string `json:"size"`
+			Size     int    `json:"size"`
 		} `json:"artifacts_file"`
 	} `json:"builds"`
 }
