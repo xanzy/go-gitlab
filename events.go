@@ -510,7 +510,7 @@ type PipelineEvent struct {
 			AvatarURL string `json:"avatar_url"`
 		} `json:"user"`
 		Runner struct {
-			Id          int    `json:"id"`
+			ID          int    `json:"id"`
 			Description string `json:"description"`
 			Active      bool   `json:"active"`
 			IsShared    bool   `json:"is_shared"`
