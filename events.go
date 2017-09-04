@@ -527,21 +527,21 @@ type PipelineEvent struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ce/web_hooks/web_hooks.html#build-events
 type BuildEvent struct {
-	ObjectKind        string `json:"object_kind"`
-	Ref               string `json:"ref"`
-	Tag               bool   `json:"tag"`
-	BeforeSha         string `json:"before_sha"`
-	Sha               string `json:"sha"`
-	BuildID           int    `json:"build_id"`
-	BuildName         string `json:"build_name"`
-	BuildStage        string `json:"build_stage"`
-	BuildStatus       string `json:"build_status"`
-	BuildStartedAt    string `json:"build_started_at"`
-	BuildFinishedAt   string `json:"build_finished_at"`
-	BuildDuration     string `json:"build_duration"`
-	BuildAllowFailure bool   `json:"build_allow_failure"`
-	ProjectID         int    `json:"project_id"`
-	ProjectName       string `json:"project_name"`
+	ObjectKind        string  `json:"object_kind"`
+	Ref               string  `json:"ref"`
+	Tag               bool    `json:"tag"`
+	BeforeSha         string  `json:"before_sha"`
+	Sha               string  `json:"sha"`
+	BuildID           int     `json:"build_id"`
+	BuildName         string  `json:"build_name"`
+	BuildStage        string  `json:"build_stage"`
+	BuildStatus       string  `json:"build_status"`
+	BuildStartedAt    string  `json:"build_started_at"`
+	BuildFinishedAt   string  `json:"build_finished_at"`
+	BuildDuration     float32 `json:"build_duration"`
+	BuildAllowFailure bool    `json:"build_allow_failure"`
+	ProjectID         int     `json:"project_id"`
+	ProjectName       string  `json:"project_name"`
 	User              struct {
 		ID    int    `json:"id"`
 		Name  string `json:"name"`
