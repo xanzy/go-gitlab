@@ -391,7 +391,7 @@ func TestBuildEventUnmarshal(t *testing.T) {
   "build_status": "created",
   "build_started_at": null,
   "build_finished_at": null,
-  "build_duration": null,
+  "build_duration": 23.265997,
   "build_allow_failure": false,
   "project_id": 380,
   "project_name": "gitlab-org/gitlab-test",
