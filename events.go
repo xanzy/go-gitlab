@@ -538,7 +538,7 @@ type BuildEvent struct {
 	BuildStatus       string  `json:"build_status"`
 	BuildStartedAt    string  `json:"build_started_at"`
 	BuildFinishedAt   string  `json:"build_finished_at"`
-	BuildDuration     float32 `json:"build_duration"`
+	BuildDuration     float64 `json:"build_duration"`
 	BuildAllowFailure bool    `json:"build_allow_failure"`
 	ProjectID         int     `json:"project_id"`
 	ProjectName       string  `json:"project_name"`
