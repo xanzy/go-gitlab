@@ -76,14 +76,14 @@ type MergeRequest struct {
 		UpdatedAt   *time.Time `json:"updated_at"`
 		DueDate     string     `json:"due_date"`
 	} `json:"milestone"`
-	MergeWhenBuildSucceeds  bool   `json:"merge_when_build_succeeds"`
-	MergeStatus             string `json:"merge_status"`
-	SHA                     string `json:"sha"`
-	Subscribed              bool   `json:"subscribed"`
-	UserNotesCount          int    `json:"user_notes_count"`
-	SouldRemoveSourceBranch bool   `json:"should_remove_source_branch"`
-	ForceRemoveSourceBranch bool   `json:"force_remove_source_branch"`
-	Changes                 []struct {
+	MergeWhenPipelineSucceeds bool   `json:"merge_when_pipeline_succeeds"`
+	MergeStatus               string `json:"merge_status"`
+	SHA                       string `json:"sha"`
+	Subscribed                bool   `json:"subscribed"`
+	UserNotesCount            int    `json:"user_notes_count"`
+	SouldRemoveSourceBranch   bool   `json:"should_remove_source_branch"`
+	ForceRemoveSourceBranch   bool   `json:"force_remove_source_branch"`
+	Changes                   []struct {
 		OldPath     string `json:"old_path"`
 		NewPath     string `json:"new_path"`
 		AMode       string `json:"a_mode"`
@@ -302,10 +302,10 @@ func (s *MergeRequestsService) UpdateMergeRequest(pid interface{}, mergeRequest 
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/merge_requests.html#accept-mr
 type AcceptMergeRequestOptions struct {
-	MergeCommitMessage       *string `url:"merge_commit_message,omitempty" json:"merge_commit_message,omitempty"`
-	ShouldRemoveSourceBranch *bool   `url:"should_remove_source_branch,omitempty" json:"should_remove_source_branch,omitempty"`
-	MergeWhenBuildSucceeds   *bool   `url:"merge_when_build_succeeds,omitempty" json:"merge_when_build_succeeds,omitempty"`
-	Sha                      *string `url:"sha,omitempty" json:"sha,omitempty"`
+	MergeCommitMessage        *string `url:"merge_commit_message,omitempty" json:"merge_commit_message,omitempty"`
+	ShouldRemoveSourceBranch  *bool   `url:"should_remove_source_branch,omitempty" json:"should_remove_source_branch,omitempty"`
+	MergeWhenPipelineSucceeds *bool   `url:"merge_when_pipeline_succeeds,omitempty" json:"merge_when_pipeline_succeeds,omitempty"`
+	Sha                       *string `url:"sha,omitempty" json:"sha,omitempty"`
 }
 
 // AcceptMergeRequest merges changes submitted with MR using this API. If merge

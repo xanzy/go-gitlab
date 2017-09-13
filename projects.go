@@ -52,7 +52,7 @@ type Project struct {
 	OpenIssuesCount                           int               `json:"open_issues_count"`
 	MergeRequestsEnabled                      bool              `json:"merge_requests_enabled"`
 	ApprovalsBeforeMerge                      int               `json:"approvals_before_merge"`
-	BuildsEnabled                             bool              `json:"builds_enabled"`
+	JobsEnabled                               bool              `json:"jobs_enabled"`
 	WikiEnabled                               bool              `json:"wiki_enabled"`
 	SnippetsEnabled                           bool              `json:"snippets_enabled"`
 	ContainerRegistryEnabled                  bool              `json:"container_registry_enabled"`
@@ -67,8 +67,8 @@ type Project struct {
 	ForksCount                                int               `json:"forks_count"`
 	StarCount                                 int               `json:"star_count"`
 	RunnersToken                              string            `json:"runners_token"`
-	PublicBuilds                              bool              `json:"public_builds"`
-	OnlyAllowMergeIfBuildSucceeds             bool              `json:"only_allow_merge_if_build_succeeds"`
+	PublicJobs                                bool              `json:"public_jobs"`
+	OnlyAllowMergeIfPipelineSucceeds          bool              `json:"only_allow_merge_if_pipeline_succeeds"`
 	OnlyAllowMergeIfAllDiscussionsAreResolved bool              `json:"only_allow_merge_if_all_discussions_are_resolved"`
 	LFSEnabled                                bool              `json:"lfs_enabled"`
 	RequestAccessEnabled                      bool              `json:"request_access_enabled"`
@@ -112,10 +112,10 @@ type ProjectNamespace struct {
 
 // StorageStatistics represents a statistics record for a group or project.
 type StorageStatistics struct {
-	StorageSize        int64 `json:"storage_size"`
-	RepositorySize     int64 `json:"repository_size"`
-	LfsObjectsSize     int64 `json:"lfs_objects_size"`
-	BuildArtifactsSize int64 `json:"build_artifacts_size"`
+	StorageSize      int64 `json:"storage_size"`
+	RepositorySize   int64 `json:"repository_size"`
+	LfsObjectsSize   int64 `json:"lfs_objects_size"`
+	JobArtifactsSize int64 `json:"job_artifacts_size"`
 }
 
 // ProjectStatistics represents a statistics record for a project.
@@ -582,7 +582,7 @@ type ProjectHook struct {
 	MergeRequestsEvents   bool       `json:"merge_requests_events"`
 	TagPushEvents         bool       `json:"tag_push_events"`
 	NoteEvents            bool       `json:"note_events"`
-	BuildEvents           bool       `json:"build_events"`
+	JobEvents             bool       `json:"job_events"`
 	PipelineEvents        bool       `json:"pipeline_events"`
 	WikiPageEvents        bool       `json:"wiki_page_events"`
 	EnableSSLVerification bool       `json:"enable_ssl_verification"`
@@ -657,7 +657,7 @@ type AddProjectHookOptions struct {
 	MergeRequestsEvents   *bool   `url:"merge_requests_events,omitempty" json:"merge_requests_events,omitempty"`
 	TagPushEvents         *bool   `url:"tag_push_events,omitempty" json:"tag_push_events,omitempty"`
 	NoteEvents            *bool   `url:"note_events,omitempty" json:"note_events,omitempty"`
-	BuildEvents           *bool   `url:"build_events,omitempty" json:"build_events,omitempty"`
+	JobEvents             *bool   `url:"job_events,omitempty" json:"job_events,omitempty"`
 	PipelineEvents        *bool   `url:"pipeline_events,omitempty" json:"pipeline_events,omitempty"`
 	WikiPageEvents        *bool   `url:"wiki_page_events,omitempty" json:"wiki_page_events,omitempty"`
 	EnableSSLVerification *bool   `url:"enable_ssl_verification,omitempty" json:"enable_ssl_verification,omitempty"`
@@ -700,7 +700,7 @@ type EditProjectHookOptions struct {
 	MergeRequestsEvents   *bool   `url:"merge_requests_events,omitempty" json:"merge_requests_events,omitempty"`
 	TagPushEvents         *bool   `url:"tag_push_events,omitempty" json:"tag_push_events,omitempty"`
 	NoteEvents            *bool   `url:"note_events,omitempty" json:"note_events,omitempty"`
-	BuildEvents           *bool   `url:"build_events,omitempty" json:"build_events,omitempty"`
+	JobEvents             *bool   `url:"job_events,omitempty" json:"job_events,omitempty"`
 	PipelineEvents        *bool   `url:"pipeline_events,omitempty" json:"pipeline_events,omitempty"`
 	WikiPageEvents        *bool   `url:"wiki_page_events,omitempty" json:"wiki_page_events,omitempty"`
 	EnableSSLVerification *bool   `url:"enable_ssl_verification,omitempty" json:"enable_ssl_verification,omitempty"`
