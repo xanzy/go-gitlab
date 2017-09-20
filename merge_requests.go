@@ -35,19 +35,19 @@ type MergeRequestsService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/merge_requests.html
 type MergeRequest struct {
-	ID             int        `json:"id"`
-	IID            int        `json:"iid"`
-	ProjectID      int        `json:"project_id"`
-	Title          string     `json:"title"`
-	Description    string     `json:"description"`
-	WorkInProgress bool       `json:"work_in_progress"`
-	State          string     `json:"state"`
-	CreatedAt      *time.Time `json:"created_at"`
-	UpdatedAt      *time.Time `json:"updated_at"`
-	TargetBranch   string     `json:"target_branch"`
-	SourceBranch   string     `json:"source_branch"`
-	Upvotes        int        `json:"upvotes"`
-	Downvotes      int        `json:"downvotes"`
+	ID             int    `json:"id"`
+	IID            int    `json:"iid"`
+	ProjectID      int    `json:"project_id"`
+	Title          string `json:"title"`
+	Description    string `json:"description"`
+	WorkInProgress bool   `json:"work_in_progress"`
+	State          string `json:"state"`
+	CreatedAt      string `json:"created_at"`
+	UpdatedAt      string `json:"updated_at"`
+	TargetBranch   string `json:"target_branch"`
+	SourceBranch   string `json:"source_branch"`
+	Upvotes        int    `json:"upvotes"`
+	Downvotes      int    `json:"downvotes"`
 	Author         struct {
 		Name      string `json:"name"`
 		Username  string `json:"username"`
