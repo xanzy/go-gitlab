@@ -96,7 +96,34 @@ type MergeRequest struct {
 	WebURL string `json:"web_url"`
 }
 
+type MergeRequestApprovals struct {
+	ID                int        `json:"id"`
+	ProjectID         int        `json:"project_id"`
+	Title             string     `json:"title"`
+	Description       string     `json:"description"`
+	State             string     `json:"state"`
+	CreatedAt         *time.Time `json:"created_at"`
+	UpdatedAt         *time.Time `json:"updated_at"`
+	MergeStatus       string     `json:"merge_status"`
+	ApprovalsRequired int        `json:"approvals_required"`
+	ApprovalsMissing  int        `json:"approvals_missing"`
+	ApprovedBy        []struct {
+		User struct {
+			Name      string `json:"name"`
+			Username  string `json:"username"`
+			ID        int    `json:"id"`
+			State     string `json:"state"`
+			AvatarURL string `json:"avatar_url"`
+			WebURL    string `json:"web_url"`
+		} `json:"user"`
+	} `json:"approved_by"`
+}
+
 func (m MergeRequest) String() string {
+	return Stringify(m)
+}
+
+func (m MergeRequestApprovals) String() string {
 	return Stringify(m)
 }
 
@@ -216,6 +243,32 @@ func (s *MergeRequestsService) GetMergeRequest(pid interface{}, mergeRequest int
 	}
 
 	return m, resp, err
+}
+
+// GetMergeRequestApprovals gets information about a merge requests approvals
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/merge_requests.html#merge-request-approvals
+
+func (s *MergeRequestsService) GetMergeRequestApprovals(pid interface{}, mergeRequest int, options ...OptionFunc) (*MergeRequestApprovals, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/approvals", url.QueryEscape(project), mergeRequest)
+
+	req, err := s.client.NewRequest("GET", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	a := new(MergeRequestApprovals)
+	resp, err := s.client.Do(req, a)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return a, resp, err
 }
 
 // GetMergeRequestCommits gets a list of merge request commits.
