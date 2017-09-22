@@ -17,8 +17,13 @@
 package gitlab
 
 import (
+	"bytes"
 	"fmt"
+	"io"
+	"io/ioutil"
+	"mime/multipart"
 	"net/url"
+	"os"
 	"time"
 )
 
@@ -799,4 +804,62 @@ func (s *ProjectsService) DeleteProjectForkRelation(pid int, options ...OptionFu
 	}
 
 	return s.client.Do(req, nil)
+}
+
+// ProjectFile represents an uploaded project file
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#upload-a-file
+type ProjectFile struct {
+	Alt      string `json:"alt"`
+	URL      string `json:"url"`
+	Markdown string `json:"markdown"`
+}
+
+// UploadFile upload a file from disk
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#upload-a-file
+func (s *ProjectsService) UploadFile(pid interface{}, file string, options ...OptionFunc) (*ProjectFile, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/uploads", url.QueryEscape(project))
+
+	f, err := os.Open(file)
+	if err != nil {
+		return nil, nil, err
+	}
+	defer f.Close()
+
+	b := &bytes.Buffer{}
+	w := multipart.NewWriter(b)
+
+	fw, err := w.CreateFormFile("file", file)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	_, err = io.Copy(fw, f)
+	if err != nil {
+		return nil, nil, err
+	}
+	w.Close()
+
+	req, err := s.client.NewRequest("", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	req.Body = ioutil.NopCloser(b)
+	req.ContentLength = int64(b.Len())
+	req.Header.Set("Content-Type", w.FormDataContentType())
+	req.Method = "POST"
+
+	uf := &ProjectFile{}
+	resp, err := s.client.Do(req, uf)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return uf, resp, nil
 }
