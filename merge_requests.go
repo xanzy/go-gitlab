@@ -96,6 +96,14 @@ type MergeRequest struct {
 	WebURL string `json:"web_url"`
 }
 
+func (m MergeRequest) String() string {
+	return Stringify(m)
+}
+
+// MergeRequestApprovals represents GitLab merge request approvals.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/merge_requests.html#merge-request-approvals
 type MergeRequestApprovals struct {
 	ID                int        `json:"id"`
 	ProjectID         int        `json:"project_id"`
@@ -117,10 +125,6 @@ type MergeRequestApprovals struct {
 			WebURL    string `json:"web_url"`
 		} `json:"user"`
 	} `json:"approved_by"`
-}
-
-func (m MergeRequest) String() string {
-	return Stringify(m)
 }
 
 func (m MergeRequestApprovals) String() string {
@@ -249,7 +253,6 @@ func (s *MergeRequestsService) GetMergeRequest(pid interface{}, mergeRequest int
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_requests.html#merge-request-approvals
-
 func (s *MergeRequestsService) GetMergeRequestApprovals(pid interface{}, mergeRequest int, options ...OptionFunc) (*MergeRequestApprovals, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
