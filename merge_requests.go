@@ -333,8 +333,8 @@ func (s *MergeRequestsService) GetMergeRequestChanges(pid interface{}, mergeRequ
 type CreateMergeRequestOptions struct {
 	Title           *string `url:"title,omitempty" json:"title,omitempty"`
 	Description     *string `url:"description,omitempty" json:"description,omitempty"`
-	SourceBranch    *string `url:"source_branch,omitemtpy" json:"source_branch,omitemtpy"`
-	TargetBranch    *string `url:"target_branch,omitemtpy" json:"target_branch,omitemtpy"`
+	SourceBranch    *string `url:"source_branch,omitempty" json:"source_branch,omitempty"`
+	TargetBranch    *string `url:"target_branch,omitempty" json:"target_branch,omitempty"`
 	AssigneeID      *int    `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
 	TargetProjectID *int    `url:"target_project_id,omitempty" json:"target_project_id,omitempty"`
 }
@@ -372,7 +372,7 @@ func (s *MergeRequestsService) CreateMergeRequest(pid interface{}, opt *CreateMe
 type UpdateMergeRequestOptions struct {
 	Title        *string `url:"title,omitempty" json:"title,omitempty"`
 	Description  *string `url:"description,omitempty" json:"description,omitempty"`
-	TargetBranch *string `url:"target_branch,omitemtpy" json:"target_branch,omitemtpy"`
+	TargetBranch *string `url:"target_branch,omitempty" json:"target_branch,omitempty"`
 	AssigneeID   *int    `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
 	Labels       Labels  `url:"labels,comma,omitempty" json:"labels,omitempty"`
 	MilestoneID  *int    `url:"milestone_id,omitempty" json:"milestone_id,omitempty"`
