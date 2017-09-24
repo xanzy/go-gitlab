@@ -38,15 +38,16 @@ type Group struct {
 	Name                 string             `json:"name"`
 	Path                 string             `json:"path"`
 	Description          string             `json:"description"`
+	Visibility           *VisibilityValue   `json:"visibility"`
+	LFSEnabled           bool               `json:"lfs_enabled"`
 	AvatarURL            string             `json:"avatar_url"`
+	WebURL               string             `json:"web_url"`
+	RequestAccessEnabled bool               `json:"request_access_enabled"`
 	FullName             string             `json:"full_name"`
 	FullPath             string             `json:"full_path"`
-	LFSEnabled           bool               `json:"lfs_enabled"`
+	ParentID             int                `json:"parent_id"`
 	Projects             []*Project         `json:"projects"`
 	Statistics           *StorageStatistics `json:"statistics"`
-	RequestAccessEnabled bool               `json:"request_access_enabled"`
-	Visibility           *VisibilityValue   `json:"visibility"`
-	WebURL               string             `json:"web_url"`
 }
 
 // ListGroupsOptions represents the available ListGroups() options.
