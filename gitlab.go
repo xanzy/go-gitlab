@@ -190,6 +190,7 @@ type Client struct {
 	Todos                *TodosService
 	Users                *UsersService
 	Version              *VersionService
+	Wikis                *WikisService
 }
 
 // ListOptions specifies the optional parameters to various List methods that
@@ -260,6 +261,7 @@ func newClient(httpClient *http.Client, tokenType tokenType, token string) *Clie
 	c.Todos = &TodosService{client: c}
 	c.Users = &UsersService{client: c}
 	c.Version = &VersionService{client: c}
+	c.Wikis = &WikisService{client: c}
 
 	return c
 }
