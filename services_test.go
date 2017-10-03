@@ -58,3 +58,59 @@ func TestGetDroneCIService(t *testing.T) {
 		t.Errorf("Services.GetDroneCIService returned %+v, want %+v", service, want)
 	}
 }
+
+func TestSetSlackService(t *testing.T) {
+	mux, server, client := setup()
+	defer teardown(server)
+
+	mux.HandleFunc("/projects/1/services/slack", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "PUT")
+	})
+
+	opt := &SetSlackServiceOptions{
+		WebHook:  String("webhook_uri"),
+		Username: String("username"),
+		Channel:  String("#development"),
+	}
+	_, err := client.Services.SetSlackService(1, opt)
+
+	if err != nil {
+		t.Fatalf("Services.SetSlackService returns an error: %v", err)
+	}
+}
+
+func TestDeleteSlackService(t *testing.T) {
+	mux, server, client := setup()
+	defer teardown(server)
+
+	mux.HandleFunc("/projects/1/services/slack", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "DELETE")
+	})
+
+	_, err := client.Services.DeleteSlackService(1)
+
+	if err != nil {
+		t.Fatalf("Services.DeleteSlackService returns an error: %v", err)
+	}
+}
+
+func TestGetSlackService(t *testing.T) {
+	mux, server, client := setup()
+	defer teardown(server)
+
+	mux.HandleFunc("/projects/1/services/slack", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "GET")
+		fmt.Fprint(w, `{"id":1}`)
+	})
+	want := &SetSlackServiceOptions{}
+
+	service, _, err := client.Services.GetSlackService(1)
+
+	if err != nil {
+		t.Fatalf("Services.GetSlackService returns an error: %v", err)
+	}
+
+	if !reflect.DeepEqual(want, service) {
+		t.Errorf("Services.GetSlackService returned %+v, want %+v", service, want)
+	}
+}
