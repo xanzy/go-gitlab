@@ -20,14 +20,14 @@ import (
 )
 
 // WikisService handles communication with the wikis related methods of
-// the Gitlab API Introduced in GitLab 10.0.
+// the Gitlab API.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/wikis.html
 type WikisService struct {
 	client *Client
 }
 
-// WikiFormat represents the available formats that can be used for a wiki page
+// WikiFormat represents the available wiki formats
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/wikis.html
 type WikiFormat string
@@ -49,13 +49,13 @@ type Wiki struct {
 	Title   string     `json:"title"`
 }
 
-func (t Wiki) String() string {
-	return Stringify(t)
+func (w Wiki) String() string {
+	return Stringify(w)
 }
 
-// ListWikisOptions represents the available ListWikis() options.
+// ListWikisOptions represents the available ListWikis options.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/wikis.html#get-a-list-of-wikis
+// GitLab API docs: https://docs.gitlab.com/ce/api/wikis.html#list-wiki-pages
 type ListWikisOptions struct {
 	WithContent *bool `url:"with_content,omitempty" json:"with_content,omitempty"`
 }
@@ -69,7 +69,6 @@ func (s *WikisService) ListWikis(pid interface{}, opt *ListWikisOptions, options
 	if err != nil {
 		return nil, nil, err
 	}
-
 	u := fmt.Sprintf("projects/%s/wikis", url.QueryEscape(project))
 
 	req, err := s.client.NewRequest("GET", u, opt, options)
@@ -77,13 +76,13 @@ func (s *WikisService) ListWikis(pid interface{}, opt *ListWikisOptions, options
 		return nil, nil, err
 	}
 
-	var t []*Wiki
-	resp, err := s.client.Do(req, &t)
+	var w []*Wiki
+	resp, err := s.client.Do(req, &w)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return t, resp, err
+	return w, resp, err
 }
 
 // GetWikiPage gets a wiki page for a given project.
@@ -94,7 +93,6 @@ func (s *WikisService) GetWikiPage(pid interface{}, slug string, options ...Opti
 	if err != nil {
 		return nil, nil, err
 	}
-
 	u := fmt.Sprintf("projects/%s/wikis/%s", url.QueryEscape(project), url.QueryEscape(slug))
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
@@ -102,67 +100,85 @@ func (s *WikisService) GetWikiPage(pid interface{}, slug string, options ...Opti
 		return nil, nil, err
 	}
 
-	var t *Wiki
-	resp, err := s.client.Do(req, &t)
+	var w *Wiki
+	resp, err := s.client.Do(req, &w)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return t, resp, err
+	return w, resp, err
 }
 
-// CreateNewWikiPageOptions represents options to CreateNewWikiPage
+// CreateWikiPageOptions represents options to CreateWikiPage
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/wikis.html#create-a-new-wiki-page
-type CreateNewWikiPageOptions struct {
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/wikis.html#create-a-new-wiki-page
+type CreateWikiPageOptions struct {
 	Content *string `url:"content" json:"content"`
 	Title   *string `url:"title" json:"title"`
 	Format  *string `url:"format,omitempty" json:"format,omitempty"`
 }
 
-// CreateNewWikiPage creates a new wiki page for the given repository with the given title, slug, and content..
+// CreateWikiPage creates a new wiki page for the given repository with
+// the given title, slug, and content..
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/wikis.html#create-a-new-wiki-page
-func (s *WikisService) CreateNewWikiPage(pid interface{}, opt *CreateNewWikiPageOptions, options ...OptionFunc) (*Response, error) {
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/wikis.html#create-a-new-wiki-page
+func (s *WikisService) CreateWikiPage(pid interface{}, opt *CreateWikiPageOptions, options ...OptionFunc) (*Wiki, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/wikis", url.QueryEscape(project))
 
 	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	return s.client.Do(req, nil)
+	w := new(Wiki)
+	resp, err := s.client.Do(req, w)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return w, resp, err
 }
 
 // EditWikiPageOptions represents options to EditWikiPage
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/wikis.html#edit-an-existing-wiki-page
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/wikis.html#edit-an-existing-wiki-page
 type EditWikiPageOptions struct {
 	Content *string `url:"content" json:"content"`
 	Title   *string `url:"title" json:"title"`
 	Format  *string `url:"format,omitempty" json:"format,omitempty"`
 }
 
-// EditWikiPage Updates an existing wiki page. At least one parameter is required to update the wiki page.
+// EditWikiPage Updates an existing wiki page. At least one parameter is
+// required to update the wiki page.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/wikis.html#edit-an-existing-wiki-page
-func (s *WikisService) EditWikiPage(pid interface{}, slug string, opt *EditWikiPageOptions, options ...OptionFunc) (*Response, error) {
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/wikis.html#edit-an-existing-wiki-page
+func (s *WikisService) EditWikiPage(pid interface{}, slug string, opt *EditWikiPageOptions, options ...OptionFunc) (*Wiki, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/wikis/%s", url.QueryEscape(project), url.QueryEscape(slug))
 
 	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	return s.client.Do(req, nil)
+	w := new(Wiki)
+	resp, err := s.client.Do(req, w)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return w, resp, err
 }
 
 // DeleteWikiPage deletes a wiki page with a given slug.
