@@ -34,16 +34,18 @@ type ServicesService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/services.html
 type Service struct {
-	ID                  *int       `json:"id"`
-	Title               *string    `json:"title"`
+	ID                  int        `json:"id"`
+	Title               string     `json:"title"`
 	CreatedAt           *time.Time `json:"created_at"`
-	UpdatedAt           *time.Time `json:"created_at"`
-	Active              *bool      `json:"active"`
-	PushEvents          *bool      `json:"push_events"`
-	IssuesEvents        *bool      `json:"issues_events"`
-	MergeRequestsEvents *bool      `json:"merge_requests_events"`
-	TagPushEvents       *bool      `json:"tag_push_events"`
-	NoteEvents          *bool      `json:"note_events"`
+	UpdatedAt           *time.Time `json:"updated_at"`
+	Active              bool       `json:"active"`
+	PushEvents          bool       `json:"push_events"`
+	IssuesEvents        bool       `json:"issues_events"`
+	MergeRequestsEvents bool       `json:"merge_requests_events"`
+	TagPushEvents       bool       `json:"tag_push_events"`
+	NoteEvents          bool       `json:"note_events"`
+	PipelineEvents      bool       `json:"pipeline_events"`
+	JobEvents           bool       `json:"job_events"`
 }
 
 // SetGitLabCIServiceOptions represents the available SetGitLabCIService()
@@ -191,17 +193,17 @@ func (s *ServicesService) DeleteDroneCIService(pid interface{}, options ...Optio
 	return s.client.Do(req, nil)
 }
 
-// DroneCIServiceProperties represents Drone CI specific properties.
-type DroneCIServiceProperties struct {
-	Token                 *string `url:"token" json:"token"`
-	DroneURL              *string `url:"drone_url" json:"drone_url"`
-	EnableSSLVerification *bool   `url:"enable_ssl_verification" json:"enable_ssl_verification"`
-}
-
 // DroneCIService represents Drone CI service settings.
 type DroneCIService struct {
 	Service
 	Properties *DroneCIServiceProperties `json:"properties"`
+}
+
+// DroneCIServiceProperties represents Drone CI specific properties.
+type DroneCIServiceProperties struct {
+	Token                 string `json:"token"`
+	DroneURL              string `json:"drone_url"`
+	EnableSSLVerification bool   `json:"enable_ssl_verification"`
 }
 
 // GetDroneCIService gets Drone CI service settings for a project.
@@ -220,13 +222,49 @@ func (s *ServicesService) GetDroneCIService(pid interface{}, options ...OptionFu
 		return nil, nil, err
 	}
 
-	opt := new(DroneCIService)
-	resp, err := s.client.Do(req, opt)
+	svc := new(DroneCIService)
+	resp, err := s.client.Do(req, svc)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return opt, resp, err
+	return svc, resp, err
+}
+
+// SlackService represents Slack service settings.
+type SlackService struct {
+	Service
+	Properties *SlackServiceProperties `json:"properties"`
+}
+
+// SlackServiceProperties represents Slack specific properties.
+type SlackServiceProperties struct {
+	NotifyOnlyBrokenPipelines bool `json:"notify_only_broken_pipelines"`
+}
+
+// GetSlackService gets Slack service settings for a project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/services.html#get-slack-service-settings
+func (s *ServicesService) GetSlackService(pid interface{}, options ...OptionFunc) (*SlackService, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/services/slack", url.QueryEscape(project))
+
+	req, err := s.client.NewRequest("GET", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	svc := new(SlackService)
+	resp, err := s.client.Do(req, svc)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return svc, resp, err
 }
 
 // SetSlackServiceOptions represents the available SetSlackService()
@@ -276,29 +314,4 @@ func (s *ServicesService) DeleteSlackService(pid interface{}, options ...OptionF
 	}
 
 	return s.client.Do(req, nil)
-}
-
-// GetSlackService gets Slack service settings for a project.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ce/api/services.html#get-slack-service-settings
-func (s *ServicesService) GetSlackService(pid interface{}, options ...OptionFunc) (*SetSlackServiceOptions, *Response, error) {
-	project, err := parseID(pid)
-	if err != nil {
-		return nil, nil, err
-	}
-	u := fmt.Sprintf("projects/%s/services/slack", url.QueryEscape(project))
-
-	req, err := s.client.NewRequest("GET", u, nil, options)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	opt := new(SetSlackServiceOptions)
-	resp, err := s.client.Do(req, opt)
-	if err != nil {
-		return nil, resp, err
-	}
-
-	return opt, resp, err
 }
