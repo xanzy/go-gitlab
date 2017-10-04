@@ -129,7 +129,7 @@ type ProjectStatistics struct {
 	CommitCount int `json:"commit_count"`
 }
 
-// Permissions represents premissions.
+// Permissions represents permissions.
 type Permissions struct {
 	ProjectAccess *ProjectAccess `json:"project_access"`
 	GroupAccess   *GroupAccess   `json:"group_access"`
