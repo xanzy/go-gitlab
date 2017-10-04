@@ -27,12 +27,12 @@ type WikisService struct {
 	client *Client
 }
 
-// WikiFormat represents the available wiki formats
+// WikiFormat represents the available wiki formats.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/wikis.html
 type WikiFormat string
 
-// The available todo actions.
+// The available wiki formats.
 const (
 	WikiFormatMarkdown WikiFormat = "markdown"
 	WikiFormatRFoc     WikiFormat = "rdoc"
@@ -55,15 +55,17 @@ func (w Wiki) String() string {
 
 // ListWikisOptions represents the available ListWikis options.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/wikis.html#list-wiki-pages
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/wikis.html#list-wiki-pages
 type ListWikisOptions struct {
 	WithContent *bool `url:"with_content,omitempty" json:"with_content,omitempty"`
 }
 
 // ListWikis lists all pages of the wiki of the given project id.
-// When with_content is set, it returns also the content of the pages.
+// When with_content is set, it also returns the content of the pages.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/wikis.html#list-wiki-pages
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/wikis.html#list-wiki-pages
 func (s *WikisService) ListWikis(pid interface{}, opt *ListWikisOptions, options ...OptionFunc) ([]*Wiki, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -87,7 +89,8 @@ func (s *WikisService) ListWikis(pid interface{}, opt *ListWikisOptions, options
 
 // GetWikiPage gets a wiki page for a given project.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/wikis.html#get-a-wiki-page
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/wikis.html#get-a-wiki-page
 func (s *WikisService) GetWikiPage(pid interface{}, slug string, options ...OptionFunc) (*Wiki, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -109,7 +112,7 @@ func (s *WikisService) GetWikiPage(pid interface{}, slug string, options ...Opti
 	return w, resp, err
 }
 
-// CreateWikiPageOptions represents options to CreateWikiPage
+// CreateWikiPageOptions represents options to CreateWikiPage.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/wikis.html#create-a-new-wiki-page
@@ -120,7 +123,7 @@ type CreateWikiPageOptions struct {
 }
 
 // CreateWikiPage creates a new wiki page for the given repository with
-// the given title, slug, and content..
+// the given title, slug, and content.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/wikis.html#create-a-new-wiki-page
@@ -145,7 +148,7 @@ func (s *WikisService) CreateWikiPage(pid interface{}, opt *CreateWikiPageOption
 	return w, resp, err
 }
 
-// EditWikiPageOptions represents options to EditWikiPage
+// EditWikiPageOptions represents options to EditWikiPage.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/wikis.html#edit-an-existing-wiki-page
@@ -183,7 +186,8 @@ func (s *WikisService) EditWikiPage(pid interface{}, slug string, opt *EditWikiP
 
 // DeleteWikiPage deletes a wiki page with a given slug.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/wikis.html#delete-a-wiki-page
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/wikis.html#delete-a-wiki-page
 func (s *WikisService) DeleteWikiPage(pid interface{}, slug string, options ...OptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
