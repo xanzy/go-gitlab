@@ -277,3 +277,28 @@ func (s *ServicesService) DeleteSlackService(pid interface{}, options ...OptionF
 
 	return s.client.Do(req, nil)
 }
+
+// GetSlackService gets Slack service settings for a project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/services.html#get-slack-service-settings
+func (s *ServicesService) GetSlackService(pid interface{}, options ...OptionFunc) (*SetSlackServiceOptions, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/services/slack", url.QueryEscape(project))
+
+	req, err := s.client.NewRequest("GET", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	opt := new(SetSlackServiceOptions)
+	resp, err := s.client.Do(req, opt)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return opt, resp, err
+}
