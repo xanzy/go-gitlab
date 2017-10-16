@@ -38,6 +38,7 @@ includes all calls to the following services:
 - [x] Pipelines
 - [x] Version
 - [x] Wikis
+- [x] Environments
 
 ## Usage
 
