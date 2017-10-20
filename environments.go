@@ -36,11 +36,11 @@ type Environment struct {
 	ID          int    `json:"id"`
 	Name        string `json:"name"`
 	Slug        string `json:"slug"`
-	ExternalUrl string `json:"external_url"`
+	ExternalURL string `json:"external_url"`
 }
 
-func (b Environment) String() string {
-	return Stringify(b)
+func (env Environment) String() string {
+	return Stringify(env)
 }
 
 // ListEnvironmentsOptions represents the available ListEnvironments() options.
@@ -68,13 +68,13 @@ func (s *EnvironmentsService) ListEnvironments(pid interface{}, opts *ListEnviro
 		return nil, nil, err
 	}
 
-	var b []*Environment
-	resp, err := s.client.Do(req, &b)
+	var envs []*Environment
+	resp, err := s.client.Do(req, &envs)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return b, resp, err
+	return envs, resp, err
 }
 
 // CreateEnvironmentOptions represents the available CreateEnvironment() options.
@@ -83,7 +83,7 @@ func (s *EnvironmentsService) ListEnvironments(pid interface{}, opts *ListEnviro
 // https://docs.gitlab.com/ee/api/environments.html#create-a-new-environment
 type CreateEnvironmentOptions struct {
 	Name        *string `url:"name,omitempty" json:"name,omitempty"`
-	ExternalUrl *string `url:"external_url,omitempty" json:"external_url,omitempty"`
+	ExternalURL *string `url:"external_url,omitempty" json:"external_url,omitempty"`
 }
 
 // CreateEnvironment adds a environment to a project. This is an idempotent
@@ -105,13 +105,13 @@ func (s *EnvironmentsService) CreateEnvironment(pid interface{}, opt *CreateEnvi
 		return nil, nil, err
 	}
 
-	pm := new(Environment)
-	resp, err := s.client.Do(req, pm)
+	env := new(Environment)
+	resp, err := s.client.Do(req, env)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return pm, resp, err
+	return env, resp, err
 }
 
 // EditEnvironmentOptions represents the available EditEnvironment() options.
@@ -120,7 +120,7 @@ func (s *EnvironmentsService) CreateEnvironment(pid interface{}, opt *CreateEnvi
 // https://docs.gitlab.com/ee/api/environments.html#edit-an-existing-environment
 type EditEnvironmentOptions struct {
 	Name        *string `url:"name,omitempty" json:"name,omitempty"`
-	ExternalUrl *string `url:"external_url,omitempty" json:"external_url,omitempty"`
+	ExternalURL *string `url:"external_url,omitempty" json:"external_url,omitempty"`
 }
 
 // EditEnvironment updates a project team environment to a specified access level..
@@ -139,13 +139,13 @@ func (s *EnvironmentsService) EditEnvironment(pid interface{}, environment int, 
 		return nil, nil, err
 	}
 
-	pm := new(Environment)
-	resp, err := s.client.Do(req, pm)
+	env := new(Environment)
+	resp, err := s.client.Do(req, env)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return pm, resp, err
+	return env, resp, err
 }
 
 // DeleteEnvironment removes a environment from a project team.
