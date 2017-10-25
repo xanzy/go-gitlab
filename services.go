@@ -315,3 +315,88 @@ func (s *ServicesService) DeleteSlackService(pid interface{}, options ...OptionF
 
 	return s.client.Do(req, nil)
 }
+
+// JiraService represents Jira service settings.
+type JiraService struct {
+	Service
+	Properties *JiraServiceProperties `json:"properties"`
+}
+
+// JiraServiceProperties represents Jira specific properties.
+type JiraServiceProperties struct {
+	Url               *string `url:"url,omitempty" json:"url,omitempty"`
+	ProjectKey        *string `url:"project_key,omitempty" json:"project_key,omitempty" `
+	Username          *string `url:"username,omitempty" json:"username,omitempty" `
+	Password          *string `url:"password,omitempty" json:"password,omitempty" `
+	IssueTransitionId *string `url:"jira_issue_transition_id,omitempty" json:"jira_issue_transition_id,omitempty"`
+}
+
+// GetJiraService gets Jira service settings for a project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/services.html#get-jira-service-settings
+func (s *ServicesService) GetJiraService(pid interface{}, options ...OptionFunc) (*JiraService, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/services/jira", url.QueryEscape(project))
+
+	req, err := s.client.NewRequest("GET", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	svc := new(JiraService)
+	resp, err := s.client.Do(req, svc)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return svc, resp, err
+}
+
+// SetJiraServiceOptions represents the available SetJiraService()
+// options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/services.html#edit-jira-service
+type SetJiraServiceOptions JiraServiceProperties
+
+// SetJiraService sets Jira service for a project
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/services.html#edit-jira-service
+func (s *ServicesService) SetJiraService(pid interface{}, opt *SetJiraServiceOptions, options ...OptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/services/jira", url.QueryEscape(project))
+
+	req, err := s.client.NewRequest("PUT", u, opt, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
+
+// DeleteJiraService deletes Jira service for project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/services.html#delete-jira-service
+func (s *ServicesService) DeleteJiraService(pid interface{}, options ...OptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/services/jira", url.QueryEscape(project))
+
+	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
