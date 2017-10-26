@@ -144,6 +144,50 @@ func (s *ServicesService) DeleteHipChatService(pid interface{}, options ...Optio
 	return s.client.Do(req, nil)
 }
 
+// DroneCIService represents Drone CI service settings.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/services.html#drone-ci
+type DroneCIService struct {
+	Service
+	Properties *DroneCIServiceProperties `json:"properties"`
+}
+
+// DroneCIServiceProperties represents Drone CI specific properties.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/services.html#drone-ci
+type DroneCIServiceProperties struct {
+	Token                 string `json:"token"`
+	DroneURL              string `json:"drone_url"`
+	EnableSSLVerification bool   `json:"enable_ssl_verification"`
+}
+
+// GetDroneCIService gets Drone CI service settings for a project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/services.html#get-drone-ci-service-settings
+func (s *ServicesService) GetDroneCIService(pid interface{}, options ...OptionFunc) (*DroneCIService, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/services/drone-ci", url.QueryEscape(project))
+
+	req, err := s.client.NewRequest("GET", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	svc := new(DroneCIService)
+	resp, err := s.client.Do(req, svc)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return svc, resp, err
+}
+
 // SetDroneCIServiceOptions represents the available SetDroneCIService()
 // options.
 //
@@ -193,51 +237,19 @@ func (s *ServicesService) DeleteDroneCIService(pid interface{}, options ...Optio
 	return s.client.Do(req, nil)
 }
 
-// DroneCIService represents Drone CI service settings.
-type DroneCIService struct {
-	Service
-	Properties *DroneCIServiceProperties `json:"properties"`
-}
-
-// DroneCIServiceProperties represents Drone CI specific properties.
-type DroneCIServiceProperties struct {
-	Token                 string `json:"token"`
-	DroneURL              string `json:"drone_url"`
-	EnableSSLVerification bool   `json:"enable_ssl_verification"`
-}
-
-// GetDroneCIService gets Drone CI service settings for a project.
+// SlackService represents Slack service settings.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/services.html#get-drone-ci-service-settings
-func (s *ServicesService) GetDroneCIService(pid interface{}, options ...OptionFunc) (*DroneCIService, *Response, error) {
-	project, err := parseID(pid)
-	if err != nil {
-		return nil, nil, err
-	}
-	u := fmt.Sprintf("projects/%s/services/drone-ci", url.QueryEscape(project))
-
-	req, err := s.client.NewRequest("GET", u, nil, options)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	svc := new(DroneCIService)
-	resp, err := s.client.Do(req, svc)
-	if err != nil {
-		return nil, resp, err
-	}
-
-	return svc, resp, err
-}
-
-// SlackService represents Slack service settings.
+// https://docs.gitlab.com/ce/api/services.html#slack
 type SlackService struct {
 	Service
 	Properties *SlackServiceProperties `json:"properties"`
 }
 
 // SlackServiceProperties represents Slack specific properties.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/services.html#slack
 type SlackServiceProperties struct {
 	NotifyOnlyBrokenPipelines bool `json:"notify_only_broken_pipelines"`
 }
@@ -317,18 +329,24 @@ func (s *ServicesService) DeleteSlackService(pid interface{}, options ...OptionF
 }
 
 // JiraService represents Jira service settings.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/services.html#jira
 type JiraService struct {
 	Service
 	Properties *JiraServiceProperties `json:"properties"`
 }
 
 // JiraServiceProperties represents Jira specific properties.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/services.html#jira
 type JiraServiceProperties struct {
-	Url               *string `url:"url,omitempty" json:"url,omitempty"`
-	ProjectKey        *string `url:"project_key,omitempty" json:"project_key,omitempty" `
-	Username          *string `url:"username,omitempty" json:"username,omitempty" `
-	Password          *string `url:"password,omitempty" json:"password,omitempty" `
-	IssueTransitionId *string `url:"jira_issue_transition_id,omitempty" json:"jira_issue_transition_id,omitempty"`
+	URL                   *string `url:"url,omitempty" json:"url,omitempty"`
+	ProjectKey            *string `url:"project_key,omitempty" json:"project_key,omitempty" `
+	Username              *string `url:"username,omitempty" json:"username,omitempty" `
+	Password              *string `url:"password,omitempty" json:"password,omitempty" `
+	JiraIssueTransitionID *string `url:"jira_issue_transition_id,omitempty" json:"jira_issue_transition_id,omitempty"`
 }
 
 // GetJiraService gets Jira service settings for a project.

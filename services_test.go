@@ -137,11 +137,11 @@ func TestSetJiraService(t *testing.T) {
 	})
 
 	opt := &SetJiraServiceOptions{
-		Url:               String("asd"),
-		ProjectKey:        String("as"),
-		Username:          String("aas"),
-		Password:          String("asd"),
-		IssueTransitionId: String("asd"),
+		URL:                   String("asd"),
+		ProjectKey:            String("as"),
+		Username:              String("aas"),
+		Password:              String("asd"),
+		JiraIssueTransitionID: String("asd"),
 	}
 
 	_, err := client.Services.SetJiraService(1, opt)
