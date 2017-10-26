@@ -108,3 +108,58 @@ func TestDeleteSlackService(t *testing.T) {
 		t.Fatalf("Services.DeleteSlackService returns an error: %v", err)
 	}
 }
+
+func TestGetJiraService(t *testing.T) {
+	mux, server, client := setup()
+	defer teardown(server)
+
+	mux.HandleFunc("/projects/1/services/jira", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "GET")
+		fmt.Fprint(w, `{"id":1}`)
+	})
+	want := &JiraService{Service: Service{ID: 1}}
+
+	service, _, err := client.Services.GetJiraService(1)
+	if err != nil {
+		t.Fatalf("Services.GetJiraService returns an error: %v", err)
+	}
+	if !reflect.DeepEqual(want, service) {
+		t.Errorf("Services.GetJiraService returned %+v, want %+v", service, want)
+	}
+}
+
+func TestSetJiraService(t *testing.T) {
+	mux, server, client := setup()
+	defer teardown(server)
+
+	mux.HandleFunc("/projects/1/services/jira", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "PUT")
+	})
+
+	opt := &SetJiraServiceOptions{
+		Url:               String("asd"),
+		ProjectKey:        String("as"),
+		Username:          String("aas"),
+		Password:          String("asd"),
+		IssueTransitionId: String("asd"),
+	}
+
+	_, err := client.Services.SetJiraService(1, opt)
+	if err != nil {
+		t.Fatalf("Services.SetJiraService returns an error: %v", err)
+	}
+}
+
+func TestDeleteJiraService(t *testing.T) {
+	mux, server, client := setup()
+	defer teardown(server)
+
+	mux.HandleFunc("/projects/1/services/jira", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "DELETE")
+	})
+
+	_, err := client.Services.DeleteJiraService(1)
+	if err != nil {
+		t.Fatalf("Services.DeleteJiraService returns an error: %v", err)
+	}
+}
