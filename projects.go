@@ -197,6 +197,26 @@ func (s *ProjectsService) ListProjects(opt *ListProjectsOptions, options ...Opti
 	return p, resp, err
 }
 
+// ListUserProjects gets a list of projects for the given user.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/projects.html#list-user-projects
+func (s *ProjectsService) ListUserProjects(user int, opt *ListProjectsOptions, options ...OptionFunc) ([]*Project, *Response, error) {
+
+	u := fmt.Sprintf("users/%d/projects", user)
+	req, err := s.client.NewRequest("GET", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var p []*Project
+	resp, err := s.client.Do(req, &p)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return p, resp, err
+}
+
 // GetProject gets a specific project, identified by project ID or
 // NAMESPACE/PROJECT_NAME, which is owned by the authenticated user.
 //
