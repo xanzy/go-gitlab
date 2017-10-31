@@ -328,6 +328,31 @@ type AddGroupMemberOptions struct {
 	ExpiresAt   *string           `url:"expires_at,omitempty" json:"expires_at"`
 }
 
+// GetGroupMember gets a member of a group.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/members.html#get-a-member-of-a-group-or-project
+func (s *GroupsService) GetGroupMember(gid interface{}, user int, options ...OptionFunc) (*GroupMember, *Response, error) {
+	group, err := parseID(gid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("groups/%s/members/%d", url.QueryEscape(group), user)
+
+	req, err := s.client.NewRequest("GET", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	g := new(GroupMember)
+	resp, err := s.client.Do(req, g)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return g, resp, err
+}
+
 // AddGroupMember adds a user to the list of group members.
 //
 // GitLab API docs:
