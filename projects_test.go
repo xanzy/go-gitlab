@@ -40,6 +40,36 @@ func TestListProjects(t *testing.T) {
 	}
 }
 
+func TestListUserProjects(t *testing.T) {
+	mux, server, client := setup()
+	defer teardown(server)
+
+	mux.HandleFunc("/users/1/projects", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "GET")
+		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
+	})
+
+	opt := &ListProjectsOptions{
+		ListOptions: ListOptions{2, 3},
+		Archived:    Bool(true),
+		OrderBy:     String("name"),
+		Sort:        String("asc"),
+		Search:      String("query"),
+		Simple:      Bool(true),
+		Visibility:  Visibility(PublicVisibility),
+	}
+
+	projects, _, err := client.Projects.ListUserProjects(1, opt)
+	if err != nil {
+		t.Errorf("Projects.ListUserProjects returned error: %v", err)
+	}
+
+	want := []*Project{{ID: 1}, {ID: 2}}
+	if !reflect.DeepEqual(want, projects) {
+		t.Errorf("Projects.ListUserProjects returned %+v, want %+v", projects, want)
+	}
+}
+
 func TestListOwnedProjects(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
