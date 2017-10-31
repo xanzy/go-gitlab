@@ -16,29 +16,29 @@ incompatible changes that were needed to fully support the V4 Gitlab API.
 This API client package covers **100%** of the existing GitLab API calls! So this
 includes all calls to the following services:
 
-- [x] Users
-- [x] Session
-- [x] Projects (including setting Webhooks)
-- [x] Project Snippets
-- [x] Services
-- [x] Repositories
-- [x] Repository Files
-- [x] Commits
 - [x] Branches
-- [x] Merge Requests
+- [x] Commits
+- [x] Deploy Keys
+- [x] Environments
+- [x] Groups
 - [x] Issues
 - [x] Labels
+- [x] Merge Requests
 - [x] Milestones
-- [x] Notes (comments)
-- [x] Deploy Keys
-- [x] System Hooks
-- [x] Groups
 - [x] Namespaces
-- [x] Settings
+- [x] Notes (comments)
 - [x] Pipelines
+- [x] Project Snippets
+- [x] Projects (including setting Webhooks)
+- [x] Repositories
+- [x] Repository Files
+- [x] Services
+- [x] Session
+- [x] Settings
+- [x] System Hooks
+- [x] Users
 - [x] Version
 - [x] Wikis
-- [x] Environments
 
 ## Usage
 

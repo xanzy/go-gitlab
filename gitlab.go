@@ -551,16 +551,12 @@ type OptionFunc func(*http.Request) error
 // WithSudo takes either a username or user ID and sets the SUDO request header
 func WithSudo(uid interface{}) OptionFunc {
 	return func(req *http.Request) error {
-		switch uid := uid.(type) {
-		case int:
-			req.Header.Set("SUDO", strconv.Itoa(uid))
-			return nil
-		case string:
-			req.Header.Set("SUDO", uid)
-			return nil
-		default:
-			return fmt.Errorf("uid must be either a username or user ID")
+		user, err := parseID(uid)
+		if err != nil {
+			return err
 		}
+		req.Header.Set("SUDO", user)
+		return nil
 	}
 }
 

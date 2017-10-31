@@ -199,10 +199,15 @@ func (s *ProjectsService) ListProjects(opt *ListProjectsOptions, options ...Opti
 
 // ListUserProjects gets a list of projects for the given user.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/projects.html#list-user-projects
-func (s *ProjectsService) ListUserProjects(user int, opt *ListProjectsOptions, options ...OptionFunc) ([]*Project, *Response, error) {
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/projects.html#list-user-projects
+func (s *ProjectsService) ListUserProjects(uid interface{}, opt *ListProjectsOptions, options ...OptionFunc) ([]*Project, *Response, error) {
+	user, err := parseID(uid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("users/%s/projects", user)
 
-	u := fmt.Sprintf("users/%d/projects", user)
 	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
 		return nil, nil, err
