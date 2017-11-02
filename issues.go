@@ -146,7 +146,7 @@ func (s *IssuesService) ListGroupIssues(pid interface{}, opt *ListGroupIssuesOpt
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("group/%s/issues", url.QueryEscape(group))
+	u := fmt.Sprintf("groups/%s/issues", url.QueryEscape(group))
 
 	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
