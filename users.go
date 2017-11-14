@@ -72,6 +72,7 @@ type UserIdentity struct {
 type ListUsersOptions struct {
 	ListOptions
 	Active   *bool   `url:"active,omitempty" json:"active,omitempty"`
+	Blocked  *bool   `url:"blocked,omitempty" json:"blocked,omitempty"`
 	Search   *string `url:"search,omitempty" json:"search,omitempty"`
 	Username *string `url:"username,omitempty" json:"username,omitempty"`
 }
