@@ -67,7 +67,7 @@ type MergeRequest struct {
 	Labels          []string `json:"labels"`
 	Milestone       struct {
 		ID          int        `json:"id"`
-		Iid         int        `json:"iid"`
+		IID         int        `json:"iid"`
 		ProjectID   int        `json:"project_id"`
 		Title       string     `json:"title"`
 		Description string     `json:"description"`
