@@ -246,7 +246,7 @@ type MergeCommentEvent struct {
 		State           string    `json:"state"`
 		MergeStatus     string    `json:"merge_status"`
 		TargetProjectID int       `json:"target_project_id"`
-		Iid             int       `json:"iid"`
+		IID             int       `json:"iid"`
 		Description     string    `json:"description"`
 		Position        int       `json:"position"`
 		LockedAt        string    `json:"locked_at"`
