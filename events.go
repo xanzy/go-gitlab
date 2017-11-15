@@ -126,7 +126,7 @@ type IssueEvent struct {
 		Description string `json:"description"`
 		MilestoneID int    `json:"milestone_id"`
 		State       string `json:"state"`
-		Iid         int    `json:"iid"`
+		IID         int    `json:"iid"`
 		URL         string `json:"url"`
 		Action      string `json:"action"`
 	} `json:"object_attributes"`
@@ -360,7 +360,7 @@ type MergeEvent struct {
 		State           string    `json:"state"`
 		MergeStatus     string    `json:"merge_status"`
 		TargetProjectID int       `json:"target_project_id"`
-		Iid             int       `json:"iid"`
+		IID             int       `json:"iid"`
 		Description     string    `json:"description"`
 		Position        int       `json:"position"`
 		LockedAt        string    `json:"locked_at"`
