@@ -63,6 +63,7 @@ type Project struct {
 	ContainerRegistryEnabled                  bool              `json:"container_registry_enabled"`
 	CreatedAt                                 *time.Time        `json:"created_at,omitempty"`
 	LastActivityAt                            *time.Time        `json:"last_activity_at,omitempty"`
+	Links                                     *Links            `json:"_links,omitempty"`
 	CreatorID                                 int               `json:"creator_id"`
 	Namespace                                 *ProjectNamespace `json:"namespace"`
 	Permissions                               *Permissions      `json:"permissions"`
@@ -156,6 +157,16 @@ type ForkParent struct {
 	Path              string `json:"path"`
 	PathWithNamespace string `json:"path_with_namespace"`
 	WebURL            string `json:"web_url"`
+}
+
+type Links struct {
+	Self          string `json:"self"`
+	Issues        string `json:"issues"`
+	MergeRequests string `json:"merge_requests"`
+	RepoBranches  string `json:"repo_branches"`
+	Labels        string `json:"labels"`
+	Events        string `json:"events"`
+	Members       string `json:"members"`
 }
 
 func (s Project) String() string {
