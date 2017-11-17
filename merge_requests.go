@@ -35,39 +35,39 @@ type MergeRequestsService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/merge_requests.html
 type MergeRequest struct {
-	ID             int    `json:"id"`
-	IID            int    `json:"iid"`
-	ProjectID      int    `json:"project_id"`
-	Title          string `json:"title"`
-	Description    string `json:"description"`
-	WorkInProgress bool   `json:"work_in_progress"`
-	State          string `json:"state"`
-	CreatedAt      string `json:"created_at"`
-	UpdatedAt      string `json:"updated_at"`
-	TargetBranch   string `json:"target_branch"`
-	SourceBranch   string `json:"source_branch"`
-	Upvotes        int    `json:"upvotes"`
-	Downvotes      int    `json:"downvotes"`
-	Author         struct {
-		Name      string `json:"name"`
-		Username  string `json:"username"`
-		ID        int    `json:"id"`
-		State     string `json:"state"`
-		AvatarURL string `json:"avatar_url"`
+	ID           int        `json:"id"`
+	IID          int        `json:"iid"`
+	TargetBranch string     `json:"target_branch"`
+	SourceBranch string     `json:"source_branch"`
+	ProjectID    int        `json:"project_id"`
+	Title        string     `json:"title"`
+	State        string     `json:"state"`
+	CreatedAt    *time.Time `json:"created_at"`
+	UpdatedAt    *time.Time `json:"updated_at"`
+	Upvotes      int        `json:"upvotes"`
+	Downvotes    int        `json:"downvotes"`
+	Author       struct {
+		ID        int        `json:"id"`
+		Username  string     `json:"username"`
+		Name      string     `json:"name"`
+		State     string     `json:"state"`
+		CreatedAt *time.Time `json:"created_at"`
 	} `json:"author"`
 	Assignee struct {
-		Name      string `json:"name"`
-		Username  string `json:"username"`
-		ID        int    `json:"id"`
-		State     string `json:"state"`
-		AvatarURL string `json:"avatar_url"`
+		ID        int        `json:"id"`
+		Username  string     `json:"username"`
+		Name      string     `json:"name"`
+		State     string     `json:"state"`
+		CreatedAt *time.Time `json:"created_at"`
 	} `json:"assignee"`
 	SourceProjectID int      `json:"source_project_id"`
 	TargetProjectID int      `json:"target_project_id"`
 	Labels          []string `json:"labels"`
+	Description     string   `json:"description"`
+	WorkInProgress  bool     `json:"work_in_progress"`
 	Milestone       struct {
 		ID          int        `json:"id"`
-		Iid         int        `json:"iid"`
+		IID         int        `json:"iid"`
 		ProjectID   int        `json:"project_id"`
 		Title       string     `json:"title"`
 		Description string     `json:"description"`
@@ -78,11 +78,15 @@ type MergeRequest struct {
 	} `json:"milestone"`
 	MergeWhenPipelineSucceeds bool   `json:"merge_when_pipeline_succeeds"`
 	MergeStatus               string `json:"merge_status"`
-	SHA                       string `json:"sha"`
 	Subscribed                bool   `json:"subscribed"`
+	SHA                       string `json:"sha"`
+	MergeCommitShaSHA         string `json:"merge_commit_sha"`
 	UserNotesCount            int    `json:"user_notes_count"`
+	ChangesCount              int    `json:"changes_count"`
 	SouldRemoveSourceBranch   bool   `json:"should_remove_source_branch"`
 	ForceRemoveSourceBranch   bool   `json:"force_remove_source_branch"`
+	WebURL                    string `json:"web_url"`
+	DiscussionLocked          bool   `json:"discussion_locked"`
 	Changes                   []struct {
 		OldPath     string `json:"old_path"`
 		NewPath     string `json:"new_path"`
@@ -93,7 +97,6 @@ type MergeRequest struct {
 		RenamedFile bool   `json:"renamed_file"`
 		DeletedFile bool   `json:"deleted_file"`
 	} `json:"changes"`
-	WebURL string `json:"web_url"`
 }
 
 func (m MergeRequest) String() string {
