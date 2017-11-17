@@ -84,7 +84,7 @@ type Project struct {
 		GroupAccessLevel int    `json:"group_access_level"`
 	} `json:"shared_with_groups"`
 	Statistics *ProjectStatistics `json:"statistics"`
-	Links                                     *Links            `json:"_links,omitempty"`
+	Links      *Links             `json:"_links,omitempty"`
 }
 
 // Repository represents a repository.
@@ -159,7 +159,8 @@ type ForkParent struct {
 	WebURL            string `json:"web_url"`
 }
 
-// Links represents a project web liks for self, issues, merge_requests, repo_branches, labels, events, members.
+// Links represents a project web liks for self, issues, merge_requests,
+// repo_branches, labels, events, members.
 type Links struct {
 	Self          string `json:"self"`
 	Issues        string `json:"issues"`
