@@ -63,7 +63,6 @@ type Project struct {
 	ContainerRegistryEnabled                  bool              `json:"container_registry_enabled"`
 	CreatedAt                                 *time.Time        `json:"created_at,omitempty"`
 	LastActivityAt                            *time.Time        `json:"last_activity_at,omitempty"`
-	Links                                     *Links            `json:"_links,omitempty"`
 	CreatorID                                 int               `json:"creator_id"`
 	Namespace                                 *ProjectNamespace `json:"namespace"`
 	Permissions                               *Permissions      `json:"permissions"`
@@ -85,6 +84,7 @@ type Project struct {
 		GroupAccessLevel int    `json:"group_access_level"`
 	} `json:"shared_with_groups"`
 	Statistics *ProjectStatistics `json:"statistics"`
+	Links                                     *Links            `json:"_links,omitempty"`
 }
 
 // Repository represents a repository.
@@ -159,6 +159,7 @@ type ForkParent struct {
 	WebURL            string `json:"web_url"`
 }
 
+// Links represents a project web liks for self, issues, merge_requests, repo_branches, labels, events, members.
 type Links struct {
 	Self          string `json:"self"`
 	Issues        string `json:"issues"`
