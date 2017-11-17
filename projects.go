@@ -84,6 +84,7 @@ type Project struct {
 		GroupAccessLevel int    `json:"group_access_level"`
 	} `json:"shared_with_groups"`
 	Statistics *ProjectStatistics `json:"statistics"`
+	Links                                     *Links            `json:"_links,omitempty"`
 }
 
 // Repository represents a repository.
@@ -156,6 +157,17 @@ type ForkParent struct {
 	Path              string `json:"path"`
 	PathWithNamespace string `json:"path_with_namespace"`
 	WebURL            string `json:"web_url"`
+}
+
+// Links represents a project web liks for self, issues, merge_requests, repo_branches, labels, events, members.
+type Links struct {
+	Self          string `json:"self"`
+	Issues        string `json:"issues"`
+	MergeRequests string `json:"merge_requests"`
+	RepoBranches  string `json:"repo_branches"`
+	Labels        string `json:"labels"`
+	Events        string `json:"events"`
+	Members       string `json:"members"`
 }
 
 func (s Project) String() string {
