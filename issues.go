@@ -235,11 +235,12 @@ func (s *IssuesService) GetIssue(pid interface{}, issue int, options ...OptionFu
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/issues.html#new-issues
 type CreateIssueOptions struct {
-	Title       *string `url:"title,omitempty" json:"title,omitempty"`
-	Description *string `url:"description,omitempty" json:"description,omitempty"`
-	AssigneeID  *int    `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
-	MilestoneID *int    `url:"milestone_id,omitempty" json:"milestone_id,omitempty"`
-	Labels      Labels  `url:"labels,comma,omitempty" json:"labels,omitempty"`
+	Title       *string    `url:"title,omitempty" json:"title,omitempty"`
+	Description *string    `url:"description,omitempty" json:"description,omitempty"`
+	AssigneeID  *int       `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
+	CreatedAt   *time.Time `url:"created_at,omitempty" json:"created_at,omitempty"`
+	MilestoneID *int       `url:"milestone_id,omitempty" json:"milestone_id,omitempty"`
+	Labels      Labels     `url:"labels,comma,omitempty" json:"labels,omitempty"`
 }
 
 // CreateIssue creates a new project issue.
