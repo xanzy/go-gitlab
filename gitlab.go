@@ -72,8 +72,8 @@ const (
 // ISOTime represents an ISO 8601 formatted date
 type ISOTime time.Time
 
-// ISO 8901 date format
-const iso8901 = "2006-01-02"
+// ISO 8601 date format
+const iso8601 = "2006-01-02"
 
 // MarshalJSON implements the json.Marshaler interface
 func (t ISOTime) MarshalJSON() ([]byte, error) {
@@ -82,9 +82,9 @@ func (t ISOTime) MarshalJSON() ([]byte, error) {
 		return nil, errors.New("ISOTime.MarshalJSON: year outside of range [0,9999]")
 	}
 
-	b := make([]byte, 0, len(iso8901)+2)
+	b := make([]byte, 0, len(iso8601)+2)
 	b = append(b, '"')
-	b = time.Time(t).AppendFormat(b, iso8901)
+	b = time.Time(t).AppendFormat(b, iso8601)
 	b = append(b, '"')
 
 	return b, nil
@@ -97,7 +97,7 @@ func (t *ISOTime) UnmarshalJSON(data []byte) error {
 		return nil
 	}
 
-	isotime, err := time.Parse(`"`+iso8901+`"`, string(data))
+	isotime, err := time.Parse(`"`+iso8601+`"`, string(data))
 	*t = ISOTime(isotime)
 
 	return err
