@@ -596,7 +596,7 @@ type ImpersonationToken struct {
 	Scopes    []string   `json:"scopes"`
 	Revoked   bool       `json:"revoked"`
 	CreatedAt *time.Time `json:"created_at"`
-	ExpiresAt *time.Time `json:"expires_at"`
+	ExpiresAt *ISOTime   `json:"expires_at"`
 }
 
 // GetAllImpersonationTokensOptions represents the available
