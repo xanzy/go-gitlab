@@ -20,7 +20,6 @@ import (
 	"errors"
 	"fmt"
 	"time"
-	"strings"
 )
 
 // UsersService handles communication with the user related methods of
@@ -698,52 +697,16 @@ func (s *UsersService) RevokeImpersonationToken(user, token int, options ...Opti
 	return s.client.Do(req, nil)
 }
 
-// UserActivityTime represents a custom time format
-// used by Gitlab in the user/activities response (YYYY-MM-DD)
-type UserActivityTime struct {
-	time.Time
-}
-
-// User Activity represents an entry in the user/activities response
-// LastActivityAt is deprecated and only available for downward compatibility
+// UserActivity represents an entry in the user/activities response
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/users.html#get-user-activities-admin-only
 type UserActivity struct {
-	Username       string            `json:"username"`
-	LastActivityOn *UserActivityTime `json:"last_activity_on"`
-	LastActivityAt *UserActivityTime `json:"last_activity_at"`    // deprecated!
+	Username       string   `json:"username"`
+	LastActivityOn *ISOTime `json:"last_activity_on"`
 }
 
-// layout of UserActivityTime for parsing time string
-const uatLayout = "2006-01-02"
-
-// custom unmarshaller for for UserActivityTime
-func (uat *UserActivityTime) UnmarshalJSON(b []byte) (err error) {
-	s := strings.Trim(string(b), "\"")
-	if s == "null" {
-		uat.Time = time.Time{}
-		return
-	}
-	uat.Time, err = time.Parse(uatLayout, s)
-	return
-}
-
-// custom marshaller for UserActivityTime
-func (uat *UserActivityTime) MarshalJSON() ([]byte, error) {
-	if uat.Time.UnixNano() == nilTime {
-		return []byte("null"), nil
-	}
-	return []byte(fmt.Sprintf("\"%s\"", uat.Time.Format(uatLayout))), nil
-}
-
-// helper method to check whether UserActivityTime is set
-var nilTime = (time.Time{}).UnixNano()
-func (uat *UserActivityTime) IsSet() bool {
-	return uat.UnixNano() != nilTime
-}
-
-// Get user activities (admin only)
+// GetUserActivities retrieves user activities (admin only)
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/users.html#get-user-activities-admin-only
