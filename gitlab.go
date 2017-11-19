@@ -20,6 +20,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -28,6 +29,7 @@ import (
 	"sort"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/google/go-querystring/query"
 )
@@ -66,6 +68,40 @@ const (
 	MasterPermissions    AccessLevelValue = 40
 	OwnerPermission      AccessLevelValue = 50
 )
+
+// ISOTime represents an ISO 8601 formatted date
+type ISOTime time.Time
+
+// ISO 8901 date format
+const iso8901 = "2006-01-02"
+
+// MarshalJSON implements the json.Marshaler interface
+func (t ISOTime) MarshalJSON() ([]byte, error) {
+	if y := time.Time(t).Year(); y < 0 || y >= 10000 {
+		// ISO 8901 uses 4 digits for the years
+		return nil, errors.New("ISOTime.MarshalJSON: year outside of range [0,9999]")
+	}
+
+	b := make([]byte, 0, len(iso8901)+2)
+	b = append(b, '"')
+	b = time.Time(t).AppendFormat(b, iso8901)
+	b = append(b, '"')
+
+	return b, nil
+}
+
+// UnmarshalJSON implements the json.Unmarshaler interface
+func (t *ISOTime) UnmarshalJSON(data []byte) error {
+	// Ignore null, like in the main JSON package
+	if string(data) == "null" {
+		return nil
+	}
+
+	isotime, err := time.Parse(`"`+iso8901+`"`, string(data))
+	*t = ISOTime(isotime)
+
+	return err
+}
 
 // NotificationLevelValue represents a notification level.
 type NotificationLevelValue int
