@@ -41,6 +41,7 @@ type GroupMember struct {
 	State       string           `json:"state"`
 	CreatedAt   *time.Time       `json:"created_at"`
 	AccessLevel AccessLevelValue `json:"access_level"`
+	ExpiresAt   *ISOTime         `json:"expires_at"`
 }
 
 // ListGroupMembersOptions represents the available ListGroupMembers()
