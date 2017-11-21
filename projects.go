@@ -183,6 +183,7 @@ type ListProjectsOptions struct {
 	Archived   *bool            `url:"archived,omitempty" json:"archived,omitempty"`
 	OrderBy    *string          `url:"order_by,omitempty" json:"order_by,omitempty"`
 	Sort       *string          `url:"sort,omitempty" json:"sort,omitempty"`
+	PerPage    *string          `url:"per_page,omitempty" json:"per_page,omitempty"`
 	Search     *string          `url:"search,omitempty" json:"search,omitempty"`
 	Simple     *bool            `url:"simple,omitempty" json:"simple,omitempty"`
 	Owned      *bool            `url:"owned,omitempty" json:"owned,omitempty"`
