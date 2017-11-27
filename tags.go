@@ -51,14 +51,14 @@ func (t Tag) String() string {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/tags.html#list-project-repository-tags
-func (s *TagsService) ListTags(pid interface{}, options ...OptionFunc) ([]*Tag, *Response, error) {
+func (s *TagsService) ListTags(pid interface{}, listTagOptions ListOptions, options ...OptionFunc) ([]*Tag, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/repository/tags", url.QueryEscape(project))
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest("GET", u, listTagOptions, options)
 	if err != nil {
 		return nil, nil, err
 	}
