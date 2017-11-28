@@ -356,6 +356,10 @@ func (c *Client) NewRequest(method, path string, opt interface{}, options []Opti
 	}
 
 	for _, fn := range options {
+		if fn == nil {
+			continue
+		}
+
 		if err := fn(req); err != nil {
 			return nil, err
 		}
