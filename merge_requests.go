@@ -318,7 +318,8 @@ func (s *MergeRequestsService) GetMergeRequestChanges(pid interface{}, mergeRequ
 	return m, resp, err
 }
 
-// GetIssuesClosedOnMerge Get all the issues that would be closed by merging the provided merge request.
+// GetIssuesClosedOnMerge gets all the issues that would be closed by merging the
+// provided merge request.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/merge_requests.html#list-issues-that-will-close-on-merge
@@ -333,6 +334,7 @@ func (s *MergeRequestsService) GetIssuesClosedOnMerge(pid interface{}, mergeRequ
 	if err != nil {
 		return nil, nil, err
 	}
+
 	var i []*Issue
 	resp, err := s.client.Do(req, &i)
 	if err != nil {
