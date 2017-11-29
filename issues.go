@@ -68,6 +68,7 @@ type Issue struct {
 	Confidential   bool       `json:"confidential"`
 	DueDate        string     `json:"due_date"`
 	WebURL         string     `json:"web_url"`
+	TimeStats      TimeStats  `json:"time_stats"`
 }
 
 func (i Issue) String() string {
