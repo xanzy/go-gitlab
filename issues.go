@@ -68,12 +68,7 @@ type Issue struct {
 	Confidential   bool       `json:"confidential"`
 	DueDate        string     `json:"due_date"`
 	WebURL         string     `json:"web_url"`
-	TimeStats      struct {
-		TimeEstimate        int    `json:"time_estimate"` // Seconds
-		TimeEstimateHuman   string `json:"human_time_estimate"`
-		TimeTotalSpend      int    `json:"total_time_spent"` // Seconds
-		TimeTotalSpendHuman string `json:"human_total_time_spent"`
-	} `json:"time_stats"`
+	TimeStats      TimeStats  `json:"time_stats"`
 }
 
 func (i Issue) String() string {
