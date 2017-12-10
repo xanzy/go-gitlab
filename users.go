@@ -407,7 +407,7 @@ func (s *UsersService) BlockUser(user int, options ...OptionFunc) error {
 	}
 
 	switch resp.StatusCode {
-	case 200:
+	case 201:
 		return nil
 	case 403:
 		return errors.New("Cannot block a user that is already blocked by LDAP synchronization")
@@ -435,7 +435,7 @@ func (s *UsersService) UnblockUser(user int, options ...OptionFunc) error {
 	}
 
 	switch resp.StatusCode {
-	case 200:
+	case 201:
 		return nil
 	case 403:
 		return errors.New("Cannot unblock a user that is blocked by LDAP synchronization")
