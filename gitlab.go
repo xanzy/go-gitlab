@@ -40,17 +40,17 @@ const (
 	userAgent      = "go-gitlab/" + libraryVersion
 )
 
-// tokenType represents a token type within GitLab.
+// authType represents an authentication type within GitLab.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/
-type tokenType int
+type authType int
 
-// List of available token type
+// List of available authentication types.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/
 const (
-	privateToken tokenType = iota
-	oAuthToken
+	oAuthToken authType = iota
+	privateToken
 )
 
 // AccessLevelValue represents a permission level within GitLab.
@@ -258,7 +258,7 @@ type Client struct {
 	baseURL *url.URL
 
 	// token type used to make authenticated API calls.
-	tokenType tokenType
+	authType authType
 
 	// token used to make authenticated API calls.
 	token string
@@ -330,24 +330,96 @@ type ListOptions struct {
 
 // NewClient returns a new GitLab API client. If a nil httpClient is
 // provided, http.DefaultClient will be used. To use API methods which require
-// authentication, provide a valid private token.
+// authentication, provide a valid private or personal token.
 func NewClient(httpClient *http.Client, token string) *Client {
-	return newClient(httpClient, privateToken, token)
+	client := newClient(httpClient)
+	client.authType = privateToken
+	client.token = token
+	return client
+}
+
+// NewBasicAuthClient returns a new GitLab API client. If a nil httpClient is
+// provided, http.DefaultClient will be used. To use API methods which require
+// authentication, provide a valid username and password.
+func NewBasicAuthClient(httpClient *http.Client, endpoint, username, password string) (*Client, error) {
+	client := newClient(httpClient)
+	client.authType = oAuthToken
+	client.SetBaseURL(endpoint + "/api/v4")
+
+	// We get the first token before the loop to confirm the credentials
+	t, err := requestOAuthToken(client, endpoint, username, password)
+	if err != nil {
+		return nil, err
+	}
+
+	// And then we assign the token inside the loop, so we can keep reassigning
+	// to renew the token every x seconds (just before it expiated)
+	go func() {
+		for {
+			client.token = t.AccessToken
+
+			if t.ExpiresIn > 60 {
+				t.ExpiresIn -= 60
+			}
+
+			time.Sleep(t.ExpiresIn * time.Second)
+
+			t, err = requestOAuthToken(client, endpoint, username, password)
+			if err != nil {
+				panic(err)
+			}
+		}
+	}()
+
+	return client, nil
+}
+
+type token struct {
+	AccessToken string        `json:"access_token"`
+	ExpiresIn   time.Duration `json:"expires_in"`
+}
+
+func requestOAuthToken(client *Client, endpoint, username, password string) (*token, error) {
+	body := []byte(fmt.Sprintf(
+		`{ "grant_type": "password", "username": %q, "password": %q }`, username, password))
+
+	req, err := http.NewRequest("POST", endpoint+"/oauth/token", bytes.NewBuffer(body))
+	if err != nil {
+		return nil, err
+	}
+	req.Header.Set("Content-Type", "application/json")
+
+	resp, err := client.client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != 200 {
+		return nil, fmt.Errorf("unexpected response when refreshing oauth token: %s", resp.Status)
+	}
+
+	t := new(token)
+	err = json.NewDecoder(resp.Body).Decode(t)
+	return t, err
 }
 
 // NewOAuthClient returns a new GitLab API client. If a nil httpClient is
 // provided, http.DefaultClient will be used. To use API methods which require
 // authentication, provide a valid oauth token.
 func NewOAuthClient(httpClient *http.Client, token string) *Client {
-	return newClient(httpClient, oAuthToken, token)
+	client := newClient(httpClient)
+	client.authType = oAuthToken
+	client.token = token
+	return client
 }
 
-func newClient(httpClient *http.Client, tokenType tokenType, token string) *Client {
+func newClient(httpClient *http.Client) *Client {
 	if httpClient == nil {
 		httpClient = http.DefaultClient
 	}
 
-	c := &Client{client: httpClient, tokenType: tokenType, token: token, UserAgent: userAgent}
+	c := &Client{client: httpClient, UserAgent: userAgent}
 	if err := c.SetBaseURL(defaultBaseURL); err != nil {
 		// Should never happen since defaultBaseURL is our constant.
 		panic(err)
@@ -482,7 +554,7 @@ func (c *Client) NewRequest(method, path string, opt interface{}, options []Opti
 
 	req.Header.Set("Accept", "application/json")
 
-	switch c.tokenType {
+	switch c.authType {
 	case privateToken:
 		req.Header.Set("PRIVATE-TOKEN", c.token)
 	case oAuthToken:
