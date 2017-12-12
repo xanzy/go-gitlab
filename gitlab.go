@@ -137,7 +137,7 @@ func (l *NotificationLevelValue) UnmarshalJSON(data []byte) error {
 
 // List of valid notification levels.
 const (
-	DisabledNotificationLevel NotificationLevelValue = iota
+	DisabledNotificationLevel      NotificationLevelValue = iota
 	ParticipatingNotificationLevel
 	WatchNotificationLevel
 	GlobalNotificationLevel
@@ -436,7 +436,7 @@ func (r *Response) populatePageValues() {
 			}
 
 			// try to pull out page parameter
-			url, err := url.Parse(segments[0][1 : len(segments[0])-1])
+			url, err := url.Parse(segments[0][1: len(segments[0])-1])
 			if err != nil {
 				continue
 			}
@@ -625,6 +625,14 @@ func Bool(v bool) *bool {
 // its argument value is an int.
 func Int(v int) *int {
 	p := new(int)
+	*p = v
+	return p
+}
+
+// Int64 is a helper routine that allocates a new int64 value
+// to store v and returns a pointer to it.
+func Int64(v int64) *int64 {
+	p := new(int64)
 	*p = v
 	return p
 }

@@ -19,6 +19,8 @@ package gitlab
 import (
 	"fmt"
 	"net/url"
+	"bytes"
+	"io"
 )
 
 // RepositoryFilesService handles communication with the repository files
@@ -86,14 +88,15 @@ func (s *RepositoryFilesService) GetFile(pid interface{}, fileName string, opt *
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/repository_files.html#get-raw-file-from-repository
 type GetRawFileOptions struct {
-	Ref *string `url:"ref,omitempty" json:"ref,omitempty"`
+	Ref     *string `url:"ref,omitempty" json:"ref,omitempty"`
+	MaxSize *int64  `json:"-"` // constraint payload's size
 }
 
 // GetRawFile allows you to receive the raw file in repository.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/repository_files.html#get-raw-file-from-repository
-func (s *RepositoryFilesService) GetRawFile(pid interface{}, fileName string, opt *GetRawFileOptions, options ...OptionFunc) (*File, *Response, error) {
+func (s *RepositoryFilesService) GetRawFile(pid interface{}, fileName string, opt *GetRawFileOptions, options ...OptionFunc) ([]byte, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -105,13 +108,43 @@ func (s *RepositoryFilesService) GetRawFile(pid interface{}, fileName string, op
 		return nil, nil, err
 	}
 
-	f := new(File)
-	resp, err := s.client.Do(req, f)
+	var buffer bytesBuffer = bytes.NewBuffer(nil)
+	if opt.MaxSize != nil {
+		buffer = &limitedBuffer{
+			n:           *opt.MaxSize,
+			bytesBuffer: buffer,
+		}
+	}
+	resp, err := s.client.Do(req, buffer)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return f, resp, err
+	return buffer.Bytes(), resp, err
+}
+
+type bytesBuffer interface {
+	Bytes() []byte
+	io.Writer
+}
+
+type limitedBuffer struct {
+	bytesBuffer // underlying writer
+	n int64     // max bytes to write
+}
+
+func (l *limitedBuffer) Write(p []byte) (n int, err error) {
+	if l.n <= 0 {
+		return 0, &ErrorResponse{
+			Message: "file is too large",
+		}
+	}
+	if int64(len(p)) > l.n {
+		p = p[0:l.n]
+	}
+	n, err = l.bytesBuffer.Write(p)
+	l.n -= int64(n)
+	return
 }
 
 // FileInfo represents file details of a GitLab repository file.
