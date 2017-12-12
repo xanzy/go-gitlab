@@ -49,9 +49,21 @@ type PushEvent struct {
 		WebURL            string          `json:"web_url"`
 		Visibility        VisibilityValue `json:"visibility"`
 	} `json:"project"`
-	Repository        *Repository `json:"repository"`
-	Commits           []*Commit   `json:"commits"`
-	TotalCommitsCount int         `json:"total_commits_count"`
+	Repository *Repository `json:"repository"`
+	Commits    []*struct {
+		ID        string     `json:"id"`
+		Message   string     `json:"message"`
+		Timestamp *time.Time `json:"timestamp"`
+		URL       string     `json:"url"`
+		Author    struct {
+			Name  string `json:"name"`
+			Email string `json:"email"`
+		} `json:"author"`
+		Added    []string `json:"added"`
+		Modified []string `json:"modified"`
+		Removed  []string `json:"removed"`
+	} `json:"commits"`
+	TotalCommitsCount int `json:"total_commits_count"`
 }
 
 // TagEvent represents a tag event.
@@ -84,9 +96,21 @@ type TagEvent struct {
 		WebURL            string          `json:"web_url"`
 		Visibility        VisibilityValue `json:"visibility"`
 	} `json:"project"`
-	Repository        *Repository `json:"repository"`
-	Commits           []*Commit   `json:"commits"`
-	TotalCommitsCount int         `json:"total_commits_count"`
+	Repository *Repository `json:"repository"`
+	Commits    []*struct {
+		ID        string     `json:"id"`
+		Message   string     `json:"message"`
+		Timestamp *time.Time `json:"timestamp"`
+		URL       string     `json:"url"`
+		Author    struct {
+			Name  string `json:"name"`
+			Email string `json:"email"`
+		} `json:"author"`
+		Added    []string `json:"added"`
+		Modified []string `json:"modified"`
+		Removed  []string `json:"removed"`
+	} `json:"commits"`
+	TotalCommitsCount int `json:"total_commits_count"`
 }
 
 // IssueEvent represents a issue event.
@@ -186,7 +210,16 @@ type CommitCommentEvent struct {
 			DeletedFile bool   `json:"deleted_file"`
 		} `json:"st_diff"`
 	} `json:"object_attributes"`
-	Commit *Commit `json:"commit"`
+	Commit *struct {
+		ID        string     `json:"id"`
+		Message   string     `json:"message"`
+		Timestamp *time.Time `json:"timestamp"`
+		URL       string     `json:"url"`
+		Author    struct {
+			Name  string `json:"name"`
+			Email string `json:"email"`
+		} `json:"author"`
+	} `json:"commit"`
 }
 
 // MergeCommentEvent represents a comment on a merge event.
@@ -272,7 +305,10 @@ type MergeCommentEvent struct {
 			Message   string     `json:"message"`
 			Timestamp *time.Time `json:"timestamp"`
 			URL       string     `json:"url"`
-			Author    *Author    `json:"author"`
+			Author    struct {
+				Name  string `json:"name"`
+				Email string `json:"email"`
+			} `json:"author"`
 		} `json:"last_commit"`
 		WorkInProgress bool `json:"work_in_progress"`
 		TotalTimeSpent int  `json:"total_time_spent"`
@@ -431,7 +467,10 @@ type MergeEvent struct {
 			Message   string     `json:"message"`
 			Timestamp *time.Time `json:"timestamp"`
 			URL       string     `json:"url"`
-			Author    *Author    `json:"author"`
+			Author    struct {
+				Name  string `json:"name"`
+				Email string `json:"email"`
+			} `json:"author"`
 		} `json:"last_commit"`
 		WorkInProgress bool   `json:"work_in_progress"`
 		URL            string `json:"url"`
@@ -531,10 +570,10 @@ type PipelineEvent struct {
 		Visibility        VisibilityValue `json:"visibility"`
 	} `json:"project"`
 	Commit struct {
-		ID        string    `json:"id"`
-		Message   string    `json:"message"`
-		Timestamp time.Time `json:"timestamp"`
-		URL       string    `json:"url"`
+		ID        string     `json:"id"`
+		Message   string     `json:"message"`
+		Timestamp *time.Time `json:"timestamp"`
+		URL       string     `json:"url"`
 		Author    struct {
 			Name  string `json:"name"`
 			Email string `json:"email"`
