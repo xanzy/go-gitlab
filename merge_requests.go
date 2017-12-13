@@ -566,6 +566,33 @@ func (s *MergeRequestsService) UnsubscribeFromMergeRequest(pid interface{}, merg
 	return m, resp, err
 }
 
+// CreateTodo manually creates a todo for the current user on a merge request.
+// If there already exists a todo for the user on that merge request,
+// status code 304 is returned.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/merge_requests.html#create-a-todo
+func (s *MergeRequestsService) CreateTodo(pid interface{}, mergeRequest int, options ...OptionFunc) (*Todo, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/todo", url.QueryEscape(project), mergeRequest)
+
+	req, err := s.client.NewRequest("POST", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	t := new(Todo)
+	resp, err := s.client.Do(req, t)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return t, resp, err
+}
+
 // SetTimeEstimate sets the time estimate for a single project merge request.
 //
 // GitLab API docs:
