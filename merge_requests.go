@@ -511,6 +511,60 @@ func (s *MergeRequestsService) CancelMergeWhenPipelineSucceeds(pid interface{}, 
 	return m, resp, err
 }
 
+// Subscribe subscribes the authenticated user to the given merge request
+// to receive notifications. If the user is already subscribed to the
+// merge request, the status code 304 is returned.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/merge_requests.html#subscribe-to-a-merge-request
+func (s *MergeRequestsService) SubscribeToMergeRequest(pid interface{}, mergeRequest int, options ...OptionFunc) (*MergeRequest, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/subscribe", url.QueryEscape(project), mergeRequest)
+
+	req, err := s.client.NewRequest("POST", u, nil, options)
+	if err != nil {
+	    return nil, nil, err
+	}
+
+	m := new(MergeRequest)
+	resp, err := s.client.Do(req, m)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return m, resp, err
+}
+
+// Unsubscribe unsubscribes the authenticated user from the given merge request
+// to not receive notifications from that merge request. If the user is
+// not subscribed to the merge request, status code 304 is returned.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/merge_requests.html#unsubscribe-from-a-merge-request
+func (s *MergeRequestsService) UnsubscribeFromMergeRequest(pid interface{}, mergeRequest int, options ...OptionFunc) (*MergeRequest, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/unsubscribe", url.QueryEscape(project), mergeRequest)
+
+	req, err := s.client.NewRequest("POST", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	m := new(MergeRequest)
+	resp, err := s.client.Do(req, m)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return m, resp, err
+}
+
 // SetTimeEstimate sets the time estimate for a single project merge request.
 //
 // GitLab API docs:
