@@ -463,6 +463,31 @@ func (s *MergeRequestsService) AcceptMergeRequest(pid interface{}, mergeRequest 
 	return m, resp, err
 }
 
+// ListIssuesThatWillCloseOnMerge List issues that will close on merge
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/merge_requests.html#list-issues-that-will-close-on-merge
+func (s *MergeRequestsService) ListIssuesThatWillCloseOnMerge(pid interface{}, mergeRequest int,options ...OptionFunc) ([]*Issue, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/closes_issues", url.QueryEscape(project), mergeRequest)
+
+	req, err := s.client.NewRequest("GET", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var i []*Issue
+	resp, err := s.client.Do(req, &i)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return i, resp, err
+}
+
 // SetTimeEstimate sets the time estimate for a single project merge request.
 //
 // GitLab API docs:
