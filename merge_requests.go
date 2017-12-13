@@ -423,6 +423,25 @@ func (s *MergeRequestsService) UpdateMergeRequest(pid interface{}, mergeRequest 
 	return m, resp, err
 }
 
+// DeleteMergeRequest deletes a merge request.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/merge_requests.html#delete-a-merge-request
+func (s *MergeRequestsService) DeleteMergeRequest(pid interface{}, mergeRequest int, options ...OptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/merge_requests/%d", url.QueryEscape(project), mergeRequest)
+
+	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
+
 // AcceptMergeRequestOptions represents the available AcceptMergeRequest()
 // options.
 //
