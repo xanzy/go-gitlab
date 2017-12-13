@@ -145,10 +145,10 @@ type ListMergeRequestsOptions struct {
 	MyReactionEmoji *string    `url:"my_reaction_emoji,omitempty" json:"my_reaction_emoji,omitempty"`
 }
 
-// ListMergeRequests gets all merge requests. The state
-// parameter can be used to get only merge requests with a given state (opened,
-// closed, or merged) or all of them (all). The pagination parameters page and
-// per_page can be used to restrict the list of merge requests.
+// ListMergeRequests gets all merge requests. The state parameter can be used
+// to get only merge requests with a given state (opened, closed, or merged)
+// or all of them (all). The pagination parameters page and per_page can be
+// used to restrict the list of merge requests.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/merge_requests.html#list-merge-requests
@@ -482,19 +482,15 @@ func (s *MergeRequestsService) AcceptMergeRequest(pid interface{}, mergeRequest 
 	return m, resp, err
 }
 
-// CancelMergeWhenPipelineSucceeds Cancels a merge when pipeline succeeds
-//
-// When reviewing a merge request that looks ready to merge but still has one or more CI jobs running, you can set it to be merged automatically when the jobs pipeline succeeds.
-// This action cancels this automatic merge, hence the merge request will not be merged automatically upon a successful pipeline run.
-// see https://docs.gitlab.com/ce/user/project/merge_requests/merge_when_pipeline_succeeds.html for further explanations.
-//
-// If you don't have permissions to accept this merge request - you'll get a 401
-// If the merge request is already merged or closed - you get 405 and error message 'Method Not Allowed'
-// In case the merge request is not set to be merged when the pipeline succeeds, you'll also get a 406 error.
+// CancelMergeWhenPipelineSucceeds cancels a merge when pipeline succeeds. If
+// you don't have permissions to accept this merge request - you'll get a 401.
+// If the merge request is already merged or closed - you get 405 and error
+// message 'Method Not Allowed'. In case the merge request is not set to be
+// merged when the pipeline succeeds, you'll also get a 406 error.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/merge_requests.html#cancel-merge-when-pipeline-succeeds
-func (s *MergeRequestsService) CancelMergeWhenPipelineSucceeds(pid interface{}, mergeRequest int,options ...OptionFunc) (*MergeRequest, *Response, error) {
+func (s *MergeRequestsService) CancelMergeWhenPipelineSucceeds(pid interface{}, mergeRequest int, options ...OptionFunc) (*MergeRequest, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
