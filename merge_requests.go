@@ -495,7 +495,7 @@ func (s *MergeRequestsService) CancelMergeWhenPipelineSucceeds(pid interface{}, 
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("/projects/%s/merge_requests/%d/cancel_merge_when_pipeline_succeeds", url.QueryEscape(project), mergeRequest)
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/cancel_merge_when_pipeline_succeeds", url.QueryEscape(project), mergeRequest)
 
 	req, err := s.client.NewRequest("PUT", u, nil, options)
 	if err != nil {
