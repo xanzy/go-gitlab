@@ -107,13 +107,11 @@ type Repository struct {
 
 // ProjectNamespace represents a project namespace.
 type ProjectNamespace struct {
-	CreatedAt   *time.Time `json:"created_at"`
-	Description string     `json:"description"`
-	ID          int        `json:"id"`
-	Name        string     `json:"name"`
-	OwnerID     int        `json:"owner_id"`
-	Path        string     `json:"path"`
-	UpdatedAt   *time.Time `json:"updated_at"`
+	ID       int    `json:"id"`
+	Name     string `json:"name"`
+	Path     string `json:"path"`
+	Kind     string `json:"kind"`
+	FullPath string `json:"full_path"`
 }
 
 // StorageStatistics represents a statistics record for a group or project.

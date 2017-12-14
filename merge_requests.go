@@ -87,6 +87,7 @@ type MergeRequest struct {
 		RenamedFile bool   `json:"renamed_file"`
 		DeletedFile bool   `json:"deleted_file"`
 	} `json:"changes"`
+	TimeStats *TimeStats `json:"time_stats"`
 }
 
 func (m MergeRequest) String() string {
@@ -145,10 +146,10 @@ type ListMergeRequestsOptions struct {
 	MyReactionEmoji *string    `url:"my_reaction_emoji,omitempty" json:"my_reaction_emoji,omitempty"`
 }
 
-// ListMergeRequests gets all merge requests. The state
-// parameter can be used to get only merge requests with a given state (opened,
-// closed, or merged) or all of them (all). The pagination parameters page and
-// per_page can be used to restrict the list of merge requests.
+// ListMergeRequests gets all merge requests. The state parameter can be used
+// to get only merge requests with a given state (opened, closed, or merged)
+// or all of them (all). The pagination parameters page and per_page can be
+// used to restrict the list of merge requests.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/merge_requests.html#list-merge-requests
@@ -423,6 +424,25 @@ func (s *MergeRequestsService) UpdateMergeRequest(pid interface{}, mergeRequest 
 	return m, resp, err
 }
 
+// DeleteMergeRequest deletes a merge request.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/merge_requests.html#delete-a-merge-request
+func (s *MergeRequestsService) DeleteMergeRequest(pid interface{}, mergeRequest int, options ...OptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/merge_requests/%d", url.QueryEscape(project), mergeRequest)
+
+	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
+
 // AcceptMergeRequestOptions represents the available AcceptMergeRequest()
 // options.
 //
@@ -450,6 +470,35 @@ func (s *MergeRequestsService) AcceptMergeRequest(pid interface{}, mergeRequest 
 	u := fmt.Sprintf("projects/%s/merge_requests/%d/merge", url.QueryEscape(project), mergeRequest)
 
 	req, err := s.client.NewRequest("PUT", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	m := new(MergeRequest)
+	resp, err := s.client.Do(req, m)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return m, resp, err
+}
+
+// CancelMergeWhenPipelineSucceeds cancels a merge when pipeline succeeds. If
+// you don't have permissions to accept this merge request - you'll get a 401.
+// If the merge request is already merged or closed - you get 405 and error
+// message 'Method Not Allowed'. In case the merge request is not set to be
+// merged when the pipeline succeeds, you'll also get a 406 error.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/merge_requests.html#cancel-merge-when-pipeline-succeeds
+func (s *MergeRequestsService) CancelMergeWhenPipelineSucceeds(pid interface{}, mergeRequest int, options ...OptionFunc) (*MergeRequest, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/cancel_merge_when_pipeline_succeeds", url.QueryEscape(project), mergeRequest)
+
+	req, err := s.client.NewRequest("PUT", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
