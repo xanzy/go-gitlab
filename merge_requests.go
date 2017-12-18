@@ -53,13 +53,13 @@ type MergeRequest struct {
 		State     string     `json:"state"`
 		CreatedAt *time.Time `json:"created_at"`
 	} `json:"author"`
-	Assignee struct {
+	Assignees []struct {
 		ID        int        `json:"id"`
 		Username  string     `json:"username"`
 		Name      string     `json:"name"`
 		State     string     `json:"state"`
 		CreatedAt *time.Time `json:"created_at"`
-	} `json:"assignee"`
+	} `json:"assignees"`
 	SourceProjectID           int        `json:"source_project_id"`
 	TargetProjectID           int        `json:"target_project_id"`
 	Labels                    []string   `json:"labels"`
@@ -598,7 +598,7 @@ func (s *MergeRequestsService) SubscribeToMergeRequest(pid interface{}, mergeReq
 
 	req, err := s.client.NewRequest("POST", u, nil, options)
 	if err != nil {
-	    return nil, nil, err
+		return nil, nil, err
 	}
 
 	m := new(MergeRequest)
