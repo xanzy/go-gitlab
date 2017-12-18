@@ -188,7 +188,7 @@ func (s *LabelsService) SubscribeToLabel(pid interface{}, labelID interface{}, o
 	l := new(Label)
 	resp, err := s.client.Do(req, l)
 	if err != nil {
-		return nil, resp, err
+	    return nil, resp, err
 	}
 
 	return l, resp, err
