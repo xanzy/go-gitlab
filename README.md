@@ -34,6 +34,7 @@ includes all calls to the following services:
 - [x] Pipelines
 - [x] Project Snippets
 - [x] Projects (including setting Webhooks)
+- [x] Protected Branches
 - [x] Repositories
 - [x] Repository Files
 - [x] Services
