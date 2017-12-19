@@ -70,7 +70,7 @@ type MergeRequest struct {
 	MergeStatus               string     `json:"merge_status"`
 	Subscribed                bool       `json:"subscribed"`
 	SHA                       string     `json:"sha"`
-	MergeCommitShaSHA         string     `json:"merge_commit_sha"`
+	MergeCommitSHA            string     `json:"merge_commit_sha"`
 	UserNotesCount            int        `json:"user_notes_count"`
 	ChangesCount              string     `json:"changes_count"`
 	SouldRemoveSourceBranch   bool       `json:"should_remove_source_branch"`
