@@ -74,3 +74,29 @@ func (s *ProtectedBranchesService) ListProtectedBranches(pid interface{}, option
 
 	return p, resp, err
 }
+
+// GetProtectedBranch gets a single protected branch
+// or wildcard protected branch
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/protected_branches.html#get-a-single-protected-branch-or-wildcard-protected-branch
+func (s *ProtectedBranchesService) GetProtectedBranch(pid interface{}, name string, options ...OptionFunc) (*ProtectedBranch, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/protected_branches/%s", url.QueryEscape(project), name)
+
+	req, err := s.client.NewRequest("GET", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	p := new(ProtectedBranch)
+	resp, err := s.client.Do(req, p)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return p, resp, err
+}
