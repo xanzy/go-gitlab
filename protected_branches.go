@@ -100,3 +100,40 @@ func (s *ProtectedBranchesService) GetProtectedBranch(pid interface{}, name stri
 
 	return p, resp, err
 }
+
+// ProtectRepositoryBranchesOptions represents the available
+// ProtectRepositoryBranches() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/protected_branches.html#protect-repository-branches
+type ProtectRepositoryBranchesOptions struct {
+	Name             *string           `url:"name,omitempty" json:"name,omitempty"`
+	PushAccessLevel  *AccessLevelValue `url:"push_access_level,omitempty" json:"push_access_level,omitempty"`
+	MergeAccessLevel *AccessLevelValue `url:"merge_access_level,omitempty" json:"merge_access_level,omitempty"`
+}
+
+// ProtectRepositoryBranches protects a single repository branch or several
+// project repository branches using a wildcard protected branch.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/protected_branches.html#protect-repository-branches
+func (s *ProtectedBranchesService) ProtectRepositoryBranches(pid interface{}, opt *ProtectRepositoryBranchesOptions, options ...OptionFunc) (*ProtectedBranch, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/protected_branches", url.QueryEscape(project))
+
+	req, err := s.client.NewRequest("POST", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	p := new(ProtectedBranch)
+	resp, err := s.client.Do(req, p)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return p, resp, err
+}
