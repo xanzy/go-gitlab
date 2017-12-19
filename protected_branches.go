@@ -137,3 +137,23 @@ func (s *ProtectedBranchesService) ProtectRepositoryBranches(pid interface{}, op
 
 	return p, resp, err
 }
+
+// UnprotectRepositoryBranches unprotects the given protected branch
+// or wildcard protected branch
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/protected_branches.html#unprotect-repository-branches
+func (s *ProtectedBranchesService) UnprotectRepositoryBranches(pid interface{}, name string, options ...OptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/protected_branches/%s", url.QueryEscape(project), name)
+
+	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
