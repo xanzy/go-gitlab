@@ -28,9 +28,13 @@ type NamespacesService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/namespaces.html
 type Namespace struct {
-	ID   int    `json:"id"`
-	Path string `json:"path"`
-	Kind string `json:"kind"`
+	ID                          int    `json:"id"`
+	Name                        string `json:"name"`
+	Path                        string `json:"path"`
+	Kind                        string `json:"kind"`
+	FullPath                    string `json:"full_path"`
+	ParentID                    int    `json:"parent_id"`
+	MembersCountWithDescendants int    `json:"members_count_with_descendants"`
 }
 
 func (n Namespace) String() string {
