@@ -21,8 +21,8 @@ import (
 	"net/url"
 )
 
-// ProtectedBranchesService handles communication with the
-// protected branch related methods of the GitLab API.
+// ProtectedBranchesService handles communication with the protected branch
+// related methods of the GitLab API.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/protected_branches.html#protected-branches-api
@@ -30,8 +30,8 @@ type ProtectedBranchesService struct {
 	client *Client
 }
 
-// BranchAccessDescription represents the access description for a
-// protected branch
+// BranchAccessDescription represents the access description for a protected
+// branch.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/protected_branches.html#protected-branches-api
@@ -40,7 +40,7 @@ type BranchAccessDescription struct {
 	AccessLevelDescription string           `json:"access_level_description"`
 }
 
-// ProtectedBranch represents a protected branch
+// ProtectedBranch represents a protected branch.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/protected_branches.html#list-protected-branches
@@ -50,7 +50,7 @@ type ProtectedBranch struct {
 	MergeAccessLevels []*BranchAccessDescription `json:"merge_access_levels"`
 }
 
-// ListProtectedBranches gets a list of protected branches from a project
+// ListProtectedBranches gets a list of protected branches from a project.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/protected_branches.html#list-protected-branches
@@ -75,17 +75,16 @@ func (s *ProtectedBranchesService) ListProtectedBranches(pid interface{}, option
 	return p, resp, err
 }
 
-// GetProtectedBranch gets a single protected branch
-// or wildcard protected branch
+// GetProtectedBranch gets a single protected branch or wildcard protected branch.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/protected_branches.html#get-a-single-protected-branch-or-wildcard-protected-branch
-func (s *ProtectedBranchesService) GetProtectedBranch(pid interface{}, name string, options ...OptionFunc) (*ProtectedBranch, *Response, error) {
+func (s *ProtectedBranchesService) GetProtectedBranch(pid interface{}, branch string, options ...OptionFunc) (*ProtectedBranch, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/protected_branches/%s", url.QueryEscape(project), name)
+	u := fmt.Sprintf("projects/%s/protected_branches/%s", url.QueryEscape(project), branch)
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
@@ -138,17 +137,17 @@ func (s *ProtectedBranchesService) ProtectRepositoryBranches(pid interface{}, op
 	return p, resp, err
 }
 
-// UnprotectRepositoryBranches unprotects the given protected branch
-// or wildcard protected branch
+// UnprotectRepositoryBranches unprotects the given protected branch or wildcard
+// protected branch.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/protected_branches.html#unprotect-repository-branches
-func (s *ProtectedBranchesService) UnprotectRepositoryBranches(pid interface{}, name string, options ...OptionFunc) (*Response, error) {
+func (s *ProtectedBranchesService) UnprotectRepositoryBranches(pid interface{}, branch string, options ...OptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/protected_branches/%s", url.QueryEscape(project), name)
+	u := fmt.Sprintf("projects/%s/protected_branches/%s", url.QueryEscape(project), branch)
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {

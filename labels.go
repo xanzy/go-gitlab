@@ -21,8 +21,8 @@ import (
 	"net/url"
 )
 
-// LabelsService handles communication with the label related methods
-// of the GitLab API.
+// LabelsService handles communication with the label related methods of the
+// GitLab API.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/labels.html
 type LabelsService struct {
@@ -164,8 +164,8 @@ func (s *LabelsService) UpdateLabel(pid interface{}, opt *UpdateLabelOptions, op
 }
 
 // SubscribeToLabel subscribes the authenticated user to a label to receive
-// notifications. If the user is already subscribed to the label,
-// the status code 304 is returned.
+// notifications. If the user is already subscribed to the label, the status
+// code 304 is returned.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/labels.html#subscribe-to-a-label
@@ -188,15 +188,15 @@ func (s *LabelsService) SubscribeToLabel(pid interface{}, labelID interface{}, o
 	l := new(Label)
 	resp, err := s.client.Do(req, l)
 	if err != nil {
-	    return nil, resp, err
+		return nil, resp, err
 	}
 
 	return l, resp, err
 }
 
-// UnsubscribeFromLabel unsubscribes the authenticated user from a label
-// to not receive notifications from it. If the user is not subscribed
-// to the label, the status code 304 is returned.
+// UnsubscribeFromLabel unsubscribes the authenticated user from a label to not
+// receive notifications from it. If the user is not subscribed to the label, the
+// status code 304 is returned.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/labels.html#unsubscribe-from-a-label
