@@ -62,6 +62,7 @@ type AccessLevelValue int
 //
 // GitLab API docs: https://docs.gitlab.com/ce/permissions/permissions.html
 const (
+	NoPermissions        AccessLevelValue = 0
 	GuestPermissions     AccessLevelValue = 10
 	ReporterPermissions  AccessLevelValue = 20
 	DeveloperPermissions AccessLevelValue = 30
@@ -216,6 +217,7 @@ type Client struct {
 	Projects             *ProjectsService
 	ProjectMembers       *ProjectMembersService
 	ProjectSnippets      *ProjectSnippetsService
+	ProtectedBranches    *ProtectedBranchesService
 	Pipelines            *PipelinesService
 	PipelineTriggers     *PipelineTriggersService
 	Repositories         *RepositoriesService
@@ -292,6 +294,7 @@ func newClient(httpClient *http.Client, tokenType tokenType, token string) *Clie
 	c.ProjectSnippets = &ProjectSnippetsService{client: c}
 	c.Pipelines = &PipelinesService{client: c}
 	c.PipelineTriggers = &PipelineTriggersService{client: c}
+	c.ProtectedBranches = &ProtectedBranchesService{client: c}
 	c.Repositories = &RepositoriesService{client: c}
 	c.RepositoryFiles = &RepositoryFilesService{client: c}
 	c.Services = &ServicesService{client: c}
