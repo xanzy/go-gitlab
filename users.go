@@ -715,12 +715,20 @@ type UserActivity struct {
 	LastActivityOn *ISOTime `json:"last_activity_on"`
 }
 
+// GetUserActivitiesOptions represents the options for GetUserActivities
+//
+// GitLap API docs:
+// https://docs.gitlab.com/ce/api/users.html#get-user-activities-admin-only
+type GetUserActivitiesOptions struct {
+	From *ISOTime `url:"from,omitempty" json:"from,omitempty"`
+}
+
 // GetUserActivities retrieves user activities (admin only)
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/users.html#get-user-activities-admin-only
-func (s *UsersService) GetUserActivities(options ...OptionFunc) ([]*UserActivity, *Response, error) {
-	req, err := s.client.NewRequest("GET", "user/activities", nil, options)
+func (s *UsersService) GetUserActivities(opt *GetUserActivitiesOptions, options ...OptionFunc) ([]*UserActivity, *Response, error) {
+	req, err := s.client.NewRequest("GET", "user/activities", opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
