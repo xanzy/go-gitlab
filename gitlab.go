@@ -389,7 +389,7 @@ func (c *Client) NewRequest(method, path string, opt interface{}, options []Opti
 	case privateToken:
 		req.Header.Set("PRIVATE-TOKEN", c.token)
 	case oAuthToken:
-		req.Header.Set("Authorization", "Bearer "+c.token)
+		req.Header.Set("Authorization", c.token)
 	}
 
 	if c.UserAgent != "" {
