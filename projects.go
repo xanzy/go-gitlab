@@ -84,6 +84,7 @@ type Project struct {
 		GroupAccessLevel int    `json:"group_access_level"`
 	} `json:"shared_with_groups"`
 	Statistics *ProjectStatistics `json:"statistics"`
+	Links      *Links             `json:"_links,omitempty"`
 }
 
 // Repository represents a repository.
@@ -106,13 +107,11 @@ type Repository struct {
 
 // ProjectNamespace represents a project namespace.
 type ProjectNamespace struct {
-	CreatedAt   *time.Time `json:"created_at"`
-	Description string     `json:"description"`
-	ID          int        `json:"id"`
-	Name        string     `json:"name"`
-	OwnerID     int        `json:"owner_id"`
-	Path        string     `json:"path"`
-	UpdatedAt   *time.Time `json:"updated_at"`
+	ID       int    `json:"id"`
+	Name     string `json:"name"`
+	Path     string `json:"path"`
+	Kind     string `json:"kind"`
+	FullPath string `json:"full_path"`
 }
 
 // StorageStatistics represents a statistics record for a group or project.
@@ -158,6 +157,18 @@ type ForkParent struct {
 	WebURL            string `json:"web_url"`
 }
 
+// Links represents a project web liks for self, issues, merge_requests,
+// repo_branches, labels, events, members.
+type Links struct {
+	Self          string `json:"self"`
+	Issues        string `json:"issues"`
+	MergeRequests string `json:"merge_requests"`
+	RepoBranches  string `json:"repo_branches"`
+	Labels        string `json:"labels"`
+	Events        string `json:"events"`
+	Members       string `json:"members"`
+}
+
 func (s Project) String() string {
 	return Stringify(s)
 }
@@ -184,6 +195,31 @@ type ListProjectsOptions struct {
 // GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#list-projects
 func (s *ProjectsService) ListProjects(opt *ListProjectsOptions, options ...OptionFunc) ([]*Project, *Response, error) {
 	req, err := s.client.NewRequest("GET", "projects", opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var p []*Project
+	resp, err := s.client.Do(req, &p)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return p, resp, err
+}
+
+// ListUserProjects gets a list of projects for the given user.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/projects.html#list-user-projects
+func (s *ProjectsService) ListUserProjects(uid interface{}, opt *ListProjectsOptions, options ...OptionFunc) ([]*Project, *Response, error) {
+	user, err := parseID(uid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("users/%s/projects", user)
+
+	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -300,6 +336,7 @@ type CreateProjectOptions struct {
 	JobsEnabled                               *bool            `url:"jobs_enabled,omitempty" json:"jobs_enabled,omitempty"`
 	WikiEnabled                               *bool            `url:"wiki_enabled,omitempty" json:"wiki_enabled,omitempty"`
 	SnippetsEnabled                           *bool            `url:"snippets_enabled,omitempty" json:"snippets_enabled,omitempty"`
+	ResolveOutdatedDiffDiscussions            *bool            `url:"resolve_outdated_diff_discussions,omitempty" json:"resolve_outdated_diff_discussions,omitempty"`
 	ContainerRegistryEnabled                  *bool            `url:"container_registry_enabled,omitempty" json:"container_registry_enabled,omitempty"`
 	SharedRunnersEnabled                      *bool            `url:"shared_runners_enabled,omitempty" json:"shared_runners_enabled,omitempty"`
 	Visibility                                *VisibilityValue `url:"visibility,omitempty" json:"visibility,omitempty"`
@@ -309,6 +346,9 @@ type CreateProjectOptions struct {
 	OnlyAllowMergeIfAllDiscussionsAreResolved *bool            `url:"only_allow_merge_if_all_discussions_are_resolved,omitempty" json:"only_allow_merge_if_all_discussions_are_resolved,omitempty"`
 	LFSEnabled                                *bool            `url:"lfs_enabled,omitempty" json:"lfs_enabled,omitempty"`
 	RequestAccessEnabled                      *bool            `url:"request_access_enabled,omitempty" json:"request_access_enabled,omitempty"`
+	TagList                                   *[]string        `url:"tag_list,omitempty" json:"tag_list,omitempty"`
+	PrintingMergeRequestLinkEnabled           *bool            `url:"printing_merge_request_link_enabled,omitempty" json:"printing_merge_request_link_enabled,omitempty"`
+	CiConfigPath                              *string          `url:"ci_config_path,omitempty" json:"ci_config_path,omitempty"`
 }
 
 // CreateProject creates a new project owned by the authenticated user.

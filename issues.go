@@ -37,22 +37,11 @@ type IssuesService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/issues.html
 type Issue struct {
-	ID          int        `json:"id"`
-	IID         int        `json:"iid"`
-	ProjectID   int        `json:"project_id"`
-	Title       string     `json:"title"`
-	Description string     `json:"description"`
-	Labels      []string   `json:"labels"`
-	Milestone   *Milestone `json:"milestone"`
-	Assignee    struct {
-		ID        int        `json:"id"`
-		Username  string     `json:"username"`
-		Email     string     `json:"email"`
-		Name      string     `json:"name"`
-		State     string     `json:"state"`
-		CreatedAt *time.Time `json:"created_at"`
-	} `json:"assignee"`
-	Author struct {
+	ID        int        `json:"id"`
+	IID       int        `json:"iid"`
+	ProjectID int        `json:"project_id"`
+	Milestone *Milestone `json:"milestone"`
+	Author    struct {
 		ID        int        `json:"id"`
 		Username  string     `json:"username"`
 		Email     string     `json:"email"`
@@ -60,14 +49,28 @@ type Issue struct {
 		State     string     `json:"state"`
 		CreatedAt *time.Time `json:"created_at"`
 	} `json:"author"`
-	State          string     `json:"state"`
-	UpdatedAt      *time.Time `json:"updated_at"`
-	CreatedAt      *time.Time `json:"created_at"`
-	Subscribed     bool       `json:"subscribed"`
-	UserNotesCount int        `json:"user_notes_count"`
-	Confidential   bool       `json:"confidential"`
-	DueDate        string     `json:"due_date"`
-	WebURL         string     `json:"web_url"`
+	Description string `json:"description"`
+	State       string `json:"state"`
+	Assignees   []struct {
+		ID        int        `json:"id"`
+		Username  string     `json:"username"`
+		Email     string     `json:"email"`
+		Name      string     `json:"name"`
+		State     string     `json:"state"`
+		CreatedAt *time.Time `json:"created_at"`
+	} `json:"assignees"`
+	Labels           []string   `json:"labels"`
+	Title            string     `json:"title"`
+	UpdatedAt        *time.Time `json:"updated_at"`
+	CreatedAt        *time.Time `json:"created_at"`
+	ClosedAt         *time.Time `json:"closed_at"`
+	Subscribed       bool       `json:"subscribed"`
+	UserNotesCount   int        `json:"user_notes_count"`
+	DueDate          *ISOTime   `json:"due_date"`
+	WebURL           string     `json:"web_url"`
+	TimeStats        *TimeStats `json:"time_stats"`
+	Confidential     bool       `json:"confidential"`
+	DiscussionLocked bool       `json:"discussion_locked"`
 }
 
 func (i Issue) String() string {
@@ -146,7 +149,7 @@ func (s *IssuesService) ListGroupIssues(pid interface{}, opt *ListGroupIssuesOpt
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("group/%s/issues", url.QueryEscape(group))
+	u := fmt.Sprintf("groups/%s/issues", url.QueryEscape(group))
 
 	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
@@ -235,11 +238,16 @@ func (s *IssuesService) GetIssue(pid interface{}, issue int, options ...OptionFu
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/issues.html#new-issues
 type CreateIssueOptions struct {
-	Title       *string `url:"title,omitempty" json:"title,omitempty"`
-	Description *string `url:"description,omitempty" json:"description,omitempty"`
-	AssigneeID  *int    `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
-	MilestoneID *int    `url:"milestone_id,omitempty" json:"milestone_id,omitempty"`
-	Labels      Labels  `url:"labels,comma,omitempty" json:"labels,omitempty"`
+	Title                              *string    `url:"title,omitempty" json:"title,omitempty"`
+	Description                        *string    `url:"description,omitempty" json:"description,omitempty"`
+	Confidential                       *bool      `url:"confidential,omitempty" json:"confidential,omitempty"`
+	AssigneeIDs                        []int      `url:"assignee_ids,omitempty" json:"assignee_ids,omitempty"`
+	MilestoneID                        *int       `url:"milestone_id,omitempty" json:"milestone_id,omitempty"`
+	Labels                             Labels     `url:"labels,comma,omitempty" json:"labels,omitempty"`
+	CreatedAt                          *time.Time `url:"created_at,omitempty" json:"created_at,omitempty"`
+	DueDate                            *ISOTime   `url:"due_date,omitempty" json:"due_date,omitempty"`
+	MergeRequestToResolveDiscussionsOf *int       `url:"merge_request_to_resolve_discussions_of,omitempty" json:"merge_request_to_resolve_discussions_of,omitempty"`
+	DiscussionToResolve                *string    `url:"discussion_to_resolve,omitempty" json:"discussion_to_resolve,omitempty"`
 }
 
 // CreateIssue creates a new project issue.
@@ -270,12 +278,16 @@ func (s *IssuesService) CreateIssue(pid interface{}, opt *CreateIssueOptions, op
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/issues.html#edit-issues
 type UpdateIssueOptions struct {
-	Title       *string `url:"title,omitempty" json:"title,omitempty"`
-	Description *string `url:"description,omitempty" json:"description,omitempty"`
-	AssigneeID  *int    `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
-	MilestoneID *int    `url:"milestone_id,omitempty" json:"milestone_id,omitempty"`
-	Labels      Labels  `url:"labels,comma,omitempty" json:"labels,omitempty"`
-	StateEvent  *string `url:"state_event,omitempty" json:"state_event,omitempty"`
+	Title            *string    `url:"title,omitempty" json:"title,omitempty"`
+	Description      *string    `url:"description,omitempty" json:"description,omitempty"`
+	Confidential     *bool      `url:"confidential,omitempty" json:"confidential,omitempty"`
+	AssigneeID       *int       `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
+	MilestoneID      *int       `url:"milestone_id,omitempty" json:"milestone_id,omitempty"`
+	Labels           Labels     `url:"labels,comma,omitempty" json:"labels,omitempty"`
+	StateEvent       *string    `url:"state_event,omitempty" json:"state_event,omitempty"`
+	UpdatedAt        *time.Time `url:"updated_at,omitempty" json:"updated_at,omitempty"`
+	DueDate          *ISOTime   `url:"due_date,omitempty" json:"due_date,omitempty"`
+	DiscussionLocked *bool      `url:"discussion_locked,omitempty" json:"discussion_locked,omitempty"`
 }
 
 // UpdateIssue updates an existing project issue. This function is also used
