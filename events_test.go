@@ -87,6 +87,17 @@ func TestPushEventUnmarshal(t *testing.T) {
 		t.Errorf("ProjectID is %v, want %v", event.ProjectID, 15)
 	}
 
+	if event.UserName != "John Smith" {
+		t.Errorf("Username is %s, want %s", event.UserName, "John Smith")
+	}
+
+	if event.Commits[0] == nil || event.Commits[0].Timestamp == nil {
+		t.Errorf("Commit Timestamp isn't nil")
+	}
+
+	if event.Commits[0] == nil || event.Commits[0].Author.Name != "Jordi Mallach" {
+		t.Errorf("Commit Username is %s, want %s", event.UserName, "Jordi Mallach")
+	}
 }
 
 func TestMergeEventUnmarshal(t *testing.T) {
@@ -199,6 +210,17 @@ func TestMergeEventUnmarshal(t *testing.T) {
 		t.Errorf("ObjectAttributes is %v, want %v", event.ObjectAttributes.Assignee.Username, "user1")
 	}
 
+	if event.User.Name == "" {
+		t.Errorf("Username is %s, want %s", event.User.Name, "Administrator")
+	}
+
+	if event.ObjectAttributes.LastCommit.Timestamp == nil {
+		t.Errorf("Timestamp isn't nil")
+	}
+
+	if name := event.ObjectAttributes.LastCommit.Author.Name; name != "GitLab dev user" {
+		t.Errorf("Commit Username is %s, want %s", name, "GitLab dev user")
+	}
 }
 
 func TestPipelineEventUnmarshal(t *testing.T) {
@@ -284,10 +306,15 @@ func TestPipelineEventUnmarshal(t *testing.T) {
             "username": "root",
             "avatar_url": "http://www.gravatar.com/avatar/e32bd13e2add097461cb96824b7a829c?s=80\u0026d=identicon"
          },
-         "runner": null,
+         "runner": {
+            "id": 6,
+            "description": "Kubernetes Runner",
+            "active": true,
+            "is_shared": true
+         },
          "artifacts_file":{
-            "filename": null,
-            "size": null
+            "filename": "artifacts.zip",
+            "size": 1319148
          }
       },
       {
@@ -371,6 +398,17 @@ func TestPipelineEventUnmarshal(t *testing.T) {
 		t.Errorf("ObjectAttributes is %v, want %v", event.ObjectAttributes.ID, 1977)
 	}
 
+	if event.User.Name == "" {
+		t.Errorf("Username is %s, want %s", event.User.Name, "Administrator")
+	}
+
+	if event.Commit.Timestamp == nil {
+		t.Errorf("Timestamp isn't nil")
+	}
+
+	if name := event.Commit.Author.Name; name != "User" {
+		t.Errorf("Commit Username is %s, want %s", name, "User")
+	}
 }
 
 func TestBuildEventUnmarshal(t *testing.T) {
@@ -386,7 +424,7 @@ func TestBuildEventUnmarshal(t *testing.T) {
   "build_status": "created",
   "build_started_at": null,
   "build_finished_at": null,
-  "build_duration": null,
+  "build_duration": 23.265997,
   "build_allow_failure": false,
   "project_id": 380,
   "project_name": "gitlab-org/gitlab-test",
@@ -589,5 +627,17 @@ func TestMergeEventUnmarshalFromGroup(t *testing.T) {
 
 	if event.Assignee.Username != "root" {
 		t.Errorf("Assignee.Username is %v, want %v", event.Assignee, "root")
+	}
+
+	if event.User.Name == "" {
+		t.Errorf("Username is %s, want %s", event.User.Name, "Administrator")
+	}
+
+	if event.ObjectAttributes.LastCommit.Timestamp == nil {
+		t.Errorf("Timestamp isn't nil")
+	}
+
+	if name := event.ObjectAttributes.LastCommit.Author.Name; name != "Test User" {
+		t.Errorf("Commit Username is %s, want %s", name, "Test User")
 	}
 }

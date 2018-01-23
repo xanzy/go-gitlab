@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/base64"
 	"log"
 
 	"github.com/xanzy/go-gitlab"
@@ -13,7 +12,6 @@ func repositoryFileExample() {
 	// Create a new repository file
 	cf := &gitlab.CreateFileOptions{
 		Branch:        gitlab.String("master"),
-		Encoding:      gitlab.String("text"),
 		Content:       gitlab.String("My file contents"),
 		CommitMessage: gitlab.String("Adding a test file"),
 	}
@@ -25,7 +23,6 @@ func repositoryFileExample() {
 	// Update a repository file
 	uf := &gitlab.UpdateFileOptions{
 		Branch:        gitlab.String("master"),
-		Encoding:      gitlab.String("text"),
 		Content:       gitlab.String("My file content"),
 		CommitMessage: gitlab.String("Fixing typo"),
 	}
@@ -42,14 +39,5 @@ func repositoryFileExample() {
 		log.Fatal(err)
 	}
 
-	if f.Encoding == "base64" {
-		content, err := base64.StdEncoding.DecodeString(f.Content)
-		if err != nil {
-			log.Fatal(err)
-		}
-		log.Printf("File contains: %s", string(content))
-
-	} else {
-		log.Printf("File contains: %s", f.Content)
-	}
+	log.Printf("File contains: %s", f.Content)
 }
