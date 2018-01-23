@@ -208,6 +208,7 @@ func (s *SnippetsService) SnippetContent(snippet int, options ...OptionFunc) ([]
 
 // ExploreSnippetsOptions represents the available ExploreSnippets() options.
 //
+// GitLab API docs:
 // https://docs.gitlab.com/ce/api/snippets.html#explore-all-public-snippets
 type ExploreSnippetsOptions struct {
 	ListOptions
