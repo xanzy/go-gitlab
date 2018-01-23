@@ -206,11 +206,18 @@ func (s *SnippetsService) SnippetContent(snippet int, options ...OptionFunc) ([]
 	return b.Bytes(), resp, err
 }
 
-// Explore gets the list of public snippets.
+// ExploreSnippetsOptions represents the available ExploreSnippets() options.
+//
+// https://docs.gitlab.com/ce/api/snippets.html#explore-all-public-snippets
+type ExploreSnippetsOptions struct {
+	ListOptions
+}
+
+// ExploreSnippets gets the list of public snippets.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/snippets.html#explore-all-public-snippets
-func (s *SnippetsService) Explore(opt *ListSnippetsOptions, options ...OptionFunc) ([]*Snippet, *Response, error) {
+func (s *SnippetsService) ExploreSnippets(opt *ExploreSnippetsOptions, options ...OptionFunc) ([]*Snippet, *Response, error) {
 	req, err := s.client.NewRequest("GET", "snippets/public", nil, options)
 	if err != nil {
 		return nil, nil, err
