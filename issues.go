@@ -51,14 +51,14 @@ type Issue struct {
 	} `json:"author"`
 	Description string `json:"description"`
 	State       string `json:"state"`
-	Assignee    struct {
+	Assignees   []struct {
 		ID        int        `json:"id"`
 		Username  string     `json:"username"`
 		Email     string     `json:"email"`
 		Name      string     `json:"name"`
 		State     string     `json:"state"`
 		CreatedAt *time.Time `json:"created_at"`
-	} `json:"assignee"`
+	} `json:"assignees"`
 	Labels           []string   `json:"labels"`
 	Title            string     `json:"title"`
 	UpdatedAt        *time.Time `json:"updated_at"`

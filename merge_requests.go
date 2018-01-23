@@ -70,7 +70,7 @@ type MergeRequest struct {
 	MergeStatus               string     `json:"merge_status"`
 	Subscribed                bool       `json:"subscribed"`
 	SHA                       string     `json:"sha"`
-	MergeCommitShaSHA         string     `json:"merge_commit_sha"`
+	MergeCommitSHA            string     `json:"merge_commit_sha"`
 	UserNotesCount            int        `json:"user_notes_count"`
 	ChangesCount              string     `json:"changes_count"`
 	SouldRemoveSourceBranch   bool       `json:"should_remove_source_branch"`
@@ -122,6 +122,27 @@ type MergeRequestApprovals struct {
 }
 
 func (m MergeRequestApprovals) String() string {
+	return Stringify(m)
+}
+
+// MergeRequestDiffVersion represents Gitlab merge request version.
+//
+// Gitlab API docs:
+// https://docs.gitlab.com/ce/api/merge_requests.html#get-a-single-mr-diff-version
+type MergeRequestDiffVersion struct {
+	ID             int        `json:"id"`
+	HeadCommitSHA  string     `json:"head_commit_sha,omitempty"`
+	BaseCommitSHA  string     `json:"base_commit_sha,omitempty"`
+	StartCommitSHA string     `json:"start_commit_sha,omitempty"`
+	CreatedAt      *time.Time `json:"created_at,omitempty"`
+	MergeRequestID int        `json:"merge_request_id,omitempty"`
+	State          string     `json:"state,omitempty"`
+	RealSize       string     `json:"real_size,omitempty"`
+	Commits        []*Commit  `json:"commits,omitempty"`
+	Diffs          []*Diff    `json:"diffs,omitempty"`
+}
+
+func (m MergeRequestDiffVersion) String() string {
 	return Stringify(m)
 }
 
@@ -510,6 +531,137 @@ func (s *MergeRequestsService) CancelMergeWhenPipelineSucceeds(pid interface{}, 
 	}
 
 	return m, resp, err
+}
+
+// GetMergeRequestDiffVersions get a list of merge request diff versions.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/merge_requests.html#get-mr-diff-versions
+func (s *MergeRequestsService) GetMergeRequestDiffVersions(pid interface{}, mergeRequest int, options ...OptionFunc) ([]*MergeRequestDiffVersion, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/versions", url.QueryEscape(project), mergeRequest)
+
+	req, err := s.client.NewRequest("GET", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var v []*MergeRequestDiffVersion
+	resp, err := s.client.Do(req, &v)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return v, resp, err
+}
+
+// GetSingleMergeRequestDiffVersion get a single MR diff version
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/merge_requests.html#get-a-single-mr-diff-version
+func (s *MergeRequestsService) GetSingleMergeRequestDiffVersion(pid interface{}, mergeRequest, version int, options ...OptionFunc) (*MergeRequestDiffVersion, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/versions/%d", url.QueryEscape(project), mergeRequest, version)
+
+	req, err := s.client.NewRequest("GET", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var v = new(MergeRequestDiffVersion)
+	resp, err := s.client.Do(req, v)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return v, resp, err
+}
+
+// Subscribe subscribes the authenticated user to the given merge request
+// to receive notifications. If the user is already subscribed to the
+// merge request, the status code 304 is returned.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/merge_requests.html#subscribe-to-a-merge-request
+func (s *MergeRequestsService) SubscribeToMergeRequest(pid interface{}, mergeRequest int, options ...OptionFunc) (*MergeRequest, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/subscribe", url.QueryEscape(project), mergeRequest)
+
+	req, err := s.client.NewRequest("POST", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	m := new(MergeRequest)
+	resp, err := s.client.Do(req, m)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return m, resp, err
+}
+
+// Unsubscribe unsubscribes the authenticated user from the given merge request
+// to not receive notifications from that merge request. If the user is
+// not subscribed to the merge request, status code 304 is returned.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/merge_requests.html#unsubscribe-from-a-merge-request
+func (s *MergeRequestsService) UnsubscribeFromMergeRequest(pid interface{}, mergeRequest int, options ...OptionFunc) (*MergeRequest, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/unsubscribe", url.QueryEscape(project), mergeRequest)
+
+	req, err := s.client.NewRequest("POST", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	m := new(MergeRequest)
+	resp, err := s.client.Do(req, m)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return m, resp, err
+}
+
+// CreateTodo manually creates a todo for the current user on a merge request.
+// If there already exists a todo for the user on that merge request,
+// status code 304 is returned.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/merge_requests.html#create-a-todo
+func (s *MergeRequestsService) CreateTodo(pid interface{}, mergeRequest int, options ...OptionFunc) (*Todo, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/todo", url.QueryEscape(project), mergeRequest)
+
+	req, err := s.client.NewRequest("POST", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	t := new(Todo)
+	resp, err := s.client.Do(req, t)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return t, resp, err
 }
 
 // SetTimeEstimate sets the time estimate for a single project merge request.
