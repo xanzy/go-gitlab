@@ -49,6 +49,7 @@ type Snippet struct {
 	UpdatedAt *time.Time `json:"updated_at"`
 	CreatedAt *time.Time `json:"created_at"`
 	WebURL    string     `json:"web_url"`
+	RawURL    string     `json:"raw_url"`
 }
 
 func (s Snippet) String() string {
