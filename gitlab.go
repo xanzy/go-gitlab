@@ -222,6 +222,7 @@ type Client struct {
 	ProtectedBranches    *ProtectedBranchesService
 	Repositories         *RepositoriesService
 	RepositoryFiles      *RepositoryFilesService
+	Runners              *RunnersService
 	Services             *ServicesService
 	Session              *SessionService
 	Settings             *SettingsService
@@ -298,6 +299,7 @@ func newClient(httpClient *http.Client, tokenType tokenType, token string) *Clie
 	c.ProtectedBranches = &ProtectedBranchesService{client: c}
 	c.Repositories = &RepositoriesService{client: c}
 	c.RepositoryFiles = &RepositoryFilesService{client: c}
+	c.Runners = &RunnersService{client: c}
 	c.Services = &ServicesService{client: c}
 	c.Session = &SessionService{client: c}
 	c.Settings = &SettingsService{client: c}
