@@ -138,13 +138,13 @@ type Permissions struct {
 // ProjectAccess represents project access.
 type ProjectAccess struct {
 	AccessLevel       AccessLevelValue       `json:"access_level"`
-	NotificationLevel NotificationLevelValue `json:"notification_level"`
+	NotificationLevel *NotificationLevelValue `json:"notification_level"`
 }
 
 // GroupAccess represents group access.
 type GroupAccess struct {
 	AccessLevel       AccessLevelValue       `json:"access_level"`
-	NotificationLevel NotificationLevelValue `json:"notification_level"`
+	NotificationLevel *NotificationLevelValue `json:"notification_level"`
 }
 
 // ForkParent represents the parent project when this is a fork.
