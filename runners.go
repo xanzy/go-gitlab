@@ -44,7 +44,8 @@ type Runner struct {
 
 // ListRunnersOptions represents the available ListRunners() options.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/runners.html
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/runners.html#list-owned-runners
 type ListRunnersOptions struct {
 	ListOptions
 	Scope *string `url:"scope,omitempty" json:"scope,omitempty"`
@@ -52,45 +53,55 @@ type ListRunnersOptions struct {
 
 // ListRunners gets a list of runners accessible by the authenticated user.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/runners.html
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/runners.html#list-owned-runners
 func (s *RunnersService) ListRunners(opt *ListRunnersOptions, options ...OptionFunc) ([]*Runner, *Response, error) {
 	req, err := s.client.NewRequest("GET", "runners", opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	var p []*Runner
-	resp, err := s.client.Do(req, &p)
+	var rs []*Runner
+	resp, err := s.client.Do(req, &rs)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return p, resp, err
+	return rs, resp, err
 }
 
 // ListAllRunners gets a list of all runners in the GitLab instance. Access is
 // restricted to users with admin privileges.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/runners.html
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/runners.html#list-all-runners
 func (s *RunnersService) ListAllRunners(opt *ListRunnersOptions, options ...OptionFunc) ([]*Runner, *Response, error) {
 	req, err := s.client.NewRequest("GET", "runners/all", opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	var p []*Runner
-	resp, err := s.client.Do(req, &p)
+	var rs []*Runner
+	resp, err := s.client.Do(req, &rs)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return p, resp, err
+	return rs, resp, err
 }
+
+// ListProjectRunnersOptions represents the available ListProjectRunners()
+// options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/runners.html#list-project-s-runners
+type ListProjectRunnersOptions ListRunnersOptions
 
 // ListProjectRunners gets a list of runners accessible by the authenticated user.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/runners.html
-func (s *RunnersService) ListProjectRunners(pid interface{}, opt *ListRunnersOptions, options ...OptionFunc) ([]*Runner, *Response, error) {
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/runners.html#list-project-s-runners
+func (s *RunnersService) ListProjectRunners(pid interface{}, opt *ListProjectRunnersOptions, options ...OptionFunc) ([]*Runner, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -102,13 +113,13 @@ func (s *RunnersService) ListProjectRunners(pid interface{}, opt *ListRunnersOpt
 		return nil, nil, err
 	}
 
-	var p []*Runner
-	resp, err := s.client.Do(req, &p)
+	var rs []*Runner
+	resp, err := s.client.Do(req, &rs)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return p, resp, err
+	return rs, resp, err
 }
 
 // EnableProjectRunnerOptions represents the available EnableProjectRunner()
@@ -122,7 +133,8 @@ type EnableProjectRunnerOptions struct {
 
 // EnableProjectRunner enables an available specific runner in the project.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/runners.html
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/runners.html#enable-a-runner-in-project
 func (s *RunnersService) EnableProjectRunner(pid interface{}, opt *EnableProjectRunnerOptions, options ...OptionFunc) (*Runner, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -135,11 +147,11 @@ func (s *RunnersService) EnableProjectRunner(pid interface{}, opt *EnableProject
 		return nil, nil, err
 	}
 
-	var p *Runner
-	resp, err := s.client.Do(req, &p)
+	var r *Runner
+	resp, err := s.client.Do(req, &r)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return p, resp, err
+	return r, resp, err
 }
