@@ -47,7 +47,6 @@ type Subgroup struct {
 	ParentID             int              `json:"parent_id"`
 }
 
-
 // ListGroupsOptions represents the available ListGroups() options.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/groups.html#list-project-groups
