@@ -269,29 +269,11 @@ func (s *GroupsService) ListGroupProjects(gid interface{}, opt *ListGroupProject
 	return p, resp, err
 }
 
-//Subgroup represents a GitLab subgroup.
-//
-// GitLab API docs: https://docs.gitlab.com/ce/api/groups.html
-type Subgroup struct {
-	ID                   int              `json:"id"`
-	Name                 string           `json:"name"`
-	Path                 string           `json:"path"`
-	Description          string           `json:"description"`
-	Visibility           *VisibilityValue `json:"visibility"`
-	LFSEnabled           bool             `json:"lfs_enabled"`
-	AvatarURL            string           `json:"avatar_url"`
-	WebURL               string           `json:"web_url"`
-	RequestAccessEnabled bool             `json:"request_access_enabled"`
-	FullName             string           `json:"full_name"`
-	FullPath             string           `json:"full_path"`
-	ParentID             int              `json:"parent_id"`
-}
-
 // ListSubgroups gets a list of subgroups for a given project.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/groups.html#list-project-groups
-func (s *GroupsService) ListSubgroups(gid interface{}, opt *ListGroupsOptions, options ...OptionFunc) ([]*Subgroup, *Response, error) {
+func (s *GroupsService) ListSubgroups(gid interface{}, opt *ListGroupsOptions, options ...OptionFunc) ([]*Group, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
 		return nil, nil, err
@@ -303,11 +285,11 @@ func (s *GroupsService) ListSubgroups(gid interface{}, opt *ListGroupsOptions, o
 		return nil, nil, err
 	}
 
-	var sg []*Subgroup
-	resp, err := s.client.Do(req, &sg)
+	var g []*Group
+	resp, err := s.client.Do(req, &g)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return sg, resp, err
+	return g, resp, err
 }
