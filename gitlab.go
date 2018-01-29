@@ -129,6 +129,8 @@ func (l *NotificationLevelValue) UnmarshalJSON(data []byte) error {
 		*l = NotificationLevelValue(raw)
 	case string:
 		*l = notificationLevelTypes[raw]
+	case nil:
+		// No action needed.
 	default:
 		return fmt.Errorf("json: cannot unmarshal %T into Go value of type %T", raw, *l)
 	}
