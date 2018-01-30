@@ -88,6 +88,16 @@ type Project struct {
 	CIConfigPath *string            `json:"ci_config_path"`
 }
 
+// Project users represents a GitLab project.
+type ProjectUsers struct {
+	ID        int    `json:"id"`
+	Name      string `json:"name"`
+	Username  string `json:"username"`
+	State     string `json:"state"`
+	AvatarUrl string `json:"avatar_url"`
+	WebUrl    string `json:"web_url"`
+}
+
 // Repository represents a repository.
 type Repository struct {
 	Name              string          `json:"name"`
@@ -228,6 +238,31 @@ func (s *ProjectsService) ListUserProjects(uid interface{}, opt *ListProjectsOpt
 	}
 
 	var p []*Project
+	resp, err := s.client.Do(req, &p)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return p, resp, err
+}
+
+// ListProjectsUsers gets a list of users for the given project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/projects.html#get-project-users
+func (s *ProjectsService) ListProjectsUsers(uid interface{}, opt *ListProjectsOptions, options ...OptionFunc) ([]*ProjectUsers, *Response, error) {
+	project, err := parseID(uid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/users", project)
+
+	req, err := s.client.NewRequest("GET", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var p []*ProjectUsers
 	resp, err := s.client.Do(req, &p)
 	if err != nil {
 		return nil, resp, err
