@@ -203,6 +203,14 @@ type ListProjectsOptions struct {
 	WithMergeRequestsEnabled *bool            `url:"with_merge_requests_enabled,omitempty" json:"with_merge_requests_enabled,omitempty"`
 }
 
+// ListProjectUserOptions represents the available ListProjects() options.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#get-project-users
+type ListProjectUserOptions struct {
+	ListOptions
+	Search                   *string          `url:"search,omitempty" json:"search,omitempty"`
+}
+
 // ListProjects gets a list of projects accessible by the authenticated user.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#list-projects
@@ -250,7 +258,7 @@ func (s *ProjectsService) ListUserProjects(uid interface{}, opt *ListProjectsOpt
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/projects.html#get-project-users
-func (s *ProjectsService) ListProjectsUsers(pid interface{}, opt *ListProjectsOptions, options ...OptionFunc) ([]*ProjectUser, *Response, error) {
+func (s *ProjectsService) ListProjectsUsers(pid interface{}, opt *ListProjectUserOptions, options ...OptionFunc) ([]*ProjectUser, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
