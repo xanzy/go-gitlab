@@ -88,8 +88,8 @@ type Project struct {
 	CIConfigPath *string            `json:"ci_config_path"`
 }
 
-// Project users represents a GitLab project.
-type ProjectUsers struct {
+// ProjectUser represents a GitLab project.
+type ProjectUser struct {
 	ID        int    `json:"id"`
 	Name      string `json:"name"`
 	Username  string `json:"username"`
@@ -250,8 +250,8 @@ func (s *ProjectsService) ListUserProjects(uid interface{}, opt *ListProjectsOpt
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/projects.html#get-project-users
-func (s *ProjectsService) ListProjectsUsers(uid interface{}, opt *ListProjectsOptions, options ...OptionFunc) ([]*ProjectUsers, *Response, error) {
-	project, err := parseID(uid)
+func (s *ProjectsService) ListProjectsUsers(pid interface{}, opt *ListProjectsOptions, options ...OptionFunc) ([]*ProjectUser, *Response, error) {
+	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -262,7 +262,7 @@ func (s *ProjectsService) ListProjectsUsers(uid interface{}, opt *ListProjectsOp
 		return nil, nil, err
 	}
 
-	var p []*ProjectUsers
+	var p []*ProjectUser
 	resp, err := s.client.Do(req, &p)
 	if err != nil {
 		return nil, resp, err
