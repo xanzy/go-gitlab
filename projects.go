@@ -88,16 +88,6 @@ type Project struct {
 	CIConfigPath *string            `json:"ci_config_path"`
 }
 
-// ProjectUser represents a GitLab project.
-type ProjectUser struct {
-	ID        int    `json:"id"`
-	Name      string `json:"name"`
-	Username  string `json:"username"`
-	State     string `json:"state"`
-	AvatarUrl string `json:"avatar_url"`
-	WebUrl    string `json:"web_url"`
-}
-
 // Repository represents a repository.
 type Repository struct {
 	Name              string          `json:"name"`
@@ -203,14 +193,6 @@ type ListProjectsOptions struct {
 	WithMergeRequestsEnabled *bool            `url:"with_merge_requests_enabled,omitempty" json:"with_merge_requests_enabled,omitempty"`
 }
 
-// ListProjectUserOptions represents the available ListProjects() options.
-//
-// GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#get-project-users
-type ListProjectUserOptions struct {
-	ListOptions
-	Search                   *string          `url:"search,omitempty" json:"search,omitempty"`
-}
-
 // ListProjects gets a list of projects accessible by the authenticated user.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#list-projects
@@ -252,6 +234,24 @@ func (s *ProjectsService) ListUserProjects(uid interface{}, opt *ListProjectsOpt
 	}
 
 	return p, resp, err
+}
+
+// ProjectUser represents a GitLab project user.
+type ProjectUser struct {
+	ID        int    `json:"id"`
+	Name      string `json:"name"`
+	Username  string `json:"username"`
+	State     string `json:"state"`
+	AvatarURL string `json:"avatar_url"`
+	WebURL    string `json:"web_url"`
+}
+
+// ListProjectUserOptions represents the available ListProjectsUsers() options.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#get-project-users
+type ListProjectUserOptions struct {
+	ListOptions
+	Search *string `url:"search,omitempty" json:"search,omitempty"`
 }
 
 // ListProjectsUsers gets a list of users for the given project.
