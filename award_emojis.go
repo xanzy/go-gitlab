@@ -56,7 +56,7 @@ const (
 	awardSnippets     = "snippets"
 )
 
-// ListMergeRequestAwardEmoji gets a list of all award emoji on the merge request
+// ListMergeRequestAwardEmoji gets a list of all award emoji on the merge request.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/award_emoji.html#list-an-awardable-39-s-award-emoji
@@ -64,7 +64,7 @@ func (s *AwardEmojiService) ListMergeRequestAwardEmoji(pid interface{}, mergeReq
 	return s.listAwardEmoji(pid, awardMergeRequest, mergeRequestIID, options...)
 }
 
-// ListIssueAwardEmoji gets a list of all award emoji on the issue
+// ListIssueAwardEmoji gets a list of all award emoji on the issue.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/award_emoji.html#list-an-awardable-39-s-award-emoji
@@ -72,7 +72,7 @@ func (s *AwardEmojiService) ListIssueAwardEmoji(pid interface{}, issueIID int, o
 	return s.listAwardEmoji(pid, awardIssue, issueIID, options...)
 }
 
-// ListSnippetAwardEmoji gets a list of all award emoji on the snippet
+// ListSnippetAwardEmoji gets a list of all award emoji on the snippet.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/award_emoji.html#list-an-awardable-39-s-award-emoji
@@ -85,8 +85,11 @@ func (s *AwardEmojiService) listAwardEmoji(pid interface{}, resource string, res
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/%s/%d/award_emoji", url.QueryEscape(project), resource,
-		resourceID)
+	u := fmt.Sprintf("projects/%s/%s/%d/award_emoji",
+		url.QueryEscape(project),
+		resource,
+		resourceID,
+	)
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
@@ -102,7 +105,7 @@ func (s *AwardEmojiService) listAwardEmoji(pid interface{}, resource string, res
 	return as, resp, err
 }
 
-// GetMergeRequestAwardEmoji get an award emoji from merge request
+// GetMergeRequestAwardEmoji get an award emoji from merge request.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/award_emoji.html#list-an-awardable-39-s-award-emoji
@@ -110,7 +113,7 @@ func (s *AwardEmojiService) GetMergeRequestAwardEmoji(pid interface{}, mergeRequ
 	return s.getAwardEmoji(pid, awardMergeRequest, mergeRequestIID, awardID, options...)
 }
 
-// GetIssueAwardEmoji get an award emoji from issue
+// GetIssueAwardEmoji get an award emoji from issue.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/award_emoji.html#list-an-awardable-39-s-award-emoji
@@ -118,7 +121,7 @@ func (s *AwardEmojiService) GetIssueAwardEmoji(pid interface{}, issueIID, awardI
 	return s.getAwardEmoji(pid, awardIssue, issueIID, awardID, options...)
 }
 
-// GetSnippetAwardEmoji get an award emoji from snippet
+// GetSnippetAwardEmoji get an award emoji from snippet.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/award_emoji.html#list-an-awardable-39-s-award-emoji
@@ -131,8 +134,12 @@ func (s *AwardEmojiService) getAwardEmoji(pid interface{}, resource string, reso
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/%s/%d/award_emoji/%d", url.QueryEscape(project), resource,
-		resourceID, awardID)
+	u := fmt.Sprintf("projects/%s/%s/%d/award_emoji/%d",
+		url.QueryEscape(project),
+		resource,
+		resourceID,
+		awardID,
+	)
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
@@ -148,7 +155,7 @@ func (s *AwardEmojiService) getAwardEmoji(pid interface{}, resource string, reso
 	return a, resp, err
 }
 
-// CreateMergeRequestAwardEmoji get an award emoji from merge request
+// CreateMergeRequestAwardEmoji get an award emoji from merge request.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/award_emoji.html#award-a-new-emoji
@@ -156,7 +163,7 @@ func (s *AwardEmojiService) CreateMergeRequestAwardEmoji(pid interface{}, mergeR
 	return s.createAwardEmoji(pid, awardMergeRequest, mergeRequestIID, awardID, options...)
 }
 
-// CreateIssueAwardEmoji get an award emoji from issue
+// CreateIssueAwardEmoji get an award emoji from issue.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/award_emoji.html#award-a-new-emoji
@@ -164,7 +171,7 @@ func (s *AwardEmojiService) CreateIssueAwardEmoji(pid interface{}, issueIID, awa
 	return s.createAwardEmoji(pid, awardIssue, issueIID, awardID, options...)
 }
 
-// CreateSnippetAwardEmoji get an award emoji from snippet
+// CreateSnippetAwardEmoji get an award emoji from snippet.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/award_emoji.html#award-a-new-emoji
@@ -177,8 +184,12 @@ func (s *AwardEmojiService) createAwardEmoji(pid interface{}, resource string, r
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/%s/%d/award_emoji/%d", url.QueryEscape(project), resource,
-		resourceID, awardID)
+	u := fmt.Sprintf("projects/%s/%s/%d/award_emoji/%d",
+		url.QueryEscape(project),
+		resource,
+		resourceID,
+		awardID,
+	)
 
 	req, err := s.client.NewRequest("POST", u, nil, options)
 	if err != nil {
@@ -194,7 +205,7 @@ func (s *AwardEmojiService) createAwardEmoji(pid interface{}, resource string, r
 	return a, resp, err
 }
 
-// DeleteIssueAwardEmoji delete award emoji on an issue
+// DeleteIssueAwardEmoji delete award emoji on an issue.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/award_emoji.html#award-a-new-emoji-on-a-note
@@ -202,7 +213,7 @@ func (s *AwardEmojiService) DeleteIssueAwardEmoji(pid interface{}, issueIID, awa
 	return s.deleteAwardEmoji(pid, awardMergeRequest, issueIID, awardID, options...)
 }
 
-// DeleteMergeRequestAwardEmoji delete award emoji on a merge request
+// DeleteMergeRequestAwardEmoji delete award emoji on a merge request.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/award_emoji.html#award-a-new-emoji-on-a-note
@@ -210,7 +221,7 @@ func (s *AwardEmojiService) DeleteMergeRequestAwardEmoji(pid interface{}, mergeR
 	return s.deleteAwardEmoji(pid, awardMergeRequest, mergeRequestIID, awardID, options...)
 }
 
-// DeleteSnippetAwardEmoji delete award emoji on a snippet
+// DeleteSnippetAwardEmoji delete award emoji on a snippet.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/award_emoji.html#award-a-new-emoji-on-a-note
@@ -218,7 +229,7 @@ func (s *AwardEmojiService) DeleteSnippetAwardEmoji(pid interface{}, snippetID, 
 	return s.deleteAwardEmoji(pid, awardMergeRequest, snippetID, awardID, options...)
 }
 
-// DeleteAwardEmoji Delete an award emoji on the specified resource
+// DeleteAwardEmoji Delete an award emoji on the specified resource.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/award_emoji.html#delete-an-award-emoji
@@ -238,7 +249,7 @@ func (s *AwardEmojiService) deleteAwardEmoji(pid interface{}, resource string, r
 }
 
 // ListIssuesAwardEmojiOnNote gets a list of all award emoji on a note from the
-// issue
+// issue.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/award_emoji.html#award-emoji-on-notes
@@ -247,7 +258,7 @@ func (s *AwardEmojiService) ListIssuesAwardEmojiOnNote(pid interface{}, issueID,
 }
 
 // ListMergeRequestAwardEmojiOnNote gets a list of all award emoji on a note
-// from the merge request
+// from the merge request.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/award_emoji.html#award-emoji-on-notes
@@ -256,7 +267,7 @@ func (s *AwardEmojiService) ListMergeRequestAwardEmojiOnNote(pid interface{}, me
 }
 
 // ListSnippetAwardEmojiOnNote gets a list of all award emoji on a note from the
-// snippet
+// snippet.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/award_emoji.html#award-emoji-on-notes
@@ -286,7 +297,7 @@ func (s *AwardEmojiService) listAwardEmojiOnNote(pid interface{}, resources stri
 	return as, resp, err
 }
 
-// GetIssuesAwardEmojiOnNote gets an award emoji on a note from an issue
+// GetIssuesAwardEmojiOnNote gets an award emoji on a note from an issue.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/award_emoji.html#award-emoji-on-notes
@@ -295,7 +306,7 @@ func (s *AwardEmojiService) GetIssuesAwardEmojiOnNote(pid interface{}, issueID, 
 }
 
 // GetMergeRequestAwardEmojiOnNote gets an award emoji on a note from a
-// merge request
+// merge request.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/award_emoji.html#award-emoji-on-notes
@@ -304,7 +315,7 @@ func (s *AwardEmojiService) GetMergeRequestAwardEmojiOnNote(pid interface{}, mer
 		options...)
 }
 
-// GetSnippetAwardEmojiOnNote gets an award emoji on a note from a snippet
+// GetSnippetAwardEmojiOnNote gets an award emoji on a note from a snippet.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/award_emoji.html#award-emoji-on-notes
@@ -317,8 +328,13 @@ func (s *AwardEmojiService) getSingleNoteAwardEmoji(pid interface{}, ressource s
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/%s/%d/notes/%d/award_emoji/%d", url.QueryEscape(project),
-		ressource, resourceID, noteID, awardID)
+	u := fmt.Sprintf("projects/%s/%s/%d/notes/%d/award_emoji/%d",
+		url.QueryEscape(project),
+		ressource,
+		resourceID,
+		noteID,
+		awardID,
+	)
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
@@ -334,7 +350,7 @@ func (s *AwardEmojiService) getSingleNoteAwardEmoji(pid interface{}, ressource s
 	return a, resp, err
 }
 
-// CreateIssuesAwardEmojiOnNote gets an award emoji on a note from an issue
+// CreateIssuesAwardEmojiOnNote gets an award emoji on a note from an issue.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/award_emoji.html#award-emoji-on-notes
@@ -343,7 +359,7 @@ func (s *AwardEmojiService) CreateIssuesAwardEmojiOnNote(pid interface{}, issueI
 }
 
 // CreateMergeRequestAwardEmojiOnNote gets an award emoji on a note from a
-// merge request
+// merge request.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/award_emoji.html#award-emoji-on-notes
@@ -351,7 +367,7 @@ func (s *AwardEmojiService) CreateMergeRequestAwardEmojiOnNote(pid interface{}, 
 	return s.createAwardEmojiOnNote(pid, awardMergeRequest, mergeRequestIID, noteID, options...)
 }
 
-// CreateSnippetAwardEmojiOnNote gets an award emoji on a note from a snippet
+// CreateSnippetAwardEmojiOnNote gets an award emoji on a note from a snippet.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/award_emoji.html#award-emoji-on-notes
@@ -359,7 +375,7 @@ func (s *AwardEmojiService) CreateSnippetAwardEmojiOnNote(pid interface{}, snipp
 	return s.createAwardEmojiOnNote(pid, awardSnippets, snippetIID, noteID, options...)
 }
 
-// CreateAwardEmojiOnNote award emoji on a note
+// CreateAwardEmojiOnNote award emoji on a note.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/award_emoji.html#award-a-new-emoji-on-a-note
@@ -368,8 +384,12 @@ func (s *AwardEmojiService) createAwardEmojiOnNote(pid interface{}, resource str
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/%s/%d/notes/%d/award_emoji", url.QueryEscape(project), resource,
-		resourceID, noteID)
+	u := fmt.Sprintf("projects/%s/%s/%d/notes/%d/award_emoji",
+		url.QueryEscape(project),
+		resource,
+		resourceID,
+		noteID,
+	)
 
 	req, err := s.client.NewRequest("POST", u, nil, options)
 	if err != nil {
@@ -385,7 +405,7 @@ func (s *AwardEmojiService) createAwardEmojiOnNote(pid interface{}, resource str
 	return a, resp, err
 }
 
-// DeleteIssuesAwardEmojiOnNote deletes an award emoji on a note from an issue
+// DeleteIssuesAwardEmojiOnNote deletes an award emoji on a note from an issue.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/award_emoji.html#award-emoji-on-notes
@@ -394,7 +414,7 @@ func (s *AwardEmojiService) DeleteIssuesAwardEmojiOnNote(pid interface{}, issueI
 }
 
 // DeleteMergeRequestAwardEmojiOnNote deletes an award emoji on a note from a
-// merge request
+// merge request.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/award_emoji.html#award-emoji-on-notes
@@ -403,7 +423,7 @@ func (s *AwardEmojiService) DeleteMergeRequestAwardEmojiOnNote(pid interface{}, 
 		options...)
 }
 
-// DeleteSnippetAwardEmojiOnNote deletes an award emoji on a note from a snippet
+// DeleteSnippetAwardEmojiOnNote deletes an award emoji on a note from a snippet.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/award_emoji.html#award-emoji-on-notes
@@ -416,8 +436,13 @@ func (s *AwardEmojiService) deleteAwardEmojiOnNote(pid interface{}, resource str
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/%s/%d/notes/%d/award_emoji/%d", url.QueryEscape(project),
-		resource, resourceID, noteID, awardID)
+	u := fmt.Sprintf("projects/%s/%s/%d/notes/%d/award_emoji/%d",
+		url.QueryEscape(project),
+		resource,
+		resourceID,
+		noteID,
+		awardID,
+	)
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {
