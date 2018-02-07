@@ -155,3 +155,28 @@ func (s *RunnersService) EnableProjectRunner(pid interface{}, opt *EnableProject
 
 	return r, resp, err
 }
+
+// DisableProjectRunner disables a specific runner from project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/runners.html#disable-a-runner-from-project
+func (s *RunnersService) DisableProjectRunner(pid interface{}, rid interface{}, options ...OptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+
+	runner, err := parseID(rid)
+	if err != nil {
+		return nil, err
+	}
+
+	u := fmt.Sprintf("projects/%s/runners/%s", url.QueryEscape(project), url.QueryEscape(runner))
+
+	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
