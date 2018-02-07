@@ -90,6 +90,25 @@ func (s *RunnersService) ListAllRunners(opt *ListRunnersOptions, options ...Opti
 	return rs, resp, err
 }
 
+// RemoveARunner removes a runner
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/runners.html#remove-a-runner
+func (s *RunnersService) RemoveARunner(rid interface{}, options ...OptionFunc) (*Response, error) {
+	runner, err := parseID(rid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("runners/%s", runner)
+
+	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
+
 // ListRunnersJobsOptions represents the available ListRunnersJobs()
 // options. (one of running, success, failed, canceled)
 //

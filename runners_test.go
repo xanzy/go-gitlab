@@ -59,3 +59,18 @@ func TestListRunnersJobs(t *testing.T) {
 		t.Errorf("Runners.ListRunnersJobs returned %+v, want %+v", jobs, want)
 	}
 }
+
+func TestRemoveRunner(t *testing.T) {
+	mux, server, client := setup()
+	defer teardown(server)
+
+	mux.HandleFunc("/runners/1", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "DELETE")
+		w.WriteHeader(http.StatusNoContent)
+	})
+
+	_, err := client.Runners.RemoveARunner(1, nil)
+	if err != nil {
+		t.Fatalf("Runners.RemoveARunner returns an error: %v", err)
+	}
+}
