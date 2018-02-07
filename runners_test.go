@@ -17,7 +17,9 @@
 package gitlab
 
 import (
+	"fmt"
 	"net/http"
+	"reflect"
 	"testing"
 )
 
@@ -32,6 +34,28 @@ func TestDisableRunner(t *testing.T) {
 
 	_, err := client.Runners.DisableProjectRunner(1, 2, nil)
 	if err != nil {
-		t.Fatalf("client.Runners.DisableProjectRunner returns an error: %v", err)
+		t.Fatalf("Runners.DisableProjectRunner returns an error: %v", err)
+	}
+}
+
+func TestListRunnersJobs(t *testing.T) {
+	mux, server, client := setup()
+	defer teardown(server)
+
+	mux.HandleFunc("/runners/1/jobs", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "GET")
+		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
+	})
+
+	opt := &ListRunnersJobsOptions{}
+
+	jobs, _, err := client.Runners.ListRunnersJobs(1, opt)
+	if err != nil {
+		t.Fatalf("Runners.ListRunnersJobs returns an error: %v", err)
+	}
+
+	want := []*Job{{ID: 1}, {ID: 2}}
+	if !reflect.DeepEqual(want, jobs) {
+		t.Errorf("Runners.ListRunnersJobs returned %+v, want %+v", jobs, want)
 	}
 }

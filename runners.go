@@ -90,6 +90,42 @@ func (s *RunnersService) ListAllRunners(opt *ListRunnersOptions, options ...Opti
 	return rs, resp, err
 }
 
+// ListRunnersJobsOptions represents the available ListRunnersJobs()
+// options. (one of running, success, failed, canceled)
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/runners.html#list-runner-39-s-jobs
+type ListRunnersJobsOptions struct {
+	ListOptions
+	Status *string `url:"status,omitempty" json:"status,omitempty"`
+}
+
+// ListRunnersJobs gets a list of jobs that are being processed or were processed by specified Runner.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/runners.html#list-runner-39-s-jobs
+func (s *RunnersService) ListRunnersJobs(rid interface{}, opt *ListRunnersJobsOptions, options ...OptionFunc) ([]*Job, *Response, error) {
+	runner, err := parseID(rid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("runners/%s/jobs", runner)
+
+	req, err := s.client.NewRequest("GET", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var rs []*Job
+
+	resp, err := s.client.Do(req, &rs)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return rs, resp, err
+}
+
 // ListProjectRunnersOptions represents the available ListProjectRunners()
 // options.
 //
