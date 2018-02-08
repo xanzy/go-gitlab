@@ -48,7 +48,7 @@ func TestListRunnersJobs(t *testing.T) {
 		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
 	})
 
-	opt := &ListRunnersJobsOptions{}
+	opt := &ListRunnerJobsOptions{}
 
 	jobs, _, err := client.Runners.ListRunnerJobs(1, opt)
 	if err != nil {
@@ -70,7 +70,7 @@ func TestRemoveRunner(t *testing.T) {
 		w.WriteHeader(http.StatusNoContent)
 	})
 
-	_, err := client.Runners.RemoveARunner(1, nil)
+	_, err := client.Runners.RemoveRunner(1, nil)
 	if err != nil {
 		t.Fatalf("Runners.RemoveARunner returns an error: %v", err)
 	}
@@ -115,9 +115,9 @@ func TestUpdateRunnersDetails(t *testing.T) {
 		fmt.Fprint(w, exampleDetailRsp)
 	})
 
-	opt := &UpdateRunnersDetailsOptions{}
+	opt := &UpdateRunnerDetailsOptions{}
 
-	details, _, err := client.Runners.UpdateRunnersDetails(6, opt, nil)
+	details, _, err := client.Runners.UpdateRunnerDetails(6, opt, nil)
 	if err != nil {
 		t.Fatalf("Runners.UpdateRunnersDetails returns an error: %v", err)
 	}
@@ -149,7 +149,7 @@ func TestGetRunnerDetails(t *testing.T) {
 }
 
 // helper function returning expected result for string: &exampleDetailRsp
-func expectedParsedDetails() *RunnersDetails {
+func expectedParsedDetails() *RunnerDetails {
 	proj := struct {
 		ID                int    `json:"id"`
 		Name              string `json:"name"`
@@ -158,7 +158,7 @@ func expectedParsedDetails() *RunnersDetails {
 		PathWithNamespace string `json:"path_with_namespace"`
 	}{ID: 1, Name: "GitLab Community Edition", NameWithNamespace: "GitLab.org / GitLab Community Edition", Path: "gitlab-ce", PathWithNamespace: "gitlab-org/gitlab-ce"}
 	timestamp, _ := time.Parse("2006-01-02T15:04:05.000Z", "2016-01-25T16:39:48.066Z")
-	return &RunnersDetails{Active: true, Description: "test-1-20150125-test", ID: 6, IsShared: false, ContactedAt: &timestamp, Online: true, Status: "online", Token: "205086a8e3b9a2b818ffac9b89d102", TagList: []string{"ruby", "mysql"}, AccessLevel: "ref_protected", Projects: []struct {
+	return &RunnerDetails{Active: true, Description: "test-1-20150125-test", ID: 6, IsShared: false, ContactedAt: &timestamp, Online: true, Status: "online", Token: "205086a8e3b9a2b818ffac9b89d102", TagList: []string{"ruby", "mysql"}, AccessLevel: "ref_protected", Projects: []struct {
 		ID                int    `json:"id"`
 		Name              string `json:"name"`
 		NameWithNamespace string `json:"name_with_namespace"`
