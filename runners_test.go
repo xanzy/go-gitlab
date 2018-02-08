@@ -50,7 +50,7 @@ func TestListRunnersJobs(t *testing.T) {
 
 	opt := &ListRunnersJobsOptions{}
 
-	jobs, _, err := client.Runners.ListRunnersJobs(1, opt)
+	jobs, _, err := client.Runners.ListRunnerJobs(1, opt)
 	if err != nil {
 		t.Fatalf("Runners.ListRunnersJobs returns an error: %v", err)
 	}

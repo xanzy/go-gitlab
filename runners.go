@@ -211,11 +211,11 @@ type ListRunnersJobsOptions struct {
 	Status *BuildState `url:"status,omitempty" json:"status,omitempty"`
 }
 
-// ListRunnersJobs gets a list of jobs that are being processed or were processed by specified Runner.
+// ListRunnerJobs gets a list of jobs that are being processed or were processed by specified Runner.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/runners.html#list-runner-39-s-jobs
-func (s *RunnersService) ListRunnersJobs(rid interface{}, opt *ListRunnersJobsOptions, options ...OptionFunc) ([]*Job, *Response, error) {
+func (s *RunnersService) ListRunnerJobs(rid interface{}, opt *ListRunnersJobsOptions, options ...OptionFunc) ([]*Job, *Response, error) {
 	runner, err := parseID(rid)
 	if err != nil {
 		return nil, nil, err
