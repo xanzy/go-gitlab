@@ -16,7 +16,9 @@
 
 package gitlab
 
-import "time"
+import (
+	"time"
+)
 
 // PushEvent represents a push event.
 //
