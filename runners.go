@@ -43,10 +43,10 @@ type Runner struct {
 	Status      string `json:"status"`
 }
 
-// RunnersDetails represents a GitLab CI RunnerDetails.
+// RunnerDetails represents the GitLab CI runner details.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/runners.html
-type RunnersDetails struct {
+type RunnerDetails struct {
 	Active       bool       `json:"active"`
 	Architecture string     `json:"architecture"`
 	Description  string     `json:"description"`
@@ -123,7 +123,7 @@ func (s *RunnersService) ListAllRunners(opt *ListRunnersOptions, options ...Opti
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/runners.html#get-runner-39-s-details
-func (s *RunnersService) GetRunnerDetails(rid interface{}, options ...OptionFunc) (*RunnersDetails, *Response, error) {
+func (s *RunnersService) GetRunnerDetails(rid interface{}, options ...OptionFunc) (*RunnerDetails, *Response, error) {
 	runner, err := parseID(rid)
 	if err != nil {
 		return nil, nil, err
@@ -135,7 +135,7 @@ func (s *RunnersService) GetRunnerDetails(rid interface{}, options ...OptionFunc
 		return nil, nil, err
 	}
 
-	var rs *RunnersDetails
+	var rs *RunnerDetails
 	resp, err := s.client.Do(req, &rs)
 	if err != nil {
 		return nil, resp, err
@@ -144,11 +144,11 @@ func (s *RunnersService) GetRunnerDetails(rid interface{}, options ...OptionFunc
 	return rs, resp, err
 }
 
-// UpdateRunnersDetailsOptions represents the available UpdateRunnersDetails() options.
+// UpdateRunnerDetailsOptions represents the available UpdateRunnerDetails() options.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/runners.html#update-runner-39-s-details
-type UpdateRunnersDetailsOptions struct {
+type UpdateRunnerDetailsOptions struct {
 	Description *string  `url:"description,omitempty" json:"description,omitempty"`
 	Active      *bool    `url:"active,omitempty" json:"active,omitempty"`
 	TagList     []string `url:"tag_list[],omitempty" json:"tag_list,omitempty"`
@@ -157,11 +157,11 @@ type UpdateRunnersDetailsOptions struct {
 	AccessLevel *string  `url:"access_level,omitempty" json:"access_level,omitempty"`
 }
 
-// UpdateRunnersDetails updates runners details
+// UpdateRunnerDetails updates details for a given runner.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/runners.html#update-runner-39-s-details
-func (s *RunnersService) UpdateRunnersDetails(rid interface{}, opt *UpdateRunnersDetailsOptions, options ...OptionFunc) (*RunnersDetails, *Response, error) {
+func (s *RunnersService) UpdateRunnerDetails(rid interface{}, opt *UpdateRunnerDetailsOptions, options ...OptionFunc) (*RunnerDetails, *Response, error) {
 	runner, err := parseID(rid)
 	if err != nil {
 		return nil, nil, err
@@ -173,7 +173,7 @@ func (s *RunnersService) UpdateRunnersDetails(rid interface{}, opt *UpdateRunner
 		return nil, nil, err
 	}
 
-	var rs *RunnersDetails
+	var rs *RunnerDetails
 	resp, err := s.client.Do(req, &rs)
 	if err != nil {
 		return nil, resp, err
@@ -182,11 +182,11 @@ func (s *RunnersService) UpdateRunnersDetails(rid interface{}, opt *UpdateRunner
 	return rs, resp, err
 }
 
-// RemoveARunner removes a runner
+// RemoveRunner removes a runner.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/runners.html#remove-a-runner
-func (s *RunnersService) RemoveARunner(rid interface{}, options ...OptionFunc) (*Response, error) {
+func (s *RunnersService) RemoveRunner(rid interface{}, options ...OptionFunc) (*Response, error) {
 	runner, err := parseID(rid)
 	if err != nil {
 		return nil, err
@@ -201,21 +201,21 @@ func (s *RunnersService) RemoveARunner(rid interface{}, options ...OptionFunc) (
 	return s.client.Do(req, nil)
 }
 
-// ListRunnersJobsOptions represents the available ListRunnersJobs()
-// options. (one of running, success, failed, canceled)
+// ListRunnerJobsOptions represents the available ListRunnerJobs()
+// options. Status can be one of: running, success, failed, canceled.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/runners.html#list-runner-39-s-jobs
-type ListRunnersJobsOptions struct {
+type ListRunnerJobsOptions struct {
 	ListOptions
-	Status *BuildState `url:"status,omitempty" json:"status,omitempty"`
+	Status *string `url:"status,omitempty" json:"status,omitempty"`
 }
 
 // ListRunnerJobs gets a list of jobs that are being processed or were processed by specified Runner.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/runners.html#list-runner-39-s-jobs
-func (s *RunnersService) ListRunnerJobs(rid interface{}, opt *ListRunnersJobsOptions, options ...OptionFunc) ([]*Job, *Response, error) {
+func (s *RunnersService) ListRunnerJobs(rid interface{}, opt *ListRunnerJobsOptions, options ...OptionFunc) ([]*Job, *Response, error) {
 	runner, err := parseID(rid)
 	if err != nil {
 		return nil, nil, err
@@ -311,12 +311,10 @@ func (s *RunnersService) DisableProjectRunner(pid interface{}, rid interface{}, 
 	if err != nil {
 		return nil, err
 	}
-
 	runner, err := parseID(rid)
 	if err != nil {
 		return nil, err
 	}
-
 	u := fmt.Sprintf("projects/%s/runners/%s", url.QueryEscape(project), url.QueryEscape(runner))
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
