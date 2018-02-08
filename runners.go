@@ -43,37 +43,32 @@ type Runner struct {
 	Status      string `json:"status"`
 }
 
-// RunnerProjectDetails represents a GitLab CI RunnerDetails project shortened.
-//
-// GitLab API docs: https://docs.gitlab.com/ce/api/runners.html
-type RunnerProjectDetails struct {
-	ID                int    `json:"id"`
-	Name              string `json:"name"`
-	NameWithNamespace string `json:"name_with_namespace"`
-	Path              string `json:"path"`
-	PathWithNamespace string `json:"path_with_namespace"`
-}
-
 // RunnersDetails represents a GitLab CI RunnerDetails.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/runners.html
 type RunnersDetails struct {
-	Active       bool                    `json:"active"`
-	Architecture string                  `json:"architecture"`
-	Description  string                  `json:"description"`
-	ID           int                     `json:"id"`
-	IsShared     bool                    `json:"is_shared"`
-	ContactedAt  *time.Time              `json:"contacted_at,omitempty"`
-	Name         string                  `json:"name"`
-	Online       bool                    `json:"online"`
-	Status       string                  `json:"status"`
-	Platform     string                  `json:"platform,omitempty"`
-	Projects     []*RunnerProjectDetails `json:"projects"`
-	Token        string                  `json:"Token"`
-	Revision     string                  `json:"revision,omitempty"`
-	TagList      []string                `json:"tag_list"`
-	Version      string                  `json:"version,omitempty"`
-	AccessLevel  string                  `json:"access_level"`
+	Active       bool       `json:"active"`
+	Architecture string     `json:"architecture"`
+	Description  string     `json:"description"`
+	ID           int        `json:"id"`
+	IsShared     bool       `json:"is_shared"`
+	ContactedAt  *time.Time `json:"contacted_at,omitempty"`
+	Name         string     `json:"name"`
+	Online       bool       `json:"online"`
+	Status       string     `json:"status"`
+	Platform     string     `json:"platform,omitempty"`
+	Projects     []struct {
+		ID                int    `json:"id"`
+		Name              string `json:"name"`
+		NameWithNamespace string `json:"name_with_namespace"`
+		Path              string `json:"path"`
+		PathWithNamespace string `json:"path_with_namespace"`
+	} `json:"projects"`
+	Token       string   `json:"Token"`
+	Revision    string   `json:"revision,omitempty"`
+	TagList     []string `json:"tag_list"`
+	Version     string   `json:"version,omitempty"`
+	AccessLevel string   `json:"access_level"`
 }
 
 // ListRunnersOptions represents the available ListRunners() options.
@@ -136,6 +131,10 @@ func (s *RunnersService) GetRunnerDetails(rid interface{}, options ...OptionFunc
 	u := fmt.Sprintf("runners/%s", runner)
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
 	var rs *RunnersDetails
 	resp, err := s.client.Do(req, &rs)
 	if err != nil {
@@ -150,13 +149,12 @@ func (s *RunnersService) GetRunnerDetails(rid interface{}, options ...OptionFunc
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/runners.html#update-runner-39-s-details
 type UpdateRunnersDetailsOptions struct {
-	ID          int      `url:"id" json:"id"`
-	Description string   `url:"description,omitempty" json:"description"`
-	Active      bool     `url:"active,omitempty" json:"active"`
-	TagList     []string `url:"tag_list,omitempty" json:"tag_list"`
-	RunUntagged bool     `url:"run_untagged,omitempty" json:"run_untagged"`
-	Locked      bool     `url:"locked,omitempty" json:"locked"`
-	AccessLevel string   `url:"access_level,omitempty" json:"access_level"`
+	Description *string  `url:"description,omitempty" json:"description,omitempty"`
+	Active      *bool    `url:"active,omitempty" json:"active,omitempty"`
+	TagList     []string `url:"tag_list[],omitempty" json:"tag_list,omitempty"`
+	RunUntagged *bool    `url:"run_untagged,omitempty" json:"run_untagged,omitempty"`
+	Locked      *bool    `url:"locked,omitempty" json:"locked,omitempty"`
+	AccessLevel *string  `url:"access_level,omitempty" json:"access_level,omitempty"`
 }
 
 // UpdateRunnersDetails updates runners details
@@ -171,6 +169,10 @@ func (s *RunnersService) UpdateRunnersDetails(rid interface{}, opt *UpdateRunner
 	u := fmt.Sprintf("runners/%s", runner)
 
 	req, err := s.client.NewRequest("PUT", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
 	var rs *RunnersDetails
 	resp, err := s.client.Do(req, &rs)
 	if err != nil {
@@ -206,7 +208,7 @@ func (s *RunnersService) RemoveARunner(rid interface{}, options ...OptionFunc) (
 // https://docs.gitlab.com/ce/api/runners.html#list-runner-39-s-jobs
 type ListRunnersJobsOptions struct {
 	ListOptions
-	Status *string `url:"status,omitempty" json:"status,omitempty"`
+	Status *BuildState `url:"status,omitempty" json:"status,omitempty"`
 }
 
 // ListRunnersJobs gets a list of jobs that are being processed or were processed by specified Runner.
@@ -226,7 +228,6 @@ func (s *RunnersService) ListRunnersJobs(rid interface{}, opt *ListRunnersJobsOp
 	}
 
 	var rs []*Job
-
 	resp, err := s.client.Do(req, &rs)
 	if err != nil {
 		return nil, resp, err
