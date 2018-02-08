@@ -59,6 +59,16 @@ type Issue struct {
 		State     string     `json:"state"`
 		CreatedAt *time.Time `json:"created_at"`
 	} `json:"assignees"`
+	Assignee struct {
+		ID        int    `json:"id"`
+		Name      string `json:"name"`
+		Username  string `json:"username"`
+		State     string `json:"state"`
+		AvatarURL string `json:"avatar_url"`
+		WebURL    string `json:"web_url"`
+	} `json:"assignee"`
+	Upvotes          int        `json:"upvotes"`
+	Downvotes        int        `json:"downvotes"`
 	Labels           []string   `json:"labels"`
 	Title            string     `json:"title"`
 	UpdatedAt        *time.Time `json:"updated_at"`
@@ -70,7 +80,15 @@ type Issue struct {
 	WebURL           string     `json:"web_url"`
 	TimeStats        *TimeStats `json:"time_stats"`
 	Confidential     bool       `json:"confidential"`
+	Weight           int        `json:"weight"`
 	DiscussionLocked bool       `json:"discussion_locked"`
+	Links            struct {
+		Self       string `json:"self"`
+		Notes      string `json:"notes"`
+		AwardEmoji string `json:"award_emoji"`
+		Project    string `json:"project"`
+	} `json:"_links"`
+	IssueLinkID int `json:"issue_link_id"`
 }
 
 func (i Issue) String() string {

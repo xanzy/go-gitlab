@@ -210,6 +210,7 @@ type Client struct {
 	Groups               *GroupsService
 	GroupMembers         *GroupMembersService
 	Issues               *IssuesService
+	IssueLinks           *IssueLinksService
 	Jobs                 *JobsService
 	Labels               *LabelsService
 	MergeRequests        *MergeRequestsService
@@ -288,6 +289,7 @@ func newClient(httpClient *http.Client, tokenType tokenType, token string) *Clie
 	c.Groups = &GroupsService{client: c}
 	c.GroupMembers = &GroupMembersService{client: c}
 	c.Issues = &IssuesService{client: c, timeStats: timeStats}
+	c.IssueLinks = &IssueLinksService{client: c}
 	c.Jobs = &JobsService{client: c}
 	c.Labels = &LabelsService{client: c}
 	c.MergeRequests = &MergeRequestsService{client: c, timeStats: timeStats}
