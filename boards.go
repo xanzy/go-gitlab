@@ -19,8 +19,6 @@ package gitlab
 import (
 	"fmt"
 	"net/url"
-
-	"github.com/xanzy/go-gitlab"
 )
 
 // BoardsService handles communication with the issue related methods
@@ -46,9 +44,9 @@ type Board struct {
 // GitLab API docs:
 // https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/boards.md
 type BoardList struct {
-	ID       int          `json:"id"`
-	Label    gitlab.Label `json:"label"`
-	Position int          `json:"position"`
+	ID       int   `json:"id"`
+	Label    Label `json:"label"`
+	Position int   `json:"position"`
 }
 
 // ListProjectBoards gets a list of all boards of project.
