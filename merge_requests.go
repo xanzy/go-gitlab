@@ -73,7 +73,7 @@ type MergeRequest struct {
 	MergeCommitSHA            string     `json:"merge_commit_sha"`
 	UserNotesCount            int        `json:"user_notes_count"`
 	ChangesCount              string     `json:"changes_count"`
-	SouldRemoveSourceBranch   bool       `json:"should_remove_source_branch"`
+	ShouldRemoveSourceBranch  bool       `json:"should_remove_source_branch"`
 	ForceRemoveSourceBranch   bool       `json:"force_remove_source_branch"`
 	WebURL                    string     `json:"web_url"`
 	DiscussionLocked          bool       `json:"discussion_locked"`
@@ -583,7 +583,7 @@ func (s *MergeRequestsService) GetSingleMergeRequestDiffVersion(pid interface{},
 	return v, resp, err
 }
 
-// Subscribe subscribes the authenticated user to the given merge request
+// SubscribeToMergeRequest subscribes the authenticated user to the given merge request
 // to receive notifications. If the user is already subscribed to the
 // merge request, the status code 304 is returned.
 //
@@ -610,7 +610,7 @@ func (s *MergeRequestsService) SubscribeToMergeRequest(pid interface{}, mergeReq
 	return m, resp, err
 }
 
-// Unsubscribe unsubscribes the authenticated user from the given merge request
+// UnsubscribeFromMergeRequest unsubscribes the authenticated user from the given merge request
 // to not receive notifications from that merge request. If the user is
 // not subscribed to the merge request, status code 304 is returned.
 //
