@@ -186,7 +186,7 @@ type Client struct {
 	client *http.Client
 
 	// Base URL for API requests. Defaults to the public GitLab API, but can be
-	// set to a domain endpoint to use with aself hosted GitLab server. baseURL
+	// set to a domain endpoint to use with a self hosted GitLab server. baseURL
 	// should always be specified with a trailing slash.
 	baseURL *url.URL
 

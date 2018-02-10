@@ -158,7 +158,7 @@ type ForkParent struct {
 	WebURL            string `json:"web_url"`
 }
 
-// Links represents a project web liks for self, issues, merge_requests,
+// Links represents a project web links for self, issues, merge_requests,
 // repo_branches, labels, events, members.
 type Links struct {
 	Self          string `json:"self"`

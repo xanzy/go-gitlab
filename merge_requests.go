@@ -73,7 +73,7 @@ type MergeRequest struct {
 	MergeCommitSHA            string     `json:"merge_commit_sha"`
 	UserNotesCount            int        `json:"user_notes_count"`
 	ChangesCount              string     `json:"changes_count"`
-	SouldRemoveSourceBranch   bool       `json:"should_remove_source_branch"`
+	ShouldRemoveSourceBranch  bool       `json:"should_remove_source_branch"`
 	ForceRemoveSourceBranch   bool       `json:"force_remove_source_branch"`
 	WebURL                    string     `json:"web_url"`
 	DiscussionLocked          bool       `json:"discussion_locked"`
