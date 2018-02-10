@@ -47,10 +47,13 @@ type Note struct {
 		State     string     `json:"state"`
 		CreatedAt *time.Time `json:"created_at"`
 	} `json:"author"`
-	System    bool       `json:"system"`
-	ExpiresAt *time.Time `json:"expires_at"`
-	UpdatedAt *time.Time `json:"updated_at"`
-	CreatedAt *time.Time `json:"created_at"`
+	System       bool       `json:"system"`
+	ExpiresAt    *time.Time `json:"expires_at"`
+	UpdatedAt    *time.Time `json:"updated_at"`
+	CreatedAt    *time.Time `json:"created_at"`
+	NoteableID   int        `json:"noteable_id"`
+	NoteableType string     `json:"noteable_type"`
+	NoteableIID  int        `json:"noteable_iid"`
 }
 
 func (n Note) String() string {
