@@ -29,6 +29,9 @@ type IssueLinksService struct {
 	client *Client
 }
 
+// IssueLink represents a two-way relation between two issues.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/issue_links.html
 type IssueLink struct {
 	SourceIssue *Issue `json:"source_issue"`
 	TargetIssue *Issue `json:"target_issue"`
@@ -62,6 +65,9 @@ func (s *IssueLinksService) ListIssueRelations(pid interface{}, issueIID int, op
 	return is, resp, err
 }
 
+// CreateIssueLinkOptions represents the available CreateIssueLink() options.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/issue_links.html
 type CreateIssueLinkOptions struct {
 	TargetProjectID *string `json:"target_project_id"`
 	TargetIssueIID  *string `json:"target_issue_iid"`
