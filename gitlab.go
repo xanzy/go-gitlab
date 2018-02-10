@@ -180,6 +180,42 @@ const (
 	PublicVisibility   VisibilityValue = "public"
 )
 
+// EventTypeValue represents actions type for contribution events
+type EventTypeValue string
+
+// List of available action type
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/events.html#action-types
+const (
+	CreatedEventType   EventTypeValue = "created"
+	UpdatedEventType   EventTypeValue = "updated"
+	ClosedEventType    EventTypeValue = "closed"
+	ReopenedEventType  EventTypeValue = "reopened"
+	PushedEventType    EventTypeValue = "pushed"
+	CommentedEventType EventTypeValue = "commented"
+	MergedEventType    EventTypeValue = "merged"
+	JoinedEventType    EventTypeValue = "joined"
+	LeftEventType      EventTypeValue = "left"
+	DestroyedEventType EventTypeValue = "destroyed"
+	ExpiredEventType   EventTypeValue = "expired"
+)
+
+// EventTargetTypeValue represents actions type value for contribution events
+type EventTargetTypeValue string
+
+// List of available action type
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/events.html#target-types
+const (
+	IssueEventTargetType        EventTargetTypeValue = "issue"
+	MilestoneEventTargetType    EventTargetTypeValue = "milestone"
+	MergeRequestEventTargetType EventTargetTypeValue = "merge_request"
+	NoteEventTargetType         EventTargetTypeValue = "note"
+	ProjectEventTargetType      EventTargetTypeValue = "project"
+	SnippetEventTargetType      EventTargetTypeValue = "snippet"
+	UserEventTargetType         EventTargetTypeValue = "user"
+)
+
 // A Client manages communication with the GitLab API.
 type Client struct {
 	// HTTP client used to communicate with the API.
@@ -206,6 +242,7 @@ type Client struct {
 	Commits              *CommitsService
 	DeployKeys           *DeployKeysService
 	Environments         *EnvironmentsService
+	Events               *EventsService
 	Features             *FeaturesService
 	Groups               *GroupsService
 	GroupMembers         *GroupMembersService
@@ -285,6 +322,7 @@ func newClient(httpClient *http.Client, tokenType tokenType, token string) *Clie
 	c.Commits = &CommitsService{client: c}
 	c.DeployKeys = &DeployKeysService{client: c}
 	c.Environments = &EnvironmentsService{client: c}
+	c.Events = &EventsService{client: c}
 	c.Features = &FeaturesService{client: c}
 	c.Groups = &GroupsService{client: c}
 	c.GroupMembers = &GroupMembersService{client: c}
