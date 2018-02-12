@@ -35,8 +35,11 @@ type BoardsService struct {
 // GitLab API docs:
 // https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/boards.md
 type Board struct {
-	ID    int         `json:"id"`
-	Lists []BoardList `json:"lists"`
+	ID        int         `json:"id"`
+	Name      string      `json:"name"`
+	Project   Project     `json:"project"`
+	Milestone Milestone   `json:"milestone"`
+	Lists     []BoardList `json:"lists"`
 }
 
 // BoardList represents a GitLab board list item.
@@ -49,27 +52,99 @@ type BoardList struct {
 	Position int   `json:"position"`
 }
 
+func (b Board) String() string {
+	return Stringify(b)
+}
+
+func (b BoardList) String() string {
+	return Stringify(b)
+}
+
 // ListProjectBoards gets a list of all boards of project.
 //
 // GitLab API docs:
 // https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/boards.md#project-board
-func (*BoardsService) ListProjectBoards(pid interface{}) ([]Board, *Response, error) {
+func (b *BoardsService) ListProjectBoards(pid interface{}) ([]*Board, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/boards", url.QueryEscape(project))
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := b.client.NewRequest("GET", u, nil, nil)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	var i []*Issue
-	resp, err := s.client.Do(req, &i)
+	var boards []*Board
+	resp, err := b.client.Do(req, &boards)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return i, resp, err
+	return boards, resp, err
+}
+
+// ListProjectBoard gets a single board list of project.
+//
+// GitLab API docs:
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/boards.md#project-board
+func (b *BoardsService) ListProjectBoard(pid interface{}, bid interface{}) (*Board, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	boardID, err := parseID(bid)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	u := fmt.Sprintf("projects/%s/boards/%s", url.QueryEscape(project), url.QueryEscape(boardID))
+
+	req, err := b.client.NewRequest("GET", u, nil, nil)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var board *Board
+	resp, err := b.client.Do(req, &board)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return board, resp, err
+}
+
+// ListProjectBoardList gets a single board list of project.
+//
+// GitLab API docs:
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/8-16-stable/doc/api/boards.md#project-board
+func (b *BoardsService) ListProjectBoardList(pid interface{}, bid interface{}, lid interface{}) (*BoardList, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	boardID, err := parseID(bid)
+	if err != nil {
+		return nil, nil, err
+	}
+	listID, err := parseID(lid)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	u := fmt.Sprintf("projects/%s/boards/%s/lists/%s", url.QueryEscape(project), url.QueryEscape(boardID), url.QueryEscape(listID))
+
+	req, err := b.client.NewRequest("GET", u, nil, nil)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var boardList *BoardList
+	resp, err := b.client.Do(req, &boardList)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return boardList, resp, err
 }
