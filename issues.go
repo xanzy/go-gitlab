@@ -266,6 +266,7 @@ type CreateIssueOptions struct {
 	DueDate                            *ISOTime   `url:"due_date,omitempty" json:"due_date,omitempty"`
 	MergeRequestToResolveDiscussionsOf *int       `url:"merge_request_to_resolve_discussions_of,omitempty" json:"merge_request_to_resolve_discussions_of,omitempty"`
 	DiscussionToResolve                *string    `url:"discussion_to_resolve,omitempty" json:"discussion_to_resolve,omitempty"`
+	Weight                             *int       `url:"weight,omitempty" json:"weight,omitempty"`
 }
 
 // CreateIssue creates a new project issue.
