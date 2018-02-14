@@ -330,7 +330,6 @@ func newClient(httpClient *http.Client, tokenType tokenType, token string) *Clie
 	c.Issues = &IssuesService{client: c, timeStats: timeStats}
 	c.IssueLinks = &IssueLinksService{client: c}
 	c.Jobs = &JobsService{client: c}
-	c.Issues = &IssuesService{client: c}
 	c.Boards = &BoardsService{client: c}
 	c.Labels = &LabelsService{client: c}
 	c.MergeRequests = &MergeRequestsService{client: c, timeStats: timeStats}
