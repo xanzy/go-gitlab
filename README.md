@@ -17,8 +17,8 @@ incompatible changes that were needed to fully support the V4 Gitlab API.
 
 ## Coverage
 
-This API client package covers **67%** of the existing GitLab API calls! So this
-includes all calls to the following services:
+This API client package covers most of the existing Gitlab API calls and is updated regularly
+to add new and/or missing endpoints. Currently the following services are supported:
 
 - [x] Award Emojis
 - [x] Branches
@@ -38,7 +38,7 @@ includes all calls to the following services:
 - [ ] Group Access Requests
 - [ ] Group Members
 - [x] Issues
-- [ ] Issue Boards
+- [x] Issue Boards
 - [x] Jobs
 - [ ] Keys
 - [x] Labels
@@ -49,7 +49,7 @@ includes all calls to the following services:
 - [x] Notes (comments)
 - [x] Notification settings
 - [ ] Open source license templates
-- [ ] Page Domains
+- [x] Page Domains
 - [x] Pipelines
 - [x] Pipeline Triggers
 - [ ] Pipeline Schedules

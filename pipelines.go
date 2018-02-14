@@ -76,30 +76,19 @@ func (i PipelineList) String() string {
 	return Stringify(i)
 }
 
-// OrderBy represent in which order to sort the item
-type OrderBy string
-
-// These constants represent all valid order by values.
-const (
-	OrderByID     OrderBy = "id"
-	OrderByStatus OrderBy = "status"
-	OrderByRef    OrderBy = "ref"
-	OrderByUserID OrderBy = "user_id"
-)
-
 // ListProjectPipelinesOptions represents the available ListProjectPipelines() options.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/pipelines.html#list-project-pipelines
 type ListProjectPipelinesOptions struct {
 	ListOptions
-	Scope      *string     `url:"scope,omitempty" json:"scope,omitempty"`
-	Status     *BuildState `url:"status,omitempty" json:"status,omitempty"`
-	Ref        *string     `url:"ref,omitempty" json:"ref,omitempty"`
-	YamlErrors *bool       `url:"yaml_errors,omitempty" json:"yaml_errors,omitempty"`
-	Name       *string     `url:"name,omitempty" json:"name,omitempty"`
-	Username   *string     `url:"username,omitempty" json:"username,omitempty"`
-	OrderBy    *OrderBy    `url:"order_by,omitempty" json:"order_by,omitempty"`
-	Sort       *string     `url:"sort,omitempty" json:"sort,omitempty"`
+	Scope      *string          `url:"scope,omitempty" json:"scope,omitempty"`
+	Status     *BuildStateValue `url:"status,omitempty" json:"status,omitempty"`
+	Ref        *string          `url:"ref,omitempty" json:"ref,omitempty"`
+	YamlErrors *bool            `url:"yaml_errors,omitempty" json:"yaml_errors,omitempty"`
+	Name       *string          `url:"name,omitempty" json:"name,omitempty"`
+	Username   *string          `url:"username,omitempty" json:"username,omitempty"`
+	OrderBy    *OrderByValue    `url:"order_by,omitempty" json:"order_by,omitempty"`
+	Sort       *string          `url:"sort,omitempty" json:"sort,omitempty"`
 }
 
 // ListProjectPipelines gets a list of project piplines.

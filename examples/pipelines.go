@@ -12,12 +12,12 @@ func pipelineExample() {
 
 	opt := &gitlab.ListProjectPipelinesOptions{
 		Scope:      gitlab.String("branches"),
-		Status:     gitlab.Build(gitlab.Running),
+		Status:     gitlab.BuildState(gitlab.Running),
 		Ref:        gitlab.String("master"),
 		YamlErrors: gitlab.Bool(true),
 		Name:       gitlab.String("name"),
 		Username:   gitlab.String("username"),
-		OrderBy:    gitlab.Order(gitlab.OrderByStatus),
+		OrderBy:    gitlab.OrderBy(gitlab.OrderByStatus),
 		Sort:       gitlab.String("asc"),
 	}
 

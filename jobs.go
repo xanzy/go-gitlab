@@ -27,7 +27,7 @@ import (
 // ListJobsOptions are options for two list apis
 type ListJobsOptions struct {
 	ListOptions
-	Scope []BuildState `url:"scope,omitempty" json:"scope,omitempty"`
+	Scope []BuildStateValue `url:"scope,omitempty" json:"scope,omitempty"`
 }
 
 // JobsService handles communication with the ci builds related methods

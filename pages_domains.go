@@ -6,28 +6,25 @@ import (
 	"time"
 )
 
-// PagesDomainsService handles Pages domains.
+// PagesDomainsService handles communication with the pages domains
+// related methods of the GitLab API.
 //
-// GitLab API docs:
-// https://docs.gitlab.com/ce/api/pages_domains.html
+// GitLab API docs: https://docs.gitlab.com/ce/api/pages_domains.html
 type PagesDomainsService struct {
 	client *Client
 }
 
-type Cert struct {
-	Expired    bool       `json:"expired"`
-	Expiration *time.Time `json:"expiration"`
-}
-
-// PageDomain represents a pages domain.
+// PagesDomain represents a pages domain.
 //
-// GitLab API docs:
-// https://docs.gitlab.com/ce/api/pages_domains.html
+// GitLab API docs: https://docs.gitlab.com/ce/api/pages_domains.html
 type PagesDomain struct {
 	Domain      string `json:"domain"`
 	URL         string `json:"url"`
 	ProjectID   int    `json:"project_id"`
-	Certificate *Cert  `json:"certificate"`
+	Certificate struct {
+		Expired    bool       `json:"expired"`
+		Expiration *time.Time `json:"expiration"`
+	} `json:"certificate"`
 }
 
 // ListPagesDomainsOptions represents the available ListPagesDomains() options.
@@ -38,7 +35,7 @@ type ListPagesDomainsOptions struct {
 	ListOptions
 }
 
-// ListPagesDomains gets a list of project Domains.
+// ListPagesDomains gets a list of project pages domains.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/pages_domains.html#list-pages-domains
@@ -54,55 +51,55 @@ func (s *PagesDomainsService) ListPagesDomains(pid interface{}, opt *ListPagesDo
 		return nil, nil, err
 	}
 
-	var pt []*PagesDomain
-	resp, err := s.client.Do(req, &pt)
+	var pd []*PagesDomain
+	resp, err := s.client.Do(req, &pd)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return pt, resp, err
+	return pd, resp, err
 }
 
-// GetPagesDomains gets a specific Pages Domains for a project.
+// GetPagesDomain get a specific pages domain for a project.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/Pages_Domainss.html#get-Domains-details
-func (s *PagesDomainsService) GetPagesDomains(pid interface{}, Domains int, options ...OptionFunc) (*PagesDomain, *Response, error) {
+// https://docs.gitlab.com/ce/api/pages_domains.html#single-pages-domain
+func (s *PagesDomainsService) GetPagesDomain(pid interface{}, domain string, options ...OptionFunc) (*PagesDomain, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/pages/domains/%d", url.QueryEscape(project), Domains)
+	u := fmt.Sprintf("projects/%s/pages/domains/%s", url.QueryEscape(project), domain)
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	pt := new(PagesDomain)
-	resp, err := s.client.Do(req, pt)
+	pd := new(PagesDomain)
+	resp, err := s.client.Do(req, pd)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return pt, resp, err
+	return pd, resp, err
 }
 
-// AddPagesDomainOptions represents the available AddPagesDomain() options.
+// CreatePagesDomainOptions represents the available CreatePagesDomain() options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/pipeline_triggers.html#create-a-project-trigger
-type AddPagesDomainOptions struct {
+// // https://docs.gitlab.com/ce/api/pages_domains.html#create-new-pages-domain
+type CreatePagesDomainOptions struct {
 	Domain      *string `url:"domain,omitempty" json:"domain,omitempty"`
 	Certificate *string `url:"certifiate,omitempty" json:"certifiate,omitempty"`
 	Key         *string `url:"key,omitempty" json:"key,omitempty"`
 }
 
-// AddPagesDomain adds a pages domain to a specified project.
+// CreatePagesDomain creates a new project pages domain.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/pipeline_triggers.html#create-a-project-trigger
-func (s *PagesDomainsService) AddPagesDomain(pid interface{}, opt *AddPagesDomainOptions, options ...OptionFunc) (*PagesDomain, *Response, error) {
+// https://docs.gitlab.com/ce/api/pages_domains.html#create-new-pages-domain
+func (s *PagesDomainsService) CreatePagesDomain(pid interface{}, opt *CreatePagesDomainOptions, options ...OptionFunc) (*PagesDomain, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -114,61 +111,59 @@ func (s *PagesDomainsService) AddPagesDomain(pid interface{}, opt *AddPagesDomai
 		return nil, nil, err
 	}
 
-	pt := new(PagesDomain)
-	resp, err := s.client.Do(req, pt)
+	pd := new(PagesDomain)
+	resp, err := s.client.Do(req, pd)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return pt, resp, err
+	return pd, resp, err
 }
 
-// EditPagesDomainOptions represents the available EditPagesDomain() options.
+// UpdatePagesDomainOptions represents the available UpdatePagesDomain() options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/pipeline_triggers.html#update-a-project-trigger
-type EditPagesDomainOptions struct {
-	ID         *int    `url:"id,omitempty" json:"id,omitempty"`
-	Domain     *string `url:"domain,omitempty" json:"domain,omitempty"`
+// https://docs.gitlab.com/ce/api/pages_domains.html#update-pages-domain
+type UpdatePagesDomainOptions struct {
 	Cerificate *string `url:"certifiate" json:"certifiate"`
 	Key        *string `url:"key" json:"key"`
 }
 
-// EditPagesDomain edits a domain for a specified project.
+// UpdatePagesDomain updates an existing project pages domain.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/pipeline_triggers.html#update-a-project-trigger
-func (s *PagesDomainsService) EditPagesDomain(pid interface{}, trigger int, opt *EditPagesDomainOptions, options ...OptionFunc) (*PagesDomain, *Response, error) {
+// https://docs.gitlab.com/ce/api/pages_domains.html#update-pages-domain
+func (s *PagesDomainsService) UpdatePagesDomain(pid interface{}, domain string, opt *UpdatePagesDomainOptions, options ...OptionFunc) (*PagesDomain, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/pages/domains/%d", url.QueryEscape(project), trigger)
+	u := fmt.Sprintf("projects/%s/pages/domains/%s", url.QueryEscape(project), domain)
 
 	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	pt := new(PagesDomain)
-	resp, err := s.client.Do(req, pt)
+	pd := new(PagesDomain)
+	resp, err := s.client.Do(req, pd)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return pt, resp, err
+	return pd, resp, err
 }
 
-// DeletePagesDomain removes a domain from a project.
+// DeletePagesDomain deletes an existing prject pages domain.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/pipeline_triggers.html#remove-a-project-trigger
-func (s *PagesDomainsService) DeletePagesDomain(pid interface{}, trigger int, options ...OptionFunc) (*Response, error) {
+// https://docs.gitlab.com/ce/api/pages_domains.html#delete-pages-domain
+func (s *PagesDomainsService) DeletePagesDomain(pid interface{}, domain string, options ...OptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/pages/domains/%d", url.QueryEscape(project), trigger)
+	u := fmt.Sprintf("projects/%s/pages/domains/%s", url.QueryEscape(project), domain)
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {

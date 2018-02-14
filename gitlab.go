@@ -70,6 +70,19 @@ const (
 	OwnerPermission      AccessLevelValue = 50
 )
 
+// BuildStateValue represents a GitLab build state.
+type BuildStateValue string
+
+// These constants represent all valid build states.
+const (
+	Pending  BuildStateValue = "pending"
+	Running  BuildStateValue = "running"
+	Success  BuildStateValue = "success"
+	Failed   BuildStateValue = "failed"
+	Canceled BuildStateValue = "canceled"
+	Skipped  BuildStateValue = "skipped"
+)
+
 // ISOTime represents an ISO 8601 formatted date
 type ISOTime time.Time
 
@@ -166,6 +179,17 @@ var notificationLevelTypes = map[string]NotificationLevelValue{
 	"custom":        CustomNotificationLevel,
 }
 
+// OrderByValue represent in which order to sort the item
+type OrderByValue string
+
+// These constants represent all valid order by values.
+const (
+	OrderByID     OrderByValue = "id"
+	OrderByStatus OrderByValue = "status"
+	OrderByRef    OrderByValue = "ref"
+	OrderByUserID OrderByValue = "user_id"
+)
+
 // VisibilityValue represents a visibility level within GitLab.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/
@@ -249,7 +273,7 @@ type Client struct {
 	Issues               *IssuesService
 	IssueLinks           *IssueLinksService
 	Jobs                 *JobsService
-	Boards               *BoardsService
+	Boards               *IssueBoardsService
 	Labels               *LabelsService
 	MergeRequests        *MergeRequestsService
 	Milestones           *MilestonesService
@@ -331,7 +355,7 @@ func newClient(httpClient *http.Client, tokenType tokenType, token string) *Clie
 	c.Issues = &IssuesService{client: c, timeStats: timeStats}
 	c.IssueLinks = &IssueLinksService{client: c}
 	c.Jobs = &JobsService{client: c}
-	c.Boards = &BoardsService{client: c}
+	c.Boards = &IssueBoardsService{client: c}
 	c.Labels = &LabelsService{client: c}
 	c.MergeRequests = &MergeRequestsService{client: c, timeStats: timeStats}
 	c.Milestones = &MilestonesService{client: c}
@@ -700,6 +724,14 @@ func AccessLevel(v AccessLevelValue) *AccessLevelValue {
 	return p
 }
 
+// BuildState is a helper routine that allocates a new BuildStateValue
+// to store v and returns a pointer to it.
+func BuildState(v BuildStateValue) *BuildStateValue {
+	p := new(BuildStateValue)
+	*p = v
+	return p
+}
+
 // NotificationLevel is a helper routine that allocates a new NotificationLevelValue
 // to store v and returns a pointer to it.
 func NotificationLevel(v NotificationLevelValue) *NotificationLevelValue {
@@ -708,26 +740,18 @@ func NotificationLevel(v NotificationLevelValue) *NotificationLevelValue {
 	return p
 }
 
+// OrderBy is a helper routine that allocates a new OrderByValue
+// to store v and returns a pointer to it.
+func OrderBy(v OrderByValue) *OrderByValue {
+	p := new(OrderByValue)
+	*p = v
+	return p
+}
+
 // Visibility is a helper routine that allocates a new VisibilityValue
 // to store v and returns a pointer to it.
 func Visibility(v VisibilityValue) *VisibilityValue {
 	p := new(VisibilityValue)
-	*p = v
-	return p
-}
-
-// Order is a helper routine that allocates a new OrderBy
-// to store v and returns a pointer to it.
-func Order(v OrderBy) *OrderBy {
-	p := new(OrderBy)
-	*p = v
-	return p
-}
-
-// Build is a helper routine that allocates a new BuildState
-// to store v and returns a pointer to it.
-func Build(v BuildState) *BuildState {
-	p := new(BuildState)
 	*p = v
 	return p
 }
