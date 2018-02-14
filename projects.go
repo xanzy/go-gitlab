@@ -65,6 +65,8 @@ type Project struct {
 	LastActivityAt                            *time.Time        `json:"last_activity_at,omitempty"`
 	CreatorID                                 int               `json:"creator_id"`
 	Namespace                                 *ProjectNamespace `json:"namespace"`
+	ImportStatus                              string            `json:"import_status"`
+	ImportError                               string            `json:"import_error"`
 	Permissions                               *Permissions      `json:"permissions"`
 	Archived                                  bool              `json:"archived"`
 	AvatarURL                                 string            `json:"avatar_url"`
