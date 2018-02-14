@@ -17,31 +17,60 @@ incompatible changes that were needed to fully support the V4 Gitlab API.
 
 ## Coverage
 
-This API client package covers **100%** of the existing GitLab API calls! So this
+This API client package covers **67%** of the existing GitLab API calls! So this
 includes all calls to the following services:
 
+- [x] Award Emojis
 - [x] Branches
+- [ ] Broadcast Messages
+- [ ] Project-level Variables
+- [ ] Group-level Variables
 - [x] Commits
+- [ ] Custom Attributes
+- [ ] Deployments
 - [x] Deploy Keys
 - [x] Environments
+- [x] Events
+- [x] Feature flags
+- [ ] Gitignores templates
+- [ ] GitLab CI Config templates
 - [x] Groups
+- [ ] Group Access Requests
+- [ ] Group Members
 - [x] Issues
+- [ ] Issue Boards
+- [x] Jobs
+- [ ] Keys
 - [x] Labels
 - [x] Merge Requests
-- [x] Milestones
+- [x] Project Milestones
+- [ ] Group Milestones
 - [x] Namespaces
 - [x] Notes (comments)
+- [x] Notification settings
+- [ ] Open source license templates
+- [ ] Page Domains
 - [x] Pipelines
-- [x] Project Snippets
+- [x] Pipeline Triggers
+- [ ] Pipeline Schedules
 - [x] Projects (including setting Webhooks)
+- [ ] Project Access Requests
+- [x] Project Members
+- [x] Project Snippets
 - [x] Protected Branches
 - [x] Repositories
 - [x] Repository Files
+- [x] Runners
+- [ ] Search
 - [x] Services
-- [x] Session
 - [x] Settings
+- [ ] Sidekiq metrics
+- [x] Session
 - [x] System Hooks
+- [x] Tags
+- [x] Todos
 - [x] Users
+- [x] Validate CI configuration
 - [x] Version
 - [x] Wikis
 
