@@ -386,6 +386,7 @@ const (
 	Success  BuildState = "success"
 	Failed   BuildState = "failed"
 	Canceled BuildState = "canceled"
+	Skipped  BuildState = "skipped"
 )
 
 // SetCommitStatus sets the status of a commit in a project.

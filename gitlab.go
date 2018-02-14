@@ -711,3 +711,19 @@ func Visibility(v VisibilityValue) *VisibilityValue {
 	*p = v
 	return p
 }
+
+// Order is a helper routine that allocates a new OrderBy
+// to store v and returns a pointer to it.
+func Order(v OrderBy) *OrderBy {
+	p := new(OrderBy)
+	*p = v
+	return p
+}
+
+// Build is a helper routine that allocates a new BuildState
+// to store v and returns a pointer to it.
+func Build(v BuildState) *BuildState {
+	p := new(BuildState)
+	*p = v
+	return p
+}
