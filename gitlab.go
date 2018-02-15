@@ -184,10 +184,12 @@ type OrderByValue string
 
 // These constants represent all valid order by values.
 const (
-	OrderByID     OrderByValue = "id"
-	OrderByStatus OrderByValue = "status"
-	OrderByRef    OrderByValue = "ref"
-	OrderByUserID OrderByValue = "user_id"
+	OrderByCreatedAt OrderByValue = "created_at"
+	OrderByID        OrderByValue = "id"
+	OrderByIID       OrderByValue = "iid"
+	OrderByRef       OrderByValue = "ref"
+	OrderByStatus    OrderByValue = "status"
+	OrderByUserID    OrderByValue = "user_id"
 )
 
 // VisibilityValue represents a visibility level within GitLab.
@@ -265,6 +267,7 @@ type Client struct {
 	BuildVariables       *BuildVariablesService
 	Commits              *CommitsService
 	DeployKeys           *DeployKeysService
+	Deployments          *DeploymentsService
 	Environments         *EnvironmentsService
 	Events               *EventsService
 	Features             *FeaturesService
@@ -347,6 +350,7 @@ func newClient(httpClient *http.Client, tokenType tokenType, token string) *Clie
 	c.BuildVariables = &BuildVariablesService{client: c}
 	c.Commits = &CommitsService{client: c}
 	c.DeployKeys = &DeployKeysService{client: c}
+	c.Deployments = &DeploymentsService{client: c}
 	c.Environments = &EnvironmentsService{client: c}
 	c.Events = &EventsService{client: c}
 	c.Features = &FeaturesService{client: c}
