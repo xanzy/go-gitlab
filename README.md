@@ -27,7 +27,7 @@ to add new and/or missing endpoints. Currently the following services are suppor
 - [ ] Group-level Variables
 - [x] Commits
 - [ ] Custom Attributes
-- [ ] Deployments
+- [x] Deployments
 - [x] Deploy Keys
 - [x] Environments
 - [x] Events
