@@ -64,7 +64,7 @@ to add new and/or missing endpoints. Currently the following services are suppor
 - [ ] Search
 - [x] Services
 - [x] Settings
-- [ ] Sidekiq metrics
+- [x] Sidekiq metrics
 - [x] Session
 - [x] System Hooks
 - [x] Tags
