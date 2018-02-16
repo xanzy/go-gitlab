@@ -265,6 +265,7 @@ type Client struct {
 	AwardEmoji           *AwardEmojiService
 	Branches             *BranchesService
 	BuildVariables       *BuildVariablesService
+	BroadcastMessage     *BroadcastMessagesService
 	Commits              *CommitsService
 	DeployKeys           *DeployKeysService
 	Deployments          *DeploymentsService
@@ -349,6 +350,7 @@ func newClient(httpClient *http.Client, tokenType tokenType, token string) *Clie
 	c.AwardEmoji = &AwardEmojiService{client: c}
 	c.Branches = &BranchesService{client: c}
 	c.BuildVariables = &BuildVariablesService{client: c}
+	c.BroadcastMessage = &BroadcastMessagesService{client: c}
 	c.Commits = &CommitsService{client: c}
 	c.DeployKeys = &DeployKeysService{client: c}
 	c.Deployments = &DeploymentsService{client: c}
