@@ -22,7 +22,7 @@ to add new and/or missing endpoints. Currently the following services are suppor
 
 - [x] Award Emojis
 - [x] Branches
-- [ ] Broadcast Messages
+- [x] Broadcast Messages
 - [ ] Project-level Variables
 - [ ] Group-level Variables
 - [x] Commits
