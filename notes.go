@@ -46,6 +46,8 @@ type Note struct {
 		Name      string     `json:"name"`
 		State     string     `json:"state"`
 		CreatedAt *time.Time `json:"created_at"`
+		AvatarURL string     `json:"avatar_url"`
+		WebURL    string     `json:"web_url"`
 	} `json:"author"`
 	System       bool       `json:"system"`
 	ExpiresAt    *time.Time `json:"expires_at"`
