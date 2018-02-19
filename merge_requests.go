@@ -289,18 +289,25 @@ func (s *MergeRequestsService) GetMergeRequestApprovals(pid interface{}, mergeRe
 	return a, resp, err
 }
 
+// GetMergeRequestCommitsOptions represents the available GetMergeRequestCommits()
+// options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/merge_requests.html#get-single-mr-commits
+type GetMergeRequestCommitsOptions ListOptions
+
 // GetMergeRequestCommits gets a list of merge request commits.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/merge_requests.html#get-single-mr-commits
-func (s *MergeRequestsService) GetMergeRequestCommits(pid interface{}, mergeRequest int, options ...OptionFunc) ([]*Commit, *Response, error) {
+func (s *MergeRequestsService) GetMergeRequestCommits(pid interface{}, mergeRequest int, opt *GetMergeRequestCommitsOptions, options ...OptionFunc) ([]*Commit, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/merge_requests/%d/commits", url.QueryEscape(project), mergeRequest)
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -340,19 +347,26 @@ func (s *MergeRequestsService) GetMergeRequestChanges(pid interface{}, mergeRequ
 	return m, resp, err
 }
 
+// GetIssuesClosedOnMergeOptions represents the available GetIssuesClosedOnMerge()
+// options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/merge_requests.html#list-issues-that-will-close-on-merge
+type GetIssuesClosedOnMergeOptions ListOptions
+
 // GetIssuesClosedOnMerge gets all the issues that would be closed by merging the
 // provided merge request.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/merge_requests.html#list-issues-that-will-close-on-merge
-func (s *MergeRequestsService) GetIssuesClosedOnMerge(pid interface{}, mergeRequest int, options ...OptionFunc) ([]*Issue, *Response, error) {
+func (s *MergeRequestsService) GetIssuesClosedOnMerge(pid interface{}, mergeRequest int, opt *GetIssuesClosedOnMergeOptions, options ...OptionFunc) ([]*Issue, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("/projects/%s/merge_requests/%v/closes_issues", url.QueryEscape(project), mergeRequest)
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -533,18 +547,25 @@ func (s *MergeRequestsService) CancelMergeWhenPipelineSucceeds(pid interface{}, 
 	return m, resp, err
 }
 
+// GetMergeRequestDiffVersionsOptions represents the available
+// GetMergeRequestDiffVersions() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/merge_requests.html#get-mr-diff-versions
+type GetMergeRequestDiffVersionsOptions ListOptions
+
 // GetMergeRequestDiffVersions get a list of merge request diff versions.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/merge_requests.html#get-mr-diff-versions
-func (s *MergeRequestsService) GetMergeRequestDiffVersions(pid interface{}, mergeRequest int, options ...OptionFunc) ([]*MergeRequestDiffVersion, *Response, error) {
+func (s *MergeRequestsService) GetMergeRequestDiffVersions(pid interface{}, mergeRequest int, opt *GetMergeRequestDiffVersionsOptions, options ...OptionFunc) ([]*MergeRequestDiffVersion, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/merge_requests/%d/versions", url.QueryEscape(project), mergeRequest)
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}

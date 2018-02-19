@@ -186,9 +186,7 @@ func (s *MilestonesService) UpdateMilestone(pid interface{}, milestone int, opt 
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/milestones.html#get-all-issues-assigned-to-a-single-milestone
-type GetMilestoneIssuesOptions struct {
-	ListOptions
-}
+type GetMilestoneIssuesOptions ListOptions
 
 // GetMilestoneIssues gets all issues assigned to a single project milestone.
 //

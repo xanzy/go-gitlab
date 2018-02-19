@@ -24,12 +24,6 @@ import (
 	"time"
 )
 
-// ListJobsOptions are options for two list apis
-type ListJobsOptions struct {
-	ListOptions
-	Scope []BuildStateValue `url:"scope,omitempty" json:"scope,omitempty"`
-}
-
 // JobsService handles communication with the ci builds related methods
 // of the GitLab API.
 //
@@ -65,6 +59,12 @@ type Job struct {
 	Status    string     `json:"status"`
 	Tag       bool       `json:"tag"`
 	User      *User      `json:"user"`
+}
+
+// ListJobsOptions are options for two list apis
+type ListJobsOptions struct {
+	ListOptions
+	Scope []BuildStateValue `url:"scope,omitempty" json:"scope,omitempty"`
 }
 
 // ListProjectJobs gets a list of jobs in a project.

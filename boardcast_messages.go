@@ -48,9 +48,7 @@ type BroadcastMessage struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/broadcast_messages.html#get-all-broadcast-messages
-type ListBroadcastMessagesOptions struct {
-	ListOptions
-}
+type ListBroadcastMessagesOptions ListOptions
 
 // ListBroadcastMessages gets a list of all broadcasted messages.
 //

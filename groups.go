@@ -240,9 +240,7 @@ func (s *GroupsService) SearchGroup(query string, options ...OptionFunc) ([]*Gro
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/groups.html#list-a-group-s-projects
-type ListGroupProjectsOptions struct {
-	ListOptions
-}
+type ListGroupProjectsOptions ListOptions
 
 // ListGroupProjects get a list of group projects
 //

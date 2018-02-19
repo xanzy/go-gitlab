@@ -198,18 +198,24 @@ func (d Diff) String() string {
 	return Stringify(d)
 }
 
+// GetCommitDiffOptions represents the available GetCommitDiff() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/commits.html#get-the-diff-of-a-commit
+type GetCommitDiffOptions ListOptions
+
 // GetCommitDiff gets the diff of a commit in a project..
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/commits.html#get-the-diff-of-a-commit
-func (s *CommitsService) GetCommitDiff(pid interface{}, sha string, options ...OptionFunc) ([]*Diff, *Response, error) {
+func (s *CommitsService) GetCommitDiff(pid interface{}, sha string, opt *GetCommitDiffOptions, options ...OptionFunc) ([]*Diff, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/repository/commits/%s/diff", url.QueryEscape(project), sha)
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -249,18 +255,24 @@ func (c CommitComment) String() string {
 	return Stringify(c)
 }
 
+// GetCommitCommentsOptions represents the available GetCommitComments() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/commits.html#get-the-comments-of-a-commit
+type GetCommitCommentsOptions ListOptions
+
 // GetCommitComments gets the comments of a commit in a project.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/commits.html#get-the-comments-of-a-commit
-func (s *CommitsService) GetCommitComments(pid interface{}, sha string, options ...OptionFunc) ([]*CommitComment, *Response, error) {
+func (s *CommitsService) GetCommitComments(pid interface{}, sha string, opt *GetCommitCommentsOptions, options ...OptionFunc) ([]*CommitComment, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/repository/commits/%s/comments", url.QueryEscape(project), sha)
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
