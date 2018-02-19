@@ -63,7 +63,7 @@ type User struct {
 	External         bool            `json:"external"`
 }
 
-// UserIdentity represents a user identity
+// UserIdentity represents a user identity.
 type UserIdentity struct {
 	Provider  string `json:"provider"`
 	ExternUID string `json:"extern_uid"`
@@ -74,10 +74,14 @@ type UserIdentity struct {
 // GitLab API docs: https://docs.gitlab.com/ce/api/users.html#list-users
 type ListUsersOptions struct {
 	ListOptions
-	Active   *bool   `url:"active,omitempty" json:"active,omitempty"`
-	Blocked  *bool   `url:"blocked,omitempty" json:"blocked,omitempty"`
-	Search   *string `url:"search,omitempty" json:"search,omitempty"`
-	Username *string `url:"username,omitempty" json:"username,omitempty"`
+	Active  *bool `url:"active,omitempty" json:"active,omitempty"`
+	Blocked *bool `url:"blocked,omitempty" json:"blocked,omitempty"`
+
+	// The options below are only available for admins.
+	Search        *string    `url:"search,omitempty" json:"search,omitempty"`
+	Username      *string    `url:"username,omitempty" json:"username,omitempty"`
+	ExternalUID   *string    `url:"extern_uid,omitempty" json:"extern_uid,omitempty"`
+	CreatedBefore *time.Time `url:"created_before,omitempty" json:"created_before,omitempty" `
 }
 
 // ListUsers gets a list of users.
