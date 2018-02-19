@@ -215,7 +215,7 @@ func (s *RepositoriesService) Compare(pid interface{}, opt *CompareOptions, opti
 
 // Contributor represents a GitLap contributor.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/repositories.html#contributer
+// GitLab API docs: https://docs.gitlab.com/ce/api/repositories.html#contributors
 type Contributor struct {
 	Name      string `json:"name,omitempty"`
 	Email     string `json:"email,omitempty"`
@@ -230,7 +230,7 @@ func (c Contributor) String() string {
 
 // Contributors gets the repository contributors list.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/repositories.html#contributer
+// GitLab API docs: https://docs.gitlab.com/ce/api/repositories.html#contributors
 func (s *RepositoriesService) Contributors(pid interface{}, options ...OptionFunc) ([]*Contributor, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
