@@ -273,10 +273,10 @@ func (s *UsersService) ListSSHKeys(options ...OptionFunc) ([]*SSHKey, *Response,
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/users.html#list-ssh-keys-for-user
-func (s *UsersService) ListSSHKeysForUser(user int, options ...OptionFunc) ([]*SSHKey, *Response, error) {
+func (s *UsersService) ListSSHKeysForUser(user int, opt *ListOptions, options ...OptionFunc) ([]*SSHKey, *Response, error) {
 	u := fmt.Sprintf("users/%d/keys", user)
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -477,10 +477,10 @@ func (s *UsersService) ListEmails(options ...OptionFunc) ([]*Email, *Response, e
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/users.html#list-emails-for-user
-func (s *UsersService) ListEmailsForUser(user int, options ...OptionFunc) ([]*Email, *Response, error) {
+func (s *UsersService) ListEmailsForUser(user int, opt *ListOptions, options ...OptionFunc) ([]*Email, *Response, error) {
 	u := fmt.Sprintf("users/%d/emails", user)
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}

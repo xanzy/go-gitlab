@@ -66,14 +66,14 @@ func (s *DeployKeysService) ListAllDeployKeys(options ...OptionFunc) ([]*DeployK
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/deploy_keys.html#list-project-deploy-keys
-func (s *DeployKeysService) ListProjectDeployKeys(pid interface{}, options ...OptionFunc) ([]*DeployKey, *Response, error) {
+func (s *DeployKeysService) ListProjectDeployKeys(pid interface{}, opt *ListOptions, options ...OptionFunc) ([]*DeployKey, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/deploy_keys", url.QueryEscape(project))
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
