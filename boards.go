@@ -60,14 +60,14 @@ func (b BoardList) String() string {
 // ListIssueBoards gets a list of all issue boards in a project.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/boards.html#project-board
-func (s *IssueBoardsService) ListIssueBoards(pid interface{}, options ...OptionFunc) ([]*IssueBoard, *Response, error) {
+func (s *IssueBoardsService) ListIssueBoards(pid interface{}, opt *ListOptions, options ...OptionFunc) ([]*IssueBoard, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/boards", url.QueryEscape(project))
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -109,14 +109,14 @@ func (s *IssueBoardsService) GetIssueBoard(pid interface{}, board int, options .
 // backlog and closed lists.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/boards.html#list-board-lists
-func (s *IssueBoardsService) GetIssueBoardLists(pid interface{}, board int, options ...OptionFunc) ([]*BoardList, *Response, error) {
+func (s *IssueBoardsService) GetIssueBoardLists(pid interface{}, board int, opt *ListOptions, options ...OptionFunc) ([]*BoardList, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/boards/%d/lists", url.QueryEscape(project), board)
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
