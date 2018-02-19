@@ -61,9 +61,7 @@ const (
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/award_emoji.html
-type ListEmojiAwardsOptions struct {
-	ListOptions
-}
+type ListEmojiAwardsOptions ListOptions
 
 // ListMergeRequestAwardEmoji gets a list of all award emoji on the merge request.
 //

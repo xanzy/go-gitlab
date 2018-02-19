@@ -64,9 +64,7 @@ func (n Note) String() string {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/notes.html#list-project-issue-notes
-type ListIssueNotesOptions struct {
-	ListOptions
-}
+type ListIssueNotesOptions ListOptions
 
 // ListIssueNotes gets a list of all notes for a single issue.
 //
@@ -203,12 +201,18 @@ func (s *NotesService) DeleteIssueNote(pid interface{}, issue, note int, options
 	return s.client.Do(req, nil)
 }
 
+// ListSnippetNotesOptions represents the available ListSnippetNotes() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/notes.html#list-all-snippet-notes
+type ListSnippetNotesOptions ListOptions
+
 // ListSnippetNotes gets a list of all notes for a single snippet. Snippet
 // notes are comments users can post to a snippet.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/notes.html#list-all-snippet-notes
-func (s *NotesService) ListSnippetNotes(pid interface{}, snippet int, opt *ListOptions, options ...OptionFunc) ([]*Note, *Response, error) {
+func (s *NotesService) ListSnippetNotes(pid interface{}, snippet int, opt *ListSnippetNotesOptions, options ...OptionFunc) ([]*Note, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -340,11 +344,18 @@ func (s *NotesService) DeleteSnippetNote(pid interface{}, snippet, note int, opt
 	return s.client.Do(req, nil)
 }
 
+// ListMergeRequestNotesOptions represents the available ListMergeRequestNotes()
+// options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/notes.html#list-all-merge-request-notes
+type ListMergeRequestNotesOptions ListOptions
+
 // ListMergeRequestNotes gets a list of all notes for a single merge request.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/notes.html#list-all-merge-request-notes
-func (s *NotesService) ListMergeRequestNotes(pid interface{}, mergeRequest int, opt *ListOptions, options ...OptionFunc) ([]*Note, *Response, error) {
+func (s *NotesService) ListMergeRequestNotes(pid interface{}, mergeRequest int, opt *ListMergeRequestNotesOptions, options ...OptionFunc) ([]*Note, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err

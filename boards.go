@@ -57,10 +57,15 @@ func (b BoardList) String() string {
 	return Stringify(b)
 }
 
+// ListIssueBoardsOptions represents the available ListIssueBoards() options.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/boards.html#project-board
+type ListIssueBoardsOptions ListOptions
+
 // ListIssueBoards gets a list of all issue boards in a project.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/boards.html#project-board
-func (s *IssueBoardsService) ListIssueBoards(pid interface{}, opt *ListOptions, options ...OptionFunc) ([]*IssueBoard, *Response, error) {
+func (s *IssueBoardsService) ListIssueBoards(pid interface{}, opt *ListIssueBoardsOptions, options ...OptionFunc) ([]*IssueBoard, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -105,11 +110,16 @@ func (s *IssueBoardsService) GetIssueBoard(pid interface{}, board int, options .
 	return ib, resp, err
 }
 
+// GetIssueBoardListsOptions represents the available GetIssueBoardLists() options.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/boards.html#list-board-lists
+type GetIssueBoardListsOptions ListOptions
+
 // GetIssueBoardLists gets a list of the issue board's lists. Does not include
 // backlog and closed lists.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/boards.html#list-board-lists
-func (s *IssueBoardsService) GetIssueBoardLists(pid interface{}, board int, opt *ListOptions, options ...OptionFunc) ([]*BoardList, *Response, error) {
+func (s *IssueBoardsService) GetIssueBoardLists(pid interface{}, board int, opt *GetIssueBoardListsOptions, options ...OptionFunc) ([]*BoardList, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err

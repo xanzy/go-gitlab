@@ -62,11 +62,18 @@ func (s *DeployKeysService) ListAllDeployKeys(options ...OptionFunc) ([]*DeployK
 	return ks, resp, err
 }
 
+// ListProjectDeployKeysOptions represents the available ListProjectDeployKeys()
+// options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/deploy_keys.html#list-project-deploy-keys
+type ListProjectDeployKeysOptions ListOptions
+
 // ListProjectDeployKeys gets a list of a project's deploy keys
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/deploy_keys.html#list-project-deploy-keys
-func (s *DeployKeysService) ListProjectDeployKeys(pid interface{}, opt *ListOptions, options ...OptionFunc) ([]*DeployKey, *Response, error) {
+func (s *DeployKeysService) ListProjectDeployKeys(pid interface{}, opt *ListProjectDeployKeysOptions, options ...OptionFunc) ([]*DeployKey, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err

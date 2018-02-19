@@ -340,9 +340,7 @@ func (s ProjectEvent) String() string {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/projects.html#get-project-events
-type GetProjectEventsOptions struct {
-	ListOptions
-}
+type GetProjectEventsOptions ListOptions
 
 // GetProjectEvents gets the events for the specified project. Sorted from
 // newest to latest.
@@ -685,9 +683,7 @@ type ProjectHook struct {
 // ListProjectHooksOptions represents the available ListProjectHooks() options.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#list-project-hooks
-type ListProjectHooksOptions struct {
-	ListOptions
-}
+type ListProjectHooksOptions ListOptions
 
 // ListProjectHooks gets a list of project hooks.
 //

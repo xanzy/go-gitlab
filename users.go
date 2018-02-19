@@ -268,12 +268,18 @@ func (s *UsersService) ListSSHKeys(options ...OptionFunc) ([]*SSHKey, *Response,
 	return k, resp, err
 }
 
+// ListSSHKeysForUserOptions represents the available ListSSHKeysForUser() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/users.html#list-ssh-keys-for-user
+type ListSSHKeysForUserOptions ListOptions
+
 // ListSSHKeysForUser gets a list of a specified user's SSH keys. Available
 // only for admin
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/users.html#list-ssh-keys-for-user
-func (s *UsersService) ListSSHKeysForUser(user int, opt *ListOptions, options ...OptionFunc) ([]*SSHKey, *Response, error) {
+func (s *UsersService) ListSSHKeysForUser(user int, opt *ListSSHKeysForUserOptions, options ...OptionFunc) ([]*SSHKey, *Response, error) {
 	u := fmt.Sprintf("users/%d/keys", user)
 
 	req, err := s.client.NewRequest("GET", u, opt, options)
@@ -472,12 +478,18 @@ func (s *UsersService) ListEmails(options ...OptionFunc) ([]*Email, *Response, e
 	return e, resp, err
 }
 
+// ListEmailsForUserOptions represents the available ListEmailsForUser() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/users.html#list-emails-for-user
+type ListEmailsForUserOptions ListOptions
+
 // ListEmailsForUser gets a list of a specified user's Emails. Available
 // only for admin
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/users.html#list-emails-for-user
-func (s *UsersService) ListEmailsForUser(user int, opt *ListOptions, options ...OptionFunc) ([]*Email, *Response, error) {
+func (s *UsersService) ListEmailsForUser(user int, opt *ListEmailsForUserOptions, options ...OptionFunc) ([]*Email, *Response, error) {
 	u := fmt.Sprintf("users/%d/emails", user)
 
 	req, err := s.client.NewRequest("GET", u, opt, options)

@@ -31,9 +31,7 @@ type PagesDomain struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/pages_domais.html#list-pages-domains
-type ListPagesDomainsOptions struct {
-	ListOptions
-}
+type ListPagesDomainsOptions ListOptions
 
 // ListPagesDomains gets a list of project pages domains.
 //

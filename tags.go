@@ -33,7 +33,7 @@ type TagsService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/tags.html
 type Tag struct {
-	Commit *Commit `json:"commit"`
+	Commit  *Commit `json:"commit"`
 	Release struct {
 		TagName     string `json:"tag_name"`
 		Description string `json:"description"`
@@ -50,9 +50,7 @@ func (t Tag) String() string {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/branches.html#list-repository-tags
-type ListTagsOptions struct {
-	ListOptions
-}
+type ListTagsOptions ListOptions
 
 // ListTags gets a list of tags from a project, sorted by name in reverse
 // alphabetical order.
