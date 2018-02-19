@@ -231,14 +231,14 @@ func (c Contributor) String() string {
 // Contributors gets the repository contributors list.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/repositories.html#contributors
-func (s *RepositoriesService) Contributors(pid interface{}, options ...OptionFunc) ([]*Contributor, *Response, error) {
+func (s *RepositoriesService) Contributors(pid interface{}, opt *ListOptions, options ...OptionFunc) ([]*Contributor, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/repository/contributors", url.QueryEscape(project))
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
