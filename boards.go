@@ -49,7 +49,7 @@ func (b IssueBoard) String() string {
 // GitLab API docs: https://docs.gitlab.com/ce/api/boards.html
 type BoardList struct {
 	ID       int      `json:"id"`
-	Labels   []*Label `json:"label"`
+	Labels   []*Label `json:"labels"`
 	Position int      `json:"position"`
 }
 
