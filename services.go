@@ -34,19 +34,18 @@ type ServicesService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/services.html
 type Service struct {
-	ID                       int        `json:"id"`
-	Title                    string     `json:"title"`
-	CreatedAt                *time.Time `json:"created_at"`
-	UpdatedAt                *time.Time `json:"updated_at"`
-	Active                   bool       `json:"active"`
-	PushEvents               bool       `json:"push_events"`
-	IssuesEvents             bool       `json:"issues_events"`
-	ConfidentialIssuesEvents bool       `json:"confidential_issues_events"`
-	MergeRequestsEvents      bool       `json:"merge_requests_events"`
-	TagPushEvents            bool       `json:"tag_push_events"`
-	NoteEvents               bool       `json:"note_events"`
-	PipelineEvents           bool       `json:"pipeline_events"`
-	JobEvents                bool       `json:"job_events"`
+	ID                  int        `json:"id"`
+	Title               string     `json:"title"`
+	CreatedAt           *time.Time `json:"created_at"`
+	UpdatedAt           *time.Time `json:"updated_at"`
+	Active              bool       `json:"active"`
+	PushEvents          bool       `json:"push_events"`
+	IssuesEvents        bool       `json:"issues_events"`
+	MergeRequestsEvents bool       `json:"merge_requests_events"`
+	TagPushEvents       bool       `json:"tag_push_events"`
+	NoteEvents          bool       `json:"note_events"`
+	PipelineEvents      bool       `json:"pipeline_events"`
+	JobEvents           bool       `json:"job_events"`
 }
 
 // SetGitLabCIServiceOptions represents the available SetGitLabCIService()
