@@ -38,13 +38,6 @@ const (
 	libraryVersion = "0.2.0"
 	defaultBaseURL = "https://gitlab.com/api/v4/"
 	userAgent      = "go-gitlab/" + libraryVersion
-
-	headerNextPage     = "X-Next-Page"
-	headerTotalPages   = "X-Total-Pages"
-	headertotalResults = "X-Total"
-	headerCurrentPage  = "X-Page"
-	headerPerPage      = "X-Per-Page"
-	headerPrevPage     = "X-Prev-Page"
 )
 
 // tokenType represents a token type within GitLab.
@@ -498,13 +491,12 @@ type Response struct {
 	// results. Any or all of these may be set to the zero value for
 	// responses that are not part of a paginated set, or for which there
 	// are no additional pages.
-
-	NextPage     int
-	PrevPage     int
-	CurrentPage  int
-	PerPage      int
+	TotalItems   int
 	TotalPages   int
-	TotalResults int
+	ItemsPerPage int
+	CurrentPage  int
+	NextPage     int
+	PreviousPage int
 }
 
 // newResponse creates a new Response for the provided http.Response.
@@ -517,28 +509,23 @@ func newResponse(r *http.Response) *Response {
 // populatePageValues parses the HTTP Link response headers and populates the
 // various pagination link values in the Response.
 func (r *Response) populatePageValues() {
-	if totalPages := r.Response.Header.Get(headerTotalPages); totalPages != "" {
+	if totalItems := r.Response.Header.Get("X-Total"); totalItems != "" {
+		r.TotalItems, _ = strconv.Atoi(totalItems)
+	}
+	if totalPages := r.Response.Header.Get("X-Total-Pages"); totalPages != "" {
 		r.TotalPages, _ = strconv.Atoi(totalPages)
 	}
-
-	if totalResults := r.Response.Header.Get(headertotalResults); totalResults != "" {
-		r.TotalResults, _ = strconv.Atoi(totalResults)
+	if itemsPerPage := r.Response.Header.Get("X-Per-Page"); itemsPerPage != "" {
+		r.ItemsPerPage, _ = strconv.Atoi(itemsPerPage)
 	}
-
-	if nextPage := r.Response.Header.Get(headerNextPage); nextPage != "" {
-		r.NextPage, _ = strconv.Atoi(nextPage)
-	}
-
-	if currentPage := r.Response.Header.Get(headerCurrentPage); currentPage != "" {
+	if currentPage := r.Response.Header.Get("X-Page"); currentPage != "" {
 		r.CurrentPage, _ = strconv.Atoi(currentPage)
 	}
-
-	if perPage := r.Response.Header.Get(headerPerPage); perPage != "" {
-		r.PerPage, _ = strconv.Atoi(perPage)
+	if nextPage := r.Response.Header.Get("X-Next-Page"); nextPage != "" {
+		r.NextPage, _ = strconv.Atoi(nextPage)
 	}
-
-	if prevPage := r.Response.Header.Get(headerPrevPage); prevPage != "" {
-		r.PrevPage, _ = strconv.Atoi(prevPage)
+	if previousPage := r.Response.Header.Get("X-Prev-Page"); previousPage != "" {
+		r.PreviousPage, _ = strconv.Atoi(previousPage)
 	}
 }
 
