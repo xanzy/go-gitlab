@@ -506,25 +506,34 @@ func newResponse(r *http.Response) *Response {
 	return response
 }
 
+const (
+	xTotal      = "X-Total"
+	xTotalPages = "X-Total-Pages"
+	xPerPage    = "X-Per-Page"
+	xPage       = "X-Page"
+	xNextPage   = "X-Next-Page"
+	xPrevPage   = "X-Prev-Page"
+)
+
 // populatePageValues parses the HTTP Link response headers and populates the
 // various pagination link values in the Response.
 func (r *Response) populatePageValues() {
-	if totalItems := r.Response.Header.Get("X-Total"); totalItems != "" {
+	if totalItems := r.Response.Header.Get(xTotal); totalItems != "" {
 		r.TotalItems, _ = strconv.Atoi(totalItems)
 	}
-	if totalPages := r.Response.Header.Get("X-Total-Pages"); totalPages != "" {
+	if totalPages := r.Response.Header.Get(xTotalPages); totalPages != "" {
 		r.TotalPages, _ = strconv.Atoi(totalPages)
 	}
-	if itemsPerPage := r.Response.Header.Get("X-Per-Page"); itemsPerPage != "" {
+	if itemsPerPage := r.Response.Header.Get(xPerPage); itemsPerPage != "" {
 		r.ItemsPerPage, _ = strconv.Atoi(itemsPerPage)
 	}
-	if currentPage := r.Response.Header.Get("X-Page"); currentPage != "" {
+	if currentPage := r.Response.Header.Get(xPage); currentPage != "" {
 		r.CurrentPage, _ = strconv.Atoi(currentPage)
 	}
-	if nextPage := r.Response.Header.Get("X-Next-Page"); nextPage != "" {
+	if nextPage := r.Response.Header.Get(xNextPage); nextPage != "" {
 		r.NextPage, _ = strconv.Atoi(nextPage)
 	}
-	if previousPage := r.Response.Header.Get("X-Prev-Page"); previousPage != "" {
+	if previousPage := r.Response.Header.Get(xPrevPage); previousPage != "" {
 		r.PreviousPage, _ = strconv.Atoi(previousPage)
 	}
 }
