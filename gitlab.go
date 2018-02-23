@@ -272,6 +272,7 @@ type Client struct {
 	Environments         *EnvironmentsService
 	Events               *EventsService
 	Features             *FeaturesService
+	GitIgnoreTemplates   *GitIgnoreTemplatesService
 	Groups               *GroupsService
 	GroupMembers         *GroupMembersService
 	Issues               *IssuesService
@@ -357,6 +358,7 @@ func newClient(httpClient *http.Client, tokenType tokenType, token string) *Clie
 	c.Environments = &EnvironmentsService{client: c}
 	c.Events = &EventsService{client: c}
 	c.Features = &FeaturesService{client: c}
+	c.GitIgnoreTemplates = &GitIgnoreTemplatesService{client: c}
 	c.Groups = &GroupsService{client: c}
 	c.GroupMembers = &GroupMembersService{client: c}
 	c.Issues = &IssuesService{client: c, timeStats: timeStats}
