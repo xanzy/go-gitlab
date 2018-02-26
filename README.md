@@ -32,7 +32,7 @@ to add new and/or missing endpoints. Currently the following services are suppor
 - [x] Environments
 - [x] Events
 - [x] Feature flags
-- [ ] Gitignores templates
+- [x] Gitignores templates
 - [ ] GitLab CI Config templates
 - [x] Groups
 - [ ] Group Access Requests
