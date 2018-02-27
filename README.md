@@ -52,7 +52,7 @@ to add new and/or missing endpoints. Currently the following services are suppor
 - [x] Page Domains
 - [x] Pipelines
 - [x] Pipeline Triggers
-- [ ] Pipeline Schedules
+- [x] Pipeline Schedules
 - [x] Projects (including setting Webhooks)
 - [ ] Project Access Requests
 - [x] Project Members
