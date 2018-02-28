@@ -287,6 +287,7 @@ type Client struct {
 	NotificationSettings *NotificationSettingsService
 	PagesDomains         *PagesDomainsService
 	Pipelines            *PipelinesService
+	PipelineSchedules    *PipelineSchedulesService
 	PipelineTriggers     *PipelineTriggersService
 	Projects             *ProjectsService
 	ProjectMembers       *ProjectMembersService
@@ -373,6 +374,7 @@ func newClient(httpClient *http.Client, tokenType tokenType, token string) *Clie
 	c.NotificationSettings = &NotificationSettingsService{client: c}
 	c.PagesDomains = &PagesDomainsService{client: c}
 	c.Pipelines = &PipelinesService{client: c}
+	c.PipelineSchedules = &PipelineSchedulesService{client: c}
 	c.PipelineTriggers = &PipelineTriggersService{client: c}
 	c.Projects = &ProjectsService{client: c}
 	c.ProjectMembers = &ProjectMembersService{client: c}
