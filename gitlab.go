@@ -296,6 +296,7 @@ type Client struct {
 	Repositories         *RepositoriesService
 	RepositoryFiles      *RepositoryFilesService
 	Runners              *RunnersService
+	Search               *SearchService
 	Services             *ServicesService
 	Session              *SessionService
 	Settings             *SettingsService
@@ -384,6 +385,7 @@ func newClient(httpClient *http.Client, tokenType tokenType, token string) *Clie
 	c.RepositoryFiles = &RepositoryFilesService{client: c}
 	c.Runners = &RunnersService{client: c}
 	c.Services = &ServicesService{client: c}
+	c.Search = &SearchService{client: c}
 	c.Session = &SessionService{client: c}
 	c.Settings = &SettingsService{client: c}
 	c.Sidekiq = &SidekiqService{client: c}
