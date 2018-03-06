@@ -630,6 +630,7 @@ type ImpersonationToken struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/users.html#get-all-impersonation-tokens-of-a-user
 type GetAllImpersonationTokensOptions struct {
+	ListOptions
 	State *string `url:"state,omitempty" json:"state,omitempty"`
 }
 
