@@ -117,6 +117,11 @@ func (t *ISOTime) UnmarshalJSON(data []byte) error {
 	return err
 }
 
+// String implements the Stringer interface
+func (t ISOTime) String() string {
+	return time.Time(t).Format(iso8601)
+}
+
 // NotificationLevelValue represents a notification level.
 type NotificationLevelValue int
 

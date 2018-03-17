@@ -50,6 +50,7 @@ type User struct {
 	ExternUID        string          `json:"extern_uid"`
 	Provider         string          `json:"provider"`
 	ThemeID          int             `json:"theme_id"`
+	LastActivityOn   *ISOTime        `json:"last_activity_on"`
 	ColorSchemeID    int             `json:"color_scheme_id"`
 	IsAdmin          bool            `json:"is_admin"`
 	AvatarURL        string          `json:"avatar_url"`
