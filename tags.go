@@ -49,7 +49,7 @@ func (t Tag) String() string {
 // ListTagsOptions represents the available ListTags() options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/branches.html#list-repository-tags
+// https://docs.gitlab.com/ce/api/tags.html#list-project-repository-tags
 type ListTagsOptions ListOptions
 
 // ListTags gets a list of tags from a project, sorted by name in reverse
