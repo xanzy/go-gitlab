@@ -347,6 +347,28 @@ func (s *MergeRequestsService) GetMergeRequestChanges(pid interface{}, mergeRequ
 	return m, resp, err
 }
 
+// ListMergeRequestPipelines gets all pipelines for the provided merge request.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/merge_requests.html#list-mr-pipelines
+func (s *MergeRequestsService) ListMergeRequestPipelines(pid interface{}, mergeRequest int, options ...OptionFunc) (PipelineList, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	u := fmt.Sprintf("projects/%s/merge_requests/%v/pipelines", url.QueryEscape(project), mergeRequest)
+
+	req, err := s.client.NewRequest("GET", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var p PipelineList
+	resp, err := s.client.Do(req, &p)
+	return p, resp, err
+}
+
 // GetIssuesClosedOnMergeOptions represents the available GetIssuesClosedOnMerge()
 // options.
 //
