@@ -7,58 +7,53 @@ import (
 	"testing"
 )
 
-// TODO: better test posting empty string
 func TestValidate(t *testing.T) {
-	validContent := `
-	build1:
-		stage: build
-		script:
-			- echo "Do your build here"`
-
-	invalidContent := `
-	build1:
-		- echo "Do your build here"`
-
-	validRes := `{
-			"status": "valid",
-			"errors": []
-		}`
-
-	invalidRes := `{
-			"status": "invalid",
-			"errors": [
-				"error message when content is invalid"
-			]
-		}`
-
-	wantValid := &LintResult{
-		Status: "valid",
-		Errors: []string{},
-	}
-
-	wantInvalid := &LintResult{
-		Status: "invalid",
-		Errors: []string{"error message when content is invalid"},
-	}
-
 	testCases := []struct {
-		desc    string
-		content string
-		res     string
-		want    *LintResult
+		description string
+		content     string
+		response    string
+		want        *LintResult
 	}{
-		{"valid", validContent, validRes, wantValid},
-		{"invalid", invalidContent, invalidRes, wantInvalid},
+		{
+			description: "valid",
+			content: `
+				build1:
+					stage: build
+					script:
+						- echo "Do your build here"`,
+			response: `{
+				"status": "valid",
+				"errors": []
+			}`,
+			want: &LintResult{
+				Status: "valid",
+				Errors: []string{},
+			},
+		},
+		{
+			description: "invalid",
+			content: `
+				build1:
+					- echo "Do your build here"`,
+			response: `{
+				"status": "invalid",
+				"errors": ["error message when content is invalid"]
+			}`,
+			want: &LintResult{
+				Status: "invalid",
+				Errors: []string{"error message when content is invalid"},
+			},
+		},
 	}
 
 	for _, tc := range testCases {
-		t.Run(tc.desc, func(t *testing.T) {
+		t.Run(tc.description, func(t *testing.T) {
 			mux, server, client := setup()
 			defer teardown(server)
 
 			mux.HandleFunc("/ci/lint", func(w http.ResponseWriter, r *http.Request) {
 				testMethod(t, r, "POST")
-				fmt.Fprintf(w, tc.res)
+				fmt.Fprintf(w, tc.response)
 			})
 
 			got, _, err := client.Validate.Lint(tc.content)
