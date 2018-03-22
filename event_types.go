@@ -641,7 +641,7 @@ type BuildEvent struct {
 		AuthorName  string `json:"author_name"`
 		AuthorEmail string `json:"author_email"`
 		Status      string `json:"status"`
-		Duration    string `json:"duration"`
+		Duration    int    `json:"duration"`
 		StartedAt   string `json:"started_at"`
 		FinishedAt  string `json:"finished_at"`
 	} `json:"commit"`

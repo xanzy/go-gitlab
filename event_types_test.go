@@ -440,7 +440,7 @@ func TestBuildEventUnmarshal(t *testing.T) {
     "author_name": "User",
     "author_email": "user@gitlab.com",
     "status": "created",
-    "duration": null,
+    "duration": 199,
     "started_at": null,
     "finished_at": null
   },
