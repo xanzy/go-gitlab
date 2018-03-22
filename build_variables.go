@@ -30,9 +30,7 @@ func (v BuildVariable) String() string {
 //
 // Gitlab API Docs:
 // https://docs.gitlab.com/ce/api/build_variables.html#list-project-variables
-type ListBuildVariablesOptions struct {
-	ListOptions
-}
+type ListBuildVariablesOptions ListOptions
 
 // ListBuildVariables gets the a list of project variables in a project
 //
@@ -91,7 +89,7 @@ func (s *BuildVariablesService) GetBuildVariable(pid interface{}, key string, op
 type CreateBuildVariableOptions struct {
 	Key       *string `url:"key" json:"key"`
 	Value     *string `url:"value" json:"value"`
-	Protected *bool   `url:"protected" json:"protected"`
+	Protected *bool   `url:"protected,omitempty" json:"protected,omitempty"`
 }
 
 // CreateBuildVariable creates a variable for a given project
@@ -126,7 +124,7 @@ func (s *BuildVariablesService) CreateBuildVariable(pid interface{}, opt *Create
 type UpdateBuildVariableOptions struct {
 	Key       *string `url:"key" json:"key"`
 	Value     *string `url:"value" json:"value"`
-	Protected *bool   `url:"protected" json:"protected"`
+	Protected *bool   `url:"protected,omitempty" json:"protected,omitempty"`
 }
 
 // UpdateBuildVariable updates an existing project variable

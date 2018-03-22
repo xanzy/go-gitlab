@@ -20,6 +20,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -28,6 +29,7 @@ import (
 	"sort"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/google/go-querystring/query"
 )
@@ -60,12 +62,65 @@ type AccessLevelValue int
 //
 // GitLab API docs: https://docs.gitlab.com/ce/permissions/permissions.html
 const (
+	NoPermissions        AccessLevelValue = 0
 	GuestPermissions     AccessLevelValue = 10
 	ReporterPermissions  AccessLevelValue = 20
 	DeveloperPermissions AccessLevelValue = 30
 	MasterPermissions    AccessLevelValue = 40
 	OwnerPermission      AccessLevelValue = 50
 )
+
+// BuildStateValue represents a GitLab build state.
+type BuildStateValue string
+
+// These constants represent all valid build states.
+const (
+	Pending  BuildStateValue = "pending"
+	Running  BuildStateValue = "running"
+	Success  BuildStateValue = "success"
+	Failed   BuildStateValue = "failed"
+	Canceled BuildStateValue = "canceled"
+	Skipped  BuildStateValue = "skipped"
+)
+
+// ISOTime represents an ISO 8601 formatted date
+type ISOTime time.Time
+
+// ISO 8601 date format
+const iso8601 = "2006-01-02"
+
+// MarshalJSON implements the json.Marshaler interface
+func (t ISOTime) MarshalJSON() ([]byte, error) {
+	if y := time.Time(t).Year(); y < 0 || y >= 10000 {
+		// ISO 8901 uses 4 digits for the years
+		return nil, errors.New("ISOTime.MarshalJSON: year outside of range [0,9999]")
+	}
+
+	b := make([]byte, 0, len(iso8601)+2)
+	b = append(b, '"')
+	b = time.Time(t).AppendFormat(b, iso8601)
+	b = append(b, '"')
+
+	return b, nil
+}
+
+// UnmarshalJSON implements the json.Unmarshaler interface
+func (t *ISOTime) UnmarshalJSON(data []byte) error {
+	// Ignore null, like in the main JSON package
+	if string(data) == "null" {
+		return nil
+	}
+
+	isotime, err := time.Parse(`"`+iso8601+`"`, string(data))
+	*t = ISOTime(isotime)
+
+	return err
+}
+
+// String implements the Stringer interface
+func (t ISOTime) String() string {
+	return time.Time(t).Format(iso8601)
+}
 
 // NotificationLevelValue represents a notification level.
 type NotificationLevelValue int
@@ -92,6 +147,8 @@ func (l *NotificationLevelValue) UnmarshalJSON(data []byte) error {
 		*l = NotificationLevelValue(raw)
 	case string:
 		*l = notificationLevelTypes[raw]
+	case nil:
+		// No action needed.
 	default:
 		return fmt.Errorf("json: cannot unmarshal %T into Go value of type %T", raw, *l)
 	}
@@ -127,6 +184,19 @@ var notificationLevelTypes = map[string]NotificationLevelValue{
 	"custom":        CustomNotificationLevel,
 }
 
+// OrderByValue represent in which order to sort the item
+type OrderByValue string
+
+// These constants represent all valid order by values.
+const (
+	OrderByCreatedAt OrderByValue = "created_at"
+	OrderByID        OrderByValue = "id"
+	OrderByIID       OrderByValue = "iid"
+	OrderByRef       OrderByValue = "ref"
+	OrderByStatus    OrderByValue = "status"
+	OrderByUserID    OrderByValue = "user_id"
+)
+
 // VisibilityValue represents a visibility level within GitLab.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/
@@ -141,13 +211,49 @@ const (
 	PublicVisibility   VisibilityValue = "public"
 )
 
+// EventTypeValue represents actions type for contribution events
+type EventTypeValue string
+
+// List of available action type
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/events.html#action-types
+const (
+	CreatedEventType   EventTypeValue = "created"
+	UpdatedEventType   EventTypeValue = "updated"
+	ClosedEventType    EventTypeValue = "closed"
+	ReopenedEventType  EventTypeValue = "reopened"
+	PushedEventType    EventTypeValue = "pushed"
+	CommentedEventType EventTypeValue = "commented"
+	MergedEventType    EventTypeValue = "merged"
+	JoinedEventType    EventTypeValue = "joined"
+	LeftEventType      EventTypeValue = "left"
+	DestroyedEventType EventTypeValue = "destroyed"
+	ExpiredEventType   EventTypeValue = "expired"
+)
+
+// EventTargetTypeValue represents actions type value for contribution events
+type EventTargetTypeValue string
+
+// List of available action type
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/events.html#target-types
+const (
+	IssueEventTargetType        EventTargetTypeValue = "issue"
+	MilestoneEventTargetType    EventTargetTypeValue = "milestone"
+	MergeRequestEventTargetType EventTargetTypeValue = "merge_request"
+	NoteEventTargetType         EventTargetTypeValue = "note"
+	ProjectEventTargetType      EventTargetTypeValue = "project"
+	SnippetEventTargetType      EventTargetTypeValue = "snippet"
+	UserEventTargetType         EventTargetTypeValue = "user"
+)
+
 // A Client manages communication with the GitLab API.
 type Client struct {
 	// HTTP client used to communicate with the API.
 	client *http.Client
 
 	// Base URL for API requests. Defaults to the public GitLab API, but can be
-	// set to a domain endpoint to use with aself hosted GitLab server. baseURL
+	// set to a domain endpoint to use with a self hosted GitLab server. baseURL
 	// should always be specified with a trailing slash.
 	baseURL *url.URL
 
@@ -161,35 +267,53 @@ type Client struct {
 	UserAgent string
 
 	// Services used for talking to different parts of the GitLab API.
+	AwardEmoji           *AwardEmojiService
 	Branches             *BranchesService
 	BuildVariables       *BuildVariablesService
+	BroadcastMessage     *BroadcastMessagesService
 	Commits              *CommitsService
 	DeployKeys           *DeployKeysService
+	Deployments          *DeploymentsService
+	Environments         *EnvironmentsService
+	Events               *EventsService
 	Features             *FeaturesService
+	GitIgnoreTemplates   *GitIgnoreTemplatesService
 	Groups               *GroupsService
+	GroupMembers         *GroupMembersService
 	Issues               *IssuesService
+	IssueLinks           *IssueLinksService
 	Jobs                 *JobsService
+	Boards               *IssueBoardsService
 	Labels               *LabelsService
 	MergeRequests        *MergeRequestsService
 	Milestones           *MilestonesService
 	Namespaces           *NamespacesService
 	Notes                *NotesService
 	NotificationSettings *NotificationSettingsService
+	PagesDomains         *PagesDomainsService
+	Pipelines            *PipelinesService
+	PipelineSchedules    *PipelineSchedulesService
+	PipelineTriggers     *PipelineTriggersService
 	Projects             *ProjectsService
 	ProjectMembers       *ProjectMembersService
 	ProjectSnippets      *ProjectSnippetsService
-	Pipelines            *PipelinesService
-	PipelineTriggers     *PipelineTriggersService
+	ProtectedBranches    *ProtectedBranchesService
 	Repositories         *RepositoriesService
 	RepositoryFiles      *RepositoryFilesService
+	Runners              *RunnersService
+	Search               *SearchService
 	Services             *ServicesService
 	Session              *SessionService
 	Settings             *SettingsService
+	Sidekiq              *SidekiqService
+	Snippets             *SnippetsService
 	SystemHooks          *SystemHooksService
 	Tags                 *TagsService
 	Todos                *TodosService
 	Users                *UsersService
+	Validate             *ValidateService
 	Version              *VersionService
+	Wikis                *WikisService
 }
 
 // ListOptions specifies the optional parameters to various List methods that
@@ -231,35 +355,53 @@ func newClient(httpClient *http.Client, tokenType tokenType, token string) *Clie
 	timeStats := &timeStatsService{client: c}
 
 	// Create all the public services.
+	c.AwardEmoji = &AwardEmojiService{client: c}
 	c.Branches = &BranchesService{client: c}
 	c.BuildVariables = &BuildVariablesService{client: c}
+	c.BroadcastMessage = &BroadcastMessagesService{client: c}
 	c.Commits = &CommitsService{client: c}
 	c.DeployKeys = &DeployKeysService{client: c}
+	c.Deployments = &DeploymentsService{client: c}
+	c.Environments = &EnvironmentsService{client: c}
+	c.Events = &EventsService{client: c}
 	c.Features = &FeaturesService{client: c}
+	c.GitIgnoreTemplates = &GitIgnoreTemplatesService{client: c}
 	c.Groups = &GroupsService{client: c}
+	c.GroupMembers = &GroupMembersService{client: c}
 	c.Issues = &IssuesService{client: c, timeStats: timeStats}
+	c.IssueLinks = &IssueLinksService{client: c}
 	c.Jobs = &JobsService{client: c}
+	c.Boards = &IssueBoardsService{client: c}
 	c.Labels = &LabelsService{client: c}
 	c.MergeRequests = &MergeRequestsService{client: c, timeStats: timeStats}
 	c.Milestones = &MilestonesService{client: c}
 	c.Namespaces = &NamespacesService{client: c}
 	c.Notes = &NotesService{client: c}
 	c.NotificationSettings = &NotificationSettingsService{client: c}
+	c.PagesDomains = &PagesDomainsService{client: c}
+	c.Pipelines = &PipelinesService{client: c}
+	c.PipelineSchedules = &PipelineSchedulesService{client: c}
+	c.PipelineTriggers = &PipelineTriggersService{client: c}
 	c.Projects = &ProjectsService{client: c}
 	c.ProjectMembers = &ProjectMembersService{client: c}
 	c.ProjectSnippets = &ProjectSnippetsService{client: c}
-	c.Pipelines = &PipelinesService{client: c}
-	c.PipelineTriggers = &PipelineTriggersService{client: c}
+	c.ProtectedBranches = &ProtectedBranchesService{client: c}
 	c.Repositories = &RepositoriesService{client: c}
 	c.RepositoryFiles = &RepositoryFilesService{client: c}
+	c.Runners = &RunnersService{client: c}
 	c.Services = &ServicesService{client: c}
+	c.Search = &SearchService{client: c}
 	c.Session = &SessionService{client: c}
 	c.Settings = &SettingsService{client: c}
+	c.Sidekiq = &SidekiqService{client: c}
+	c.Snippets = &SnippetsService{client: c}
 	c.SystemHooks = &SystemHooksService{client: c}
 	c.Tags = &TagsService{client: c}
 	c.Todos = &TodosService{client: c}
 	c.Users = &UsersService{client: c}
+	c.Validate = &ValidateService{client: c}
 	c.Version = &VersionService{client: c}
+	c.Wikis = &WikisService{client: c}
 
 	return c
 }
@@ -312,6 +454,10 @@ func (c *Client) NewRequest(method, path string, opt interface{}, options []Opti
 	}
 
 	for _, fn := range options {
+		if fn == nil {
+			continue
+		}
+
 		if err := fn(req); err != nil {
 			return nil, err
 		}
@@ -356,61 +502,50 @@ type Response struct {
 	// results. Any or all of these may be set to the zero value for
 	// responses that are not part of a paginated set, or for which there
 	// are no additional pages.
-
-	NextPage  int
-	PrevPage  int
-	FirstPage int
-	LastPage  int
+	TotalItems   int
+	TotalPages   int
+	ItemsPerPage int
+	CurrentPage  int
+	NextPage     int
+	PreviousPage int
 }
 
-// newResponse creats a new Response for the provided http.Response.
+// newResponse creates a new Response for the provided http.Response.
 func newResponse(r *http.Response) *Response {
 	response := &Response{Response: r}
 	response.populatePageValues()
 	return response
 }
 
+const (
+	xTotal      = "X-Total"
+	xTotalPages = "X-Total-Pages"
+	xPerPage    = "X-Per-Page"
+	xPage       = "X-Page"
+	xNextPage   = "X-Next-Page"
+	xPrevPage   = "X-Prev-Page"
+)
+
 // populatePageValues parses the HTTP Link response headers and populates the
-// various pagination link values in the Reponse.
+// various pagination link values in the Response.
 func (r *Response) populatePageValues() {
-	if links, ok := r.Response.Header["Link"]; ok && len(links) > 0 {
-		for _, link := range strings.Split(links[0], ",") {
-			segments := strings.Split(strings.TrimSpace(link), ";")
-
-			// link must at least have href and rel
-			if len(segments) < 2 {
-				continue
-			}
-
-			// ensure href is properly formatted
-			if !strings.HasPrefix(segments[0], "<") || !strings.HasSuffix(segments[0], ">") {
-				continue
-			}
-
-			// try to pull out page parameter
-			url, err := url.Parse(segments[0][1 : len(segments[0])-1])
-			if err != nil {
-				continue
-			}
-			page := url.Query().Get("page")
-			if page == "" {
-				continue
-			}
-
-			for _, segment := range segments[1:] {
-				switch strings.TrimSpace(segment) {
-				case `rel="next"`:
-					r.NextPage, _ = strconv.Atoi(page)
-				case `rel="prev"`:
-					r.PrevPage, _ = strconv.Atoi(page)
-				case `rel="first"`:
-					r.FirstPage, _ = strconv.Atoi(page)
-				case `rel="last"`:
-					r.LastPage, _ = strconv.Atoi(page)
-				}
-
-			}
-		}
+	if totalItems := r.Response.Header.Get(xTotal); totalItems != "" {
+		r.TotalItems, _ = strconv.Atoi(totalItems)
+	}
+	if totalPages := r.Response.Header.Get(xTotalPages); totalPages != "" {
+		r.TotalPages, _ = strconv.Atoi(totalPages)
+	}
+	if itemsPerPage := r.Response.Header.Get(xPerPage); itemsPerPage != "" {
+		r.ItemsPerPage, _ = strconv.Atoi(itemsPerPage)
+	}
+	if currentPage := r.Response.Header.Get(xPage); currentPage != "" {
+		r.CurrentPage, _ = strconv.Atoi(currentPage)
+	}
+	if nextPage := r.Response.Header.Get(xNextPage); nextPage != "" {
+		r.NextPage, _ = strconv.Atoi(nextPage)
+	}
+	if previousPage := r.Response.Header.Get(xPrevPage); previousPage != "" {
+		r.PreviousPage, _ = strconv.Atoi(previousPage)
 	}
 }
 
@@ -547,16 +682,12 @@ type OptionFunc func(*http.Request) error
 // WithSudo takes either a username or user ID and sets the SUDO request header
 func WithSudo(uid interface{}) OptionFunc {
 	return func(req *http.Request) error {
-		switch uid := uid.(type) {
-		case int:
-			req.Header.Set("SUDO", strconv.Itoa(uid))
-			return nil
-		case string:
-			req.Header.Set("SUDO", uid)
-			return nil
-		default:
-			return fmt.Errorf("uid must be either a username or user ID")
+		user, err := parseID(uid)
+		if err != nil {
+			return err
 		}
+		req.Header.Set("SUDO", user)
+		return nil
 	}
 }
 
@@ -601,10 +732,26 @@ func AccessLevel(v AccessLevelValue) *AccessLevelValue {
 	return p
 }
 
+// BuildState is a helper routine that allocates a new BuildStateValue
+// to store v and returns a pointer to it.
+func BuildState(v BuildStateValue) *BuildStateValue {
+	p := new(BuildStateValue)
+	*p = v
+	return p
+}
+
 // NotificationLevel is a helper routine that allocates a new NotificationLevelValue
 // to store v and returns a pointer to it.
 func NotificationLevel(v NotificationLevelValue) *NotificationLevelValue {
 	p := new(NotificationLevelValue)
+	*p = v
+	return p
+}
+
+// OrderBy is a helper routine that allocates a new OrderByValue
+// to store v and returns a pointer to it.
+func OrderBy(v OrderByValue) *OrderByValue {
+	p := new(OrderByValue)
 	*p = v
 	return p
 }

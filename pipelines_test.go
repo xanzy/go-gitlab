@@ -16,7 +16,8 @@ func TestListProjectPipelines(t *testing.T) {
 		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
 	})
 
-	piplines, _, err := client.Pipelines.ListProjectPipelines(1)
+	opt := &ListProjectPipelinesOptions{Ref: String("master")}
+	piplines, _, err := client.Pipelines.ListProjectPipelines(1, opt)
 	if err != nil {
 		t.Errorf("Pipelines.ListProjectPipelines returned error: %v", err)
 	}

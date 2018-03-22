@@ -2,8 +2,12 @@
 
 A GitLab API client enabling Go programs to interact with GitLab in a simple and uniform way
 
-**Documentation:** [![GoDoc](https://godoc.org/github.com/xanzy/go-gitlab?status.svg)](https://godoc.org/github.com/xanzy/go-gitlab)
-**Build Status:** [![Build Status](https://travis-ci.org/xanzy/go-gitlab.svg?branch=master)](https://travis-ci.org/xanzy/go-gitlab)
+[![Build Status](https://travis-ci.org/xanzy/go-gitlab.svg?branch=master)](https://travis-ci.org/xanzy/go-gitlab)
+[![GitHub license](https://img.shields.io/github/license/xanzy/go-gitlab.svg)](https://github.com/xanzy/go-gitlab/blob/master/LICENSE)
+[![Sourcegraph](https://sourcegraph.com/github.com/xanzy/go-gitlab/-/badge.svg)](https://sourcegraph.com/github.com/xanzy/go-gitlab?badge)
+[![GoDoc](https://godoc.org/github.com/xanzy/go-gitlab?status.svg)](https://godoc.org/github.com/xanzy/go-gitlab)
+[![Go Report Card](https://goreportcard.com/badge/github.com/xanzy/go-gitlab)](https://goreportcard.com/report/github.com/xanzy/go-gitlab)
+[![GitHub issues](https://img.shields.io/github/issues/xanzy/go-gitlab.svg)](https://github.com/xanzy/go-gitlab/issues)
 
 ## NOTE
 
@@ -13,30 +17,62 @@ incompatible changes that were needed to fully support the V4 Gitlab API.
 
 ## Coverage
 
-This API client package covers **100%** of the existing GitLab API calls! So this
-includes all calls to the following services:
+This API client package covers most of the existing Gitlab API calls and is updated regularly
+to add new and/or missing endpoints. Currently the following services are supported:
 
-- [x] Users
-- [x] Session
+- [x] Award Emojis
+- [x] Branches
+- [x] Broadcast Messages
+- [ ] Project-level Variables
+- [ ] Group-level Variables
+- [x] Commits
+- [ ] Custom Attributes
+- [x] Deployments
+- [x] Deploy Keys
+- [x] Environments
+- [x] Events
+- [x] Feature flags
+- [x] Gitignores templates
+- [ ] GitLab CI Config templates
+- [x] Groups
+- [ ] Group Access Requests
+- [ ] Group Members
+- [x] Issues
+- [x] Issue Boards
+- [x] Jobs
+- [ ] Keys
+- [x] Labels
+- [x] Merge Requests
+- [x] Project Milestones
+- [ ] Group Milestones
+- [x] Namespaces
+- [x] Notes (comments)
+- [x] Notification settings
+- [ ] Open source license templates
+- [x] Page Domains
+- [x] Pipelines
+- [x] Pipeline Triggers
+- [x] Pipeline Schedules
 - [x] Projects (including setting Webhooks)
+- [ ] Project Access Requests
+- [x] Project Members
 - [x] Project Snippets
-- [x] Services
+- [x] Protected Branches
 - [x] Repositories
 - [x] Repository Files
-- [x] Commits
-- [x] Branches
-- [x] Merge Requests
-- [x] Issues
-- [x] Labels
-- [x] Milestones
-- [x] Notes (comments)
-- [x] Deploy Keys
-- [x] System Hooks
-- [x] Groups
-- [x] Namespaces
+- [x] Runners
+- [ ] Search
+- [x] Services
 - [x] Settings
-- [x] Pipelines
+- [x] Sidekiq metrics
+- [x] Session
+- [x] System Hooks
+- [x] Tags
+- [x] Todos
+- [x] Users
+- [x] Validate CI configuration
 - [x] Version
+- [x] Wikis
 
 ## Usage
 

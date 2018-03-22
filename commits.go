@@ -34,20 +34,20 @@ type CommitsService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/commits.html
 type Commit struct {
-	ID             string       `json:"id"`
-	ShortID        string       `json:"short_id"`
-	Title          string       `json:"title"`
-	AuthorName     string       `json:"author_name"`
-	AuthorEmail    string       `json:"author_email"`
-	AuthoredDate   *time.Time   `json:"authored_date"`
-	CommitterName  string       `json:"committer_name"`
-	CommitterEmail string       `json:"committer_email"`
-	CommittedDate  *time.Time   `json:"committed_date"`
-	CreatedAt      *time.Time   `json:"created_at"`
-	Message        string       `json:"message"`
-	ParentIDs      []string     `json:"parent_ids"`
-	Stats          *CommitStats `json:"stats"`
-	Status         *BuildState  `json:"status"`
+	ID             string           `json:"id"`
+	ShortID        string           `json:"short_id"`
+	Title          string           `json:"title"`
+	AuthorName     string           `json:"author_name"`
+	AuthorEmail    string           `json:"author_email"`
+	AuthoredDate   *time.Time       `json:"authored_date"`
+	CommitterName  string           `json:"committer_name"`
+	CommitterEmail string           `json:"committer_email"`
+	CommittedDate  *time.Time       `json:"committed_date"`
+	CreatedAt      *time.Time       `json:"created_at"`
+	Message        string           `json:"message"`
+	ParentIDs      []string         `json:"parent_ids"`
+	Stats          *CommitStats     `json:"stats"`
+	Status         *BuildStateValue `json:"status"`
 }
 
 // CommitStats represents the number of added and deleted files in a commit.
@@ -150,6 +150,7 @@ func (s *CommitsService) GetCommit(pid interface{}, sha string, options ...Optio
 type CreateCommitOptions struct {
 	Branch        *string         `url:"branch" json:"branch"`
 	CommitMessage *string         `url:"commit_message" json:"commit_message"`
+	StartBranch   *string         `url:"start_branch,omitempty" json:"start_branch,omitempty"`
 	Actions       []*CommitAction `url:"actions" json:"actions"`
 	AuthorEmail   *string         `url:"author_email,omitempty" json:"author_email,omitempty"`
 	AuthorName    *string         `url:"author_name,omitempty" json:"author_name,omitempty"`
@@ -197,18 +198,24 @@ func (d Diff) String() string {
 	return Stringify(d)
 }
 
+// GetCommitDiffOptions represents the available GetCommitDiff() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/commits.html#get-the-diff-of-a-commit
+type GetCommitDiffOptions ListOptions
+
 // GetCommitDiff gets the diff of a commit in a project..
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/commits.html#get-the-diff-of-a-commit
-func (s *CommitsService) GetCommitDiff(pid interface{}, sha string, options ...OptionFunc) ([]*Diff, *Response, error) {
+func (s *CommitsService) GetCommitDiff(pid interface{}, sha string, opt *GetCommitDiffOptions, options ...OptionFunc) ([]*Diff, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/repository/commits/%s/diff", url.QueryEscape(project), sha)
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -248,18 +255,24 @@ func (c CommitComment) String() string {
 	return Stringify(c)
 }
 
+// GetCommitCommentsOptions represents the available GetCommitComments() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/commits.html#get-the-comments-of-a-commit
+type GetCommitCommentsOptions ListOptions
+
 // GetCommitComments gets the comments of a commit in a project.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/commits.html#get-the-comments-of-a-commit
-func (s *CommitsService) GetCommitComments(pid interface{}, sha string, options ...OptionFunc) ([]*CommitComment, *Response, error) {
+func (s *CommitsService) GetCommitComments(pid interface{}, sha string, opt *GetCommitCommentsOptions, options ...OptionFunc) ([]*CommitComment, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/repository/commits/%s/comments", url.QueryEscape(project), sha)
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -367,25 +380,13 @@ func (s *CommitsService) GetCommitStatuses(pid interface{}, sha string, opt *Get
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/commits.html#post-the-status-to-commit
 type SetCommitStatusOptions struct {
-	State       BuildState `url:"state" json:"state"`
-	Ref         *string    `url:"ref,omitempty" json:"ref,omitempty"`
-	Name        *string    `url:"name,omitempty" json:"name,omitempty"`
-	Context     *string    `url:"context,omitempty" json:"context,omitempty"`
-	TargetURL   *string    `url:"target_url,omitempty" json:"target_url,omitempty"`
-	Description *string    `url:"description,omitempty" json:"description,omitempty"`
+	State       BuildStateValue `url:"state" json:"state"`
+	Ref         *string         `url:"ref,omitempty" json:"ref,omitempty"`
+	Name        *string         `url:"name,omitempty" json:"name,omitempty"`
+	Context     *string         `url:"context,omitempty" json:"context,omitempty"`
+	TargetURL   *string         `url:"target_url,omitempty" json:"target_url,omitempty"`
+	Description *string         `url:"description,omitempty" json:"description,omitempty"`
 }
-
-// BuildState represents a GitLab build state.
-type BuildState string
-
-// These constants represent all valid build states.
-const (
-	Pending  BuildState = "pending"
-	Running  BuildState = "running"
-	Success  BuildState = "success"
-	Failed   BuildState = "failed"
-	Canceled BuildState = "canceled"
-)
 
 // SetCommitStatus sets the status of a commit in a project.
 //

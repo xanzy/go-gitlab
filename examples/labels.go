@@ -21,7 +21,7 @@ func labelExample() {
 	log.Printf("Created label: %s\nWith color: %s\n", label.Name, label.Color)
 
 	// List all labels
-	labels, _, err := git.Labels.ListLabels("myname/myproject")
+	labels, _, err := git.Labels.ListLabels("myname/myproject", nil)
 	if err != nil {
 		log.Fatal(err)
 	}

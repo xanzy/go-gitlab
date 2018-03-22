@@ -215,7 +215,7 @@ func (s *RepositoriesService) Compare(pid interface{}, opt *CompareOptions, opti
 
 // Contributor represents a GitLap contributor.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/repositories.html#contributer
+// GitLab API docs: https://docs.gitlab.com/ce/api/repositories.html#contributors
 type Contributor struct {
 	Name      string `json:"name,omitempty"`
 	Email     string `json:"email,omitempty"`
@@ -228,17 +228,23 @@ func (c Contributor) String() string {
 	return Stringify(c)
 }
 
+// ListContributorsOptions represents the available ListContributorsOptions()
+// options.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/repositories.html#contributors
+type ListContributorsOptions ListOptions
+
 // Contributors gets the repository contributors list.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/repositories.html#contributer
-func (s *RepositoriesService) Contributors(pid interface{}, options ...OptionFunc) ([]*Contributor, *Response, error) {
+// GitLab API docs: https://docs.gitlab.com/ce/api/repositories.html#contributors
+func (s *RepositoriesService) Contributors(pid interface{}, opt *ListContributorsOptions, options ...OptionFunc) ([]*Contributor, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/repository/contributors", url.QueryEscape(project))
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
