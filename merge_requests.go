@@ -356,7 +356,6 @@ func (s *MergeRequestsService) ListMergeRequestPipelines(pid interface{}, mergeR
 	if err != nil {
 		return nil, nil, err
 	}
-
 	u := fmt.Sprintf("projects/%s/merge_requests/%v/pipelines", url.QueryEscape(project), mergeRequest)
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
@@ -366,6 +365,10 @@ func (s *MergeRequestsService) ListMergeRequestPipelines(pid interface{}, mergeR
 
 	var p PipelineList
 	resp, err := s.client.Do(req, &p)
+	if err != nil {
+		return nil, resp, err
+	}
+
 	return p, resp, err
 }
 
