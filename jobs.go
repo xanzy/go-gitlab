@@ -100,7 +100,7 @@ func (s *JobsService) ListProjectJobs(pid interface{}, opts *ListJobsOptions, op
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/jobs.html#list-pipeline-jobs
-func (s *JobsService) ListPipelineJobs(pid interface{}, pipelineID int, opts *ListJobsOptions, options ...OptionFunc) ([]Job, *Response, error) {
+func (s *JobsService) ListPipelineJobs(pid interface{}, pipelineID int, opts *ListJobsOptions, options ...OptionFunc) ([]*Job, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -112,7 +112,7 @@ func (s *JobsService) ListPipelineJobs(pid interface{}, pipelineID int, opts *Li
 		return nil, nil, err
 	}
 
-	var jobs []Job
+	var jobs []*Job
 	resp, err := s.client.Do(req, &jobs)
 	if err != nil {
 		return nil, resp, err
