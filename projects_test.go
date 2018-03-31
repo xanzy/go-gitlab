@@ -70,6 +70,58 @@ func TestListUserProjects(t *testing.T) {
 	}
 }
 
+func ListProjectsUsers_byID(t *testing.T) {
+	mux, server, client := setup()
+	defer teardown(server)
+
+	mux.HandleFunc("/projects/1", func(w http.ResponseWriter, r *http.Request) {
+		testURL(t, r, "/projects/1/users")
+		testMethod(t, r, "GET")
+		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
+	})
+
+	opt := &ListProjectUserOptions{
+		ListOptions: ListOptions{2, 3},
+		Search:      String("query"),
+	}
+
+	projects, _, err := client.Projects.ListProjectsUsers(1, opt)
+	if err != nil {
+		t.Errorf("Projects.ListProjectsUsers returned error: %v", err)
+	}
+
+	want := []*ProjectUser{{ID: 1}, {ID: 2}}
+	if !reflect.DeepEqual(want, projects) {
+		t.Errorf("Projects.ListProjectsUsers returned %+v, want %+v", projects, want)
+	}
+}
+
+func ListProjectsUsers_byName(t *testing.T) {
+	mux, server, client := setup()
+	defer teardown(server)
+
+	mux.HandleFunc("/projects/", func(w http.ResponseWriter, r *http.Request) {
+		testURL(t, r, "/projects/namespace%2Fname/users")
+		testMethod(t, r, "GET")
+		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
+	})
+
+	opt := &ListProjectUserOptions{
+		ListOptions: ListOptions{2, 3},
+		Search:      String("query"),
+	}
+
+	projects, _, err := client.Projects.ListProjectsUsers("namespace/name", opt)
+	if err != nil {
+		t.Errorf("Projects.ListProjectsUsers returned error: %v", err)
+	}
+
+	want := []*ProjectUser{{ID: 1}, {ID: 2}}
+	if !reflect.DeepEqual(want, projects) {
+		t.Errorf("Projects.ListProjectsUsers returned %+v, want %+v", projects, want)
+	}
+}
+
 func TestListOwnedProjects(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
