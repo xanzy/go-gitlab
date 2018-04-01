@@ -329,6 +329,7 @@ func (s *CommitsService) PostCommitComment(pid interface{}, sha string, opt *Pos
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/commits.html#get-the-status-of-a-commit
 type GetCommitStatusesOptions struct {
+	ListOptions
 	Ref   *string `url:"ref,omitempty" json:"ref,omitempty"`
 	Stage *string `url:"stage,omitempty" json:"stage,omitempty"`
 	Name  *string `url:"name,omitempty" json:"name,omitempty"`
