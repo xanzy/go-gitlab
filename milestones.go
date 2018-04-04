@@ -212,3 +212,36 @@ func (s *MilestonesService) GetMilestoneIssues(pid interface{}, milestone int, o
 
 	return i, resp, err
 }
+
+// GetMilestoneMergeRequestsOptions represents the available
+// GetMilestoneMergeRequests() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/milestones.html#get-all-merge-requests-assigned-to-a-single-milestone
+type GetMilestoneMergeRequestsOptions ListOptions
+
+// GetMilestoneMergeRequests gets all merge requests assigned to a single
+// project milestone.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/milestones.html#get-all-merge-requests-assigned-to-a-single-milestone
+func (s *MilestonesService) GetMilestoneMergeRequests(pid interface{}, milestone int, opt *GetMilestoneMergeRequestsOptions, options ...OptionFunc) ([]*MergeRequest, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/milestones/%d/merge_requests", url.QueryEscape(project), milestone)
+
+	req, err := s.client.NewRequest("GET", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var mr []*MergeRequest
+	resp, err := s.client.Do(req, &mr)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return mr, resp, err
+}
