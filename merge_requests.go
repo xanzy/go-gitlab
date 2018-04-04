@@ -68,6 +68,14 @@ type MergeRequest struct {
 	Milestone                 *Milestone `json:"milestone"`
 	MergeWhenPipelineSucceeds bool       `json:"merge_when_pipeline_succeeds"`
 	MergeStatus               string     `json:"merge_status"`
+	MergedBy               struct {
+		ID        int        `json:"id"`
+		Username  string     `json:"username"`
+		Name      string     `json:"name"`
+		State     string     `json:"state"`
+		CreatedAt *time.Time `json:"created_at"`
+	}     `json:"merged_by"`
+	MergedAt                *time.Time   `json:"merged_at"`
 	Subscribed                bool       `json:"subscribed"`
 	SHA                       string     `json:"sha"`
 	MergeCommitSHA            string     `json:"merge_commit_sha"`
