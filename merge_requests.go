@@ -68,24 +68,24 @@ type MergeRequest struct {
 	Milestone                 *Milestone `json:"milestone"`
 	MergeWhenPipelineSucceeds bool       `json:"merge_when_pipeline_succeeds"`
 	MergeStatus               string     `json:"merge_status"`
-	MergedBy               struct {
+	MergedBy                  struct {
 		ID        int        `json:"id"`
 		Username  string     `json:"username"`
 		Name      string     `json:"name"`
 		State     string     `json:"state"`
 		CreatedAt *time.Time `json:"created_at"`
-	}     `json:"merged_by"`
-	MergedAt                *time.Time   `json:"merged_at"`
-	Subscribed                bool       `json:"subscribed"`
-	SHA                       string     `json:"sha"`
-	MergeCommitSHA            string     `json:"merge_commit_sha"`
-	UserNotesCount            int        `json:"user_notes_count"`
-	ChangesCount              string     `json:"changes_count"`
-	ShouldRemoveSourceBranch  bool       `json:"should_remove_source_branch"`
-	ForceRemoveSourceBranch   bool       `json:"force_remove_source_branch"`
-	WebURL                    string     `json:"web_url"`
-	DiscussionLocked          bool       `json:"discussion_locked"`
-	Changes                   []struct {
+	} `json:"merged_by"`
+	MergedAt                 *time.Time `json:"merged_at"`
+	Subscribed               bool       `json:"subscribed"`
+	SHA                      string     `json:"sha"`
+	MergeCommitSHA           string     `json:"merge_commit_sha"`
+	UserNotesCount           int        `json:"user_notes_count"`
+	ChangesCount             string     `json:"changes_count"`
+	ShouldRemoveSourceBranch bool       `json:"should_remove_source_branch"`
+	ForceRemoveSourceBranch  bool       `json:"force_remove_source_branch"`
+	WebURL                   string     `json:"web_url"`
+	DiscussionLocked         bool       `json:"discussion_locked"`
+	Changes                  []struct {
 		OldPath     string `json:"old_path"`
 		NewPath     string `json:"new_path"`
 		AMode       string `json:"a_mode"`
