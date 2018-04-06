@@ -33,13 +33,15 @@ type TagsService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/tags.html
 type Tag struct {
-	Commit  *Commit `json:"commit"`
-	Release struct {
-		TagName     string `json:"tag_name"`
-		Description string `json:"description"`
-	} `json:"release"`
-	Name    string `json:"name"`
-	Message string `json:"message"`
+	Commit  *Commit  `json:"commit"`
+	Release *Release `json:"release"`
+	Name    string   `json:"name"`
+	Message string   `json:"message"`
+}
+
+type Release struct {
+	TagName     string `json:"tag_name"`
+	Description string `json:"description"`
 }
 
 func (t Tag) String() string {
@@ -157,4 +159,38 @@ func (s *TagsService) DeleteTag(pid interface{}, tag string, options ...OptionFu
 	}
 
 	return s.client.Do(req, nil)
+}
+
+// CreateReleaseOptions represents the available CreateRelease() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/tags.html#create-a-new-release
+type CreateReleaseOptions struct {
+	Description *string `url:"description:omitempty" json:"description,omitempty"`
+}
+
+// CreateRelease Add release notes to the existing git tag.
+// If there already exists a release for the given tag, status code 409 is returned.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/tags.html#create-a-new-release
+func (s *TagsService) CreateRelease(pid interface{}, tag string, opt *CreateReleaseOptions, options ...OptionFunc) (*Release, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/repository/tags/%s/release", url.QueryEscape(project), tag)
+
+	req, err := s.client.NewRequest("POST", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	r := new(Release)
+	resp, err := s.client.Do(req, r)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return r, resp, err
 }
