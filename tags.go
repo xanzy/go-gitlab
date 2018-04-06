@@ -194,3 +194,36 @@ func (s *TagsService) CreateRelease(pid interface{}, tag string, opt *CreateRele
 
 	return r, resp, err
 }
+
+// UpdateReleaseOptions represents the available UpdateRelease() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/tags.html#update-a-release
+type UpdateReleaseOptions struct {
+	Description *string `url:"description:omitempty" json:"description,omitempty"`
+}
+
+// UpdateRelease Updates the release notes of a given release.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/tags.html#update-a-release
+func (s *TagsService) UpdateRelease(pid interface{}, tag string, opt *UpdateReleaseOptions, options ...OptionFunc) (*Release, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/repository/tags/%s/release", url.QueryEscape(project), tag)
+
+	req, err := s.client.NewRequest("PUT", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	r := new(Release)
+	resp, err := s.client.Do(req, r)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return r, resp, err
+}
