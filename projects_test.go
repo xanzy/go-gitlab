@@ -70,7 +70,7 @@ func TestListUserProjects(t *testing.T) {
 	}
 }
 
-func ListProjectsUsers_byID(t *testing.T) {
+func ListProjectsUsersByID(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
@@ -96,7 +96,7 @@ func ListProjectsUsers_byID(t *testing.T) {
 	}
 }
 
-func ListProjectsUsers_byName(t *testing.T) {
+func ListProjectsUsersByName(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 

@@ -39,6 +39,9 @@ type Tag struct {
 	Message string   `json:"message"`
 }
 
+// Release represents a GitLab version release.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/tags.html
 type Release struct {
 	TagName     string `json:"tag_name"`
 	Description string `json:"description"`
