@@ -247,3 +247,21 @@ func (s *MilestonesService) GetMilestoneMergeRequests(pid interface{}, milestone
 
 	return mr, resp, err
 }
+
+// DeleteProjectMilestone deletes a specified project milestone
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/milestones.html#delete-project-milestone
+func (s *MilestonesService) DeleteProjectMilestone(pid interface{}, milestone int, options ...OptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/milestones/%d", url.QueryEscape(project), milestone)
+
+	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+	return s.client.Do(req, nil)
+}
