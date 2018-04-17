@@ -50,6 +50,7 @@ func (t TreeNode) String() string {
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/repositories.html#list-repository-tree
 type ListTreeOptions struct {
+	ListOptions
 	Path      *string `url:"path,omitempty" json:"path,omitempty"`
 	Ref       *string `url:"ref,omitempty" json:"ref,omitempty"`
 	Recursive *bool   `url:"recursive,omitempty" json:"recursive,omitempty"`
