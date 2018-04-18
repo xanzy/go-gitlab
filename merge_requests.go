@@ -96,6 +96,7 @@ type MergeRequest struct {
 		DeletedFile bool   `json:"deleted_file"`
 	} `json:"changes"`
 	TimeStats *TimeStats `json:"time_stats"`
+	Squash    bool       `json:"squash"`
 }
 
 func (m MergeRequest) String() string {
