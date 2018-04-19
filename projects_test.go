@@ -184,7 +184,7 @@ func TestListStarredProjects(t *testing.T) {
 	}
 }
 
-func TestGetProject_byID(t *testing.T) {
+func TestGetProjectByID(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
@@ -204,7 +204,7 @@ func TestGetProject_byID(t *testing.T) {
 	}
 }
 
-func TestGetProject_byName(t *testing.T) {
+func TestGetProjectByName(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
