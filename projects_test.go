@@ -70,12 +70,11 @@ func TestListUserProjects(t *testing.T) {
 	}
 }
 
-func ListProjectsUsersByID(t *testing.T) {
+func TestListProjectsUsersByID(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
-	mux.HandleFunc("/projects/1", func(w http.ResponseWriter, r *http.Request) {
-		testURL(t, r, "/projects/1/users")
+	mux.HandleFunc("/projects/", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
 		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
 	})
@@ -96,12 +95,11 @@ func ListProjectsUsersByID(t *testing.T) {
 	}
 }
 
-func ListProjectsUsersByName(t *testing.T) {
+func TestListProjectsUsersByName(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
 	mux.HandleFunc("/projects/", func(w http.ResponseWriter, r *http.Request) {
-		testURL(t, r, "/projects/namespace%2Fname/users")
 		testMethod(t, r, "GET")
 		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
 	})
