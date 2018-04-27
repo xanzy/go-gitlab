@@ -32,8 +32,8 @@ func TestBlockUser_UserNotFound(t *testing.T) {
 	})
 
 	err := client.Users.BlockUser(1)
-	if err != UserNotFoundError {
-		t.Errorf("Users.BlockUser error.\nExpected: %+v\n     Got: %+v", UserNotFoundError, err)
+	if err != ErrUserNotFound {
+		t.Errorf("Users.BlockUser error.\nExpected: %+v\n     Got: %+v", ErrUserNotFound, err)
 	}
 }
 
@@ -47,8 +47,8 @@ func TestBlockUser_BlockPrevented(t *testing.T) {
 	})
 
 	err := client.Users.BlockUser(1)
-	if err != UserBlockPreventedError {
-		t.Errorf("Users.BlockUser error.\nExpected: %+v\n     Got: %+v", UserBlockPreventedError, err)
+	if err != ErrUserBlockPrevented {
+		t.Errorf("Users.BlockUser error.\nExpected: %+v\n     Got: %+v", ErrUserBlockPrevented, err)
 	}
 }
 
@@ -107,8 +107,8 @@ func TestUnblockUser_UserNotFound(t *testing.T) {
 	})
 
 	err := client.Users.UnblockUser(1)
-	if err != UserNotFoundError {
-		t.Errorf("Users.UnblockUser error.\nExpected: %+v\n     Got: %+v", UserNotFoundError, err)
+	if err != ErrUserNotFound {
+		t.Errorf("Users.UnblockUser error.\nExpected: %+v\n     Got: %+v", ErrUserNotFound, err)
 	}
 }
 
@@ -122,8 +122,8 @@ func TestUnblockUser_UnblockPrevented(t *testing.T) {
 	})
 
 	err := client.Users.UnblockUser(1)
-	if err != UserUnblockPreventedError {
-		t.Errorf("Users.UnblockUser error.\nExpected: %+v\n     Got: %+v", UserUnblockPreventedError, err)
+	if err != ErrUserUnblockPrevented {
+		t.Errorf("Users.UnblockUser error.\nExpected: %+v\n     Got: %+v", ErrUserUnblockPrevented, err)
 	}
 }
 

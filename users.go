@@ -22,9 +22,9 @@ import (
 )
 
 var (
-	UserBlockPreventedError   = fmt.Errorf("Cannot block a user that is already blocked by LDAP synchronization")
-	UserNotFoundError         = fmt.Errorf("User does not exist")
-	UserUnblockPreventedError = fmt.Errorf("Cannot unblock a user that is blocked by LDAP synchronization")
+	ErrUserBlockPrevented   = fmt.Errorf("Cannot block a user that is already blocked by LDAP synchronization")
+	ErrUserNotFound         = fmt.Errorf("User does not exist")
+	ErrUserUnblockPrevented = fmt.Errorf("Cannot unblock a user that is blocked by LDAP synchronization")
 )
 
 // UsersService handles communication with the user related methods of
@@ -438,9 +438,9 @@ func (s *UsersService) BlockUser(user int, options ...OptionFunc) error {
 	case 201:
 		return nil
 	case 403:
-		return UserBlockPreventedError
+		return ErrUserBlockPrevented
 	case 404:
-		return UserNotFoundError
+		return ErrUserNotFound
 	default:
 		return fmt.Errorf("Received unexpected result code: %d", resp.StatusCode)
 	}
@@ -466,9 +466,9 @@ func (s *UsersService) UnblockUser(user int, options ...OptionFunc) error {
 	case 201:
 		return nil
 	case 403:
-		return UserUnblockPreventedError
+		return ErrUserUnblockPrevented
 	case 404:
-		return UserNotFoundError
+		return ErrUserNotFound
 	default:
 		return fmt.Errorf("Received unexpected result code: %d", resp.StatusCode)
 	}
