@@ -22,6 +22,12 @@ import (
 	"time"
 )
 
+var (
+	UserBlockPreventedError   = fmt.Errorf("Cannot block a user that is already blocked by LDAP synchronization")
+	UserNotFoundError         = fmt.Errorf("User does not exist")
+	UserUnblockPreventedError = fmt.Errorf("Cannot unblock a user that is blocked by LDAP synchronization")
+)
+
 // UsersService handles communication with the user related methods of
 // the GitLab API.
 //
