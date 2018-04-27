@@ -338,7 +338,7 @@ func TestShareProjectWithGroup(t *testing.T) {
 	}
 }
 
-func TestUnshareProjectFromGroup(t *testing.T) {
+func TestDeleteSharedProjectFromGroup(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
@@ -346,8 +346,8 @@ func TestUnshareProjectFromGroup(t *testing.T) {
 		testMethod(t, r, "DELETE")
 	})
 
-	_, err := client.Projects.UnshareProjectFromGroup(1, 2)
+	_, err := client.Projects.DeleteSharedProjectFromGroup(1, 2)
 	if err != nil {
-		t.Errorf("Projects.UnshareProjectFromGroup returned error: %v", err)
+		t.Errorf("Projects.DeleteSharedProjectFromGroup returned error: %v", err)
 	}
 }
