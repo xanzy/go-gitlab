@@ -17,7 +17,6 @@
 package gitlab
 
 import (
-	"errors"
 	"fmt"
 	"time"
 )
@@ -431,7 +430,7 @@ func (s *UsersService) BlockUser(user int, options ...OptionFunc) error {
 	}
 
 	resp, err := s.client.Do(req, nil)
-	if err != nil {
+	if err != nil && resp == nil {
 		return err
 	}
 
@@ -439,9 +438,9 @@ func (s *UsersService) BlockUser(user int, options ...OptionFunc) error {
 	case 201:
 		return nil
 	case 403:
-		return errors.New("Cannot block a user that is already blocked by LDAP synchronization")
+		return UserBlockPreventedError
 	case 404:
-		return errors.New("User does not exist")
+		return UserNotFoundError
 	default:
 		return fmt.Errorf("Received unexpected result code: %d", resp.StatusCode)
 	}
@@ -459,7 +458,7 @@ func (s *UsersService) UnblockUser(user int, options ...OptionFunc) error {
 	}
 
 	resp, err := s.client.Do(req, nil)
-	if err != nil {
+	if err != nil && resp == nil {
 		return err
 	}
 
@@ -467,9 +466,9 @@ func (s *UsersService) UnblockUser(user int, options ...OptionFunc) error {
 	case 201:
 		return nil
 	case 403:
-		return errors.New("Cannot unblock a user that is blocked by LDAP synchronization")
+		return UserUnblockPreventedError
 	case 404:
-		return errors.New("User does not exist")
+		return UserNotFoundError
 	default:
 		return fmt.Errorf("Received unexpected result code: %d", resp.StatusCode)
 	}
