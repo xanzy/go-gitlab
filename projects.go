@@ -648,7 +648,7 @@ func (s *ProjectsService) ShareProjectWithGroup(pid interface{}, opt *ShareWithG
 
 // UnshareProjectFromGroup allows to unshare a project from a group.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/projects.html#delete-a-shared-project-link-within-a-group
+// GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#delete-a-shared-project-link-within-a-group
 func (s *ProjectsService) UnshareProjectFromGroup(pid interface{}, groupID int, options ...OptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
