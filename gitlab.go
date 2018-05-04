@@ -267,54 +267,55 @@ type Client struct {
 	UserAgent string
 
 	// Services used for talking to different parts of the GitLab API.
-	AwardEmoji           *AwardEmojiService
-	Branches             *BranchesService
-	BuildVariables       *BuildVariablesService
-	BroadcastMessage     *BroadcastMessagesService
-	Commits              *CommitsService
-	DeployKeys           *DeployKeysService
-	Deployments          *DeploymentsService
-	Environments         *EnvironmentsService
-	Events               *EventsService
-	Features             *FeaturesService
-	GitIgnoreTemplates   *GitIgnoreTemplatesService
-	Groups               *GroupsService
-	GroupMembers         *GroupMembersService
-	GroupMilestones      *GroupMilestonesService
-	Issues               *IssuesService
-	IssueLinks           *IssueLinksService
-	Jobs                 *JobsService
-	Boards               *IssueBoardsService
-	Labels               *LabelsService
-	MergeRequests        *MergeRequestsService
-	Milestones           *MilestonesService
-	Namespaces           *NamespacesService
-	Notes                *NotesService
-	NotificationSettings *NotificationSettingsService
-	PagesDomains         *PagesDomainsService
-	Pipelines            *PipelinesService
-	PipelineSchedules    *PipelineSchedulesService
-	PipelineTriggers     *PipelineTriggersService
-	Projects             *ProjectsService
-	ProjectMembers       *ProjectMembersService
-	ProjectSnippets      *ProjectSnippetsService
-	ProtectedBranches    *ProtectedBranchesService
-	Repositories         *RepositoriesService
-	RepositoryFiles      *RepositoryFilesService
-	Runners              *RunnersService
-	Search               *SearchService
-	Services             *ServicesService
-	Session              *SessionService
-	Settings             *SettingsService
-	Sidekiq              *SidekiqService
-	Snippets             *SnippetsService
-	SystemHooks          *SystemHooksService
-	Tags                 *TagsService
-	Todos                *TodosService
-	Users                *UsersService
-	Validate             *ValidateService
-	Version              *VersionService
-	Wikis                *WikisService
+	AwardEmoji            *AwardEmojiService
+	Branches              *BranchesService
+	BuildVariables        *BuildVariablesService
+	BroadcastMessage      *BroadcastMessagesService
+	Commits               *CommitsService
+	DeployKeys            *DeployKeysService
+	Deployments           *DeploymentsService
+	Environments          *EnvironmentsService
+	Events                *EventsService
+	Features              *FeaturesService
+	GitIgnoreTemplates    *GitIgnoreTemplatesService
+	Groups                *GroupsService
+	GroupMembers          *GroupMembersService
+	GroupMilestones       *GroupMilestonesService
+	Issues                *IssuesService
+	IssueLinks            *IssueLinksService
+	Jobs                  *JobsService
+	Boards                *IssueBoardsService
+	Labels                *LabelsService
+	MergeRequests         *MergeRequestsService
+	MergeRequestApprovals *MergeRequestApprovalsService
+	Milestones            *MilestonesService
+	Namespaces            *NamespacesService
+	Notes                 *NotesService
+	NotificationSettings  *NotificationSettingsService
+	PagesDomains          *PagesDomainsService
+	Pipelines             *PipelinesService
+	PipelineSchedules     *PipelineSchedulesService
+	PipelineTriggers      *PipelineTriggersService
+	Projects              *ProjectsService
+	ProjectMembers        *ProjectMembersService
+	ProjectSnippets       *ProjectSnippetsService
+	ProtectedBranches     *ProtectedBranchesService
+	Repositories          *RepositoriesService
+	RepositoryFiles       *RepositoryFilesService
+	Runners               *RunnersService
+	Search                *SearchService
+	Services              *ServicesService
+	Session               *SessionService
+	Settings              *SettingsService
+	Sidekiq               *SidekiqService
+	Snippets              *SnippetsService
+	SystemHooks           *SystemHooksService
+	Tags                  *TagsService
+	Todos                 *TodosService
+	Users                 *UsersService
+	Validate              *ValidateService
+	Version               *VersionService
+	Wikis                 *WikisService
 }
 
 // ListOptions specifies the optional parameters to various List methods that
@@ -376,6 +377,7 @@ func newClient(httpClient *http.Client, tokenType tokenType, token string) *Clie
 	c.Boards = &IssueBoardsService{client: c}
 	c.Labels = &LabelsService{client: c}
 	c.MergeRequests = &MergeRequestsService{client: c, timeStats: timeStats}
+	c.MergeRequestApprovals = &MergeRequestApprovalsService{client: c}
 	c.Milestones = &MilestonesService{client: c}
 	c.Namespaces = &NamespacesService{client: c}
 	c.Notes = &NotesService{client: c}
