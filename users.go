@@ -82,7 +82,9 @@ type ListUsersOptions struct {
 	Search        *string    `url:"search,omitempty" json:"search,omitempty"`
 	Username      *string    `url:"username,omitempty" json:"username,omitempty"`
 	ExternalUID   *string    `url:"extern_uid,omitempty" json:"extern_uid,omitempty"`
+	Provider      *string    `url:"provider,omitempty" json:"provider,omitempty"`
 	CreatedBefore *time.Time `url:"created_before,omitempty" json:"created_before,omitempty" `
+	CreatedAfter  *time.Time `url:"created_after,omitempty" json:"created_after,omitempty" `
 }
 
 // ListUsers gets a list of users.
