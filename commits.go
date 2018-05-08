@@ -72,6 +72,7 @@ type ListCommitsOptions struct {
 	Since   time.Time `url:"since,omitempty" json:"since,omitempty"`
 	Until   time.Time `url:"until,omitempty" json:"until,omitempty"`
 	Path    *string   `url:"path,omitempty" json:"path,omitempty"`
+	All     bool     `url:"all,omitempty" json:"all,omitempty"`
 }
 
 // ListCommits gets a list of repository commits in a project.
