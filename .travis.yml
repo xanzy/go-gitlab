@@ -1,5 +1,8 @@
 language: go
 
+# use containers which run faster and have cache
+sudo: false
+
 go:
   - 1.8.x
   - 1.9.x
@@ -9,10 +12,13 @@ go:
 stages:
   - lint
   - test
+  - name: deploy
+    if: tag IS present
 
 jobs:
   include:
     - stage: lint
+      go: 1.10.x
       script:
         - go get github.com/golang/lint/golint
         - golint
@@ -20,6 +26,18 @@ jobs:
     - stage: test
       script:
         - go test -v
+    - stage: deploy
+      go: 1.10.x
+      script:
+        - sed -i "s|libraryVersion =.\+$|libraryVersion = \"$(echo ${TRAVIS_TAG} | tr -d 'v')\"|" gitlab.go
+        - git config --global user.email "travis@travis-ci.org"
+        - git config --global user.name "Travis CI"
+        - git remote add origin-https https://${GITHUB_TOKEN}@github.com/xanzy/go-gitlab.git
+        - git fetch origin-https
+        - git checkout master
+        - git add gitlab.go
+        - git commit -m "(libraryVersion) ${TRAVIS_TAG}"
+        - git push origin-https master
 
 matrix:
   allow_failures:
