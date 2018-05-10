@@ -357,6 +357,9 @@ func NewBasicAuthClient(httpClient *http.Client, endpoint, username, password st
 		for {
 			client.token = t.AccessToken
 
+			if t.ExpiresIn == 0 {
+				return // Token does not expire
+			}
 			if t.ExpiresIn > 60 {
 				t.ExpiresIn -= 60
 			}
