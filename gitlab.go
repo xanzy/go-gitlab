@@ -35,9 +35,8 @@ import (
 )
 
 const (
-	libraryVersion = "0.2.0"
 	defaultBaseURL = "https://gitlab.com/api/v4/"
-	userAgent      = "go-gitlab/" + libraryVersion
+	userAgent      = "go-gitlab"
 )
 
 // authType represents an authentication type within GitLab.
