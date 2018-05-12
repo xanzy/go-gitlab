@@ -70,7 +70,7 @@ type ApproveMergeRequestOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#approve-merge-request
-func (s *MergeRequestApprovalsService) ApproveMergeRequest(pid interface{}, mrID int, opt *ApproveMergeRequestOptions, options ...OptionFunc) (*MergeRequestApprovals, *Response, error) {
+func (s *MergeRequestApprovalsService) ApproveMergeRequest(pid interface{}, mr int, opt *ApproveMergeRequestOptions, options ...OptionFunc) (*MergeRequestApprovals, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
