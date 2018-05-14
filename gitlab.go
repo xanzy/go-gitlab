@@ -32,6 +32,7 @@ import (
 	"time"
 
 	"github.com/google/go-querystring/query"
+	"golang.org/x/oauth2"
 )
 
 const (
@@ -48,7 +49,8 @@ type authType int
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/
 const (
-	oAuthToken authType = iota
+	basicAuth authType = iota
+	oAuthToken
 	privateToken
 )
 
@@ -256,10 +258,13 @@ type Client struct {
 	// should always be specified with a trailing slash.
 	baseURL *url.URL
 
-	// token type used to make authenticated API calls.
+	// Token type used to make authenticated API calls.
 	authType authType
 
-	// token used to make authenticated API calls.
+	// Username and password used for basix authentication.
+	username, password string
+
+	// Token used to make authenticated API calls.
 	token string
 
 	// User agent used when communicating with the GitLab API.
@@ -342,68 +347,33 @@ func NewClient(httpClient *http.Client, token string) *Client {
 // authentication, provide a valid username and password.
 func NewBasicAuthClient(httpClient *http.Client, endpoint, username, password string) (*Client, error) {
 	client := newClient(httpClient)
-	client.authType = oAuthToken
+	client.authType = basicAuth
+	client.username = username
+	client.password = password
 	client.SetBaseURL(endpoint + "/api/v4")
 
-	// We get the first token before the loop to confirm the credentials
-	t, err := requestOAuthToken(client, endpoint, username, password)
+	err := client.requestOAuthToken(context.TODO())
 	if err != nil {
 		return nil, err
 	}
-
-	// And then we assign the token inside the loop, so we can keep reassigning
-	// to renew the token every x seconds (just before it expiated)
-	go func() {
-		for {
-			client.token = t.AccessToken
-
-			if t.ExpiresIn == 0 {
-				return // Token does not expire
-			}
-			if t.ExpiresIn > 60 {
-				t.ExpiresIn -= 60
-			}
-
-			time.Sleep(t.ExpiresIn * time.Second)
-
-			t, err = requestOAuthToken(client, endpoint, username, password)
-			if err != nil {
-				panic(err)
-			}
-		}
-	}()
 
 	return client, nil
 }
 
-type token struct {
-	AccessToken string        `json:"access_token"`
-	ExpiresIn   time.Duration `json:"expires_in"`
-}
-
-func requestOAuthToken(client *Client, endpoint, username, password string) (*token, error) {
-	body := []byte(fmt.Sprintf(
-		`{ "grant_type": "password", "username": %q, "password": %q }`, username, password))
-
-	req, err := http.NewRequest("POST", endpoint+"/oauth/token", bytes.NewBuffer(body))
+func (c *Client) requestOAuthToken(ctx context.Context) error {
+	config := &oauth2.Config{
+		Endpoint: oauth2.Endpoint{
+			AuthURL:  fmt.Sprintf("%s://%s/oauth/authorize", c.BaseURL().Scheme, c.BaseURL().Host),
+			TokenURL: fmt.Sprintf("%s://%s/oauth/token", c.BaseURL().Scheme, c.BaseURL().Host),
+		},
+	}
+	ctx = context.WithValue(ctx, oauth2.HTTPClient, c.client)
+	t, err := config.PasswordCredentialsToken(ctx, c.username, c.password)
 	if err != nil {
-		return nil, err
+		return err
 	}
-	req.Header.Set("Content-Type", "application/json")
-
-	resp, err := client.client.Do(req)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-
-	if resp.StatusCode != 200 {
-		return nil, fmt.Errorf("unexpected response when refreshing oauth token: %s", resp.Status)
-	}
-
-	t := new(token)
-	err = json.NewDecoder(resp.Body).Decode(t)
-	return t, err
+	c.token = t.AccessToken
+	return nil
 }
 
 // NewOAuthClient returns a new GitLab API client. If a nil httpClient is
@@ -557,10 +527,10 @@ func (c *Client) NewRequest(method, path string, opt interface{}, options []Opti
 	req.Header.Set("Accept", "application/json")
 
 	switch c.authType {
+	case basicAuth, oAuthToken:
+		req.Header.Set("Authorization", "Bearer "+c.token)
 	case privateToken:
 		req.Header.Set("PRIVATE-TOKEN", c.token)
-	case oAuthToken:
-		req.Header.Set("Authorization", "Bearer "+c.token)
 	}
 
 	if c.UserAgent != "" {
@@ -638,6 +608,14 @@ func (c *Client) Do(req *http.Request, v interface{}) (*Response, error) {
 		return nil, err
 	}
 	defer resp.Body.Close()
+
+	if resp.StatusCode == http.StatusUnauthorized && c.authType == basicAuth {
+		err = c.requestOAuthToken(req.Context())
+		if err != nil {
+			return nil, err
+		}
+		return c.Do(req, v)
+	}
 
 	response := newResponse(resp)
 
