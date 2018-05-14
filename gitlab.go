@@ -32,6 +32,7 @@ import (
 	"time"
 
 	"github.com/google/go-querystring/query"
+	"golang.org/x/oauth2"
 )
 
 const (
@@ -351,7 +352,7 @@ func NewBasicAuthClient(httpClient *http.Client, endpoint, username, password st
 	client.password = password
 	client.SetBaseURL(endpoint + "/api/v4")
 
-	err := client.requestOAuthToken()
+	err := client.requestOAuthToken(context.TODO())
 	if err != nil {
 		return nil, err
 	}
@@ -359,40 +360,20 @@ func NewBasicAuthClient(httpClient *http.Client, endpoint, username, password st
 	return client, nil
 }
 
-func (c *Client) requestOAuthToken() error {
-	body := []byte(fmt.Sprintf(
-		`{ "grant_type": "password", "username": %q, "password": %q }`, c.username, c.password))
-
-	u := fmt.Sprintf("%s://%s/oauth/token", c.BaseURL().Scheme, c.BaseURL().Host)
-	req, err := http.NewRequest("POST", u, bytes.NewBuffer(body))
+func (c *Client) requestOAuthToken(ctx context.Context) error {
+	config := &oauth2.Config{
+		Endpoint: oauth2.Endpoint{
+			AuthURL:  fmt.Sprintf("%s://%s/oauth/authorize", c.BaseURL().Scheme, c.BaseURL().Host),
+			TokenURL: fmt.Sprintf("%s://%s/oauth/token", c.BaseURL().Scheme, c.BaseURL().Host),
+		},
+	}
+	ctx = context.WithValue(ctx, oauth2.HTTPClient, c.client)
+	t, err := config.PasswordCredentialsToken(ctx, c.username, c.password)
 	if err != nil {
 		return err
 	}
-	req.Header.Set("Content-Type", "application/json")
-
-	resp, err := c.client.Do(req)
-	if err != nil {
-		return err
-	}
-	defer resp.Body.Close()
-
-	if resp.StatusCode != 200 {
-		return fmt.Errorf("unexpected response when refreshing oauth token: %s", resp.Status)
-	}
-
-	var t struct {
-		AccessToken string `json:"access_token"`
-	}
-
-	err = json.NewDecoder(resp.Body).Decode(&t)
-	if err != nil {
-		return err
-	}
-
-	// Set the token.
 	c.token = t.AccessToken
-
-	return err
+	return nil
 }
 
 // NewOAuthClient returns a new GitLab API client. If a nil httpClient is
@@ -629,7 +610,7 @@ func (c *Client) Do(req *http.Request, v interface{}) (*Response, error) {
 	defer resp.Body.Close()
 
 	if resp.StatusCode == http.StatusUnauthorized && c.authType == basicAuth {
-		err = c.requestOAuthToken()
+		err = c.requestOAuthToken(req.Context())
 		if err != nil {
 			return nil, err
 		}
