@@ -53,7 +53,7 @@ func TestValidate(t *testing.T) {
 
 			mux.HandleFunc("/ci/lint", func(w http.ResponseWriter, r *http.Request) {
 				testMethod(t, r, "POST")
-				fmt.Fprintf(w, tc.response)
+				fmt.Fprint(w, tc.response)
 			})
 
 			got, _, err := client.Validate.Lint(tc.content)
