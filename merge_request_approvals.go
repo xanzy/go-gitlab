@@ -61,6 +61,10 @@ func (m MergeRequestApprovals) String() string {
 	return Stringify(m)
 }
 
+// ApproveMergeRequestOptions represents the available ApproveMergeRequest() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/merge_request_approvals.html#approve-merge-request
 type ApproveMergeRequestOptions struct {
 	Sha *string `url:"sha,omitempty" json:"sha,omitempty"`
 }
