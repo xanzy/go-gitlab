@@ -54,6 +54,17 @@ func TestNewClient(t *testing.T) {
 	}
 }
 
+func TestNewSelfHostedClient(t *testing.T) {
+	expectedBaseURL := "http://gitlab.local/api/v4/"
+	c, err := NewSelfHostedClient(nil, "", "http://gitlab.local")
+	if err != nil {
+		t.Fatalf("Failed to create NewSelfHostedClient: %v", err)
+	}
+	if c.BaseURL().String() != expectedBaseURL {
+		t.Errorf("NewSelfHostedClient BaseURL is %s, want %s", c.BaseURL().String(), expectedBaseURL)
+	}
+}
+
 func TestCheckResponse(t *testing.T) {
 	req, err := NewClient(nil, "").NewRequest("GET", "test", nil, nil)
 	if err != nil {

@@ -342,6 +342,31 @@ func NewClient(httpClient *http.Client, token string) *Client {
 	return client
 }
 
+// NewSelfHostedClient returns a new GitLab API client with provided baseURL.
+// If baseURL does not have a trailing slash, one is added automatically.
+// If a nil httpClient is provided, http.DefaultClient will be used.
+// To use API methods which require authentication, provide a valid private
+// or personal token.
+//
+// Note that NewSelfHostedClient is a convenience helper only;
+// its behavior is equivalent to using NewClient, followed by setting
+// the baseURL field.
+func NewSelfHostedClient(httpClient *http.Client, token, baseURL string) (*Client, error) {
+	baseEndpoint, err := url.Parse(baseURL)
+	if err != nil {
+		return nil, err
+	}
+	if !strings.HasSuffix(baseEndpoint.Path, "/") {
+		baseEndpoint.Path += "/"
+	}
+	baseEndpoint.Path += "api/v4"
+	client := NewClient(httpClient, token)
+	if err := client.SetBaseURL(baseEndpoint.String()); err != nil {
+		return nil, err
+	}
+	return client, nil
+}
+
 // NewBasicAuthClient returns a new GitLab API client. If a nil httpClient is
 // provided, http.DefaultClient will be used. To use API methods which require
 // authentication, provide a valid username and password.
