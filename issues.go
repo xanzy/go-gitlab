@@ -108,17 +108,17 @@ func (l *Labels) MarshalJSON() ([]byte, error) {
 // GitLab API docs: https://docs.gitlab.com/ce/api/issues.html#list-issues
 type ListIssuesOptions struct {
 	ListOptions
-	State           *string `url:"state,omitempty" json:"state,omitempty"`
-	Labels          Labels  `url:"labels,comma,omitempty" json:"labels,omitempty"`
-	Milestone       *string `url:"milestone,omitempty" json:"milestone,omitempty"`
-	Scope           *string `url:"scope,omitempty" json:"scope,omitempty"`
-	AuthorID        *int    `url:"author_id,omitempty" json:"author_id,omitempty"`
-	AssigneeID      *int    `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
-	MyReactionEmoji *string `url:"my_reaction_emoji,omitempty" json:"my_reaction_emoji,omitempty"`
-	IIDs            []int   `url:"iids[],omitempty" json:"iids,omitempty"`
-	OrderBy         *string `url:"order_by,omitempty" json:"order_by,omitempty"`
-	Sort            *string `url:"sort,omitempty" json:"sort,omitempty"`
-	Search          *string `url:"search,omitempty" json:"search,omitempty"`
+	State           *string    `url:"state,omitempty" json:"state,omitempty"`
+	Labels          Labels     `url:"labels,comma,omitempty" json:"labels,omitempty"`
+	Milestone       *string    `url:"milestone,omitempty" json:"milestone,omitempty"`
+	Scope           *string    `url:"scope,omitempty" json:"scope,omitempty"`
+	AuthorID        *int       `url:"author_id,omitempty" json:"author_id,omitempty"`
+	AssigneeID      *int       `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
+	MyReactionEmoji *string    `url:"my_reaction_emoji,omitempty" json:"my_reaction_emoji,omitempty"`
+	IIDs            []int      `url:"iids[],omitempty" json:"iids,omitempty"`
+	OrderBy         *string    `url:"order_by,omitempty" json:"order_by,omitempty"`
+	Sort            *string    `url:"sort,omitempty" json:"sort,omitempty"`
+	Search          *string    `url:"search,omitempty" json:"search,omitempty"`
 	CreatedAfter    *time.Time `url:"created_after,omitempty" json:"created_after,omitempty"`
 	CreatedBefore   *time.Time `url:"created_before,omitempty" json:"created_before,omitempty"`
 	UpdatedAfter    *time.Time `url:"updated_after,omitempty" json:"updated_after,omitempty"`
@@ -149,17 +149,17 @@ func (s *IssuesService) ListIssues(opt *ListIssuesOptions, options ...OptionFunc
 // GitLab API docs: https://docs.gitlab.com/ce/api/issues.html#list-group-issues
 type ListGroupIssuesOptions struct {
 	ListOptions
-	State           *string `url:"state,omitempty" json:"state,omitempty"`
-	Labels          Labels  `url:"labels,comma,omitempty" json:"labels,omitempty"`
-	IIDs            []int   `url:"iids[],omitempty" json:"iids,omitempty"`
-	Milestone       *string `url:"milestone,omitempty" json:"milestone,omitempty"`
-	Scope           *string `url:"scope,omitempty" json:"scope,omitempty"`
-	AuthorID        *int    `url:"author_id,omitempty" json:"author_id,omitempty"`
-	AssigneeID      *int    `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
-	MyReactionEmoji *string `url:"my_reaction_emoji,omitempty" json:"my_reaction_emoji,omitempty"`
-	OrderBy         *string `url:"order_by,omitempty" json:"order_by,omitempty"`
-	Sort            *string `url:"sort,omitempty" json:"sort,omitempty"`
-	Search          *string `url:"search,omitempty" json:"search,omitempty"`
+	State           *string    `url:"state,omitempty" json:"state,omitempty"`
+	Labels          Labels     `url:"labels,comma,omitempty" json:"labels,omitempty"`
+	IIDs            []int      `url:"iids[],omitempty" json:"iids,omitempty"`
+	Milestone       *string    `url:"milestone,omitempty" json:"milestone,omitempty"`
+	Scope           *string    `url:"scope,omitempty" json:"scope,omitempty"`
+	AuthorID        *int       `url:"author_id,omitempty" json:"author_id,omitempty"`
+	AssigneeID      *int       `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
+	MyReactionEmoji *string    `url:"my_reaction_emoji,omitempty" json:"my_reaction_emoji,omitempty"`
+	OrderBy         *string    `url:"order_by,omitempty" json:"order_by,omitempty"`
+	Sort            *string    `url:"sort,omitempty" json:"sort,omitempty"`
+	Search          *string    `url:"search,omitempty" json:"search,omitempty"`
 	CreatedAfter    *time.Time `url:"created_after,omitempty" json:"created_after,omitempty"`
 	CreatedBefore   *time.Time `url:"created_before,omitempty" json:"created_before,omitempty"`
 	UpdatedAfter    *time.Time `url:"updated_after,omitempty" json:"updated_after,omitempty"`
