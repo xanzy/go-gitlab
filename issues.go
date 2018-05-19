@@ -119,6 +119,10 @@ type ListIssuesOptions struct {
 	OrderBy         *string `url:"order_by,omitempty" json:"order_by,omitempty"`
 	Sort            *string `url:"sort,omitempty" json:"sort,omitempty"`
 	Search          *string `url:"search,omitempty" json:"search,omitempty"`
+	CreatedAfter    *time.Time `url:"created_after,omitempty" json:"created_after,omitempty"`
+	CreatedBefore   *time.Time `url:"created_before,omitempty" json:"created_before,omitempty"`
+	UpdatedAfter    *time.Time `url:"updated_after,omitempty" json:"updated_after,omitempty"`
+	UpdatedBefore   *time.Time `url:"updated_before,omitempty" json:"updated_before,omitempty"`
 }
 
 // ListIssues gets all issues created by authenticated user. This function
@@ -156,6 +160,10 @@ type ListGroupIssuesOptions struct {
 	OrderBy         *string `url:"order_by,omitempty" json:"order_by,omitempty"`
 	Sort            *string `url:"sort,omitempty" json:"sort,omitempty"`
 	Search          *string `url:"search,omitempty" json:"search,omitempty"`
+	CreatedAfter    *time.Time `url:"created_after,omitempty" json:"created_after,omitempty"`
+	CreatedBefore   *time.Time `url:"created_before,omitempty" json:"created_before,omitempty"`
+	UpdatedAfter    *time.Time `url:"updated_after,omitempty" json:"updated_after,omitempty"`
+	UpdatedBefore   *time.Time `url:"updated_before,omitempty" json:"updated_before,omitempty"`
 }
 
 // ListGroupIssues gets a list of group issues. This function accepts
@@ -201,6 +209,8 @@ type ListProjectIssuesOptions struct {
 	Search          *string    `url:"search,omitempty" json:"search,omitempty"`
 	CreatedAfter    *time.Time `url:"created_after,omitempty" json:"created_after,omitempty"`
 	CreatedBefore   *time.Time `url:"created_before,omitempty" json:"created_before,omitempty"`
+	UpdatedAfter    *time.Time `url:"updated_after,omitempty" json:"updated_after,omitempty"`
+	UpdatedBefore   *time.Time `url:"updated_before,omitempty" json:"updated_before,omitempty"`
 }
 
 // ListProjectIssues gets a list of project issues. This function accepts
