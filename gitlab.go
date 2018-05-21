@@ -468,9 +468,19 @@ func (c *Client) SetBaseURL(urlStr string) error {
 		urlStr += "/"
 	}
 
-	var err error
-	c.baseURL, err = url.Parse(urlStr)
-	return err
+	baseURL, err := url.Parse(urlStr)
+	if err != nil {
+		return err
+	}
+
+	if baseURL.Path == "/" {
+		baseURL.Path = "api/v4/"
+	}
+
+	// Update the base URL of the client.
+	c.baseURL = baseURL
+
+	return nil
 }
 
 // NewRequest creates an API request. A relative URL path can be provided in
