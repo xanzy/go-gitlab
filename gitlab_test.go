@@ -45,12 +45,25 @@ func testMethod(t *testing.T, r *http.Request, want string) {
 
 func TestNewClient(t *testing.T) {
 	c := NewClient(nil, "")
+	expectedBaseURL := defaultBaseURL + apiVersionPath
 
-	if c.BaseURL().String() != defaultBaseURL {
-		t.Errorf("NewClient BaseURL is %s, want %s", c.BaseURL().String(), defaultBaseURL)
+	if c.BaseURL().String() != expectedBaseURL {
+		t.Errorf("NewClient BaseURL is %s, want %s", c.BaseURL().String(), expectedBaseURL)
 	}
 	if c.UserAgent != userAgent {
 		t.Errorf("NewClient UserAgent is %s, want %s", c.UserAgent, userAgent)
+	}
+}
+
+func TestSetBaseURL(t *testing.T) {
+	expectedBaseURL := "http://gitlab.local/foo/" + apiVersionPath
+	c := NewClient(nil, "")
+	err := c.SetBaseURL("http://gitlab.local/foo")
+	if err != nil {
+		t.Fatalf("Failed to SetBaseURL: %v", err)
+	}
+	if c.BaseURL().String() != expectedBaseURL {
+		t.Errorf("BaseURL is %s, want %s", c.BaseURL().String(), expectedBaseURL)
 	}
 }
 

@@ -12,7 +12,7 @@ func TestListBroadcastMessages(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
-	mux.HandleFunc("/broadcast_messages", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v4/broadcast_messages", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
 		fmt.Fprintf(w, `[{
 			"message": "Some Message",
@@ -71,7 +71,7 @@ func TestGetBroadcastMessages(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
-	mux.HandleFunc("/broadcast_messages/1/", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v4/broadcast_messages/1/", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
 		fmt.Fprintf(w, `{
 			"message": "Some Message",
@@ -113,7 +113,7 @@ func TestCreateBroadcastMessages(t *testing.T) {
 	wantedStartsAt := time.Date(2017, time.June, 26, 6, 0, 0, 0, time.UTC)
 	wantedEndsAt := time.Date(2017, time.June, 27, 12, 59, 0, 0, time.UTC)
 
-	mux.HandleFunc("/broadcast_messages", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v4/broadcast_messages", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "POST")
 		fmt.Fprintf(w, `{
 			"message": "Some Message",
@@ -161,7 +161,7 @@ func TestUpdateBroadcastMessages(t *testing.T) {
 	wantedStartsAt := time.Date(2017, time.June, 26, 6, 0, 0, 0, time.UTC)
 	wantedEndsAt := time.Date(2017, time.June, 27, 12, 59, 0, 0, time.UTC)
 
-	mux.HandleFunc("/broadcast_messages/1", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v4/broadcast_messages/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "PUT")
 		fmt.Fprintf(w, `{
 			"message": "Some Message Updated",
@@ -206,7 +206,7 @@ func TestDeleteBroadcastMessages(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
-	mux.HandleFunc("/broadcast_messages/1", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v4/broadcast_messages/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "DELETE")
 	})
 

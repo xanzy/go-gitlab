@@ -28,7 +28,7 @@ func TestDisableRunner(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
-	mux.HandleFunc("/projects/1/runners/2", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v4/projects/1/runners/2", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "DELETE")
 		w.WriteHeader(http.StatusNoContent)
 	})
@@ -43,7 +43,7 @@ func TestListRunnersJobs(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
-	mux.HandleFunc("/runners/1/jobs", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v4/runners/1/jobs", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
 		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
 	})
@@ -65,7 +65,7 @@ func TestRemoveRunner(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
-	mux.HandleFunc("/runners/1", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v4/runners/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "DELETE")
 		w.WriteHeader(http.StatusNoContent)
 	})
@@ -110,7 +110,7 @@ func TestUpdateRunnersDetails(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
-	mux.HandleFunc("/runners/6", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v4/runners/6", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "PUT")
 		fmt.Fprint(w, exampleDetailRsp)
 	})
@@ -132,7 +132,7 @@ func TestGetRunnerDetails(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
-	mux.HandleFunc("/runners/6", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v4/runners/6", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
 		fmt.Fprint(w, exampleDetailRsp)
 	})

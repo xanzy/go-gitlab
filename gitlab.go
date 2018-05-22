@@ -36,7 +36,8 @@ import (
 )
 
 const (
-	defaultBaseURL = "https://gitlab.com/api/v4/"
+	defaultBaseURL = "https://gitlab.com/"
+	apiVersionPath = "api/v4/"
 	userAgent      = "go-gitlab"
 )
 
@@ -350,7 +351,7 @@ func NewBasicAuthClient(httpClient *http.Client, endpoint, username, password st
 	client.authType = basicAuth
 	client.username = username
 	client.password = password
-	client.SetBaseURL(endpoint + "/api/v4")
+	client.SetBaseURL(endpoint)
 
 	err := client.requestOAuthToken(context.TODO())
 	if err != nil {
@@ -468,9 +469,19 @@ func (c *Client) SetBaseURL(urlStr string) error {
 		urlStr += "/"
 	}
 
-	var err error
-	c.baseURL, err = url.Parse(urlStr)
-	return err
+	baseURL, err := url.Parse(urlStr)
+	if err != nil {
+		return err
+	}
+
+	if !strings.HasSuffix(baseURL.Path, apiVersionPath) {
+		baseURL.Path += apiVersionPath
+	}
+
+	// Update the base URL of the client.
+	c.baseURL = baseURL
+
+	return nil
 }
 
 // NewRequest creates an API request. A relative URL path can be provided in
