@@ -11,7 +11,7 @@ func TestListPipelineJobs(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
-	mux.HandleFunc("/projects/1/pipelines/1/jobs", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v4/projects/1/pipelines/1/jobs", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
 		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
 	})

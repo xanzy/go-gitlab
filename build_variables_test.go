@@ -19,7 +19,7 @@ func TestListBuildVariables(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
-	mux.HandleFunc("/projects/1/variables", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v4/projects/1/variables", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
 		fmt.Fprintf(w,
 			`[{"key":"%s","value":"%s"},{"key":"%s","value":"%s"}]`, myKey, myValue, myKey2, myValue2)
@@ -40,7 +40,7 @@ func TestGetBuildVariable(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
-	mux.HandleFunc("/projects/1/variables/"+myKey, func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v4/projects/1/variables/"+myKey, func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
 		fmt.Fprintf(w, `{"key":"%s","value":"%s"}`, myKey, myValue)
 	})
@@ -60,7 +60,7 @@ func TestCreateBuildVariable(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
-	mux.HandleFunc("/projects/1/variables", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v4/projects/1/variables", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "POST")
 		fmt.Fprintf(w, `{"key":"%s","value":"%s", "protected": false}`, myKey, myValue)
 	})
@@ -81,7 +81,7 @@ func TestUpdateBuildVariable(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
-	mux.HandleFunc("/projects/1/variables/"+myKey, func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v4/projects/1/variables/"+myKey, func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "PUT")
 		fmt.Fprintf(w, `{"key":"%s","value":"%s", "protected": false}`, myKey, myNewValue)
 	})
@@ -102,7 +102,7 @@ func TestRemoveBuildVariable(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
-	mux.HandleFunc("/projects/1/variables/"+myKey, func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v4/projects/1/variables/"+myKey, func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "DELETE")
 	})
 

@@ -11,7 +11,7 @@ func TestListTags(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
-	mux.HandleFunc("/projects/1/repository/tags", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v4/projects/1/repository/tags", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
 		fmt.Fprint(w, `[{"name": "1.0.0"},{"name": "1.0.1"}]`)
 	})
@@ -33,7 +33,7 @@ func TestCreateRelease(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
-	mux.HandleFunc("/projects/1/repository/tags/1.0.0/release", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v4/projects/1/repository/tags/1.0.0/release", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "POST")
 		fmt.Fprint(w, `{"tag_name": "1.0.0", "description": "Amazing release. Wow"}`)
 	})
@@ -55,7 +55,7 @@ func TestUpdateRelease(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
-	mux.HandleFunc("/projects/1/repository/tags/1.0.0/release", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v4/projects/1/repository/tags/1.0.0/release", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "PUT")
 		fmt.Fprint(w, `{"tag_name": "1.0.0", "description": "Amazing release. Wow!"}`)
 	})

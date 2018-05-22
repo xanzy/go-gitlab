@@ -11,7 +11,7 @@ func TestListTodos(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
-	mux.HandleFunc("/todos", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v4/todos", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
 		fmt.Fprint(w, `[{"id":1,"state": "pending"},{"id":2,"state":"pending"}]`)
 	})
@@ -34,7 +34,7 @@ func TestMarkAllTodosAsDone(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
-	mux.HandleFunc("/todos/mark_as_done", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v4/todos/mark_as_done", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "POST")
 		w.WriteHeader(http.StatusNoContent)
 	})
@@ -50,7 +50,7 @@ func TestMarkTodoAsDone(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
-	mux.HandleFunc("/todos/1/mark_as_done", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v4/todos/1/mark_as_done", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "POST")
 	})
 

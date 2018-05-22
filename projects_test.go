@@ -14,7 +14,7 @@ func TestListProjects(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
-	mux.HandleFunc("/projects", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v4/projects", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
 		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
 	})
@@ -44,7 +44,7 @@ func TestListUserProjects(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
-	mux.HandleFunc("/users/1/projects", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v4/users/1/projects", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
 		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
 	})
@@ -74,8 +74,8 @@ func TestListProjectsUsersByID(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
-	mux.HandleFunc("/projects/", func(w http.ResponseWriter, r *http.Request) {
-		testURL(t, r, "/projects/1/users?page=2&per_page=3&search=query")
+	mux.HandleFunc("/api/v4/projects/", func(w http.ResponseWriter, r *http.Request) {
+		testURL(t, r, "/api/v4/projects/1/users?page=2&per_page=3&search=query")
 		testMethod(t, r, "GET")
 		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
 	})
@@ -100,8 +100,8 @@ func TestListProjectsUsersByName(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
-	mux.HandleFunc("/projects/", func(w http.ResponseWriter, r *http.Request) {
-		testURL(t, r, "/projects/namespace%2Fname/users?page=2&per_page=3&search=query")
+	mux.HandleFunc("/api/v4/projects/", func(w http.ResponseWriter, r *http.Request) {
+		testURL(t, r, "/api/v4/projects/namespace%2Fname/users?page=2&per_page=3&search=query")
 		testMethod(t, r, "GET")
 		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
 	})
@@ -126,7 +126,7 @@ func TestListOwnedProjects(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
-	mux.HandleFunc("/projects", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v4/projects", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
 		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
 	})
@@ -157,7 +157,7 @@ func TestListStarredProjects(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
-	mux.HandleFunc("/projects", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v4/projects", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
 		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
 	})
@@ -188,7 +188,7 @@ func TestGetProjectByID(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
-	mux.HandleFunc("/projects/1", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v4/projects/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
 		fmt.Fprint(w, `{"id":1}`)
 	})
@@ -208,8 +208,8 @@ func TestGetProjectByName(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
-	mux.HandleFunc("/projects/", func(w http.ResponseWriter, r *http.Request) {
-		testURL(t, r, "/projects/namespace%2Fname")
+	mux.HandleFunc("/api/v4/projects/", func(w http.ResponseWriter, r *http.Request) {
+		testURL(t, r, "/api/v4/projects/namespace%2Fname")
 		testMethod(t, r, "GET")
 		fmt.Fprint(w, `{"id":1}`)
 	})
@@ -229,7 +229,7 @@ func TestCreateProject(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
-	mux.HandleFunc("/projects", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v4/projects", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "POST")
 		fmt.Fprint(w, `{"id":1}`)
 	})
@@ -254,7 +254,7 @@ func TestUploadFile(t *testing.T) {
 	tf, _ := ioutil.TempFile(os.TempDir(), "test")
 	defer os.Remove(tf.Name())
 
-	mux.HandleFunc("/projects/1/uploads", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v4/projects/1/uploads", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
 		if false == strings.Contains(r.Header.Get("Content-Type"), "multipart/form-data;") {
 			t.Fatalf("Prokects.UploadFile request content-type %+v want multipart/form-data;", r.Header.Get("Content-Type"))
@@ -290,11 +290,8 @@ func TestListProjectForks(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
-	mux.HandleFunc("/projects/", func(w http.ResponseWriter, r *http.Request) {
-		want := "/projects/namespace%2Fname/forks"
-		if !strings.HasPrefix(r.RequestURI, want) {
-			t.Errorf("Request url: %+v, should have prefix %s", r.RequestURI, want)
-		}
+	mux.HandleFunc("/api/v4/projects/", func(w http.ResponseWriter, r *http.Request) {
+		testURL(t, r, "/api/v4/projects/namespace%2Fname/forks?archived=true&order_by=name&page=2&per_page=3&search=query&simple=true&sort=asc&visibility=public")
 		testMethod(t, r, "GET")
 		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
 	})
@@ -323,7 +320,7 @@ func TestShareProjectWithGroup(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
-	mux.HandleFunc("/projects/1/share", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v4/projects/1/share", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "POST")
 	})
 
@@ -342,7 +339,7 @@ func TestDeleteSharedProjectFromGroup(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
-	mux.HandleFunc("/projects/1/share/2", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v4/projects/1/share/2", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "DELETE")
 	})
 
