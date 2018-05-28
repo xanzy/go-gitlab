@@ -239,13 +239,13 @@ func (s *GroupsService) SearchGroup(query string, options ...OptionFunc) ([]*Gro
 // options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/groups.html#list-a-group-s-projects
-type ListGroupProjectsOptions ListOptions
+// https://docs.gitlab.com/ce/api/groups.html#list-a-group-39-s-projects
+type ListGroupProjectsOptions ListProjectsOptions
 
 // ListGroupProjects get a list of group projects
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/groups.html#list-a-group-s-projects
+// https://docs.gitlab.com/ce/api/groups.html#list-a-group-39-s-projects
 func (s *GroupsService) ListGroupProjects(gid interface{}, opt *ListGroupProjectsOptions, options ...OptionFunc) ([]*Project, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
