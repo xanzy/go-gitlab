@@ -213,6 +213,20 @@ const (
 	PublicVisibility   VisibilityValue = "public"
 )
 
+// MergeMethodValue represents a project merge type within GitLab.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#project-merge-method
+type MergeMethodValue string
+
+// List of available merge type
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#project-merge-method
+const (
+	NoFastForwardMerge MergeMethodValue = "merge"
+	FastForwardMerge   MergeMethodValue = "ff"
+	RebaseMerge        MergeMethodValue = "rebase_merge"
+)
+
 // EventTypeValue represents actions type for contribution events
 type EventTypeValue string
 
@@ -827,6 +841,14 @@ func OrderBy(v OrderByValue) *OrderByValue {
 // to store v and returns a pointer to it.
 func Visibility(v VisibilityValue) *VisibilityValue {
 	p := new(VisibilityValue)
+	*p = v
+	return p
+}
+
+// MergeMethod is a helper routine that allocates a new MergeMethod
+// to sotre v and returns a pointer to it.
+func MergeMethod(v MergeMethodValue) *MergeMethodValue {
+	p := new(MergeMethodValue)
 	*p = v
 	return p
 }

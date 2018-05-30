@@ -234,7 +234,10 @@ func TestCreateProject(t *testing.T) {
 		fmt.Fprint(w, `{"id":1}`)
 	})
 
-	opt := &CreateProjectOptions{Name: String("n")}
+	opt := &CreateProjectOptions{
+		Name:        String("n"),
+		MergeMethod: MergeMethod(RebaseMerge),
+	}
 
 	project, _, err := client.Projects.CreateProject(opt)
 	if err != nil {
