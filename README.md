@@ -39,7 +39,7 @@ to add new and/or missing endpoints. Currently the following services are suppor
 - [ ] GitLab CI Config templates
 - [x] Groups
 - [ ] Group Access Requests
-- [ ] Group Members
+- [x] Group Members
 - [x] Issues
 - [x] Issue Boards
 - [x] Jobs
