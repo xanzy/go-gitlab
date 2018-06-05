@@ -133,6 +133,7 @@ func (s *UsersService) GetUser(user int, options ...OptionFunc) (*User, *Respons
 type CreateUserOptions struct {
 	Email            *string `url:"email,omitempty" json:"email,omitempty"`
 	Password         *string `url:"password,omitempty" json:"password,omitempty"`
+	ResetPassword    *bool   `url:"reset_password,omitempty" json:"reset_password,omitempty"`
 	Username         *string `url:"username,omitempty" json:"username,omitempty"`
 	Name             *string `url:"name,omitempty" json:"name,omitempty"`
 	Skype            *string `url:"skype,omitempty" json:"skype,omitempty"`
