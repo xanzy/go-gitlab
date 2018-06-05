@@ -142,12 +142,19 @@ func (s *GroupsService) CreateGroup(opt *CreateGroupOptions, options ...OptionFu
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/groups.html#transfer-project-to-group
-func (s *GroupsService) TransferGroup(gid interface{}, project int, options ...OptionFunc) (*Group, *Response, error) {
+func (s *GroupsService) TransferGroup(gid interface{}, pid interface{}, options ...OptionFunc) (*Group, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s/projects/%d", url.QueryEscape(group), project)
+
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	u := fmt.Sprintf("groups/%s/projects/%s", url.QueryEscape(group),
+		url.QueryEscape(project))
 
 	req, err := s.client.NewRequest("POST", u, nil, options)
 	if err != nil {
