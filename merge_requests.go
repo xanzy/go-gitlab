@@ -105,6 +105,12 @@ type MergeRequest struct {
 	} `json:"changes"`
 	TimeStats *TimeStats `json:"time_stats"`
 	Squash    bool       `json:"squash"`
+	Pipeline  struct {
+		ID     int    `json:"id"`
+		Ref    string `json:"ref"`
+		Sha    string `json:"sha"`
+		Status string `json:"status"`
+	} `json:"pipeline"`
 }
 
 func (m MergeRequest) String() string {
