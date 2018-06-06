@@ -108,7 +108,7 @@ type MergeRequest struct {
 	Pipeline  struct {
 		ID     int    `json:"id"`
 		Ref    string `json:"ref"`
-		Sha    string `json:"sha"`
+		SHA    string `json:"sha"`
 		Status string `json:"status"`
 	} `json:"pipeline"`
 }
