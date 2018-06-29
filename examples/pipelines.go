@@ -17,7 +17,7 @@ func pipelineExample() {
 		YamlErrors: gitlab.Bool(true),
 		Name:       gitlab.String("name"),
 		Username:   gitlab.String("username"),
-		OrderBy:    gitlab.OrderBy(gitlab.OrderByStatus),
+		OrderBy:    gitlab.String("status"),
 		Sort:       gitlab.String("asc"),
 	}
 
