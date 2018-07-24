@@ -51,7 +51,7 @@ type Commit struct {
 }
 
 
-// CommitRefs represents the reference of branches/tags in a commit.
+// CommitRef represents the reference of branches/tags in a commit.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/commits.html#get-references-a-commit-is-pushed-to
 type CommitRef struct {
