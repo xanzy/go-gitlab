@@ -144,7 +144,7 @@ type GetCommitRefsOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/commits.html#get-references-a-commit-is-pushed-to
-func (s *CommitsService) GetCommitRefs(pid interface{}, sha string, opt *GetCommitDiffOptions, options ...OptionFunc) ([]CommitRef, *Response, error) {
+func (s *CommitsService) GetCommitRefs(pid interface{}, sha string, opt *GetCommitRefsOptions, options ...OptionFunc) ([]CommitRef, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
