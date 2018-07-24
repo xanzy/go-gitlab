@@ -132,14 +132,15 @@ type CommitAction struct {
 }
 
 // GetCommitRefs Get all references (from branches or tags) a commit is pushed to
+// _type can be one of "all, branch, tag"
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/commits.html#get-references-a-commit-is-pushed-to
-func (s *CommitsService) GetCommitRefs(pid interface{}, sha string, typ string, options ...OptionFunc) ([]CommitRef, *Response, error) {
+func (s *CommitsService) GetCommitRefs(pid interface{}, sha string, _type string, options ...OptionFunc) ([]CommitRef, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/repository/commits/%s/refs?type=%s", url.QueryEscape(project), sha, typ)
+	u := fmt.Sprintf("projects/%s/repository/commits/%s/refs?type=%s", url.QueryEscape(project), sha, _type)
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
