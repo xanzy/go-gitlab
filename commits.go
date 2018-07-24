@@ -50,15 +50,6 @@ type Commit struct {
 	Status         *BuildStateValue `json:"status"`
 }
 
-
-// CommitRef represents the reference of branches/tags in a commit.
-//
-// GitLab API docs: https://docs.gitlab.com/ce/api/commits.html#get-references-a-commit-is-pushed-to
-type CommitRef struct {
-	Type	string	`json:"type"`
-	Name	string	`json:"name"`
-}
-
 // CommitStats represents the number of added and deleted files in a commit.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/commits.html
@@ -77,12 +68,12 @@ func (c Commit) String() string {
 // GitLab API docs: https://docs.gitlab.com/ce/api/commits.html#list-repository-commits
 type ListCommitsOptions struct {
 	ListOptions
-	RefName *string    `url:"ref_name,omitempty" json:"ref_name,omitempty"`
-	Since   *time.Time `url:"since,omitempty" json:"since,omitempty"`
-	Until   *time.Time `url:"until,omitempty" json:"until,omitempty"`
-	Path    *string    `url:"path,omitempty" json:"path,omitempty"`
-	All     *bool      `url:"all,omitempty" json:"all,omitempty"`
-	WithStats	*bool		 `url:"with_stats,omitempty" json:"with_stats,omitempty"`
+	RefName   *string    `url:"ref_name,omitempty" json:"ref_name,omitempty"`
+	Since     *time.Time `url:"since,omitempty" json:"since,omitempty"`
+	Until     *time.Time `url:"until,omitempty" json:"until,omitempty"`
+	Path      *string    `url:"path,omitempty" json:"path,omitempty"`
+	All       *bool      `url:"all,omitempty" json:"all,omitempty"`
+	WithStats *bool      `url:"with_stats,omitempty" json:"with_stats,omitempty"`
 }
 
 // ListCommits gets a list of repository commits in a project.
@@ -131,29 +122,47 @@ type CommitAction struct {
 	Encoding     string     `url:"encoding,omitempty" json:"encoding,omitempty"`
 }
 
-// GetCommitRefs Get all references (from branches or tags) a commit is pushed to
-// _type can be one of "all, branch, tag"
+// CommitRef represents the reference of branches/tags in a commit.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/commits.html#get-references-a-commit-is-pushed-to
-func (s *CommitsService) GetCommitRefs(pid interface{}, sha string, _type string, options ...OptionFunc) ([]CommitRef, *Response, error) {
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/commits.html#get-references-a-commit-is-pushed-to
+type CommitRef struct {
+	Type string `json:"type"`
+	Name string `json:"name"`
+}
+
+// GetCommitRefsOptions represents the available GetCommitRefs() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/commits.html#get-references-a-commit-is-pushed-to
+type GetCommitRefsOptions struct {
+	ListOptions
+	Type *string `url:"type,omitempty" json:"type,omitempty"`
+}
+
+// GetCommitRefs gets all references (from branches or tags) a commit is pushed to
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/commits.html#get-references-a-commit-is-pushed-to
+func (s *CommitsService) GetCommitRefs(pid interface{}, sha string, opt *GetCommitDiffOptions, options ...OptionFunc) ([]CommitRef, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/repository/commits/%s/refs?type=%s", url.QueryEscape(project), sha, _type)
+	u := fmt.Sprintf("projects/%s/repository/commits/%s/refs", url.QueryEscape(project), sha)
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	var c []CommitRef
-	resp, err := s.client.Do(req, &c)
+	var cs []CommitRef
+	resp, err := s.client.Do(req, &cs)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return c, resp, err
+	return cs, resp, err
 }
 
 // GetCommit gets a specific commit identified by the commit hash or name of a
