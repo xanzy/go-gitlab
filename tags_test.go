@@ -16,7 +16,7 @@ func TestListTags(t *testing.T) {
 		fmt.Fprint(w, `[{"name": "1.0.0"},{"name": "1.0.1"}]`)
 	})
 
-	opt := &ListTagsOptions{Page: 2, PerPage: 3}
+	opt := &ListTagsOptions{ListOptions: ListOptions{Page:2, PerPage: 3}}
 
 	tags, _, err := client.Tags.ListTags(1, opt)
 	if err != nil {
