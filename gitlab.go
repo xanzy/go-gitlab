@@ -285,6 +285,7 @@ type Client struct {
 	Features              *FeaturesService
 	GitIgnoreTemplates    *GitIgnoreTemplatesService
 	Groups                *GroupsService
+	GroupIssueBoards      *GroupIssueBoardsService
 	GroupMembers          *GroupMembersService
 	GroupMilestones       *GroupMilestonesService
 	Issues                *IssuesService
@@ -415,6 +416,7 @@ func newClient(httpClient *http.Client) *Client {
 	c.Features = &FeaturesService{client: c}
 	c.GitIgnoreTemplates = &GitIgnoreTemplatesService{client: c}
 	c.Groups = &GroupsService{client: c}
+	c.GroupIssueBoards = &GroupIssueBoardsService{client: c}
 	c.GroupMembers = &GroupMembersService{client: c}
 	c.GroupMilestones = &GroupMilestonesService{client: c}
 	c.Issues = &IssuesService{client: c, timeStats: timeStats}
