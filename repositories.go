@@ -187,7 +187,7 @@ func (c Compare) String() string {
 type CompareOptions struct {
 	From     *string `url:"from,omitempty" json:"from,omitempty"`
 	To       *string `url:"to,omitempty" json:"to,omitempty"`
-	Straight bool    `url:"straight,omitempty" json:"straight,omitempty"`
+	Straight *bool   `url:"straight,omitempty" json:"straight,omitempty"`
 }
 
 // Compare compares branches, tags or commits.
