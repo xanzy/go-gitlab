@@ -24,14 +24,16 @@ import (
 // GroupIssueBoardsService handles communication with the group issue board
 // related methods of the GitLab API.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/group_boards.html
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/group_boards.html
 type GroupIssueBoardsService struct {
 	client *Client
 }
 
 // GroupIssueBoard represents a GitLab group issue board.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/group_boards.html
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/group_boards.html
 type GroupIssueBoard struct {
 	ID        int          `json:"id"`
 	Name      string       `json:"name"`
@@ -47,12 +49,14 @@ func (b GroupIssueBoard) String() string {
 // ListGroupIssueBoardsOptions represents the available
 // ListGroupIssueBoards() options.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/group_boards.html#group-board
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/group_boards.html#group-board
 type ListGroupIssueBoardsOptions ListOptions
 
 // ListGroupIssueBoards gets a list of all issue boards in a group.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/group_boards.html#group-board
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/group_boards.html#group-board
 func (s *GroupIssueBoardsService) ListGroupIssueBoards(gid interface{}, opt *ListGroupIssueBoardsOptions, options ...OptionFunc) ([]*GroupIssueBoard, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
@@ -76,7 +80,8 @@ func (s *GroupIssueBoardsService) ListGroupIssueBoards(gid interface{}, opt *Lis
 
 // GetGroupIssueBoard gets a single issue board of a group.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/group_boards.html#single-board
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/group_boards.html#single-board
 func (s *GroupIssueBoardsService) GetGroupIssueBoard(gid interface{}, board int, options ...OptionFunc) (*GroupIssueBoard, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
@@ -101,7 +106,8 @@ func (s *GroupIssueBoardsService) GetGroupIssueBoard(gid interface{}, board int,
 // ListGroupIssueBoardListsOptions represents the available
 // ListGroupIssueBoardLists() options.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/group_boards.html#list-board-lists
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/group_boards.html#list-board-lists
 type ListGroupIssueBoardListsOptions ListOptions
 
 // ListGroupIssueBoardLists gets a list of the issue board's lists. Does not include
@@ -131,7 +137,8 @@ func (s *GroupIssueBoardsService) ListGroupIssueBoardLists(gid interface{}, boar
 
 // GetGroupIssueBoardList gets a single issue board list.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/group_boards.html#single-board-list
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/group_boards.html#single-board-list
 func (s *GroupIssueBoardsService) GetGroupIssueBoardList(gid interface{}, board, list int, options ...OptionFunc) (*BoardList, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
@@ -160,14 +167,16 @@ func (s *GroupIssueBoardsService) GetGroupIssueBoardList(gid interface{}, board,
 // CreateGroupIssueBoardListOptions represents the available
 // CreateGroupIssueBoardList() options.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/group_boards.html#new-board-list
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/group_boards.html#new-board-list
 type CreateGroupIssueBoardListOptions struct {
 	LabelID *int `url:"label_id" json:"label_id"`
 }
 
 // CreateGroupIssueBoardList creates a new issue board list.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/group_boards.html#new-board-list
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/group_boards.html#new-board-list
 func (s *GroupIssueBoardsService) CreateGroupIssueBoardList(gid interface{}, board int, opt *CreateGroupIssueBoardListOptions, options ...OptionFunc) (*BoardList, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
@@ -192,7 +201,8 @@ func (s *GroupIssueBoardsService) CreateGroupIssueBoardList(gid interface{}, boa
 // UpdateGroupIssueBoardListOptions represents the available
 // UpdateGroupIssueBoardList() options.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/group_boards.html#edit-board-list
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/group_boards.html#edit-board-list
 type UpdateGroupIssueBoardListOptions struct {
 	Position *int `url:"position" json:"position"`
 }
@@ -200,7 +210,8 @@ type UpdateGroupIssueBoardListOptions struct {
 // UpdateIssueBoardList updates the position of an existing
 // group issue board list.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/group_boards.html#edit-board-list
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/group_boards.html#edit-board-list
 func (s *GroupIssueBoardsService) UpdateIssueBoardList(gid interface{}, board, list int, opt *UpdateGroupIssueBoardListOptions, options ...OptionFunc) ([]*BoardList, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
@@ -226,8 +237,8 @@ func (s *GroupIssueBoardsService) UpdateIssueBoardList(gid interface{}, board, l
 	return gbl, resp, err
 }
 
-// DeleteGroupIssueBoardList soft deletes a group issue board list. Only for admins and
-// group owners.
+// DeleteGroupIssueBoardList soft deletes a group issue board list.
+// Only for admins and group owners.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/group_boards.html#delete-a-board-list
