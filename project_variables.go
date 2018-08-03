@@ -101,10 +101,10 @@ func (s *ProjectVariablesService) ShowVariableDetails(pid interface{}, key strin
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/project_level_variables.html#create-variable
 type CreateVariableOptions struct {
-	Key              *string `url:"key,omitempty" json"key,omitempty"`
-	Value            *string `url:"value,omitempty" json"value,omitempty"`
-	Protected        *bool   `url:"protected,omitempty" json"protected,omitempty"`
-	EnvironmentScope *string `url:"environment_scope,omitempty" json"environment_scope,omitempty"`
+	Key              *string `url:"key,omitempty" json:"key,omitempty"`
+	Value            *string `url:"value,omitempty" json:"value,omitempty"`
+	Protected        *bool   `url:"protected,omitempty" json:"protected,omitempty"`
+	EnvironmentScope *string `url:"environment_scope,omitempty" json:"environment_scope,omitempty"`
 }
 
 // CreateVariable creates a new project variable.
@@ -138,10 +138,10 @@ func (s *ProjectVariablesService) CreateVariable(pid interface{}, opt *CreateVar
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/project_level_variables.html#update-variable
 type UpdateVariableOptions struct {
-	Key              *string `url:"key,omitempty" json"key,omitempty"`
-	Value            *string `url:"value,omitempty" json"value,omitempty"`
-	Protected        *bool   `url:"protected,omitempty" json"protected,omitempty"`
-	EnvironmentScope *string `url:"environment_scope,omitempty" json"environment_scope,omitempty"`
+	Key              *string `url:"key,omitempty" json:"key,omitempty"`
+	Value            *string `url:"value,omitempty" json:"value,omitempty"`
+	Protected        *bool   `url:"protected,omitempty" json:"protected,omitempty"`
+	EnvironmentScope *string `url:"environment_scope,omitempty" json:"environment_scope,omitempty"`
 }
 
 // UpdateVariable updates the position of an existing
