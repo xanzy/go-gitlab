@@ -94,17 +94,6 @@ func (s *GroupVariablesService) GetVariable(gid interface{}, key string, options
 	return v, resp, err
 }
 
-// CreateVariableOptions represents the available
-// CreateVariable() options.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ee/api/group_level_variables.html#create-variable
-type CreateVariableOptions struct {
-	Key       *string `url:"key,omitempty" json:"key,omitempty"`
-	Value     *string `url:"value,omitempty" json:"value,omitempty"`
-	Protected *bool   `url:"protected,omitempty" json:"protected,omitempty"`
-}
-
 // CreateVariable creates a new group variable.
 //
 // GitLab API docs:
