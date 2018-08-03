@@ -44,11 +44,11 @@ func (v GroupVariable) String() string {
 	return Stringify(v)
 }
 
-// ListGroupVariables gets a list of all variables in a group.
+// ListVariables gets a list of all variables for a group.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/group_level_variables.html#list-group-variables
-func (s *GroupVariablesService) ListGroupVariables(gid interface{}, options ...OptionFunc) ([]*GroupVariable, *Response, error) {
+func (s *GroupVariablesService) ListVariables(gid interface{}, options ...OptionFunc) ([]*GroupVariable, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
 		return nil, nil, err
@@ -69,11 +69,11 @@ func (s *GroupVariablesService) ListGroupVariables(gid interface{}, options ...O
 	return vs, resp, err
 }
 
-// ShowVariableDetails gets a variable.
+// GetVariable gets a variable.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/group_level_variables.html#show-variable-details
-func (s *GroupVariablesService) ShowVariableDetails(gid interface{}, key string, options ...OptionFunc) (*GroupVariable, *Response, error) {
+func (s *GroupVariablesService) GetVariable(gid interface{}, key string, options ...OptionFunc) (*GroupVariable, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
 		return nil, nil, err
