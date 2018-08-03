@@ -45,11 +45,11 @@ func (v ProjectVariable) String() string {
 	return Stringify(v)
 }
 
-// ListProjectVariables gets a list of all variables in a project.
+// ListVariables gets a list of all variables in a project.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/project_level_variables.html#list-project-variables
-func (s *ProjectVariablesService) ListProjectVariables(pid interface{}, options ...OptionFunc) ([]*ProjectVariable, *Response, error) {
+func (s *ProjectVariablesService) ListVariables(pid interface{}, options ...OptionFunc) ([]*ProjectVariable, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -70,11 +70,11 @@ func (s *ProjectVariablesService) ListProjectVariables(pid interface{}, options 
 	return vs, resp, err
 }
 
-// ShowVariableDetails gets a variable.
+// GetVariable gets a variable.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/project_level_variables.html#show-variable-details
-func (s *ProjectVariablesService) ShowVariableDetails(pid interface{}, key string, options ...OptionFunc) (*ProjectVariable, *Response, error) {
+func (s *ProjectVariablesService) GetVariable(pid interface{}, key string, options ...OptionFunc) (*ProjectVariable, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
