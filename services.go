@@ -45,8 +45,10 @@ type Service struct {
 	MergeRequestsEvents      bool       `json:"merge_requests_events"`
 	TagPushEvents            bool       `json:"tag_push_events"`
 	NoteEvents               bool       `json:"note_events"`
+	ConfidentialNoteEvents   bool       `json:"confidential_note_events"`
 	PipelineEvents           bool       `json:"pipeline_events"`
 	JobEvents                bool       `json:"job_events"`
+	WikiPageEvents           bool       `json:"wiki_page_events"`
 }
 
 // SetGitLabCIServiceOptions represents the available SetGitLabCIService()
@@ -252,7 +254,27 @@ type SlackService struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/services.html#slack
 type SlackServiceProperties struct {
-	NotifyOnlyBrokenPipelines bool `json:"notify_only_broken_pipelines"`
+	// Note: NotifyOnlyBrokenPipelines and NotifyOnlyDefaultBranch are not
+	// just "bool" because in some cases gitlab returns
+	// "notify_only_broken_pipelines": true, and in other cases
+	// "notify_only_broken_pipelines": "1". The same is for
+	// "notify_only_default_branch" field.
+	// We need to handle this, until the bug will be fixed.
+	// Ref: https://gitlab.com/gitlab-org/gitlab-ce/issues/50122
+
+	NotifyOnlyBrokenPipelines BoolValue `json:"notify_only_broken_pipelines"`
+	NotifyOnlyDefaultBranch   BoolValue `json:"notify_only_default_branch"`
+	Webhook                   *string   `json:"webhook,omitempty"`
+	Username                  *string   `json:"username,omitempty"`
+	PushChannel               *string   `json:"push_channel,omitempty"`
+	IssueChannel              *string   `json:"issue_channel,omitempty"`
+	ConfidentialIssueChannel  *string   `json:"confidential_issue_channel,omitempty"`
+	MergeRequestChannel       *string   `json:"merge_request_channel,omitempty"`
+	NoteChannel               *string   `json:"note_channel,omitempty"`
+	ConfidentialNoteChannel   *string   `json:"confidential_note_channel,omitempty"`
+	TagPushChannel            *string   `json:"tag_push_channel,omitempty"`
+	PipelineChannel           *string   `json:"pipeline_channel,omitempty"`
+	WikiPageChannel           *string   `json:"wiki_page_channel,omitempty"`
 }
 
 // GetSlackService gets Slack service settings for a project.
@@ -286,9 +308,32 @@ func (s *ServicesService) GetSlackService(pid interface{}, options ...OptionFunc
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/services.html#edit-slack-service
 type SetSlackServiceOptions struct {
-	WebHook  *string `url:"webhook,omitempty" json:"webhook,omitempty" `
-	Username *string `url:"username,omitempty" json:"username,omitempty" `
-	Channel  *string `url:"channel,omitempty" json:"channel,omitempty"`
+	WebHook                   *string `json:"webhook,omitempty" `
+	Username                  *string `json:"username,omitempty" `
+	Channel                   *string `json:"channel,omitempty"`
+	NotifyOnlyBrokenPipelines *bool   `json:"notify_only_broken_pipelines,omitempty"`
+	NotifyOnlyDefaultBranch   *bool   `json:"notify_only_default_branch,omitempty"`
+	PushEvents                *bool   `json:"push_events,omitempty"`
+	PushChannel               *string `json:"push_channel,omitempty"`
+	IssuesEvents              *bool   `json:"issues_events,omitempty"`
+	IssueChannel              *string `json:"issue_channel,omitempty"`
+	ConfidentialIssuesEvents  *bool   `json:"confidential_issues_events,omitempty"`
+	ConfidentialIssueChannel  *string `json:"confidential_issue_channel,omitempty"`
+	MergeRequestsEvents       *bool   `json:"merge_requests_events,omitempty"`
+	MergeRequestChannel       *string `json:"merge_request_channel,omitempty"`
+	TagPushEvents             *bool   `json:"tag_push_events,omitempty"`
+	TagPushChannel            *string `json:"tag_push_channel,omitempty"`
+	NoteEvents                *bool   `json:"note_events,omitempty"`
+	NoteChannel               *string `json:"note_channel,omitempty"`
+	ConfidentialNoteEvents    *bool   `json:"confidential_note_events,omitempty"`
+	// TODO: Currently, GitLab ignores this option (not implemented yet?), so
+	// there is no way to set it. Uncomment when this is fixed.
+	// See: https://gitlab.com/gitlab-org/gitlab-ce/issues/49730
+	//ConfidentialNoteChannel   *string `json:"confidential_note_channel,omitempty"`
+	PipelineEvents  *bool   `json:"pipeline_events,omitempty"`
+	PipelineChannel *string `json:"pipeline_channel,omitempty"`
+	WikiPageEvents  *bool   `json:"wiki_page_events,omitempty"`
+	WikiPageChannel *string `json:"wiki_page_channel,omitempty"`
 }
 
 // SetSlackService sets Slack service for a project
