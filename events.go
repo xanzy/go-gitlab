@@ -130,7 +130,7 @@ func (s *EventsService) ListProjectContributionEvents(pid interface{}, opt *List
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("%s/events", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/events", url.QueryEscape(project))
 
 	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
