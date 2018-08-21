@@ -84,7 +84,7 @@ func TestSetSlackService(t *testing.T) {
 	})
 
 	opt := &SetSlackServiceOptions{
-		WebHook:  String("webhook_uri"),
+		Webhook:  String("webhook_uri"),
 		Username: String("username"),
 		Channel:  String("#development"),
 	}
