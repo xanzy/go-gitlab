@@ -513,3 +513,91 @@ func (s *ServicesService) DeleteJenkinsCIService(pid interface{}, options ...Opt
 
 	return s.client.Do(req, nil)
 }
+
+// MicrosoftTeamsService represents Microsoft Teams service settings.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/services.html#microsoft-teams
+type MicrosoftTeamsService struct {
+	Service
+	Properties *MicrosoftTeamsServiceProperties `json:"properties"`
+}
+
+// MicrosoftTeamsServiceProperties represents Microsoft Teams specific properties.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/services.html#microsoft-teams
+type MicrosoftTeamsServiceProperties struct {
+	WebHook string `json:"webhook"`
+}
+
+// GetMicrosoftTeamsService gets MicrosoftTeams service settings for a project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/services.html#get-microsoft-teams-service-settings
+func (s *ServicesService) GetMicrosoftTeamsService(pid interface{}, options ...OptionFunc) (*MicrosoftTeamsService, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/services/microsoft-teams", url.QueryEscape(project))
+
+	req, err := s.client.NewRequest("GET", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	svc := new(MicrosoftTeamsService)
+	resp, err := s.client.Do(req, svc)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return svc, resp, err
+}
+
+// SetMicrosoftTeamsServiceOptions represents the available SetMicrosoftTeamsService()
+// options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/services.html#create-edit-microsoft-teams-service
+type SetMicrosoftTeamsServiceOptions struct {
+	WebHook *string `url:"webhook,omitempty" json:"webhook,omitempty"`
+}
+
+// SetMicrosoftTeamsService sets Microsoft Teams service for a project
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/services.html#create-edit-microsoft-teams-service
+func (s *ServicesService) SetMicrosoftTeamsService(pid interface{}, opt *SetMicrosoftTeamsServiceOptions, options ...OptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/services/microsoft-teams", url.QueryEscape(project))
+
+	req, err := s.client.NewRequest("PUT", u, opt, options)
+	if err != nil {
+		return nil, err
+	}
+	return s.client.Do(req, nil)
+}
+
+// DeleteMicrosoftTeamsService deletes Microsoft Teams service for project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/services.html#delete-microsoft-teams-service
+func (s *ServicesService) DeleteMicrosoftTeamsService(pid interface{}, options ...OptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/services/microsoft-teams", url.QueryEscape(project))
+
+	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
