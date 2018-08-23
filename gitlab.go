@@ -834,3 +834,24 @@ func MergeMethod(v MergeMethodValue) *MergeMethodValue {
 	*p = v
 	return p
 }
+
+// BoolValue is a boolean value with advanced json unmarshaling features.
+type BoolValue bool
+
+// UnmarshalJSON allows 1 and 0 to be considered as boolean values
+// Needed for https://gitlab.com/gitlab-org/gitlab-ce/issues/50122
+func (t *BoolValue) UnmarshalJSON(b []byte) error {
+	switch string(b) {
+	case `"1"`:
+		*t = true
+		return nil
+	case `"0"`:
+		*t = false
+		return nil
+	default:
+		var v bool
+		err := json.Unmarshal(b, &v)
+		*t = BoolValue(v)
+		return err
+	}
+}
