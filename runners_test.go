@@ -103,7 +103,8 @@ const exampleDetailRsp = `{
 		"mysql"
 	],
 	"version": null,
-	"access_level": "ref_protected"
+	"access_level": "ref_protected",
+	"maximum_timeout": 3600
 }`
 
 func TestUpdateRunnersDetails(t *testing.T) {
@@ -158,11 +159,24 @@ func expectedParsedDetails() *RunnerDetails {
 		PathWithNamespace string `json:"path_with_namespace"`
 	}{ID: 1, Name: "GitLab Community Edition", NameWithNamespace: "GitLab.org / GitLab Community Edition", Path: "gitlab-ce", PathWithNamespace: "gitlab-org/gitlab-ce"}
 	timestamp, _ := time.Parse("2006-01-02T15:04:05.000Z", "2016-01-25T16:39:48.066Z")
-	return &RunnerDetails{Active: true, Description: "test-1-20150125-test", ID: 6, IsShared: false, ContactedAt: &timestamp, Online: true, Status: "online", Token: "205086a8e3b9a2b818ffac9b89d102", TagList: []string{"ruby", "mysql"}, AccessLevel: "ref_protected", Projects: []struct {
-		ID                int    `json:"id"`
-		Name              string `json:"name"`
-		NameWithNamespace string `json:"name_with_namespace"`
-		Path              string `json:"path"`
-		PathWithNamespace string `json:"path_with_namespace"`
-	}{proj}}
+	return &RunnerDetails{
+		Active:      true,
+		Description: "test-1-20150125-test",
+		ID:          6,
+		IsShared:    false,
+		ContactedAt: &timestamp,
+		Online:      true,
+		Status:      "online",
+		Token:       "205086a8e3b9a2b818ffac9b89d102",
+		TagList:     []string{"ruby", "mysql"},
+		AccessLevel: "ref_protected",
+		Projects: []struct {
+			ID                int    `json:"id"`
+			Name              string `json:"name"`
+			NameWithNamespace string `json:"name_with_namespace"`
+			Path              string `json:"path"`
+			PathWithNamespace string `json:"path_with_namespace"`
+		}{proj},
+		MaximumTimeout: 3600,
+	}
 }

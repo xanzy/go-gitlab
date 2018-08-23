@@ -64,11 +64,12 @@ type RunnerDetails struct {
 		Path              string `json:"path"`
 		PathWithNamespace string `json:"path_with_namespace"`
 	} `json:"projects"`
-	Token       string   `json:"Token"`
-	Revision    string   `json:"revision,omitempty"`
-	TagList     []string `json:"tag_list"`
-	Version     string   `json:"version,omitempty"`
-	AccessLevel string   `json:"access_level"`
+	Token          string   `json:"Token"`
+	Revision       string   `json:"revision,omitempty"`
+	TagList        []string `json:"tag_list"`
+	Version        string   `json:"version,omitempty"`
+	AccessLevel    string   `json:"access_level"`
+	MaximumTimeout int      `json:"maximum_timeout,omitempty"`
 }
 
 // ListRunnersOptions represents the available ListRunners() options.
@@ -149,12 +150,13 @@ func (s *RunnersService) GetRunnerDetails(rid interface{}, options ...OptionFunc
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/runners.html#update-runner-39-s-details
 type UpdateRunnerDetailsOptions struct {
-	Description *string  `url:"description,omitempty" json:"description,omitempty"`
-	Active      *bool    `url:"active,omitempty" json:"active,omitempty"`
-	TagList     []string `url:"tag_list[],omitempty" json:"tag_list,omitempty"`
-	RunUntagged *bool    `url:"run_untagged,omitempty" json:"run_untagged,omitempty"`
-	Locked      *bool    `url:"locked,omitempty" json:"locked,omitempty"`
-	AccessLevel *string  `url:"access_level,omitempty" json:"access_level,omitempty"`
+	Description    *string  `url:"description,omitempty" json:"description,omitempty"`
+	Active         *bool    `url:"active,omitempty" json:"active,omitempty"`
+	TagList        []string `url:"tag_list[],omitempty" json:"tag_list,omitempty"`
+	RunUntagged    *bool    `url:"run_untagged,omitempty" json:"run_untagged,omitempty"`
+	Locked         *bool    `url:"locked,omitempty" json:"locked,omitempty"`
+	AccessLevel    *string  `url:"access_level,omitempty" json:"access_level,omitempty"`
+	MaximumTimeout *int     `url:"maximum_timeout,omitempty" json:"maximum_timeout,omitempty"`
 }
 
 // UpdateRunnerDetails updates details for a given runner.
