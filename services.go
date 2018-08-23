@@ -264,7 +264,7 @@ type SlackServiceProperties struct {
 
 	NotifyOnlyBrokenPipelines BoolValue `url:"notify_only_broken_pipelines,omitempty" json:"notify_only_broken_pipelines,omitempty"`
 	NotifyOnlyDefaultBranch   BoolValue `url:"notify_only_default_branch,omitempty" json:"notify_only_default_branch,omitempty"`
-	Webhook                   string    `url:"webhook,omitempty" json:"webhook,omitempty"`
+	WebHook                   string    `url:"webhook,omitempty" json:"webhook,omitempty"`
 	Username                  string    `url:"username,omitempty" json:"username,omitempty"`
 	Channel                   string    `url:"channel,omitempty" json:"channel,omitempty"`
 	PushChannel               string    `url:"push_channel,omitempty" json:"push_channel,omitempty"`
@@ -309,7 +309,7 @@ func (s *ServicesService) GetSlackService(pid interface{}, options ...OptionFunc
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/services.html#edit-slack-service
 type SetSlackServiceOptions struct {
-	Webhook                   *string `url:"webhook,omitempty" json:"webhook,omitempty"`
+	WebHook                   *string `url:"webhook,omitempty" json:"webhook,omitempty"`
 	Username                  *string `url:"username,omitempty" json:"username,omitempty"`
 	Channel                   *string `url:"channel,omitempty" json:"channel,omitempty"`
 	NotifyOnlyBrokenPipelines *bool   `url:"notify_only_broken_pipelines,omitempty" json:"notify_only_broken_pipelines,omitempty"`
