@@ -65,7 +65,7 @@ type RunnerDetails struct {
 		Path              string `json:"path"`
 		PathWithNamespace string `json:"path_with_namespace"`
 	} `json:"projects"`
-	Token          string   `json:"Token"`
+	Token          string   `json:"token"`
 	Revision       string   `json:"revision"`
 	TagList        []string `json:"tag_list"`
 	Version        string   `json:"version"`
