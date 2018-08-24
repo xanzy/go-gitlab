@@ -305,7 +305,7 @@ func (s *IssuesService) CreateIssue(pid interface{}, opt *CreateIssueOptions, op
 
 // UpdateIssueOptions represents the available UpdateIssue() options.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/issues.html#edit-issues
+// GitLab API docs: https://docs.gitlab.com/ee/api/issues.html#edit-issue
 type UpdateIssueOptions struct {
 	Title            *string    `url:"title,omitempty" json:"title,omitempty"`
 	Description      *string    `url:"description,omitempty" json:"description,omitempty"`
@@ -316,6 +316,7 @@ type UpdateIssueOptions struct {
 	StateEvent       *string    `url:"state_event,omitempty" json:"state_event,omitempty"`
 	UpdatedAt        *time.Time `url:"updated_at,omitempty" json:"updated_at,omitempty"`
 	DueDate          *ISOTime   `url:"due_date,omitempty" json:"due_date,omitempty"`
+	Weight           *int       `url:"weight,omitempty" json:"weight,omitempty"`
 	DiscussionLocked *bool      `url:"discussion_locked,omitempty" json:"discussion_locked,omitempty"`
 }
 
