@@ -500,8 +500,14 @@ func (c *Client) SetBaseURL(urlStr string) error {
 // request body.
 func (c *Client) NewRequest(method, path string, opt interface{}, options []OptionFunc) (*http.Request, error) {
 	u := *c.baseURL
-	// Set the encoded opaque data
-	u.Opaque = c.baseURL.Path + path
+	unescaped, err := url.PathUnescape(path)
+	if err != nil {
+		return nil, err
+	}
+
+	// Set the encoded path data
+	u.RawPath = c.baseURL.Path + path
+	u.Path = c.baseURL.Path + unescaped
 
 	if opt != nil {
 		q, err := query.Values(opt)
@@ -681,7 +687,7 @@ type ErrorResponse struct {
 }
 
 func (e *ErrorResponse) Error() string {
-	path, _ := url.QueryUnescape(e.Response.Request.URL.Opaque)
+	path, _ := url.QueryUnescape(e.Response.Request.URL.Path)
 	u := fmt.Sprintf("%s://%s%s", e.Response.Request.URL.Scheme, e.Response.Request.URL.Host, path)
 	return fmt.Sprintf("%s %s: %d %s", e.Response.Request.Method, u, e.Response.StatusCode, e.Message)
 }
