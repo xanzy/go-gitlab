@@ -316,8 +316,8 @@ type UpdateIssueOptions struct {
 	StateEvent       *string    `url:"state_event,omitempty" json:"state_event,omitempty"`
 	UpdatedAt        *time.Time `url:"updated_at,omitempty" json:"updated_at,omitempty"`
 	DueDate          *ISOTime   `url:"due_date,omitempty" json:"due_date,omitempty"`
-	DiscussionLocked *bool      `url:"discussion_locked,omitempty" json:"discussion_locked,omitempty"`
 	Weight           *int       `url:"weight,omitempty" json:"weight,omitempty"`
+	DiscussionLocked *bool      `url:"discussion_locked,omitempty" json:"discussion_locked,omitempty"`
 }
 
 // UpdateIssue updates an existing project issue. This function is also used
