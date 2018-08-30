@@ -214,7 +214,7 @@ func (s *JobsService) DownloadSingleArtifactsFile(pid interface{}, jobID int, ar
 		"projects/%s/jobs/%d/artifacts/%s",
 		url.QueryEscape(project),
 		jobID
-		url.PathEscape(artifactPath),
+		artifactPath,
 	)
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
