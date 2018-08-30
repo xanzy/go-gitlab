@@ -203,7 +203,7 @@ func (s *JobsService) DownloadArtifactsFile(pid interface{}, refName string, job
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/jobs.html#download-the-artifacts-file
-func (s *JobsService) DownloadSingleArtifactsFile(pid interface{}, jid interface{}, artifact_path string, options ...OptionFunc) (io.Reader, *Response, error) {
+func (s *JobsService) DownloadSingleArtifactsFile(pid interface{}, jid interface{}, artifactPath string, options ...OptionFunc) (io.Reader, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -218,7 +218,7 @@ func (s *JobsService) DownloadSingleArtifactsFile(pid interface{}, jid interface
 		"projects/%s/jobs/%s/artifacts/%s",
 		url.PathEscape(project),
 		url.PathEscape(job),
-		url.PathEscape(artifact_path),
+		url.PathEscape(artifactPath),
 	)
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
