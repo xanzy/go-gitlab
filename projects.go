@@ -371,7 +371,7 @@ func (s *ProjectsService) GetProjectEvents(pid interface{}, opt *GetProjectEvent
 
 // CreateProjectOptions represents the available CreateProjects() options.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#create-project
+// GitLab API docs: https://docs.gitlab.com/ee/api/projects.html#create-project
 type CreateProjectOptions struct {
 	Name                                      *string           `url:"name,omitempty" json:"name,omitempty"`
 	Path                                      *string           `url:"path,omitempty" json:"path,omitempty"`
@@ -397,6 +397,7 @@ type CreateProjectOptions struct {
 	TagList                                   *[]string         `url:"tag_list,omitempty" json:"tag_list,omitempty"`
 	PrintingMergeRequestLinkEnabled           *bool             `url:"printing_merge_request_link_enabled,omitempty" json:"printing_merge_request_link_enabled,omitempty"`
 	CIConfigPath                              *string           `url:"ci_config_path,omitempty" json:"ci_config_path,omitempty"`
+	ApprovalsBeforeMerge                      *int              `url:"approvals_before_merge" json:"approvals_before_merge"`
 }
 
 // CreateProject creates a new project owned by the authenticated user.
