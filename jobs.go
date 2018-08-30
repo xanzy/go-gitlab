@@ -213,7 +213,7 @@ func (s *JobsService) DownloadSingleArtifactsFile(pid interface{}, jobID int, ar
 	u := fmt.Sprintf(
 		"projects/%s/jobs/%d/artifacts/%s",
 		url.QueryEscape(project),
-		jobID
+		jobID,
 		artifactPath,
 	)
 
