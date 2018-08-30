@@ -199,10 +199,11 @@ func (s *JobsService) DownloadArtifactsFile(pid interface{}, refName string, job
 
 // DownloadSingleArtifactsFile download a file from the artifacts from the
 // given reference name and job provided the job finished successfully.
-// Only a single file is going to be extracted from the archive and streamed to a client.
+// Only a single file is going to be extracted from the archive and streamed
+// to a client.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/jobs.html#download-the-artifacts-file
+// https://docs.gitlab.com/ce/api/jobs.html#download-a-single-artifact-file
 func (s *JobsService) DownloadSingleArtifactsFile(pid interface{}, jid interface{}, artifactPath string, options ...OptionFunc) (io.Reader, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
