@@ -12,7 +12,7 @@ type CustomAttributesService struct {
 	client *Client
 }
 
-// CustomAttributes struct is used to unmarshal response to api calls.
+// CustomAttribute struct is used to unmarshal response to api calls.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/custom_attributes.html
 type CustomAttribute struct {
