@@ -2,102 +2,154 @@ package gitlab
 
 import (
 	"fmt"
-	"net/url"
 )
 
-// CustomeAttributesService handles communication with the
-// group, project and user custom attributes related methods
-// of the GitLab API.
+// CustomAttributesService handles communication with the group, project and
+// user custom attributes related methods of the GitLab API.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/custom_attributes.html
-type CustomeAttributesService struct {
+// GitLab API docs: https://docs.gitlab.com/ce/api/custom_attributes.html
+type CustomAttributesService struct {
 	client *Client
 }
 
-// CustomAttributes struct is used to unmarshal response to api calls
+// CustomAttributes struct is used to unmarshal response to api calls.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/custom_attributes.html
-type CustomAttributes struct {
+// GitLab API docs: https://docs.gitlab.com/ce/api/custom_attributes.html
+type CustomAttribute struct {
 	Key   string `json:"key"`
 	Value string `json:"value"`
 }
 
-// CustomAttributeOptions struct contains all options required to call the methods below
-// agianst the gitlab api for customattributes
+// ListCustomUserAttributes lists the custom attributes of the specified user.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/custom_attributes.html
-type CustomAttributeOptions struct {
-	CustomeAttributeResourceID interface{}
-	CustomeAttributeResource   string
-	CA                         CustomAttributes
+// GitLab API docs:  https://docs.gitlab.com/ce/api/custom_attributes.html#list-custom-attributes
+func (s *CustomAttributesService) ListCustomUserAttributes(user int, options ...OptionFunc) ([]*CustomAttribute, *Response, error) {
+	return s.listCustomAttributes("users", user, options...)
 }
 
-// ListCustomAttributes lists the custom attributes of the specified resource
+// ListCustomGroupAttributes lists the custom attributes of the specified group.
 //
-// GitLab API docs:  https://docs.gitlab.com/ee/api/custom_attributes.html#list-custom-attributes
-func (s *CustomeAttributesService) ListCustomAttributes(opt CustomAttributeOptions, options ...OptionFunc) ([]*CustomAttributes, *Response, error) {
-	resourceID, err := parseID(opt.CustomeAttributeResourceID)
-	if err != nil {
-		return nil, nil, err
-	}
+// GitLab API docs:  https://docs.gitlab.com/ce/api/custom_attributes.html#list-custom-attributes
+func (s *CustomAttributesService) ListCustomGroupAttributes(group int, options ...OptionFunc) ([]*CustomAttribute, *Response, error) {
+	return s.listCustomAttributes("groups", group, options...)
+}
 
-	u := fmt.Sprintf("%s/%s/custom_attributes", opt.CustomeAttributeResource, url.QueryEscape(resourceID))
+// ListCustomProjectAttributes lists the custom attributes of the specified project.
+//
+// GitLab API docs:  https://docs.gitlab.com/ce/api/custom_attributes.html#list-custom-attributes
+func (s *CustomAttributesService) ListCustomProjectAttributes(project int, options ...OptionFunc) ([]*CustomAttribute, *Response, error) {
+	return s.listCustomAttributes("projects", project, options...)
+}
+
+// GetCustomUserAttribute returns the user attribute with a speciifc key.
+//
+// GitLab API docs:  https://docs.gitlab.com/ce/api/custom_attributes.html#single-custom-attribute
+func (s *CustomAttributesService) GetCustomUserAttribute(user int, key string, options ...OptionFunc) (*CustomAttribute, *Response, error) {
+	return s.getCustomAttribute("users", user, key, options...)
+}
+
+// GetCustomGroupAttribute returns the group attribute with a speciifc key.
+//
+// GitLab API docs:  https://docs.gitlab.com/ce/api/custom_attributes.html#single-custom-attribute
+func (s *CustomAttributesService) GetCustomGroupAttribute(group int, key string, options ...OptionFunc) (*CustomAttribute, *Response, error) {
+	return s.getCustomAttribute("groups", group, key, options...)
+}
+
+// GetCustomProjectAttribute returns the project attribute with a speciifc key.
+//
+// GitLab API docs:  https://docs.gitlab.com/ce/api/custom_attributes.html#single-custom-attribute
+func (s *CustomAttributesService) GetCustomProjectAttribute(project int, key string, options ...OptionFunc) (*CustomAttribute, *Response, error) {
+	return s.getCustomAttribute("projects", project, key, options...)
+}
+
+// SetCustomUserAttribute sets the custom attributes of the specified user.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/custom_attributes.html#set-custom-attribute
+func (s *CustomAttributesService) SetCustomUserAttribute(user int, c CustomAttribute, options ...OptionFunc) (*CustomAttribute, *Response, error) {
+	return s.setCustomAttribute("users", user, c, options...)
+}
+
+// SetCustomGroupAttribute sets the custom attributes of the specified group.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/custom_attributes.html#set-custom-attribute
+func (s *CustomAttributesService) SetCustomGroupAttribute(group int, c CustomAttribute, options ...OptionFunc) (*CustomAttribute, *Response, error) {
+	return s.setCustomAttribute("groups", group, c, options...)
+}
+
+// SetCustomProjectAttribute sets the custom attributes of the specified project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/custom_attributes.html#set-custom-attribute
+func (s *CustomAttributesService) SetCustomProjectAttribute(project int, c CustomAttribute, options ...OptionFunc) (*CustomAttribute, *Response, error) {
+	return s.setCustomAttribute("projects", project, c, options...)
+}
+
+// DeleteCustomUserAttribute removes the custom attribute of the specified user.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/custom_attributes.html#delete-custom-attribute
+func (s *CustomAttributesService) DeleteCustomUserAttribute(user int, key string, options ...OptionFunc) (*Response, error) {
+	return s.deleteCustomAttribute("users", user, key, options...)
+}
+
+// DeleteCustomGroupAttribute removes the custom attribute of the specified group.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/custom_attributes.html#delete-custom-attribute
+func (s *CustomAttributesService) DeleteCustomGroupAttribute(group int, key string, options ...OptionFunc) (*Response, error) {
+	return s.deleteCustomAttribute("groups", group, key, options...)
+}
+
+// DeleteCustomProjectAttribute removes the custom attribute of the specified project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/custom_attributes.html#delete-custom-attribute
+func (s *CustomAttributesService) DeleteCustomProjectAttribute(project int, key string, options ...OptionFunc) (*Response, error) {
+	return s.deleteCustomAttribute("projects", project, key, options...)
+}
+
+func (s *CustomAttributesService) listCustomAttributes(resource string, id int, options ...OptionFunc) ([]*CustomAttribute, *Response, error) {
+	u := fmt.Sprintf("%s/%d/custom_attributes", resource, id)
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	var ca []*CustomAttributes
+	var ca []*CustomAttribute
 	resp, err := s.client.Do(req, &ca)
 	if err != nil {
 		return nil, resp, err
 	}
 
 	return ca, resp, err
-
 }
 
-// GetCustomAttribute returns the attribute with a speciifc key
-//
-// GitLab API docs:  https://docs.gitlab.com/ee/api/custom_attributes.html#single-custom-attribute
-func (s *CustomeAttributesService) GetCustomAttribute(opt CustomAttributeOptions, options ...OptionFunc) (*CustomAttributes, *Response, error) {
-	resourceID, err := parseID(opt.CustomeAttributeResourceID)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	u := fmt.Sprintf("%s/%s/custom_attributes/%s", opt.CustomeAttributeResource, url.QueryEscape(resourceID), opt.CA.Key)
+func (s *CustomAttributesService) getCustomAttribute(resource string, id int, key string, options ...OptionFunc) (*CustomAttribute, *Response, error) {
+	u := fmt.Sprintf("%s/%d/custom_attributes/%s", resource, id, key)
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	var ca *CustomAttributes
+	var ca *CustomAttribute
 	resp, err := s.client.Do(req, &ca)
 	if err != nil {
 		return nil, resp, err
 	}
 
 	return ca, resp, err
-
 }
 
-// SetCustomAttribute sets the custom attributes of the specified resource
-//
-// GitLab API docs: https://docs.gitlab.com/ee/api/custom_attributes.html#set-custom-attribute
-func (s *CustomeAttributesService) SetCustomAttribute(opt CustomAttributeOptions, options ...OptionFunc) (*CustomAttributes, *Response, error) {
-	resourceID, err := parseID(opt.CustomeAttributeResourceID)
+func (s *CustomAttributesService) setCustomAttribute(resource string, id int, c CustomAttribute, options ...OptionFunc) (*CustomAttribute, *Response, error) {
+	u := fmt.Sprintf("%s/%d/custom_attributes/%s", resource, id, c.Key)
+	req, err := s.client.NewRequest("PUT", u, c, options)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	u := fmt.Sprintf("%s/%s/custom_attributes/%s", opt.CustomeAttributeResource, url.QueryEscape(resourceID), opt.CA.Key)
-	req, err := s.client.NewRequest("PUT", u, &opt.CA, options)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	ca := new(CustomAttributes)
+	ca := new(CustomAttribute)
 	resp, err := s.client.Do(req, ca)
 	if err != nil {
 		return nil, resp, err
@@ -106,16 +158,8 @@ func (s *CustomeAttributesService) SetCustomAttribute(opt CustomAttributeOptions
 	return ca, resp, err
 }
 
-// DeleteCustomAttribute removes the customattribute fromt the specified resource
-//
-// GitLab API docs: https://docs.gitlab.com/ee/api/custom_attributes.html#delete-custom-attribute
-func (s *CustomeAttributesService) DeleteCustomAttribute(opt CustomAttributeOptions, options ...OptionFunc) (*Response, error) {
-	resourceID, err := parseID(opt.CustomeAttributeResourceID)
-	if err != nil {
-		return nil, err
-	}
-
-	u := fmt.Sprintf("%s/%s/custom_attributes/%s", opt.CustomeAttributeResource, url.QueryEscape(resourceID), opt.CA.Key)
+func (s *CustomAttributesService) deleteCustomAttribute(resource string, id int, key string, options ...OptionFunc) (*Response, error) {
+	u := fmt.Sprintf("%s/%d/custom_attributes/%s", resource, id, key)
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {
 		return nil, err

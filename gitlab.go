@@ -278,6 +278,7 @@ type Client struct {
 	BuildVariables        *BuildVariablesService
 	BroadcastMessage      *BroadcastMessagesService
 	Commits               *CommitsService
+	CustomAttribute       *CustomAttributesService
 	DeployKeys            *DeployKeysService
 	Deployments           *DeploymentsService
 	Environments          *EnvironmentsService
@@ -326,7 +327,6 @@ type Client struct {
 	Validate              *ValidateService
 	Version               *VersionService
 	Wikis                 *WikisService
-	CustomAttributes      *CustomeAttributesService
 }
 
 // ListOptions specifies the optional parameters to various List methods that
@@ -413,6 +413,7 @@ func newClient(httpClient *http.Client) *Client {
 	c.BuildVariables = &BuildVariablesService{client: c}
 	c.BroadcastMessage = &BroadcastMessagesService{client: c}
 	c.Commits = &CommitsService{client: c}
+	c.CustomAttribute = &CustomAttributesService{client: c}
 	c.DeployKeys = &DeployKeysService{client: c}
 	c.Deployments = &DeploymentsService{client: c}
 	c.Environments = &EnvironmentsService{client: c}
@@ -461,7 +462,6 @@ func newClient(httpClient *http.Client) *Client {
 	c.Validate = &ValidateService{client: c}
 	c.Version = &VersionService{client: c}
 	c.Wikis = &WikisService{client: c}
-	c.CustomAttributes = &CustomeAttributesService{client: c}
 	return c
 }
 
