@@ -681,6 +681,19 @@ type ProjectMember struct {
 	AccessLevel AccessLevelValue `json:"access_level"`
 }
 
+// ProjectBadge represents a project badge.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/project_badges.html#list-all-badges-of-a-project
+type ProjectBadge struct {
+	ID               int    `json:"id"`
+	LinkURL          string `json:"link_url"`
+	ImageURL         string `json:"image_url"`
+	RenderedLinkURL  string `json:"rendered_link_url"`
+	RenderedImageURL string `json:"rendered_image_url"`
+	Kind             string `json:"kind"`
+}
+
 // ProjectHook represents a project hook.
 //
 // GitLab API docs:
