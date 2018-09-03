@@ -153,10 +153,15 @@ type ListMergeRequestsOptions struct {
 	Labels          Labels     `url:"labels,omitempty" json:"labels,omitempty"`
 	CreatedAfter    *time.Time `url:"created_after,omitempty" json:"created_after,omitempty"`
 	CreatedBefore   *time.Time `url:"created_before,omitempty" json:"created_before,omitempty"`
+	UpdatedAfter    *time.Time `url:"updated_after,omitempty" json:"updated_after,omitempty"`
+	UpdatedBefore   *time.Time `url:"updated_before,omitempty" json:"updated_before,omitempty"`
 	Scope           *string    `url:"scope,omitempty" json:"scope,omitempty"`
 	AuthorID        *int       `url:"author_id,omitempty" json:"author_id,omitempty"`
 	AssigneeID      *int       `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
 	MyReactionEmoji *string    `url:"my_reaction_emoji,omitempty" json:"my_reaction_emoji,omitempty"`
+	SourceBranch    *string    `url:"source_branch,omitempty" json:"source_branch,omitempty"`
+	TargetBranch    *string    `url:"target_branch,omitempty" json:"target_branch,omitempty"`
+	Search          *string    `url:"search,omitempty" json:"search,omitempty"`
 }
 
 // ListMergeRequests gets all merge requests. The state parameter can be used
@@ -168,6 +173,57 @@ type ListMergeRequestsOptions struct {
 // https://docs.gitlab.com/ce/api/merge_requests.html#list-merge-requests
 func (s *MergeRequestsService) ListMergeRequests(opt *ListMergeRequestsOptions, options ...OptionFunc) ([]*MergeRequest, *Response, error) {
 	req, err := s.client.NewRequest("GET", "merge_requests", opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var m []*MergeRequest
+	resp, err := s.client.Do(req, &m)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return m, resp, err
+}
+
+// ListGroupMergeRequestsOptions represents the available ListGroupMergeRequests()
+// options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/merge_requests.html#list-group-merge-requests
+type ListGroupMergeRequestsOptions struct {
+	ListOptions
+	State           *string    `url:"state,omitempty" json:"state,omitempty"`
+	OrderBy         *string    `url:"order_by,omitempty" json:"order_by,omitempty"`
+	Sort            *string    `url:"sort,omitempty" json:"sort,omitempty"`
+	Milestone       *string    `url:"milestone,omitempty" json:"milestone,omitempty"`
+	View            *string    `url:"view,omitempty" json:"view,omitempty"`
+	Labels          Labels     `url:"labels,omitempty" json:"labels,omitempty"`
+	CreatedAfter    *time.Time `url:"created_after,omitempty" json:"created_after,omitempty"`
+	CreatedBefore   *time.Time `url:"created_before,omitempty" json:"created_before,omitempty"`
+	UpdatedAfter    *time.Time `url:"updated_after,omitempty" json:"updated_after,omitempty"`
+	UpdatedBefore   *time.Time `url:"updated_before,omitempty" json:"updated_before,omitempty"`
+	Scope           *string    `url:"scope,omitempty" json:"scope,omitempty"`
+	AuthorID        *int       `url:"author_id,omitempty" json:"author_id,omitempty"`
+	AssigneeID      *int       `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
+	MyReactionEmoji *string    `url:"my_reaction_emoji,omitempty" json:"my_reaction_emoji,omitempty"`
+	SourceBranch    *string    `url:"source_branch,omitempty" json:"source_branch,omitempty"`
+	TargetBranch    *string    `url:"target_branch,omitempty" json:"target_branch,omitempty"`
+	Search          *string    `url:"search,omitempty" json:"search,omitempty"`
+}
+
+// ListGroupMergeRequests gets all merge requests for this group.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/merge_requests.html#list-group-merge-requests
+func (s *MergeRequestsService) ListGroupMergeRequests(gid interface{}, opt *ListGroupMergeRequestsOptions, options ...OptionFunc) ([]*MergeRequest, *Response, error) {
+	group, err := parseID(gid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("groups/%s/merge_requests", url.QueryEscape(group))
+
+	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -197,19 +253,21 @@ type ListProjectMergeRequestsOptions struct {
 	Labels          Labels     `url:"labels,omitempty" json:"labels,omitempty"`
 	CreatedAfter    *time.Time `url:"created_after,omitempty" json:"created_after,omitempty"`
 	CreatedBefore   *time.Time `url:"created_before,omitempty" json:"created_before,omitempty"`
+	UpdatedAfter    *time.Time `url:"updated_after,omitempty" json:"updated_after,omitempty"`
+	UpdatedBefore   *time.Time `url:"updated_before,omitempty" json:"updated_before,omitempty"`
 	Scope           *string    `url:"scope,omitempty" json:"scope,omitempty"`
 	AuthorID        *int       `url:"author_id,omitempty" json:"author_id,omitempty"`
 	AssigneeID      *int       `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
 	MyReactionEmoji *string    `url:"my_reaction_emoji,omitempty" json:"my_reaction_emoji,omitempty"`
+	SourceBranch    *string    `url:"source_branch,omitempty" json:"source_branch,omitempty"`
+	TargetBranch    *string    `url:"target_branch,omitempty" json:"target_branch,omitempty"`
+	Search          *string    `url:"search,omitempty" json:"search,omitempty"`
 }
 
-// ListProjectMergeRequests gets all merge requests for this project. The state
-// parameter can be used to get only merge requests with a given state (opened,
-// closed, or merged) or all of them (all). The pagination parameters page and
-// per_page can be used to restrict the list of merge requests.
+// ListProjectMergeRequests gets all merge requests for this project.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/merge_requests.html#list-merge-requests
+// https://docs.gitlab.com/ce/api/merge_requests.html#list-project-merge-requests
 func (s *MergeRequestsService) ListProjectMergeRequests(pid interface{}, opt *ListProjectMergeRequestsOptions, options ...OptionFunc) ([]*MergeRequest, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
