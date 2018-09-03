@@ -462,6 +462,7 @@ func newClient(httpClient *http.Client) *Client {
 	c.Validate = &ValidateService{client: c}
 	c.Version = &VersionService{client: c}
 	c.Wikis = &WikisService{client: c}
+
 	return c
 }
 

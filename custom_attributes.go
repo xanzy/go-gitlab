@@ -22,44 +22,80 @@ type CustomAttribute struct {
 
 // ListCustomUserAttributes lists the custom attributes of the specified user.
 //
-// GitLab API docs:  https://docs.gitlab.com/ce/api/custom_attributes.html#list-custom-attributes
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/custom_attributes.html#list-custom-attributes
 func (s *CustomAttributesService) ListCustomUserAttributes(user int, options ...OptionFunc) ([]*CustomAttribute, *Response, error) {
 	return s.listCustomAttributes("users", user, options...)
 }
 
 // ListCustomGroupAttributes lists the custom attributes of the specified group.
 //
-// GitLab API docs:  https://docs.gitlab.com/ce/api/custom_attributes.html#list-custom-attributes
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/custom_attributes.html#list-custom-attributes
 func (s *CustomAttributesService) ListCustomGroupAttributes(group int, options ...OptionFunc) ([]*CustomAttribute, *Response, error) {
 	return s.listCustomAttributes("groups", group, options...)
 }
 
 // ListCustomProjectAttributes lists the custom attributes of the specified project.
 //
-// GitLab API docs:  https://docs.gitlab.com/ce/api/custom_attributes.html#list-custom-attributes
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/custom_attributes.html#list-custom-attributes
 func (s *CustomAttributesService) ListCustomProjectAttributes(project int, options ...OptionFunc) ([]*CustomAttribute, *Response, error) {
 	return s.listCustomAttributes("projects", project, options...)
 }
 
+func (s *CustomAttributesService) listCustomAttributes(resource string, id int, options ...OptionFunc) ([]*CustomAttribute, *Response, error) {
+	u := fmt.Sprintf("%s/%d/custom_attributes", resource, id)
+	req, err := s.client.NewRequest("GET", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var cas []*CustomAttribute
+	resp, err := s.client.Do(req, &cas)
+	if err != nil {
+		return nil, resp, err
+	}
+	return cas, resp, err
+}
+
 // GetCustomUserAttribute returns the user attribute with a speciifc key.
 //
-// GitLab API docs:  https://docs.gitlab.com/ce/api/custom_attributes.html#single-custom-attribute
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/custom_attributes.html#single-custom-attribute
 func (s *CustomAttributesService) GetCustomUserAttribute(user int, key string, options ...OptionFunc) (*CustomAttribute, *Response, error) {
 	return s.getCustomAttribute("users", user, key, options...)
 }
 
 // GetCustomGroupAttribute returns the group attribute with a speciifc key.
 //
-// GitLab API docs:  https://docs.gitlab.com/ce/api/custom_attributes.html#single-custom-attribute
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/custom_attributes.html#single-custom-attribute
 func (s *CustomAttributesService) GetCustomGroupAttribute(group int, key string, options ...OptionFunc) (*CustomAttribute, *Response, error) {
 	return s.getCustomAttribute("groups", group, key, options...)
 }
 
 // GetCustomProjectAttribute returns the project attribute with a speciifc key.
 //
-// GitLab API docs:  https://docs.gitlab.com/ce/api/custom_attributes.html#single-custom-attribute
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/custom_attributes.html#single-custom-attribute
 func (s *CustomAttributesService) GetCustomProjectAttribute(project int, key string, options ...OptionFunc) (*CustomAttribute, *Response, error) {
 	return s.getCustomAttribute("projects", project, key, options...)
+}
+
+func (s *CustomAttributesService) getCustomAttribute(resource string, id int, key string, options ...OptionFunc) (*CustomAttribute, *Response, error) {
+	u := fmt.Sprintf("%s/%d/custom_attributes/%s", resource, id, key)
+	req, err := s.client.NewRequest("GET", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var ca *CustomAttribute
+	resp, err := s.client.Do(req, &ca)
+	if err != nil {
+		return nil, resp, err
+	}
+	return ca, resp, err
 }
 
 // SetCustomUserAttribute sets the custom attributes of the specified user.
@@ -86,6 +122,21 @@ func (s *CustomAttributesService) SetCustomProjectAttribute(project int, c Custo
 	return s.setCustomAttribute("projects", project, c, options...)
 }
 
+func (s *CustomAttributesService) setCustomAttribute(resource string, id int, c CustomAttribute, options ...OptionFunc) (*CustomAttribute, *Response, error) {
+	u := fmt.Sprintf("%s/%d/custom_attributes/%s", resource, id, c.Key)
+	req, err := s.client.NewRequest("PUT", u, c, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	ca := new(CustomAttribute)
+	resp, err := s.client.Do(req, ca)
+	if err != nil {
+		return nil, resp, err
+	}
+	return ca, resp, err
+}
+
 // DeleteCustomUserAttribute removes the custom attribute of the specified user.
 //
 // GitLab API docs:
@@ -110,60 +161,11 @@ func (s *CustomAttributesService) DeleteCustomProjectAttribute(project int, key 
 	return s.deleteCustomAttribute("projects", project, key, options...)
 }
 
-func (s *CustomAttributesService) listCustomAttributes(resource string, id int, options ...OptionFunc) ([]*CustomAttribute, *Response, error) {
-	u := fmt.Sprintf("%s/%d/custom_attributes", resource, id)
-	req, err := s.client.NewRequest("GET", u, nil, options)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	var ca []*CustomAttribute
-	resp, err := s.client.Do(req, &ca)
-	if err != nil {
-		return nil, resp, err
-	}
-
-	return ca, resp, err
-}
-
-func (s *CustomAttributesService) getCustomAttribute(resource string, id int, key string, options ...OptionFunc) (*CustomAttribute, *Response, error) {
-	u := fmt.Sprintf("%s/%d/custom_attributes/%s", resource, id, key)
-	req, err := s.client.NewRequest("GET", u, nil, options)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	var ca *CustomAttribute
-	resp, err := s.client.Do(req, &ca)
-	if err != nil {
-		return nil, resp, err
-	}
-
-	return ca, resp, err
-}
-
-func (s *CustomAttributesService) setCustomAttribute(resource string, id int, c CustomAttribute, options ...OptionFunc) (*CustomAttribute, *Response, error) {
-	u := fmt.Sprintf("%s/%d/custom_attributes/%s", resource, id, c.Key)
-	req, err := s.client.NewRequest("PUT", u, c, options)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	ca := new(CustomAttribute)
-	resp, err := s.client.Do(req, ca)
-	if err != nil {
-		return nil, resp, err
-	}
-
-	return ca, resp, err
-}
-
 func (s *CustomAttributesService) deleteCustomAttribute(resource string, id int, key string, options ...OptionFunc) (*Response, error) {
 	u := fmt.Sprintf("%s/%d/custom_attributes/%s", resource, id, key)
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {
 		return nil, err
 	}
-
 	return s.client.Do(req, nil)
 }
