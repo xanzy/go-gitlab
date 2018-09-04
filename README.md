@@ -70,7 +70,7 @@ to add new and/or missing endpoints. Currently the following services are suppor
 - [x] Repositories
 - [x] Repository Files
 - [x] Runners
-- [ ] Search
+- [x] Search
 - [x] Services
 - [x] Settings
 - [x] Sidekiq metrics
