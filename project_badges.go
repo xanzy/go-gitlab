@@ -5,6 +5,20 @@ import (
 	"net/url"
 )
 
+// ProjectBadge represents a project badge.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/project_badges.html#list-all-badges-of-a-project
+type ProjectBadge struct {
+	ID               int    `json:"id"`
+	LinkURL          string `json:"link_url"`
+	ImageURL         string `json:"image_url"`
+	RenderedLinkURL  string `json:"rendered_link_url"`
+	RenderedImageURL string `json:"rendered_image_url"`
+	// Kind represents a project badge kind. Can be empty, when used PreviewProjectBadge().
+	Kind string `json:"kind"`
+}
+
 // ProjectBadgesService handles communication with the project badges
 // related methods of the GitLab API.
 //
@@ -36,38 +50,38 @@ func (s *ProjectBadgesService) ListProjectBadges(pid interface{}, opt *ListProje
 		return nil, nil, err
 	}
 
-	var pm []*ProjectBadge
-	resp, err := s.client.Do(req, &pm)
+	var pb []*ProjectBadge
+	resp, err := s.client.Do(req, &pb)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return pm, resp, err
+	return pb, resp, err
 }
 
 // GetProjectBadge gets a project badge.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/project_badges.html#get-a-badge-of-a-project
-func (s *ProjectBadgesService) GetProjectBadge(pid interface{}, badgeID int, options ...OptionFunc) (*ProjectBadge, *Response, error) {
+func (s *ProjectBadgesService) GetProjectBadge(pid interface{}, badge int, options ...OptionFunc) (*ProjectBadge, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/badges/%d", url.QueryEscape(project), badgeID)
+	u := fmt.Sprintf("projects/%s/badges/%d", url.QueryEscape(project), badge)
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	pm := new(ProjectBadge)
-	resp, err := s.client.Do(req, pm)
+	pb := new(ProjectBadge)
+	resp, err := s.client.Do(req, pb)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return pm, resp, err
+	return pb, resp, err
 }
 
 // AddProjectBadgeOptions represents the available AddProjectBadge() options.
@@ -75,8 +89,8 @@ func (s *ProjectBadgesService) GetProjectBadge(pid interface{}, badgeID int, opt
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/project_badges.html#add-a-badge-to-a-project
 type AddProjectBadgeOptions struct {
-	LinkURL  string `json:"link_url,omitempty"`
-	ImageURL string `json:"image_url,omitempty"`
+	LinkURL  *string `url:"link_url,omitempty" json:"link_url,omitempty"`
+	ImageURL *string `url:"image_url,omitempty" json:"image_url,omitempty"`
 }
 
 // AddProjectBadge adds a badge to a project.
@@ -95,13 +109,13 @@ func (s *ProjectBadgesService) AddProjectBadge(pid interface{}, opt *AddProjectB
 		return nil, nil, err
 	}
 
-	pm := new(ProjectBadge)
-	resp, err := s.client.Do(req, pm)
+	pb := new(ProjectBadge)
+	resp, err := s.client.Do(req, pb)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return pm, resp, err
+	return pb, resp, err
 }
 
 // EditProjectBadgeOptions represents the available EditProjectBadge() options.
@@ -109,33 +123,33 @@ func (s *ProjectBadgesService) AddProjectBadge(pid interface{}, opt *AddProjectB
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/project_badges.html#edit-a-badge-of-a-project
 type EditProjectBadgeOptions struct {
-	LinkURL  string `json:"link_url,omitempty"`
-	ImageURL string `json:"image_url,omitempty"`
+	LinkURL  *string `url:"link_url,omitempty" json:"link_url,omitempty"`
+	ImageURL *string `url:"image_url,omitempty" json:"image_url,omitempty"`
 }
 
 // EditProjectBadge updates a badge of a project.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/project_badges.html#edit-a-badge-of-a-project
-func (s *ProjectBadgesService) EditProjectBadge(pid interface{}, badgeID int, opt *EditProjectBadgeOptions, options ...OptionFunc) (*ProjectBadge, *Response, error) {
+func (s *ProjectBadgesService) EditProjectBadge(pid interface{}, badge int, opt *EditProjectBadgeOptions, options ...OptionFunc) (*ProjectBadge, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/badges/%d", url.QueryEscape(project), badgeID)
+	u := fmt.Sprintf("projects/%s/badges/%d", url.QueryEscape(project), badge)
 
 	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	pm := new(ProjectBadge)
-	resp, err := s.client.Do(req, pm)
+	pb := new(ProjectBadge)
+	resp, err := s.client.Do(req, pb)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return pm, resp, err
+	return pb, resp, err
 }
 
 // DeleteProjectBadge removes a badge from a project. Only project's
@@ -143,12 +157,12 @@ func (s *ProjectBadgesService) EditProjectBadge(pid interface{}, badgeID int, op
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/project_badges.html#remove-a-badge-from-a-project
-func (s *ProjectBadgesService) DeleteProjectBadge(pid interface{}, badgeID int, options ...OptionFunc) (*Response, error) {
+func (s *ProjectBadgesService) DeleteProjectBadge(pid interface{}, badge int, options ...OptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/badges/%d", url.QueryEscape(project), badgeID)
+	u := fmt.Sprintf("projects/%s/badges/%d", url.QueryEscape(project), badge)
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {
@@ -163,19 +177,8 @@ func (s *ProjectBadgesService) DeleteProjectBadge(pid interface{}, badgeID int, 
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/project_badges.html#preview-a-badge-from-a-project
 type ProjectBadgePreviewOptions struct {
-	LinkURL  string `url:"link_url,omitempty"`
-	ImageURL string `url:"image_url,omitempty"`
-}
-
-// ProjectBadgePreview represents the structure of PreviewProjectBadge() response.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ee/api/project_badges.html#preview-a-badge-from-a-project
-type ProjectBadgePreview struct {
-	LinkURL          string `json:"link_url,omitempty"`
-	ImageURL         string `json:"image_url,omitempty"`
-	RenderedLinkURL  string `json:"rendered_link_url"`
-	RenderedImageURL string `json:"rendered_image_url"`
+	LinkURL  *string `url:"link_url,omitempty" json:"link_url,omitempty"`
+	ImageURL *string `url:"image_url,omitempty" json:"image_url,omitempty"`
 }
 
 // PreviewProjectBadge returns how the link_url and image_url final URLs would be after
@@ -183,7 +186,7 @@ type ProjectBadgePreview struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/project_badges.html#preview-a-badge-from-a-project
-func (s *ProjectBadgesService) PreviewProjectBadge(pid interface{}, opt *ProjectBadgePreviewOptions, options ...OptionFunc) (*ProjectBadgePreview, *Response, error) {
+func (s *ProjectBadgesService) PreviewProjectBadge(pid interface{}, opt *ProjectBadgePreviewOptions, options ...OptionFunc) (*ProjectBadge, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -195,11 +198,11 @@ func (s *ProjectBadgesService) PreviewProjectBadge(pid interface{}, opt *Project
 		return nil, nil, err
 	}
 
-	var pm *ProjectBadgePreview
-	resp, err := s.client.Do(req, &pm)
+	pb := new(ProjectBadge)
+	resp, err := s.client.Do(req, &pb)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return pm, resp, err
+	return pb, resp, err
 }
