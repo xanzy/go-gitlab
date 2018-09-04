@@ -307,6 +307,7 @@ type Client struct {
 	PipelineTriggers      *PipelineTriggersService
 	Projects              *ProjectsService
 	ProjectMembers        *ProjectMembersService
+	ProjectBadges         *ProjectBadgesService
 	ProjectSnippets       *ProjectSnippetsService
 	ProjectVariables      *ProjectVariablesService
 	ProtectedBranches     *ProtectedBranchesService
@@ -441,6 +442,7 @@ func newClient(httpClient *http.Client) *Client {
 	c.PipelineTriggers = &PipelineTriggersService{client: c}
 	c.Projects = &ProjectsService{client: c}
 	c.ProjectMembers = &ProjectMembersService{client: c}
+	c.ProjectBadges = &ProjectBadgesService{client: c}
 	c.ProjectSnippets = &ProjectSnippetsService{client: c}
 	c.ProjectVariables = &ProjectVariablesService{client: c}
 	c.ProtectedBranches = &ProtectedBranchesService{client: c}
