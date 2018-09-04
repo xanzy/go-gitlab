@@ -42,7 +42,7 @@ to add new and/or missing endpoints. Currently the following services are suppor
 - [x] Group Members
 - [x] Issues
 - [x] Issue Boards
-- [x] Group Issue Boards 
+- [x] Group Issue Boards
 - [x] Jobs
 - [x] Keys
 - [x] Labels
@@ -61,8 +61,8 @@ to add new and/or missing endpoints. Currently the following services are suppor
 - [x] Pipeline Triggers
 - [x] Pipeline Schedules
 - [x] Projects (including setting Webhooks)
-- [ ] Project Access Requests
-- [ ] Project badges
+- [x] Project Access Requests
+- [x] Project badges
 - [ ] Project import/export
 - [x] Project Members
 - [x] Project Snippets
@@ -150,7 +150,6 @@ func main() {
 		log.Fatal(err)
 	}
 }
-
 ```
 
 For complete usage of go-gitlab, see the full [package docs](https://godoc.org/github.com/xanzy/go-gitlab).
