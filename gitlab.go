@@ -278,6 +278,7 @@ type Client struct {
 	BuildVariables        *BuildVariablesService
 	BroadcastMessage      *BroadcastMessagesService
 	Commits               *CommitsService
+	CustomAttribute       *CustomAttributesService
 	DeployKeys            *DeployKeysService
 	Deployments           *DeploymentsService
 	Environments          *EnvironmentsService
@@ -413,6 +414,7 @@ func newClient(httpClient *http.Client) *Client {
 	c.BuildVariables = &BuildVariablesService{client: c}
 	c.BroadcastMessage = &BroadcastMessagesService{client: c}
 	c.Commits = &CommitsService{client: c}
+	c.CustomAttribute = &CustomAttributesService{client: c}
 	c.DeployKeys = &DeployKeysService{client: c}
 	c.Deployments = &DeploymentsService{client: c}
 	c.Environments = &EnvironmentsService{client: c}
