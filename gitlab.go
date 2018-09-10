@@ -273,6 +273,7 @@ type Client struct {
 	UserAgent string
 
 	// Services used for talking to different parts of the GitLab API.
+	AccessRequests        *AccessRequestsService
 	AwardEmoji            *AwardEmojiService
 	Branches              *BranchesService
 	BuildVariables        *BuildVariablesService
@@ -409,6 +410,7 @@ func newClient(httpClient *http.Client) *Client {
 	timeStats := &timeStatsService{client: c}
 
 	// Create all the public services.
+	c.AccessRequests = &AccessRequestsService{client: c}
 	c.AwardEmoji = &AwardEmojiService{client: c}
 	c.Branches = &BranchesService{client: c}
 	c.BuildVariables = &BuildVariablesService{client: c}
