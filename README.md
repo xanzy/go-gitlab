@@ -36,9 +36,9 @@ to add new and/or missing endpoints. Currently the following services are suppor
 - [x] Feature flags
 - [ ] Geo Nodes
 - [x] Gitignores templates
-- [ ] GitLab CI Config templates
+- [x] GitLab CI Config templates
 - [x] Groups
-- [ ] Group Access Requests
+- [x] Group Access Requests
 - [x] Group Members
 - [x] Issues
 - [x] Issue Boards
@@ -50,7 +50,7 @@ to add new and/or missing endpoints. Currently the following services are suppor
 - [x] Merge Requests
 - [x] Merge Request Approvals
 - [x] Project Milestones
-- [ ] Group Milestones
+- [x] Group Milestones
 - [x] Namespaces
 - [x] Notes (comments)
 - [ ] Discussions (threaded comments)
