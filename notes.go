@@ -66,7 +66,11 @@ func (n Note) String() string {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/notes.html#list-project-issue-notes
-type ListIssueNotesOptions ListOptions
+type ListIssueNotesOptions struct {
+	ListOptions
+	OrderBy *string `url:"order_by,omitempty" json:"order_by,omitempty"`
+	Sort    *string `url:"sort,omitempty" json:"sort,omitempty"`
+}
 
 // ListIssueNotes gets a list of all notes for a single issue.
 //
