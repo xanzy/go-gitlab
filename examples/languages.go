@@ -6,7 +6,7 @@ import (
 	"github.com/topochan/go-gitlab"
 )
 
-func main() {
+func languagesExample() {
 	git := gitlab.NewClient(nil, "yourtokengoeshere")
 	git.SetBaseURL("https://gitlab.com/api/v4")
 
