@@ -278,6 +278,7 @@ type Client struct {
 	Branches              *BranchesService
 	BuildVariables        *BuildVariablesService
 	BroadcastMessage      *BroadcastMessagesService
+	CIYMLTemplate         *CIYMLTemplatesService
 	Commits               *CommitsService
 	CustomAttribute       *CustomAttributesService
 	DeployKeys            *DeployKeysService
@@ -415,6 +416,7 @@ func newClient(httpClient *http.Client) *Client {
 	c.Branches = &BranchesService{client: c}
 	c.BuildVariables = &BuildVariablesService{client: c}
 	c.BroadcastMessage = &BroadcastMessagesService{client: c}
+	c.CIYMLTemplate = &CIYMLTemplatesService{client: c}
 	c.Commits = &CommitsService{client: c}
 	c.CustomAttribute = &CustomAttributesService{client: c}
 	c.DeployKeys = &DeployKeysService{client: c}
