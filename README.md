@@ -26,7 +26,7 @@ to add new and/or missing endpoints. Currently the following services are suppor
 - [x] Project-level Variables
 - [x] Group-level Variables
 - [x] Commits
-- [ ] Custom Attributes
+- [x] Custom Attributes
 - [x] Deployments
 - [x] Deploy Keys
 - [x] Environments
@@ -55,7 +55,7 @@ to add new and/or missing endpoints. Currently the following services are suppor
 - [x] Notes (comments)
 - [ ] Discussions (threaded comments)
 - [x] Notification settings
-- [ ] Open source license templates
+- [x] Open source license templates
 - [x] Pages Domains
 - [x] Pipelines
 - [x] Pipeline Triggers
