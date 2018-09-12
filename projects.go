@@ -282,6 +282,35 @@ func (s *ProjectsService) ListProjectsUsers(pid interface{}, opt *ListProjectUse
 	return p, resp, err
 }
 
+// ProjectLanguages is a map of strings because the response is arbitrary
+//
+// Gitlab API docs: https://docs.gitlab.com/ce/api/projects.html#languages
+type ProjectLanguages map[string]float32
+
+// GetProjectLanguages gets a list of languages used by the project
+//
+// GitLab API docs:  https://docs.gitlab.com/ce/api/projects.html#languages
+func (s *ProjectsService) GetProjectLanguages(pid interface{}, options ...OptionFunc) (*ProjectLanguages, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/languages", url.QueryEscape(project))
+
+	req, err := s.client.NewRequest("GET", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	p := new(ProjectLanguages)
+	resp, err := s.client.Do(req, p)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return p, resp, err
+}
+
 // GetProject gets a specific project, identified by project ID or
 // NAMESPACE/PROJECT_NAME, which is owned by the authenticated user.
 //
