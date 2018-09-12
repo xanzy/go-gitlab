@@ -283,13 +283,13 @@ func (s *ProjectsService) ListProjectsUsers(pid interface{}, opt *ListProjectUse
 }
 
 // ProjectLanguages is a map of strings because the response is arbitrary
-// Gitlab API docs with example: https://docs.gitlab.com/ce/api/projects.html#languages
-type ProjectLanguages map[string]interface{}
-
-// GetProjectLanguages gets a list of languages of the project ID
 //
-// GitLab API docs:
-// https://docs.gitlab.com/ce/api/projects.html#languages
+// Gitlab API docs: https://docs.gitlab.com/ce/api/projects.html#languages
+type ProjectLanguages map[string]float32
+
+// GetProjectLanguages gets a list of languages used by the project
+//
+// GitLab API docs:  https://docs.gitlab.com/ce/api/projects.html#languages
 func (s *ProjectsService) GetProjectLanguages(pid interface{}, options ...OptionFunc) (*ProjectLanguages, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
