@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	"github.com/topochan/go-gitlab"
+	"github.com/xanzy/go-gitlab"
 )
 
 func languagesExample() {
