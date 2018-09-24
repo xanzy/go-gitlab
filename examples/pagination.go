@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/xanzy/go-gitlab"
 )
@@ -16,13 +17,24 @@ func pagination() {
 		},
 	}
 
-	_, resp, _ := git.Projects.ListProjects(opt) // Page 1
-	for page := 2; page < resp.TotalPages; page++ {
-		opt.ListOptions.Page = page
-		projects, _, _ := git.Projects.ListProjects(opt)
-
-		for _, p := range projects {
-			fmt.Println(p.ID)
+	for {
+		// Get the first page with projects.
+		ps, resp, err := git.Projects.ListProjects(opt)
+		if err != nil {
+			log.Fatal(err)
 		}
+
+		// List all the projects we've found so far.
+		for _, p := range ps {
+			fmt.Printf("Found project: %s", p.Name)
+		}
+
+		// Exit the loop when we've seen all pages.
+		if opt.Page >= resp.TotalPages {
+			break
+		}
+
+		// Update the page number to get the next page.
+		opt.Page = resp.NextPage
 	}
 }
