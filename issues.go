@@ -363,6 +363,60 @@ func (s *IssuesService) DeleteIssue(pid interface{}, issue int, options ...Optio
 	return s.client.Do(req, nil)
 }
 
+// SubscribeToIssue subscribes the authenticated user to the given issue to
+// receive notifications. If the user is already subscribed to the issue, the
+// status code 304 is returned.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/merge_requests.html#subscribe-to-a-merge-request
+func (s *IssuesService) SubscribeToIssue(pid interface{}, issue int, options ...OptionFunc) (*Issue, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/issues/%d/subscribe", url.QueryEscape(project), issue)
+
+	req, err := s.client.NewRequest("POST", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	i := new(Issue)
+	resp, err := s.client.Do(req, i)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return i, resp, err
+}
+
+// UnsubscribeFromIssue unsubscribes the authenticated user from the given
+// issue to not receive notifications from that merge request. If the user
+// is not subscribed to the issue, status code 304 is returned.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/merge_requests.html#unsubscribe-from-a-merge-request
+func (s *IssuesService) UnsubscribeFromIssue(pid interface{}, issue int, options ...OptionFunc) (*Issue, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/issues/%d/unsubscribe", url.QueryEscape(project), issue)
+
+	req, err := s.client.NewRequest("POST", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	i := new(Issue)
+	resp, err := s.client.Do(req, i)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return i, resp, err
+}
+
 // ListMergeRequestsClosingIssueOptions represents the available
 // ListMergeRequestsClosingIssue() options.
 //
