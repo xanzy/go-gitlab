@@ -513,7 +513,7 @@ type DescriptionChange struct {
 	Current  string `json:"current"`
 }
 
-// UpdateByChange is the change of UpdatedBy in MR
+// UpdatedByChange is the change of UpdatedBy in MR
 type UpdatedByChange struct {
 	Previous int `json:"previous"`
 	Current  int `json:"current"`
