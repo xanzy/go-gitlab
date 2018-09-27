@@ -490,6 +490,39 @@ type MergeEvent struct {
 		Username  string `json:"username"`
 		AvatarURL string `json:"avatar_url"`
 	} `json:"assignee"`
+	Changes Changes `json:"changes"`
+}
+
+// Changes contains all changes associated with MR
+type Changes struct {
+	UpdatedByID *UpdatedByChange   `json:"updated_by_id"`
+	Labels      *LabelChange       `json:"labels"`
+	Description *DescriptionChange `json:"description"`
+	AssigneeID  *AssigneeChange    `json:"assignee_id"`
+}
+
+// AssigneeChange is the change of Assignee in MR
+type AssigneeChange struct {
+	Previous int `json:"previous"`
+	Current  int `json:"current"`
+}
+
+// DescriptionChange is the change of Description in MR
+type DescriptionChange struct {
+	Previous string `json:"previous"`
+	Current  string `json:"current"`
+}
+
+// UpdatedByChange is the change of UpdatedBy in MR
+type UpdatedByChange struct {
+	Previous int `json:"previous"`
+	Current  int `json:"current"`
+}
+
+// LabelChange is the change of labels in MR
+type LabelChange struct {
+	Previous []Label `json:"previous"`
+	Current  []Label `json:"current"`
 }
 
 // WikiPageEvent represents a wiki page event.
