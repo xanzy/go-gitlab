@@ -19,7 +19,6 @@ package gitlab
 import (
 	"fmt"
 	"net/url"
-	"time"
 )
 
 // DiscussionsService handles communication with the discussions related methods
@@ -34,41 +33,9 @@ type DiscussionsService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/discussions.html
 type Discussion struct {
-	ID         int    `json:"id"`
-	Body       string `json:"body"`
-	Attachment string `json:"attachment"`
-	Type       string `json:"type,omitempty"`
-	Title      string `json:"title"`
-	FileName   string `json:"file_name"`
-	Author     struct {
-		ID        int        `json:"id"`
-		Username  string     `json:"username"`
-		Email     string     `json:"email"`
-		Name      string     `json:"name"`
-		State     string     `json:"state"`
-		CreatedAt *time.Time `json:"created_at"`
-		AvatarURL string     `json:"avatar_url"`
-		WebURL    string     `json:"web_url"`
-	} `json:"author"`
-	System       bool       `json:"system"`
-	ExpiresAt    *time.Time `json:"expires_at"`
-	UpdatedAt    *time.Time `json:"updated_at"`
-	CreatedAt    *time.Time `json:"created_at"`
-	NoteableID   int        `json:"noteable_id"`
-	NoteableType string     `json:"noteable_type"`
-	Resolvable   bool       `json:"resolvable"`
-	Resolved     bool       `json:"resolved"`
-	ResolvedBy   struct {
-		ID        int        `json:"id"`
-		Username  string     `json:"username"`
-		Email     string     `json:"email"`
-		Name      string     `json:"name"`
-		State     string     `json:"state"`
-		CreatedAt *time.Time `json:"created_at"`
-		AvatarURL string     `json:"avatar_url"`
-		WebURL    string     `json:"web_url"`
-	} `json:"resolved_by"`
-	NoteableIID int `json:"noteable_iid"`
+	ID             string `json:"id"`
+	IndividualNote bool   `json:"individual_note"`
+	Notes          []Note `json:"notes"`
 }
 
 func (n Discussion) String() string {

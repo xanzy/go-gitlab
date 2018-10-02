@@ -55,7 +55,19 @@ type Note struct {
 	CreatedAt    *time.Time `json:"created_at"`
 	NoteableID   int        `json:"noteable_id"`
 	NoteableType string     `json:"noteable_type"`
-	NoteableIID  int        `json:"noteable_iid"`
+	Resolvable   bool       `json:"resolvable"`
+	Resolved     bool       `json:"resolved"`
+	ResolvedBy   struct {
+		ID        int        `json:"id"`
+		Username  string     `json:"username"`
+		Email     string     `json:"email"`
+		Name      string     `json:"name"`
+		State     string     `json:"state"`
+		CreatedAt *time.Time `json:"created_at"`
+		AvatarURL string     `json:"avatar_url"`
+		WebURL    string     `json:"web_url"`
+	} `json:"resolved_by"`
+	NoteableIID int `json:"noteable_iid"`
 }
 
 func (n Note) String() string {
