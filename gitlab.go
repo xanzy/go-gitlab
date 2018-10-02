@@ -283,6 +283,7 @@ type Client struct {
 	CustomAttribute       *CustomAttributesService
 	DeployKeys            *DeployKeysService
 	Deployments           *DeploymentsService
+	Discussions           *DiscussionsService
 	Environments          *EnvironmentsService
 	Events                *EventsService
 	Features              *FeaturesService
