@@ -49,29 +49,16 @@ type Note struct {
 		AvatarURL string     `json:"avatar_url"`
 		WebURL    string     `json:"web_url"`
 	} `json:"author"`
-	System       bool       `json:"system"`
-	ExpiresAt    *time.Time `json:"expires_at"`
-	UpdatedAt    *time.Time `json:"updated_at"`
-	CreatedAt    *time.Time `json:"created_at"`
-	NoteableID   int        `json:"noteable_id"`
-	NoteableType string     `json:"noteable_type"`
-	Position     struct {
-		BaseSHA      string `json:"base_sha"`
-		StartSHA     string `json:"start_sha"`
-		HeadSHA      string `json:"head_sha"`
-		PositionType string `json:"position_type"`
-		NewPath      string `json:"new_path,omitempty"`
-		OldPath      string `json:"old_path,omitempty"`
-		NewLine      int    `json:"new_line,omitempty"`
-		OldLine      int    `json:"old_line,omitempty"`
-		Width        int    `json:"width,omitempty"`
-		Height       int    `json:"height,omitempty"`
-		X            int    `json:"x,omitempty"`
-		Y            int    `json:"y,omitempty"`
-	} `json:"position,omitempty"`
-	Resolvable bool `json:"resolvable"`
-	Resolved   bool `json:"resolved"`
-	ResolvedBy struct {
+	System       bool         `json:"system"`
+	ExpiresAt    *time.Time   `json:"expires_at"`
+	UpdatedAt    *time.Time   `json:"updated_at"`
+	CreatedAt    *time.Time   `json:"created_at"`
+	NoteableID   int          `json:"noteable_id"`
+	NoteableType string       `json:"noteable_type"`
+	Position     NotePosition `json:"position,omitempty"`
+	Resolvable   bool         `json:"resolvable"`
+	Resolved     bool         `json:"resolved"`
+	ResolvedBy   struct {
 		ID        int        `json:"id"`
 		Username  string     `json:"username"`
 		Email     string     `json:"email"`
@@ -82,6 +69,22 @@ type Note struct {
 		WebURL    string     `json:"web_url"`
 	} `json:"resolved_by"`
 	NoteableIID int `json:"noteable_iid"`
+}
+
+// NotePosition represents the "position" attributes on a note
+type NotePosition struct {
+	BaseSHA      string `json:"base_sha"`
+	StartSHA     string `json:"start_sha"`
+	HeadSHA      string `json:"head_sha"`
+	PositionType string `json:"position_type"`
+	NewPath      string `json:"new_path,omitempty"`
+	NewLine      int    `json:"new_line,omitempty"`
+	OldPath      string `json:"old_path,omitempty"`
+	OldLine      int    `json:"old_line,omitempty"`
+	Width        int    `json:"width,omitempty"`
+	Height       int    `json:"height,omitempty"`
+	X            int    `json:"x,omitempty"`
+	Y            int    `json:"y,omitempty"`
 }
 
 func (n Note) String() string {

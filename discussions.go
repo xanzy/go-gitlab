@@ -19,6 +19,7 @@ package gitlab
 import (
 	"fmt"
 	"net/url"
+	"time"
 )
 
 // DiscussionsService handles communication with the discussions related methods
@@ -393,7 +394,9 @@ func (s *DiscussionsService) GetMergeRequestDiscussion(pid interface{}, mergeReq
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/discussions.html#create-new-merge-request-discussion
 type CreateMergeRequestDiscussionOptions struct {
-	Body *string `url:"body,omitempty" json:"body,omitempty"`
+	Body      *string      `url:"body,omitempty" json:"body,omitempty"`
+	CreatedAt time.Time    `url:"created_at,omitempty"`
+	Position  NotePosition `json:"position,omitempty"`
 }
 
 // CreateMergeRequestDiscussion creates a new discussion for a single merge request.
