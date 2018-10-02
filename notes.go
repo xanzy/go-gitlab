@@ -55,9 +55,23 @@ type Note struct {
 	CreatedAt    *time.Time `json:"created_at"`
 	NoteableID   int        `json:"noteable_id"`
 	NoteableType string     `json:"noteable_type"`
-	Resolvable   bool       `json:"resolvable"`
-	Resolved     bool       `json:"resolved"`
-	ResolvedBy   struct {
+	Position     struct {
+		BaseSHA      string `json:"base_sha"`
+		StartSHA     string `json:"start_sha"`
+		HeadSHA      string `json:"head_sha"`
+		PositionType string `json:"position_type"`
+		NewPath      string `json:"new_path,omitempty"`
+		OldPath      string `json:"old_path,omitempty"`
+		NewLine      int    `json:"new_line,omitempty"`
+		OldLine      int    `json:"old_line,omitempty"`
+		Width        int    `json:"width,omitempty"`
+		Height       int    `json:"height,omitempty"`
+		X            int    `json:"x,omitempty"`
+		Y            int    `json:"y,omitempty"`
+	} `json:"position,omitempty"`
+	Resolvable bool `json:"resolvable"`
+	Resolved   bool `json:"resolved"`
+	ResolvedBy struct {
 		ID        int        `json:"id"`
 		Username  string     `json:"username"`
 		Email     string     `json:"email"`
