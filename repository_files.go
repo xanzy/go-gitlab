@@ -99,7 +99,7 @@ func (s *RepositoryFilesService) GetRawFile(pid interface{}, fileName string, op
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/repository/files/%s/raw", url.QuesryEscape(project), url.PathEscape(fileName))
+	u := fmt.Sprintf("projects/%s/repository/files/%s/raw", url.QueryEscape(project), url.PathEscape(fileName))
 
 	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
@@ -188,7 +188,7 @@ func (s *RepositoryFilesService) UpdateFile(pid interface{}, fileName string, op
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/repository/files/%s", url.QuesryEscape(project), url.PathEscape(fileName))
+	u := fmt.Sprintf("projects/%s/repository/files/%s", url.QueryEscape(project), url.PathEscape(fileName))
 
 	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
