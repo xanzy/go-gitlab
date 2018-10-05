@@ -512,6 +512,7 @@ type UpdateMergeRequestOptions struct {
 	Labels       Labels  `url:"labels,comma,omitempty" json:"labels,omitempty"`
 	MilestoneID  *int    `url:"milestone_id,omitempty" json:"milestone_id,omitempty"`
 	StateEvent   *string `url:"state_event,omitempty" json:"state_event,omitempty"`
+	Squash       *bool   `url:"squash,omitempty" json:"squash,omitempty"`
 }
 
 // UpdateMergeRequest updates an existing project milestone.
