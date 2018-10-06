@@ -18,6 +18,7 @@ package gitlab
 
 import (
 	"fmt"
+	"net/http"
 	"net/url"
 	"time"
 )
@@ -64,8 +65,8 @@ type Discussion struct {
 const (
 	discussionMergeRequest = "merge_requests"
 	discussionIssue        = "issues"
-	discussionSnippets     = "snippets"
-	discussionCommits      = "commits"
+	discussionSnippet      = "snippets"
+	discussionCommit       = "commits"
 )
 
 // ListDiscussionsOptions represents the available options for listing discussions
@@ -96,7 +97,7 @@ func (s *DiscussionService) ListIssueDiscussions(pid interface{}, issueIID int, 
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/discussions.html#list-project-snippet-discussions
 func (s *DiscussionService) ListSnippetDiscussions(pid interface{}, snippetID int, opt *ListDiscussionsOptions, options ...OptionFunc) ([]*Discussion, *Response, error) {
-	return s.listDiscussions(pid, discussionSnippets, snippetID, opt, options...)
+	return s.listDiscussions(pid, discussionSnippet, snippetID, opt, options...)
 }
 
 // ListCommitDiscussions gets a list of all discussions on the commit.
@@ -104,7 +105,7 @@ func (s *DiscussionService) ListSnippetDiscussions(pid interface{}, snippetID in
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/discussions.html#list-project-commit-discussions
 func (s *DiscussionService) ListCommitDiscussions(pid interface{}, commitID int, opt *ListDiscussionsOptions, options ...OptionFunc) ([]*Discussion, *Response, error) {
-	return s.listDiscussions(pid, discussionSnippets, commitID, opt, options...)
+	return s.listDiscussions(pid, discussionCommit, commitID, opt, options...)
 }
 
 func (s *DiscussionService) listDiscussions(pid interface{}, resource string, resourceID int, opt *ListDiscussionsOptions, options ...OptionFunc) ([]*Discussion, *Response, error) {
@@ -118,7 +119,7 @@ func (s *DiscussionService) listDiscussions(pid interface{}, resource string, re
 		resourceID,
 	)
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -132,7 +133,7 @@ func (s *DiscussionService) listDiscussions(pid interface{}, resource string, re
 	return d, resp, err
 }
 
-// GetMergeRequestDiscussion get an discussion from merge request.
+// GetMergeRequestDiscussion get a discussion from merge request.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/discussions.html#get-single-merge-request-discussion
@@ -140,7 +141,7 @@ func (s *DiscussionService) GetMergeRequestDiscussion(pid interface{}, mergeRequ
 	return s.getDiscussion(pid, discussionMergeRequest, mergeRequestIID, discussionID, options...)
 }
 
-// GetIssueDiscussion get an discussion from issue.
+// GetIssueDiscussion get a discussion from issue.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/discussions.html#get-single-issue-discussion
@@ -148,20 +149,20 @@ func (s *DiscussionService) GetIssueDiscussion(pid interface{}, issueIID, discus
 	return s.getDiscussion(pid, discussionIssue, issueIID, discussionID, options...)
 }
 
-// GetSnippetDiscussion get an discussion from snippet.
+// GetSnippetDiscussion get a discussion from snippet.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/discussions.html#get-single-snippet-discussion
 func (s *DiscussionService) GetSnippetDiscussion(pid interface{}, snippetID, discussionID int, options ...OptionFunc) (*Discussion, *Response, error) {
-	return s.getDiscussion(pid, discussionSnippets, snippetID, discussionID, options...)
+	return s.getDiscussion(pid, discussionSnippet, snippetID, discussionID, options...)
 }
 
-// GetCommitDiscussion get an discussion from commit.
+// GetCommitDiscussion get a discussion from commit.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/discussions.html#get-single-commit-discussion
 func (s *DiscussionService) GetCommitDiscussion(pid interface{}, commitID, discussionID int, options ...OptionFunc) (*Discussion, *Response, error) {
-	return s.getDiscussion(pid, discussionCommits, commitID, discussionID, options...)
+	return s.getDiscussion(pid, discussionCommit, commitID, discussionID, options...)
 }
 
 func (s *DiscussionService) getDiscussion(pid interface{}, resource string, resourceID, discussionID int, options ...OptionFunc) (*Discussion, *Response, error) {
@@ -176,7 +177,7 @@ func (s *DiscussionService) getDiscussion(pid interface{}, resource string, reso
 		discussionID,
 	)
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -207,21 +208,29 @@ func (s *DiscussionService) CreateMergeRequestDiscussion(pid interface{}, mergeR
 	return s.createDiscussion(pid, discussionMergeRequest, mergeRequestIID, opt, options...)
 }
 
-// // CreateIssueAwardEmoji get an award emoji from issue.
-// //
-// // GitLab API docs:
-// // https://docs.gitlab.com/ce/api/award_emoji.html#award-a-new-emoji
-// func (s *AwardEmojiService) CreateIssueAwardEmoji(pid interface{}, issueIID int, opt *CreateAwardEmojiOptions, options ...OptionFunc) (*AwardEmoji, *Response, error) {
-// 	return s.createAwardEmoji(pid, awardIssue, issueIID, opt, options...)
-// }
+// CreateIssueDiscussion creates a new discussion to a single project issue.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/discussions.html#create-new-issue-discussion
+func (s *DiscussionService) CreateIssueDiscussion(pid interface{}, issueIID int, opt *CreateDiscussionOptions, options ...OptionFunc) (*Discussion, *Response, error) {
+	return s.createDiscussion(pid, discussionIssue, issueIID, opt, options...)
+}
 
-// // CreateSnippetAwardEmoji get an award emoji from snippet.
-// //
-// // GitLab API docs:
-// // https://docs.gitlab.com/ce/api/award_emoji.html#award-a-new-emoji
-// func (s *AwardEmojiService) CreateSnippetAwardEmoji(pid interface{}, snippetID int, opt *CreateAwardEmojiOptions, options ...OptionFunc) (*AwardEmoji, *Response, error) {
-// 	return s.createAwardEmoji(pid, awardSnippets, snippetID, opt, options...)
-// }
+// CreateSnippetDiscussion creates a new discussion to a single project snippet.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/discussions.html#create-new-snippet-discussion
+func (s *DiscussionService) CreateSnippetDiscussion(pid interface{}, snippetIID int, opt *CreateDiscussionOptions, options ...OptionFunc) (*Discussion, *Response, error) {
+	return s.createDiscussion(pid, discussionSnippet, snippetIID, opt, options...)
+}
+
+// CreateCommitDiscussion creates a new discussion to a single project commit.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/discussions.html#create-new-commit-discussion
+func (s *DiscussionService) CreateCommitDiscussion(pid interface{}, commitIID int, opt *CreateDiscussionOptions, options ...OptionFunc) (*Discussion, *Response, error) {
+	return s.createDiscussion(pid, discussionCommit, commitIID, opt, options...)
+}
 
 func (s *DiscussionService) createDiscussion(pid interface{}, resource string, resourceID int, opt *CreateDiscussionOptions, options ...OptionFunc) (*Discussion, *Response, error) {
 	project, err := parseID(pid)
@@ -234,7 +243,7 @@ func (s *DiscussionService) createDiscussion(pid interface{}, resource string, r
 		resourceID,
 	)
 
-	req, err := s.client.NewRequest("POST", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -248,249 +257,181 @@ func (s *DiscussionService) createDiscussion(pid interface{}, resource string, r
 	return d, resp, err
 }
 
-// // DeleteIssueAwardEmoji delete award emoji on an issue.
-// //
-// // GitLab API docs:
-// // https://docs.gitlab.com/ce/api/award_emoji.html#award-a-new-emoji-on-a-note
-// func (s *AwardEmojiService) DeleteIssueAwardEmoji(pid interface{}, issueIID, awardID int, options ...OptionFunc) (*Response, error) {
-// 	return s.deleteAwardEmoji(pid, awardMergeRequest, issueIID, awardID, options...)
-// }
+// AddNoteMergeRequestDiscussion adds a new note to the discussion.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/discussions.html#add-note-to-existing-merge-request-discussion
+func (s *DiscussionService) AddNoteMergeRequestDiscussion(pid interface{}, mergeRequestIID, discussionID int, opt *CreateDiscussionOptions, options ...OptionFunc) (*Discussion, *Response, error) {
+	return s.addNoteDiscussion(pid, discussionMergeRequest, mergeRequestIID, discussionID, opt, options...)
+}
 
-// // DeleteMergeRequestAwardEmoji delete award emoji on a merge request.
-// //
-// // GitLab API docs:
-// // https://docs.gitlab.com/ce/api/award_emoji.html#award-a-new-emoji-on-a-note
-// func (s *AwardEmojiService) DeleteMergeRequestAwardEmoji(pid interface{}, mergeRequestIID, awardID int, options ...OptionFunc) (*Response, error) {
-// 	return s.deleteAwardEmoji(pid, awardMergeRequest, mergeRequestIID, awardID, options...)
-// }
+// AddNoteIssueDiscussion adds a new note to the discussion.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/discussions.html#add-note-to-existing-issue-discussion
+func (s *DiscussionService) AddNoteIssueDiscussion(pid interface{}, issueIID, discussionID int, opt *CreateDiscussionOptions, options ...OptionFunc) (*Discussion, *Response, error) {
+	return s.addNoteDiscussion(pid, discussionIssue, issueIID, discussionID, opt, options...)
+}
 
-// // DeleteSnippetAwardEmoji delete award emoji on a snippet.
-// //
-// // GitLab API docs:
-// // https://docs.gitlab.com/ce/api/award_emoji.html#award-a-new-emoji-on-a-note
-// func (s *AwardEmojiService) DeleteSnippetAwardEmoji(pid interface{}, snippetID, awardID int, options ...OptionFunc) (*Response, error) {
-// 	return s.deleteAwardEmoji(pid, awardMergeRequest, snippetID, awardID, options...)
-// }
+// AddNoteSnippetDiscussion adds a new note to the discussion.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/discussions.html#add-note-to-existing-snippet-discussion
+func (s *DiscussionService) AddNoteSnippetDiscussion(pid interface{}, snippetIID, discussionID int, opt *CreateDiscussionOptions, options ...OptionFunc) (*Discussion, *Response, error) {
+	return s.addNoteDiscussion(pid, discussionSnippet, snippetIID, discussionID, opt, options...)
+}
 
-// // DeleteAwardEmoji Delete an award emoji on the specified resource.
-// //
-// // GitLab API docs:
-// // https://docs.gitlab.com/ce/api/award_emoji.html#delete-an-award-emoji
-// func (s *AwardEmojiService) deleteAwardEmoji(pid interface{}, resource string, resourceID, awardID int, options ...OptionFunc) (*Response, error) {
-// 	project, err := parseID(pid)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	u := fmt.Sprintf("projects/%s/%s/%d/award_emoji/%d", url.QueryEscape(project), resource,
-// 		resourceID, awardID)
+// AddNoteCommitDiscussion adds a new note to the discussion.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/discussions.html#add-note-to-existing-commit-discussion
+func (s *DiscussionService) AddNoteCommitDiscussion(pid interface{}, commitIID, discussionID int, opt *CreateDiscussionOptions, options ...OptionFunc) (*Discussion, *Response, error) {
+	return s.addNoteDiscussion(pid, discussionCommit, commitIID, discussionID, opt, options...)
+}
 
-// 	req, err := s.client.NewRequest("DELETE", u, nil, options)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	return s.client.Do(req, nil)
-// }
+func (s *DiscussionService) addNoteDiscussion(pid interface{}, resource string, resourceID, discussionID int, opt *CreateDiscussionOptions, options ...OptionFunc) (*Discussion, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/%s/%d/discussions/%d/notes",
+		url.QueryEscape(project),
+		resource,
+		resourceID,
+		discussionID,
+	)
 
-// // ListIssuesAwardEmojiOnNote gets a list of all award emoji on a note from the
-// // issue.
-// //
-// // GitLab API docs:
-// // https://docs.gitlab.com/ce/api/award_emoji.html#award-emoji-on-notes
-// func (s *AwardEmojiService) ListIssuesAwardEmojiOnNote(pid interface{}, issueID, noteID int, opt *ListAwardEmojiOptions, options ...OptionFunc) ([]*AwardEmoji, *Response, error) {
-// 	return s.listAwardEmojiOnNote(pid, awardIssue, issueID, noteID, opt, options...)
-// }
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
 
-// // ListMergeRequestAwardEmojiOnNote gets a list of all award emoji on a note
-// // from the merge request.
-// //
-// // GitLab API docs:
-// // https://docs.gitlab.com/ce/api/award_emoji.html#award-emoji-on-notes
-// func (s *AwardEmojiService) ListMergeRequestAwardEmojiOnNote(pid interface{}, mergeRequestIID, noteID int, opt *ListAwardEmojiOptions, options ...OptionFunc) ([]*AwardEmoji, *Response, error) {
-// 	return s.listAwardEmojiOnNote(pid, awardMergeRequest, mergeRequestIID, noteID, opt, options...)
-// }
+	d := new(Discussion)
+	resp, err := s.client.Do(req, &d)
+	if err != nil {
+		return nil, resp, err
+	}
 
-// // ListSnippetAwardEmojiOnNote gets a list of all award emoji on a note from the
-// // snippet.
-// //
-// // GitLab API docs:
-// // https://docs.gitlab.com/ce/api/award_emoji.html#award-emoji-on-notes
-// func (s *AwardEmojiService) ListSnippetAwardEmojiOnNote(pid interface{}, snippetIID, noteID int, opt *ListAwardEmojiOptions, options ...OptionFunc) ([]*AwardEmoji, *Response, error) {
-// 	return s.listAwardEmojiOnNote(pid, awardSnippets, snippetIID, noteID, opt, options...)
-// }
+	return d, resp, err
+}
 
-// func (s *AwardEmojiService) listAwardEmojiOnNote(pid interface{}, resources string, ressourceID, noteID int, opt *ListAwardEmojiOptions, options ...OptionFunc) ([]*AwardEmoji, *Response, error) {
-// 	project, err := parseID(pid)
-// 	if err != nil {
-// 		return nil, nil, err
-// 	}
-// 	u := fmt.Sprintf("projects/%s/%s/%d/notes/%d/award_emoji", url.QueryEscape(project), resources,
-// 		ressourceID, noteID)
+// ModifyDiscussionOptions represents the available options for discussion
+// for a resource
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/discussions.html#modify-an-existing-merge-request-discussion-note
+type ModifyDiscussionOptions struct {
+	Body     *string `json:"body,omitempty"`
+	Resolved *bool   `json:"resolved,omitempty"`
+}
 
-// 	req, err := s.client.NewRequest("GET", u, opt, options)
-// 	if err != nil {
-// 		return nil, nil, err
-// 	}
+// ModifyNoteMergeRequestDiscussion modify or resolve an existing discussion note of a merge request.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/discussions.html#modify-an-existing-merge-request-discussion-note
+func (s *DiscussionService) ModifyNoteMergeRequestDiscussion(pid interface{}, mergeRequestIID, discussionID, noteID int, opt *ModifyDiscussionOptions, options ...OptionFunc) (*Discussion, *Response, error) {
+	return s.modifyDiscussionNote(pid, discussionMergeRequest, mergeRequestIID, discussionID, noteID, opt, options...)
+}
 
-// 	var as []*AwardEmoji
-// 	resp, err := s.client.Do(req, &as)
-// 	if err != nil {
-// 		return nil, resp, err
-// 	}
+// ModifyNoteIssueDiscussion modify an existing discussion note of an issue.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/discussions.html#modify-existing-issue-discussion-note
+func (s *DiscussionService) ModifyNoteIssueDiscussion(pid interface{}, issueIID, discussionID, noteID int, opt *ModifyDiscussionOptions, options ...OptionFunc) (*Discussion, *Response, error) {
+	return s.modifyDiscussionNote(pid, discussionIssue, issueIID, discussionID, noteID, opt, options...)
+}
 
-// 	return as, resp, err
-// }
+// ModifyNoteSnippetDiscussion modify an existing discussion note of a snippet.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/discussions.html#modify-existing-snippet-discussion-note
+func (s *DiscussionService) ModifyNoteSnippetDiscussion(pid interface{}, snippetIID, discussionID, noteID int, opt *ModifyDiscussionOptions, options ...OptionFunc) (*Discussion, *Response, error) {
+	return s.modifyDiscussionNote(pid, discussionSnippet, snippetIID, discussionID, noteID, opt, options...)
+}
 
-// // GetIssuesAwardEmojiOnNote gets an award emoji on a note from an issue.
-// //
-// // GitLab API docs:
-// // https://docs.gitlab.com/ce/api/award_emoji.html#award-emoji-on-notes
-// func (s *AwardEmojiService) GetIssuesAwardEmojiOnNote(pid interface{}, issueID, noteID, awardID int, options ...OptionFunc) (*AwardEmoji, *Response, error) {
-// 	return s.getSingleNoteAwardEmoji(pid, awardIssue, issueID, noteID, awardID, options...)
-// }
+// ModifyNoteCommitDiscussion modify or resolve an existing discussion note of a commit
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/discussions.html#modify-an-existing-commit-discussion-note
+func (s *DiscussionService) ModifyNoteCommitDiscussion(pid interface{}, commitIID, discussionID, noteID int, opt *ModifyDiscussionOptions, options ...OptionFunc) (*Discussion, *Response, error) {
+	return s.modifyDiscussionNote(pid, discussionCommit, commitIID, discussionID, noteID, opt, options...)
+}
 
-// // GetMergeRequestAwardEmojiOnNote gets an award emoji on a note from a
-// // merge request.
-// //
-// // GitLab API docs:
-// // https://docs.gitlab.com/ce/api/award_emoji.html#award-emoji-on-notes
-// func (s *AwardEmojiService) GetMergeRequestAwardEmojiOnNote(pid interface{}, mergeRequestIID, noteID, awardID int, options ...OptionFunc) (*AwardEmoji, *Response, error) {
-// 	return s.getSingleNoteAwardEmoji(pid, awardMergeRequest, mergeRequestIID, noteID, awardID,
-// 		options...)
-// }
+func (s *DiscussionService) modifyDiscussionNote(pid interface{}, resource string, resourceID, discussionID, noteID int, opt *ModifyDiscussionOptions, options ...OptionFunc) (*Discussion, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/%s/%d/discussions/%d/notes/%d",
+		url.QueryEscape(project),
+		resource,
+		resourceID,
+		discussionID,
+		noteID,
+	)
 
-// // GetSnippetAwardEmojiOnNote gets an award emoji on a note from a snippet.
-// //
-// // GitLab API docs:
-// // https://docs.gitlab.com/ce/api/award_emoji.html#award-emoji-on-notes
-// func (s *AwardEmojiService) GetSnippetAwardEmojiOnNote(pid interface{}, snippetIID, noteID, awardID int, options ...OptionFunc) (*AwardEmoji, *Response, error) {
-// 	return s.getSingleNoteAwardEmoji(pid, awardSnippets, snippetIID, noteID, awardID, options...)
-// }
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
 
-// func (s *AwardEmojiService) getSingleNoteAwardEmoji(pid interface{}, ressource string, resourceID, noteID, awardID int, options ...OptionFunc) (*AwardEmoji, *Response, error) {
-// 	project, err := parseID(pid)
-// 	if err != nil {
-// 		return nil, nil, err
-// 	}
-// 	u := fmt.Sprintf("projects/%s/%s/%d/notes/%d/award_emoji/%d",
-// 		url.QueryEscape(project),
-// 		ressource,
-// 		resourceID,
-// 		noteID,
-// 		awardID,
-// 	)
+	d := new(Discussion)
+	resp, err := s.client.Do(req, &d)
+	if err != nil {
+		return nil, resp, err
+	}
 
-// 	req, err := s.client.NewRequest("GET", u, nil, options)
-// 	if err != nil {
-// 		return nil, nil, err
-// 	}
+	return d, resp, err
+}
 
-// 	a := new(AwardEmoji)
-// 	resp, err := s.client.Do(req, &a)
-// 	if err != nil {
-// 		return nil, resp, err
-// 	}
+// DeleteNoteMergeRequestDiscussion deletes an existing discussion note of a merge request.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/discussions.html#delete-a-merge-request-discussion-note
+func (s *DiscussionService) DeleteNoteMergeRequestDiscussion(pid interface{}, mergeRequestIID, discussionID, noteID int, options ...OptionFunc) (*Response, error) {
+	return s.deleteDiscussionNote(pid, discussionMergeRequest, mergeRequestIID, discussionID, noteID, options...)
+}
 
-// 	return a, resp, err
-// }
+// DeleteNoteIssueDiscussion deletes an existing discussion note of an issue.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/discussions.html#delete-an-issue-discussion-note
+func (s *DiscussionService) DeleteNoteIssueDiscussion(pid interface{}, issueIID, discussionID, noteID int, options ...OptionFunc) (*Response, error) {
+	return s.deleteDiscussionNote(pid, discussionIssue, issueIID, discussionID, noteID, options...)
+}
 
-// // CreateIssuesAwardEmojiOnNote gets an award emoji on a note from an issue.
-// //
-// // GitLab API docs:
-// // https://docs.gitlab.com/ce/api/award_emoji.html#award-emoji-on-notes
-// func (s *AwardEmojiService) CreateIssuesAwardEmojiOnNote(pid interface{}, issueID, noteID int, opt *CreateAwardEmojiOptions, options ...OptionFunc) (*AwardEmoji, *Response, error) {
-// 	return s.createAwardEmojiOnNote(pid, awardIssue, issueID, noteID, opt, options...)
-// }
+// DeleteNoteSnippetDiscussion deletes an existing discussion note of a snippet.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/discussions.html#delete-an-snippet-discussion-note
+func (s *DiscussionService) DeleteNoteSnippetDiscussion(pid interface{}, snippetIID, discussionID, noteID int, options ...OptionFunc) (*Response, error) {
+	return s.deleteDiscussionNote(pid, discussionSnippet, snippetIID, discussionID, noteID, options...)
+}
 
-// // CreateMergeRequestAwardEmojiOnNote gets an award emoji on a note from a
-// // merge request.
-// //
-// // GitLab API docs:
-// // https://docs.gitlab.com/ce/api/award_emoji.html#award-emoji-on-notes
-// func (s *AwardEmojiService) CreateMergeRequestAwardEmojiOnNote(pid interface{}, mergeRequestIID, noteID int, opt *CreateAwardEmojiOptions, options ...OptionFunc) (*AwardEmoji, *Response, error) {
-// 	return s.createAwardEmojiOnNote(pid, awardMergeRequest, mergeRequestIID, noteID, opt, options...)
-// }
+// DeleteNoteCommitDiscussion deletes an existing discussion note of a commit.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/discussions.html#delete-a-commit-discussion-note
+func (s *DiscussionService) DeleteNoteCommitDiscussion(pid interface{}, commitIID, discussionID, noteID int, options ...OptionFunc) (*Response, error) {
+	return s.deleteDiscussionNote(pid, discussionCommit, commitIID, discussionID, noteID, options...)
+}
 
-// // CreateSnippetAwardEmojiOnNote gets an award emoji on a note from a snippet.
-// //
-// // GitLab API docs:
-// // https://docs.gitlab.com/ce/api/award_emoji.html#award-emoji-on-notes
-// func (s *AwardEmojiService) CreateSnippetAwardEmojiOnNote(pid interface{}, snippetIID, noteID int, opt *CreateAwardEmojiOptions, options ...OptionFunc) (*AwardEmoji, *Response, error) {
-// 	return s.createAwardEmojiOnNote(pid, awardSnippets, snippetIID, noteID, opt, options...)
-// }
+func (s *DiscussionService) deleteDiscussionNote(pid interface{}, resource string, resourceID, discussionID, noteID int, options ...OptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/%s/%d/discussions/%d/notes/%d",
+		url.QueryEscape(project),
+		resource,
+		resourceID,
+		discussionID,
+		noteID,
+	)
 
-// // CreateAwardEmojiOnNote award emoji on a note.
-// //
-// // GitLab API docs:
-// // https://docs.gitlab.com/ce/api/award_emoji.html#award-a-new-emoji-on-a-note
-// func (s *AwardEmojiService) createAwardEmojiOnNote(pid interface{}, resource string, resourceID, noteID int, opt *CreateAwardEmojiOptions, options ...OptionFunc) (*AwardEmoji, *Response, error) {
-// 	project, err := parseID(pid)
-// 	if err != nil {
-// 		return nil, nil, err
-// 	}
-// 	u := fmt.Sprintf("projects/%s/%s/%d/notes/%d/award_emoji",
-// 		url.QueryEscape(project),
-// 		resource,
-// 		resourceID,
-// 		noteID,
-// 	)
-
-// 	req, err := s.client.NewRequest("POST", u, nil, options)
-// 	if err != nil {
-// 		return nil, nil, err
-// 	}
-
-// 	a := new(AwardEmoji)
-// 	resp, err := s.client.Do(req, &a)
-// 	if err != nil {
-// 		return nil, resp, err
-// 	}
-
-// 	return a, resp, err
-// }
-
-// // DeleteIssuesAwardEmojiOnNote deletes an award emoji on a note from an issue.
-// //
-// // GitLab API docs:
-// // https://docs.gitlab.com/ce/api/award_emoji.html#award-emoji-on-notes
-// func (s *AwardEmojiService) DeleteIssuesAwardEmojiOnNote(pid interface{}, issueID, noteID, awardID int, options ...OptionFunc) (*Response, error) {
-// 	return s.deleteAwardEmojiOnNote(pid, awardIssue, issueID, noteID, awardID, options...)
-// }
-
-// // DeleteMergeRequestAwardEmojiOnNote deletes an award emoji on a note from a
-// // merge request.
-// //
-// // GitLab API docs:
-// // https://docs.gitlab.com/ce/api/award_emoji.html#award-emoji-on-notes
-// func (s *AwardEmojiService) DeleteMergeRequestAwardEmojiOnNote(pid interface{}, mergeRequestIID, noteID, awardID int, options ...OptionFunc) (*Response, error) {
-// 	return s.deleteAwardEmojiOnNote(pid, awardMergeRequest, mergeRequestIID, noteID, awardID,
-// 		options...)
-// }
-
-// // DeleteSnippetAwardEmojiOnNote deletes an award emoji on a note from a snippet.
-// //
-// // GitLab API docs:
-// // https://docs.gitlab.com/ce/api/award_emoji.html#award-emoji-on-notes
-// func (s *AwardEmojiService) DeleteSnippetAwardEmojiOnNote(pid interface{}, snippetIID, noteID, awardID int, options ...OptionFunc) (*Response, error) {
-// 	return s.deleteAwardEmojiOnNote(pid, awardSnippets, snippetIID, noteID, awardID, options...)
-// }
-
-// func (s *AwardEmojiService) deleteAwardEmojiOnNote(pid interface{}, resource string, resourceID, noteID, awardID int, options ...OptionFunc) (*Response, error) {
-// 	project, err := parseID(pid)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	u := fmt.Sprintf("projects/%s/%s/%d/notes/%d/award_emoji/%d",
-// 		url.QueryEscape(project),
-// 		resource,
-// 		resourceID,
-// 		noteID,
-// 		awardID,
-// 	)
-
-// 	req, err := s.client.NewRequest("DELETE", u, nil, options)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-
-// 	return s.client.Do(req, nil)
-// }
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+	return s.client.Do(req, nil)
+}
