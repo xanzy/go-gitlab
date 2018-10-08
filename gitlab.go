@@ -287,6 +287,7 @@ type Client struct {
 	CustomAttribute       *CustomAttributesService
 	DeployKeys            *DeployKeysService
 	Deployments           *DeploymentsService
+	Discussions           *DiscussionService
 	Environments          *EnvironmentsService
 	Events                *EventsService
 	Features              *FeaturesService
@@ -426,6 +427,7 @@ func newClient(httpClient *http.Client) *Client {
 	c.CustomAttribute = &CustomAttributesService{client: c}
 	c.DeployKeys = &DeployKeysService{client: c}
 	c.Deployments = &DeploymentsService{client: c}
+	c.Discussions = &DiscussionService{client: c}
 	c.Environments = &EnvironmentsService{client: c}
 	c.Events = &EventsService{client: c}
 	c.Features = &FeaturesService{client: c}
