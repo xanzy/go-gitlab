@@ -64,12 +64,16 @@ type AccessLevelValue int
 //
 // GitLab API docs: https://docs.gitlab.com/ce/permissions/permissions.html
 const (
-	NoPermissions        AccessLevelValue = 0
-	GuestPermissions     AccessLevelValue = 10
-	ReporterPermissions  AccessLevelValue = 20
-	DeveloperPermissions AccessLevelValue = 30
-	MasterPermissions    AccessLevelValue = 40
-	OwnerPermission      AccessLevelValue = 50
+	NoPermissions         AccessLevelValue = 0
+	GuestPermissions      AccessLevelValue = 10
+	ReporterPermissions   AccessLevelValue = 20
+	DeveloperPermissions  AccessLevelValue = 30
+	MaintainerPermissions AccessLevelValue = 40
+	OwnerPermissions      AccessLevelValue = 50
+
+	// These are deprecated and should be removed in a future version
+	MasterPermissions     AccessLevelValue = 40
+	OwnerPermission       AccessLevelValue = 50
 )
 
 // BuildStateValue represents a GitLab build state.
