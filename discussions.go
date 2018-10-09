@@ -216,7 +216,7 @@ func (s *DiscussionsService) DeleteIssueDiscussionNote(pid interface{}, issue in
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/issues/%d/discussions/%s/notes/%d", url.QueryEscape(project), issue, discussion)
+	u := fmt.Sprintf("projects/%s/issues/%d/discussions/%s/notes/%d", url.QueryEscape(project), issue, discussion, note)
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {
@@ -397,7 +397,7 @@ func (s *DiscussionsService) DeleteSnippetDiscussionNote(pid interface{}, snippe
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/snippets/%d/discussions/%s/notes/%d", url.QueryEscape(project), snippet, discussion)
+	u := fmt.Sprintf("projects/%s/snippets/%d/discussions/%s/notes/%d", url.QueryEscape(project), snippet, discussion, note)
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {
@@ -579,7 +579,7 @@ func (s *DiscussionsService) DeleteEpicDiscussionNote(gid interface{}, epic int,
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("groups/%s/epics/%d/discussions/%s/notes/%d", url.QueryEscape(project), epic, discussion)
+	u := fmt.Sprintf("groups/%s/epics/%d/discussions/%s/notes/%d", url.QueryEscape(project), epic, discussion, note)
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {
@@ -625,7 +625,7 @@ func (s *DiscussionsService) ListMergeRequestDiscussions(pid interface{}, mergeR
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/discussions.html#get-single-merge-request-discussion
-func (s *DiscussionsService) GetMergeRequestDiscussion(pid interface{}, mergeRequest, discussion string, options ...OptionFunc) (*Discussion, *Response, error) {
+func (s *DiscussionsService) GetMergeRequestDiscussion(pid interface{}, mergeRequest int, discussion string, options ...OptionFunc) (*Discussion, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -795,7 +795,7 @@ func (s *DiscussionsService) DeleteMergeRequestDiscussionNote(pid interface{}, m
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/merge_requests/%d/discussions/%s/notes/%d", url.QueryEscape(project), mergeRequest, discussion)
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/discussions/%s/notes/%d", url.QueryEscape(project), mergeRequest, discussion, note)
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {
@@ -818,7 +818,7 @@ type UpdateMergeRequestDiscussionOptions struct {
 // UpdateMergeRequestDiscussion modifies existing discussion of a merge request.
 //
 // https://docs.gitlab.com/ce/api/discussions.html#modify-existing-merge-request-discussion
-func (s *DiscussionsService) UpdateMergeRequestDiscussion(pid interface{}, mergeRequest, discussion string, opt *UpdateMergeRequestDiscussionOptions, options ...OptionFunc) (*Discussion, *Response, error) {
+func (s *DiscussionsService) UpdateMergeRequestDiscussion(pid interface{}, mergeRequest int, discussion string, opt *UpdateMergeRequestDiscussionOptions, options ...OptionFunc) (*Discussion, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -842,7 +842,7 @@ func (s *DiscussionsService) UpdateMergeRequestDiscussion(pid interface{}, merge
 // DeleteMergeRequestDiscussion deletes an existing discussion of a merge request.
 //
 // https://docs.gitlab.com/ce/api/discussions.html#delete-a-merge-request-discussion
-func (s *DiscussionsService) DeleteMergeRequestDiscussion(pid interface{}, mergeRequest, discussion string, options ...OptionFunc) (*Response, error) {
+func (s *DiscussionsService) DeleteMergeRequestDiscussion(pid interface{}, mergeRequest int, discussion string, options ...OptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, err
@@ -1033,7 +1033,7 @@ func (s *DiscussionsService) DeleteCommitDiscussionNote(pid interface{}, commit 
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/repository/commits/%s/discussions/%s/notes/%d", url.QueryEscape(project), commit, discussion)
+	u := fmt.Sprintf("projects/%s/repository/commits/%s/discussions/%s/notes/%d", url.QueryEscape(project), commit, discussion, note)
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {
