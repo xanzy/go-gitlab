@@ -1,5 +1,5 @@
 //
-// Copyright 2017, Sander van Harmelen
+// Copyright 2018, Sander van Harmelen
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -39,25 +39,25 @@ type Discussion struct {
 	Notes          []Note `json:"notes"`
 }
 
-func (n Discussion) String() string {
-	return Stringify(n)
+func (d Discussion) String() string {
+	return Stringify(d)
 }
 
-// ListIssueDiscussionsOptions represents the available ListIssueDiscussions() options.
+// ListProjectIssueDiscussionsOptions represents the available ListIssueDiscussions()
+// options.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/discussions.html#list-project-issue-discussions
-type ListIssueDiscussionsOptions struct {
+type ListProjectIssueDiscussionsOptions struct {
 	ListOptions
-	OrderBy *string `url:"order_by,omitempty" json:"order_by,omitempty"`
-	Sort    *string `url:"sort,omitempty" json:"sort,omitempty"`
 }
 
-// ListIssueDiscussions gets a list of all discussions for a single issue.
+// ListProjectIssueDiscussions gets a list of all discussions for a single
+// issue.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/discussions.html#list-project-issue-discussions
-func (s *DiscussionsService) ListIssueDiscussions(pid interface{}, issue int, opt *ListIssueDiscussionsOptions, options ...OptionFunc) ([]*Discussion, *Response, error) {
+func (s *DiscussionsService) ListProjectIssueDiscussions(pid interface{}, issue int, opt *ListProjectIssueDiscussionsOptions, options ...OptionFunc) ([]*Discussion, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -69,38 +69,39 @@ func (s *DiscussionsService) ListIssueDiscussions(pid interface{}, issue int, op
 		return nil, nil, err
 	}
 
-	var n []*Discussion
-	resp, err := s.client.Do(req, &n)
+	var ds []*Discussion
+	resp, err := s.client.Do(req, &ds)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return n, resp, err
+	return ds, resp, err
 }
 
 // GetIssueDiscussion returns a single discussion for a specific project issue.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/discussions.html#get-single-issue-discussion
-func (s *DiscussionsService) GetIssueDiscussion(pid interface{}, issue, discussion int, options ...OptionFunc) (*Discussion, *Response, error) {
+func (s *DiscussionsService) GetIssueDiscussion(pid interface{}, issue int, discussion string, options ...OptionFunc) (*Discussion, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/issues/%d/discussions/%d", url.QueryEscape(project), issue, discussion)
+	u := fmt.Sprintf("projects/%s/issues/%d/discussions/%s", url.QueryEscape(project), issue,
+		discussion)
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	n := new(Discussion)
-	resp, err := s.client.Do(req, n)
+	d := new(Discussion)
+	resp, err := s.client.Do(req, d)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return n, resp, err
+	return d, resp, err
 }
 
 // CreateIssueDiscussionOptions represents the available CreateIssueDiscussion()
@@ -109,7 +110,8 @@ func (s *DiscussionsService) GetIssueDiscussion(pid interface{}, issue, discussi
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/discussions.html#create-new-issue-discussion
 type CreateIssueDiscussionOptions struct {
-	Body *string `url:"body,omitempty" json:"body,omitempty"`
+	Body      *string    `url:"body,omitempty" json:"body,omitempty"`
+	CreatedAt *time.Time `json:"created_at,omitempty"`
 }
 
 // CreateIssueDiscussion creates a new discussion to a single project issue.
@@ -128,57 +130,93 @@ func (s *DiscussionsService) CreateIssueDiscussion(pid interface{}, issue int, o
 		return nil, nil, err
 	}
 
-	n := new(Discussion)
-	resp, err := s.client.Do(req, n)
+	d := new(Discussion)
+	resp, err := s.client.Do(req, d)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return n, resp, err
+	return d, resp, err
 }
 
-// UpdateIssueDiscussionOptions represents the available UpdateIssueDiscussion()
-// options.
+// AddIssueDiscussionNoteOptions represents the available
+// AddIssueDiscussionNote() options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/discussions.html#modify-existing-issue-discussion
-type UpdateIssueDiscussionOptions struct {
-	Body *string `url:"body,omitempty" json:"body,omitempty"`
+// https://docs.gitlab.com/ce/api/discussions.html#add-note-to-existing-issue-discussion
+type AddIssueDiscussionNoteOptions struct {
+	Body      *string    `url:"body,omitempty" json:"body,omitempty"`
+	CreatedAt *time.Time `json:"created_at,omitempty"`
 }
 
-// UpdateIssueDiscussion modifies existing discussion of an issue.
+// AddIssueDiscussionNote creates a new discussion to a single project issue.
 //
-// https://docs.gitlab.com/ce/api/discussions.html#modify-existing-issue-discussion
-func (s *DiscussionsService) UpdateIssueDiscussion(pid interface{}, issue, discussion int, opt *UpdateIssueDiscussionOptions, options ...OptionFunc) (*Discussion, *Response, error) {
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/discussions.html#add-note-to-existing-issue-discussion
+func (s *DiscussionsService) AddIssueDiscussionNote(pid interface{}, issue int, discussion string, opt *AddIssueDiscussionNoteOptions, options ...OptionFunc) (*Discussion, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/issues/%d/discussions/%d", url.QueryEscape(project), issue, discussion)
+	u := fmt.Sprintf("projects/%s/issues/%d/discussions/%s/notes", url.QueryEscape(project), issue, discussion)
+
+	req, err := s.client.NewRequest("POST", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	d := new(Discussion)
+	resp, err := s.client.Do(req, d)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return d, resp, err
+}
+
+// UpdateIssueDiscussionNoteOptions represents the available UpdateIssueDiscussion()
+// options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/discussions.html#modify-existing-issue-discussion-note
+type UpdateIssueDiscussionNoteOptions struct {
+	Body *string `url:"body,omitempty" json:"body,omitempty"`
+}
+
+// UpdateIssueDiscussionNote modifies existing discussion of an issue.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/discussions.html#modify-existing-issue-discussion-note
+func (s *DiscussionsService) UpdateIssueDiscussionNote(pid interface{}, issue int, discussion string, note int, opt *UpdateIssueDiscussionNoteOptions, options ...OptionFunc) (*Discussion, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/issues/%d/discussions/%s/notes/%d", url.QueryEscape(project), issue, discussion, note)
 
 	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	n := new(Discussion)
-	resp, err := s.client.Do(req, n)
+	d := new(Discussion)
+	resp, err := s.client.Do(req, d)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return n, resp, err
+	return d, resp, err
 }
 
-// DeleteIssueDiscussion deletes an existing discussion of an issue.
+// DeleteIssueDiscussionNote deletes an existing discussion of an issue.
 //
-// https://docs.gitlab.com/ce/api/discussions.html#delete-an-issue-discussion
-func (s *DiscussionsService) DeleteIssueDiscussion(pid interface{}, issue, discussion int, options ...OptionFunc) (*Response, error) {
+// https://docs.gitlab.com/ce/api/discussions.html#delete-an-issue-discussion-note
+func (s *DiscussionsService) DeleteIssueDiscussionNote(pid interface{}, issue int, discussion string, note int, options ...OptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/issues/%d/discussions/%d", url.QueryEscape(project), issue, discussion)
+	u := fmt.Sprintf("projects/%s/issues/%d/discussions/%s/notes/%d", url.QueryEscape(project), issue, discussion)
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {
@@ -188,18 +226,19 @@ func (s *DiscussionsService) DeleteIssueDiscussion(pid interface{}, issue, discu
 	return s.client.Do(req, nil)
 }
 
-// ListSnippetDiscussionsOptions represents the available ListSnippetDiscussions() options.
+// ListProjectSnippetDiscussionsOptions represents the available
+// ListSnippetDiscussions() options.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/discussions.html#list-all-snippet-discussions
-type ListSnippetDiscussionsOptions ListOptions
+type ListProjectSnippetDiscussionsOptions ListOptions
 
-// ListSnippetDiscussions gets a list of all discussions for a single snippet. Snippet
-// discussions are comments users can post to a snippet.
+// ListProjectSnippetDiscussions gets a list of all discussions for a single
+// snippet. Snippet discussions are comments users can post to a snippet.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/discussions.html#list-all-snippet-discussions
-func (s *DiscussionsService) ListSnippetDiscussions(pid interface{}, snippet int, opt *ListSnippetDiscussionsOptions, options ...OptionFunc) ([]*Discussion, *Response, error) {
+func (s *DiscussionsService) ListProjectSnippetDiscussions(pid interface{}, snippet int, opt *ListProjectSnippetDiscussionsOptions, options ...OptionFunc) ([]*Discussion, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -211,38 +250,38 @@ func (s *DiscussionsService) ListSnippetDiscussions(pid interface{}, snippet int
 		return nil, nil, err
 	}
 
-	var n []*Discussion
-	resp, err := s.client.Do(req, &n)
+	var ds []*Discussion
+	resp, err := s.client.Do(req, &ds)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return n, resp, err
+	return ds, resp, err
 }
 
 // GetSnippetDiscussion returns a single discussion for a given snippet.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/discussions.html#get-single-snippet-discussion
-func (s *DiscussionsService) GetSnippetDiscussion(pid interface{}, snippet, discussion int, options ...OptionFunc) (*Discussion, *Response, error) {
+func (s *DiscussionsService) GetSnippetDiscussion(pid interface{}, snippet int, discussion string, options ...OptionFunc) (*Discussion, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/snippets/%d/discussions/%d", url.QueryEscape(project), snippet, discussion)
+	u := fmt.Sprintf("projects/%s/snippets/%d/discussions/%s", url.QueryEscape(project), snippet, discussion)
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	n := new(Discussion)
-	resp, err := s.client.Do(req, n)
+	d := new(Discussion)
+	resp, err := s.client.Do(req, d)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return n, resp, err
+	return d, resp, err
 }
 
 // CreateSnippetDiscussionOptions represents the available CreateSnippetDiscussion()
@@ -251,7 +290,8 @@ func (s *DiscussionsService) GetSnippetDiscussion(pid interface{}, snippet, disc
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/discussions.html#create-new-snippet-discussion
 type CreateSnippetDiscussionOptions struct {
-	Body *string `url:"body,omitempty" json:"body,omitempty"`
+	Body      *string    `url:"body,omitempty" json:"body,omitempty"`
+	CreatedAt *time.Time `url:"created_at,omitempty"`
 }
 
 // CreateSnippetDiscussion creates a new discussion for a single snippet. Snippet discussions are
@@ -271,57 +311,275 @@ func (s *DiscussionsService) CreateSnippetDiscussion(pid interface{}, snippet in
 		return nil, nil, err
 	}
 
-	n := new(Discussion)
-	resp, err := s.client.Do(req, n)
+	d := new(Discussion)
+	resp, err := s.client.Do(req, d)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return n, resp, err
+	return d, resp, err
 }
 
-// UpdateSnippetDiscussionOptions represents the available UpdateSnippetDiscussion()
-// options.
+// AddSnippetDiscussionNoteOptions represents the available
+// AddSnippetDiscussionNote() options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/discussions.html#modify-existing-snippet-discussion
-type UpdateSnippetDiscussionOptions struct {
-	Body *string `url:"body,omitempty" json:"body,omitempty"`
+// https://docs.gitlab.com/ce/api/discussions.html#add-note-to-existing-snippet-discussion
+type AddSnippetDiscussionNoteOptions struct {
+	Body      *string    `url:"body,omitempty" json:"body,omitempty"`
+	CreatedAt *time.Time `json:"created_at,omitempty"`
 }
 
-// UpdateSnippetDiscussion modifies existing discussion of a snippet.
+// AddSnippetDiscussionNote creates a new discussion to a single project snippet.
 //
-// https://docs.gitlab.com/ce/api/discussions.html#modify-existing-snippet-discussion
-func (s *DiscussionsService) UpdateSnippetDiscussion(pid interface{}, snippet, discussion int, opt *UpdateSnippetDiscussionOptions, options ...OptionFunc) (*Discussion, *Response, error) {
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/discussions.html#add-note-to-existing-snippet-discussion
+func (s *DiscussionsService) AddSnippetDiscussionNote(pid interface{}, snippet int, discussion string, opt *AddSnippetDiscussionNoteOptions, options ...OptionFunc) (*Discussion, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/snippets/%d/discussions/%d", url.QueryEscape(project), snippet, discussion)
+	u := fmt.Sprintf("projects/%s/snippets/%d/discussions/%s/notes", url.QueryEscape(project), snippet, discussion)
+
+	req, err := s.client.NewRequest("POST", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	d := new(Discussion)
+	resp, err := s.client.Do(req, d)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return d, resp, err
+}
+
+// UpdateSnippetDiscussionNoteOptions represents the available UpdateSnippetDiscussion()
+// options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/discussions.html#modify-existing-snippet-discussion-note
+type UpdateSnippetDiscussionNoteOptions struct {
+	Body *string `url:"body,omitempty" json:"body,omitempty"`
+}
+
+// UpdateSnippetDiscussionNote modifies existing discussion of a snippet.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/discussions.html#modify-existing-snippet-discussion-note
+func (s *DiscussionsService) UpdateSnippetDiscussionNote(pid interface{}, snippet int, discussion string, note int, opt *UpdateSnippetDiscussionNoteOptions, options ...OptionFunc) (*Discussion, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/snippets/%d/discussions/%s/notes/%d", url.QueryEscape(project), snippet, discussion, note)
 
 	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	n := new(Discussion)
-	resp, err := s.client.Do(req, n)
+	d := new(Discussion)
+	resp, err := s.client.Do(req, d)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return n, resp, err
+	return d, resp, err
 }
 
-// DeleteSnippetDiscussion deletes an existing discussion of a snippet.
+// DeleteSnippetDiscussionNote deletes an existing discussion of a snippet.
 //
-// https://docs.gitlab.com/ce/api/discussions.html#delete-a-snippet-discussion
-func (s *DiscussionsService) DeleteSnippetDiscussion(pid interface{}, snippet, discussion int, options ...OptionFunc) (*Response, error) {
+// https://docs.gitlab.com/ce/api/discussions.html#delete-a-snippet-discussion-note
+func (s *DiscussionsService) DeleteSnippetDiscussionNote(pid interface{}, snippet int, discussion string, note int, options ...OptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/snippets/%d/discussions/%d", url.QueryEscape(project), snippet, discussion)
+	u := fmt.Sprintf("projects/%s/snippets/%d/discussions/%s/notes/%d", url.QueryEscape(project), snippet, discussion)
+
+	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
+
+// ListGroupEpicDiscussionsOptions represents the available
+// ListEpicDiscussions() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/discussions.html#list-all-epic-discussions
+type ListGroupEpicDiscussionsOptions ListOptions
+
+// ListGroupEpicDiscussions gets a list of all discussions for a single
+// epic. Epic discussions are comments users can post to a epic.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/discussions.html#list-all-epic-discussions
+func (s *DiscussionsService) ListGroupEpicDiscussions(gid interface{}, epic int, opt *ListGroupEpicDiscussionsOptions, options ...OptionFunc) ([]*Discussion, *Response, error) {
+	project, err := parseID(gid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("groups/%s/epics/%d/discussions", url.QueryEscape(project), epic)
+
+	req, err := s.client.NewRequest("GET", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var ds []*Discussion
+	resp, err := s.client.Do(req, &ds)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return ds, resp, err
+}
+
+// GetEpicDiscussion returns a single discussion for a given epic.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/discussions.html#get-single-epic-discussion
+func (s *DiscussionsService) GetEpicDiscussion(gid interface{}, epic int, discussion string, options ...OptionFunc) (*Discussion, *Response, error) {
+	project, err := parseID(gid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("groups/%s/epics/%d/discussions/%s", url.QueryEscape(project), epic, discussion)
+
+	req, err := s.client.NewRequest("GET", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	d := new(Discussion)
+	resp, err := s.client.Do(req, d)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return d, resp, err
+}
+
+// CreateEpicDiscussionOptions represents the available CreateEpicDiscussion()
+// options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/discussions.html#create-new-epic-discussion
+type CreateEpicDiscussionOptions struct {
+	Body      *string    `url:"body,omitempty" json:"body,omitempty"`
+	CreatedAt *time.Time `url:"created_at,omitempty"`
+}
+
+// CreateEpicDiscussion creates a new discussion for a single epic. Epic discussions are
+// comments users can post to a epic.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/discussions.html#create-new-epic-discussion
+func (s *DiscussionsService) CreateEpicDiscussion(gid interface{}, epic int, opt *CreateEpicDiscussionOptions, options ...OptionFunc) (*Discussion, *Response, error) {
+	project, err := parseID(gid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("groups/%s/epics/%d/discussions", url.QueryEscape(project), epic)
+
+	req, err := s.client.NewRequest("POST", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	d := new(Discussion)
+	resp, err := s.client.Do(req, d)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return d, resp, err
+}
+
+// AddEpicDiscussionNoteOptions represents the available
+// AddEpicDiscussionNote() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/discussions.html#add-note-to-existing-epic-discussion
+type AddEpicDiscussionNoteOptions struct {
+	Body      *string    `url:"body,omitempty" json:"body,omitempty"`
+	CreatedAt *time.Time `json:"created_at,omitempty"`
+}
+
+// AddEpicDiscussionNote creates a new discussion to a single project epic.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/discussions.html#add-note-to-existing-epic-discussion
+func (s *DiscussionsService) AddEpicDiscussionNote(gid interface{}, epic int, discussion string, opt *AddEpicDiscussionNoteOptions, options ...OptionFunc) (*Discussion, *Response, error) {
+	project, err := parseID(gid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("groups/%s/epics/%d/discussions/%s/notes", url.QueryEscape(project), epic, discussion)
+
+	req, err := s.client.NewRequest("POST", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	d := new(Discussion)
+	resp, err := s.client.Do(req, d)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return d, resp, err
+}
+
+// UpdateEpicDiscussionNoteOptions represents the available UpdateEpicDiscussion()
+// options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/discussions.html#modify-existing-epic-discussion-note
+type UpdateEpicDiscussionNoteOptions struct {
+	Body      *string    `url:"body,omitempty" json:"body,omitempty"`
+	CreatedAt *time.Time `json:"created_at,omitempty"`
+}
+
+// UpdateEpicDiscussionNote modifies existing discussion of a epic.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/discussions.html#modify-existing-epic-discussion-note
+func (s *DiscussionsService) UpdateEpicDiscussionNote(gid interface{}, epic int, discussion string, note int, opt *UpdateEpicDiscussionNoteOptions, options ...OptionFunc) (*Discussion, *Response, error) {
+	project, err := parseID(gid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("groups/%s/epics/%d/discussions/%s/notes/%d", url.QueryEscape(project), epic, discussion, note)
+
+	req, err := s.client.NewRequest("PUT", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	d := new(Discussion)
+	resp, err := s.client.Do(req, d)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return d, resp, err
+}
+
+// DeleteEpicDiscussionNote deletes an existing discussion of a epic.
+//
+// https://docs.gitlab.com/ee/api/discussions.html#delete-an-epic-discussion-note
+func (s *DiscussionsService) DeleteEpicDiscussionNote(gid interface{}, epic int, discussion string, note int, options ...OptionFunc) (*Response, error) {
+	project, err := parseID(gid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("groups/%s/epics/%d/discussions/%s/notes/%d", url.QueryEscape(project), epic, discussion)
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {
@@ -354,38 +612,38 @@ func (s *DiscussionsService) ListMergeRequestDiscussions(pid interface{}, mergeR
 		return nil, nil, err
 	}
 
-	var n []*Discussion
-	resp, err := s.client.Do(req, &n)
+	var ds []*Discussion
+	resp, err := s.client.Do(req, &ds)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return n, resp, err
+	return ds, resp, err
 }
 
 // GetMergeRequestDiscussion returns a single discussion for a given merge request.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/discussions.html#get-single-merge-request-discussion
-func (s *DiscussionsService) GetMergeRequestDiscussion(pid interface{}, mergeRequest, discussion int, options ...OptionFunc) (*Discussion, *Response, error) {
+func (s *DiscussionsService) GetMergeRequestDiscussion(pid interface{}, mergeRequest, discussion string, options ...OptionFunc) (*Discussion, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/merge_requests/%d/discussions/%d", url.QueryEscape(project), mergeRequest, discussion)
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/discussions/%s", url.QueryEscape(project), mergeRequest, discussion)
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	n := new(Discussion)
-	resp, err := s.client.Do(req, n)
+	d := new(Discussion)
+	resp, err := s.client.Do(req, d)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return n, resp, err
+	return d, resp, err
 }
 
 // CreateMergeRequestDiscussionOptions represents the available
@@ -394,9 +652,9 @@ func (s *DiscussionsService) GetMergeRequestDiscussion(pid interface{}, mergeReq
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/discussions.html#create-new-merge-request-discussion
 type CreateMergeRequestDiscussionOptions struct {
-	Body      *string      `url:"body,omitempty" json:"body,omitempty"`
-	CreatedAt time.Time    `url:"created_at,omitempty"`
-	Position  NotePosition `json:"position,omitempty"`
+	Body      *string       `url:"body,omitempty" json:"body,omitempty"`
+	CreatedAt *time.Time    `url:"created_at,omitempty"`
+	Position  *NotePosition `json:"position,omitempty"`
 }
 
 // CreateMergeRequestDiscussion creates a new discussion for a single merge request.
@@ -415,13 +673,136 @@ func (s *DiscussionsService) CreateMergeRequestDiscussion(pid interface{}, merge
 		return nil, nil, err
 	}
 
-	n := new(Discussion)
-	resp, err := s.client.Do(req, n)
+	d := new(Discussion)
+	resp, err := s.client.Do(req, d)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return n, resp, err
+	return d, resp, err
+}
+
+// ResolveMergeRequestDiscussionOptions represents the available
+// ResolveMergeRequestDiscussion() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/discussions.html#resolve-a-merge-request-discussion
+type ResolveMergeRequestDiscussionOptions struct {
+	Resolved bool `url:"resolved" json:"resolved"`
+}
+
+// ResolveMergeRequestDiscussion resolves/unresolves whole discussion of a merge
+// request.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/discussions.html#resolve-a-merge-request-discussion
+func (s *DiscussionsService) ResolveMergeRequestDiscussion(pid interface{}, mergeRequest int, discussion string, opt *ResolveMergeRequestDiscussionOptions, options ...OptionFunc) (*Discussion, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/discussions/%s", url.QueryEscape(project), mergeRequest, discussion)
+
+	req, err := s.client.NewRequest("PUT", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	d := new(Discussion)
+	resp, err := s.client.Do(req, d)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return d, resp, err
+}
+
+// AddMergeRequestDiscussionNoteOptions represents the available
+// AddMergeRequestDiscussionNote() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/discussions.html#add-note-to-existing-merge-request-discussion
+type AddMergeRequestDiscussionNoteOptions struct {
+	Body      *string    `url:"body,omitempty" json:"body,omitempty"`
+	CreatedAt *time.Time `json:"created_at,omitempty"`
+}
+
+// AddMergeRequestDiscussionNote creates a new discussion to a single project merge request.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/discussions.html#add-note-to-existing-merge-request-discussion
+func (s *DiscussionsService) AddMergeRequestDiscussionNote(pid interface{}, mergeRequest int, discussion string, opt *AddMergeRequestDiscussionNoteOptions, options ...OptionFunc) (*Discussion, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/discussions/%s/notes", url.QueryEscape(project), mergeRequest, discussion)
+
+	req, err := s.client.NewRequest("POST", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	d := new(Discussion)
+	resp, err := s.client.Do(req, d)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return d, resp, err
+}
+
+// UpdateMergeRequestDiscussionNoteOptions represents the available UpdateMergeRequestDiscussion()
+// options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/discussions.html#modify-existing-merge-request-discussion-note
+type UpdateMergeRequestDiscussionNoteOptions struct {
+	Body      *string    `url:"body,omitempty" json:"body,omitempty"`
+	CreatedAt *time.Time `json:"created_at,omitempty"`
+}
+
+// UpdateMergeRequestDiscussionNote modifies existing discussion of a merge request.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/discussions.html#modify-existing-merge-request-discussion-note
+func (s *DiscussionsService) UpdateMergeRequestDiscussionNote(pid interface{}, mergeRequest int, discussion string, note int, opt *UpdateMergeRequestDiscussionNoteOptions, options ...OptionFunc) (*Discussion, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/discussions/%s/notes/%d", url.QueryEscape(project), mergeRequest, discussion, note)
+
+	req, err := s.client.NewRequest("PUT", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	d := new(Discussion)
+	resp, err := s.client.Do(req, d)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return d, resp, err
+}
+
+// DeleteMergeRequestDiscussionNote deletes an existing discussion of a merge request.
+//
+// https://docs.gitlab.com/ce/api/discussions.html#delete-a-merge-request-discussion-note
+func (s *DiscussionsService) DeleteMergeRequestDiscussionNote(pid interface{}, mergeRequest int, discussion string, note int, options ...OptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/discussions/%s/notes/%d", url.QueryEscape(project), mergeRequest, discussion)
+
+	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
 }
 
 // UpdateMergeRequestDiscussionOptions represents the available
@@ -430,43 +811,229 @@ func (s *DiscussionsService) CreateMergeRequestDiscussion(pid interface{}, merge
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/discussions.html#modify-existing-merge-request-discussion
 type UpdateMergeRequestDiscussionOptions struct {
-	Body *string `url:"body,omitempty" json:"body,omitempty"`
+	Body      *string    `url:"body,omitempty" json:"body,omitempty"`
+	CreatedAt *time.Time `json:"created_at,omitempty"`
 }
 
 // UpdateMergeRequestDiscussion modifies existing discussion of a merge request.
 //
 // https://docs.gitlab.com/ce/api/discussions.html#modify-existing-merge-request-discussion
-func (s *DiscussionsService) UpdateMergeRequestDiscussion(pid interface{}, mergeRequest, discussion int, opt *UpdateMergeRequestDiscussionOptions, options ...OptionFunc) (*Discussion, *Response, error) {
+func (s *DiscussionsService) UpdateMergeRequestDiscussion(pid interface{}, mergeRequest, discussion string, opt *UpdateMergeRequestDiscussionOptions, options ...OptionFunc) (*Discussion, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf(
-		"projects/%s/merge_requests/%d/discussions/%d", url.QueryEscape(project), mergeRequest, discussion)
+		"projects/%s/merge_requests/%d/discussions/%s", url.QueryEscape(project), mergeRequest, discussion)
 	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	n := new(Discussion)
-	resp, err := s.client.Do(req, n)
+	d := new(Discussion)
+	resp, err := s.client.Do(req, d)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return n, resp, err
+	return d, resp, err
 }
 
 // DeleteMergeRequestDiscussion deletes an existing discussion of a merge request.
 //
 // https://docs.gitlab.com/ce/api/discussions.html#delete-a-merge-request-discussion
-func (s *DiscussionsService) DeleteMergeRequestDiscussion(pid interface{}, mergeRequest, discussion int, options ...OptionFunc) (*Response, error) {
+func (s *DiscussionsService) DeleteMergeRequestDiscussion(pid interface{}, mergeRequest, discussion string, options ...OptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, err
 	}
 	u := fmt.Sprintf(
-		"projects/%s/merge_requests/%d/discussions/%d", url.QueryEscape(project), mergeRequest, discussion)
+		"projects/%s/merge_requests/%d/discussions/%s", url.QueryEscape(project), mergeRequest, discussion)
+
+	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
+
+// ListProjectCommitDiscussionsOptions represents the available ListCommitDiscussions()
+// options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/discussions.html#list-project-commit-discussions
+type ListProjectCommitDiscussionsOptions struct {
+	ListOptions
+}
+
+// ListProjectCommitDiscussions gets a list of all discussions for a single
+// commit.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/discussions.html#list-project-commit-discussions
+func (s *DiscussionsService) ListProjectCommitDiscussions(pid interface{}, commit string, opt *ListProjectCommitDiscussionsOptions, options ...OptionFunc) ([]*Discussion, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/repository/commits/%s/discussions", url.QueryEscape(project), commit)
+
+	req, err := s.client.NewRequest("GET", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var ds []*Discussion
+	resp, err := s.client.Do(req, &ds)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return ds, resp, err
+}
+
+// GetCommitDiscussion returns a single discussion for a specific project commit.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/discussions.html#get-single-commit-discussion
+func (s *DiscussionsService) GetCommitDiscussion(pid interface{}, commit string, discussion string, options ...OptionFunc) (*Discussion, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/repository/commits/%s/discussions/%s", url.QueryEscape(project), commit,
+		discussion)
+
+	req, err := s.client.NewRequest("GET", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	d := new(Discussion)
+	resp, err := s.client.Do(req, d)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return d, resp, err
+}
+
+// CreateCommitDiscussionOptions represents the available CreateCommitDiscussion()
+// options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/discussions.html#create-new-commit-discussion
+type CreateCommitDiscussionOptions struct {
+	Body      *string       `url:"body,omitempty" json:"body,omitempty"`
+	CreatedAt *time.Time    `json:"created_at,omitempty"`
+	Position  *NotePosition `json:"position,omitempty"`
+}
+
+// CreateCommitDiscussion creates a new discussion to a single project commit.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/discussions.html#create-new-commit-discussion
+func (s *DiscussionsService) CreateCommitDiscussion(pid interface{}, commit string, opt *CreateCommitDiscussionOptions, options ...OptionFunc) (*Discussion, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/repository/commits/%s/discussions", url.QueryEscape(project), commit)
+
+	req, err := s.client.NewRequest("POST", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	d := new(Discussion)
+	resp, err := s.client.Do(req, d)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return d, resp, err
+}
+
+// AddCommitDiscussionNoteOptions represents the available
+// AddCommitDiscussionNote() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/discussions.html#add-note-to-existing-commit-discussion
+type AddCommitDiscussionNoteOptions struct {
+	Body      *string    `url:"body,omitempty" json:"body,omitempty"`
+	CreatedAt *time.Time `json:"created_at,omitempty"`
+}
+
+// AddCommitDiscussionNote creates a new discussion to a single project commit.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/discussions.html#add-note-to-existing-commit-discussion
+func (s *DiscussionsService) AddCommitDiscussionNote(pid interface{}, commit string, discussion string, opt *AddCommitDiscussionNoteOptions, options ...OptionFunc) (*Discussion, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/repository/commits/%s/discussions/%s/notes", url.QueryEscape(project), commit, discussion)
+
+	req, err := s.client.NewRequest("POST", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	d := new(Discussion)
+	resp, err := s.client.Do(req, d)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return d, resp, err
+}
+
+// UpdateCommitDiscussionNoteOptions represents the available UpdateCommitDiscussion()
+// options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/discussions.html#modify-existing-commit-discussion-note
+type UpdateCommitDiscussionNoteOptions struct {
+	Body      *string    `url:"body,omitempty" json:"body,omitempty"`
+	CreatedAt *time.Time `json:"created_at,omitempty"`
+}
+
+// UpdateCommitDiscussionNote modifies existing discussion of an commit.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/discussions.html#modify-existing-commit-discussion-note
+func (s *DiscussionsService) UpdateCommitDiscussionNote(pid interface{}, commit string, discussion string, note int, opt *UpdateCommitDiscussionNoteOptions, options ...OptionFunc) (*Discussion, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/repository/commits/%s/discussions/%s/notes/%d", url.QueryEscape(project), commit, discussion, note)
+
+	req, err := s.client.NewRequest("PUT", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	d := new(Discussion)
+	resp, err := s.client.Do(req, d)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return d, resp, err
+}
+
+// DeleteCommitDiscussionNote deletes an existing discussion of an commit.
+//
+// https://docs.gitlab.com/ce/api/discussions.html#delete-an-commit-discussion-note
+func (s *DiscussionsService) DeleteCommitDiscussionNote(pid interface{}, commit string, discussion string, note int, options ...OptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/repository/commits/%s/discussions/%s/notes/%d", url.QueryEscape(project), commit, discussion)
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {
