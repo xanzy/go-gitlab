@@ -19,11 +19,10 @@ package gitlab
 import (
 	"fmt"
 	"net/url"
-	"time"
 )
 
-// DiscussionsService handles communication with the discussions related methods
-// of the GitLab API.
+// DiscussionsService handles communication with the discussions related
+// methods of the GitLab API.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/discussions.html
 type DiscussionsService struct {
@@ -43,19 +42,19 @@ func (d Discussion) String() string {
 	return Stringify(d)
 }
 
-// ListProjectIssueDiscussionsOptions represents the available
-// ListIssueDiscussions() options.
+// ListIssueDiscussionsOptions represents the available ListIssueDiscussions()
+// options.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/discussions.html#list-project-issue-discussions
-type ListProjectIssueDiscussionsOptions ListOptions
+type ListIssueDiscussionsOptions ListOptions
 
-// ListProjectIssueDiscussions gets a list of all discussions for a single
+// ListIssueDiscussions gets a list of all discussions for a single
 // issue.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/discussions.html#list-project-issue-discussions
-func (s *DiscussionsService) ListProjectIssueDiscussions(pid interface{}, issue int, opt *ListProjectIssueDiscussionsOptions, options ...OptionFunc) ([]*Discussion, *Response, error) {
+func (s *DiscussionsService) ListIssueDiscussions(pid interface{}, issue int, opt *ListIssueDiscussionsOptions, options ...OptionFunc) ([]*Discussion, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -88,7 +87,8 @@ func (s *DiscussionsService) GetIssueDiscussion(pid interface{}, issue int, disc
 	u := fmt.Sprintf("projects/%s/issues/%d/discussions/%s",
 		url.QueryEscape(project),
 		issue,
-		discussion)
+		discussion,
+	)
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
@@ -110,8 +110,8 @@ func (s *DiscussionsService) GetIssueDiscussion(pid interface{}, issue int, disc
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/discussions.html#create-new-issue-discussion
 type CreateIssueDiscussionOptions struct {
-	Body      *string    `url:"body,omitempty" json:"body,omitempty"`
-	CreatedAt *time.Time `url:"created_at,omitempty" json:"created_at,omitempty"`
+	Body      *string  `url:"body,omitempty" json:"body,omitempty"`
+	CreatedAt *ISOTime `url:"created_at,omitempty" json:"created_at,omitempty"`
 }
 
 // CreateIssueDiscussion creates a new discussion to a single project issue.
@@ -139,14 +139,14 @@ func (s *DiscussionsService) CreateIssueDiscussion(pid interface{}, issue int, o
 	return d, resp, err
 }
 
-// AddIssueDiscussionNoteOptions represents the available
-// AddIssueDiscussionNote() options.
+// AddIssueDiscussionNoteOptions represents the available AddIssueDiscussionNote()
+// options.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/discussions.html#add-note-to-existing-issue-discussion
 type AddIssueDiscussionNoteOptions struct {
-	Body      *string    `url:"body,omitempty" json:"body,omitempty"`
-	CreatedAt *time.Time `url:"created_at,omitempty" json:"created_at,omitempty"`
+	Body      *string  `url:"body,omitempty" json:"body,omitempty"`
+	CreatedAt *ISOTime `url:"created_at,omitempty" json:"created_at,omitempty"`
 }
 
 // AddIssueDiscussionNote creates a new discussion to a single project issue.
@@ -161,7 +161,8 @@ func (s *DiscussionsService) AddIssueDiscussionNote(pid interface{}, issue int, 
 	u := fmt.Sprintf("projects/%s/issues/%d/discussions/%s/notes",
 		url.QueryEscape(project),
 		issue,
-		discussion)
+		discussion,
+	)
 
 	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
@@ -183,8 +184,8 @@ func (s *DiscussionsService) AddIssueDiscussionNote(pid interface{}, issue int, 
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/discussions.html#modify-existing-issue-discussion-note
 type UpdateIssueDiscussionNoteOptions struct {
-	Body      *string    `url:"body,omitempty" json:"body,omitempty"`
-	CreatedAt *time.Time `url:"created_at,omitempty" json:"created_at,omitempty"`
+	Body      *string  `url:"body,omitempty" json:"body,omitempty"`
+	CreatedAt *ISOTime `url:"created_at,omitempty" json:"created_at,omitempty"`
 }
 
 // UpdateIssueDiscussionNote modifies existing discussion of an issue.
@@ -200,7 +201,8 @@ func (s *DiscussionsService) UpdateIssueDiscussionNote(pid interface{}, issue in
 		url.QueryEscape(project),
 		issue,
 		discussion,
-		note)
+		note,
+	)
 
 	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
@@ -229,7 +231,8 @@ func (s *DiscussionsService) DeleteIssueDiscussionNote(pid interface{}, issue in
 		url.QueryEscape(project),
 		issue,
 		discussion,
-		note)
+		note,
+	)
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {
@@ -239,19 +242,19 @@ func (s *DiscussionsService) DeleteIssueDiscussionNote(pid interface{}, issue in
 	return s.client.Do(req, nil)
 }
 
-// ListProjectSnippetDiscussionsOptions represents the available
-// ListSnippetDiscussions() options.
+// ListSnippetDiscussionsOptions represents the available ListSnippetDiscussions()
+// options.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/discussions.html#list-all-snippet-discussions
-type ListProjectSnippetDiscussionsOptions ListOptions
+type ListSnippetDiscussionsOptions ListOptions
 
-// ListProjectSnippetDiscussions gets a list of all discussions for a single
+// ListSnippetDiscussions gets a list of all discussions for a single
 // snippet. Snippet discussions are comments users can post to a snippet.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/discussions.html#list-all-snippet-discussions
-func (s *DiscussionsService) ListProjectSnippetDiscussions(pid interface{}, snippet int, opt *ListProjectSnippetDiscussionsOptions, options ...OptionFunc) ([]*Discussion, *Response, error) {
+func (s *DiscussionsService) ListSnippetDiscussions(pid interface{}, snippet int, opt *ListSnippetDiscussionsOptions, options ...OptionFunc) ([]*Discussion, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -284,7 +287,8 @@ func (s *DiscussionsService) GetSnippetDiscussion(pid interface{}, snippet int, 
 	u := fmt.Sprintf("projects/%s/snippets/%d/discussions/%s",
 		url.QueryEscape(project),
 		snippet,
-		discussion)
+		discussion,
+	)
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
@@ -306,8 +310,8 @@ func (s *DiscussionsService) GetSnippetDiscussion(pid interface{}, snippet int, 
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/discussions.html#create-new-snippet-discussion
 type CreateSnippetDiscussionOptions struct {
-	Body      *string    `url:"body,omitempty" json:"body,omitempty"`
-	CreatedAt *time.Time `url:"created_at,omitempty" json:"created_at,omitempty"`
+	Body      *string  `url:"body,omitempty" json:"body,omitempty"`
+	CreatedAt *ISOTime `url:"created_at,omitempty" json:"created_at,omitempty"`
 }
 
 // CreateSnippetDiscussion creates a new discussion for a single snippet.
@@ -342,8 +346,8 @@ func (s *DiscussionsService) CreateSnippetDiscussion(pid interface{}, snippet in
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/discussions.html#add-note-to-existing-snippet-discussion
 type AddSnippetDiscussionNoteOptions struct {
-	Body      *string    `url:"body,omitempty" json:"body,omitempty"`
-	CreatedAt *time.Time `url:"created_at,omitempty" json:"created_at,omitempty"`
+	Body      *string  `url:"body,omitempty" json:"body,omitempty"`
+	CreatedAt *ISOTime `url:"created_at,omitempty" json:"created_at,omitempty"`
 }
 
 // AddSnippetDiscussionNote creates a new discussion to a single project
@@ -359,7 +363,8 @@ func (s *DiscussionsService) AddSnippetDiscussionNote(pid interface{}, snippet i
 	u := fmt.Sprintf("projects/%s/snippets/%d/discussions/%s/notes",
 		url.QueryEscape(project),
 		snippet,
-		discussion)
+		discussion,
+	)
 
 	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
@@ -381,8 +386,8 @@ func (s *DiscussionsService) AddSnippetDiscussionNote(pid interface{}, snippet i
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/discussions.html#modify-existing-snippet-discussion-note
 type UpdateSnippetDiscussionNoteOptions struct {
-	Body      *string    `url:"body,omitempty" json:"body,omitempty"`
-	CreatedAt *time.Time `url:"created_at,omitempty" json:"created_at,omitempty"`
+	Body      *string  `url:"body,omitempty" json:"body,omitempty"`
+	CreatedAt *ISOTime `url:"created_at,omitempty" json:"created_at,omitempty"`
 }
 
 // UpdateSnippetDiscussionNote modifies existing discussion of a snippet.
@@ -398,7 +403,8 @@ func (s *DiscussionsService) UpdateSnippetDiscussionNote(pid interface{}, snippe
 		url.QueryEscape(project),
 		snippet,
 		discussion,
-		note)
+		note,
+	)
 
 	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
@@ -427,7 +433,8 @@ func (s *DiscussionsService) DeleteSnippetDiscussionNote(pid interface{}, snippe
 		url.QueryEscape(project),
 		snippet,
 		discussion,
-		note)
+		note,
+	)
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {
@@ -456,7 +463,8 @@ func (s *DiscussionsService) ListGroupEpicDiscussions(gid interface{}, epic int,
 	}
 	u := fmt.Sprintf("groups/%s/epics/%d/discussions",
 		url.QueryEscape(group),
-		epic)
+		epic,
+	)
 
 	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
@@ -484,7 +492,8 @@ func (s *DiscussionsService) GetEpicDiscussion(gid interface{}, epic int, discus
 	u := fmt.Sprintf("groups/%s/epics/%d/discussions/%s",
 		url.QueryEscape(group),
 		epic,
-		discussion)
+		discussion,
+	)
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
@@ -506,8 +515,8 @@ func (s *DiscussionsService) GetEpicDiscussion(gid interface{}, epic int, discus
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/discussions.html#create-new-epic-discussion
 type CreateEpicDiscussionOptions struct {
-	Body      *string    `url:"body,omitempty" json:"body,omitempty"`
-	CreatedAt *time.Time `url:"created_at,omitempty" json:"created_at,omitempty"`
+	Body      *string  `url:"body,omitempty" json:"body,omitempty"`
+	CreatedAt *ISOTime `url:"created_at,omitempty" json:"created_at,omitempty"`
 }
 
 // CreateEpicDiscussion creates a new discussion for a single epic. Epic
@@ -522,7 +531,8 @@ func (s *DiscussionsService) CreateEpicDiscussion(gid interface{}, epic int, opt
 	}
 	u := fmt.Sprintf("groups/%s/epics/%d/discussions",
 		url.QueryEscape(group),
-		epic)
+		epic,
+	)
 
 	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
@@ -544,8 +554,8 @@ func (s *DiscussionsService) CreateEpicDiscussion(gid interface{}, epic int, opt
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/discussions.html#add-note-to-existing-epic-discussion
 type AddEpicDiscussionNoteOptions struct {
-	Body      *string    `url:"body,omitempty" json:"body,omitempty"`
-	CreatedAt *time.Time `url:"created_at,omitempty" json:"created_at,omitempty"`
+	Body      *string  `url:"body,omitempty" json:"body,omitempty"`
+	CreatedAt *ISOTime `url:"created_at,omitempty" json:"created_at,omitempty"`
 }
 
 // AddEpicDiscussionNote creates a new discussion to a single project epic.
@@ -560,7 +570,8 @@ func (s *DiscussionsService) AddEpicDiscussionNote(gid interface{}, epic int, di
 	u := fmt.Sprintf("groups/%s/epics/%d/discussions/%s/notes",
 		url.QueryEscape(group),
 		epic,
-		discussion)
+		discussion,
+	)
 
 	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
@@ -576,14 +587,14 @@ func (s *DiscussionsService) AddEpicDiscussionNote(gid interface{}, epic int, di
 	return d, resp, err
 }
 
-// UpdateEpicDiscussionNoteOptions represents the available
-// UpdateEpicDiscussion() options.
+// UpdateEpicDiscussionNoteOptions represents the available UpdateEpicDiscussion()
+// options.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/discussions.html#modify-existing-epic-discussion-note
 type UpdateEpicDiscussionNoteOptions struct {
-	Body      *string    `url:"body,omitempty" json:"body,omitempty"`
-	CreatedAt *time.Time `url:"created_at,omitempty" json:"created_at,omitempty"`
+	Body      *string  `url:"body,omitempty" json:"body,omitempty"`
+	CreatedAt *ISOTime `url:"created_at,omitempty" json:"created_at,omitempty"`
 }
 
 // UpdateEpicDiscussionNote modifies existing discussion of a epic.
@@ -598,7 +609,9 @@ func (s *DiscussionsService) UpdateEpicDiscussionNote(gid interface{}, epic int,
 	u := fmt.Sprintf("groups/%s/epics/%d/discussions/%s/notes/%d",
 		url.QueryEscape(group),
 		epic,
-		discussion, note)
+		discussion,
+		note,
+	)
 
 	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
@@ -626,7 +639,9 @@ func (s *DiscussionsService) DeleteEpicDiscussionNote(gid interface{}, epic int,
 	u := fmt.Sprintf("groups/%s/epics/%d/discussions/%s/notes/%d",
 		url.QueryEscape(group),
 		epic,
-		discussion, note)
+		discussion,
+		note,
+	)
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {
@@ -655,7 +670,8 @@ func (s *DiscussionsService) ListMergeRequestDiscussions(pid interface{}, mergeR
 	}
 	u := fmt.Sprintf("projects/%s/merge_requests/%d/discussions",
 		url.QueryEscape(project),
-		mergeRequest)
+		mergeRequest,
+	)
 
 	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
@@ -684,7 +700,8 @@ func (s *DiscussionsService) GetMergeRequestDiscussion(pid interface{}, mergeReq
 	u := fmt.Sprintf("projects/%s/merge_requests/%d/discussions/%s",
 		url.QueryEscape(project),
 		mergeRequest,
-		discussion)
+		discussion,
+	)
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
@@ -707,7 +724,7 @@ func (s *DiscussionsService) GetMergeRequestDiscussion(pid interface{}, mergeReq
 // https://docs.gitlab.com/ce/api/discussions.html#create-new-merge-request-discussion
 type CreateMergeRequestDiscussionOptions struct {
 	Body      *string       `url:"body,omitempty" json:"body,omitempty"`
-	CreatedAt *time.Time    `url:"created_at,omitempty" json:"created_at,omitempty"`
+	CreatedAt *ISOTime      `url:"created_at,omitempty" json:"created_at,omitempty"`
 	Position  *NotePosition `url:"position,omitempty" json:"position,omitempty"`
 }
 
@@ -723,7 +740,8 @@ func (s *DiscussionsService) CreateMergeRequestDiscussion(pid interface{}, merge
 	}
 	u := fmt.Sprintf("projects/%s/merge_requests/%d/discussions",
 		url.QueryEscape(project),
-		mergeRequest)
+		mergeRequest,
+	)
 
 	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
@@ -760,7 +778,9 @@ func (s *DiscussionsService) ResolveMergeRequestDiscussion(pid interface{}, merg
 	}
 	u := fmt.Sprintf("projects/%s/merge_requests/%d/discussions/%s",
 		url.QueryEscape(project),
-		mergeRequest, discussion)
+		mergeRequest,
+		discussion,
+	)
 
 	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
@@ -782,8 +802,8 @@ func (s *DiscussionsService) ResolveMergeRequestDiscussion(pid interface{}, merg
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/discussions.html#add-note-to-existing-merge-request-discussion
 type AddMergeRequestDiscussionNoteOptions struct {
-	Body      *string    `url:"body,omitempty" json:"body,omitempty"`
-	CreatedAt *time.Time `url:"created_at,omitempty" json:"created_at,omitempty"`
+	Body      *string  `url:"body,omitempty" json:"body,omitempty"`
+	CreatedAt *ISOTime `url:"created_at,omitempty" json:"created_at,omitempty"`
 }
 
 // AddMergeRequestDiscussionNote creates a new discussion to a single project
@@ -799,7 +819,8 @@ func (s *DiscussionsService) AddMergeRequestDiscussionNote(pid interface{}, merg
 	u := fmt.Sprintf("projects/%s/merge_requests/%d/discussions/%s/notes",
 		url.QueryEscape(project),
 		mergeRequest,
-		discussion)
+		discussion,
+	)
 
 	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
@@ -821,8 +842,8 @@ func (s *DiscussionsService) AddMergeRequestDiscussionNote(pid interface{}, merg
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/discussions.html#modify-existing-merge-request-discussion-note
 type UpdateMergeRequestDiscussionNoteOptions struct {
-	Body      *string    `url:"body,omitempty" json:"body,omitempty"`
-	CreatedAt *time.Time `url:"created_at,omitempty" json:"created_at,omitempty"`
+	Body      *string  `url:"body,omitempty" json:"body,omitempty"`
+	CreatedAt *ISOTime `url:"created_at,omitempty" json:"created_at,omitempty"`
 }
 
 // UpdateMergeRequestDiscussionNote modifies existing discussion of a merge
@@ -839,7 +860,8 @@ func (s *DiscussionsService) UpdateMergeRequestDiscussionNote(pid interface{}, m
 		url.QueryEscape(project),
 		mergeRequest,
 		discussion,
-		note)
+		note,
+	)
 
 	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
@@ -869,7 +891,8 @@ func (s *DiscussionsService) DeleteMergeRequestDiscussionNote(pid interface{}, m
 		url.QueryEscape(project),
 		mergeRequest,
 		discussion,
-		note)
+		note,
+	)
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {
@@ -879,26 +902,27 @@ func (s *DiscussionsService) DeleteMergeRequestDiscussionNote(pid interface{}, m
 	return s.client.Do(req, nil)
 }
 
-// ListProjectCommitDiscussionsOptions represents the available
+// ListCommitDiscussionsOptions represents the available
 // ListCommitDiscussions() options.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/discussions.html#list-project-commit-discussions
-type ListProjectCommitDiscussionsOptions ListOptions
+type ListCommitDiscussionsOptions ListOptions
 
-// ListProjectCommitDiscussions gets a list of all discussions for a single
+// ListCommitDiscussions gets a list of all discussions for a single
 // commit.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/discussions.html#list-project-commit-discussions
-func (s *DiscussionsService) ListProjectCommitDiscussions(pid interface{}, commit string, opt *ListProjectCommitDiscussionsOptions, options ...OptionFunc) ([]*Discussion, *Response, error) {
+func (s *DiscussionsService) ListCommitDiscussions(pid interface{}, commit string, opt *ListCommitDiscussionsOptions, options ...OptionFunc) ([]*Discussion, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/repository/commits/%s/discussions",
 		url.QueryEscape(project),
-		commit)
+		commit,
+	)
 
 	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
@@ -927,7 +951,8 @@ func (s *DiscussionsService) GetCommitDiscussion(pid interface{}, commit string,
 	u := fmt.Sprintf("projects/%s/repository/commits/%s/discussions/%s",
 		url.QueryEscape(project),
 		commit,
-		discussion)
+		discussion,
+	)
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
@@ -950,7 +975,7 @@ func (s *DiscussionsService) GetCommitDiscussion(pid interface{}, commit string,
 // https://docs.gitlab.com/ce/api/discussions.html#create-new-commit-discussion
 type CreateCommitDiscussionOptions struct {
 	Body      *string       `url:"body,omitempty" json:"body,omitempty"`
-	CreatedAt *time.Time    `url:"created_at,omitempty" json:"created_at,omitempty"`
+	CreatedAt *ISOTime      `url:"created_at,omitempty" json:"created_at,omitempty"`
 	Position  *NotePosition `url:"position,omitempty" json:"position,omitempty"`
 }
 
@@ -965,7 +990,8 @@ func (s *DiscussionsService) CreateCommitDiscussion(pid interface{}, commit stri
 	}
 	u := fmt.Sprintf("projects/%s/repository/commits/%s/discussions",
 		url.QueryEscape(project),
-		commit)
+		commit,
+	)
 
 	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
@@ -987,8 +1013,8 @@ func (s *DiscussionsService) CreateCommitDiscussion(pid interface{}, commit stri
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/discussions.html#add-note-to-existing-commit-discussion
 type AddCommitDiscussionNoteOptions struct {
-	Body      *string    `url:"body,omitempty" json:"body,omitempty"`
-	CreatedAt *time.Time `url:"created_at,omitempty" json:"created_at,omitempty"`
+	Body      *string  `url:"body,omitempty" json:"body,omitempty"`
+	CreatedAt *ISOTime `url:"created_at,omitempty" json:"created_at,omitempty"`
 }
 
 // AddCommitDiscussionNote creates a new discussion to a single project commit.
@@ -1003,7 +1029,8 @@ func (s *DiscussionsService) AddCommitDiscussionNote(pid interface{}, commit str
 	u := fmt.Sprintf("projects/%s/repository/commits/%s/discussions/%s/notes",
 		url.QueryEscape(project),
 		commit,
-		discussion)
+		discussion,
+	)
 
 	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
@@ -1025,8 +1052,8 @@ func (s *DiscussionsService) AddCommitDiscussionNote(pid interface{}, commit str
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/discussions.html#modify-existing-commit-discussion-note
 type UpdateCommitDiscussionNoteOptions struct {
-	Body      *string    `url:"body,omitempty" json:"body,omitempty"`
-	CreatedAt *time.Time `url:"created_at,omitempty" json:"created_at,omitempty"`
+	Body      *string  `url:"body,omitempty" json:"body,omitempty"`
+	CreatedAt *ISOTime `url:"created_at,omitempty" json:"created_at,omitempty"`
 }
 
 // UpdateCommitDiscussionNote modifies existing discussion of an commit.
@@ -1042,7 +1069,8 @@ func (s *DiscussionsService) UpdateCommitDiscussionNote(pid interface{}, commit 
 		url.QueryEscape(project),
 		commit,
 		discussion,
-		note)
+		note,
+	)
 
 	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
@@ -1071,7 +1099,8 @@ func (s *DiscussionsService) DeleteCommitDiscussionNote(pid interface{}, commit 
 		url.QueryEscape(project),
 		commit,
 		discussion,
-		note)
+		note,
+	)
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {

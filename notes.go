@@ -19,7 +19,6 @@ package gitlab
 import (
 	"fmt"
 	"net/url"
-	"time"
 )
 
 // NotesService handles communication with the notes related methods
@@ -49,9 +48,9 @@ type Note struct {
 		WebURL    string `json:"web_url"`
 	} `json:"author"`
 	System       bool          `json:"system"`
-	ExpiresAt    *time.Time    `json:"expires_at"`
-	UpdatedAt    *time.Time    `json:"updated_at"`
-	CreatedAt    *time.Time    `json:"created_at"`
+	ExpiresAt    *ISOTime      `json:"expires_at"`
+	UpdatedAt    *ISOTime      `json:"updated_at"`
+	CreatedAt    *ISOTime      `json:"created_at"`
 	NoteableID   int           `json:"noteable_id"`
 	NoteableType string        `json:"noteable_type"`
 	Position     *NotePosition `json:"position"`
@@ -69,7 +68,7 @@ type Note struct {
 	NoteableIID int `json:"noteable_iid"`
 }
 
-// NotePosition represents the "position" attributes on a note
+// NotePosition represents the position attributes of a note.
 type NotePosition struct {
 	BaseSHA      string `json:"base_sha"`
 	StartSHA     string `json:"start_sha"`
