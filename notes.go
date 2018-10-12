@@ -19,6 +19,7 @@ package gitlab
 import (
 	"fmt"
 	"net/url"
+	"time"
 )
 
 // NotesService handles communication with the notes related methods

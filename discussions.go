@@ -19,6 +19,7 @@ package gitlab
 import (
 	"fmt"
 	"net/url"
+	"time"
 )
 
 // DiscussionsService handles communication with the discussions related
