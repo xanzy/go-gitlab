@@ -53,7 +53,7 @@ func (r File) String() string {
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/repository_files.html#get-file-from-repository
 type GetFileOptions struct {
-	Ref *string `url:"ref,omitempty" json:"ref,omitempty"`
+	Ref      *string `url:"ref,omitempty" json:"ref,omitempty"`
 	FileName *string `url:"file_name,omitempty" json:"file_name,omitempty"`
 	FilePath *string `url:"file_path,omitempty" json:"file_path,omitempty"`
 	CommitID *string `url:"commit_id,omitempty" json:"commit_id,omitempty"`
