@@ -110,8 +110,8 @@ func (s *DiscussionsService) GetIssueDiscussion(pid interface{}, issue int, disc
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/discussions.html#create-new-issue-discussion
 type CreateIssueDiscussionOptions struct {
-	Body      *string  `url:"body,omitempty" json:"body,omitempty"`
-	CreatedAt *ISOTime `url:"created_at,omitempty" json:"created_at,omitempty"`
+	Body      *string    `url:"body,omitempty" json:"body,omitempty"`
+	CreatedAt *time.Time `url:"created_at,omitempty" json:"created_at,omitempty"`
 }
 
 // CreateIssueDiscussion creates a new discussion to a single project issue.
@@ -145,8 +145,8 @@ func (s *DiscussionsService) CreateIssueDiscussion(pid interface{}, issue int, o
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/discussions.html#add-note-to-existing-issue-discussion
 type AddIssueDiscussionNoteOptions struct {
-	Body      *string  `url:"body,omitempty" json:"body,omitempty"`
-	CreatedAt *ISOTime `url:"created_at,omitempty" json:"created_at,omitempty"`
+	Body      *string    `url:"body,omitempty" json:"body,omitempty"`
+	CreatedAt *time.Time `url:"created_at,omitempty" json:"created_at,omitempty"`
 }
 
 // AddIssueDiscussionNote creates a new discussion to a single project issue.
@@ -184,8 +184,8 @@ func (s *DiscussionsService) AddIssueDiscussionNote(pid interface{}, issue int, 
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/discussions.html#modify-existing-issue-discussion-note
 type UpdateIssueDiscussionNoteOptions struct {
-	Body      *string  `url:"body,omitempty" json:"body,omitempty"`
-	CreatedAt *ISOTime `url:"created_at,omitempty" json:"created_at,omitempty"`
+	Body      *string    `url:"body,omitempty" json:"body,omitempty"`
+	CreatedAt *time.Time `url:"created_at,omitempty" json:"created_at,omitempty"`
 }
 
 // UpdateIssueDiscussionNote modifies existing discussion of an issue.
@@ -310,8 +310,8 @@ func (s *DiscussionsService) GetSnippetDiscussion(pid interface{}, snippet int, 
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/discussions.html#create-new-snippet-discussion
 type CreateSnippetDiscussionOptions struct {
-	Body      *string  `url:"body,omitempty" json:"body,omitempty"`
-	CreatedAt *ISOTime `url:"created_at,omitempty" json:"created_at,omitempty"`
+	Body      *string    `url:"body,omitempty" json:"body,omitempty"`
+	CreatedAt *time.Time `url:"created_at,omitempty" json:"created_at,omitempty"`
 }
 
 // CreateSnippetDiscussion creates a new discussion for a single snippet.
@@ -346,8 +346,8 @@ func (s *DiscussionsService) CreateSnippetDiscussion(pid interface{}, snippet in
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/discussions.html#add-note-to-existing-snippet-discussion
 type AddSnippetDiscussionNoteOptions struct {
-	Body      *string  `url:"body,omitempty" json:"body,omitempty"`
-	CreatedAt *ISOTime `url:"created_at,omitempty" json:"created_at,omitempty"`
+	Body      *string    `url:"body,omitempty" json:"body,omitempty"`
+	CreatedAt *time.Time `url:"created_at,omitempty" json:"created_at,omitempty"`
 }
 
 // AddSnippetDiscussionNote creates a new discussion to a single project
@@ -386,8 +386,8 @@ func (s *DiscussionsService) AddSnippetDiscussionNote(pid interface{}, snippet i
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/discussions.html#modify-existing-snippet-discussion-note
 type UpdateSnippetDiscussionNoteOptions struct {
-	Body      *string  `url:"body,omitempty" json:"body,omitempty"`
-	CreatedAt *ISOTime `url:"created_at,omitempty" json:"created_at,omitempty"`
+	Body      *string    `url:"body,omitempty" json:"body,omitempty"`
+	CreatedAt *time.Time `url:"created_at,omitempty" json:"created_at,omitempty"`
 }
 
 // UpdateSnippetDiscussionNote modifies existing discussion of a snippet.
@@ -515,8 +515,8 @@ func (s *DiscussionsService) GetEpicDiscussion(gid interface{}, epic int, discus
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/discussions.html#create-new-epic-discussion
 type CreateEpicDiscussionOptions struct {
-	Body      *string  `url:"body,omitempty" json:"body,omitempty"`
-	CreatedAt *ISOTime `url:"created_at,omitempty" json:"created_at,omitempty"`
+	Body      *string    `url:"body,omitempty" json:"body,omitempty"`
+	CreatedAt *time.Time `url:"created_at,omitempty" json:"created_at,omitempty"`
 }
 
 // CreateEpicDiscussion creates a new discussion for a single epic. Epic
@@ -554,8 +554,8 @@ func (s *DiscussionsService) CreateEpicDiscussion(gid interface{}, epic int, opt
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/discussions.html#add-note-to-existing-epic-discussion
 type AddEpicDiscussionNoteOptions struct {
-	Body      *string  `url:"body,omitempty" json:"body,omitempty"`
-	CreatedAt *ISOTime `url:"created_at,omitempty" json:"created_at,omitempty"`
+	Body      *string    `url:"body,omitempty" json:"body,omitempty"`
+	CreatedAt *time.Time `url:"created_at,omitempty" json:"created_at,omitempty"`
 }
 
 // AddEpicDiscussionNote creates a new discussion to a single project epic.
@@ -593,8 +593,8 @@ func (s *DiscussionsService) AddEpicDiscussionNote(gid interface{}, epic int, di
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/discussions.html#modify-existing-epic-discussion-note
 type UpdateEpicDiscussionNoteOptions struct {
-	Body      *string  `url:"body,omitempty" json:"body,omitempty"`
-	CreatedAt *ISOTime `url:"created_at,omitempty" json:"created_at,omitempty"`
+	Body      *string    `url:"body,omitempty" json:"body,omitempty"`
+	CreatedAt *time.Time `url:"created_at,omitempty" json:"created_at,omitempty"`
 }
 
 // UpdateEpicDiscussionNote modifies existing discussion of a epic.
@@ -724,7 +724,7 @@ func (s *DiscussionsService) GetMergeRequestDiscussion(pid interface{}, mergeReq
 // https://docs.gitlab.com/ce/api/discussions.html#create-new-merge-request-discussion
 type CreateMergeRequestDiscussionOptions struct {
 	Body      *string       `url:"body,omitempty" json:"body,omitempty"`
-	CreatedAt *ISOTime      `url:"created_at,omitempty" json:"created_at,omitempty"`
+	CreatedAt *time.Time    `url:"created_at,omitempty" json:"created_at,omitempty"`
 	Position  *NotePosition `url:"position,omitempty" json:"position,omitempty"`
 }
 
@@ -802,8 +802,8 @@ func (s *DiscussionsService) ResolveMergeRequestDiscussion(pid interface{}, merg
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/discussions.html#add-note-to-existing-merge-request-discussion
 type AddMergeRequestDiscussionNoteOptions struct {
-	Body      *string  `url:"body,omitempty" json:"body,omitempty"`
-	CreatedAt *ISOTime `url:"created_at,omitempty" json:"created_at,omitempty"`
+	Body      *string    `url:"body,omitempty" json:"body,omitempty"`
+	CreatedAt *time.Time `url:"created_at,omitempty" json:"created_at,omitempty"`
 }
 
 // AddMergeRequestDiscussionNote creates a new discussion to a single project
@@ -842,8 +842,8 @@ func (s *DiscussionsService) AddMergeRequestDiscussionNote(pid interface{}, merg
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/discussions.html#modify-existing-merge-request-discussion-note
 type UpdateMergeRequestDiscussionNoteOptions struct {
-	Body      *string  `url:"body,omitempty" json:"body,omitempty"`
-	CreatedAt *ISOTime `url:"created_at,omitempty" json:"created_at,omitempty"`
+	Body      *string    `url:"body,omitempty" json:"body,omitempty"`
+	CreatedAt *time.Time `url:"created_at,omitempty" json:"created_at,omitempty"`
 }
 
 // UpdateMergeRequestDiscussionNote modifies existing discussion of a merge
@@ -975,7 +975,7 @@ func (s *DiscussionsService) GetCommitDiscussion(pid interface{}, commit string,
 // https://docs.gitlab.com/ce/api/discussions.html#create-new-commit-discussion
 type CreateCommitDiscussionOptions struct {
 	Body      *string       `url:"body,omitempty" json:"body,omitempty"`
-	CreatedAt *ISOTime      `url:"created_at,omitempty" json:"created_at,omitempty"`
+	CreatedAt *time.Time    `url:"created_at,omitempty" json:"created_at,omitempty"`
 	Position  *NotePosition `url:"position,omitempty" json:"position,omitempty"`
 }
 
@@ -1013,8 +1013,8 @@ func (s *DiscussionsService) CreateCommitDiscussion(pid interface{}, commit stri
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/discussions.html#add-note-to-existing-commit-discussion
 type AddCommitDiscussionNoteOptions struct {
-	Body      *string  `url:"body,omitempty" json:"body,omitempty"`
-	CreatedAt *ISOTime `url:"created_at,omitempty" json:"created_at,omitempty"`
+	Body      *string    `url:"body,omitempty" json:"body,omitempty"`
+	CreatedAt *time.Time `url:"created_at,omitempty" json:"created_at,omitempty"`
 }
 
 // AddCommitDiscussionNote creates a new discussion to a single project commit.
@@ -1052,8 +1052,8 @@ func (s *DiscussionsService) AddCommitDiscussionNote(pid interface{}, commit str
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/discussions.html#modify-existing-commit-discussion-note
 type UpdateCommitDiscussionNoteOptions struct {
-	Body      *string  `url:"body,omitempty" json:"body,omitempty"`
-	CreatedAt *ISOTime `url:"created_at,omitempty" json:"created_at,omitempty"`
+	Body      *string    `url:"body,omitempty" json:"body,omitempty"`
+	CreatedAt *time.Time `url:"created_at,omitempty" json:"created_at,omitempty"`
 }
 
 // UpdateCommitDiscussionNote modifies existing discussion of an commit.

@@ -48,9 +48,9 @@ type Note struct {
 		WebURL    string `json:"web_url"`
 	} `json:"author"`
 	System       bool          `json:"system"`
-	ExpiresAt    *ISOTime      `json:"expires_at"`
-	UpdatedAt    *ISOTime      `json:"updated_at"`
-	CreatedAt    *ISOTime      `json:"created_at"`
+	ExpiresAt    *time.Time    `json:"expires_at"`
+	UpdatedAt    *time.Time    `json:"updated_at"`
+	CreatedAt    *time.Time    `json:"created_at"`
 	NoteableID   int           `json:"noteable_id"`
 	NoteableType string        `json:"noteable_type"`
 	Position     *NotePosition `json:"position"`
