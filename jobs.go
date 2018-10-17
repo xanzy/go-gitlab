@@ -59,7 +59,7 @@ type Job struct {
 	Status    string     `json:"status"`
 	Tag       bool       `json:"tag"`
 	User      *User      `json:"user"`
-	WebUrl    string     `json:"web_url"`
+	WebURL    string     `json:"web_url"`
 }
 
 // ListJobsOptions are options for two list apis
