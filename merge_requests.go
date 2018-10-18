@@ -505,13 +505,17 @@ func (s *MergeRequestsService) CreateMergeRequest(pid interface{}, opt *CreateMe
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/merge_requests.html#update-mr
 type UpdateMergeRequestOptions struct {
-	Title        *string `url:"title,omitempty" json:"title,omitempty"`
-	Description  *string `url:"description,omitempty" json:"description,omitempty"`
-	TargetBranch *string `url:"target_branch,omitempty" json:"target_branch,omitempty"`
-	AssigneeID   *int    `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
-	Labels       Labels  `url:"labels,comma,omitempty" json:"labels,omitempty"`
-	MilestoneID  *int    `url:"milestone_id,omitempty" json:"milestone_id,omitempty"`
-	StateEvent   *string `url:"state_event,omitempty" json:"state_event,omitempty"`
+	Title              *string `url:"title,omitempty" json:"title,omitempty"`
+	Description        *string `url:"description,omitempty" json:"description,omitempty"`
+	TargetBranch       *string `url:"target_branch,omitempty" json:"target_branch,omitempty"`
+	AssigneeID         *int    `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
+	Labels             Labels  `url:"labels,comma,omitempty" json:"labels,omitempty"`
+	MilestoneID        *int    `url:"milestone_id,omitempty" json:"milestone_id,omitempty"`
+	StateEvent         *string `url:"state_event,omitempty" json:"state_event,omitempty"`
+	RemoveSourceBranch *bool   `url:"remove_source_branch,omitempty" json:"remove_source_branch,omitempty"`
+	Squash             *bool   `url:"squash,omitempty" json:"squash,omitempty"`
+	DiscussionLocked   *bool   `url:"discussion_locked,omitempty" json:"discussion_locked,omitempty"`
+	AllowCollaboration *bool   `url:"allow_collaboration,omitempty" json:"allow_collaboration,omitempty"`
 }
 
 // UpdateMergeRequest updates an existing project milestone.
