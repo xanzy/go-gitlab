@@ -33,7 +33,7 @@ type RunnersService struct {
 
 // Runner represents a GitLab CI Runner.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/runners.html
+// GitLab API docs: https://docs.gitlab.com/ce/api/runners.html
 type Runner struct {
 	ID          int     `json:"id"`
 	Description string  `json:"description"`
