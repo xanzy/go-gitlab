@@ -92,6 +92,7 @@ type ListProjectPipelinesOptions struct {
 	Scope      *string          `url:"scope,omitempty" json:"scope,omitempty"`
 	Status     *BuildStateValue `url:"status,omitempty" json:"status,omitempty"`
 	Ref        *string          `url:"ref,omitempty" json:"ref,omitempty"`
+	SHA        *string          `url:"sha,omitempty" json:"sha,omitempty"`
 	YamlErrors *bool            `url:"yaml_errors,omitempty" json:"yaml_errors,omitempty"`
 	Name       *string          `url:"name,omitempty" json:"name,omitempty"`
 	Username   *string          `url:"username,omitempty" json:"username,omitempty"`
