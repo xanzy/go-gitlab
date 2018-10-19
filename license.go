@@ -19,6 +19,7 @@ package gitlab
 import (
 	"fmt"
 	"net/url"
+	"time"
 )
 
 // LicenseService handles communication with the license
@@ -35,8 +36,8 @@ type LicenseService struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/license.html
 type License struct {
-	StartsAt  string `json:"starts_at"`
-	ExpiresAt string `json:"expires_at"`
+	StartsAt  *time.Time `json:"starts_at"`
+	ExpiresAt *time.Time `json:"expires_at"`
 	Licensee  struct {
 		Name    string `json:"Name"`
 		Company string `json:"Company"`
