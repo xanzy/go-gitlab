@@ -72,8 +72,8 @@ const (
 	OwnerPermissions      AccessLevelValue = 50
 
 	// These are deprecated and should be removed in a future version
-	MasterPermissions     AccessLevelValue = 40
-	OwnerPermission       AccessLevelValue = 50
+	MasterPermissions AccessLevelValue = 40
+	OwnerPermission   AccessLevelValue = 50
 )
 
 // BuildStateValue represents a GitLab build state.
@@ -325,7 +325,6 @@ type Client struct {
 	Runners               *RunnersService
 	Search                *SearchService
 	Services              *ServicesService
-	Session               *SessionService
 	Settings              *SettingsService
 	Sidekiq               *SidekiqService
 	Snippets              *SnippetsService
@@ -465,7 +464,6 @@ func newClient(httpClient *http.Client) *Client {
 	c.Runners = &RunnersService{client: c}
 	c.Services = &ServicesService{client: c}
 	c.Search = &SearchService{client: c}
-	c.Session = &SessionService{client: c}
 	c.Settings = &SettingsService{client: c}
 	c.Sidekiq = &SidekiqService{client: c}
 	c.Snippets = &SnippetsService{client: c}
