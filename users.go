@@ -65,7 +65,7 @@ type User struct {
 	Identities                []*UserIdentity `json:"identities"`
 	External                  bool            `json:"external"`
 	PrivateProfile            bool            `json:"private_profile"`
-	SharedRunnersMinutesLimit int             `json:"shared_runners_minutes_limit'`
+	SharedRunnersMinutesLimit int             `json:"shared_runners_minutes_limit"`
 }
 
 // UserIdentity represents a user identity.
