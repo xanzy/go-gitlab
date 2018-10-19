@@ -18,6 +18,7 @@ package gitlab
 
 import (
 	"fmt"
+	"net"
 	"net/url"
 	"time"
 )
@@ -32,16 +33,17 @@ type RunnersService struct {
 
 // Runner represents a GitLab CI Runner.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/runners.html
+// GitLab API docs: https://docs.gitlab.com/ee/api/runners.html
 type Runner struct {
-	ID          int    `json:"id"`
-	Description string `json:"description"`
-	Active      bool   `json:"active"`
-	IsShared    bool   `json:"is_shared"`
-	Name        string `json:"name"`
-	Online      bool   `json:"online"`
-	Status      string `json:"status"`
-	Token       string `json:"token"`
+	ID          int     `json:"id"`
+	Description string  `json:"description"`
+	Active      bool    `json:"active"`
+	IsShared    bool    `json:"is_shared"`
+	IPAddress   *net.IP `json:"ip_address"`
+	Name        string  `json:"name"`
+	Online      bool    `json:"online"`
+	Status      string  `json:"status"`
+	Token       string  `json:"token"`
 }
 
 // RunnerDetails represents the GitLab CI runner details.
