@@ -16,11 +16,6 @@
 
 package gitlab
 
-import (
-	"fmt"
-	"net/url"
-)
-
 // LicenseService handles communication with the license
 // related methods of the GitLab API.
 //
@@ -72,14 +67,19 @@ func (s *LicenseService) GetLicense() (*License, *Response, error) {
 	return l, resp, err
 }
 
+// AddLicenseOptions represents the available AddLicense() options.
+//
+// https://docs.gitlab.com/ee/api/license.html#add-a-new-license
+type AddLicenseOptions struct {
+	License *string `url:"license" json:"license"`
+}
+
 // AddLicense adds a new license.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/license.html#add-a-new-license
-func (s *LicenseService) AddLicense(license string) (*License, *Response, error) {
-	u := fmt.Sprintf("license?license=%s", url.QueryEscape(license))
-
-	req, err := s.client.NewRequest("POST", u, nil, nil)
+func (s *LicenseService) AddLicense(opt *AddLicenseOptions, options ...OptionFunc) (*License, *Response, error) {
+	req, err := s.client.NewRequest("POST", "license", opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
