@@ -58,9 +58,7 @@ func (l License) String() string {
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/license.html#retrieve-information-about-the-current-license
 func (s *LicenseService) GetLicense() (*License, *Response, error) {
-	u := "license"
-
-	req, err := s.client.NewRequest("GET", u, nil, nil)
+	req, err := s.client.NewRequest("GET", "license", nil, nil)
 	if err != nil {
 		return nil, nil, err
 	}
