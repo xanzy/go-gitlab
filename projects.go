@@ -1034,7 +1034,7 @@ func (s *ProjectsService) ListProjectForks(pid interface{}, opt *ListProjectsOpt
 type ProjectPushRule struct {
 	ID                 int        `json:"id"`
 	ProjectID          int        `json:"project_id"`
-	AuthorEmailRegex   bool       `json:"author_email_regex"`
+	AuthorEmailRegex   string     `json:"author_email_regex"`
 	BranchNameRegex    string     `json:"branch_name_regex"`
 	CommitMessageRegex string     `json:"commit_message_regex"`
 	FileNameRegex      string     `json:"file_name_regex"`
@@ -1075,7 +1075,7 @@ func (s *ProjectsService) GetProjectPushRule(pid interface{}, options ...OptionF
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/projects.html#add-project-push-rule
 type AddProjectPushRuleOptions struct {
-	AuthorEmailRegex   *bool   `url:"author_email_regex,omitempty" json:"author_email_regex"`
+	AuthorEmailRegex   *string `url:"author_email_regex,omitempty" json:"author_email_regex"`
 	BranchNameRegex    *string `url:"branch_name_regex,omitempty" json:"branch_name_regex"`
 	CommitMessageRegex *string `url:"commit_message_regex,omitempty" json:"commit_message_regex"`
 	FileNameRegex      *string `url:"file_name_regex,omitempty" json:"file_name_regex"`
@@ -1115,7 +1115,7 @@ func (s *ProjectsService) AddProjectPushRule(pid interface{}, opt *AddProjectPus
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/projects.html#edit-project-push-rule
 type EditProjectPushRuleOptions struct {
-	AuthorEmailRegex   *bool   `url:"author_email_regex,omitempty" json:"author_email_regex"`
+	AuthorEmailRegex   *string `url:"author_email_regex,omitempty" json:"author_email_regex"`
 	BranchNameRegex    *string `url:"branch_name_regex,omitempty" json:"branch_name_regex"`
 	CommitMessageRegex *string `url:"commit_message_regex,omitempty" json:"commit_message_regex"`
 	FileNameRegex      *string `url:"file_name_regex,omitempty" json:"file_name_regex"`
