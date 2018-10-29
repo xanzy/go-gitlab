@@ -1061,13 +1061,13 @@ func (s *ProjectsService) GetProjectPushRule(pid interface{}, options ...OptionF
 		return nil, nil, err
 	}
 
-	ph := new(ProjectPushRule)
-	resp, err := s.client.Do(req, ph)
+	ppr := new(ProjectPushRule)
+	resp, err := s.client.Do(req, ppr)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return ph, resp, err
+	return ppr, resp, err
 }
 
 // AddProjectPushRuleOptions represents the available AddProjectPushRule() options.
@@ -1101,13 +1101,13 @@ func (s *ProjectsService) AddProjectPushRule(pid interface{}, opt *AddProjectPus
 		return nil, nil, err
 	}
 
-	ph := new(ProjectPushRule)
-	resp, err := s.client.Do(req, ph)
+	ppr := new(ProjectPushRule)
+	resp, err := s.client.Do(req, ppr)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return ph, resp, err
+	return ppr, resp, err
 }
 
 // EditProjectPushRuleOptions represents the available EditProjectPushRule() options.
@@ -1141,13 +1141,13 @@ func (s *ProjectsService) EditProjectPushRule(pid interface{}, opt *EditProjectP
 		return nil, nil, err
 	}
 
-	ph := new(ProjectPushRule)
-	resp, err := s.client.Do(req, ph)
+	ppr := new(ProjectPushRule)
+	resp, err := s.client.Do(req, ppr)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return ph, resp, err
+	return ppr, resp, err
 }
 
 // DeleteProjectPushRule removes a push rule from a project. This is an idempotent
