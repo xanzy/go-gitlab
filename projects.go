@@ -1076,14 +1076,14 @@ func (s *ProjectsService) GetProjectPushRules(pid interface{}, options ...Option
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/projects.html#add-project-push-rule
 type AddProjectPushRuleOptions struct {
-	DenyDeleteTag      *bool   `url:"deny_delete_tag,omitempty" json:"deny_delete_tag"`
-	MemberCheck        *bool   `url:"member_check,omitempty" json:"member_check"`
-	PreventSecrets     *bool   `url:"prevent_secrets,omitempty" json:"prevent_secrets"`
-	CommitMessageRegex *string `url:"commit_message_regex,omitempty" json:"commit_message_regex"`
-	BranchNameRegex    *string `url:"branch_name_regex,omitempty" json:"branch_name_regex"`
-	AuthorEmailRegex   *string `url:"author_email_regex,omitempty" json:"author_email_regex"`
-	FileNameRegex      *string `url:"file_name_regex,omitempty" json:"file_name_regex"`
-	MaxFileSize        *int    `url:"max_file_size,omitempty" json:"max_file_size"`
+	DenyDeleteTag      *bool   `url:"deny_delete_tag,omitempty" json:"deny_delete_tag,omitempty"`
+	MemberCheck        *bool   `url:"member_check,omitempty" json:"member_check,omitempty"`
+	PreventSecrets     *bool   `url:"prevent_secrets,omitempty" json:"prevent_secrets,omitempty"`
+	CommitMessageRegex *string `url:"commit_message_regex,omitempty" json:"commit_message_regex,omitempty"`
+	BranchNameRegex    *string `url:"branch_name_regex,omitempty" json:"branch_name_regex,omitempty"`
+	AuthorEmailRegex   *string `url:"author_email_regex,omitempty" json:"author_email_regex,omitempty"`
+	FileNameRegex      *string `url:"file_name_regex,omitempty" json:"file_name_regex,omitempty"`
+	MaxFileSize        *int    `url:"max_file_size,omitempty" json:"max_file_size,omitempty"`
 }
 
 // AddProjectPushRule adds a push rule to a specified project.
@@ -1117,14 +1117,14 @@ func (s *ProjectsService) AddProjectPushRule(pid interface{}, opt *AddProjectPus
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/projects.html#edit-project-push-rule
 type EditProjectPushRuleOptions struct {
-	AuthorEmailRegex   *string `url:"author_email_regex,omitempty" json:"author_email_regex"`
-	BranchNameRegex    *string `url:"branch_name_regex,omitempty" json:"branch_name_regex"`
-	CommitMessageRegex *string `url:"commit_message_regex,omitempty" json:"commit_message_regex"`
-	FileNameRegex      *string `url:"file_name_regex,omitempty" json:"file_name_regex"`
-	DenyDeleteTag      *bool   `url:"deny_delete_tag,omitempty" json:"deny_delete_tag"`
-	MemberCheck        *bool   `url:"member_check,omitempty" json:"member_check"`
-	PreventSecrets     *bool   `url:"prevent_secrets,omitempty" json:"prevent_secrets"`
-	MaxFileSize        *int    `url:"max_file_size,omitempty" json:"max_file_size"`
+	AuthorEmailRegex   *string `url:"author_email_regex,omitempty" json:"author_email_regex,omitempty"`
+	BranchNameRegex    *string `url:"branch_name_regex,omitempty" json:"branch_name_regex,omitempty"`
+	CommitMessageRegex *string `url:"commit_message_regex,omitempty" json:"commit_message_regex,omitempty"`
+	FileNameRegex      *string `url:"file_name_regex,omitempty" json:"file_name_regex,omitempty"`
+	DenyDeleteTag      *bool   `url:"deny_delete_tag,omitempty" json:"deny_delete_tag,omitempty"`
+	MemberCheck        *bool   `url:"member_check,omitempty" json:"member_check,omitempty"`
+	PreventSecrets     *bool   `url:"prevent_secrets,omitempty" json:"prevent_secrets,omitempty"`
+	MaxFileSize        *int    `url:"max_file_size,omitempty" json:"max_file_size,omitempty"`
 }
 
 // EditProjectPushRule edits a push rule for a specified project.
