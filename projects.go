@@ -1027,29 +1027,29 @@ func (s *ProjectsService) ListProjectForks(pid interface{}, opt *ListProjectsOpt
 	return forks, resp, err
 }
 
-// ProjectPushRule represents a project push rule.
+// ProjectPushRules represents a project push rule.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/projects.html#push-rules
-type ProjectPushRule struct {
+type ProjectPushRules struct {
 	ID                 int        `json:"id"`
 	ProjectID          int        `json:"project_id"`
-	AuthorEmailRegex   string     `json:"author_email_regex"`
-	BranchNameRegex    string     `json:"branch_name_regex"`
 	CommitMessageRegex string     `json:"commit_message_regex"`
-	FileNameRegex      string     `json:"file_name_regex"`
+	BranchNameRegex    string     `json:"branch_name_regex"`
 	DenyDeleteTag      bool       `json:"deny_delete_tag"`
+	CreatedAt          *time.Time `json:"created_at"`
 	MemberCheck        bool       `json:"member_check"`
 	PreventSecrets     bool       `json:"prevent_secrets"`
+	AuthorEmailRegex   string     `json:"author_email_regex"`
+	FileNameRegex      string     `json:"file_name_regex"`
 	MaxFileSize        int        `json:"max_file_size"`
-	CreatedAt          *time.Time `json:"created_at"`
 }
 
-// GetProjectPushRule gets the push rules of a project.
+// GetProjectPushRules gets the push rules of a project.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/projects.html#get-project-push-rules
-func (s *ProjectsService) GetProjectPushRule(pid interface{}, options ...OptionFunc) (*ProjectPushRule, *Response, error) {
+func (s *ProjectsService) GetProjectPushRules(pid interface{}, options ...OptionFunc) (*ProjectPushRules, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -1061,7 +1061,7 @@ func (s *ProjectsService) GetProjectPushRule(pid interface{}, options ...OptionF
 		return nil, nil, err
 	}
 
-	ppr := new(ProjectPushRule)
+	ppr := new(ProjectPushRules)
 	resp, err := s.client.Do(req, ppr)
 	if err != nil {
 		return nil, resp, err
@@ -1070,18 +1070,19 @@ func (s *ProjectsService) GetProjectPushRule(pid interface{}, options ...OptionF
 	return ppr, resp, err
 }
 
-// AddProjectPushRuleOptions represents the available AddProjectPushRule() options.
+// AddProjectPushRuleOptions represents the available AddProjectPushRule()
+// options.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/projects.html#add-project-push-rule
 type AddProjectPushRuleOptions struct {
-	AuthorEmailRegex   *string `url:"author_email_regex,omitempty" json:"author_email_regex"`
-	BranchNameRegex    *string `url:"branch_name_regex,omitempty" json:"branch_name_regex"`
-	CommitMessageRegex *string `url:"commit_message_regex,omitempty" json:"commit_message_regex"`
-	FileNameRegex      *string `url:"file_name_regex,omitempty" json:"file_name_regex"`
 	DenyDeleteTag      *bool   `url:"deny_delete_tag,omitempty" json:"deny_delete_tag"`
 	MemberCheck        *bool   `url:"member_check,omitempty" json:"member_check"`
 	PreventSecrets     *bool   `url:"prevent_secrets,omitempty" json:"prevent_secrets"`
+	CommitMessageRegex *string `url:"commit_message_regex,omitempty" json:"commit_message_regex"`
+	BranchNameRegex    *string `url:"branch_name_regex,omitempty" json:"branch_name_regex"`
+	AuthorEmailRegex   *string `url:"author_email_regex,omitempty" json:"author_email_regex"`
+	FileNameRegex      *string `url:"file_name_regex,omitempty" json:"file_name_regex"`
 	MaxFileSize        *int    `url:"max_file_size,omitempty" json:"max_file_size"`
 }
 
@@ -1089,7 +1090,7 @@ type AddProjectPushRuleOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/projects.html#add-project-push-rule
-func (s *ProjectsService) AddProjectPushRule(pid interface{}, opt *AddProjectPushRuleOptions, options ...OptionFunc) (*ProjectPushRule, *Response, error) {
+func (s *ProjectsService) AddProjectPushRule(pid interface{}, opt *AddProjectPushRuleOptions, options ...OptionFunc) (*ProjectPushRules, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -1101,7 +1102,7 @@ func (s *ProjectsService) AddProjectPushRule(pid interface{}, opt *AddProjectPus
 		return nil, nil, err
 	}
 
-	ppr := new(ProjectPushRule)
+	ppr := new(ProjectPushRules)
 	resp, err := s.client.Do(req, ppr)
 	if err != nil {
 		return nil, resp, err
@@ -1110,7 +1111,8 @@ func (s *ProjectsService) AddProjectPushRule(pid interface{}, opt *AddProjectPus
 	return ppr, resp, err
 }
 
-// EditProjectPushRuleOptions represents the available EditProjectPushRule() options.
+// EditProjectPushRuleOptions represents the available EditProjectPushRule()
+// options.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/projects.html#edit-project-push-rule
@@ -1129,7 +1131,7 @@ type EditProjectPushRuleOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/projects.html#edit-project-push-rule
-func (s *ProjectsService) EditProjectPushRule(pid interface{}, opt *EditProjectPushRuleOptions, options ...OptionFunc) (*ProjectPushRule, *Response, error) {
+func (s *ProjectsService) EditProjectPushRule(pid interface{}, opt *EditProjectPushRuleOptions, options ...OptionFunc) (*ProjectPushRules, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -1141,7 +1143,7 @@ func (s *ProjectsService) EditProjectPushRule(pid interface{}, opt *EditProjectP
 		return nil, nil, err
 	}
 
-	ppr := new(ProjectPushRule)
+	ppr := new(ProjectPushRules)
 	resp, err := s.client.Do(req, ppr)
 	if err != nil {
 		return nil, resp, err
@@ -1150,8 +1152,9 @@ func (s *ProjectsService) EditProjectPushRule(pid interface{}, opt *EditProjectP
 	return ppr, resp, err
 }
 
-// DeleteProjectPushRule removes a push rule from a project. This is an idempotent
-// method and can be called multiple times. Either the push rule is available or not.
+// DeleteProjectPushRule removes a push rule from a project. This is an
+// idempotent method and can be called multiple times. Either the push rule is
+// available or not.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/projects.html#delete-project-push-rule
