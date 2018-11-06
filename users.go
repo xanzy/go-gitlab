@@ -783,7 +783,7 @@ type UserStatus struct {
 // CurrentUserStatus retrieves the user status
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/users.html#get-the-status-of-a-user
+// https://docs.gitlab.com/ce/api/users.html#user-status
 func (s *UsersService) CurrentUserStatus(options ...OptionFunc) (*UserStatus, *Response, error) {
 	req, err := s.client.NewRequest("GET", "user/status", nil, options)
 	if err != nil {
@@ -800,7 +800,7 @@ func (s *UsersService) CurrentUserStatus(options ...OptionFunc) (*UserStatus, *R
 // GetUserStatus retrieves a user's status
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/users.html#get-the-status-of-a-user
+// https://docs.gitlab.com/ce/api/users.html#get-the-status-of-a-user
 func (s *UsersService) GetUserStatus(user int, options ...OptionFunc) (*UserStatus, *Response, error) {
 	u := fmt.Sprintf("users/%d/status", user)
 	req, err := s.client.NewRequest("GET", u, nil, options)
@@ -818,7 +818,7 @@ func (s *UsersService) GetUserStatus(user int, options ...OptionFunc) (*UserStat
 // UserStatusOptions represents the options required to set the status
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/users.html#user-status
+// https://docs.gitlab.com/ce/api/users.html#set-user-status
 type UserStatusOptions struct {
 	Emoji   *string `url:"emoji,omitempty" json:"emoji,omitempty"`
 	Message *string `url:"message,omitempty" json:"message,omitempty"`
@@ -827,7 +827,7 @@ type UserStatusOptions struct {
 // SetUserStatus sets the user's status
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/users.html#set-user-status
+// https://docs.gitlab.com/ce/api/users.html#set-user-status
 func (s *UsersService) SetUserStatus(opt *UserStatusOptions, options ...OptionFunc) (*UserStatus, *Response, error) {
 	req, err := s.client.NewRequest("PUT", "user/status", opt, options)
 	if err != nil {
