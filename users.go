@@ -789,11 +789,13 @@ func (s *UsersService) CurrentUserStatus(options ...OptionFunc) (*UserStatus, *R
 	if err != nil {
 		return nil, nil, err
 	}
+
 	status := new(UserStatus)
 	resp, err := s.client.Do(req, status)
 	if err != nil {
 		return nil, resp, err
 	}
+
 	return status, resp, err
 }
 
@@ -803,15 +805,18 @@ func (s *UsersService) CurrentUserStatus(options ...OptionFunc) (*UserStatus, *R
 // https://docs.gitlab.com/ce/api/users.html#get-the-status-of-a-user
 func (s *UsersService) GetUserStatus(user int, options ...OptionFunc) (*UserStatus, *Response, error) {
 	u := fmt.Sprintf("users/%d/status", user)
+
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
+
 	status := new(UserStatus)
 	resp, err := s.client.Do(req, status)
 	if err != nil {
 		return nil, resp, err
 	}
+
 	return status, resp, err
 }
 
@@ -833,10 +838,12 @@ func (s *UsersService) SetUserStatus(opt *UserStatusOptions, options ...OptionFu
 	if err != nil {
 		return nil, nil, err
 	}
+
 	status := new(UserStatus)
-	resp, err := s.client.Do(req, &status)
+	resp, err := s.client.Do(req, status)
 	if err != nil {
 		return nil, resp, err
 	}
+
 	return status, resp, err
 }
