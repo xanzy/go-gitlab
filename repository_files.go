@@ -20,6 +20,7 @@ import (
 	"bytes"
 	"fmt"
 	"net/url"
+	"strconv"
 )
 
 // RepositoryFilesService handles communication with the repository files
@@ -47,6 +48,9 @@ type File struct {
 func (r File) String() string {
 	return Stringify(r)
 }
+
+
+
 
 // GetFileOptions represents the available GetFile() options.
 //
@@ -77,6 +81,54 @@ func (s *RepositoryFilesService) GetFile(pid interface{}, fileName string, opt *
 	resp, err := s.client.Do(req, f)
 	if err != nil {
 		return nil, resp, err
+	}
+
+	return f, resp, err
+}
+
+
+
+
+
+// GetFileOptions represents the available GetFile() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/repository_files.html#get-file-from-repository
+type GetFileMetaOptions struct {
+	Ref *string `url:"ref,omitempty" json:"ref,omitempty"`
+}
+
+// GetFile allows you to receive information about a file in repository like
+// name, size, content. Note that file content is Base64 encoded.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/repository_files.html#get-file-from-repository
+func (s *RepositoryFilesService) GetFileMeta(pid interface{}, fileName string, opt *GetFileMetaOptions, options ...OptionFunc) (*File, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/repository/files/%s", url.QueryEscape(project), url.PathEscape(fileName))
+
+	req, err := s.client.NewRequest("HEAD", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	f := new(File)
+	resp, err := s.client.Do(req, nil)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	f.BlobID = resp.Header.Get("X-Gitlab-Blob-Id")
+	f.CommitID = resp.Header.Get("X-Gitlab-Last-Commit-Id")
+	f.Encoding = resp.Header.Get("X-Gitlab-Encoding")
+	f.FileName = resp.Header.Get("X-Gitlab-File-Name")
+	f.FilePath = resp.Header.Get("X-Gitlab-File-Path")
+	f.Ref = resp.Header.Get("X-Gitlab-Ref")
+	if sizeString := resp.Header.Get("X-Gitlab-Size"); sizeString != "" {
+		f.Size,_ = strconv.Atoi(sizeString)
 	}
 
 	return f, resp, err
