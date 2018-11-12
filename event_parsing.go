@@ -8,8 +8,8 @@ import (
 
 const eventTypeHeader = "X-Gitlab-Event"
 
-// webhookEventType returns the event type for the given request.
-func webhookEventType(r *http.Request) string {
+// WebhookEventType returns the event type for the given request.
+func WebhookEventType(r *http.Request) string {
 	return r.Header.Get(eventTypeHeader)
 }
 
@@ -22,7 +22,7 @@ func webhookEventType(r *http.Request) string {
 // func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 //     payload, err := ioutil.ReadAll(r.Body)
 //     if err != nil { ... }
-//     event, err := gitlab.ParseWebhook(gitlab.webhookEventType(r), payload)
+//     event, err := gitlab.ParseWebhook(gitlab.WebhookEventType(r), payload)
 //     if err != nil { ... }
 //     switch event := event.(type) {
 //     case *gitlab.PushEvent:

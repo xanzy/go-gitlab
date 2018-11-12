@@ -1,6 +1,22 @@
 package gitlab
 
-import "testing"
+import (
+	"net/http"
+	"testing"
+)
+
+func TestWebhookEventType(t *testing.T) {
+	req, err := http.NewRequest(http.MethodGet, "https://gitlab.com", nil)
+	if err != nil {
+		t.Errorf("Error creating HTTP request: %s", err)
+	}
+	req.Header.Set("X-Gitlab-Event", "Push Hook")
+
+	eventType := WebhookEventType(req)
+	if eventType != "Push Hook" {
+		t.Errorf("WebhookEventType is %s, want %s", eventType, "Push Hook")
+	}
+}
 
 func TestParsePushHook(t *testing.T) {
 	raw := `{
