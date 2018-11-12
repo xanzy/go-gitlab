@@ -49,9 +49,6 @@ func (r File) String() string {
 	return Stringify(r)
 }
 
-
-
-
 // GetFileOptions represents the available GetFile() options.
 //
 // GitLab API docs:
@@ -86,24 +83,20 @@ func (s *RepositoryFilesService) GetFile(pid interface{}, fileName string, opt *
 	return f, resp, err
 }
 
-
-
-
-
-// GetFileOptions represents the available GetFile() options.
+// GetFileMetaDataOptions represents the available GetFileMetaData() options.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/repository_files.html#get-file-from-repository
-type GetFileMetaOptions struct {
+type GetFileMetaDataOptions struct {
 	Ref *string `url:"ref,omitempty" json:"ref,omitempty"`
 }
 
-// GetFile allows you to receive information about a file in repository like
-// name, size, content. Note that file content is Base64 encoded.
+// GetFileMetaData allows you to receive meta information about a file in repository like
+// name, size.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/repository_files.html#get-file-from-repository
-func (s *RepositoryFilesService) GetFileMeta(pid interface{}, fileName string, opt *GetFileMetaOptions, options ...OptionFunc) (*File, *Response, error) {
+func (s *RepositoryFilesService) GetFileMetaData(pid interface{}, fileName string, opt *GetFileMetaDataOptions, options ...OptionFunc) (*File, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -128,7 +121,10 @@ func (s *RepositoryFilesService) GetFileMeta(pid interface{}, fileName string, o
 	f.FilePath = resp.Header.Get("X-Gitlab-File-Path")
 	f.Ref = resp.Header.Get("X-Gitlab-Ref")
 	if sizeString := resp.Header.Get("X-Gitlab-Size"); sizeString != "" {
-		f.Size,_ = strconv.Atoi(sizeString)
+		f.Size, err = strconv.Atoi(sizeString)
+		if err != nil {
+			return nil, resp, err
+		}
 	}
 
 	return f, resp, err
