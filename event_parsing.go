@@ -6,11 +6,40 @@ import (
 	"net/http"
 )
 
+// EventType represents a Gitlab event type.
+type EventType string
+
+// List of available event types.
+const (
+	EventTypeBuild        EventType = "Build Hook"
+	EventTypeIssue        EventType = "Issue Hook"
+	EventTypeMergeRequest EventType = "Merge Request Hook"
+	EventTypeNote         EventType = "Note Hook"
+	EventTypePipeline     EventType = "Pipeline Hook"
+	EventTypePush         EventType = "Push Hook"
+	EventTypeTagPush      EventType = "Tag Push Hook"
+	EventTypeWikiPage     EventType = "Wiki Page Hook"
+)
+
+const (
+	noteableTypeCommit       = "Commit"
+	noteableTypeMergeRequest = "MergeRequest"
+	noteableTypeIssue        = "Issue"
+	noteableTypeSnippet      = "Snippet"
+)
+
+type noteEvent struct {
+	ObjectKind       string `json:"object_kind"`
+	ObjectAttributes struct {
+		NoteableType string `json:"noteable_type"`
+	} `json:"object_attributes"`
+}
+
 const eventTypeHeader = "X-Gitlab-Event"
 
 // WebhookEventType returns the event type for the given request.
-func WebhookEventType(r *http.Request) string {
-	return r.Header.Get(eventTypeHeader)
+func WebhookEventType(r *http.Request) EventType {
+	return EventType(r.Header.Get(eventTypeHeader))
 }
 
 // ParseWebhook parses the event payload. For recognized event types, a
@@ -33,80 +62,34 @@ func WebhookEventType(r *http.Request) string {
 //     }
 // }
 //
-func ParseWebhook(typeHeaderValue string, payload []byte) (interface{}, error) {
-	t, ok := eventTypeMapping[typeHeaderValue]
-	if !ok {
-		return nil, fmt.Errorf("unexpected value for %s header: %s", eventTypeHeader, typeHeaderValue)
-	}
-
-	event := rawWebhookEvent{
-		Type:       t,
-		RawPayload: payload,
-	}
-	return event.ParsePayload()
-}
-
-type eventStructType string
-
-const (
-	eventStructTypePushEvent             eventStructType = "PushEvent"
-	eventStructTypeTagEvent              eventStructType = "TagEvent"
-	eventStructTypeIssueEvent            eventStructType = "IssueEvent"
-	eventStructTypeAmbiguousCommentEvent eventStructType = "ambiguousCommentEvent"
-	eventStructTypeMergeEvent            eventStructType = "MergeEvent"
-	eventStructTypeWikiPageEvent         eventStructType = "WikiPageEvent"
-	eventStructTypePipelineEvent         eventStructType = "PipelineEvent"
-	eventStructTypeBuildEvent            eventStructType = "BuildEvent"
-)
-
-// Keys here are possible values for the X-Gitlab-Event header.
-var eventTypeMapping = map[string]eventStructType{
-	"Push Hook":          eventStructTypePushEvent,
-	"Tag Push Hook":      eventStructTypeTagEvent,
-	"Issue Hook":         eventStructTypeIssueEvent,
-	"Note Hook":          eventStructTypeAmbiguousCommentEvent,
-	"Merge Request Hook": eventStructTypeMergeEvent,
-	"Wiki Page Hook":     eventStructTypeWikiPageEvent,
-	"Pipeline Hook":      eventStructTypePipelineEvent,
-	"Build Hook":         eventStructTypeBuildEvent,
-}
-
-type rawWebhookEvent struct {
-	Type       eventStructType
-	RawPayload json.RawMessage
-}
-
-const (
-	noteableTypeCommit       = "Commit"
-	noteableTypeMergeRequest = "MergeRequest"
-	noteableTypeIssue        = "Issue"
-	noteableTypeSnippet      = "Snippet"
-)
-
-type ambiguousCommentEvent struct {
-	ObjectKind       string `json:"object_kind"`
-	ObjectAttributes struct {
-		NoteableType string `json:"noteable_type"`
-	} `json:"object_attributes"`
-}
-
-func (e *rawWebhookEvent) ParsePayload() (event interface{}, err error) {
-	switch e.Type {
-	case eventStructTypePushEvent:
-		event = &PushEvent{}
-	case eventStructTypeTagEvent:
-		event = &TagEvent{}
-	case eventStructTypeIssueEvent:
+func ParseWebhook(eventType EventType, payload []byte) (event interface{}, err error) {
+	switch eventType {
+	case EventTypeBuild:
+		event = &BuildEvent{}
+	case EventTypeIssue:
 		event = &IssueEvent{}
-	case eventStructTypeAmbiguousCommentEvent:
-		ambi := &ambiguousCommentEvent{}
-		err := json.Unmarshal(e.RawPayload, ambi)
+	case EventTypeMergeRequest:
+		event = &MergeEvent{}
+	case EventTypePipeline:
+		event = &PipelineEvent{}
+	case EventTypePush:
+		event = &PushEvent{}
+	case EventTypeTagPush:
+		event = &TagEvent{}
+	case EventTypeWikiPage:
+		event = &WikiPageEvent{}
+	case EventTypeNote:
+		note := &noteEvent{}
+		err := json.Unmarshal(payload, note)
 		if err != nil {
 			return nil, err
-		} else if ambi.ObjectKind != "note" {
-			return nil, fmt.Errorf("unexpected object kind %s", ambi.ObjectKind)
 		}
-		switch ambi.ObjectAttributes.NoteableType {
+
+		if note.ObjectKind != "note" {
+			return nil, fmt.Errorf("unexpected object kind %s", note.ObjectKind)
+		}
+
+		switch note.ObjectAttributes.NoteableType {
 		case noteableTypeCommit:
 			event = &CommitCommentEvent{}
 		case noteableTypeMergeRequest:
@@ -116,20 +99,16 @@ func (e *rawWebhookEvent) ParsePayload() (event interface{}, err error) {
 		case noteableTypeSnippet:
 			event = &SnippetCommentEvent{}
 		default:
-			return nil, fmt.Errorf("unexpected noteable type %s", ambi.ObjectAttributes.NoteableType)
+			return nil, fmt.Errorf("unexpected noteable type %s", note.ObjectAttributes.NoteableType)
 		}
-	case eventStructTypeMergeEvent:
-		event = &MergeEvent{}
-	case eventStructTypeWikiPageEvent:
-		event = &WikiPageEvent{}
-	case eventStructTypePipelineEvent:
-		event = &PipelineEvent{}
-	case eventStructTypeBuildEvent:
-		event = &BuildEvent{}
+
 	default:
-		return nil, fmt.Errorf("unexpected event type: %s", e.Type)
+		return nil, fmt.Errorf("unexpected event type: %s", eventType)
 	}
 
-	err = json.Unmarshal(e.RawPayload, event)
-	return event, err
+	if err := json.Unmarshal(payload, event); err != nil {
+		return nil, err
+	}
+
+	return event, nil
 }
