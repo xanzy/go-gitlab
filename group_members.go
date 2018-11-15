@@ -37,10 +37,10 @@ type GroupMember struct {
 	Username    string           `json:"username"`
 	Name        string           `json:"name"`
 	State       string           `json:"state"`
-	AccessLevel AccessLevelValue `json:"access_level"`
-	ExpiresAt   *ISOTime         `json:"expires_at"`
 	AvatarURL   string           `json:"avatar_url"`
 	WebURL      string           `json:"web_url"`
+	ExpiresAt   *ISOTime         `json:"expires_at"`
+	AccessLevel AccessLevelValue `json:"access_level"`
 }
 
 // ListGroupMembersOptions represents the available ListGroupMembers() and
