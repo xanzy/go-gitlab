@@ -144,8 +144,7 @@ type UpdateVariableOptions struct {
 	EnvironmentScope *string `url:"environment_scope,omitempty" json:"environment_scope,omitempty"`
 }
 
-// UpdateVariable updates the position of an existing
-// group issue board list.
+// UpdateVariable updates a project's variable
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/project_level_variables.html#update-variable
