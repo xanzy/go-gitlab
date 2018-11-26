@@ -74,7 +74,7 @@ type Project struct {
 	ForksCount                                int               `json:"forks_count"`
 	StarCount                                 int               `json:"star_count"`
 	RunnersToken                              string            `json:"runners_token"`
-	PublicJobs                                bool              `json:"public_jobs"`
+	PublicBuilds                              bool              `json:"public_builds"`
 	OnlyAllowMergeIfPipelineSucceeds          bool              `json:"only_allow_merge_if_pipeline_succeeds"`
 	OnlyAllowMergeIfAllDiscussionsAreResolved bool              `json:"only_allow_merge_if_all_discussions_are_resolved"`
 	LFSEnabled                                bool              `json:"lfs_enabled"`
@@ -418,7 +418,6 @@ type CreateProjectOptions struct {
 	SharedRunnersEnabled                      *bool             `url:"shared_runners_enabled,omitempty" json:"shared_runners_enabled,omitempty"`
 	Visibility                                *VisibilityValue  `url:"visibility,omitempty" json:"visibility,omitempty"`
 	ImportURL                                 *string           `url:"import_url,omitempty" json:"import_url,omitempty"`
-	PublicJobs                                *bool             `url:"public_jobs,omitempty" json:"public_jobs,omitempty"`
 	PublicBuilds                              *bool             `url:"public_builds,omitempty" json:"public_builds,omitempty"`
 	OnlyAllowMergeIfPipelineSucceeds          *bool             `url:"only_allow_merge_if_pipeline_succeeds,omitempty" json:"only_allow_merge_if_pipeline_succeeds,omitempty"`
 	OnlyAllowMergeIfAllDiscussionsAreResolved *bool             `url:"only_allow_merge_if_all_discussions_are_resolved,omitempty" json:"only_allow_merge_if_all_discussions_are_resolved,omitempty"`
