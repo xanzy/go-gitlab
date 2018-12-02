@@ -101,7 +101,7 @@ func TestSubscribeToLabel(t *testing.T)  {
 	}
 	want := &Label{ID:5, Name:"bug", Color:"#d9534f", Description:"Bug reported by user", OpenIssuesCount:1, ClosedIssuesCount:0, OpenMergeRequestsCount:1, Subscribed: true}
 	if !reflect.DeepEqual(want, label) {
-		t.Errorf("Labels.UpdateLabel returned %+v, want %+v", label, want)
+		t.Errorf("Labels.SubscribeToLabel returned %+v, want %+v", label, want)
 	}
 }
 
@@ -139,6 +139,6 @@ func TestListLabels(t *testing.T) {
 	}
 	want := []*Label{{ID:5, Name:"bug", Color:"#d9534f", Description:"Bug reported by user", OpenIssuesCount:1, ClosedIssuesCount:0, OpenMergeRequestsCount:1, Subscribed: true}}
 	if !reflect.DeepEqual(want, label) {
-		t.Errorf("Labels.UpdateLabel returned %+v, want %+v", label, want)
+		t.Errorf("Labels.ListLabels returned %+v, want %+v", label, want)
 	}
 }

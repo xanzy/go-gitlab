@@ -33,6 +33,36 @@ type IssuesService struct {
 	timeStats *timeStatsService
 }
 
+// IssueAuthor represents a author of the issue.
+type IssueAuthor struct {
+	ID int `json:"id"`
+	State     string `json:"state"`
+	WebURL    string `json:"web_url"`
+	Name      string `json:"name"`
+	AvatarURL string `json:"avatar_url"`
+	Username  string `json:"username"`
+}
+
+// IssueAssignee represents a assignee of the issue.
+type IssueAssignee struct {
+	ID        int    `json:"id"`
+	State     string `json:"state"`
+	WebURL    string `json:"web_url"`
+	Name      string `json:"name"`
+	AvatarURL string `json:"avatar_url"`
+	Username  string `json:"username"`
+}
+
+type IssueAssignees []IssueAssignee
+
+// IssueLinks represents links of the issue.
+type IssueLinks struct {
+	Self       string `json:"self"`
+	Notes      string `json:"notes"`
+	AwardEmoji string `json:"award_emoji"`
+	Project    string `json:"project"`
+}
+
 // Issue represents a GitLab issue.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/issues.html
@@ -41,32 +71,11 @@ type Issue struct {
 	IID       int        `json:"iid"`
 	ProjectID int        `json:"project_id"`
 	Milestone *Milestone `json:"milestone"`
-	Author    struct {
-		ID        int    `json:"id"`
-		State     string `json:"state"`
-		WebURL    string `json:"web_url"`
-		Name      string `json:"name"`
-		AvatarURL string `json:"avatar_url"`
-		Username  string `json:"username"`
-	} `json:"author"`
+	Author    *IssueAuthor `json:"author"`
 	Description string `json:"description"`
 	State       string `json:"state"`
-	Assignees   []struct {
-		ID        int    `json:"id"`
-		State     string `json:"state"`
-		WebURL    string `json:"web_url"`
-		Name      string `json:"name"`
-		AvatarURL string `json:"avatar_url"`
-		Username  string `json:"username"`
-	} `json:"assignees"`
-	Assignee struct {
-		ID        int    `json:"id"`
-		State     string `json:"state"`
-		WebURL    string `json:"web_url"`
-		Name      string `json:"name"`
-		AvatarURL string `json:"avatar_url"`
-		Username  string `json:"username"`
-	} `json:"assignee"`
+	Assignees   *IssueAssignees `json:"assignees"`
+	Assignee    *IssueAssignee `json:"assignee"`
 	Upvotes          int        `json:"upvotes"`
 	Downvotes        int        `json:"downvotes"`
 	Labels           []string   `json:"labels"`
@@ -82,12 +91,7 @@ type Issue struct {
 	Confidential     bool       `json:"confidential"`
 	Weight           int        `json:"weight"`
 	DiscussionLocked bool       `json:"discussion_locked"`
-	Links            struct {
-		Self       string `json:"self"`
-		Notes      string `json:"notes"`
-		AwardEmoji string `json:"award_emoji"`
-		Project    string `json:"project"`
-	} `json:"_links"`
+	Links            *IssueLinks `json:"_links"`
 	IssueLinkID int `json:"issue_link_id"`
 }
 
