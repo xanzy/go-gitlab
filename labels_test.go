@@ -27,7 +27,7 @@ func TestCreateLabel(t *testing.T) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	want := &Label{ID:1, Name:"My Label", Color:"#11FF22"}
+	want := &Label{ID: 1, Name: "My Label", Color: "#11FF22"}
 	if !reflect.DeepEqual(want, label) {
 		t.Errorf("Labels.CreateLabel returned %+v, want %+v", label, want)
 	}
@@ -64,13 +64,13 @@ func TestUpdateLabel(t *testing.T) {
 
 	// Update label
 	l := &UpdateLabelOptions{
-		Name : String("My Label"),
-		NewName : String("New Label"),
-		Color : String("#11FF23"),
-		Description : String("This is updated label"),
+		Name:        String("My Label"),
+		NewName:     String("New Label"),
+		Color:       String("#11FF23"),
+		Description: String("This is updated label"),
 	}
 
-	label, resp , err := client.Labels.UpdateLabel("1", l)
+	label, resp, err := client.Labels.UpdateLabel("1", l)
 
 	if resp == nil {
 		log.Fatal(err)
@@ -79,14 +79,14 @@ func TestUpdateLabel(t *testing.T) {
 		log.Fatal(err)
 	}
 
-	want := &Label{ID:1, Name:"New Label", Color:"#11FF23", Description:"This is updated label"}
+	want := &Label{ID: 1, Name: "New Label", Color: "#11FF23", Description: "This is updated label"}
 
 	if !reflect.DeepEqual(want, label) {
 		t.Errorf("Labels.UpdateLabel returned %+v, want %+v", label, want)
 	}
 }
 
-func TestSubscribeToLabel(t *testing.T)  {
+func TestSubscribeToLabel(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
@@ -95,17 +95,17 @@ func TestSubscribeToLabel(t *testing.T)  {
 		fmt.Fprint(w, `{  "id" : 5, "name" : "bug", "color" : "#d9534f", "description": "Bug reported by user", "open_issues_count": 1, "closed_issues_count": 0, "open_merge_requests_count": 1, "subscribed": true,"priority": null}`)
 	})
 
-	label, _ , err := client.Labels.SubscribeToLabel("1", "5")
+	label, _, err := client.Labels.SubscribeToLabel("1", "5")
 	if err != nil {
 		log.Fatal(err)
 	}
-	want := &Label{ID:5, Name:"bug", Color:"#d9534f", Description:"Bug reported by user", OpenIssuesCount:1, ClosedIssuesCount:0, OpenMergeRequestsCount:1, Subscribed: true}
+	want := &Label{ID: 5, Name: "bug", Color: "#d9534f", Description: "Bug reported by user", OpenIssuesCount: 1, ClosedIssuesCount: 0, OpenMergeRequestsCount: 1, Subscribed: true}
 	if !reflect.DeepEqual(want, label) {
-		t.Errorf("Labels.UpdateLabel returned %+v, want %+v", label, want)
+		t.Errorf("Labels.SubscribeToLabel returned %+v, want %+v", label, want)
 	}
 }
 
-func TestUnsubscribeFromLabel(t *testing.T)  {
+func TestUnsubscribeFromLabel(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
@@ -113,7 +113,7 @@ func TestUnsubscribeFromLabel(t *testing.T)  {
 		testMethod(t, r, "POST")
 	})
 
-	_ , err := client.Labels.UnsubscribeFromLabel("1", "5")
+	_, err := client.Labels.UnsubscribeFromLabel("1", "5")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -128,17 +128,17 @@ func TestListLabels(t *testing.T) {
 		fmt.Fprint(w, `[{  "id" : 5, "name" : "bug", "color" : "#d9534f", "description": "Bug reported by user", "open_issues_count": 1, "closed_issues_count": 0, "open_merge_requests_count": 1, "subscribed": true,"priority": null}]`)
 	})
 
-	o := &ListLabelsOptions {
-		Page:1,
-		PerPage:10,
+	o := &ListLabelsOptions{
+		Page:    1,
+		PerPage: 10,
 	}
-	label, _ , err := client.Labels.ListLabels("1", o)
+	label, _, err := client.Labels.ListLabels("1", o)
 	if err != nil {
 		t.Log(err.Error() == "invalid ID type 1.1, the ID must be an int or a string")
 
 	}
-	want := []*Label{{ID:5, Name:"bug", Color:"#d9534f", Description:"Bug reported by user", OpenIssuesCount:1, ClosedIssuesCount:0, OpenMergeRequestsCount:1, Subscribed: true}}
+	want := []*Label{{ID: 5, Name: "bug", Color: "#d9534f", Description: "Bug reported by user", OpenIssuesCount: 1, ClosedIssuesCount: 0, OpenMergeRequestsCount: 1, Subscribed: true}}
 	if !reflect.DeepEqual(want, label) {
-		t.Errorf("Labels.UpdateLabel returned %+v, want %+v", label, want)
+		t.Errorf("Labels.ListLabels returned %+v, want %+v", label, want)
 	}
 }
