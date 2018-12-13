@@ -81,12 +81,12 @@ func (s *RepositoriesService) ListTree(pid interface{}, opt *ListTreeOptions, op
 	return t, resp, err
 }
 
-// RawFileContent gets information about blob in repository like size and
-// content.  Note that blob content is Base64 encoded.
+// GetBlob gets information about blob in repository like size and content.
+// Note that blob content is Base64 encoded.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/repositories.html#get-a-blob-from-repository
-func (s *RepositoriesService) RawFileContent(pid interface{}, sha string, options ...OptionFunc) ([]byte, *Response, error) {
+func (s *RepositoriesService) GetBlob(pid interface{}, sha string, options ...OptionFunc) ([]byte, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
