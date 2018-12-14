@@ -1,6 +1,7 @@
 package gitlab
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
 	"io/ioutil"
@@ -41,6 +42,19 @@ func testURL(t *testing.T, r *http.Request, want string) {
 func testMethod(t *testing.T, r *http.Request, want string) {
 	if got := r.Method; got != want {
 		t.Errorf("Request method: %s, want %s", got, want)
+	}
+}
+
+func testBody(t *testing.T, r *http.Request, want string) {
+	buffer := new(bytes.Buffer)
+	_, err := buffer.ReadFrom(r.Body)
+
+	if err != nil {
+		t.Fatalf("Failed to Read Body: %v", err)
+	}
+
+	if got := buffer.String(); got != want {
+		t.Errorf("Request body: %s, want %s", got, want)
 	}
 }
 

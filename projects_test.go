@@ -351,3 +351,141 @@ func TestDeleteSharedProjectFromGroup(t *testing.T) {
 		t.Errorf("Projects.DeleteSharedProjectFromGroup returned error: %v", err)
 	}
 }
+
+func TestGetApprovalsConfigurationOptions(t *testing.T) {
+	mux, server, client := setup()
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/approvals", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "GET")
+		fmt.Fprint(w, `{
+			"approvals_before_merge": 3,
+			"reset_approvals_on_push": false,
+			"disable_overriding_approvers_per_merge_request": false,
+			"approvers": [],
+			"approver_groups": []
+		}`)
+	})
+
+	approvals, _, err := client.Projects.GetApprovalsConfigurationOptions(1)
+
+	if err != nil {
+		t.Errorf("Projects.GetApprovalsConfigurationOptions returned error: %v", err)
+	}
+
+	want := &ProjectApprovals{
+		ApprovalsBeforeMerge:                      3,
+		ResetApprovalsOnPush:                      false,
+		DisableOverridingApproversPerMergeRequest: false,
+		Approvers:      []*MergeRequestApproverUser{},
+		ApproverGroups: []*MergeRequestApproverGroup{},
+	}
+
+	if !reflect.DeepEqual(want, approvals) {
+		t.Errorf("Projects.GetApprovalsConfigurationOptions  returned %+v, want %+v", approvals, want)
+	}
+}
+
+func TestChangeApprovalsConfigurationOptions(t *testing.T) {
+	mux, server, client := setup()
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/approvals", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "POST")
+		testBody(t, r, `{"approvals_before_merge":3}`)
+		fmt.Fprint(w, `{
+			"approvals_before_merge": 3,
+			"reset_approvals_on_push": false,
+			"disable_overriding_approvers_per_merge_request": false,
+			"approvers": [],
+			"approver_groups": []
+		}`)
+	})
+
+	opt := &ApprovalsConfigurationOptions{
+		ApprovalsBeforeMerge: Int(3),
+	}
+
+	approvals, _, err := client.Projects.ChangeApprovalsConfigurationOptions(1, opt)
+
+	if err != nil {
+		t.Errorf("Projects.ChangeApprovalConfigurationOptions returned error: %v", err)
+	}
+
+	want := &ProjectApprovals{
+		ApprovalsBeforeMerge:                      3,
+		ResetApprovalsOnPush:                      false,
+		DisableOverridingApproversPerMergeRequest: false,
+		Approvers:      []*MergeRequestApproverUser{},
+		ApproverGroups: []*MergeRequestApproverGroup{},
+	}
+
+	if !reflect.DeepEqual(want, approvals) {
+		t.Errorf("Projects.ChangeApprovalConfigurationOptions  returned %+v, want %+v", approvals, want)
+	}
+}
+
+func TestChangeApproversConfigurationOptions(t *testing.T) {
+	mux, server, client := setup()
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/approvers", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "POST")
+		testBody(t, r, `{"approver_ids":[1],"approver_group_ids":[2]}`)
+		fmt.Fprint(w, `{
+			"approvers": [{"user":{"id":1}}],
+			"approver_groups": [{"group":{"id":2}}]
+		}`)
+	})
+
+	opt := &ApproversConfigurationOptions{
+		ApproverIDs:      []*int{Int(1)},
+		ApproverGroupIDs: []*int{Int(2)},
+	}
+
+	approvals, _, err := client.Projects.ChangeApproversConfigurationOptions(1, opt)
+
+	if err != nil {
+		t.Errorf("Projects.ChangeApproversConfigurationOptions returned error: %v", err)
+	}
+
+	want := &ProjectApprovals{
+		Approvers: []*MergeRequestApproverUser{
+			&MergeRequestApproverUser{
+				User: struct {
+					ID        int    `json:"id"`
+					Name      string `json:"name"`
+					Username  string `json:"username"`
+					State     string `json:"state"`
+					AvatarURL string `json:"avatar_url"`
+					WebURL    string `json:"web_url"`
+				}{
+					ID: 1,
+				},
+			},
+		},
+		ApproverGroups: []*MergeRequestApproverGroup{
+			&MergeRequestApproverGroup{
+				Group: struct {
+					ID                   int    `json:"id"`
+					Name                 string `json:"name"`
+					Path                 string `json:"path"`
+					Description          string `json:"description"`
+					Visibility           string `json:"visibility"`
+					AvatarURL            string `json:"avatar_url"`
+					WebURL               string `json:"web_url"`
+					FullName             string `json:"full_name"`
+					FullPath             string `json:"full_path"`
+					LFSEnabled           bool   `json:"lfs_enabled"`
+					RequestAccessEnabled bool   `json:"request_access_enabled"`
+				}{
+					ID: 2,
+				},
+			},
+		},
+	}
+
+	if !reflect.DeepEqual(want, approvals) {
+		t.Errorf("Projects.ChangeApproversConfigurationOptions  returned %+v, want %+v", approvals, want)
+	}
+}
