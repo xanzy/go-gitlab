@@ -79,7 +79,7 @@ type Project struct {
 	OnlyAllowMergeIfAllDiscussionsAreResolved bool              `json:"only_allow_merge_if_all_discussions_are_resolved"`
 	LFSEnabled                                bool              `json:"lfs_enabled"`
 	RequestAccessEnabled                      bool              `json:"request_access_enabled"`
-	MergeMethod                               string            `json:"merge_method"`
+	MergeMethod                               MergeMethodValue  `json:"merge_method"`
 	ForkedFromProject                         *ForkParent       `json:"forked_from_project"`
 	SharedWithGroups                          []struct {
 		GroupID          int    `json:"group_id"`
