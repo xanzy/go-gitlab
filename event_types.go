@@ -413,6 +413,7 @@ type MergeEvent struct {
 	ObjectKind string `json:"object_kind"`
 	User       *User  `json:"user"`
 	Project    struct {
+		ID                int             `json:"id"`
 		Name              string          `json:"name"`
 		Description       string          `json:"description"`
 		AvatarURL         string          `json:"avatar_url"`
@@ -575,6 +576,7 @@ type PipelineEvent struct {
 		AvatarURL string `json:"avatar_url"`
 	} `json:"user"`
 	Project struct {
+		ID                int             `json:"id"`
 		Name              string          `json:"name"`
 		Description       string          `json:"description"`
 		AvatarURL         string          `json:"avatar_url"`
