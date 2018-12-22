@@ -1236,7 +1236,7 @@ func TestParseBuildHook(t *testing.T) {
 		t.Errorf("BuildAllowFailure is %v, want %v", event.BuildAllowFailure, false)
 	}
 
-	if event.Commit.Sha != "2293ada6b400935a1378653304eaf6221e0fdb8f" {
-		t.Errorf("Commit SHA is %v, want %v", event.Commit.Sha, "2293ada6b400935a1378653304eaf6221e0fdb8f")
+	if event.Commit.SHA != "2293ada6b400935a1378653304eaf6221e0fdb8f" {
+		t.Errorf("Commit SHA is %v, want %v", event.Commit.SHA, "2293ada6b400935a1378653304eaf6221e0fdb8f")
 	}
 }
