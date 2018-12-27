@@ -562,6 +562,9 @@ func (c *Client) NewRequest(method, path string, opt interface{}, options []Opti
 
 		u.RawQuery = ""
 		req.Body = ioutil.NopCloser(bodyReader)
+		req.GetBody = func() (io.ReadCloser, error) {
+			return ioutil.NopCloser(bodyReader), nil
+		}
 		req.ContentLength = int64(bodyReader.Len())
 		req.Header.Set("Content-Type", "application/json")
 	}
