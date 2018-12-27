@@ -352,41 +352,40 @@ func TestDeleteSharedProjectFromGroup(t *testing.T) {
 	}
 }
 
-func TestGetApprovalsConfigurationOptions(t *testing.T) {
+func TestGetApprovalConfiguration(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/approvals", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
 		fmt.Fprint(w, `{
+			"approvers": [],
+			"approver_groups": [],
 			"approvals_before_merge": 3,
 			"reset_approvals_on_push": false,
-			"disable_overriding_approvers_per_merge_request": false,
-			"approvers": [],
-			"approver_groups": []
+			"disable_overriding_approvers_per_merge_request": false
 		}`)
 	})
 
-	approvals, _, err := client.Projects.GetApprovalsConfigurationOptions(1)
-
+	approvals, _, err := client.Projects.GetApprovalConfiguration(1)
 	if err != nil {
-		t.Errorf("Projects.GetApprovalsConfigurationOptions returned error: %v", err)
+		t.Errorf("Projects.GetApprovalConfiguration returned error: %v", err)
 	}
 
 	want := &ProjectApprovals{
-		ApprovalsBeforeMerge:                      3,
-		ResetApprovalsOnPush:                      false,
+		Approvers:            []*MergeRequestApproverUser{},
+		ApproverGroups:       []*MergeRequestApproverGroup{},
+		ApprovalsBeforeMerge: 3,
+		ResetApprovalsOnPush: false,
 		DisableOverridingApproversPerMergeRequest: false,
-		Approvers:      []*MergeRequestApproverUser{},
-		ApproverGroups: []*MergeRequestApproverGroup{},
 	}
 
 	if !reflect.DeepEqual(want, approvals) {
-		t.Errorf("Projects.GetApprovalsConfigurationOptions  returned %+v, want %+v", approvals, want)
+		t.Errorf("Projects.GetApprovalConfiguration returned %+v, want %+v", approvals, want)
 	}
 }
 
-func TestChangeApprovalsConfigurationOptions(t *testing.T) {
+func TestChangeApprovalConfiguration(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
@@ -394,30 +393,29 @@ func TestChangeApprovalsConfigurationOptions(t *testing.T) {
 		testMethod(t, r, "POST")
 		testBody(t, r, `{"approvals_before_merge":3}`)
 		fmt.Fprint(w, `{
+			"approvers": [],
+			"approver_groups": [],
 			"approvals_before_merge": 3,
 			"reset_approvals_on_push": false,
-			"disable_overriding_approvers_per_merge_request": false,
-			"approvers": [],
-			"approver_groups": []
+			"disable_overriding_approvers_per_merge_request": false
 		}`)
 	})
 
-	opt := &ApprovalsConfigurationOptions{
+	opt := &ChangeApprovalConfigurationOptions{
 		ApprovalsBeforeMerge: Int(3),
 	}
 
-	approvals, _, err := client.Projects.ChangeApprovalsConfigurationOptions(1, opt)
-
+	approvals, _, err := client.Projects.ChangeApprovalConfiguration(1, opt)
 	if err != nil {
 		t.Errorf("Projects.ChangeApprovalConfigurationOptions returned error: %v", err)
 	}
 
 	want := &ProjectApprovals{
-		ApprovalsBeforeMerge:                      3,
-		ResetApprovalsOnPush:                      false,
+		Approvers:            []*MergeRequestApproverUser{},
+		ApproverGroups:       []*MergeRequestApproverGroup{},
+		ApprovalsBeforeMerge: 3,
+		ResetApprovalsOnPush: false,
 		DisableOverridingApproversPerMergeRequest: false,
-		Approvers:      []*MergeRequestApproverUser{},
-		ApproverGroups: []*MergeRequestApproverGroup{},
 	}
 
 	if !reflect.DeepEqual(want, approvals) {
@@ -425,7 +423,7 @@ func TestChangeApprovalsConfigurationOptions(t *testing.T) {
 	}
 }
 
-func TestChangeApproversConfigurationOptions(t *testing.T) {
+func TestChangeAllowedApprovers(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
@@ -438,13 +436,12 @@ func TestChangeApproversConfigurationOptions(t *testing.T) {
 		}`)
 	})
 
-	opt := &ApproversConfigurationOptions{
+	opt := &ChangeAllowedApproversOptions{
 		ApproverIDs:      []*int{Int(1)},
 		ApproverGroupIDs: []*int{Int(2)},
 	}
 
-	approvals, _, err := client.Projects.ChangeApproversConfigurationOptions(1, opt)
-
+	approvals, _, err := client.Projects.ChangeAllowedApprovers(1, opt)
 	if err != nil {
 		t.Errorf("Projects.ChangeApproversConfigurationOptions returned error: %v", err)
 	}
@@ -486,6 +483,6 @@ func TestChangeApproversConfigurationOptions(t *testing.T) {
 	}
 
 	if !reflect.DeepEqual(want, approvals) {
-		t.Errorf("Projects.ChangeApproversConfigurationOptions  returned %+v, want %+v", approvals, want)
+		t.Errorf("Projects.ChangeAllowedApprovers returned %+v, want %+v", approvals, want)
 	}
 }

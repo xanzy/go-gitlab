@@ -1173,44 +1173,23 @@ func (s *ProjectsService) DeleteProjectPushRule(pid interface{}, options ...Opti
 	return s.client.Do(req, nil)
 }
 
-// ProjectApprovals  represents GitLab project level merge request approvals.
+// ProjectApprovals represents GitLab project level merge request approvals.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#project-level-mr-approvals
 type ProjectApprovals struct {
+	Approvers                                 []*MergeRequestApproverUser  `json:"approvers"`
+	ApproverGroups                            []*MergeRequestApproverGroup `json:"approver_groups"`
 	ApprovalsBeforeMerge                      int                          `json:"approvals_before_merge"`
 	ResetApprovalsOnPush                      bool                         `json:"reset_approvals_on_push"`
 	DisableOverridingApproversPerMergeRequest bool                         `json:"disable_overriding_approvers_per_merge_request"`
-	Approvers                                 []*MergeRequestApproverUser  `json:"approvers"`
-	ApproverGroups                            []*MergeRequestApproverGroup `json:"approver_groups"`
 }
 
-// ApprovalsConfigurationOptions represents the available
-// ApprovalsConfigurationOptions() options.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ee/api/merge_request_approvals.html#change-configuration
-type ApprovalsConfigurationOptions struct {
-	ApprovalsBeforeMerge                      *int  `url:"approvals_before_merge,omitempty" json:"approvals_before_merge,omitempty"`
-	ResetApprovalsOnPush                      *bool `url:"reset_approvals_on_push,omitempty" json:"reset_approvals_on_push,omitempty"`
-	DisableOverridingApproversPerMergeRequest *bool `url:"disable_overriding_approvers_per_merge_request,omitempty" json:"disable_overriding_approvers_per_merge_request,omitempty"`
-}
-
-// ApproversConfigurationOptions represents the available
-// ApproversConfigurationOptions() options.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ee/api/merge_request_approvals.html#change-allowed-approvers
-type ApproversConfigurationOptions struct {
-	ApproverIDs      []*int `url:"approver_ids,omitempty" json:"approver_ids,omitempty"`
-	ApproverGroupIDs []*int `url:"approver_group_ids,omitempty" json:"approver_group_ids,omitempty"`
-}
-
-// GetApprovalsConfigurationOptions get the approval configurations options for a given project on GitLab.
+// GetApprovalConfiguration get the approval configuration for a project.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#get-configuration
-func (s *ProjectsService) GetApprovalsConfigurationOptions(pid interface{}, options ...OptionFunc) (*ProjectApprovals, *Response, error) {
+func (s *ProjectsService) GetApprovalConfiguration(pid interface{}, options ...OptionFunc) (*ProjectApprovals, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -1222,21 +1201,31 @@ func (s *ProjectsService) GetApprovalsConfigurationOptions(pid interface{}, opti
 		return nil, nil, err
 	}
 
-	mrp := new(ProjectApprovals)
-
-	resp, err := s.client.Do(req, mrp)
+	pa := new(ProjectApprovals)
+	resp, err := s.client.Do(req, pa)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return mrp, resp, err
+	return pa, resp, err
 }
 
-// ChangeApprovalsConfigurationOptions updates the approval configurations for a given project on GitLab.
+// ChangeApprovalConfigurationOptions represents the available
+// ApprovalConfiguration() options.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#change-configuration
-func (s *ProjectsService) ChangeApprovalsConfigurationOptions(pid interface{}, opt *ApprovalsConfigurationOptions, options ...OptionFunc) (*ProjectApprovals, *Response, error) {
+type ChangeApprovalConfigurationOptions struct {
+	ApprovalsBeforeMerge                      *int  `url:"approvals_before_merge,omitempty" json:"approvals_before_merge,omitempty"`
+	ResetApprovalsOnPush                      *bool `url:"reset_approvals_on_push,omitempty" json:"reset_approvals_on_push,omitempty"`
+	DisableOverridingApproversPerMergeRequest *bool `url:"disable_overriding_approvers_per_merge_request,omitempty" json:"disable_overriding_approvers_per_merge_request,omitempty"`
+}
+
+// ChangeApprovalConfiguration updates the approval configuration for a project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/merge_request_approvals.html#change-configuration
+func (s *ProjectsService) ChangeApprovalConfiguration(pid interface{}, opt *ChangeApprovalConfigurationOptions, options ...OptionFunc) (*ProjectApprovals, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -1248,21 +1237,30 @@ func (s *ProjectsService) ChangeApprovalsConfigurationOptions(pid interface{}, o
 		return nil, nil, err
 	}
 
-	mrp := new(ProjectApprovals)
-
-	resp, err := s.client.Do(req, mrp)
+	pa := new(ProjectApprovals)
+	resp, err := s.client.Do(req, pa)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return mrp, resp, err
+	return pa, resp, err
 }
 
-// ChangeApproversConfigurationOptions updates the list of approvers for a given project on GitLab.
+// ChangeAllowedApproversOptions represents the available ChangeAllowedApprovers()
+// options.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#change-allowed-approvers
-func (s *ProjectsService) ChangeApproversConfigurationOptions(pid interface{}, opt *ApproversConfigurationOptions, options ...OptionFunc) (*ProjectApprovals, *Response, error) {
+type ChangeAllowedApproversOptions struct {
+	ApproverIDs      []*int `url:"approver_ids,omitempty" json:"approver_ids,omitempty"`
+	ApproverGroupIDs []*int `url:"approver_group_ids,omitempty" json:"approver_group_ids,omitempty"`
+}
+
+// ChangeAllowedApprovers updates the list of approvers and approver groups.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/merge_request_approvals.html#change-allowed-approvers
+func (s *ProjectsService) ChangeAllowedApprovers(pid interface{}, opt *ChangeAllowedApproversOptions, options ...OptionFunc) (*ProjectApprovals, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -1274,12 +1272,11 @@ func (s *ProjectsService) ChangeApproversConfigurationOptions(pid interface{}, o
 		return nil, nil, err
 	}
 
-	mrp := new(ProjectApprovals)
-
-	resp, err := s.client.Do(req, mrp)
+	pa := new(ProjectApprovals)
+	resp, err := s.client.Do(req, pa)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return mrp, resp, err
+	return pa, resp, err
 }
