@@ -46,8 +46,14 @@ type Job struct {
 	FinishedAt *time.Time `json:"finished_at"`
 	ID         int        `json:"id"`
 	Name       string     `json:"name"`
-	Ref        string     `json:"ref"`
-	Runner     struct {
+	Pipeline   struct {
+		ID     int    `json:"id"`
+		Ref    string `json:"ref"`
+		Sha    string `json:"sha"`
+		Status string `json:"status"`
+	} `json:"pipeline"`
+	Ref    string `json:"ref"`
+	Runner struct {
 		ID          int    `json:"id"`
 		Description string `json:"description"`
 		Active      bool   `json:"active"`
