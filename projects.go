@@ -322,7 +322,7 @@ func (s *ProjectsService) GetProject(pid interface{}, options ...OptionFunc) (*P
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s", url.PathEscape(project))
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
