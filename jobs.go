@@ -188,7 +188,13 @@ func (s *JobsService) DownloadArtifactsFile(pid interface{}, refName string, job
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/jobs/artifacts/%s/download?job=%s", url.QueryEscape(project), refName, job)
+
+    var q struct {
+        Job string `url:"job,omitempty" json:"job,omitempty"`
+    }
+    q.Job = job
+
+	u := fmt.Sprintf("projects/%s/jobs/artifacts/%s/download", url.QueryEscape(project), refName)
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
