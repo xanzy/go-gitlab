@@ -196,7 +196,7 @@ func (s *JobsService) DownloadArtifactsFile(pid interface{}, refName string, job
 
 	u := fmt.Sprintf("projects/%s/jobs/artifacts/%s/download", url.QueryEscape(project), refName)
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest("GET", u, q, options)
 	if err != nil {
 		return nil, nil, err
 	}
