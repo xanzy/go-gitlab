@@ -67,6 +67,7 @@ to add new and/or missing endpoints. Currently the following services are suppor
 - [x] Project Members
 - [x] Project Snippets
 - [x] Protected Branches
+- [x] Protected Tags
 - [x] Repositories
 - [x] Repository Files
 - [x] Runners
