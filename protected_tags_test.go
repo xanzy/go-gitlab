@@ -125,7 +125,7 @@ func TestProtectRepositoryTags(t *testing.T) {
 		},
 	}
 
-	opt := &ProtectRepositoryTagsOptions{Name: "my-awesome-tag", CreateAccessLevel: AccessLevel(30)}
+	opt := &ProtectRepositoryTagsOptions{Name: String("my-awesome-tag"), CreateAccessLevel: AccessLevel(30)}
 	tag, _, err := client.ProtectedTags.ProtectRepositoryTags(1, opt)
 
 	assert.NoError(t, err, "failed to get response")
@@ -142,7 +142,7 @@ func TestProtectRepositoryTags_WithServerError(t *testing.T) {
 		fmt.Fprint(w, `{"message":"some error"}`)
 	})
 
-	opt := &ProtectRepositoryTagsOptions{Name: "my-awesome-tag", CreateAccessLevel: AccessLevel(30)}
+	opt := &ProtectRepositoryTagsOptions{Name: String("my-awesome-tag"), CreateAccessLevel: AccessLevel(30)}
 	tag, resp, err := client.ProtectedTags.ProtectRepositoryTags(1, opt)
 
 	assert.Nil(t, tag)
