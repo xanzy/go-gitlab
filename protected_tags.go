@@ -5,21 +5,13 @@ import (
 	"net/url"
 )
 
-// ProtectedTagsService handles the protected tag methods of the GitLab API.
+// ProtectedTagsService handles communication with the protected tag methods
+// of the GitLab API.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/protected_tags.html
 type ProtectedTagsService struct {
 	client *Client
-}
-
-// TagAccessDescription reperesents the access decription for a protected tag.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ee/api/protected_tags.html
-type TagAccessDescription struct {
-	AccessLevel            AccessLevelValue `json:"access_level"`
-	AccessLevelDescription string           `json:"access_level_description"`
 }
 
 // ProtectedTag represents a protected tag.
@@ -31,7 +23,17 @@ type ProtectedTag struct {
 	CreateAccessLevels []*TagAccessDescription `json:"create_access_levels"`
 }
 
-// ListProtectedTagsOptions represents available ListProtectedTags() options.
+// TagAccessDescription reperesents the access decription for a protected tag.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/protected_tags.html
+type TagAccessDescription struct {
+	AccessLevel            AccessLevelValue `json:"access_level"`
+	AccessLevelDescription string           `json:"access_level_description"`
+}
+
+// ListProtectedTagsOptions represents the available ListProtectedTags()
+// options.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/protected_tags.html#list-protected-tags
@@ -87,7 +89,7 @@ func (s *ProtectedTagsService) GetProtectedTag(pid interface{}, tag string, opti
 	return pt, resp, err
 }
 
-// ProtectRepositoryTagsOptions represents available ProtectRepositoryTags()
+// ProtectRepositoryTagsOptions represents the available ProtectRepositoryTags()
 // options.
 //
 // GitLab API docs:
@@ -97,7 +99,8 @@ type ProtectRepositoryTagsOptions struct {
 	CreateAccessLevel *AccessLevelValue `url:"create_access_level,omitempty" json:"create_access_level,omitempty"`
 }
 
-// ProtectRepositoryTags protects a single tag or a wildcard tag.
+// ProtectRepositoryTags protects a single repository tag or several project
+// repository tags using a wildcard protected tag.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/protected_tags.html#protect-repository-tags
@@ -122,7 +125,8 @@ func (s *ProtectedTagsService) ProtectRepositoryTags(pid interface{}, opt *Prote
 	return pt, resp, err
 }
 
-// UnprotectRepositoryTags unprotects the given tag or wildcard tag.
+// UnprotectRepositoryTags unprotects the given protected tag or wildcard
+// protected tag.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/protected_tags.html#unprotect-repository-tags
