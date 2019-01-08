@@ -321,6 +321,7 @@ type Client struct {
 	ProjectSnippets       *ProjectSnippetsService
 	ProjectVariables      *ProjectVariablesService
 	ProtectedBranches     *ProtectedBranchesService
+	ProtectedTags         *ProtectedTagsService
 	Repositories          *RepositoriesService
 	RepositoryFiles       *RepositoryFilesService
 	Runners               *RunnersService
@@ -461,6 +462,7 @@ func newClient(httpClient *http.Client) *Client {
 	c.ProjectSnippets = &ProjectSnippetsService{client: c}
 	c.ProjectVariables = &ProjectVariablesService{client: c}
 	c.ProtectedBranches = &ProtectedBranchesService{client: c}
+	c.ProtectedTags = &ProtectedTagsService{client: c}
 	c.Repositories = &RepositoriesService{client: c}
 	c.RepositoryFiles = &RepositoryFilesService{client: c}
 	c.Runners = &RunnersService{client: c}
