@@ -272,7 +272,7 @@ func TestListMergeRequestsClosingIssue(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/issues/5/closed_by", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
-		testURL(t,r,"/api/v4/projects/1/issues/5/closed_by?page=1&per_page=10")
+		testURL(t, r, "/api/v4/projects/1/issues/5/closed_by?page=1&per_page=10")
 
 		fmt.Fprint(w, `[{"id":1, "title" : "test merge one"},{"id":2, "title" : "test merge two"}]`)
 	})
