@@ -115,14 +115,39 @@ func TestGetJiraService(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/services/jira", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
-		fmt.Fprint(w, `{"id":1}`)
+		fmt.Fprint(w, `{"id":1, "properties": {"jira_issue_transition_id": "2"}}`)
 	})
-	want := &JiraService{Service: Service{ID: 1}}
+
+	mux.HandleFunc("/api/v4/projects/2/services/jira", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "GET")
+		fmt.Fprint(w, `{"id":1, "properties": {"jira_issue_transition_id": 2}}`)
+	})
+
+	mux.HandleFunc("/api/v4/projects/3/services/jira", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "GET")
+		fmt.Fprint(w, `{"id":3, "properties": {"jira_issue_transition_id": "2,3"}}`)
+	})
+
+	want := &JiraService{
+		Service: Service{ID: 1},
+		Properties: &JiraServiceProperties{
+			JiraIssueTransitionID: Int(2),
+		}}
 
 	service, _, err := client.Services.GetJiraService(1)
 	if err != nil {
 		t.Fatalf("Services.GetJiraService returns an error: %v", err)
 	}
+
+	if !reflect.DeepEqual(want, service) {
+		t.Errorf("Services.GetJiraService returned %+v, want %+v", service, want)
+	}
+
+	service, _, err = client.Services.GetJiraService(2)
+	if err != nil {
+		t.Fatalf("Services.GetJiraService returns an error: %v", err)
+	}
+
 	if !reflect.DeepEqual(want, service) {
 		t.Errorf("Services.GetJiraService returned %+v, want %+v", service, want)
 	}

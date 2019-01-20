@@ -17,8 +17,11 @@
 package gitlab
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/url"
+	"reflect"
+	"strconv"
 	"time"
 )
 
@@ -394,6 +397,40 @@ type JiraServiceProperties struct {
 	Username              *string `url:"username,omitempty" json:"username,omitempty" `
 	Password              *string `url:"password,omitempty" json:"password,omitempty" `
 	JiraIssueTransitionID *int    `url:"jira_issue_transition_id,omitempty" json:"jira_issue_transition_id,omitempty"`
+}
+
+// UnmarshalJSON decodes the Jira Service Properties.
+//
+// The Gitlab API returns under some circumstances JiraIssueTransitionID
+// as a string and sometimes as an integer. This function converts the
+// returned value into an integer.
+func (p *JiraServiceProperties) UnmarshalJSON(b []byte) error {
+	type Alias JiraServiceProperties
+	aux := &struct {
+		JiraIssueTransitionID interface{} `url:"jira_issue_transition_id,omitempty" json:"jira_issue_transition_id,omitempty"`
+		*Alias
+	}{
+		Alias: (*Alias)(p),
+	}
+
+	if err := json.Unmarshal(b, &aux); err != nil {
+		return err
+	}
+
+	switch id := aux.JiraIssueTransitionID.(type) {
+	case string:
+		converted, err := strconv.Atoi(id)
+		if err != nil {
+			return err
+		}
+		p.JiraIssueTransitionID = func(i int) *int { return &i }(converted)
+	case float64:
+		p.JiraIssueTransitionID = Int(int(id))
+	default:
+		return fmt.Errorf("failed to unmarshal JiraTransitionID of type: %s", reflect.TypeOf(id))
+	}
+
+	return nil
 }
 
 // GetJiraService gets Jira service settings for a project.
