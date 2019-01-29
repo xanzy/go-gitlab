@@ -73,8 +73,8 @@ type ListContributionEventsOptions struct {
 	ListOptions
 	Action     *EventTypeValue       `json:"action,omitempty"`
 	TargetType *EventTargetTypeValue `json:"target_type,omitempty"`
-	Before     *ISOTime              `json:"before,omitempty"`
-	After      *ISOTime              `json:"after,omitempty"`
+	Before     *string               `json:"before,omitempty"`
+	After      *string               `json:"after,omitempty"`
 	Sort       *string               `json:"sort,omitempty"`
 }
 
