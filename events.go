@@ -35,34 +35,34 @@ type EventsService struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/events.html#get-user-contribution-events
 type ContributionEvent struct {
-	Title       string     `json:"title"`
-	ProjectID   int        `json:"project_id"`
-	ActionName  string     `json:"action_name"`
-	TargetID    int        `json:"target_id"`
-	TargetIID   int        `json:"target_iid"`
-	TargetType  string     `json:"target_type"`
-	AuthorID    int        `json:"author_id"`
-	TargetTitle string     `json:"target_title"`
-	CreatedAt   *time.Time `json:"created_at"`
+	Title       string     `url:"title" json:"title"`
+	ProjectID   int        `url:"project_id" json:"project_id"`
+	ActionName  string     `url:"action_name" json:"action_name"`
+	TargetID    int        `url:"target_id" json:"target_id"`
+	TargetIID   int        `url:"target_iid" json:"target_iid"`
+	TargetType  string     `url:"target_type" json:"target_type"`
+	AuthorID    int        `url:"author_id" json:"author_id"`
+	TargetTitle string     `url:"target_title" json:"target_title"`
+	CreatedAt   *time.Time `url:"created_at" json:"created_at"`
 	PushData    struct {
-		CommitCount int    `json:"commit_count"`
-		Action      string `json:"action"`
-		RefType     string `json:"ref_type"`
-		CommitFrom  string `json:"commit_from"`
-		CommitTo    string `json:"commit_to"`
-		Ref         string `json:"ref"`
-		CommitTitle string `json:"commit_title"`
-	} `json:"push_data"`
-	Note   *Note `json:"note"`
+		CommitCount int    `url:"commit_count" json:"commit_count"`
+		Action      string `url:"action" json:"action"`
+		RefType     string `url:"ref_type" json:"ref_type"`
+		CommitFrom  string `url:"commit_from" json:"commit_from"`
+		CommitTo    string `url:"commit_to" json:"commit_to"`
+		Ref         string `url:"ref" json:"ref"`
+		CommitTitle string `url:"commit_title" json:"commit_title"`
+	} `url:"push_data" json:"push_data"`
+	Note   *Note `url:"note" json:"note"`
 	Author struct {
-		Name      string `json:"name"`
-		Username  string `json:"username"`
-		ID        int    `json:"id"`
-		State     string `json:"state"`
-		AvatarURL string `json:"avatar_url"`
-		WebURL    string `json:"web_url"`
-	} `json:"author"`
-	AuthorUsername string `json:"author_username"`
+		Name      string `url:"name" json:"name"`
+		Username  string `url:"username" json:"username"`
+		ID        int    `url:"id" json:"id"`
+		State     string `url:"state" json:"state"`
+		AvatarURL string `url:"avatar_url" json:"avatar_url"`
+		WebURL    string `url:"web_url" json:"web_url"`
+	} `url:"author" json:"author"`
+	AuthorUsername string `url:"author_username" json:"author_username"`
 }
 
 // ListContributionEventsOptions represents the options for GetUserContributionEvents
@@ -71,11 +71,11 @@ type ContributionEvent struct {
 // https://docs.gitlab.com/ce/api/events.html#get-user-contribution-events
 type ListContributionEventsOptions struct {
 	ListOptions
-	Action     *EventTypeValue       `json:"action,omitempty"`
-	TargetType *EventTargetTypeValue `json:"target_type,omitempty"`
-	Before     *string               `json:"before,omitempty"`
-	After      *string               `json:"after,omitempty"`
-	Sort       *string               `json:"sort,omitempty"`
+	Action     *EventTypeValue       `url:"action,omitempty" json:"action,omitempty"`
+	TargetType *EventTargetTypeValue `url:"target_type,omitempty" json:"target_type,omitempty"`
+	Before     *ISOTime              `url:"before,omitempty" json:"before,omitempty"`
+	After      *ISOTime              `url:"after,omitempty" json:"after,omitempty"`
+	Sort       *string               `url:"sort,omitempty" json:"sort,omitempty"`
 }
 
 // ListUserContributionEvents retrieves user contribution events

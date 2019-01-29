@@ -123,6 +123,18 @@ func (t *ISOTime) UnmarshalJSON(data []byte) error {
 	return err
 }
 
+// EncodeValues implements the query.Encoder interface
+func (t *ISOTime) EncodeValues(key string, v *url.Values) error {
+	if t == nil {
+		return nil
+	}
+	if (time.Time(*t)).IsZero() {
+		return nil
+	}
+	v.Add(key, t.String())
+	return nil
+}
+
 // String implements the Stringer interface
 func (t ISOTime) String() string {
 	return time.Time(t).Format(iso8601)
