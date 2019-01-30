@@ -53,8 +53,9 @@ func (v ProjectCluster) String() string {
 	return Stringify(v)
 }
 
+// PlatformKubernetes represents a GitLab Project Cluster PlatformKubernetes.
 type PlatformKubernetes struct {
-	ApiUrl            string `json:"api_url,omitempty"`
+	APIURL            string `json:"api_url,omitempty"`
 	Token             string `json:"token,omitempty"`
 	CaCert            string `json:"ca_cert,omitempty"`
 	Namespace         string `json:"namespace,omitempty"`
