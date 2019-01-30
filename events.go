@@ -71,11 +71,11 @@ type ContributionEvent struct {
 // https://docs.gitlab.com/ce/api/events.html#get-user-contribution-events
 type ListContributionEventsOptions struct {
 	ListOptions
-	Action     *EventTypeValue       `json:"action,omitempty"`
-	TargetType *EventTargetTypeValue `json:"target_type,omitempty"`
-	Before     *string               `json:"before,omitempty"`
-	After      *string               `json:"after,omitempty"`
-	Sort       *string               `json:"sort,omitempty"`
+	Action     *EventTypeValue       `url:"action,omitempty" json:"action,omitempty"`
+	TargetType *EventTargetTypeValue `url:"target_type,omitempty" json:"target_type,omitempty"`
+	Before     *ISOTime              `url:"before,omitempty" json:"before,omitempty"`
+	After      *ISOTime              `url:"after,omitempty" json:"after,omitempty"`
+	Sort       *string               `url:"sort,omitempty" json:"sort,omitempty"`
 }
 
 // ListUserContributionEvents retrieves user contribution events
