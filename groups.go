@@ -47,6 +47,7 @@ type Group struct {
 	ParentID             int                `json:"parent_id"`
 	Projects             []*Project         `json:"projects"`
 	Statistics           *StorageStatistics `json:"statistics"`
+	CustomAttributes     []*CustomAttribute `json:"custom_attributes"`
 }
 
 // ListGroupsOptions represents the available ListGroups() options.
@@ -54,14 +55,15 @@ type Group struct {
 // GitLab API docs: https://docs.gitlab.com/ce/api/groups.html#list-project-groups
 type ListGroupsOptions struct {
 	ListOptions
-	AllAvailable   *bool             `url:"all_available,omitempty" json:"all_available,omitempty"`
-	MinAccessLevel *AccessLevelValue `url:"min_access_level,omitempty" json:"min_access_level,omitempty"`
-	OrderBy        *string           `url:"order_by,omitempty" json:"order_by,omitempty"`
-	Owned          *bool             `url:"owned,omitempty" json:"owned,omitempty"`
-	Search         *string           `url:"search,omitempty" json:"search,omitempty"`
-	SkipGroups     []int             `url:"skip_groups,omitempty" json:"skip_groups,omitempty"`
-	Sort           *string           `url:"sort,omitempty" json:"sort,omitempty"`
-	Statistics     *bool             `url:"statistics,omitempty" json:"statistics,omitempty"`
+	AllAvailable         *bool             `url:"all_available,omitempty" json:"all_available,omitempty"`
+	MinAccessLevel       *AccessLevelValue `url:"min_access_level,omitempty" json:"min_access_level,omitempty"`
+	OrderBy              *string           `url:"order_by,omitempty" json:"order_by,omitempty"`
+	Owned                *bool             `url:"owned,omitempty" json:"owned,omitempty"`
+	Search               *string           `url:"search,omitempty" json:"search,omitempty"`
+	SkipGroups           []int             `url:"skip_groups,omitempty" json:"skip_groups,omitempty"`
+	Sort                 *string           `url:"sort,omitempty" json:"sort,omitempty"`
+	Statistics           *bool             `url:"statistics,omitempty" json:"statistics,omitempty"`
+	WithCustomAttributes *bool             `url:"with_custom_attributes,omitempty" json:"with_custom_attributes,omitempty"`
 }
 
 // ListGroups gets a list of groups (as user: my groups, as admin: all groups).
