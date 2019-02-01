@@ -86,9 +86,10 @@ type Project struct {
 		GroupName        string `json:"group_name"`
 		GroupAccessLevel int    `json:"group_access_level"`
 	} `json:"shared_with_groups"`
-	Statistics   *ProjectStatistics `json:"statistics"`
-	Links        *Links             `json:"_links,omitempty"`
-	CIConfigPath *string            `json:"ci_config_path"`
+	Statistics       *ProjectStatistics `json:"statistics"`
+	Links            *Links             `json:"_links,omitempty"`
+	CIConfigPath     *string            `json:"ci_config_path"`
+	CustomAttributes []*CustomAttribute `json:"custom_attributes"`
 }
 
 // Repository represents a repository.
@@ -195,6 +196,7 @@ type ListProjectsOptions struct {
 	WithIssuesEnabled        *bool             `url:"with_issues_enabled,omitempty" json:"with_issues_enabled,omitempty"`
 	WithMergeRequestsEnabled *bool             `url:"with_merge_requests_enabled,omitempty" json:"with_merge_requests_enabled,omitempty"`
 	MinAccessLevel           *AccessLevelValue `url:"min_access_level,omitempty" json:"min_access_level,omitempty"`
+	WithCustomAttributes     *bool             `url:"with_custom_attributes,omitempty" json:"with_custom_attributes,omitempty"`
 }
 
 // ListProjects gets a list of projects accessible by the authenticated user.
