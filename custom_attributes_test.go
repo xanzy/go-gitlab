@@ -243,3 +243,54 @@ func TestDeleteCustomProjectAttribute(t *testing.T) {
 		t.Errorf("CustomAttribute.DeleteCustomProjectAttribute returned %d, want %d", got, want)
 	}
 }
+
+
+func TestGenerateAttributesString(t *testing.T) {
+	tests := []struct{
+		customAttributes []CustomAttribute
+		want string
+	}{
+		{
+			customAttributes: []CustomAttribute{
+				CustomAttribute{
+					Key:   "key1",
+					Value: "value1",
+				},
+				CustomAttribute{
+					Key:   "key2",
+					Value: "value2",
+				},
+			},
+			want: "custom_attributes[key1]=value1&custom_attributes[key2]=value2",
+		},
+		{
+			customAttributes: []CustomAttribute{
+				CustomAttribute{
+					Key:   "key1",
+					Value: "value1",
+				},
+			},
+			want: "custom_attributes[key1]=value1",
+		},
+		{
+			customAttributes: []CustomAttribute{
+				CustomAttribute{},
+			},
+			want: "custom_attributes[]=",
+		},
+		{
+			customAttributes: []CustomAttribute{},
+			want: "",
+		},
+	}
+
+	for _, test := range tests {
+
+		got := generateAttributesString(test.customAttributes)
+
+		if got != test.want {
+			t.Errorf("generateAttributesString returned %s, want %s", got, test.want)
+		}
+	}
+}
+

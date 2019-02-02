@@ -2,6 +2,7 @@ package gitlab
 
 import (
 	"fmt"
+	"strings"
 )
 
 // CustomAttributesService handles communication with the group, project and
@@ -168,4 +169,86 @@ func (s *CustomAttributesService) deleteCustomAttribute(resource string, id int,
 		return nil, err
 	}
 	return s.client.Do(req, nil)
+}
+
+// ListUsersWithCustomAttributes lists users that have the specified custom attributes.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/users.html#for-admins
+func (s *CustomAttributesService) ListUsersWithCustomAttributes(customAttributes []CustomAttribute, options ...OptionFunc) ([]*User, *Response, error) {
+	return s.listUsersWithCustomAttributes(customAttributes, options...)
+}
+
+func (s *CustomAttributesService) listUsersWithCustomAttributes(customAttributes []CustomAttribute, options ...OptionFunc) ([]*User, *Response, error) {
+	u := fmt.Sprintf("users?%s", generateAttributesString(customAttributes))
+	req, err := s.client.NewRequest("GET", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var usr []*User
+	resp, err := s.client.Do(req, &usr)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return usr, resp, err
+}
+
+// ListGroupsWithCustomAttributes lists groups that have the specified custom attributes.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/groups.html#list-groups
+func (s *CustomAttributesService) ListGroupsWithCustomAttributes(customAttributes []CustomAttribute, options ...OptionFunc) ([]*Group, *Response, error) {
+	return s.listGroupsWithCustomAttributes("groups", customAttributes, options...)
+}
+
+func (s *CustomAttributesService) listGroupsWithCustomAttributes(resource string, customAttributes []CustomAttribute, options ...OptionFunc) ([]*Group, *Response, error) {
+	u := fmt.Sprintf("groups?%s", generateAttributesString(customAttributes))
+	req, err := s.client.NewRequest("GET", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var g []*Group
+	resp, err := s.client.Do(req, &g)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return g, resp, err
+}
+
+// ListProjectsWithCustomAttributes lists groups that have the specified custom attributes.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#list-all-projects
+func (s *CustomAttributesService) ListProjectsWithCustomAttributes(customAttributes []CustomAttribute, options ...OptionFunc) ([]*Project, *Response, error) {
+	return s.listProjectsWithCustomAttributes(customAttributes, options...)
+}
+
+func (s *CustomAttributesService) listProjectsWithCustomAttributes(customAttributes []CustomAttribute, options ...OptionFunc) ([]*Project, *Response, error) {
+	u := fmt.Sprintf("projects?%s", generateAttributesString(customAttributes))
+	req, err := s.client.NewRequest("GET", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var p []*Project
+	resp, err := s.client.Do(req, &p)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return p, resp, err
+}
+
+func generateAttributesString(customAttributes []CustomAttribute) (attributes string) {
+	if len(customAttributes) == 0 {
+		return
+	}
+
+	for _, attribute := range customAttributes {
+		attributes = attributes + fmt.Sprintf("custom_attributes[%s]=%s&", attribute.Key, attribute.Value)
+	}
+	attributes = strings.TrimRight(attributes, "&")
+
+	return
 }
