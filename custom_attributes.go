@@ -175,10 +175,6 @@ func (s *CustomAttributesService) deleteCustomAttribute(resource string, id int,
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/users.html#for-admins
 func (s *CustomAttributesService) ListUsersWithCustomAttributes(customAttributes []CustomAttribute, options ...OptionFunc) ([]*User, *Response, error) {
-	return s.listUsersWithCustomAttributes(customAttributes, options...)
-}
-
-func (s *CustomAttributesService) listUsersWithCustomAttributes(customAttributes []CustomAttribute, options ...OptionFunc) ([]*User, *Response, error) {
 	u := fmt.Sprintf("users?%s", generateAttributesString(customAttributes))
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
@@ -198,10 +194,6 @@ func (s *CustomAttributesService) listUsersWithCustomAttributes(customAttributes
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/groups.html#list-groups
 func (s *CustomAttributesService) ListGroupsWithCustomAttributes(customAttributes []CustomAttribute, options ...OptionFunc) ([]*Group, *Response, error) {
-	return s.listGroupsWithCustomAttributes("groups", customAttributes, options...)
-}
-
-func (s *CustomAttributesService) listGroupsWithCustomAttributes(resource string, customAttributes []CustomAttribute, options ...OptionFunc) ([]*Group, *Response, error) {
 	u := fmt.Sprintf("groups?%s", generateAttributesString(customAttributes))
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
@@ -221,10 +213,6 @@ func (s *CustomAttributesService) listGroupsWithCustomAttributes(resource string
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#list-all-projects
 func (s *CustomAttributesService) ListProjectsWithCustomAttributes(customAttributes []CustomAttribute, options ...OptionFunc) ([]*Project, *Response, error) {
-	return s.listProjectsWithCustomAttributes(customAttributes, options...)
-}
-
-func (s *CustomAttributesService) listProjectsWithCustomAttributes(customAttributes []CustomAttribute, options ...OptionFunc) ([]*Project, *Response, error) {
 	u := fmt.Sprintf("projects?%s", generateAttributesString(customAttributes))
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
