@@ -116,9 +116,9 @@ func (s *ProjectClustersService) GetCluster(pid interface{}, cluster int, option
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/project_clusters.html#add-existing-cluster-to-project
 type AddClusterOptions struct {
-	Name               string              `url:"name,omitempty" json:"name,omitempty"`
+	Name               *string             `url:"name,omitempty" json:"name,omitempty"`
 	Enabled            *bool               `url:"enabled,omitempty" json:"enabled,omitempty"`
-	EnvironmentScope   string              `url:"environment_scope,omitempty" json:"environment_scope,omitempty"`
+	EnvironmentScope   *string             `url:"environment_scope,omitempty" json:"environment_scope,omitempty"`
 	PlatformKubernetes *PlatformKubernetes `url:"platform_kubernetes_attributes,omitempty" json:"platform_kubernetes_attributes,omitempty"`
 }
 
@@ -152,8 +152,8 @@ func (s *ProjectClustersService) AddCluster(pid interface{}, opt *AddClusterOpti
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/project_clusters.html#edit-project-cluster
 type EditClusterOptions struct {
-	Name               string              `url:"name,omitempty" json:"name,omitempty"`
-	EnvironmentScope   string              `url:"environment_scope,omitempty" json:"environment_scope,omitempty"`
+	Name               *string             `url:"name,omitempty" json:"name,omitempty"`
+	EnvironmentScope   *string             `url:"environment_scope,omitempty" json:"environment_scope,omitempty"`
 	PlatformKubernetes *PlatformKubernetes `url:"platform_kubernetes_attributes,omitempty" json:"platform_kubernetes_attributes,omitempty"`
 }
 
