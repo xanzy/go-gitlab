@@ -288,9 +288,10 @@ type Client struct {
 	// Services used for talking to different parts of the GitLab API.
 	AccessRequests        *AccessRequestsService
 	AwardEmoji            *AwardEmojiService
+	Boards                *IssueBoardsService
 	Branches              *BranchesService
-	BuildVariables        *BuildVariablesService
 	BroadcastMessage      *BroadcastMessagesService
+	BuildVariables        *BuildVariablesService
 	CIYMLTemplate         *CIYMLTemplatesService
 	Commits               *CommitsService
 	CustomAttribute       *CustomAttributesService
@@ -301,35 +302,34 @@ type Client struct {
 	Events                *EventsService
 	Features              *FeaturesService
 	GitIgnoreTemplates    *GitIgnoreTemplatesService
-	Groups                *GroupsService
 	GroupIssueBoards      *GroupIssueBoardsService
 	GroupMembers          *GroupMembersService
 	GroupMilestones       *GroupMilestonesService
 	GroupVariables        *GroupVariablesService
-	Issues                *IssuesService
+	Groups                *GroupsService
 	IssueLinks            *IssueLinksService
+	Issues                *IssuesService
 	Jobs                  *JobsService
 	Keys                  *KeysService
-	Boards                *IssueBoardsService
 	Labels                *LabelsService
 	License               *LicenseService
 	LicenseTemplates      *LicenseTemplatesService
-	MergeRequests         *MergeRequestsService
 	MergeRequestApprovals *MergeRequestApprovalsService
+	MergeRequests         *MergeRequestsService
 	Milestones            *MilestonesService
 	Namespaces            *NamespacesService
 	Notes                 *NotesService
 	NotificationSettings  *NotificationSettingsService
 	PagesDomains          *PagesDomainsService
-	Pipelines             *PipelinesService
 	PipelineSchedules     *PipelineSchedulesService
 	PipelineTriggers      *PipelineTriggersService
-	Projects              *ProjectsService
-	ProjectMembers        *ProjectMembersService
+	Pipelines             *PipelinesService
 	ProjectBadges         *ProjectBadgesService
+	ProjectCluster        *ProjectClustersService
+	ProjectMembers        *ProjectMembersService
 	ProjectSnippets       *ProjectSnippetsService
 	ProjectVariables      *ProjectVariablesService
-	ProjectCluster        *ProjectClustersService
+	Projects              *ProjectsService
 	ProtectedBranches     *ProtectedBranchesService
 	ProtectedTags         *ProtectedTagsService
 	Repositories          *RepositoriesService
@@ -430,9 +430,10 @@ func newClient(httpClient *http.Client) *Client {
 	// Create all the public services.
 	c.AccessRequests = &AccessRequestsService{client: c}
 	c.AwardEmoji = &AwardEmojiService{client: c}
+	c.Boards = &IssueBoardsService{client: c}
 	c.Branches = &BranchesService{client: c}
-	c.BuildVariables = &BuildVariablesService{client: c}
 	c.BroadcastMessage = &BroadcastMessagesService{client: c}
+	c.BuildVariables = &BuildVariablesService{client: c}
 	c.CIYMLTemplate = &CIYMLTemplatesService{client: c}
 	c.Commits = &CommitsService{client: c}
 	c.CustomAttribute = &CustomAttributesService{client: c}
@@ -443,42 +444,41 @@ func newClient(httpClient *http.Client) *Client {
 	c.Events = &EventsService{client: c}
 	c.Features = &FeaturesService{client: c}
 	c.GitIgnoreTemplates = &GitIgnoreTemplatesService{client: c}
-	c.Groups = &GroupsService{client: c}
 	c.GroupIssueBoards = &GroupIssueBoardsService{client: c}
 	c.GroupMembers = &GroupMembersService{client: c}
 	c.GroupMilestones = &GroupMilestonesService{client: c}
 	c.GroupVariables = &GroupVariablesService{client: c}
-	c.Issues = &IssuesService{client: c, timeStats: timeStats}
+	c.Groups = &GroupsService{client: c}
 	c.IssueLinks = &IssueLinksService{client: c}
+	c.Issues = &IssuesService{client: c, timeStats: timeStats}
 	c.Jobs = &JobsService{client: c}
 	c.Keys = &KeysService{client: c}
-	c.Boards = &IssueBoardsService{client: c}
 	c.Labels = &LabelsService{client: c}
 	c.License = &LicenseService{client: c}
 	c.LicenseTemplates = &LicenseTemplatesService{client: c}
-	c.MergeRequests = &MergeRequestsService{client: c, timeStats: timeStats}
 	c.MergeRequestApprovals = &MergeRequestApprovalsService{client: c}
+	c.MergeRequests = &MergeRequestsService{client: c, timeStats: timeStats}
 	c.Milestones = &MilestonesService{client: c}
 	c.Namespaces = &NamespacesService{client: c}
 	c.Notes = &NotesService{client: c}
 	c.NotificationSettings = &NotificationSettingsService{client: c}
 	c.PagesDomains = &PagesDomainsService{client: c}
-	c.Pipelines = &PipelinesService{client: c}
 	c.PipelineSchedules = &PipelineSchedulesService{client: c}
 	c.PipelineTriggers = &PipelineTriggersService{client: c}
-	c.Projects = &ProjectsService{client: c}
-	c.ProjectMembers = &ProjectMembersService{client: c}
+	c.Pipelines = &PipelinesService{client: c}
 	c.ProjectBadges = &ProjectBadgesService{client: c}
+	c.ProjectCluster = &ProjectClustersService{client: c}
+	c.ProjectMembers = &ProjectMembersService{client: c}
 	c.ProjectSnippets = &ProjectSnippetsService{client: c}
 	c.ProjectVariables = &ProjectVariablesService{client: c}
-	c.ProjectCluster = &ProjectClustersService{client: c}
+	c.Projects = &ProjectsService{client: c}
 	c.ProtectedBranches = &ProtectedBranchesService{client: c}
 	c.ProtectedTags = &ProtectedTagsService{client: c}
 	c.Repositories = &RepositoriesService{client: c}
 	c.RepositoryFiles = &RepositoryFilesService{client: c}
 	c.Runners = &RunnersService{client: c}
-	c.Services = &ServicesService{client: c}
 	c.Search = &SearchService{client: c}
+	c.Services = &ServicesService{client: c}
 	c.Settings = &SettingsService{client: c}
 	c.Sidekiq = &SidekiqService{client: c}
 	c.Snippets = &SnippetsService{client: c}

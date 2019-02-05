@@ -33,8 +33,7 @@ type ProjectClustersService struct {
 
 // ProjectCluster represents a GitLab Project Cluster.
 //
-// GitLab API docs:
-// https://docs.gitlab.com/ee/api/project_clusters.html
+// GitLab API docs: https://docs.gitlab.com/ee/api/project_clusters.html
 type ProjectCluster struct {
 	ID                 int                 `json:"id"`
 	Name               string              `json:"name"`
@@ -61,15 +60,6 @@ type PlatformKubernetes struct {
 	AuthorizationType string `json:"authorization_type"`
 }
 
-// PlatformKubernetesOptions represents the available PlatformKubernetes options.
-type PlatformKubernetesOptions struct {
-	APIURL            *string `url:"api_url,omitempty" json:"api_url,omitempty"`
-	Token             *string `url:"token,omitempty" json:"token,omitempty"`
-	CaCert            *string `url:"ca_cert,omitempty" json:"ca_cert,omitempty"`
-	Namespace         *string `url:"namespace,omitempty" json:"namespace,omitempty"`
-	AuthorizationType *string `url:"authorization_type,omitempty" json:"authorization_type,omitempty"`
-}
-
 // ListClusters gets a list of all clusters in a project.
 //
 // GitLab API docs:
@@ -86,13 +76,13 @@ func (s *ProjectClustersService) ListClusters(pid interface{}, options ...Option
 		return nil, nil, err
 	}
 
-	var pc []*ProjectCluster
-	resp, err := s.client.Do(req, &pc)
+	var pcs []*ProjectCluster
+	resp, err := s.client.Do(req, &pcs)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return pc, resp, err
+	return pcs, resp, err
 }
 
 // GetCluster gets a cluster.
@@ -111,7 +101,7 @@ func (s *ProjectClustersService) GetCluster(pid interface{}, cluster int, option
 		return nil, nil, err
 	}
 
-	var pc *ProjectCluster
+	pc := new(ProjectCluster)
 	resp, err := s.client.Do(req, &pc)
 	if err != nil {
 		return nil, resp, err
@@ -129,6 +119,15 @@ type AddClusterOptions struct {
 	Enabled            *bool                      `url:"enabled,omitempty" json:"enabled,omitempty"`
 	EnvironmentScope   *string                    `url:"environment_scope,omitempty" json:"environment_scope,omitempty"`
 	PlatformKubernetes *PlatformKubernetesOptions `url:"platform_kubernetes_attributes,omitempty" json:"platform_kubernetes_attributes,omitempty"`
+}
+
+// PlatformKubernetesOptions represents the available PlatformKubernetes options.
+type PlatformKubernetesOptions struct {
+	APIURL            *string `url:"api_url,omitempty" json:"api_url,omitempty"`
+	Token             *string `url:"token,omitempty" json:"token,omitempty"`
+	CaCert            *string `url:"ca_cert,omitempty" json:"ca_cert,omitempty"`
+	Namespace         *string `url:"namespace,omitempty" json:"namespace,omitempty"`
+	AuthorizationType *string `url:"authorization_type,omitempty" json:"authorization_type,omitempty"`
 }
 
 // AddCluster adds an existing cluster to the project.
