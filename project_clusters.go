@@ -115,14 +115,14 @@ func (s *ProjectClustersService) GetCluster(pid interface{}, cluster int, option
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/project_clusters.html#add-existing-cluster-to-project
 type AddClusterOptions struct {
-	Name               *string                    `url:"name,omitempty" json:"name,omitempty"`
-	Enabled            *bool                      `url:"enabled,omitempty" json:"enabled,omitempty"`
-	EnvironmentScope   *string                    `url:"environment_scope,omitempty" json:"environment_scope,omitempty"`
-	PlatformKubernetes *PlatformKubernetesOptions `url:"platform_kubernetes_attributes,omitempty" json:"platform_kubernetes_attributes,omitempty"`
+	Name               *string                       `url:"name,omitempty" json:"name,omitempty"`
+	Enabled            *bool                         `url:"enabled,omitempty" json:"enabled,omitempty"`
+	EnvironmentScope   *string                       `url:"environment_scope,omitempty" json:"environment_scope,omitempty"`
+	PlatformKubernetes *AddPlatformKubernetesOptions `url:"platform_kubernetes_attributes,omitempty" json:"platform_kubernetes_attributes,omitempty"`
 }
 
-// PlatformKubernetesOptions represents the available PlatformKubernetes options.
-type PlatformKubernetesOptions struct {
+// AddPlatformKubernetesOptions represents the available PlatformKubernetes options for adding.
+type AddPlatformKubernetesOptions struct {
 	APIURL            *string `url:"api_url,omitempty" json:"api_url,omitempty"`
 	Token             *string `url:"token,omitempty" json:"token,omitempty"`
 	CaCert            *string `url:"ca_cert,omitempty" json:"ca_cert,omitempty"`
@@ -160,9 +160,17 @@ func (s *ProjectClustersService) AddCluster(pid interface{}, opt *AddClusterOpti
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/project_clusters.html#edit-project-cluster
 type EditClusterOptions struct {
-	Name               *string                    `url:"name,omitempty" json:"name,omitempty"`
-	EnvironmentScope   *string                    `url:"environment_scope,omitempty" json:"environment_scope,omitempty"`
-	PlatformKubernetes *PlatformKubernetesOptions `url:"platform_kubernetes_attributes,omitempty" json:"platform_kubernetes_attributes,omitempty"`
+	Name               *string                        `url:"name,omitempty" json:"name,omitempty"`
+	EnvironmentScope   *string                        `url:"environment_scope,omitempty" json:"environment_scope,omitempty"`
+	PlatformKubernetes *EditPlatformKubernetesOptions `url:"platform_kubernetes_attributes,omitempty" json:"platform_kubernetes_attributes,omitempty"`
+}
+
+// EditPlatformKubernetesOptions represents the available PlatformKubernetes options for editing.
+type EditPlatformKubernetesOptions struct {
+	APIURL    *string `url:"api_url,omitempty" json:"api_url,omitempty"`
+	Token     *string `url:"token,omitempty" json:"token,omitempty"`
+	CaCert    *string `url:"ca_cert,omitempty" json:"ca_cert,omitempty"`
+	Namespace *string `url:"namespace,omitempty" json:"namespace,omitempty"`
 }
 
 // EditCluster updates an existing project cluster.
