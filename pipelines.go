@@ -64,6 +64,7 @@ type Pipeline struct {
 	CommittedAt *time.Time `json:"committed_at"`
 	Duration    int        `json:"duration"`
 	Coverage    string     `json:"coverage"`
+	WebURL      string     `json:"web_url"`
 }
 
 func (i Pipeline) String() string {
