@@ -170,7 +170,7 @@ type ListMergeRequestsOptions struct {
 	TargetBranch    *string    `url:"target_branch,omitempty" json:"target_branch,omitempty"`
 	Search          *string    `url:"search,omitempty" json:"search,omitempty"`
 	In              *string    `url:"in,omitempty" json:"in,omitempty"`
-	Wip             *string    `url:"wip,omitempty" json:"wip,omitempty"`
+	WIP             *string    `url:"wip,omitempty" json:"wip,omitempty"`
 }
 
 // ListMergeRequests gets all merge requests. The state parameter can be used
