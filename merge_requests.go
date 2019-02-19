@@ -271,6 +271,7 @@ type ListProjectMergeRequestsOptions struct {
 	SourceBranch    *string    `url:"source_branch,omitempty" json:"source_branch,omitempty"`
 	TargetBranch    *string    `url:"target_branch,omitempty" json:"target_branch,omitempty"`
 	Search          *string    `url:"search,omitempty" json:"search,omitempty"`
+	WIP             *string    `url:"wip,omitempty" json:"wip,omitempty"`
 }
 
 // ListProjectMergeRequests gets all merge requests for this project.
