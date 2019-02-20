@@ -82,6 +82,11 @@ type Project struct {
 	RequestAccessEnabled                      bool              `json:"request_access_enabled"`
 	MergeMethod                               MergeMethodValue  `json:"merge_method"`
 	ForkedFromProject                         *ForkParent       `json:"forked_from_project"`
+	Mirror                                    bool              `json:"mirror"`
+	MirrorUserID                              int               `json:"mirror_user_id"`
+	MirrorTriggerBuilds                       bool              `json:"mirror_trigger_builds"`
+	OnlyMirrorProtectedBranches               bool              `json:"only_mirror_protected_branches"`
+	MirrorOverwritesDivergedBranches          bool              `json:"mirror_overwrites_diverged_branches"`
 	SharedWithGroups                          []struct {
 		GroupID          int    `json:"group_id"`
 		GroupName        string `json:"group_name"`
