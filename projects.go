@@ -320,19 +320,28 @@ func (s *ProjectsService) GetProjectLanguages(pid interface{}, options ...Option
 	return p, resp, err
 }
 
+// GetProjectOptions represents the available GetProject() options.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/projects.html#get-single-project
+type GetProjectOptions struct {
+	Statistics           *bool `url:"statistics,omitempty" json:"statistics,omitempty"`
+	License              *bool `url:"license,omitempty" json:"license,omitempty"`
+	WithCustomAttributes *bool `url:"with_custom_attributes,omitempty" json:"with_custom_attributes,omitempty"`
+}
+
 // GetProject gets a specific project, identified by project ID or
 // NAMESPACE/PROJECT_NAME, which is owned by the authenticated user.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/projects.html#get-single-project
-func (s *ProjectsService) GetProject(pid interface{}, options ...OptionFunc) (*Project, *Response, error) {
+func (s *ProjectsService) GetProject(pid interface{}, opt *GetProjectOptions, options ...OptionFunc) (*Project, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s", url.QueryEscape(project))
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
