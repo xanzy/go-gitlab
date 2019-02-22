@@ -194,7 +194,7 @@ func TestGetProjectByID(t *testing.T) {
 	})
 	want := &Project{ID: 1}
 
-	project, _, err := client.Projects.GetProject(1)
+	project, _, err := client.Projects.GetProject(1, nil)
 	if err != nil {
 		t.Fatalf("Projects.GetProject returns an error: %v", err)
 	}
@@ -215,7 +215,43 @@ func TestGetProjectByName(t *testing.T) {
 	})
 	want := &Project{ID: 1}
 
-	project, _, err := client.Projects.GetProject("namespace/name")
+	project, _, err := client.Projects.GetProject("namespace/name", nil)
+	if err != nil {
+		t.Fatalf("Projects.GetProject returns an error: %v", err)
+	}
+
+	if !reflect.DeepEqual(want, project) {
+		t.Errorf("Projects.GetProject returned %+v, want %+v", project, want)
+	}
+}
+
+func TestGetProjectWithOptions(t *testing.T) {
+	mux, server, client := setup()
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "GET")
+		fmt.Fprint(w, `{
+			"id":1,
+			"statistics": {
+				"commit_count": 37,
+				"storage_size": 1038090,
+				"repository_size": 1038090,
+				"lfs_objects_size": 0,
+				"job_artifacts_size": 0
+			}}`)
+	})
+	want := &Project{ID: 1, Statistics: &ProjectStatistics{
+		CommitCount: 37,
+		StorageStatistics: StorageStatistics{
+			StorageSize:      1038090,
+			RepositorySize:   1038090,
+			LfsObjectsSize:   0,
+			JobArtifactsSize: 0,
+		},
+	}}
+
+	project, _, err := client.Projects.GetProject(1, &GetProjectOptions{Statistics: Bool(true)})
 	if err != nil {
 		t.Fatalf("Projects.GetProject returns an error: %v", err)
 	}
@@ -373,10 +409,10 @@ func TestGetApprovalConfiguration(t *testing.T) {
 	}
 
 	want := &ProjectApprovals{
-		Approvers:            []*MergeRequestApproverUser{},
-		ApproverGroups:       []*MergeRequestApproverGroup{},
-		ApprovalsBeforeMerge: 3,
-		ResetApprovalsOnPush: false,
+		Approvers:                                 []*MergeRequestApproverUser{},
+		ApproverGroups:                            []*MergeRequestApproverGroup{},
+		ApprovalsBeforeMerge:                      3,
+		ResetApprovalsOnPush:                      false,
 		DisableOverridingApproversPerMergeRequest: false,
 	}
 
@@ -411,10 +447,10 @@ func TestChangeApprovalConfiguration(t *testing.T) {
 	}
 
 	want := &ProjectApprovals{
-		Approvers:            []*MergeRequestApproverUser{},
-		ApproverGroups:       []*MergeRequestApproverGroup{},
-		ApprovalsBeforeMerge: 3,
-		ResetApprovalsOnPush: false,
+		Approvers:                                 []*MergeRequestApproverUser{},
+		ApproverGroups:                            []*MergeRequestApproverGroup{},
+		ApprovalsBeforeMerge:                      3,
+		ResetApprovalsOnPush:                      false,
 		DisableOverridingApproversPerMergeRequest: false,
 	}
 
