@@ -13,7 +13,7 @@ func TestListTodos(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/todos", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
-		fmt.Fprint(w, `[{"id":1,"state": "pending"},{"id":2,"state":"pending"}]`)
+		fmt.Fprint(w, `[{"id":1,"state": "pending","target":{"id":1,"approvals_before_merge":2}},{"id":2,"state":"pending","target":{"id":2,"approvals_before_merge":null}}]`)
 	})
 
 	opts := &ListTodosOptions{}
@@ -23,7 +23,7 @@ func TestListTodos(t *testing.T) {
 		t.Errorf("Todos.ListTodos returned error: %v", err)
 	}
 
-	want := []*Todo{{ID: 1, State: "pending"}, {ID: 2, State: "pending"}}
+	want := []*Todo{{ID: 1, State: "pending", Target: TodoTarget{ID: 1, ApprovalsBeforeMerge: 2}}, {ID: 2, State: "pending", Target: TodoTarget{ID: 2}}}
 	if !reflect.DeepEqual(want, todos) {
 		t.Errorf("Todos.ListTodos returned %+v, want %+v", todos, want)
 	}
