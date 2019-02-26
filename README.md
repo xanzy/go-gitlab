@@ -30,6 +30,7 @@ to add new and/or missing endpoints. Currently the following services are suppor
 - [x] Broadcast Messages
 - [x] Commits
 - [x] Custom Attributes
+- [x] Content Registry
 - [x] Deploy Keys
 - [x] Deployments
 - [x] Environments
