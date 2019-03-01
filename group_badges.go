@@ -19,12 +19,24 @@ type GroupBadge struct {
 	Kind string `json:"kind"`
 }
 
+// GroupBadgesService handles communication with the group badges
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/group_badges.html
 type GroupBadgesService struct {
 	client *Client
 }
 
+// ListGroupBadgesOptions represents the available ListGroupBadges() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/group_badges.html#list-all-badges-of-a-group
 type ListGroupBadgesOptions ListOptions
 
+// ListGroupBadges gets a list of a group badges.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/group_badges.html#list-all-badges-of-a-group
 func (s *GroupBadgesService) ListGroupBadges(gid interface{}, opt *ListGroupBadgesOptions, options ...OptionFunc) ([]*GroupBadge, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
@@ -46,6 +58,10 @@ func (s *GroupBadgesService) ListGroupBadges(gid interface{}, opt *ListGroupBadg
 	return gb, resp, err
 }
 
+// GetGroupBadge gets a group badge.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/group_badges.html#get-a-badge-of-a-group
 func (s *GroupBadgesService) GetGroupBadge(gid interface{}, badge int, options ...OptionFunc) (*GroupBadge, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
@@ -67,11 +83,19 @@ func (s *GroupBadgesService) GetGroupBadge(gid interface{}, badge int, options .
 	return gb, resp, err
 }
 
+// AddGroupBadgeOptions represents the available AddGroupBadge() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/group_badges.html#add-a-badge-to-a-group
 type AddGroupBadgeOptions struct {
 	LinkURL  *string `url:"link_url,omitempty" json:"link_url,omitempty"`
 	ImageURL *string `url:"image_url,omitempty" json:"image_url,omitempty"`
 }
 
+// AddGroupBadge adds a badge to a group.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/group_badges.html#add-a-badge-to-a-group
 func (s *GroupBadgesService) AddGroupBadge(gid interface{}, opt *AddGroupBadgeOptions, options ...OptionFunc) (*GroupBadge, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
@@ -93,11 +117,19 @@ func (s *GroupBadgesService) AddGroupBadge(gid interface{}, opt *AddGroupBadgeOp
 	return gb, resp, err
 }
 
+// EditGroupBadgeOptions represents the available EditGroupBadge() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/group_badges.html#edit-a-badge-of-a-group
 type EditGroupBadgeOptions struct {
 	LinkURL  *string `url:"link_url,omitempty" json:"link_url,omitempty"`
 	ImageURL *string `url:"image_url,omitempty" json:"image_url,omitempty"`
 }
 
+// EditGroupBadge updates a badge of a group.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/group_badges.html#edit-a-badge-of-a-group
 func (s *GroupBadgesService) EditGroupBadge(gid interface{}, badge int, opt *EditGroupBadgeOptions, options ...OptionFunc) (*GroupBadge, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
@@ -119,6 +151,10 @@ func (s *GroupBadgesService) EditGroupBadge(gid interface{}, badge int, opt *Edi
 	return gb, resp, err
 }
 
+// DeleteGroupBadge removes a badge from a group.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/group_badges.html#remove-a-badge-from-a-group
 func (s *GroupBadgesService) DeleteGroupBadge(gid interface{}, badge int, options ...OptionFunc) (*Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
@@ -134,11 +170,20 @@ func (s *GroupBadgesService) DeleteGroupBadge(gid interface{}, badge int, option
 	return s.client.Do(req, nil)
 }
 
+// GroupBadgePreviewOptions represents the available PreviewGroupBadge() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/group_badges.html#preview-a-badge-from-a-group
 type GroupBadgePreviewOptions struct {
 	LinkURL  *string `url:"link_url,omitempty" json:"link_url,omitempty"`
 	ImageURL *string `url:"image_url,omitempty" json:"image_url,omitempty"`
 }
 
+// PreviewGroupBadge returns how the link_url and image_url final URLs would be after
+// resolving the placeholder interpolation.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/group_badges.html#preview-a-badge-from-a-group
 func (s *GroupBadgesService) PreviewGroupBadge(gid interface{}, opt *GroupBadgePreviewOptions, options ...OptionFunc) (*GroupBadge, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
