@@ -5,6 +5,23 @@ import (
 	"net/url"
 )
 
+// GroupBadgesService handles communication with the group badges
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/group_badges.html
+type GroupBadgesService struct {
+	client *Client
+}
+
+// BadgeKind represents a GitLab Badge Kind
+type BadgeKind string
+
+// all possible values Badge Kind
+const (
+	ProjectBadgeKind BadgeKind = "project"
+	GroupBadgeKind BadgeKind = "group"
+)
+
 // GroupBadge represents a group badge.
 //
 // GitLab API docs:
@@ -15,16 +32,7 @@ type GroupBadge struct {
 	ImageURL         string `json:"image_url"`
 	RenderedLinkURL  string `json:"rendered_link_url"`
 	RenderedImageURL string `json:"rendered_image_url"`
-	// Kind represents a project badge kind. Can be empty, when used PreviewProjectBadge().
-	Kind string `json:"kind"`
-}
-
-// GroupBadgesService handles communication with the group badges
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ee/api/group_badges.html
-type GroupBadgesService struct {
-	client *Client
+	Kind BadgeKind `json:"kind"`
 }
 
 // ListGroupBadgesOptions represents the available ListGroupBadges() options.
@@ -160,7 +168,7 @@ func (s *GroupBadgesService) DeleteGroupBadge(gid interface{}, badge int, option
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("group/%s/badges/%d", url.QueryEscape(group), badge)
+	u := fmt.Sprintf("groups/%s/badges/%d", url.QueryEscape(group), badge)
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {
