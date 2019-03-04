@@ -19,7 +19,7 @@ type BadgeKind string
 // all possible values Badge Kind
 const (
 	ProjectBadgeKind BadgeKind = "project"
-	GroupBadgeKind BadgeKind = "group"
+	GroupBadgeKind   BadgeKind = "group"
 )
 
 // GroupBadge represents a group badge.
@@ -27,12 +27,12 @@ const (
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/group_badges.html
 type GroupBadge struct {
-	ID               int    `json:"id"`
-	LinkURL          string `json:"link_url"`
-	ImageURL         string `json:"image_url"`
-	RenderedLinkURL  string `json:"rendered_link_url"`
-	RenderedImageURL string `json:"rendered_image_url"`
-	Kind BadgeKind `json:"kind"`
+	ID               int       `json:"id"`
+	LinkURL          string    `json:"link_url"`
+	ImageURL         string    `json:"image_url"`
+	RenderedLinkURL  string    `json:"rendered_link_url"`
+	RenderedImageURL string    `json:"rendered_image_url"`
+	Kind             BadgeKind `json:"kind"`
 }
 
 // ListGroupBadgesOptions represents the available ListGroupBadges() options.
