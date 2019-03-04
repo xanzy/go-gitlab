@@ -59,7 +59,7 @@ func TestAddGroupBadge(t *testing.T) {
 			fmt.Fprint(w, `{"id":3, "link_url":"LINK", "image_url":"IMAGE", "kind":"group"}`)
 		})
 
-	opt := &AddGroupBadgeOptions{ImageURL: String("IMAGE"), LinkURL: String("LINK"),}
+	opt := &AddGroupBadgeOptions{ImageURL: String("IMAGE"), LinkURL: String("LINK")}
 	badge, _, err := client.GroupBadges.AddGroupBadge(1, opt)
 	if err != nil {
 		t.Errorf("GroupBadges.AddGroupBadge returned error: %v", err)
@@ -81,7 +81,7 @@ func TestEditGroupBadge(t *testing.T) {
 			fmt.Fprint(w, `{"id":2, "link_url":"NEW_LINK", "image_url":"NEW_IMAGE", "kind":"group"}`)
 		})
 
-	opt := &EditGroupBadgeOptions{ImageURL: String("NEW_IMAGE"), LinkURL: String("NEW_LINK"),}
+	opt := &EditGroupBadgeOptions{ImageURL: String("NEW_IMAGE"), LinkURL: String("NEW_LINK")}
 	badge, _, err := client.GroupBadges.EditGroupBadge(1, 2, opt)
 	if err != nil {
 		t.Errorf("GroupBadges.EditGroupBadge returned error: %v", err)

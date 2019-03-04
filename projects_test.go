@@ -409,10 +409,10 @@ func TestGetApprovalConfiguration(t *testing.T) {
 	}
 
 	want := &ProjectApprovals{
-		Approvers:                                 []*MergeRequestApproverUser{},
-		ApproverGroups:                            []*MergeRequestApproverGroup{},
-		ApprovalsBeforeMerge:                      3,
-		ResetApprovalsOnPush:                      false,
+		Approvers:            []*MergeRequestApproverUser{},
+		ApproverGroups:       []*MergeRequestApproverGroup{},
+		ApprovalsBeforeMerge: 3,
+		ResetApprovalsOnPush: false,
 		DisableOverridingApproversPerMergeRequest: false,
 	}
 
@@ -447,10 +447,10 @@ func TestChangeApprovalConfiguration(t *testing.T) {
 	}
 
 	want := &ProjectApprovals{
-		Approvers:                                 []*MergeRequestApproverUser{},
-		ApproverGroups:                            []*MergeRequestApproverGroup{},
-		ApprovalsBeforeMerge:                      3,
-		ResetApprovalsOnPush:                      false,
+		Approvers:            []*MergeRequestApproverUser{},
+		ApproverGroups:       []*MergeRequestApproverGroup{},
+		ApprovalsBeforeMerge: 3,
+		ResetApprovalsOnPush: false,
 		DisableOverridingApproversPerMergeRequest: false,
 	}
 
