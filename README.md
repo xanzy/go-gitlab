@@ -29,8 +29,8 @@ to add new and/or missing endpoints. Currently the following services are suppor
 - [x] Branches
 - [x] Broadcast Messages
 - [x] Commits
-- [x] Custom Attributes
 - [x] Container Registry
+- [x] Custom Attributes
 - [x] Deploy Keys
 - [x] Deployments
 - [x] Environments

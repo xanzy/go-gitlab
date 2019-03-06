@@ -294,6 +294,7 @@ type Client struct {
 	BuildVariables        *BuildVariablesService
 	CIYMLTemplate         *CIYMLTemplatesService
 	Commits               *CommitsService
+	ContainerRegistry     *ContainerRegistryService
 	CustomAttribute       *CustomAttributesService
 	DeployKeys            *DeployKeysService
 	Deployments           *DeploymentsService
@@ -333,7 +334,6 @@ type Client struct {
 	Projects              *ProjectsService
 	ProtectedBranches     *ProtectedBranchesService
 	ProtectedTags         *ProtectedTagsService
-	ContainerRegistry     *ContainerRegistryService
 	Repositories          *RepositoriesService
 	RepositoryFiles       *RepositoryFilesService
 	Runners               *RunnersService
@@ -438,6 +438,7 @@ func newClient(httpClient *http.Client) *Client {
 	c.BuildVariables = &BuildVariablesService{client: c}
 	c.CIYMLTemplate = &CIYMLTemplatesService{client: c}
 	c.Commits = &CommitsService{client: c}
+	c.ContainerRegistry = &ContainerRegistryService{client: c}
 	c.CustomAttribute = &CustomAttributesService{client: c}
 	c.DeployKeys = &DeployKeysService{client: c}
 	c.Deployments = &DeploymentsService{client: c}
@@ -477,7 +478,6 @@ func newClient(httpClient *http.Client) *Client {
 	c.Projects = &ProjectsService{client: c}
 	c.ProtectedBranches = &ProtectedBranchesService{client: c}
 	c.ProtectedTags = &ProtectedTagsService{client: c}
-	c.ContainerRegistry = &ContainerRegistryService{client: c}
 	c.Repositories = &RepositoriesService{client: c}
 	c.RepositoryFiles = &RepositoryFilesService{client: c}
 	c.Runners = &RunnersService{client: c}
