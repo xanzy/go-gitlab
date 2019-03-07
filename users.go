@@ -22,6 +22,13 @@ import (
 	"time"
 )
 
+// List a couple of standard errors.
+var (
+	ErrUserBlockPrevented   = errors.New("Cannot block a user that is already blocked by LDAP synchronization")
+	ErrUserNotFound         = errors.New("User does not exist")
+	ErrUserUnblockPrevented = errors.New("Cannot unblock a user that is blocked by LDAP synchronization")
+)
+
 // UsersService handles communication with the user related methods of
 // the GitLab API.
 //
@@ -425,7 +432,7 @@ func (s *UsersService) BlockUser(user int, options ...OptionFunc) error {
 	}
 
 	resp, err := s.client.Do(req, nil)
-	if err != nil {
+	if err != nil && resp == nil {
 		return err
 	}
 
@@ -433,9 +440,9 @@ func (s *UsersService) BlockUser(user int, options ...OptionFunc) error {
 	case 201:
 		return nil
 	case 403:
-		return errors.New("Cannot block a user that is already blocked by LDAP synchronization")
+		return ErrUserBlockPrevented
 	case 404:
-		return errors.New("User does not exist")
+		return ErrUserNotFound
 	default:
 		return fmt.Errorf("Received unexpected result code: %d", resp.StatusCode)
 	}
@@ -453,7 +460,7 @@ func (s *UsersService) UnblockUser(user int, options ...OptionFunc) error {
 	}
 
 	resp, err := s.client.Do(req, nil)
-	if err != nil {
+	if err != nil && resp == nil {
 		return err
 	}
 
@@ -461,9 +468,9 @@ func (s *UsersService) UnblockUser(user int, options ...OptionFunc) error {
 	case 201:
 		return nil
 	case 403:
-		return errors.New("Cannot unblock a user that is blocked by LDAP synchronization")
+		return ErrUserUnblockPrevented
 	case 404:
-		return errors.New("User does not exist")
+		return ErrUserNotFound
 	default:
 		return fmt.Errorf("Received unexpected result code: %d", resp.StatusCode)
 	}
