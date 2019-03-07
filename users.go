@@ -17,14 +17,16 @@
 package gitlab
 
 import (
+	"errors"
 	"fmt"
 	"time"
 )
 
+// List a couple of standard errors.
 var (
-	ErrUserBlockPrevented   = fmt.Errorf("Cannot block a user that is already blocked by LDAP synchronization")
-	ErrUserNotFound         = fmt.Errorf("User does not exist")
-	ErrUserUnblockPrevented = fmt.Errorf("Cannot unblock a user that is blocked by LDAP synchronization")
+	ErrUserBlockPrevented   = errors.New("Cannot block a user that is already blocked by LDAP synchronization")
+	ErrUserNotFound         = errors.New("User does not exist")
+	ErrUserUnblockPrevented = errors.New("Cannot unblock a user that is blocked by LDAP synchronization")
 )
 
 // UsersService handles communication with the user related methods of

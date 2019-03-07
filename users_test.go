@@ -11,7 +11,8 @@ func TestBlockUser(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
-	mux.HandleFunc("/users/1/block", func(w http.ResponseWriter, r *http.Request) {
+	path := fmt.Sprintf("/%susers/1/block", apiVersionPath)
+	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "POST")
 		w.WriteHeader(http.StatusCreated)
 	})
@@ -26,7 +27,8 @@ func TestBlockUser_UserNotFound(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
-	mux.HandleFunc("/users/1/block", func(w http.ResponseWriter, r *http.Request) {
+	path := fmt.Sprintf("/%susers/1/block", apiVersionPath)
+	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "POST")
 		w.WriteHeader(http.StatusNotFound)
 	})
@@ -41,7 +43,8 @@ func TestBlockUser_BlockPrevented(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
-	mux.HandleFunc("/users/1/block", func(w http.ResponseWriter, r *http.Request) {
+	path := fmt.Sprintf("/%susers/1/block", apiVersionPath)
+	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "POST")
 		w.WriteHeader(http.StatusForbidden)
 	})
@@ -56,7 +59,8 @@ func TestBlockUser_UnknownError(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
-	mux.HandleFunc("/users/1/block", func(w http.ResponseWriter, r *http.Request) {
+	path := fmt.Sprintf("/%susers/1/block", apiVersionPath)
+	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "POST")
 		w.WriteHeader(http.StatusTeapot)
 	})
@@ -73,7 +77,7 @@ func TestBlockUser_BadResponseFromNet(t *testing.T) {
 	client := NewClient(nil, "")
 	client.SetBaseURL("")
 
-	want := "Post /users/1/block: unsupported protocol scheme \"\""
+	want := fmt.Sprintf("Post /%susers/1/block: unsupported protocol scheme \"\"", apiVersionPath)
 
 	err := client.Users.BlockUser(1)
 	if err.Error() != want {
@@ -86,7 +90,8 @@ func TestUnblockUser(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
-	mux.HandleFunc("/users/1/unblock", func(w http.ResponseWriter, r *http.Request) {
+	path := fmt.Sprintf("/%susers/1/unblock", apiVersionPath)
+	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "POST")
 		w.WriteHeader(http.StatusCreated)
 	})
@@ -101,7 +106,8 @@ func TestUnblockUser_UserNotFound(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
-	mux.HandleFunc("/users/1/unblock", func(w http.ResponseWriter, r *http.Request) {
+	path := fmt.Sprintf("/%susers/1/unblock", apiVersionPath)
+	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "POST")
 		w.WriteHeader(http.StatusNotFound)
 	})
@@ -116,7 +122,8 @@ func TestUnblockUser_UnblockPrevented(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
-	mux.HandleFunc("/users/1/unblock", func(w http.ResponseWriter, r *http.Request) {
+	path := fmt.Sprintf("/%susers/1/unblock", apiVersionPath)
+	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "POST")
 		w.WriteHeader(http.StatusForbidden)
 	})
@@ -131,7 +138,8 @@ func TestUnblockUser_UnknownError(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
-	mux.HandleFunc("/users/1/unblock", func(w http.ResponseWriter, r *http.Request) {
+	path := fmt.Sprintf("/%susers/1/unblock", apiVersionPath)
+	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "POST")
 		w.WriteHeader(http.StatusTeapot)
 	})
@@ -148,7 +156,7 @@ func TestUnblockUser_BadResponseFromNet(t *testing.T) {
 	client := NewClient(nil, "")
 	client.SetBaseURL("")
 
-	want := "Post /users/1/unblock: unsupported protocol scheme \"\""
+	want := fmt.Sprintf("Post /%susers/1/unblock: unsupported protocol scheme \"\"", apiVersionPath)
 
 	err := client.Users.UnblockUser(1)
 	if err.Error() != want {
