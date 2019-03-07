@@ -33,16 +33,16 @@ type TagsService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/tags.html
 type Tag struct {
-	Commit  *Commit  `json:"commit"`
-	Release *Release `json:"release"`
-	Name    string   `json:"name"`
-	Message string   `json:"message"`
+	Commit  *Commit      `json:"commit"`
+	Release *ReleaseNote `json:"release"`
+	Name    string       `json:"name"`
+	Message string       `json:"message"`
 }
 
-// Release represents a GitLab version release.
+// ReleaseNote represents a GitLab version release.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/tags.html
-type Release struct {
+type ReleaseNote struct {
 	TagName     string `json:"tag_name"`
 	Description string `json:"description"`
 }
@@ -118,9 +118,10 @@ func (s *TagsService) GetTag(pid interface{}, tag string, options ...OptionFunc)
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/tags.html#create-a-new-tag
 type CreateTagOptions struct {
-	TagName            *string `url:"tag_name,omitempty" json:"tag_name,omitempty"`
-	Ref                *string `url:"ref,omitempty" json:"ref,omitempty"`
-	Message            *string `url:"message,omitempty" json:"message,omitempty"`
+	TagName *string `url:"tag_name,omitempty" json:"tag_name,omitempty"`
+	Ref     *string `url:"ref,omitempty" json:"ref,omitempty"`
+	Message *string `url:"message,omitempty" json:"message,omitempty"`
+	// ReleaseDescription parameter was deprecated in GitLab 11.7
 	ReleaseDescription *string `url:"release_description:omitempty" json:"release_description,omitempty"`
 }
 
@@ -168,20 +169,24 @@ func (s *TagsService) DeleteTag(pid interface{}, tag string, options ...OptionFu
 	return s.client.Do(req, nil)
 }
 
-// CreateReleaseOptions represents the available CreateRelease() options.
+// CreateReleaseNoteOptions represents the available CreateReleaseNote() options.
+//
+// Deprecated: This feature was deprecated in GitLab 11.7.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/tags.html#create-a-new-release
-type CreateReleaseOptions struct {
+type CreateReleaseNoteOptions struct {
 	Description *string `url:"description:omitempty" json:"description,omitempty"`
 }
 
-// CreateRelease Add release notes to the existing git tag.
+// CreateReleaseNote Add release notes to the existing git tag.
 // If there already exists a release for the given tag, status code 409 is returned.
+//
+// Deprecated: This feature was deprecated in GitLab 11.7.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/tags.html#create-a-new-release
-func (s *TagsService) CreateRelease(pid interface{}, tag string, opt *CreateReleaseOptions, options ...OptionFunc) (*Release, *Response, error) {
+func (s *TagsService) CreateReleaseNote(pid interface{}, tag string, opt *CreateReleaseNoteOptions, options ...OptionFunc) (*ReleaseNote, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -193,7 +198,7 @@ func (s *TagsService) CreateRelease(pid interface{}, tag string, opt *CreateRele
 		return nil, nil, err
 	}
 
-	r := new(Release)
+	r := new(ReleaseNote)
 	resp, err := s.client.Do(req, r)
 	if err != nil {
 		return nil, resp, err
@@ -202,19 +207,21 @@ func (s *TagsService) CreateRelease(pid interface{}, tag string, opt *CreateRele
 	return r, resp, err
 }
 
-// UpdateReleaseOptions represents the available UpdateRelease() options.
+// UpdateReleaseNoteOptions represents the available UpdateReleaseNote() options.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/tags.html#update-a-release
-type UpdateReleaseOptions struct {
+type UpdateReleaseNoteOptions struct {
 	Description *string `url:"description:omitempty" json:"description,omitempty"`
 }
 
-// UpdateRelease Updates the release notes of a given release.
+// UpdateReleaseNote Updates the release notes of a given release.
+//
+// Deprecated: This feature was deprecated in GitLab 11.7.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/tags.html#update-a-release
-func (s *TagsService) UpdateRelease(pid interface{}, tag string, opt *UpdateReleaseOptions, options ...OptionFunc) (*Release, *Response, error) {
+func (s *TagsService) UpdateReleaseNote(pid interface{}, tag string, opt *UpdateReleaseNoteOptions, options ...OptionFunc) (*ReleaseNote, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -226,7 +233,7 @@ func (s *TagsService) UpdateRelease(pid interface{}, tag string, opt *UpdateRele
 		return nil, nil, err
 	}
 
-	r := new(Release)
+	r := new(ReleaseNote)
 	resp, err := s.client.Do(req, r)
 	if err != nil {
 		return nil, resp, err
