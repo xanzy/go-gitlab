@@ -16,7 +16,8 @@ type ReleasesService struct {
 
 // Release represents a project release.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/releases/index.html#list-releases
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/releases/index.html#list-releases
 type Release struct {
 	TagName         string     `json:"tag_name"`
 	Name            string     `json:"name"`
@@ -38,18 +39,20 @@ type Release struct {
 			Format string `json:"format"`
 			URL    string `json:"url"`
 		} `json:"sources"`
-		Links []ReleaseLink `json:"links"`
+		Links []*ReleaseLink `json:"links"`
 	} `json:"assets"`
 }
 
 // ListReleasesOptions represents ListReleases() options.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/releases/index.html#list-releases
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/releases/index.html#list-releases
 type ListReleasesOptions ListOptions
 
 // ListReleases gets a pagenated of releases accessible by the authenticated user.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/releases/index.html#list-releases
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/releases/index.html#list-releases
 func (s *ReleasesService) ListReleases(pid interface{}, opt *ListReleasesOptions, options ...OptionFunc) ([]*Release, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -62,13 +65,13 @@ func (s *ReleasesService) ListReleases(pid interface{}, opt *ListReleasesOptions
 		return nil, nil, err
 	}
 
-	r := make([]*Release, 0)
-	resp, err := s.client.Do(req, &r)
+	var rs []*Release
+	resp, err := s.client.Do(req, &rs)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return r, resp, err
+	return rs, resp, err
 }
 
 // GetRelease returns a single release, identified by a tag name.
@@ -101,7 +104,7 @@ func (s *ReleasesService) GetRelease(pid interface{}, tagName string, options ..
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/releases/index.html#create-a-release
 type ReleaseAssets struct {
-	Links []ReleaseAssetLink `url:"links" json:"links"`
+	Links []*ReleaseAssetLink `url:"links" json:"links"`
 }
 
 // ReleaseAssetLink represents release asset link in CreateRelease() options

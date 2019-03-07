@@ -43,7 +43,7 @@ func (s *ReleaseLinksService) ListReleaseLinks(pid interface{}, tagName string, 
 		return nil, nil, err
 	}
 
-	rls := make([]*ReleaseLink, 0)
+	var rls []*ReleaseLink
 	resp, err := s.client.Do(req, &rls)
 	if err != nil {
 		return nil, resp, err

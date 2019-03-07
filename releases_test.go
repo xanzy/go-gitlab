@@ -260,7 +260,7 @@ func TestReleasesService_CreateReleaseWithAsset(t *testing.T) {
 		TagName:     String("v0.1"),
 		Description: String("Description"),
 		Assets: &ReleaseAssets{
-			Links: []ReleaseAssetLink{
+			Links: []*ReleaseAssetLink{
 				{"sldkf", "sldkfj"},
 			},
 		},
