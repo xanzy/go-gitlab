@@ -29,7 +29,8 @@ type ListGroupLabelsOptions ListOptions
 
 // ListGroupLabels gets all labels for given group.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/group_labels.html#list-group-labels
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/group_labels.html#list-group-labels
 func (s *GroupLabelsService) ListGroupLabels(gid interface{}, opt *ListGroupLabelsOptions, options ...OptionFunc) ([]*GroupLabel, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
