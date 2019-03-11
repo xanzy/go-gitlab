@@ -109,7 +109,8 @@ func (s *GroupLabelsService) DeleteGroupLabel(gid interface{}, opt *DeleteGroupL
 
 // UpdateGroupLabelOptions represents the available UpdateGroupLabel() options.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/group_labels.html#update-a-group-label
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/group_labels.html#update-a-group-label
 type UpdateGroupLabelOptions UpdateLabelOptions
 
 // UpdateGroupLabel updates an existing label with new name or now color. At least
