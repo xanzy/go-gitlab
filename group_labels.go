@@ -60,7 +60,8 @@ type CreateGroupLabelOptions CreateLabelOptions
 // CreateGroupLabel creates a new label for given group with given name and
 // color.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/group_labels.html#create-a-new-group-label
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/group_labels.html#create-a-new-group-label
 func (s *GroupLabelsService) CreateGroupLabel(gid interface{}, opt *CreateGroupLabelOptions, options ...OptionFunc) (*GroupLabel, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
