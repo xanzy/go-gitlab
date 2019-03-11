@@ -305,6 +305,7 @@ type Client struct {
 	GitIgnoreTemplates    *GitIgnoreTemplatesService
 	GroupBadges           *GroupBadgesService
 	GroupIssueBoards      *GroupIssueBoardsService
+	GroupLabels           *GroupLabelsService
 	GroupMembers          *GroupMembersService
 	GroupMilestones       *GroupMilestonesService
 	GroupVariables        *GroupVariablesService
@@ -451,6 +452,7 @@ func newClient(httpClient *http.Client) *Client {
 	c.GitIgnoreTemplates = &GitIgnoreTemplatesService{client: c}
 	c.GroupBadges = &GroupBadgesService{client: c}
 	c.GroupIssueBoards = &GroupIssueBoardsService{client: c}
+	c.GroupLabels = &GroupLabelsService{client: c}
 	c.GroupMembers = &GroupMembersService{client: c}
 	c.GroupMilestones = &GroupMilestonesService{client: c}
 	c.GroupVariables = &GroupVariablesService{client: c}
