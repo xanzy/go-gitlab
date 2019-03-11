@@ -116,7 +116,8 @@ type UpdateGroupLabelOptions UpdateLabelOptions
 // UpdateGroupLabel updates an existing label with new name or now color. At least
 // one parameter is required, to update the label.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/labels.html#edit-an-existing-label
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/group_labels.html#update-a-group-label
 func (s *GroupLabelsService) UpdateGroupLabel(gid interface{}, opt *UpdateGroupLabelOptions, options ...OptionFunc) (*GroupLabel, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
