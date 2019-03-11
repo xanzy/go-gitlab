@@ -53,7 +53,8 @@ func (s *GroupLabelsService) ListGroupLabels(gid interface{}, opt *ListGroupLabe
 
 // CreateGroupLabelOptions represents the available CreateGroupLabel() options.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/group_labels.html#create-a-new-group-label
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/group_labels.html#create-a-new-group-label
 type CreateGroupLabelOptions CreateLabelOptions
 
 // CreateGroupLabel creates a new label for given group with given name and
