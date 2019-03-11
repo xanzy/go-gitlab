@@ -85,7 +85,8 @@ func (s *GroupLabelsService) CreateGroupLabel(gid interface{}, opt *CreateGroupL
 
 // DeleteGroupLabelOptions represents the available DeleteGroupLabel() options.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/group_labels.html#delete-a-group-label
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/group_labels.html#delete-a-group-label
 type DeleteGroupLabelOptions DeleteLabelOptions
 
 // DeleteGroupLabel deletes a group label given by its name.
