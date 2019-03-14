@@ -452,6 +452,42 @@ func (s *IssuesService) ListMergeRequestsClosingIssue(pid interface{}, issue int
 	return m, resp, err
 }
 
+// ListMergeRequestsRelatedToIssueOptions represents the available
+// ListMergeRequestsRelatedToIssue() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/issues.html#list-merge-requests-related-to-issue
+type ListMergeRequestsRelatedToIssueOptions ListOptions
+
+// ListMergeRequestsRelatedToIssue gets all the merge requests that are
+// related to the issue
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/issues.html#list-merge-requests-related-to-issue
+func (s *IssuesService) ListMergeRequestsRelatedToIssue(pid interface{}, issue int, opt *ListMergeRequestsRelatedToIssueOptions, options ...OptionFunc) ([]*MergeRequest, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("/projects/%s/issues/%d/related_merge_requests",
+		url.QueryEscape(project),
+		issue,
+	)
+
+	req, err := s.client.NewRequest("GET", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var m []*MergeRequest
+	resp, err := s.client.Do(req, &m)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return m, resp, err
+}
+
 // SetTimeEstimate sets the time estimate for a single project issue.
 //
 // GitLab API docs:

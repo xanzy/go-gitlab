@@ -293,6 +293,33 @@ func TestListMergeRequestsClosingIssue(t *testing.T) {
 	}
 }
 
+func TestListMergeRequestsRelatedToIssue(t *testing.T) {
+	mux, server, client := setup()
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/issues/5/related_merge_requests", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "GET")
+		testURL(t, r, "/api/v4/projects/1/issues/5/related_merge_requests?page=1&per_page=10")
+
+		fmt.Fprint(w, `[{"id":1, "title" : "test merge one"},{"id":2, "title" : "test merge two"}]`)
+	})
+
+	listMergeRequestsRelatedToIssueOpt := &ListMergeRequestsRelatedToIssueOptions{
+		Page:    1,
+		PerPage: 10,
+	}
+	mergeRequest, _, err := client.Issues.ListMergeRequestsRelatedToIssue("1", 5, listMergeRequestsRelatedToIssueOpt)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	want := []*MergeRequest{{ID: 1, Title: "test merge one"}, {ID: 2, Title: "test merge two"}}
+
+	if !reflect.DeepEqual(want, mergeRequest) {
+		t.Errorf("Issues.ListMergeRequestsClosingIssue returned %+v, want %+v", mergeRequest, want)
+	}
+}
+
 func TestSetTimeEstimate(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
