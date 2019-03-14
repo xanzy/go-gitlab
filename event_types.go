@@ -163,6 +163,47 @@ type IssueEvent struct {
 	} `json:"assignee"`
 }
 
+// JobEvent represents a job event.
+//
+// GitLab API docs:
+// TODO: link to docs instead of src once they are published.
+// https://gitlab.com/gitlab-org/gitlab-ce/blob/master/lib/gitlab/data_builder/build.rb
+type JobEvent struct {
+	ObjectKind        string  `json:"object_kind"`
+	Ref               string  `json:"ref"`
+	Tag               bool    `json:"tag"`
+	BeforeSHA         string  `json:"before_sha"`
+	SHA               string  `json:"sha"`
+	BuildID           int     `json:"build_id"`
+	BuildName         string  `json:"build_name"`
+	BuildStage        string  `json:"build_stage"`
+	BuildStatus       string  `json:"build_status"`
+	BuildStartedAt    string  `json:"build_started_at"`
+	BuildFinishedAt   string  `json:"build_finished_at"`
+	BuildDuration     float64 `json:"build_duration"`
+	BuildAllowFailure bool    `json:"build_allow_failure"`
+	ProjectID         int     `json:"project_id"`
+	ProjectName       string  `json:"project_name"`
+	User              struct {
+		ID    int    `json:"id"`
+		Name  string `json:"name"`
+		Email string `json:"email"`
+	} `json:"user"`
+	Commit struct {
+		ID          int    `json:"id"`
+		SHA         string `json:"sha"`
+		Message     string `json:"message"`
+		AuthorName  string `json:"author_name"`
+		AuthorEmail string `json:"author_email"`
+		AuthorURL   string `json:"author_url"`
+		Status      string `json:"status"`
+		Duration    int    `json:"duration"`
+		StartedAt   string `json:"started_at"`
+		FinishedAt  string `json:"finished_at"`
+	} `json:"commit"`
+	Repository *Repository `json:"repository"`
+}
+
 // CommitCommentEvent represents a comment on a commit event.
 //
 // GitLab API docs:

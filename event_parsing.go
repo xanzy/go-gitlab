@@ -13,6 +13,7 @@ type EventType string
 const (
 	EventTypeBuild        EventType = "Build Hook"
 	EventTypeIssue        EventType = "Issue Hook"
+	EventTypeJob          EventType = "Job Hook"
 	EventTypeMergeRequest EventType = "Merge Request Hook"
 	EventTypeNote         EventType = "Note Hook"
 	EventTypePipeline     EventType = "Pipeline Hook"
@@ -68,6 +69,8 @@ func ParseWebhook(eventType EventType, payload []byte) (event interface{}, err e
 		event = &BuildEvent{}
 	case EventTypeIssue:
 		event = &IssueEvent{}
+	case EventTypeJob:
+		event = &JobEvent{}
 	case EventTypeMergeRequest:
 		event = &MergeEvent{}
 	case EventTypePipeline:
