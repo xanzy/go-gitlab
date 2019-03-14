@@ -172,8 +172,8 @@ type JobEvent struct {
 	ObjectKind        string  `json:"object_kind"`
 	Ref               string  `json:"ref"`
 	Tag               bool    `json:"tag"`
-	BeforeSha         string  `json:"before_sha"`
-	Sha               string  `json:"sha"`
+	BeforeSHA         string  `json:"before_sha"`
+	SHA               string  `json:"sha"`
 	BuildID           int     `json:"build_id"`
 	BuildName         string  `json:"build_name"`
 	BuildStage        string  `json:"build_stage"`
