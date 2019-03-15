@@ -80,7 +80,9 @@ type RunnerDetails struct {
 // https://docs.gitlab.com/ce/api/runners.html#list-owned-runners
 type ListRunnersOptions struct {
 	ListOptions
-	Scope *string `url:"scope,omitempty" json:"scope,omitempty"`
+	Scope  *string `url:"scope,omitempty" json:"scope,omitempty"`
+	Status *string `url:"status,omitempty" json:"status,omitempty"`
+	Type   *string `url:"type,omitempty" json:"type,omitempty"`
 }
 
 // ListRunners gets a list of runners accessible by the authenticated user.
