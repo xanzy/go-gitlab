@@ -229,3 +229,23 @@ func (s *PipelinesService) CancelPipelineBuild(pid interface{}, pipelineID int, 
 
 	return p, resp, err
 }
+
+// DeletePipeline deletes an existing pipeline.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/pipelines.html#delete-a-pipeline
+func (s *PipelinesService) DeletePipeline(pid interface{}, pipelineID int, options ...OptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+
+	u := fmt.Sprintf("projects/%s/pipelines/%d", url.QueryEscape(project), pipelineID)
+
+	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
