@@ -14,7 +14,7 @@ func TestGetIssue(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/issues/5", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
-		fmt.Fprint(w, `{"id":1, "description": "This is test project", "author" : {"id" : 1, "name": "snehal"}, "assignees":[{"id":1}]}`)
+		fmt.Fprint(w, `{"id":1, "description": "This is test project", "author" : {"id" : 1, "name": "snehal"}, "assignees":[{"id":1}],"merge_requests_count": 1}`)
 	})
 
 	issue, _, err := client.Issues.GetIssue("1", 5)
@@ -23,10 +23,11 @@ func TestGetIssue(t *testing.T) {
 	}
 
 	want := &Issue{
-		ID:          1,
-		Description: "This is test project",
-		Author:      &IssueAuthor{ID: 1, Name: "snehal"},
-		Assignees:   []*IssueAssignee{{ID: 1}},
+		ID:                1,
+		Description:       "This is test project",
+		Author:            &IssueAuthor{ID: 1, Name: "snehal"},
+		Assignees:         []*IssueAssignee{{ID: 1}},
+		MergeRequestCount: 1,
 	}
 
 	if !reflect.DeepEqual(want, issue) {

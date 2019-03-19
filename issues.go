@@ -65,32 +65,33 @@ type IssueLinks struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/issues.html
 type Issue struct {
-	ID               int              `json:"id"`
-	IID              int              `json:"iid"`
-	ProjectID        int              `json:"project_id"`
-	Milestone        *Milestone       `json:"milestone"`
-	Author           *IssueAuthor     `json:"author"`
-	Description      string           `json:"description"`
-	State            string           `json:"state"`
-	Assignees        []*IssueAssignee `json:"assignees"`
-	Assignee         *IssueAssignee   `json:"assignee"`
-	Upvotes          int              `json:"upvotes"`
-	Downvotes        int              `json:"downvotes"`
-	Labels           []string         `json:"labels"`
-	Title            string           `json:"title"`
-	UpdatedAt        *time.Time       `json:"updated_at"`
-	CreatedAt        *time.Time       `json:"created_at"`
-	ClosedAt         *time.Time       `json:"closed_at"`
-	Subscribed       bool             `json:"subscribed"`
-	UserNotesCount   int              `json:"user_notes_count"`
-	DueDate          *ISOTime         `json:"due_date"`
-	WebURL           string           `json:"web_url"`
-	TimeStats        *TimeStats       `json:"time_stats"`
-	Confidential     bool             `json:"confidential"`
-	Weight           int              `json:"weight"`
-	DiscussionLocked bool             `json:"discussion_locked"`
-	Links            *IssueLinks      `json:"_links"`
-	IssueLinkID      int              `json:"issue_link_id"`
+	ID                int              `json:"id"`
+	IID               int              `json:"iid"`
+	ProjectID         int              `json:"project_id"`
+	Milestone         *Milestone       `json:"milestone"`
+	Author            *IssueAuthor     `json:"author"`
+	Description       string           `json:"description"`
+	State             string           `json:"state"`
+	Assignees         []*IssueAssignee `json:"assignees"`
+	Assignee          *IssueAssignee   `json:"assignee"`
+	Upvotes           int              `json:"upvotes"`
+	Downvotes         int              `json:"downvotes"`
+	Labels            []string         `json:"labels"`
+	Title             string           `json:"title"`
+	UpdatedAt         *time.Time       `json:"updated_at"`
+	CreatedAt         *time.Time       `json:"created_at"`
+	ClosedAt          *time.Time       `json:"closed_at"`
+	Subscribed        bool             `json:"subscribed"`
+	UserNotesCount    int              `json:"user_notes_count"`
+	DueDate           *ISOTime         `json:"due_date"`
+	WebURL            string           `json:"web_url"`
+	TimeStats         *TimeStats       `json:"time_stats"`
+	Confidential      bool             `json:"confidential"`
+	Weight            int              `json:"weight"`
+	DiscussionLocked  bool             `json:"discussion_locked"`
+	Links             *IssueLinks      `json:"_links"`
+	IssueLinkID       int              `json:"issue_link_id"`
+	MergeRequestCount int              `json:"merge_requests_count"`
 }
 
 func (i Issue) String() string {
