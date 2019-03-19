@@ -109,3 +109,19 @@ func TestCancelPipelineBuild(t *testing.T) {
 		t.Errorf("Pipelines.CancelPipelineBuild returned %+v, want %+v", pipeline, want)
 	}
 }
+
+func TestDeletePipeline(t *testing.T) {
+	mux, server, client := setup()
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/pipelines/5949167", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "DELETE")
+	})
+
+	_, err := client.Pipelines.DeletePipeline("1", 5949167)
+
+	if err != nil {
+		t.Errorf("Pipelines.DeletePipeline returned error: %v", err)
+	}
+
+}
