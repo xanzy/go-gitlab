@@ -184,12 +184,12 @@ func (s *PipelinesService) CreatePipeline(pid interface{}, opt *CreatePipelineOp
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/pipelines.html#retry-failed-builds-in-a-pipeline
-func (s *PipelinesService) RetryPipelineBuild(pid interface{}, pipelineID int, options ...OptionFunc) (*Pipeline, *Response, error) {
+func (s *PipelinesService) RetryPipelineBuild(pid interface{}, pipeline int, options ...OptionFunc) (*Pipeline, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/pipelines/%d/retry", project, pipelineID)
+	u := fmt.Sprintf("projects/%s/pipelines/%d/retry", project, pipeline)
 
 	req, err := s.client.NewRequest("POST", u, nil, options)
 	if err != nil {
@@ -209,12 +209,12 @@ func (s *PipelinesService) RetryPipelineBuild(pid interface{}, pipelineID int, o
 //
 // GitLab API docs:
 //https://docs.gitlab.com/ce/api/pipelines.html#cancel-a-pipelines-builds
-func (s *PipelinesService) CancelPipelineBuild(pid interface{}, pipelineID int, options ...OptionFunc) (*Pipeline, *Response, error) {
+func (s *PipelinesService) CancelPipelineBuild(pid interface{}, pipeline int, options ...OptionFunc) (*Pipeline, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/pipelines/%d/cancel", project, pipelineID)
+	u := fmt.Sprintf("projects/%s/pipelines/%d/cancel", project, pipeline)
 
 	req, err := s.client.NewRequest("POST", u, nil, options)
 	if err != nil {
@@ -234,13 +234,12 @@ func (s *PipelinesService) CancelPipelineBuild(pid interface{}, pipelineID int, 
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/pipelines.html#delete-a-pipeline
-func (s *PipelinesService) DeletePipeline(pid interface{}, pipelineID int, options ...OptionFunc) (*Response, error) {
+func (s *PipelinesService) DeletePipeline(pid interface{}, pipeline int, options ...OptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, err
 	}
-
-	u := fmt.Sprintf("projects/%s/pipelines/%d", url.QueryEscape(project), pipelineID)
+	u := fmt.Sprintf("projects/%s/pipelines/%d", project, pipeline)
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {
