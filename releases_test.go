@@ -251,7 +251,6 @@ func TestReleasesService_CreateReleaseWithAsset(t *testing.T) {
 				t.Errorf("expected request body to have assets, got %s",
 					string(b))
 			}
-			fmt.Println(string(b))
 			fmt.Fprint(w, exampleReleaseRsp)
 		})
 
