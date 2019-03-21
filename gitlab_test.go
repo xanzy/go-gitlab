@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"errors"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
@@ -56,6 +57,10 @@ func testBody(t *testing.T, r *http.Request, want string) {
 	if got := buffer.String(); got != want {
 		t.Errorf("Request body: %s, want %s", got, want)
 	}
+}
+
+func errorOption(*http.Request) error {
+	return errors.New("OptionFunc returns an error")
 }
 
 func TestNewClient(t *testing.T) {
