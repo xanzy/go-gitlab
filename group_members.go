@@ -54,7 +54,7 @@ type ListGroupMembersOptions struct {
 }
 
 // ListGroupMembers get a list of group members viewable by the authenticated
-// user. Returns a list including inherited members through ancestor groups.
+// user. Inherited members through ancestor groups are not included.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/members.html#list-all-members-of-a-group-or-project
