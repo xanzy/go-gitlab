@@ -111,7 +111,6 @@ func TestDeleteGroup(t *testing.T) {
 	if err != nil {
 		t.Errorf("Groups.DeleteGroup returned error: %v", err)
 	}
-	fmt.Println(resp.StatusCode)
 
 	want := http.StatusAccepted
 	got := resp.StatusCode
