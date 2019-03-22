@@ -137,7 +137,8 @@ func (s *RepositoriesService) RawBlobContent(pid interface{}, sha string, option
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/repositories.html#get-file-archive
 type ArchiveOptions struct {
-	SHA *string `url:"sha,omitempty" json:"sha,omitempty"`
+	Format *string `url:"-" json:"-"`
+	SHA    *string `url:"sha,omitempty" json:"sha,omitempty"`
 }
 
 // Archive gets an archive of the repository.
@@ -150,6 +151,11 @@ func (s *RepositoriesService) Archive(pid interface{}, opt *ArchiveOptions, opti
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/repository/archive", url.QueryEscape(project))
+
+	// Set an optional format for the archive.
+	if opt != nil && opt.Format != nil {
+		u = fmt.Sprintf("%s.%s", u, *opt.Format)
+	}
 
 	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
