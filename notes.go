@@ -527,3 +527,149 @@ func (s *NotesService) DeleteMergeRequestNote(pid interface{}, mergeRequest, not
 
 	return s.client.Do(req, nil)
 }
+
+// ListEpicNotesOptions represents the available ListEpicNotes()
+// options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/notes.html#list-all-epic-notes
+type ListEpicNotesOptions struct {
+	ListOptions
+	OrderBy *string `url:"order_by,omitempty" json:"order_by,omitempty"`
+	Sort    *string `url:"sort,omitempty" json:"sort,omitempty"`
+}
+
+// ListEpicNotes gets a list of all notes for a single epic.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/notes.html#list-all-epic-notes
+func (s *NotesService) ListEpicNotes(gid interface{}, epic int, opt *ListEpicNotesOptions, options ...OptionFunc) ([]*Note, *Response, error) {
+	group, err := parseID(gid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("groups/%s/epics/%d/notes", url.QueryEscape(group), epic)
+
+	req, err := s.client.NewRequest("GET", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var n []*Note
+	resp, err := s.client.Do(req, &n)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return n, resp, err
+}
+
+// GetEpicNote returns a single note for an epic
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/notes.html#get-single-epic-note
+func (s *NotesService) GetEpicNote(gid interface{}, epic, note int, options ...OptionFunc) (*Note, *Response, error) {
+	group, err := parseID(gid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("groups/%s/epics/%d/notes/%d", url.QueryEscape(group), epic, note)
+
+	req, err := s.client.NewRequest("GET", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	n := new(Note)
+	resp, err := s.client.Do(req, n)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return n, resp, err
+}
+
+// CreateEpicNoteOptions represents the available CreateEpicNote() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/notes.html#create-new-epic-note
+type CreateEpicNoteOptions struct {
+	Body *string `url:"body,omitempty" json:"body,omitempty"`
+}
+
+// CreateEpicNote creates a new note for a single merge request.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/notes.html#create-new-epic-note
+func (s *NotesService) CreateEpicNote(gid interface{}, epic int, opt *CreateEpicNoteOptions, options ...OptionFunc) (*Note, *Response, error) {
+	group, err := parseID(gid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("groups/%s/epics/%d/notes", url.QueryEscape(group), epic)
+
+	req, err := s.client.NewRequest("POST", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	n := new(Note)
+	resp, err := s.client.Do(req, n)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return n, resp, err
+}
+
+// UpdateEpicNoteOptions represents the available
+// UpdateEpicNote() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/notes.html#modify-existing-epic-note
+type UpdateEpicNoteOptions struct {
+	Body *string `url:"body,omitempty" json:"body,omitempty"`
+}
+
+// UpdateEpicNote modifies existing note of an epic.
+//
+// https://docs.gitlab.com/ee/api/notes.html#modify-existing-epic-note
+func (s *NotesService) UpdateEpicNote(gid interface{}, epic, note int, opt *UpdateEpicNoteOptions, options ...OptionFunc) (*Note, *Response, error) {
+	group, err := parseID(gid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf(
+		"groups/%s/epics/%d/notes/%d", url.QueryEscape(group), epic, note)
+	req, err := s.client.NewRequest("PUT", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	n := new(Note)
+	resp, err := s.client.Do(req, n)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return n, resp, err
+}
+
+// DeleteEpicNote deletes an existing note of a merge request.
+//
+// https://docs.gitlab.com/ee/api/notes.html#delete-an-epic-note
+func (s *NotesService) DeleteEpicNote(gid interface{}, epic, note int, options ...OptionFunc) (*Response, error) {
+	group, err := parseID(gid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf(
+		"groups/%s/epics/%d/notes/%d", url.QueryEscape(group), epic, note)
+
+	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
