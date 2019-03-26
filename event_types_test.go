@@ -14,10 +14,12 @@ func TestPushEventUnmarshal(t *testing.T) {
   "checkout_sha": "da1560886d4f094c3e6c9ef40349f7d38b5d27d7",
   "user_id": 4,
   "user_name": "John Smith",
+  "user_username": "jsmith",
   "user_email": "john@example.com",
   "user_avatar": "https://s.gravatar.com/avatar/d4c74594d841139328695756648b6bd6?s=8://s.gravatar.com/avatar/d4c74594d841139328695756648b6bd6?s=80",
   "project_id": 15,
   "project":{
+    "id": 15,
     "name":"Diaspora",
     "description":"",
     "web_url":"http://example.com/mike/diaspora",
@@ -25,7 +27,7 @@ func TestPushEventUnmarshal(t *testing.T) {
     "git_ssh_url":"git@example.com:mike/diaspora.git",
     "git_http_url":"http://example.com/mike/diaspora.git",
     "namespace":"Mike",
-    "visibility":"public",
+    "visibility_level":0,
     "path_with_namespace":"mike/diaspora",
     "default_branch":"master",
     "homepage":"http://example.com/mike/diaspora",
@@ -40,7 +42,7 @@ func TestPushEventUnmarshal(t *testing.T) {
     "homepage": "http://example.com/mike/diaspora",
     "git_http_url":"http://example.com/mike/diaspora.git",
     "git_ssh_url":"git@example.com:mike/diaspora.git",
-    "visibility":"public"
+    "visibility_level":0
   },
   "commits": [
     {
@@ -109,6 +111,29 @@ func TestMergeEventUnmarshal(t *testing.T) {
     "username": "root",
     "avatar_url": "http://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=40\u0026d=identicon"
   },
+  "project": {
+    "id": 1,
+    "name":"Gitlab Test",
+    "description":"Aut reprehenderit ut est.",
+    "web_url":"http://example.com/gitlabhq/gitlab-test",
+    "avatar_url":null,
+    "git_ssh_url":"git@example.com:gitlabhq/gitlab-test.git",
+    "git_http_url":"http://example.com/gitlabhq/gitlab-test.git",
+    "namespace":"GitlabHQ",
+    "visibility_level":20,
+    "path_with_namespace":"gitlabhq/gitlab-test",
+    "default_branch":"master",
+    "homepage":"http://example.com/gitlabhq/gitlab-test",
+    "url":"http://example.com/gitlabhq/gitlab-test.git",
+    "ssh_url":"git@example.com:gitlabhq/gitlab-test.git",
+    "http_url":"http://example.com/gitlabhq/gitlab-test.git"
+  },
+  "repository": {
+    "name": "Gitlab Test",
+    "url": "http://example.com/gitlabhq/gitlab-test.git",
+    "description": "Aut reprehenderit ut est.",
+    "homepage": "http://example.com/gitlabhq/gitlab-test"
+  },
   "object_attributes": {
     "id": 99,
     "target_branch": "master",
@@ -119,15 +144,13 @@ func TestMergeEventUnmarshal(t *testing.T) {
     "title": "MS-Viewport",
     "created_at": "2013-12-03T17:23:34Z",
     "updated_at": "2013-12-03T17:23:34Z",
-    "st_commits": null,
-    "st_diffs": null,
     "milestone_id": null,
     "state": "opened",
     "merge_status": "unchecked",
     "target_project_id": 14,
     "iid": 1,
     "description": "",
-    "source":{
+    "source": {
       "name":"Awesome Project",
       "description":"Aut reprehenderit ut est.",
       "web_url":"http://example.com/awesome_space/awesome_project",
@@ -135,7 +158,7 @@ func TestMergeEventUnmarshal(t *testing.T) {
       "git_ssh_url":"git@example.com:awesome_space/awesome_project.git",
       "git_http_url":"http://example.com/awesome_space/awesome_project.git",
       "namespace":"Awesome Space",
-      "visibility":"private",
+      "visibility_level":20,
       "path_with_namespace":"awesome_space/awesome_project",
       "default_branch":"master",
       "homepage":"http://example.com/awesome_space/awesome_project",
@@ -151,7 +174,7 @@ func TestMergeEventUnmarshal(t *testing.T) {
       "git_ssh_url":"git@example.com:awesome_space/awesome_project.git",
       "git_http_url":"http://example.com/awesome_space/awesome_project.git",
       "namespace":"Awesome Space",
-      "visibility":"private",
+      "visibility_level":20,
       "path_with_namespace":"awesome_space/awesome_project",
       "default_branch":"master",
       "homepage":"http://example.com/awesome_space/awesome_project",
@@ -176,6 +199,48 @@ func TestMergeEventUnmarshal(t *testing.T) {
       "name": "User1",
       "username": "user1",
       "avatar_url": "http://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=40\u0026d=identicon"
+    }
+  },
+  "labels": [{
+    "id": 206,
+    "title": "API",
+    "color": "#ffffff",
+    "project_id": 14,
+    "created_at": "2013-12-03T17:15:43Z",
+    "updated_at": "2013-12-03T17:15:43Z",
+    "template": false,
+    "description": "API related issues",
+    "type": "ProjectLabel",
+    "group_id": 41
+  }],
+  "changes": {
+    "updated_by_id": [null, 1],
+    "updated_at": ["2017-09-15 16:50:55 UTC", "2017-09-15 16:52:00 UTC"],
+    "labels": {
+      "previous": [{
+        "id": 206,
+        "title": "API",
+        "color": "#ffffff",
+        "project_id": 14,
+        "created_at": "2013-12-03T17:15:43Z",
+        "updated_at": "2013-12-03T17:15:43Z",
+        "template": false,
+        "description": "API related issues",
+        "type": "ProjectLabel",
+        "group_id": 41
+      }],
+      "current": [{
+        "id": 205,
+        "title": "Platform",
+        "color": "#123123",
+        "project_id": 14,
+        "created_at": "2013-12-03T17:15:43Z",
+        "updated_at": "2013-12-03T17:15:43Z",
+        "template": false,
+        "description": "Platform related issues",
+        "type": "ProjectLabel",
+        "group_id": 41
+      }]
     }
   }
 }`
@@ -240,7 +305,13 @@ func TestPipelineEventUnmarshal(t *testing.T) {
       ],
       "created_at": "2016-08-12 15:23:28 UTC",
       "finished_at": "2016-08-12 15:26:29 UTC",
-      "duration": 63
+      "duration": 63,
+      "variables": [
+        {
+          "key": "NESTOR_PROD_ENVIRONMENT",
+          "value": "us-west-1"
+        }
+      ]
    },
    "user":{
       "name": "Administrator",
@@ -248,6 +319,7 @@ func TestPipelineEventUnmarshal(t *testing.T) {
       "avatar_url": "http://www.gravatar.com/avatar/e32bd13e2add097461cb96824b7a829c?s=80\u0026d=identicon"
    },
    "project":{
+      "id": 1,
       "name": "Gitlab Test",
       "description": "Atque in sunt eos similique dolores voluptatem.",
       "web_url": "http://192.168.64.1:3005/gitlab-org/gitlab-test",
@@ -255,7 +327,7 @@ func TestPipelineEventUnmarshal(t *testing.T) {
       "git_ssh_url": "git@192.168.64.1:gitlab-org/gitlab-test.git",
       "git_http_url": "http://192.168.64.1:3005/gitlab-org/gitlab-test.git",
       "namespace": "Gitlab Org",
-      "visibility": "private",
+      "visibility_level": 20,
       "path_with_namespace": "gitlab-org/gitlab-test",
       "default_branch": "master"
    },
@@ -307,14 +379,14 @@ func TestPipelineEventUnmarshal(t *testing.T) {
             "avatar_url": "http://www.gravatar.com/avatar/e32bd13e2add097461cb96824b7a829c?s=80\u0026d=identicon"
          },
          "runner": {
-            "id": 6,
-            "description": "Kubernetes Runner",
-            "active": true,
-            "is_shared": true
+            "id":380987,
+            "description":"shared-runners-manager-6.gitlab.com",
+            "active":true,
+            "is_shared":true
          },
          "artifacts_file":{
-            "filename": "artifacts.zip",
-            "size": 1319148
+            "filename": null,
+            "size": null
          }
       },
       {
@@ -332,7 +404,12 @@ func TestPipelineEventUnmarshal(t *testing.T) {
             "username": "root",
             "avatar_url": "http://www.gravatar.com/avatar/e32bd13e2add097461cb96824b7a829c?s=80\u0026d=identicon"
          },
-         "runner": null,
+         "runner": {
+            "id":380987,
+            "description":"shared-runners-manager-6.gitlab.com",
+            "active":true,
+            "is_shared":true
+         },
          "artifacts_file":{
             "filename": null,
             "size": null
@@ -353,7 +430,12 @@ func TestPipelineEventUnmarshal(t *testing.T) {
             "username": "root",
             "avatar_url": "http://www.gravatar.com/avatar/e32bd13e2add097461cb96824b7a829c?s=80\u0026d=identicon"
          },
-         "runner": null,
+         "runner": {
+            "id":380987,
+            "description":"shared-runners-manager-6.gitlab.com",
+            "active":true,
+            "is_shared":true
+         },
          "artifacts_file":{
             "filename": null,
             "size": null
@@ -424,8 +506,9 @@ func TestBuildEventUnmarshal(t *testing.T) {
   "build_status": "created",
   "build_started_at": null,
   "build_finished_at": null,
-  "build_duration": 23.265997,
+  "build_duration": null,
   "build_allow_failure": false,
+  "build_failure_reason": "script_failure",
   "project_id": 380,
   "project_name": "gitlab-org/gitlab-test",
   "user": {
@@ -440,18 +523,17 @@ func TestBuildEventUnmarshal(t *testing.T) {
     "author_name": "User",
     "author_email": "user@gitlab.com",
     "status": "created",
-    "duration": 199,
+    "duration": null,
     "started_at": null,
     "finished_at": null
   },
   "repository": {
     "name": "gitlab_test",
-    "git_ssh_url": "git@192.168.64.1:gitlab-org/gitlab-test.git",
     "description": "Atque in sunt eos similique dolores voluptatem.",
     "homepage": "http://192.168.64.1:3005/gitlab-org/gitlab-test",
     "git_ssh_url": "git@192.168.64.1:gitlab-org/gitlab-test.git",
     "git_http_url": "http://192.168.64.1:3005/gitlab-org/gitlab-test.git",
-    "visibility": "private"
+    "visibility_level": 20
   }
 }`
 	var event *BuildEvent
