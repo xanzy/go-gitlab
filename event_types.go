@@ -23,7 +23,7 @@ import (
 // PushEvent represents a push event.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/web_hooks/web_hooks.html#push-events
+// https://docs.gitlab.com/ce/user/project/integrations/webhooks.html#push-events
 type PushEvent struct {
 	ObjectKind  string `json:"object_kind"`
 	Before      string `json:"before"`
@@ -71,7 +71,7 @@ type PushEvent struct {
 // TagEvent represents a tag event.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/web_hooks/web_hooks.html#tag-events
+// https://docs.gitlab.com/ce/user/project/integrations/webhooks.html#tag-events
 type TagEvent struct {
 	ObjectKind  string `json:"object_kind"`
 	Before      string `json:"before"`
@@ -118,7 +118,7 @@ type TagEvent struct {
 // IssueEvent represents a issue event.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/web_hooks/web_hooks.html#issues-events
+// https://docs.gitlab.com/ce/user/project/integrations/webhooks.html#issues-events
 type IssueEvent struct {
 	ObjectKind string `json:"object_kind"`
 	User       *User  `json:"user"`
@@ -207,7 +207,7 @@ type JobEvent struct {
 // CommitCommentEvent represents a comment on a commit event.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/web_hooks/web_hooks.html#comment-on-commit
+// https://docs.gitlab.com/ce/user/project/integrations/webhooks.html#comment-on-commit
 type CommitCommentEvent struct {
 	ObjectKind string `json:"object_kind"`
 	User       *User  `json:"user"`
@@ -268,7 +268,7 @@ type CommitCommentEvent struct {
 // MergeCommentEvent represents a comment on a merge event.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/web_hooks/web_hooks.html#comment-on-merge-request
+// https://docs.gitlab.com/ce/user/project/integrations/webhooks.html#comment-on-merge-request
 type MergeCommentEvent struct {
 	ObjectKind string `json:"object_kind"`
 	User       *User  `json:"user"`
@@ -361,7 +361,7 @@ type MergeCommentEvent struct {
 // IssueCommentEvent represents a comment on an issue event.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/web_hooks/web_hooks.html#comment-on-issue
+// https://docs.gitlab.com/ce/user/project/integrations/webhooks.html#comment-on-issue
 type IssueCommentEvent struct {
 	ObjectKind string `json:"object_kind"`
 	User       *User  `json:"user"`
@@ -405,7 +405,7 @@ type IssueCommentEvent struct {
 // SnippetCommentEvent represents a comment on a snippet event.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/web_hooks/web_hooks.html#comment-on-code-snippet
+// https://docs.gitlab.com/ce/user/project/integrations/webhooks.html#comment-on-code-snippet
 type SnippetCommentEvent struct {
 	ObjectKind string `json:"object_kind"`
 	User       *User  `json:"user"`
@@ -449,7 +449,7 @@ type SnippetCommentEvent struct {
 // MergeEvent represents a merge event.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/web_hooks/web_hooks.html#merge-request-events
+// https://docs.gitlab.com/ce/user/project/integrations/webhooks.html#merge-request-events
 type MergeEvent struct {
 	ObjectKind string `json:"object_kind"`
 	User       *User  `json:"user"`
@@ -552,7 +552,7 @@ type MergeEvent struct {
 // WikiPageEvent represents a wiki page event.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/web_hooks/web_hooks.html#wiki-page-events
+// https://docs.gitlab.com/ce/user/project/integrations/webhooks.html#wiki-page-events
 type WikiPageEvent struct {
 	ObjectKind string `json:"object_kind"`
 	User       *User  `json:"user"`
@@ -593,7 +593,7 @@ type WikiPageEvent struct {
 // PipelineEvent represents a pipeline event.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/web_hooks/web_hooks.html#pipeline-events
+// https://docs.gitlab.com/ce/user/project/integrations/webhooks.html#pipeline-events
 type PipelineEvent struct {
 	ObjectKind       string `json:"object_kind"`
 	ObjectAttributes struct {
@@ -671,7 +671,7 @@ type PipelineEvent struct {
 //BuildEvent represents a build event
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/web_hooks/web_hooks.html#build-events
+// https://docs.gitlab.com/ce/user/project/integrations/webhooks.html#build-events
 type BuildEvent struct {
 	ObjectKind        string  `json:"object_kind"`
 	Ref               string  `json:"ref"`
