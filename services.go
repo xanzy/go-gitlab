@@ -714,6 +714,7 @@ func (s *ServicesService) SetExternalWikiService(pid interface{}, opt *SetExtern
 	if err != nil {
 		return nil, err
 	}
+
 	return s.client.Do(req, nil)
 }
 
