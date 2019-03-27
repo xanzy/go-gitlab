@@ -316,6 +316,7 @@ func TestParseIssueHook(t *testing.T) {
 	if event.Assignee.Username != "user1" {
 		t.Errorf("Assignee username is %v, want %v", event.Assignee.Username, "user1")
 	}
+	assert.Equal(t, 1, len(event.Labels))
 	assert.Equal(t, []int{0, 1}, event.Changes.UpdatedByID)
 	assert.Equal(t, 1, len(event.Changes.Labels.Previous))
 	assert.Equal(t, 1, len(event.Changes.Labels.Current))
@@ -910,6 +911,7 @@ func TestParseMergeRequestHook(t *testing.T) {
 	if event.ObjectAttributes.WorkInProgress {
 		t.Errorf("WorkInProgress is %v, want %v", event.ObjectAttributes.WorkInProgress, false)
 	}
+	assert.Equal(t, 1, len(event.Labels))
 	assert.Equal(t, []int{0, 1}, event.Changes.UpdatedByID)
 	assert.Equal(t, 1, len(event.Changes.Labels.Previous))
 	assert.Equal(t, 1, len(event.Changes.Labels.Current))

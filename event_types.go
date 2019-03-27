@@ -161,6 +161,7 @@ type IssueEvent struct {
 		Username  string `json:"username"`
 		AvatarURL string `json:"avatar_url"`
 	} `json:"assignee"`
+	Labels []Label `json:"labels"`
 	Changes struct {
 		Labels struct {
 			Previous []Label `json:"previous"`
@@ -539,6 +540,7 @@ type MergeEvent struct {
 		Username  string `json:"username"`
 		AvatarURL string `json:"avatar_url"`
 	} `json:"assignee"`
+	Labels []Label `json:"labels"`
 	Changes struct {
 		AssigneeID struct {
 			Previous int `json:"previous"`
