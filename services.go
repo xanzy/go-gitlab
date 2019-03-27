@@ -647,3 +647,92 @@ func (s *ServicesService) DeleteMicrosoftTeamsService(pid interface{}, options .
 
 	return s.client.Do(req, nil)
 }
+
+// ExternalWikiService represents External Wiki service settings.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/services.html#external-wiki
+type ExternalWikiService struct {
+	Service
+	Properties *ExternalWikiServiceProperties `json:"properties"`
+}
+
+// ExternalWikiServiceProperties represents External Wiki specific properties.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/services.html#external-wiki
+type ExternalWikiServiceProperties struct {
+	ExternalWikiURL string `json:"external_wiki_url"`
+}
+
+// GetExternalWikiService gets External Wiki service settings for a project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/services.html#get-external-wiki-service-settings
+func (s *ServicesService) GetExternalWikiService(pid interface{}, options ...OptionFunc) (*ExternalWikiService, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/services/external-wiki", url.QueryEscape(project))
+
+	req, err := s.client.NewRequest("GET", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	svc := new(ExternalWikiService)
+	resp, err := s.client.Do(req, svc)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return svc, resp, err
+}
+
+// SetExternalWikiServiceOptions represents the available SetExternalWikiService()
+// options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/services.html#createedit-external-wiki-service
+type SetExternalWikiServiceOptions struct {
+	ExternalWikiURL *string `url:"external_wiki_url,omitempty" json:"external_wiki_url,omitempty"`
+}
+
+// SetExternalWikiService sets External Wiki service for a project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/services.html#createedit-external-wiki-service
+func (s *ServicesService) SetExternalWikiService(pid interface{}, opt *SetExternalWikiServiceOptions, options ...OptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/services/external-wiki", url.QueryEscape(project))
+
+	req, err := s.client.NewRequest("PUT", u, opt, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
+
+// DeleteExternalWikiService deletes External Wiki service for project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/services.html#delete-external-wiki-service
+func (s *ServicesService) DeleteExternalWikiService(pid interface{}, options ...OptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/services/external-wiki", url.QueryEscape(project))
+
+	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
