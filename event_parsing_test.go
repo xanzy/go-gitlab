@@ -850,10 +850,7 @@ func TestParseMergeRequestHook(t *testing.T) {
     "group_id": 41
   }],
   "changes": {
-    "updated_by_id": {
-      "previous": null,
-      "current": 1
-    },
+    "updated_by_id": [null, 1],
     "updated_at": ["2017-09-15 16:50:55 UTC", "2017-09-15 16:52:00 UTC"],
     "labels": {
       "previous": [{
@@ -1071,7 +1068,12 @@ func TestParsePipelineHook(t *testing.T) {
             "username": "root",
             "avatar_url": "http://www.gravatar.com/avatar/e32bd13e2add097461cb96824b7a829c?s=80\u0026d=identicon"
          },
-         "runner": null,
+         "runner": {
+            "id":380987,
+            "description":"shared-runners-manager-6.gitlab.com",
+            "active":true,
+            "is_shared":true
+         },
          "artifacts_file":{
             "filename": null,
             "size": null
@@ -1092,7 +1094,12 @@ func TestParsePipelineHook(t *testing.T) {
             "username": "root",
             "avatar_url": "http://www.gravatar.com/avatar/e32bd13e2add097461cb96824b7a829c?s=80\u0026d=identicon"
          },
-         "runner": null,
+         "runner": {
+            "id":380987,
+            "description":"shared-runners-manager-6.gitlab.com",
+            "active":true,
+            "is_shared":true
+         },
          "artifacts_file":{
             "filename": null,
             "size": null
@@ -1113,7 +1120,12 @@ func TestParsePipelineHook(t *testing.T) {
             "username": "root",
             "avatar_url": "http://www.gravatar.com/avatar/e32bd13e2add097461cb96824b7a829c?s=80\u0026d=identicon"
          },
-         "runner": null,
+         "runner": {
+            "id":380987,
+            "description":"shared-runners-manager-6.gitlab.com",
+            "active":true,
+            "is_shared":true
+         },
          "artifacts_file":{
             "filename": null,
             "size": null
