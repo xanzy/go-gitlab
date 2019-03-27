@@ -545,7 +545,7 @@ type MergeEvent struct {
 			Previous []Label `json:"previous"`
 			Current  []Label `json:"current"`
 		} `json:"labels"`
-		UpdatedByID []*int `json:"updated_by_id"`
+		UpdatedByID []int `json:"updated_by_id"`
 	} `json:"changes"`
 }
 
