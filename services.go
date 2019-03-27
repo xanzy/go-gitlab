@@ -699,7 +699,7 @@ type SetExternalWikiServiceOptions struct {
 	ExternalWikiURL *string `url:"external_wiki_url,omitempty" json:"external_wiki_url,omitempty"`
 }
 
-// SetExternalWikiService sets External Wiki service for a project
+// SetExternalWikiService sets External Wiki service for a project.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/services.html#createedit-external-wiki-service
