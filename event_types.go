@@ -161,6 +161,13 @@ type IssueEvent struct {
 		Username  string `json:"username"`
 		AvatarURL string `json:"avatar_url"`
 	} `json:"assignee"`
+	Changes struct {
+		Labels struct {
+			Previous []Label `json:"previous"`
+			Current  []Label `json:"current"`
+		} `json:"labels"`
+		UpdatedByID []int `json:"updated_by_id"`
+	} `json:"changes"`
 }
 
 // JobEvent represents a job event.
