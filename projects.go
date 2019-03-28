@@ -447,6 +447,7 @@ type CreateProjectOptions struct {
 	ApprovalsBeforeMerge                      *int              `url:"approvals_before_merge,omitempty" json:"approvals_before_merge,omitempty"`
 	Mirror                                    *bool             `url:"mirror,omitempty" json:"mirror,omitempty"`
 	MirrorTriggerBuilds                       *bool             `url:"mirror_trigger_builds,omitempty" json:"mirror_trigger_builds,omitempty"`
+	InitializeWithReadme                      *bool             `url:"initialize_with_readme,omitempty" json:"initialize_with_readme,omitempty"`
 }
 
 // CreateProject creates a new project owned by the authenticated user.
