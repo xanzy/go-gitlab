@@ -33,12 +33,12 @@ type BranchesService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/branches.html
 type Branch struct {
-	Commit             *Commit `json:"commit"`
-	Name               string  `json:"name"`
-	Protected          bool    `json:"protected"`
-	Merged             bool    `json:"merged"`
-	DevelopersCanPush  bool    `json:"developers_can_push"`
-	DevelopersCanMerge bool    `json:"developers_can_merge"`
+	Commit             *Commit `json:"commit" yaml:"commit"`
+	Name               string  `json:"name" yaml:"name"`
+	Protected          bool    `json:"protected" yaml:"protected"`
+	Merged             bool    `json:"merged" yaml:"merged"`
+	DevelopersCanPush  bool    `json:"developers_can_push" yaml:"developers_can_push"`
+	DevelopersCanMerge bool    `json:"developers_can_merge" yaml:"developers_can_merge"`
 }
 
 func (b Branch) String() string {
@@ -107,8 +107,8 @@ func (s *BranchesService) GetBranch(pid interface{}, branch string, options ...O
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/branches.html#protect-repository-branch
 type ProtectBranchOptions struct {
-	DevelopersCanPush  *bool `url:"developers_can_push,omitempty" json:"developers_can_push,omitempty"`
-	DevelopersCanMerge *bool `url:"developers_can_merge,omitempty" json:"developers_can_merge,omitempty"`
+	DevelopersCanPush  *bool `url:"developers_can_push,omitempty" json:"developers_can_push,omitempty" yaml:"developers_can_push,omitempty"`
+	DevelopersCanMerge *bool `url:"developers_can_merge,omitempty" json:"developers_can_merge,omitempty" yaml:"developers_can_merge,omitempty"`
 }
 
 // ProtectBranch protects a single project repository branch. This is an
@@ -170,8 +170,8 @@ func (s *BranchesService) UnprotectBranch(pid interface{}, branch string, option
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/branches.html#create-repository-branch
 type CreateBranchOptions struct {
-	Branch *string `url:"branch,omitempty" json:"branch,omitempty"`
-	Ref    *string `url:"ref,omitempty" json:"ref,omitempty"`
+	Branch *string `url:"branch,omitempty" json:"branch,omitempty" yaml:"branch,omitempty"`
+	Ref    *string `url:"ref,omitempty" json:"ref,omitempty" yaml:"ref,omitempty"`
 }
 
 // CreateBranch creates branch from commit SHA or existing branch.

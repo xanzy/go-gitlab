@@ -35,10 +35,10 @@ type ProjectVariablesService struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/project_level_variables.html
 type ProjectVariable struct {
-	Key              string `json:"key"`
-	Value            string `json:"value"`
-	Protected        bool   `json:"protected"`
-	EnvironmentScope string `json:"environment_scope"`
+	Key              string `json:"key" yaml:"key"`
+	Value            string `json:"value" yaml:"value"`
+	Protected        bool   `json:"protected" yaml:"protected"`
+	EnvironmentScope string `json:"environment_scope" yaml:"environment_scope"`
 }
 
 func (v ProjectVariable) String() string {
@@ -101,10 +101,10 @@ func (s *ProjectVariablesService) GetVariable(pid interface{}, key string, optio
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/project_level_variables.html#create-variable
 type CreateVariableOptions struct {
-	Key              *string `url:"key,omitempty" json:"key,omitempty"`
-	Value            *string `url:"value,omitempty" json:"value,omitempty"`
-	Protected        *bool   `url:"protected,omitempty" json:"protected,omitempty"`
-	EnvironmentScope *string `url:"environment_scope,omitempty" json:"environment_scope,omitempty"`
+	Key              *string `url:"key,omitempty" json:"key,omitempty" yaml:"key,omitempty"`
+	Value            *string `url:"value,omitempty" json:"value,omitempty" yaml:"value,omitempty"`
+	Protected        *bool   `url:"protected,omitempty" json:"protected,omitempty" yaml:"protected,omitempty"`
+	EnvironmentScope *string `url:"environment_scope,omitempty" json:"environment_scope,omitempty" yaml:"environment_scope,omitempty"`
 }
 
 // CreateVariable creates a new project variable.
@@ -138,9 +138,9 @@ func (s *ProjectVariablesService) CreateVariable(pid interface{}, opt *CreateVar
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/project_level_variables.html#update-variable
 type UpdateVariableOptions struct {
-	Value            *string `url:"value,omitempty" json:"value,omitempty"`
-	Protected        *bool   `url:"protected,omitempty" json:"protected,omitempty"`
-	EnvironmentScope *string `url:"environment_scope,omitempty" json:"environment_scope,omitempty"`
+	Value            *string `url:"value,omitempty" json:"value,omitempty" yaml:"value,omitempty"`
+	Protected        *bool   `url:"protected,omitempty" json:"protected,omitempty" yaml:"protected,omitempty"`
+	EnvironmentScope *string `url:"environment_scope,omitempty" json:"environment_scope,omitempty" yaml:"environment_scope,omitempty"`
 }
 
 // UpdateVariable updates a project's variable

@@ -28,8 +28,8 @@ type VersionService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/version.md
 type Version struct {
-	Version  string `json:"version"`
-	Revision string `json:"revision"`
+	Version  string `json:"version" yaml:"version"`
+	Revision string `json:"revision" yaml:"revision"`
 }
 
 func (s Version) String() string {

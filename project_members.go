@@ -36,7 +36,7 @@ type ProjectMembersService struct {
 // https://docs.gitlab.com/ce/api/members.html#list-all-members-of-a-group-or-project
 type ListProjectMembersOptions struct {
 	ListOptions
-	Query *string `url:"query,omitempty" json:"query,omitempty"`
+	Query *string `url:"query,omitempty" json:"query,omitempty" yaml:"query,omitempty"`
 }
 
 // ListProjectMembers gets a list of a project's team members viewable by the
@@ -123,8 +123,8 @@ func (s *ProjectMembersService) GetProjectMember(pid interface{}, user int, opti
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/members.html#add-a-member-to-a-group-or-project
 type AddProjectMemberOptions struct {
-	UserID      *int              `url:"user_id,omitempty" json:"user_id,omitempty"`
-	AccessLevel *AccessLevelValue `url:"access_level,omitempty" json:"access_level,omitempty"`
+	UserID      *int              `url:"user_id,omitempty" json:"user_id,omitempty" yaml:"user_id,omitempty"`
+	AccessLevel *AccessLevelValue `url:"access_level,omitempty" json:"access_level,omitempty" yaml:"access_level,omitempty"`
 }
 
 // AddProjectMember adds a user to a project team. This is an idempotent
@@ -160,7 +160,7 @@ func (s *ProjectMembersService) AddProjectMember(pid interface{}, opt *AddProjec
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/members.html#edit-a-member-of-a-group-or-project
 type EditProjectMemberOptions struct {
-	AccessLevel *AccessLevelValue `url:"access_level,omitempty" json:"access_level,omitempty"`
+	AccessLevel *AccessLevelValue `url:"access_level,omitempty" json:"access_level,omitempty" yaml:"access_level,omitempty"`
 }
 
 // EditProjectMember updates a project team member to a specified access level..

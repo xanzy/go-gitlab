@@ -34,44 +34,44 @@ type RunnersService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/runners.html
 type Runner struct {
-	ID          int    `json:"id"`
-	Description string `json:"description"`
-	Active      bool   `json:"active"`
-	IsShared    bool   `json:"is_shared"`
-	IPAddress   string `json:"ip_address"`
-	Name        string `json:"name"`
-	Online      bool   `json:"online"`
-	Status      string `json:"status"`
-	Token       string `json:"token"`
+	ID          int    `json:"id" yaml:"id"`
+	Description string `json:"description" yaml:"description"`
+	Active      bool   `json:"active" yaml:"active"`
+	IsShared    bool   `json:"is_shared" yaml:"is_shared"`
+	IPAddress   string `json:"ip_address" yaml:"ip_address"`
+	Name        string `json:"name" yaml:"name"`
+	Online      bool   `json:"online" yaml:"online"`
+	Status      string `json:"status" yaml:"status"`
+	Token       string `json:"token" yaml:"token"`
 }
 
 // RunnerDetails represents the GitLab CI runner details.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/runners.html
 type RunnerDetails struct {
-	Active       bool       `json:"active"`
-	Architecture string     `json:"architecture"`
-	Description  string     `json:"description"`
-	ID           int        `json:"id"`
-	IsShared     bool       `json:"is_shared"`
-	ContactedAt  *time.Time `json:"contacted_at"`
-	Name         string     `json:"name"`
-	Online       bool       `json:"online"`
-	Status       string     `json:"status"`
-	Platform     string     `json:"platform"`
+	Active       bool       `json:"active" yaml:"active"`
+	Architecture string     `json:"architecture" yaml:"architecture"`
+	Description  string     `json:"description" yaml:"description"`
+	ID           int        `json:"id" yaml:"id"`
+	IsShared     bool       `json:"is_shared" yaml:"is_shared"`
+	ContactedAt  *time.Time `json:"contacted_at" yaml:"contacted_at"`
+	Name         string     `json:"name" yaml:"name"`
+	Online       bool       `json:"online" yaml:"online"`
+	Status       string     `json:"status" yaml:"status"`
+	Platform     string     `json:"platform" yaml:"platform"`
 	Projects     []struct {
-		ID                int    `json:"id"`
-		Name              string `json:"name"`
-		NameWithNamespace string `json:"name_with_namespace"`
-		Path              string `json:"path"`
-		PathWithNamespace string `json:"path_with_namespace"`
-	} `json:"projects"`
-	Token          string   `json:"token"`
-	Revision       string   `json:"revision"`
-	TagList        []string `json:"tag_list"`
-	Version        string   `json:"version"`
-	AccessLevel    string   `json:"access_level"`
-	MaximumTimeout int      `json:"maximum_timeout"`
+		ID                int    `json:"id" yaml:"id"`
+		Name              string `json:"name" yaml:"name"`
+		NameWithNamespace string `json:"name_with_namespace" yaml:"name_with_namespace"`
+		Path              string `json:"path" yaml:"path"`
+		PathWithNamespace string `json:"path_with_namespace" yaml:"path_with_namespace"`
+	} `json:"projects" yaml:"projects"`
+	Token          string   `json:"token" yaml:"token"`
+	Revision       string   `json:"revision" yaml:"revision"`
+	TagList        []string `json:"tag_list" yaml:"tag_list"`
+	Version        string   `json:"version" yaml:"version"`
+	AccessLevel    string   `json:"access_level" yaml:"access_level"`
+	MaximumTimeout int      `json:"maximum_timeout" yaml:"maximum_timeout"`
 }
 
 // ListRunnersOptions represents the available ListRunners() options.
@@ -80,9 +80,9 @@ type RunnerDetails struct {
 // https://docs.gitlab.com/ce/api/runners.html#list-owned-runners
 type ListRunnersOptions struct {
 	ListOptions
-	Scope  *string `url:"scope,omitempty" json:"scope,omitempty"`
-	Status *string `url:"status,omitempty" json:"status,omitempty"`
-	Type   *string `url:"type,omitempty" json:"type,omitempty"`
+	Scope  *string `url:"scope,omitempty" json:"scope,omitempty" yaml:"scope,omitempty"`
+	Status *string `url:"status,omitempty" json:"status,omitempty" yaml:"status,omitempty"`
+	Type   *string `url:"type,omitempty" json:"type,omitempty" yaml:"type,omitempty"`
 }
 
 // ListRunners gets a list of runners accessible by the authenticated user.
@@ -154,13 +154,13 @@ func (s *RunnersService) GetRunnerDetails(rid interface{}, options ...OptionFunc
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/runners.html#update-runner-39-s-details
 type UpdateRunnerDetailsOptions struct {
-	Description    *string  `url:"description,omitempty" json:"description,omitempty"`
-	Active         *bool    `url:"active,omitempty" json:"active,omitempty"`
-	TagList        []string `url:"tag_list[],omitempty" json:"tag_list,omitempty"`
-	RunUntagged    *bool    `url:"run_untagged,omitempty" json:"run_untagged,omitempty"`
-	Locked         *bool    `url:"locked,omitempty" json:"locked,omitempty"`
-	AccessLevel    *string  `url:"access_level,omitempty" json:"access_level,omitempty"`
-	MaximumTimeout *int     `url:"maximum_timeout,omitempty" json:"maximum_timeout,omitempty"`
+	Description    *string  `url:"description,omitempty" json:"description,omitempty" yaml:"description,omitempty"`
+	Active         *bool    `url:"active,omitempty" json:"active,omitempty" yaml:"active,omitempty"`
+	TagList        []string `url:"tag_list[],omitempty" json:"tag_list,omitempty" yaml:"tag_list,omitempty"`
+	RunUntagged    *bool    `url:"run_untagged,omitempty" json:"run_untagged,omitempty" yaml:"run_untagged,omitempty"`
+	Locked         *bool    `url:"locked,omitempty" json:"locked,omitempty" yaml:"locked,omitempty"`
+	AccessLevel    *string  `url:"access_level,omitempty" json:"access_level,omitempty" yaml:"access_level,omitempty"`
+	MaximumTimeout *int     `url:"maximum_timeout,omitempty" json:"maximum_timeout,omitempty" yaml:"maximum_timeout,omitempty"`
 }
 
 // UpdateRunnerDetails updates details for a given runner.
@@ -214,7 +214,7 @@ func (s *RunnersService) RemoveRunner(rid interface{}, options ...OptionFunc) (*
 // https://docs.gitlab.com/ce/api/runners.html#list-runner-39-s-jobs
 type ListRunnerJobsOptions struct {
 	ListOptions
-	Status *string `url:"status,omitempty" json:"status,omitempty"`
+	Status *string `url:"status,omitempty" json:"status,omitempty" yaml:"status,omitempty"`
 }
 
 // ListRunnerJobs gets a list of jobs that are being processed or were processed by specified Runner.
@@ -280,7 +280,7 @@ func (s *RunnersService) ListProjectRunners(pid interface{}, opt *ListProjectRun
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/runners.html#enable-a-runner-in-project
 type EnableProjectRunnerOptions struct {
-	RunnerID int `json:"runner_id"`
+	RunnerID int `json:"runner_id" yaml:"runner_id"`
 }
 
 // EnableProjectRunner enables an available specific runner in the project.
@@ -337,14 +337,14 @@ func (s *RunnersService) DisableProjectRunner(pid interface{}, rid interface{}, 
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/runners.html#register-a-new-runner
 type RegisterNewRunnerOptions struct {
-	Token          *string  `url:"token" json:"token"`
-	Description    *string  `url:"description,omitempty" json:"description,omitempty"`
-	Info           *string  `url:"info,omitempty" json:"info,omitempty"`
-	Active         *bool    `url:"active,omitempty" json:"active,omitempty"`
-	Locked         *bool    `url:"locked,omitempty" json:"locked,omitempty"`
-	RunUntagged    *bool    `url:"run_untagged,omitempty" json:"run_untagged,omitempty"`
-	TagList        []string `url:"tag_list[],omitempty" json:"tag_list,omitempty"`
-	MaximumTimeout *int     `url:"maximum_timeout,omitempty" json:"maximum_timeout,omitempty"`
+	Token          *string  `url:"token" json:"token" yaml:"token"`
+	Description    *string  `url:"description,omitempty" json:"description,omitempty" yaml:"description,omitempty"`
+	Info           *string  `url:"info,omitempty" json:"info,omitempty" yaml:"info,omitempty"`
+	Active         *bool    `url:"active,omitempty" json:"active,omitempty" yaml:"active,omitempty"`
+	Locked         *bool    `url:"locked,omitempty" json:"locked,omitempty" yaml:"locked,omitempty"`
+	RunUntagged    *bool    `url:"run_untagged,omitempty" json:"run_untagged,omitempty" yaml:"run_untagged,omitempty"`
+	TagList        []string `url:"tag_list[],omitempty" json:"tag_list,omitempty" yaml:"tag_list,omitempty"`
+	MaximumTimeout *int     `url:"maximum_timeout,omitempty" json:"maximum_timeout,omitempty" yaml:"maximum_timeout,omitempty"`
 }
 
 // RegisterNewRunner registers a new Runner for the instance.
@@ -372,7 +372,7 @@ func (s *RunnersService) RegisterNewRunner(opt *RegisterNewRunnerOptions, option
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/runners.html#delete-a-registered-runner
 type DeleteRegisteredRunnerOptions struct {
-	Token *string `url:"token" json:"token"`
+	Token *string `url:"token" json:"token" yaml:"token"`
 }
 
 // DeleteRegisteredRunner registers a new Runner for the instance.
@@ -394,7 +394,7 @@ func (s *RunnersService) DeleteRegisteredRunner(opt *DeleteRegisteredRunnerOptio
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/runners.html#verify-authentication-for-a-registered-runner
 type VerifyRegisteredRunnerOptions struct {
-	Token *string `url:"token" json:"token"`
+	Token *string `url:"token" json:"token" yaml:"token"`
 }
 
 // VerifyRegisteredRunner registers a new Runner for the instance.

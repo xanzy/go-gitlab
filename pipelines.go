@@ -34,37 +34,37 @@ type PipelinesService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/pipelines.html
 type PipelineVariable struct {
-	Key   string `json:"key"`
-	Value string `json:"value"`
+	Key   string `json:"key" yaml:"key"`
+	Value string `json:"value" yaml:"value"`
 }
 
 // Pipeline represents a GitLab pipeline.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/pipelines.html
 type Pipeline struct {
-	ID         int    `json:"id"`
-	Status     string `json:"status"`
-	Ref        string `json:"ref"`
-	SHA        string `json:"sha"`
-	BeforeSHA  string `json:"before_sha"`
-	Tag        bool   `json:"tag"`
-	YamlErrors string `json:"yaml_errors"`
+	ID         int    `json:"id" yaml:"id"`
+	Status     string `json:"status" yaml:"status"`
+	Ref        string `json:"ref" yaml:"ref"`
+	SHA        string `json:"sha" yaml:"sha"`
+	BeforeSHA  string `json:"before_sha" yaml:"before_sha"`
+	Tag        bool   `json:"tag" yaml:"tag"`
+	YamlErrors string `json:"yaml_errors" yaml:"yaml_errors"`
 	User       struct {
-		Name      string `json:"name"`
-		Username  string `json:"username"`
-		ID        int    `json:"id"`
-		State     string `json:"state"`
-		AvatarURL string `json:"avatar_url"`
-		WebURL    string `json:"web_url"`
+		Name      string `json:"name" yaml:"name"`
+		Username  string `json:"username" yaml:"username"`
+		ID        int    `json:"id" yaml:"id"`
+		State     string `json:"state" yaml:"state"`
+		AvatarURL string `json:"avatar_url" yaml:"avatar_url"`
+		WebURL    string `json:"web_url" yaml:"web_url"`
 	}
-	UpdatedAt   *time.Time `json:"updated_at"`
-	CreatedAt   *time.Time `json:"created_at"`
-	StartedAt   *time.Time `json:"started_at"`
-	FinishedAt  *time.Time `json:"finished_at"`
-	CommittedAt *time.Time `json:"committed_at"`
-	Duration    int        `json:"duration"`
-	Coverage    string     `json:"coverage"`
-	WebURL      string     `json:"web_url"`
+	UpdatedAt   *time.Time `json:"updated_at" yaml:"updated_at"`
+	CreatedAt   *time.Time `json:"created_at" yaml:"created_at"`
+	StartedAt   *time.Time `json:"started_at" yaml:"started_at"`
+	FinishedAt  *time.Time `json:"finished_at" yaml:"finished_at"`
+	CommittedAt *time.Time `json:"committed_at" yaml:"committed_at"`
+	Duration    int        `json:"duration" yaml:"duration"`
+	Coverage    string     `json:"coverage" yaml:"coverage"`
+	WebURL      string     `json:"web_url" yaml:"web_url"`
 }
 
 func (i Pipeline) String() string {
@@ -75,11 +75,11 @@ func (i Pipeline) String() string {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/pipelines.html#list-project-pipelines
 type PipelineList []struct {
-	ID     int    `json:"id"`
-	Status string `json:"status"`
-	Ref    string `json:"ref"`
-	SHA    string `json:"sha"`
-	WebURL string `json:"web_url"`
+	ID     int    `json:"id" yaml:"id"`
+	Status string `json:"status" yaml:"status"`
+	Ref    string `json:"ref" yaml:"ref"`
+	SHA    string `json:"sha" yaml:"sha"`
+	WebURL string `json:"web_url" yaml:"web_url"`
 }
 
 func (i PipelineList) String() string {
@@ -91,15 +91,15 @@ func (i PipelineList) String() string {
 // GitLab API docs: https://docs.gitlab.com/ce/api/pipelines.html#list-project-pipelines
 type ListProjectPipelinesOptions struct {
 	ListOptions
-	Scope      *string          `url:"scope,omitempty" json:"scope,omitempty"`
-	Status     *BuildStateValue `url:"status,omitempty" json:"status,omitempty"`
-	Ref        *string          `url:"ref,omitempty" json:"ref,omitempty"`
-	SHA        *string          `url:"sha,omitempty" json:"sha,omitempty"`
-	YamlErrors *bool            `url:"yaml_errors,omitempty" json:"yaml_errors,omitempty"`
-	Name       *string          `url:"name,omitempty" json:"name,omitempty"`
-	Username   *string          `url:"username,omitempty" json:"username,omitempty"`
-	OrderBy    *string          `url:"order_by,omitempty" json:"order_by,omitempty"`
-	Sort       *string          `url:"sort,omitempty" json:"sort,omitempty"`
+	Scope      *string          `url:"scope,omitempty" json:"scope,omitempty" yaml:"scope,omitempty"`
+	Status     *BuildStateValue `url:"status,omitempty" json:"status,omitempty" yaml:"status,omitempty"`
+	Ref        *string          `url:"ref,omitempty" json:"ref,omitempty" yaml:"ref,omitempty"`
+	SHA        *string          `url:"sha,omitempty" json:"sha,omitempty" yaml:"sha,omitempty"`
+	YamlErrors *bool            `url:"yaml_errors,omitempty" json:"yaml_errors,omitempty" yaml:"yaml_errors,omitempty"`
+	Name       *string          `url:"name,omitempty" json:"name,omitempty" yaml:"name,omitempty"`
+	Username   *string          `url:"username,omitempty" json:"username,omitempty" yaml:"username,omitempty"`
+	OrderBy    *string          `url:"order_by,omitempty" json:"order_by,omitempty" yaml:"order_by,omitempty"`
+	Sort       *string          `url:"sort,omitempty" json:"sort,omitempty" yaml:"sort,omitempty"`
 }
 
 // ListProjectPipelines gets a list of project piplines.
@@ -153,8 +153,8 @@ func (s *PipelinesService) GetPipeline(pid interface{}, pipeline int, options ..
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/pipelines.html#create-a-new-pipeline
 type CreatePipelineOptions struct {
-	Ref       *string             `url:"ref" json:"ref"`
-	Variables []*PipelineVariable `url:"variables,omitempty" json:"variables,omitempty"`
+	Ref       *string             `url:"ref" json:"ref" yaml:"ref"`
+	Variables []*PipelineVariable `url:"variables,omitempty" json:"variables,omitempty" yaml:"variables,omitempty"`
 }
 
 // CreatePipeline creates a new project pipeline.

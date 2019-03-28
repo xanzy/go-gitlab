@@ -19,28 +19,28 @@ type ReleasesService struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/releases/index.html#list-releases
 type Release struct {
-	TagName         string     `json:"tag_name"`
-	Name            string     `json:"name"`
-	Description     string     `json:"description,omitempty"`
-	DescriptionHTML string     `json:"description_html,omitempty"`
-	CreatedAt       *time.Time `json:"created_at,omitempty"`
+	TagName         string     `json:"tag_name" yaml:"tag_name"`
+	Name            string     `json:"name" yaml:"name"`
+	Description     string     `json:"description,omitempty" yaml:"description,omitempty"`
+	DescriptionHTML string     `json:"description_html,omitempty" yaml:"description_html,omitempty"`
+	CreatedAt       *time.Time `json:"created_at,omitempty" yaml:"created_at,omitempty"`
 	Author          struct {
-		ID        int    `json:"id"`
-		Name      string `json:"name"`
-		Username  string `json:"username"`
-		State     string `json:"state"`
-		AvatarURL string `json:"avatar_url"`
-		WebURL    string `json:"web_url"`
-	} `json:"author"`
-	Commit Commit `json:"commit"`
+		ID        int    `json:"id" yaml:"id"`
+		Name      string `json:"name" yaml:"name"`
+		Username  string `json:"username" yaml:"username"`
+		State     string `json:"state" yaml:"state"`
+		AvatarURL string `json:"avatar_url" yaml:"avatar_url"`
+		WebURL    string `json:"web_url" yaml:"web_url"`
+	} `json:"author" yaml:"author"`
+	Commit Commit `json:"commit" yaml:"commit"`
 	Assets struct {
-		Count   int `json:"count"`
+		Count   int `json:"count" yaml:"count"`
 		Sources []struct {
-			Format string `json:"format"`
-			URL    string `json:"url"`
-		} `json:"sources"`
-		Links []*ReleaseLink `json:"links"`
-	} `json:"assets"`
+			Format string `json:"format" yaml:"format"`
+			URL    string `json:"url" yaml:"url"`
+		} `json:"sources" yaml:"sources"`
+		Links []*ReleaseLink `json:"links" yaml:"links"`
+	} `json:"assets" yaml:"assets"`
 }
 
 // ListReleasesOptions represents ListReleases() options.
@@ -104,7 +104,7 @@ func (s *ReleasesService) GetRelease(pid interface{}, tagName string, options ..
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/releases/index.html#create-a-release
 type ReleaseAssets struct {
-	Links []*ReleaseAssetLink `url:"links" json:"links"`
+	Links []*ReleaseAssetLink `url:"links" json:"links" yaml:"links"`
 }
 
 // ReleaseAssetLink represents release asset link in CreateRelease() options
@@ -112,8 +112,8 @@ type ReleaseAssets struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/releases/index.html#create-a-release
 type ReleaseAssetLink struct {
-	Name string `url:"name" json:"name"`
-	URL  string `url:"url" json:"url"`
+	Name string `url:"name" json:"name" yaml:"name"`
+	URL  string `url:"url" json:"url" yaml:"url"`
 }
 
 // CreateReleaseOptions represents CreateRelease() options.
@@ -121,11 +121,11 @@ type ReleaseAssetLink struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/releases/index.html#create-a-release
 type CreateReleaseOptions struct {
-	Name        *string        `url:"name" json:"name"`
-	TagName     *string        `url:"tag_name" json:"tag_name"`
-	Description *string        `url:"description" json:"description"`
-	Ref         *string        `url:"ref,omitempty" json:"ref,omitempty"`
-	Assets      *ReleaseAssets `url:"assets,omitempty" json:"assets,omitempty"`
+	Name        *string        `url:"name" json:"name" yaml:"name"`
+	TagName     *string        `url:"tag_name" json:"tag_name" yaml:"tag_name"`
+	Description *string        `url:"description" json:"description" yaml:"description"`
+	Ref         *string        `url:"ref,omitempty" json:"ref,omitempty" yaml:"ref,omitempty"`
+	Assets      *ReleaseAssets `url:"assets,omitempty" json:"assets,omitempty" yaml:"assets,omitempty"`
 }
 
 // CreateRelease creates a release.
@@ -158,8 +158,8 @@ func (s *ReleasesService) CreateRelease(pid interface{}, opts *CreateReleaseOpti
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/releases/index.html#update-a-release
 type UpdateReleaseOptions struct {
-	Name        *string `url:"name" json:"name"`
-	Description *string `url:"description" json:"description"`
+	Name        *string `url:"name" json:"name" yaml:"name"`
+	Description *string `url:"description" json:"description" yaml:"description"`
 }
 
 // UpdateRelease updates a release.

@@ -89,11 +89,11 @@ func (s *ProjectSnippetsService) GetSnippet(pid interface{}, snippet int, option
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/project_snippets.html#create-new-snippet
 type CreateProjectSnippetOptions struct {
-	Title       *string          `url:"title,omitempty" json:"title,omitempty"`
-	FileName    *string          `url:"file_name,omitempty" json:"file_name,omitempty"`
-	Description *string          `url:"description,omitempty" json:"description,omitempty"`
-	Code        *string          `url:"code,omitempty" json:"code,omitempty"`
-	Visibility  *VisibilityValue `url:"visibility,omitempty" json:"visibility,omitempty"`
+	Title       *string          `url:"title,omitempty" json:"title,omitempty" yaml:"title,omitempty"`
+	FileName    *string          `url:"file_name,omitempty" json:"file_name,omitempty" yaml:"file_name,omitempty"`
+	Description *string          `url:"description,omitempty" json:"description,omitempty" yaml:"description,omitempty"`
+	Code        *string          `url:"code,omitempty" json:"code,omitempty" yaml:"code,omitempty"`
+	Visibility  *VisibilityValue `url:"visibility,omitempty" json:"visibility,omitempty" yaml:"visibility,omitempty"`
 }
 
 // CreateSnippet creates a new project snippet. The user must have permission
@@ -127,11 +127,11 @@ func (s *ProjectSnippetsService) CreateSnippet(pid interface{}, opt *CreateProje
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/project_snippets.html#update-snippet
 type UpdateProjectSnippetOptions struct {
-	Title       *string          `url:"title,omitempty" json:"title,omitempty"`
-	FileName    *string          `url:"file_name,omitempty" json:"file_name,omitempty"`
-	Description *string          `url:"description,omitempty" json:"description,omitempty"`
-	Code        *string          `url:"code,omitempty" json:"code,omitempty"`
-	Visibility  *VisibilityValue `url:"visibility,omitempty" json:"visibility,omitempty"`
+	Title       *string          `url:"title,omitempty" json:"title,omitempty" yaml:"title,omitempty"`
+	FileName    *string          `url:"file_name,omitempty" json:"file_name,omitempty" yaml:"file_name,omitempty"`
+	Description *string          `url:"description,omitempty" json:"description,omitempty" yaml:"description,omitempty"`
+	Code        *string          `url:"code,omitempty" json:"code,omitempty" yaml:"code,omitempty"`
+	Visibility  *VisibilityValue `url:"visibility,omitempty" json:"visibility,omitempty" yaml:"visibility,omitempty"`
 }
 
 // UpdateSnippet updates an existing project snippet. The user must have

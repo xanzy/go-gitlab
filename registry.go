@@ -18,11 +18,11 @@ type ContainerRegistryService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/container_registry.html
 type RegistryRepository struct {
-	ID        int        `json:"id"`
-	Name      string     `json:"name"`
-	Path      string     `json:"path"`
-	Location  string     `json:"location"`
-	CreatedAt *time.Time `json:"created_at"`
+	ID        int        `json:"id" yaml:"id"`
+	Name      string     `json:"name" yaml:"name"`
+	Path      string     `json:"path" yaml:"path"`
+	Location  string     `json:"location" yaml:"location"`
+	CreatedAt *time.Time `json:"created_at" yaml:"created_at"`
 }
 
 func (s RegistryRepository) String() string {
@@ -33,14 +33,14 @@ func (s RegistryRepository) String() string {
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/container_registry.html
 type RegistryRepositoryTag struct {
-	Name          string     `json:"name"`
-	Path          string     `json:"path"`
-	Location      string     `json:"location"`
-	Revision      string     `json:"revision"`
-	ShortRevision string     `json:"short_revision"`
-	Digest        string     `json:"digest"`
-	CreatedAt     *time.Time `json:"created_at"`
-	TotalSize     int        `json:"total_size"`
+	Name          string     `json:"name" yaml:"name"`
+	Path          string     `json:"path" yaml:"path"`
+	Location      string     `json:"location" yaml:"location"`
+	Revision      string     `json:"revision" yaml:"revision"`
+	ShortRevision string     `json:"short_revision" yaml:"short_revision"`
+	Digest        string     `json:"digest" yaml:"digest"`
+	CreatedAt     *time.Time `json:"created_at" yaml:"created_at"`
+	TotalSize     int        `json:"total_size" yaml:"total_size"`
 }
 
 func (s RegistryRepositoryTag) String() string {
@@ -191,9 +191,9 @@ func (s *ContainerRegistryService) DeleteRegistryRepositoryTag(pid interface{}, 
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/container_registry.html#delete-repository-tags-in-bulk
 type DeleteRegistryRepositoryTagsOptions struct {
-	NameRegexp *string `url:"name_regex,omitempty" json:"name_regex,omitempty"`
-	KeepN      *int    `url:"keep_n,omitempty" json:"keep_n,omitempty"`
-	OlderThan  *string `url:"older_than,omitempty" json:"older_than,omitempty"`
+	NameRegexp *string `url:"name_regex,omitempty" json:"name_regex,omitempty" yaml:"name_regex,omitempty"`
+	KeepN      *int    `url:"keep_n,omitempty" json:"keep_n,omitempty" yaml:"keep_n,omitempty"`
+	OlderThan  *string `url:"older_than,omitempty" json:"older_than,omitempty" yaml:"older_than,omitempty"`
 }
 
 // DeleteRegistryRepositoryTags deletes repository tags in bulk based on

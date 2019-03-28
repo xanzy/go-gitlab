@@ -30,10 +30,10 @@ const (
 )
 
 type noteEvent struct {
-	ObjectKind       string `json:"object_kind"`
+	ObjectKind       string `json:"object_kind" yaml:"object_kind"`
 	ObjectAttributes struct {
-		NoteableType string `json:"noteable_type"`
-	} `json:"object_attributes"`
+		NoteableType string `json:"noteable_type" yaml:"noteable_type"`
+	} `json:"object_attributes" yaml:"object_attributes"`
 }
 
 const eventTypeHeader = "X-Gitlab-Event"

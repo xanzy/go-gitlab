@@ -32,11 +32,11 @@ type DeployKeysService struct {
 
 // DeployKey represents a GitLab deploy key.
 type DeployKey struct {
-	ID        int        `json:"id"`
-	Title     string     `json:"title"`
-	Key       string     `json:"key"`
-	CanPush   *bool      `json:"can_push"`
-	CreatedAt *time.Time `json:"created_at"`
+	ID        int        `json:"id" yaml:"id"`
+	Title     string     `json:"title" yaml:"title"`
+	Key       string     `json:"key" yaml:"key"`
+	CanPush   *bool      `json:"can_push" yaml:"can_push"`
+	CreatedAt *time.Time `json:"created_at" yaml:"created_at"`
 }
 
 func (k DeployKey) String() string {
@@ -124,9 +124,9 @@ func (s *DeployKeysService) GetDeployKey(pid interface{}, deployKey int, options
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/deploy_keys.html#add-deploy-key
 type AddDeployKeyOptions struct {
-	Title   *string `url:"title,omitempty" json:"title,omitempty"`
-	Key     *string `url:"key,omitempty" json:"key,omitempty"`
-	CanPush *bool   `url:"can_push,omitempty" json:"can_push,omitempty"`
+	Title   *string `url:"title,omitempty" json:"title,omitempty" yaml:"title,omitempty"`
+	Key     *string `url:"key,omitempty" json:"key,omitempty" yaml:"key,omitempty"`
+	CanPush *bool   `url:"can_push,omitempty" json:"can_push,omitempty" yaml:"can_push,omitempty"`
 }
 
 // AddDeployKey creates a new deploy key for a project. If deploy key already

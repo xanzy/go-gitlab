@@ -19,8 +19,8 @@ type CIYMLTemplatesService struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/templates/gitlab_ci_ymls.html
 type CIYMLTemplate struct {
-	Name    string `json:"name"`
-	Content string `json:"content"`
+	Name    string `json:"name" yaml:"name"`
+	Content string `json:"content" yaml:"content"`
 }
 
 // ListCIYMLTemplatesOptions represents the available ListAllTemplates() options.

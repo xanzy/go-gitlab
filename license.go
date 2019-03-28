@@ -30,18 +30,18 @@ type LicenseService struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/license.html
 type License struct {
-	StartsAt  *ISOTime `json:"starts_at"`
-	ExpiresAt *ISOTime `json:"expires_at"`
+	StartsAt  *ISOTime `json:"starts_at" yaml:"starts_at"`
+	ExpiresAt *ISOTime `json:"expires_at" yaml:"expires_at"`
 	Licensee  struct {
-		Name    string `json:"Name"`
-		Company string `json:"Company"`
-		Email   string `json:"Email"`
-	} `json:"licensee"`
-	UserLimit   int `json:"user_limit"`
-	ActiveUsers int `json:"active_users"`
+		Name    string `json:"Name" yaml:"Name"`
+		Company string `json:"Company" yaml:"Company"`
+		Email   string `json:"Email" yaml:"Email"`
+	} `json:"licensee" yaml:"licensee"`
+	UserLimit   int `json:"user_limit" yaml:"user_limit"`
+	ActiveUsers int `json:"active_users" yaml:"active_users"`
 	AddOns      struct {
-		GitLabFileLocks int `json:"GitLabFileLocks"`
-	} `json:"add_ons"`
+		GitLabFileLocks int `json:"GitLabFileLocks" yaml:"GitLabFileLocks"`
+	} `json:"add_ons" yaml:"add_ons"`
 }
 
 func (l License) String() string {
@@ -71,7 +71,7 @@ func (s *LicenseService) GetLicense() (*License, *Response, error) {
 //
 // https://docs.gitlab.com/ee/api/license.html#add-a-new-license
 type AddLicenseOptions struct {
-	License *string `url:"license" json:"license"`
+	License *string `url:"license" json:"license" yaml:"license"`
 }
 
 // AddLicense adds a new license.

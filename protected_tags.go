@@ -19,8 +19,8 @@ type ProtectedTagsService struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/protected_tags.html
 type ProtectedTag struct {
-	Name               string                  `json:"name"`
-	CreateAccessLevels []*TagAccessDescription `json:"create_access_levels"`
+	Name               string                  `json:"name" yaml:"name"`
+	CreateAccessLevels []*TagAccessDescription `json:"create_access_levels" yaml:"create_access_levels"`
 }
 
 // TagAccessDescription reperesents the access decription for a protected tag.
@@ -28,8 +28,8 @@ type ProtectedTag struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/protected_tags.html
 type TagAccessDescription struct {
-	AccessLevel            AccessLevelValue `json:"access_level"`
-	AccessLevelDescription string           `json:"access_level_description"`
+	AccessLevel            AccessLevelValue `json:"access_level" yaml:"access_level"`
+	AccessLevelDescription string           `json:"access_level_description" yaml:"access_level_description"`
 }
 
 // ListProtectedTagsOptions represents the available ListProtectedTags()
@@ -95,8 +95,8 @@ func (s *ProtectedTagsService) GetProtectedTag(pid interface{}, tag string, opti
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/protected_tags.html#protect-repository-tags
 type ProtectRepositoryTagsOptions struct {
-	Name              *string           `url:"name" json:"name"`
-	CreateAccessLevel *AccessLevelValue `url:"create_access_level,omitempty" json:"create_access_level,omitempty"`
+	Name              *string           `url:"name" json:"name" yaml:"name"`
+	CreateAccessLevel *AccessLevelValue `url:"create_access_level,omitempty" json:"create_access_level,omitempty" yaml:"create_access_level,omitempty"`
 }
 
 // ProtectRepositoryTags protects a single repository tag or several project

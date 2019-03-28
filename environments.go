@@ -33,10 +33,10 @@ type EnvironmentsService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/environments.html
 type Environment struct {
-	ID          int    `json:"id"`
-	Name        string `json:"name"`
-	Slug        string `json:"slug"`
-	ExternalURL string `json:"external_url"`
+	ID          int    `json:"id" yaml:"id"`
+	Name        string `json:"name" yaml:"name"`
+	Slug        string `json:"slug" yaml:"slug"`
+	ExternalURL string `json:"external_url" yaml:"external_url"`
 }
 
 func (env Environment) String() string {
@@ -80,8 +80,8 @@ func (s *EnvironmentsService) ListEnvironments(pid interface{}, opts *ListEnviro
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/environments.html#create-a-new-environment
 type CreateEnvironmentOptions struct {
-	Name        *string `url:"name,omitempty" json:"name,omitempty"`
-	ExternalURL *string `url:"external_url,omitempty" json:"external_url,omitempty"`
+	Name        *string `url:"name,omitempty" json:"name,omitempty" yaml:"name,omitempty"`
+	ExternalURL *string `url:"external_url,omitempty" json:"external_url,omitempty" yaml:"external_url,omitempty"`
 }
 
 // CreateEnvironment adds an environment to a project. This is an idempotent
@@ -117,8 +117,8 @@ func (s *EnvironmentsService) CreateEnvironment(pid interface{}, opt *CreateEnvi
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/environments.html#edit-an-existing-environment
 type EditEnvironmentOptions struct {
-	Name        *string `url:"name,omitempty" json:"name,omitempty"`
-	ExternalURL *string `url:"external_url,omitempty" json:"external_url,omitempty"`
+	Name        *string `url:"name,omitempty" json:"name,omitempty" yaml:"name,omitempty"`
+	ExternalURL *string `url:"external_url,omitempty" json:"external_url,omitempty" yaml:"external_url,omitempty"`
 }
 
 // EditEnvironment updates a project team environment to a specified access level..

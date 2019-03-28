@@ -34,20 +34,20 @@ type AwardEmojiService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/award_emoji.html
 type AwardEmoji struct {
-	ID   int    `json:"id"`
-	Name string `json:"name"`
+	ID   int    `json:"id" yaml:"id"`
+	Name string `json:"name" yaml:"name"`
 	User struct {
-		Name      string `json:"name"`
-		Username  string `json:"username"`
-		ID        int    `json:"id"`
-		State     string `json:"state"`
-		AvatarURL string `json:"avatar_url"`
-		WebURL    string `json:"web_url"`
-	} `json:"user"`
-	CreatedAt     *time.Time `json:"created_at"`
-	UpdatedAt     *time.Time `json:"updated_at"`
-	AwardableID   int        `json:"awardable_id"`
-	AwardableType string     `json:"awardable_type"`
+		Name      string `json:"name" yaml:"name"`
+		Username  string `json:"username" yaml:"username"`
+		ID        int    `json:"id" yaml:"id"`
+		State     string `json:"state" yaml:"state"`
+		AvatarURL string `json:"avatar_url" yaml:"avatar_url"`
+		WebURL    string `json:"web_url" yaml:"web_url"`
+	} `json:"user" yaml:"user"`
+	CreatedAt     *time.Time `json:"created_at" yaml:"created_at"`
+	UpdatedAt     *time.Time `json:"updated_at" yaml:"updated_at"`
+	AwardableID   int        `json:"awardable_id" yaml:"awardable_id"`
+	AwardableType string     `json:"awardable_type" yaml:"awardable_type"`
 }
 
 const (
@@ -168,7 +168,7 @@ func (s *AwardEmojiService) getAwardEmoji(pid interface{}, resource string, reso
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/award_emoji.html#award-a-new-emoji
 type CreateAwardEmojiOptions struct {
-	Name string `json:"name"`
+	Name string `json:"name" yaml:"name"`
 }
 
 // CreateMergeRequestAwardEmoji get an award emoji from merge request.

@@ -34,55 +34,55 @@ type NotesService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/notes.html
 type Note struct {
-	ID         int    `json:"id"`
-	Body       string `json:"body"`
-	Attachment string `json:"attachment"`
-	Title      string `json:"title"`
-	FileName   string `json:"file_name"`
+	ID         int    `json:"id" yaml:"id"`
+	Body       string `json:"body" yaml:"body"`
+	Attachment string `json:"attachment" yaml:"attachment"`
+	Title      string `json:"title" yaml:"title"`
+	FileName   string `json:"file_name" yaml:"file_name"`
 	Author     struct {
-		ID        int    `json:"id"`
-		Username  string `json:"username"`
-		Email     string `json:"email"`
-		Name      string `json:"name"`
-		State     string `json:"state"`
-		AvatarURL string `json:"avatar_url"`
-		WebURL    string `json:"web_url"`
-	} `json:"author"`
-	System       bool          `json:"system"`
-	ExpiresAt    *time.Time    `json:"expires_at"`
-	UpdatedAt    *time.Time    `json:"updated_at"`
-	CreatedAt    *time.Time    `json:"created_at"`
-	NoteableID   int           `json:"noteable_id"`
-	NoteableType string        `json:"noteable_type"`
-	Position     *NotePosition `json:"position"`
-	Resolvable   bool          `json:"resolvable"`
-	Resolved     bool          `json:"resolved"`
+		ID        int    `json:"id" yaml:"id"`
+		Username  string `json:"username" yaml:"username"`
+		Email     string `json:"email" yaml:"email"`
+		Name      string `json:"name" yaml:"name"`
+		State     string `json:"state" yaml:"state"`
+		AvatarURL string `json:"avatar_url" yaml:"avatar_url"`
+		WebURL    string `json:"web_url" yaml:"web_url"`
+	} `json:"author" yaml:"author"`
+	System       bool          `json:"system" yaml:"system"`
+	ExpiresAt    *time.Time    `json:"expires_at" yaml:"expires_at"`
+	UpdatedAt    *time.Time    `json:"updated_at" yaml:"updated_at"`
+	CreatedAt    *time.Time    `json:"created_at" yaml:"created_at"`
+	NoteableID   int           `json:"noteable_id" yaml:"noteable_id"`
+	NoteableType string        `json:"noteable_type" yaml:"noteable_type"`
+	Position     *NotePosition `json:"position" yaml:"position"`
+	Resolvable   bool          `json:"resolvable" yaml:"resolvable"`
+	Resolved     bool          `json:"resolved" yaml:"resolved"`
 	ResolvedBy   struct {
-		ID        int    `json:"id"`
-		Username  string `json:"username"`
-		Email     string `json:"email"`
-		Name      string `json:"name"`
-		State     string `json:"state"`
-		AvatarURL string `json:"avatar_url"`
-		WebURL    string `json:"web_url"`
-	} `json:"resolved_by"`
-	NoteableIID int `json:"noteable_iid"`
+		ID        int    `json:"id" yaml:"id"`
+		Username  string `json:"username" yaml:"username"`
+		Email     string `json:"email" yaml:"email"`
+		Name      string `json:"name" yaml:"name"`
+		State     string `json:"state" yaml:"state"`
+		AvatarURL string `json:"avatar_url" yaml:"avatar_url"`
+		WebURL    string `json:"web_url" yaml:"web_url"`
+	} `json:"resolved_by" yaml:"resolved_by"`
+	NoteableIID int `json:"noteable_iid" yaml:"noteable_iid"`
 }
 
 // NotePosition represents the position attributes of a note.
 type NotePosition struct {
-	BaseSHA      string `json:"base_sha"`
-	StartSHA     string `json:"start_sha"`
-	HeadSHA      string `json:"head_sha"`
-	PositionType string `json:"position_type"`
-	NewPath      string `json:"new_path,omitempty"`
-	NewLine      int    `json:"new_line,omitempty"`
-	OldPath      string `json:"old_path,omitempty"`
-	OldLine      int    `json:"old_line,omitempty"`
-	Width        int    `json:"width,omitempty"`
-	Height       int    `json:"height,omitempty"`
-	X            int    `json:"x,omitempty"`
-	Y            int    `json:"y,omitempty"`
+	BaseSHA      string `json:"base_sha" yaml:"base_sha"`
+	StartSHA     string `json:"start_sha" yaml:"start_sha"`
+	HeadSHA      string `json:"head_sha" yaml:"head_sha"`
+	PositionType string `json:"position_type" yaml:"position_type"`
+	NewPath      string `json:"new_path,omitempty" yaml:"new_path,omitempty"`
+	NewLine      int    `json:"new_line,omitempty" yaml:"new_line,omitempty"`
+	OldPath      string `json:"old_path,omitempty" yaml:"old_path,omitempty"`
+	OldLine      int    `json:"old_line,omitempty" yaml:"old_line,omitempty"`
+	Width        int    `json:"width,omitempty" yaml:"width,omitempty"`
+	Height       int    `json:"height,omitempty" yaml:"height,omitempty"`
+	X            int    `json:"x,omitempty" yaml:"x,omitempty"`
+	Y            int    `json:"y,omitempty" yaml:"y,omitempty"`
 }
 
 func (n Note) String() string {
@@ -95,8 +95,8 @@ func (n Note) String() string {
 // https://docs.gitlab.com/ce/api/notes.html#list-project-issue-notes
 type ListIssueNotesOptions struct {
 	ListOptions
-	OrderBy *string `url:"order_by,omitempty" json:"order_by,omitempty"`
-	Sort    *string `url:"sort,omitempty" json:"sort,omitempty"`
+	OrderBy *string `url:"order_by,omitempty" json:"order_by,omitempty" yaml:"order_by,omitempty"`
+	Sort    *string `url:"sort,omitempty" json:"sort,omitempty" yaml:"sort,omitempty"`
 }
 
 // ListIssueNotes gets a list of all notes for a single issue.
@@ -155,7 +155,7 @@ func (s *NotesService) GetIssueNote(pid interface{}, issue, note int, options ..
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/notes.html#create-new-issue-note
 type CreateIssueNoteOptions struct {
-	Body *string `url:"body,omitempty" json:"body,omitempty"`
+	Body *string `url:"body,omitempty" json:"body,omitempty" yaml:"body,omitempty"`
 }
 
 // CreateIssueNote creates a new note to a single project issue.
@@ -189,7 +189,7 @@ func (s *NotesService) CreateIssueNote(pid interface{}, issue int, opt *CreateIs
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/notes.html#modify-existing-issue-note
 type UpdateIssueNoteOptions struct {
-	Body *string `url:"body,omitempty" json:"body,omitempty"`
+	Body *string `url:"body,omitempty" json:"body,omitempty" yaml:"body,omitempty"`
 }
 
 // UpdateIssueNote modifies existing note of an issue.
@@ -242,8 +242,8 @@ func (s *NotesService) DeleteIssueNote(pid interface{}, issue, note int, options
 // https://docs.gitlab.com/ce/api/notes.html#list-all-snippet-notes
 type ListSnippetNotesOptions struct {
 	ListOptions
-	OrderBy *string `url:"order_by,omitempty" json:"order_by,omitempty"`
-	Sort    *string `url:"sort,omitempty" json:"sort,omitempty"`
+	OrderBy *string `url:"order_by,omitempty" json:"order_by,omitempty" yaml:"order_by,omitempty"`
+	Sort    *string `url:"sort,omitempty" json:"sort,omitempty" yaml:"sort,omitempty"`
 }
 
 // ListSnippetNotes gets a list of all notes for a single snippet. Snippet
@@ -303,7 +303,7 @@ func (s *NotesService) GetSnippetNote(pid interface{}, snippet, note int, option
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/notes.html#create-new-snippet-note
 type CreateSnippetNoteOptions struct {
-	Body *string `url:"body,omitempty" json:"body,omitempty"`
+	Body *string `url:"body,omitempty" json:"body,omitempty" yaml:"body,omitempty"`
 }
 
 // CreateSnippetNote creates a new note for a single snippet. Snippet notes are
@@ -338,7 +338,7 @@ func (s *NotesService) CreateSnippetNote(pid interface{}, snippet int, opt *Crea
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/notes.html#modify-existing-snippet-note
 type UpdateSnippetNoteOptions struct {
-	Body *string `url:"body,omitempty" json:"body,omitempty"`
+	Body *string `url:"body,omitempty" json:"body,omitempty" yaml:"body,omitempty"`
 }
 
 // UpdateSnippetNote modifies existing note of a snippet.
@@ -392,8 +392,8 @@ func (s *NotesService) DeleteSnippetNote(pid interface{}, snippet, note int, opt
 // https://docs.gitlab.com/ce/api/notes.html#list-all-merge-request-notes
 type ListMergeRequestNotesOptions struct {
 	ListOptions
-	OrderBy *string `url:"order_by,omitempty" json:"order_by,omitempty"`
-	Sort    *string `url:"sort,omitempty" json:"sort,omitempty"`
+	OrderBy *string `url:"order_by,omitempty" json:"order_by,omitempty" yaml:"order_by,omitempty"`
+	Sort    *string `url:"sort,omitempty" json:"sort,omitempty" yaml:"sort,omitempty"`
 }
 
 // ListMergeRequestNotes gets a list of all notes for a single merge request.
@@ -452,7 +452,7 @@ func (s *NotesService) GetMergeRequestNote(pid interface{}, mergeRequest, note i
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/notes.html#create-new-merge-request-note
 type CreateMergeRequestNoteOptions struct {
-	Body *string `url:"body,omitempty" json:"body,omitempty"`
+	Body *string `url:"body,omitempty" json:"body,omitempty" yaml:"body,omitempty"`
 }
 
 // CreateMergeRequestNote creates a new note for a single merge request.
@@ -486,7 +486,7 @@ func (s *NotesService) CreateMergeRequestNote(pid interface{}, mergeRequest int,
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/notes.html#modify-existing-merge-request-note
 type UpdateMergeRequestNoteOptions struct {
-	Body *string `url:"body,omitempty" json:"body,omitempty"`
+	Body *string `url:"body,omitempty" json:"body,omitempty" yaml:"body,omitempty"`
 }
 
 // UpdateMergeRequestNote modifies existing note of a merge request.
@@ -540,8 +540,8 @@ func (s *NotesService) DeleteMergeRequestNote(pid interface{}, mergeRequest, not
 // https://docs.gitlab.com/ee/api/notes.html#list-all-epic-notes
 type ListEpicNotesOptions struct {
 	ListOptions
-	OrderBy *string `url:"order_by,omitempty" json:"order_by,omitempty"`
-	Sort    *string `url:"sort,omitempty" json:"sort,omitempty"`
+	OrderBy *string `url:"order_by,omitempty" json:"order_by,omitempty" yaml:"order_by,omitempty"`
+	Sort    *string `url:"sort,omitempty" json:"sort,omitempty" yaml:"sort,omitempty"`
 }
 
 // ListEpicNotes gets a list of all notes for a single epic.
@@ -599,7 +599,7 @@ func (s *NotesService) GetEpicNote(gid interface{}, epic, note int, options ...O
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/notes.html#create-new-epic-note
 type CreateEpicNoteOptions struct {
-	Body *string `url:"body,omitempty" json:"body,omitempty"`
+	Body *string `url:"body,omitempty" json:"body,omitempty" yaml:"body,omitempty"`
 }
 
 // CreateEpicNote creates a new note for a single merge request.
@@ -632,7 +632,7 @@ func (s *NotesService) CreateEpicNote(gid interface{}, epic int, opt *CreateEpic
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/notes.html#modify-existing-epic-note
 type UpdateEpicNoteOptions struct {
-	Body *string `url:"body,omitempty" json:"body,omitempty"`
+	Body *string `url:"body,omitempty" json:"body,omitempty" yaml:"body,omitempty"`
 }
 
 // UpdateEpicNote modifies existing note of an epic.

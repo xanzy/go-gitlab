@@ -17,8 +17,8 @@ type FeaturesService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/features.html
 type Feature struct {
-	Name  string `json:"name"`
-	State string `json:"state"`
+	Name  string `json:"name" yaml:"name"`
+	State string `json:"state" yaml:"state"`
 	Gates []Gate
 }
 
@@ -26,8 +26,8 @@ type Feature struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/features.html
 type Gate struct {
-	Key   string      `json:"key"`
-	Value interface{} `json:"value"`
+	Key   string      `json:"key" yaml:"key"`
+	Value interface{} `json:"value" yaml:"value"`
 }
 
 func (f Feature) String() string {
@@ -60,7 +60,7 @@ func (s *FeaturesService) SetFeatureFlag(name string, value interface{}, options
 	u := fmt.Sprintf("features/%s", url.QueryEscape(name))
 
 	opt := struct {
-		Value interface{} `url:"value" json:"value"`
+		Value interface{} `url:"value" json:"value" yaml:"value"`
 	}{
 		value,
 	}

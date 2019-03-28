@@ -33,8 +33,8 @@ type IssueLinksService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/issue_links.html
 type IssueLink struct {
-	SourceIssue *Issue `json:"source_issue"`
-	TargetIssue *Issue `json:"target_issue"`
+	SourceIssue *Issue `json:"source_issue" yaml:"source_issue"`
+	TargetIssue *Issue `json:"target_issue" yaml:"target_issue"`
 }
 
 // ListIssueRelations gets a list of related issues of a given issue,
@@ -69,8 +69,8 @@ func (s *IssueLinksService) ListIssueRelations(pid interface{}, issueIID int, op
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/issue_links.html
 type CreateIssueLinkOptions struct {
-	TargetProjectID *string `json:"target_project_id"`
-	TargetIssueIID  *string `json:"target_issue_iid"`
+	TargetProjectID *string `json:"target_project_id" yaml:"target_project_id"`
+	TargetIssueIID  *string `json:"target_issue_iid" yaml:"target_issue_iid"`
 }
 
 // CreateIssueLink creates a two-way relation between two issues.

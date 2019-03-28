@@ -34,17 +34,17 @@ type LabelsService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/labels.html
 type Label struct {
-	ID                     int    `json:"id"`
-	Name                   string `json:"name"`
-	Color                  string `json:"color"`
-	TextColor              string `json:"text_color"`
-	Description            string `json:"description"`
-	OpenIssuesCount        int    `json:"open_issues_count"`
-	ClosedIssuesCount      int    `json:"closed_issues_count"`
-	OpenMergeRequestsCount int    `json:"open_merge_requests_count"`
-	Subscribed             bool   `json:"subscribed"`
-	Priority               int    `json:"priority"`
-	IsProjectLabel         bool   `json:"is_project_label"`
+	ID                     int    `json:"id" yaml:"id"`
+	Name                   string `json:"name" yaml:"name"`
+	Color                  string `json:"color" yaml:"color"`
+	TextColor              string `json:"text_color" yaml:"text_color"`
+	Description            string `json:"description" yaml:"description"`
+	OpenIssuesCount        int    `json:"open_issues_count" yaml:"open_issues_count"`
+	ClosedIssuesCount      int    `json:"closed_issues_count" yaml:"closed_issues_count"`
+	OpenMergeRequestsCount int    `json:"open_merge_requests_count" yaml:"open_merge_requests_count"`
+	Subscribed             bool   `json:"subscribed" yaml:"subscribed"`
+	Priority               int    `json:"priority" yaml:"priority"`
+	IsProjectLabel         bool   `json:"is_project_label" yaml:"is_project_label"`
 }
 
 // UnmarshalJSON implements the json.Unmarshaler interface.
@@ -104,9 +104,9 @@ func (s *LabelsService) ListLabels(pid interface{}, opt *ListLabelsOptions, opti
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/labels.html#create-a-new-label
 type CreateLabelOptions struct {
-	Name        *string `url:"name,omitempty" json:"name,omitempty"`
-	Color       *string `url:"color,omitempty" json:"color,omitempty"`
-	Description *string `url:"description,omitempty" json:"description,omitempty"`
+	Name        *string `url:"name,omitempty" json:"name,omitempty" yaml:"name,omitempty"`
+	Color       *string `url:"color,omitempty" json:"color,omitempty" yaml:"color,omitempty"`
+	Description *string `url:"description,omitempty" json:"description,omitempty" yaml:"description,omitempty"`
 }
 
 // CreateLabel creates a new label for given repository with given name and
@@ -138,7 +138,7 @@ func (s *LabelsService) CreateLabel(pid interface{}, opt *CreateLabelOptions, op
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/labels.html#delete-a-label
 type DeleteLabelOptions struct {
-	Name *string `url:"name,omitempty" json:"name,omitempty"`
+	Name *string `url:"name,omitempty" json:"name,omitempty" yaml:"name,omitempty"`
 }
 
 // DeleteLabel deletes a label given by its name.
@@ -163,10 +163,10 @@ func (s *LabelsService) DeleteLabel(pid interface{}, opt *DeleteLabelOptions, op
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/labels.html#delete-a-label
 type UpdateLabelOptions struct {
-	Name        *string `url:"name,omitempty" json:"name,omitempty"`
-	NewName     *string `url:"new_name,omitempty" json:"new_name,omitempty"`
-	Color       *string `url:"color,omitempty" json:"color,omitempty"`
-	Description *string `url:"description,omitempty" json:"description,omitempty"`
+	Name        *string `url:"name,omitempty" json:"name,omitempty" yaml:"name,omitempty"`
+	NewName     *string `url:"new_name,omitempty" json:"new_name,omitempty" yaml:"new_name,omitempty"`
+	Color       *string `url:"color,omitempty" json:"color,omitempty" yaml:"color,omitempty"`
+	Description *string `url:"description,omitempty" json:"description,omitempty" yaml:"description,omitempty"`
 }
 
 // UpdateLabel updates an existing label with new name or now color. At least

@@ -16,8 +16,8 @@ type CustomAttributesService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/custom_attributes.html
 type CustomAttribute struct {
-	Key   string `json:"key"`
-	Value string `json:"value"`
+	Key   string `json:"key" yaml:"key"`
+	Value string `json:"value" yaml:"value"`
 }
 
 // ListCustomUserAttributes lists the custom attributes of the specified user.

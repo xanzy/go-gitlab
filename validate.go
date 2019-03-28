@@ -12,8 +12,8 @@ type ValidateService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/lint.html
 type LintResult struct {
-	Status string   `json:"status"`
-	Errors []string `json:"errors"`
+	Status string   `json:"status" yaml:"status"`
+	Errors []string `json:"errors" yaml:"errors"`
 }
 
 // Lint validates .gitlab-ci.yml content.
@@ -21,7 +21,7 @@ type LintResult struct {
 // GitLab API docs: https://docs.gitlab.com/ce/api/lint.html
 func (s *ValidateService) Lint(content string, options ...OptionFunc) (*LintResult, *Response, error) {
 	var opts struct {
-		Content string `url:"content,omitempty" json:"content,omitempty"`
+		Content string `url:"content,omitempty" json:"content,omitempty" yaml:"content,omitempty"`
 	}
 	opts.Content = content
 

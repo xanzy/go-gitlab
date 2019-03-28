@@ -20,20 +20,20 @@ type MergeRequestApprovalsService struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#merge-request-level-mr-approvals
 type MergeRequestApprovals struct {
-	ID                   int                          `json:"id"`
-	ProjectID            int                          `json:"project_id"`
-	Title                string                       `json:"title"`
-	Description          string                       `json:"description"`
-	State                string                       `json:"state"`
-	CreatedAt            *time.Time                   `json:"created_at"`
-	UpdatedAt            *time.Time                   `json:"updated_at"`
-	MergeStatus          string                       `json:"merge_status"`
-	ApprovalsBeforeMerge int                          `json:"approvals_before_merge"`
-	ApprovalsRequired    int                          `json:"approvals_required"`
-	ApprovalsLeft        int                          `json:"approvals_left"`
-	ApprovedBy           []*MergeRequestApproverUser  `json:"approved_by"`
-	Approvers            []*MergeRequestApproverUser  `json:"approvers"`
-	ApproverGroups       []*MergeRequestApproverGroup `json:"approver_groups"`
+	ID                   int                          `json:"id" yaml:"id"`
+	ProjectID            int                          `json:"project_id" yaml:"project_id"`
+	Title                string                       `json:"title" yaml:"title"`
+	Description          string                       `json:"description" yaml:"description"`
+	State                string                       `json:"state" yaml:"state"`
+	CreatedAt            *time.Time                   `json:"created_at" yaml:"created_at"`
+	UpdatedAt            *time.Time                   `json:"updated_at" yaml:"updated_at"`
+	MergeStatus          string                       `json:"merge_status" yaml:"merge_status"`
+	ApprovalsBeforeMerge int                          `json:"approvals_before_merge" yaml:"approvals_before_merge"`
+	ApprovalsRequired    int                          `json:"approvals_required" yaml:"approvals_required"`
+	ApprovalsLeft        int                          `json:"approvals_left" yaml:"approvals_left"`
+	ApprovedBy           []*MergeRequestApproverUser  `json:"approved_by" yaml:"approved_by"`
+	Approvers            []*MergeRequestApproverUser  `json:"approvers" yaml:"approvers"`
+	ApproverGroups       []*MergeRequestApproverGroup `json:"approver_groups" yaml:"approver_groups"`
 }
 
 // MergeRequestApproverGroup  represents GitLab project level merge request approver group.
@@ -42,17 +42,17 @@ type MergeRequestApprovals struct {
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#project-level-mr-approvals
 type MergeRequestApproverGroup struct {
 	Group struct {
-		ID                   int    `json:"id"`
-		Name                 string `json:"name"`
-		Path                 string `json:"path"`
-		Description          string `json:"description"`
-		Visibility           string `json:"visibility"`
-		AvatarURL            string `json:"avatar_url"`
-		WebURL               string `json:"web_url"`
-		FullName             string `json:"full_name"`
-		FullPath             string `json:"full_path"`
-		LFSEnabled           bool   `json:"lfs_enabled"`
-		RequestAccessEnabled bool   `json:"request_access_enabled"`
+		ID                   int    `json:"id" yaml:"id"`
+		Name                 string `json:"name" yaml:"name"`
+		Path                 string `json:"path" yaml:"path"`
+		Description          string `json:"description" yaml:"description"`
+		Visibility           string `json:"visibility" yaml:"visibility"`
+		AvatarURL            string `json:"avatar_url" yaml:"avatar_url"`
+		WebURL               string `json:"web_url" yaml:"web_url"`
+		FullName             string `json:"full_name" yaml:"full_name"`
+		FullPath             string `json:"full_path" yaml:"full_path"`
+		LFSEnabled           bool   `json:"lfs_enabled" yaml:"lfs_enabled"`
+		RequestAccessEnabled bool   `json:"request_access_enabled" yaml:"request_access_enabled"`
 	}
 }
 
@@ -62,12 +62,12 @@ type MergeRequestApproverGroup struct {
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#project-level-mr-approvals
 type MergeRequestApproverUser struct {
 	User struct {
-		ID        int    `json:"id"`
-		Name      string `json:"name"`
-		Username  string `json:"username"`
-		State     string `json:"state"`
-		AvatarURL string `json:"avatar_url"`
-		WebURL    string `json:"web_url"`
+		ID        int    `json:"id" yaml:"id"`
+		Name      string `json:"name" yaml:"name"`
+		Username  string `json:"username" yaml:"username"`
+		State     string `json:"state" yaml:"state"`
+		AvatarURL string `json:"avatar_url" yaml:"avatar_url"`
+		WebURL    string `json:"web_url" yaml:"web_url"`
 	}
 }
 
@@ -80,7 +80,7 @@ func (m MergeRequestApprovals) String() string {
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#approve-merge-request
 type ApproveMergeRequestOptions struct {
-	SHA *string `url:"sha,omitempty" json:"sha,omitempty"`
+	SHA *string `url:"sha,omitempty" json:"sha,omitempty" yaml:"sha,omitempty"`
 }
 
 // ApproveMergeRequest approves a merge request on GitLab. If a non-empty sha

@@ -35,9 +35,9 @@ type GroupVariablesService struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/group_level_variables.html
 type GroupVariable struct {
-	Key       string `json:"key"`
-	Value     string `json:"value"`
-	Protected bool   `json:"protected"`
+	Key       string `json:"key" yaml:"key"`
+	Value     string `json:"value" yaml:"value"`
+	Protected bool   `json:"protected" yaml:"protected"`
 }
 
 func (v GroupVariable) String() string {

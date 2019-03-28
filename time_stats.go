@@ -17,10 +17,10 @@ type timeStatsService struct {
 //
 // GitLab docs: https://docs.gitlab.com/ce/workflow/time_tracking.html
 type TimeStats struct {
-	HumanTimeEstimate   string `json:"human_time_estimate"`
-	HumanTotalTimeSpent string `json:"human_total_time_spent"`
-	TimeEstimate        int    `json:"time_estimate"`
-	TotalTimeSpent      int    `json:"total_time_spent"`
+	HumanTimeEstimate   string `json:"human_time_estimate" yaml:"human_time_estimate"`
+	HumanTotalTimeSpent string `json:"human_total_time_spent" yaml:"human_total_time_spent"`
+	TimeEstimate        int    `json:"time_estimate" yaml:"time_estimate"`
+	TotalTimeSpent      int    `json:"total_time_spent" yaml:"total_time_spent"`
 }
 
 func (t TimeStats) String() string {
@@ -32,7 +32,7 @@ func (t TimeStats) String() string {
 //
 // GitLab docs: https://docs.gitlab.com/ce/workflow/time_tracking.html
 type SetTimeEstimateOptions struct {
-	Duration *string `url:"duration,omitempty" json:"duration,omitempty"`
+	Duration *string `url:"duration,omitempty" json:"duration,omitempty" yaml:"duration,omitempty"`
 }
 
 // setTimeEstimate sets the time estimate for a single project issue.
@@ -87,7 +87,7 @@ func (s *timeStatsService) resetTimeEstimate(pid interface{}, entity string, iss
 //
 // GitLab docs: https://docs.gitlab.com/ce/workflow/time_tracking.html
 type AddSpentTimeOptions struct {
-	Duration *string `url:"duration,omitempty" json:"duration,omitempty"`
+	Duration *string `url:"duration,omitempty" json:"duration,omitempty" yaml:"duration,omitempty"`
 }
 
 // addSpentTime adds spent time for a single project issue.

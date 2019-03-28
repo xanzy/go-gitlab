@@ -11,13 +11,13 @@ import (
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/access_requests.html
 type AccessRequest struct {
-	ID          int              `json:"id"`
-	Username    string           `json:"username"`
-	Name        string           `json:"name"`
-	State       string           `json:"state"`
-	CreatedAt   *time.Time       `json:"created_at"`
-	RequestedAt *time.Time       `json:"requested_at"`
-	AccessLevel AccessLevelValue `json:"access_level"`
+	ID          int              `json:"id" yaml:"id"`
+	Username    string           `json:"username" yaml:"username"`
+	Name        string           `json:"name" yaml:"name"`
+	State       string           `json:"state" yaml:"state"`
+	CreatedAt   *time.Time       `json:"created_at" yaml:"created_at"`
+	RequestedAt *time.Time       `json:"requested_at" yaml:"requested_at"`
+	AccessLevel AccessLevelValue `json:"access_level" yaml:"access_level"`
 }
 
 // AccessRequestsService handles communication with the project/group
@@ -145,7 +145,7 @@ func (s *AccessRequestsService) RequestGroupAccess(gid interface{}, options ...O
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/access_requests.html#approve-an-access-request
 type ApproveAccessRequestOptions struct {
-	AccessLevel *AccessLevelValue `url:"access_level,omitempty" json:"access_level,omitempty"`
+	AccessLevel *AccessLevelValue `url:"access_level,omitempty" json:"access_level,omitempty" yaml:"access_level,omitempty"`
 }
 
 // ApproveProjectAccessRequest approves an access request for the given user.

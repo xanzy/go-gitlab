@@ -34,13 +34,13 @@ type BroadcastMessagesService struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/broadcast_messages.html#get-all-broadcast-messages
 type BroadcastMessage struct {
-	Message  string     `json:"message"`
-	StartsAt *time.Time `json:"starts_at"`
-	EndsAt   *time.Time `json:"ends_at"`
-	Color    string     `json:"color"`
-	Font     string     `json:"font"`
-	ID       int        `json:"id"`
-	Active   bool       `json:"active"`
+	Message  string     `json:"message" yaml:"message"`
+	StartsAt *time.Time `json:"starts_at" yaml:"starts_at"`
+	EndsAt   *time.Time `json:"ends_at" yaml:"ends_at"`
+	Color    string     `json:"color" yaml:"color"`
+	Font     string     `json:"font" yaml:"font"`
+	ID       int        `json:"id" yaml:"id"`
+	Active   bool       `json:"active" yaml:"active"`
 }
 
 // ListBroadcastMessagesOptions represents the available ListBroadcastMessages()
@@ -96,11 +96,11 @@ func (s *BroadcastMessagesService) GetBroadcastMessage(broadcast int, options ..
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/broadcast_messages.html#create-a-broadcast-message
 type CreateBroadcastMessageOptions struct {
-	Message  *string    `url:"message" json:"message"`
-	StartsAt *time.Time `url:"starts_at,omitempty" json:"starts_at,omitempty"`
-	EndsAt   *time.Time `url:"ends_at,omitempty" json:"ends_at,omitempty"`
-	Color    *string    `url:"color,omitempty" json:"color,omitempty"`
-	Font     *string    `url:"font,omitempty" json:"font,omitempty"`
+	Message  *string    `url:"message" json:"message" yaml:"message"`
+	StartsAt *time.Time `url:"starts_at,omitempty" json:"starts_at,omitempty" yaml:"starts_at,omitempty"`
+	EndsAt   *time.Time `url:"ends_at,omitempty" json:"ends_at,omitempty" yaml:"ends_at,omitempty"`
+	Color    *string    `url:"color,omitempty" json:"color,omitempty" yaml:"color,omitempty"`
+	Font     *string    `url:"font,omitempty" json:"font,omitempty" yaml:"font,omitempty"`
 }
 
 // CreateBroadcastMessage creates a message to broadcast.
@@ -128,11 +128,11 @@ func (s *BroadcastMessagesService) CreateBroadcastMessage(opt *CreateBroadcastMe
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/broadcast_messages.html#update-a-broadcast-message
 type UpdateBroadcastMessageOptions struct {
-	Message  *string    `url:"message,omitempty" json:"message,omitempty"`
-	StartsAt *time.Time `url:"starts_at,omitempty" json:"starts_at,omitempty"`
-	EndsAt   *time.Time `url:"ends_at,omitempty" json:"ends_at,omitempty"`
-	Color    *string    `url:"color,omitempty" json:"color,omitempty"`
-	Font     *string    `url:"font,omitempty" json:"font,omitempty"`
+	Message  *string    `url:"message,omitempty" json:"message,omitempty" yaml:"message,omitempty"`
+	StartsAt *time.Time `url:"starts_at,omitempty" json:"starts_at,omitempty" yaml:"starts_at,omitempty"`
+	EndsAt   *time.Time `url:"ends_at,omitempty" json:"ends_at,omitempty" yaml:"ends_at,omitempty"`
+	Color    *string    `url:"color,omitempty" json:"color,omitempty" yaml:"color,omitempty"`
+	Font     *string    `url:"font,omitempty" json:"font,omitempty" yaml:"font,omitempty"`
 }
 
 // UpdateBroadcastMessage update a broadcasted message.

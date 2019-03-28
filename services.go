@@ -34,21 +34,21 @@ type ServicesService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/services.html
 type Service struct {
-	ID                       int        `json:"id"`
-	Title                    string     `json:"title"`
-	CreatedAt                *time.Time `json:"created_at"`
-	UpdatedAt                *time.Time `json:"updated_at"`
-	Active                   bool       `json:"active"`
-	PushEvents               bool       `json:"push_events"`
-	IssuesEvents             bool       `json:"issues_events"`
-	ConfidentialIssuesEvents bool       `json:"confidential_issues_events"`
-	MergeRequestsEvents      bool       `json:"merge_requests_events"`
-	TagPushEvents            bool       `json:"tag_push_events"`
-	NoteEvents               bool       `json:"note_events"`
-	ConfidentialNoteEvents   bool       `json:"confidential_note_events"`
-	PipelineEvents           bool       `json:"pipeline_events"`
-	JobEvents                bool       `json:"job_events"`
-	WikiPageEvents           bool       `json:"wiki_page_events"`
+	ID                       int        `json:"id" yaml:"id"`
+	Title                    string     `json:"title" yaml:"title"`
+	CreatedAt                *time.Time `json:"created_at" yaml:"created_at"`
+	UpdatedAt                *time.Time `json:"updated_at" yaml:"updated_at"`
+	Active                   bool       `json:"active" yaml:"active"`
+	PushEvents               bool       `json:"push_events" yaml:"push_events"`
+	IssuesEvents             bool       `json:"issues_events" yaml:"issues_events"`
+	ConfidentialIssuesEvents bool       `json:"confidential_issues_events" yaml:"confidential_issues_events"`
+	MergeRequestsEvents      bool       `json:"merge_requests_events" yaml:"merge_requests_events"`
+	TagPushEvents            bool       `json:"tag_push_events" yaml:"tag_push_events"`
+	NoteEvents               bool       `json:"note_events" yaml:"note_events"`
+	ConfidentialNoteEvents   bool       `json:"confidential_note_events" yaml:"confidential_note_events"`
+	PipelineEvents           bool       `json:"pipeline_events" yaml:"pipeline_events"`
+	JobEvents                bool       `json:"job_events" yaml:"job_events"`
+	WikiPageEvents           bool       `json:"wiki_page_events" yaml:"wiki_page_events"`
 }
 
 // SetGitLabCIServiceOptions represents the available SetGitLabCIService()
@@ -57,8 +57,8 @@ type Service struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/services.html#edit-gitlab-ci-service
 type SetGitLabCIServiceOptions struct {
-	Token      *string `url:"token,omitempty" json:"token,omitempty"`
-	ProjectURL *string `url:"project_url,omitempty" json:"project_url,omitempty"`
+	Token      *string `url:"token,omitempty" json:"token,omitempty" yaml:"token,omitempty"`
+	ProjectURL *string `url:"project_url,omitempty" json:"project_url,omitempty" yaml:"project_url,omitempty"`
 }
 
 // SetGitLabCIService sets GitLab CI service for a project.
@@ -106,7 +106,7 @@ func (s *ServicesService) DeleteGitLabCIService(pid interface{}, options ...Opti
 // https://docs.gitlab.com/ce/api/services.html#edit-hipchat-service
 type SetHipChatServiceOptions struct {
 	Token *string `url:"token,omitempty" json:"token,omitempty" `
-	Room  *string `url:"room,omitempty" json:"room,omitempty"`
+	Room  *string `url:"room,omitempty" json:"room,omitempty" yaml:"room,omitempty"`
 }
 
 // SetHipChatService sets HipChat service for a project
@@ -153,7 +153,7 @@ func (s *ServicesService) DeleteHipChatService(pid interface{}, options ...Optio
 // https://docs.gitlab.com/ce/api/services.html#drone-ci
 type DroneCIService struct {
 	Service
-	Properties *DroneCIServiceProperties `json:"properties"`
+	Properties *DroneCIServiceProperties `json:"properties" yaml:"properties"`
 }
 
 // DroneCIServiceProperties represents Drone CI specific properties.
@@ -161,9 +161,9 @@ type DroneCIService struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/services.html#drone-ci
 type DroneCIServiceProperties struct {
-	Token                 string `json:"token"`
-	DroneURL              string `json:"drone_url"`
-	EnableSSLVerification bool   `json:"enable_ssl_verification"`
+	Token                 string `json:"token" yaml:"token"`
+	DroneURL              string `json:"drone_url" yaml:"drone_url"`
+	EnableSSLVerification bool   `json:"enable_ssl_verification" yaml:"enable_ssl_verification"`
 }
 
 // GetDroneCIService gets Drone CI service settings for a project.
@@ -198,8 +198,8 @@ func (s *ServicesService) GetDroneCIService(pid interface{}, options ...OptionFu
 // https://docs.gitlab.com/ce/api/services.html#createedit-drone-ci-service
 type SetDroneCIServiceOptions struct {
 	Token                 *string `url:"token" json:"token" `
-	DroneURL              *string `url:"drone_url" json:"drone_url"`
-	EnableSSLVerification *bool   `url:"enable_ssl_verification,omitempty" json:"enable_ssl_verification,omitempty"`
+	DroneURL              *string `url:"drone_url" json:"drone_url" yaml:"drone_url"`
+	EnableSSLVerification *bool   `url:"enable_ssl_verification,omitempty" json:"enable_ssl_verification,omitempty" yaml:"enable_ssl_verification,omitempty"`
 }
 
 // SetDroneCIService sets Drone CI service for a project.
@@ -246,7 +246,7 @@ func (s *ServicesService) DeleteDroneCIService(pid interface{}, options ...Optio
 // https://docs.gitlab.com/ce/api/services.html#slack
 type SlackService struct {
 	Service
-	Properties *SlackServiceProperties `json:"properties"`
+	Properties *SlackServiceProperties `json:"properties" yaml:"properties"`
 }
 
 // SlackServiceProperties represents Slack specific properties.
@@ -262,20 +262,20 @@ type SlackServiceProperties struct {
 	// We need to handle this, until the bug will be fixed.
 	// Ref: https://gitlab.com/gitlab-org/gitlab-ce/issues/50122
 
-	NotifyOnlyBrokenPipelines BoolValue `url:"notify_only_broken_pipelines,omitempty" json:"notify_only_broken_pipelines,omitempty"`
-	NotifyOnlyDefaultBranch   BoolValue `url:"notify_only_default_branch,omitempty" json:"notify_only_default_branch,omitempty"`
-	WebHook                   string    `url:"webhook,omitempty" json:"webhook,omitempty"`
-	Username                  string    `url:"username,omitempty" json:"username,omitempty"`
-	Channel                   string    `url:"channel,omitempty" json:"channel,omitempty"`
-	PushChannel               string    `url:"push_channel,omitempty" json:"push_channel,omitempty"`
-	IssueChannel              string    `url:"issue_channel,omitempty" json:"issue_channel,omitempty"`
-	ConfidentialIssueChannel  string    `url:"confidential_issue_channel,omitempty" json:"confidential_issue_channel,omitempty"`
-	MergeRequestChannel       string    `url:"merge_request_channel,omitempty" json:"merge_request_channel,omitempty"`
-	NoteChannel               string    `url:"note_channel,omitempty" json:"note_channel,omitempty"`
-	ConfidentialNoteChannel   string    `url:"confidential_note_channel,omitempty" json:"confidential_note_channel,omitempty"`
-	TagPushChannel            string    `url:"tag_push_channel,omitempty" json:"tag_push_channel,omitempty"`
-	PipelineChannel           string    `url:"pipeline_channel,omitempty" json:"pipeline_channel,omitempty"`
-	WikiPageChannel           string    `url:"wiki_page_channel,omitempty" json:"wiki_page_channel,omitempty"`
+	NotifyOnlyBrokenPipelines BoolValue `url:"notify_only_broken_pipelines,omitempty" json:"notify_only_broken_pipelines,omitempty" yaml:"notify_only_broken_pipelines,omitempty"`
+	NotifyOnlyDefaultBranch   BoolValue `url:"notify_only_default_branch,omitempty" json:"notify_only_default_branch,omitempty" yaml:"notify_only_default_branch,omitempty"`
+	WebHook                   string    `url:"webhook,omitempty" json:"webhook,omitempty" yaml:"webhook,omitempty"`
+	Username                  string    `url:"username,omitempty" json:"username,omitempty" yaml:"username,omitempty"`
+	Channel                   string    `url:"channel,omitempty" json:"channel,omitempty" yaml:"channel,omitempty"`
+	PushChannel               string    `url:"push_channel,omitempty" json:"push_channel,omitempty" yaml:"push_channel,omitempty"`
+	IssueChannel              string    `url:"issue_channel,omitempty" json:"issue_channel,omitempty" yaml:"issue_channel,omitempty"`
+	ConfidentialIssueChannel  string    `url:"confidential_issue_channel,omitempty" json:"confidential_issue_channel,omitempty" yaml:"confidential_issue_channel,omitempty"`
+	MergeRequestChannel       string    `url:"merge_request_channel,omitempty" json:"merge_request_channel,omitempty" yaml:"merge_request_channel,omitempty"`
+	NoteChannel               string    `url:"note_channel,omitempty" json:"note_channel,omitempty" yaml:"note_channel,omitempty"`
+	ConfidentialNoteChannel   string    `url:"confidential_note_channel,omitempty" json:"confidential_note_channel,omitempty" yaml:"confidential_note_channel,omitempty"`
+	TagPushChannel            string    `url:"tag_push_channel,omitempty" json:"tag_push_channel,omitempty" yaml:"tag_push_channel,omitempty"`
+	PipelineChannel           string    `url:"pipeline_channel,omitempty" json:"pipeline_channel,omitempty" yaml:"pipeline_channel,omitempty"`
+	WikiPageChannel           string    `url:"wiki_page_channel,omitempty" json:"wiki_page_channel,omitempty" yaml:"wiki_page_channel,omitempty"`
 }
 
 // GetSlackService gets Slack service settings for a project.
@@ -309,32 +309,32 @@ func (s *ServicesService) GetSlackService(pid interface{}, options ...OptionFunc
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/services.html#edit-slack-service
 type SetSlackServiceOptions struct {
-	WebHook                   *string `url:"webhook,omitempty" json:"webhook,omitempty"`
-	Username                  *string `url:"username,omitempty" json:"username,omitempty"`
-	Channel                   *string `url:"channel,omitempty" json:"channel,omitempty"`
-	NotifyOnlyBrokenPipelines *bool   `url:"notify_only_broken_pipelines,omitempty" json:"notify_only_broken_pipelines,omitempty"`
-	NotifyOnlyDefaultBranch   *bool   `url:"notify_only_default_branch,omitempty" json:"notify_only_default_branch,omitempty"`
-	PushEvents                *bool   `url:"push_events,omitempty" json:"push_events,omitempty"`
-	PushChannel               *string `url:"push_channel,omitempty" json:"push_channel,omitempty"`
-	IssuesEvents              *bool   `url:"issues_events,omitempty" json:"issues_events,omitempty"`
-	IssueChannel              *string `url:"issue_channel,omitempty" json:"issue_channel,omitempty"`
-	ConfidentialIssuesEvents  *bool   `url:"confidential_issues_events,omitempty" json:"confidential_issues_events,omitempty"`
-	ConfidentialIssueChannel  *string `url:"confidential_issue_channel,omitempty" json:"confidential_issue_channel,omitempty"`
-	MergeRequestsEvents       *bool   `url:"merge_requests_events,omitempty" json:"merge_requests_events,omitempty"`
-	MergeRequestChannel       *string `url:"merge_request_channel,omitempty" json:"merge_request_channel,omitempty"`
-	TagPushEvents             *bool   `url:"tag_push_events,omitempty" json:"tag_push_events,omitempty"`
-	TagPushChannel            *string `url:"tag_push_channel,omitempty" json:"tag_push_channel,omitempty"`
-	NoteEvents                *bool   `url:"note_events,omitempty" json:"note_events,omitempty"`
-	NoteChannel               *string `url:"note_channel,omitempty" json:"note_channel,omitempty"`
-	ConfidentialNoteEvents    *bool   `url:"confidential_note_events" json:"confidential_note_events"`
+	WebHook                   *string `url:"webhook,omitempty" json:"webhook,omitempty" yaml:"webhook,omitempty"`
+	Username                  *string `url:"username,omitempty" json:"username,omitempty" yaml:"username,omitempty"`
+	Channel                   *string `url:"channel,omitempty" json:"channel,omitempty" yaml:"channel,omitempty"`
+	NotifyOnlyBrokenPipelines *bool   `url:"notify_only_broken_pipelines,omitempty" json:"notify_only_broken_pipelines,omitempty" yaml:"notify_only_broken_pipelines,omitempty"`
+	NotifyOnlyDefaultBranch   *bool   `url:"notify_only_default_branch,omitempty" json:"notify_only_default_branch,omitempty" yaml:"notify_only_default_branch,omitempty"`
+	PushEvents                *bool   `url:"push_events,omitempty" json:"push_events,omitempty" yaml:"push_events,omitempty"`
+	PushChannel               *string `url:"push_channel,omitempty" json:"push_channel,omitempty" yaml:"push_channel,omitempty"`
+	IssuesEvents              *bool   `url:"issues_events,omitempty" json:"issues_events,omitempty" yaml:"issues_events,omitempty"`
+	IssueChannel              *string `url:"issue_channel,omitempty" json:"issue_channel,omitempty" yaml:"issue_channel,omitempty"`
+	ConfidentialIssuesEvents  *bool   `url:"confidential_issues_events,omitempty" json:"confidential_issues_events,omitempty" yaml:"confidential_issues_events,omitempty"`
+	ConfidentialIssueChannel  *string `url:"confidential_issue_channel,omitempty" json:"confidential_issue_channel,omitempty" yaml:"confidential_issue_channel,omitempty"`
+	MergeRequestsEvents       *bool   `url:"merge_requests_events,omitempty" json:"merge_requests_events,omitempty" yaml:"merge_requests_events,omitempty"`
+	MergeRequestChannel       *string `url:"merge_request_channel,omitempty" json:"merge_request_channel,omitempty" yaml:"merge_request_channel,omitempty"`
+	TagPushEvents             *bool   `url:"tag_push_events,omitempty" json:"tag_push_events,omitempty" yaml:"tag_push_events,omitempty"`
+	TagPushChannel            *string `url:"tag_push_channel,omitempty" json:"tag_push_channel,omitempty" yaml:"tag_push_channel,omitempty"`
+	NoteEvents                *bool   `url:"note_events,omitempty" json:"note_events,omitempty" yaml:"note_events,omitempty"`
+	NoteChannel               *string `url:"note_channel,omitempty" json:"note_channel,omitempty" yaml:"note_channel,omitempty"`
+	ConfidentialNoteEvents    *bool   `url:"confidential_note_events" json:"confidential_note_events" yaml:"confidential_note_events"`
 	// TODO: Currently, GitLab ignores this option (not implemented yet?), so
 	// there is no way to set it. Uncomment when this is fixed.
 	// See: https://gitlab.com/gitlab-org/gitlab-ce/issues/49730
-	//ConfidentialNoteChannel   *string `json:"confidential_note_channel,omitempty"`
-	PipelineEvents  *bool   `url:"pipeline_events,omitempty" json:"pipeline_events,omitempty"`
-	PipelineChannel *string `url:"pipeline_channel,omitempty" json:"pipeline_channel,omitempty"`
-	WikiPageChannel *string `url:"wiki_page_channel,omitempty" json:"wiki_page_channel,omitempty"`
-	WikiPageEvents  *bool   `url:"wiki_page_events" json:"wiki_page_events"`
+	//ConfidentialNoteChannel   *string `json:"confidential_note_channel,omitempty" yaml:"confidential_note_channel,omitempty"`
+	PipelineEvents  *bool   `url:"pipeline_events,omitempty" json:"pipeline_events,omitempty" yaml:"pipeline_events,omitempty"`
+	PipelineChannel *string `url:"pipeline_channel,omitempty" json:"pipeline_channel,omitempty" yaml:"pipeline_channel,omitempty"`
+	WikiPageChannel *string `url:"wiki_page_channel,omitempty" json:"wiki_page_channel,omitempty" yaml:"wiki_page_channel,omitempty"`
+	WikiPageEvents  *bool   `url:"wiki_page_events" json:"wiki_page_events" yaml:"wiki_page_events"`
 }
 
 // SetSlackService sets Slack service for a project
@@ -381,7 +381,7 @@ func (s *ServicesService) DeleteSlackService(pid interface{}, options ...OptionF
 // https://docs.gitlab.com/ce/api/services.html#jira
 type JiraService struct {
 	Service
-	Properties *JiraServiceProperties `json:"properties"`
+	Properties *JiraServiceProperties `json:"properties" yaml:"properties"`
 }
 
 // JiraServiceProperties represents Jira specific properties.
@@ -389,11 +389,11 @@ type JiraService struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/services.html#jira
 type JiraServiceProperties struct {
-	URL                   *string `url:"url,omitempty" json:"url,omitempty"`
+	URL                   *string `url:"url,omitempty" json:"url,omitempty" yaml:"url,omitempty"`
 	ProjectKey            *string `url:"project_key,omitempty" json:"project_key,omitempty" `
 	Username              *string `url:"username,omitempty" json:"username,omitempty" `
 	Password              *string `url:"password,omitempty" json:"password,omitempty" `
-	JiraIssueTransitionID *int    `url:"jira_issue_transition_id,omitempty" json:"jira_issue_transition_id,omitempty"`
+	JiraIssueTransitionID *int    `url:"jira_issue_transition_id,omitempty" json:"jira_issue_transition_id,omitempty" yaml:"jira_issue_transition_id,omitempty"`
 }
 
 // GetJiraService gets Jira service settings for a project.
@@ -472,7 +472,7 @@ func (s *ServicesService) DeleteJiraService(pid interface{}, options ...OptionFu
 // https://docs.gitlab.com/ee/api/services.html#jenkins-ci
 type JenkinsCIService struct {
 	Service
-	Properties *JenkinsCIServiceProperties `json:"properties"`
+	Properties *JenkinsCIServiceProperties `json:"properties" yaml:"properties"`
 }
 
 // JenkinsCIServiceProperties represents Jenkins CI specific properties.
@@ -480,9 +480,9 @@ type JenkinsCIService struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/services.html#jenkins-ci
 type JenkinsCIServiceProperties struct {
-	URL         *string `url:"jenkins_url,omitempty" json:"jenkins_url,omitempty"`
-	ProjectName *string `url:"project_name,omitempty" json:"project_name,omitempty"`
-	Username    *string `url:"username,omitempty" json:"username,omitempty"`
+	URL         *string `url:"jenkins_url,omitempty" json:"jenkins_url,omitempty" yaml:"jenkins_url,omitempty"`
+	ProjectName *string `url:"project_name,omitempty" json:"project_name,omitempty" yaml:"project_name,omitempty"`
+	Username    *string `url:"username,omitempty" json:"username,omitempty" yaml:"username,omitempty"`
 }
 
 // GetJenkinsCIService gets Jenkins CI service settings for a project.
@@ -516,10 +516,10 @@ func (s *ServicesService) GetJenkinsCIService(pid interface{}, options ...Option
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/services.html#jenkins-ci
 type SetJenkinsCIServiceOptions struct {
-	URL         *string `url:"jenkins_url,omitempty" json:"jenkins_url,omitempty"`
-	ProjectName *string `url:"project_name,omitempty" json:"project_name,omitempty"`
-	Username    *string `url:"username,omitempty" json:"username,omitempty"`
-	Password    *string `url:"password,omitempty" json:"password,omitempty"`
+	URL         *string `url:"jenkins_url,omitempty" json:"jenkins_url,omitempty" yaml:"jenkins_url,omitempty"`
+	ProjectName *string `url:"project_name,omitempty" json:"project_name,omitempty" yaml:"project_name,omitempty"`
+	Username    *string `url:"username,omitempty" json:"username,omitempty" yaml:"username,omitempty"`
+	Password    *string `url:"password,omitempty" json:"password,omitempty" yaml:"password,omitempty"`
 }
 
 // SetJenkinsCIService sets Jenkins service for a project
@@ -566,7 +566,7 @@ func (s *ServicesService) DeleteJenkinsCIService(pid interface{}, options ...Opt
 // https://docs.gitlab.com/ce/api/services.html#microsoft-teams
 type MicrosoftTeamsService struct {
 	Service
-	Properties *MicrosoftTeamsServiceProperties `json:"properties"`
+	Properties *MicrosoftTeamsServiceProperties `json:"properties" yaml:"properties"`
 }
 
 // MicrosoftTeamsServiceProperties represents Microsoft Teams specific properties.
@@ -574,7 +574,7 @@ type MicrosoftTeamsService struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/services.html#microsoft-teams
 type MicrosoftTeamsServiceProperties struct {
-	WebHook string `json:"webhook"`
+	WebHook string `json:"webhook" yaml:"webhook"`
 }
 
 // GetMicrosoftTeamsService gets MicrosoftTeams service settings for a project.
@@ -608,7 +608,7 @@ func (s *ServicesService) GetMicrosoftTeamsService(pid interface{}, options ...O
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/services.html#create-edit-microsoft-teams-service
 type SetMicrosoftTeamsServiceOptions struct {
-	WebHook *string `url:"webhook,omitempty" json:"webhook,omitempty"`
+	WebHook *string `url:"webhook,omitempty" json:"webhook,omitempty" yaml:"webhook,omitempty"`
 }
 
 // SetMicrosoftTeamsService sets Microsoft Teams service for a project
@@ -654,7 +654,7 @@ func (s *ServicesService) DeleteMicrosoftTeamsService(pid interface{}, options .
 // https://docs.gitlab.com/ce/api/services.html#external-wiki
 type ExternalWikiService struct {
 	Service
-	Properties *ExternalWikiServiceProperties `json:"properties"`
+	Properties *ExternalWikiServiceProperties `json:"properties" yaml:"properties"`
 }
 
 // ExternalWikiServiceProperties represents External Wiki specific properties.
@@ -662,7 +662,7 @@ type ExternalWikiService struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/services.html#external-wiki
 type ExternalWikiServiceProperties struct {
-	ExternalWikiURL string `json:"external_wiki_url"`
+	ExternalWikiURL string `json:"external_wiki_url" yaml:"external_wiki_url"`
 }
 
 // GetExternalWikiService gets External Wiki service settings for a project.
@@ -696,7 +696,7 @@ func (s *ServicesService) GetExternalWikiService(pid interface{}, options ...Opt
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/services.html#createedit-external-wiki-service
 type SetExternalWikiServiceOptions struct {
-	ExternalWikiURL *string `url:"external_wiki_url,omitempty" json:"external_wiki_url,omitempty"`
+	ExternalWikiURL *string `url:"external_wiki_url,omitempty" json:"external_wiki_url,omitempty" yaml:"external_wiki_url,omitempty"`
 }
 
 // SetExternalWikiService sets External Wiki service for a project.

@@ -35,23 +35,23 @@ type PipelineSchedulesService struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/pipeline_schedules.html
 type PipelineSchedule struct {
-	ID           int        `json:"id"`
-	Description  string     `json:"description"`
-	Ref          string     `json:"ref"`
-	Cron         string     `json:"cron"`
-	CronTimezone string     `json:"cron_timezone"`
-	NextRunAt    *time.Time `json:"next_run_at"`
-	Active       bool       `json:"active"`
-	CreatedAt    *time.Time `json:"created_at"`
-	UpdatedAt    *time.Time `json:"updated_at"`
-	Owner        *User      `json:"owner"`
+	ID           int        `json:"id" yaml:"id"`
+	Description  string     `json:"description" yaml:"description"`
+	Ref          string     `json:"ref" yaml:"ref"`
+	Cron         string     `json:"cron" yaml:"cron"`
+	CronTimezone string     `json:"cron_timezone" yaml:"cron_timezone"`
+	NextRunAt    *time.Time `json:"next_run_at" yaml:"next_run_at"`
+	Active       bool       `json:"active" yaml:"active"`
+	CreatedAt    *time.Time `json:"created_at" yaml:"created_at"`
+	UpdatedAt    *time.Time `json:"updated_at" yaml:"updated_at"`
+	Owner        *User      `json:"owner" yaml:"owner"`
 	LastPipeline struct {
-		ID     int    `json:"id"`
-		SHA    string `json:"sha"`
-		Ref    string `json:"ref"`
-		Status string `json:"status"`
-	} `json:"last_pipeline"`
-	Variables []*PipelineVariable `json:"variables"`
+		ID     int    `json:"id" yaml:"id"`
+		SHA    string `json:"sha" yaml:"sha"`
+		Ref    string `json:"ref" yaml:"ref"`
+		Status string `json:"status" yaml:"status"`
+	} `json:"last_pipeline" yaml:"last_pipeline"`
+	Variables []*PipelineVariable `json:"variables" yaml:"variables"`
 }
 
 // ListPipelineSchedulesOptions represents the available ListPipelineTriggers() options.
@@ -116,11 +116,11 @@ func (s *PipelineSchedulesService) GetPipelineSchedule(pid interface{}, schedule
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/pipeline_schedules.html#create-a-new-pipeline-schedule
 type CreatePipelineScheduleOptions struct {
-	Description  *string `url:"description" json:"description"`
-	Ref          *string `url:"ref" json:"ref"`
-	Cron         *string `url:"cron" json:"cron"`
-	CronTimezone *string `url:"cron_timezone,omitempty" json:"cron_timezone,omitempty"`
-	Active       *bool   `url:"active,omitempty" json:"active,omitempty"`
+	Description  *string `url:"description" json:"description" yaml:"description"`
+	Ref          *string `url:"ref" json:"ref" yaml:"ref"`
+	Cron         *string `url:"cron" json:"cron" yaml:"cron"`
+	CronTimezone *string `url:"cron_timezone,omitempty" json:"cron_timezone,omitempty" yaml:"cron_timezone,omitempty"`
+	Active       *bool   `url:"active,omitempty" json:"active,omitempty" yaml:"active,omitempty"`
 }
 
 // CreatePipelineSchedule creates a pipeline schedule.
@@ -154,11 +154,11 @@ func (s *PipelineSchedulesService) CreatePipelineSchedule(pid interface{}, opt *
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/pipeline_schedules.html#create-a-new-pipeline-schedule
 type EditPipelineScheduleOptions struct {
-	Description  *string `url:"description,omitempty" json:"description,omitempty"`
-	Ref          *string `url:"ref,omitempty" json:"ref,omitempty"`
-	Cron         *string `url:"cron,omitempty" json:"cron,omitempty"`
-	CronTimezone *string `url:"cron_timezone,omitempty" json:"cron_timezone,omitempty"`
-	Active       *bool   `url:"active,omitempty" json:"active,omitempty"`
+	Description  *string `url:"description,omitempty" json:"description,omitempty" yaml:"description,omitempty"`
+	Ref          *string `url:"ref,omitempty" json:"ref,omitempty" yaml:"ref,omitempty"`
+	Cron         *string `url:"cron,omitempty" json:"cron,omitempty" yaml:"cron,omitempty"`
+	CronTimezone *string `url:"cron_timezone,omitempty" json:"cron_timezone,omitempty" yaml:"cron_timezone,omitempty"`
+	Active       *bool   `url:"active,omitempty" json:"active,omitempty" yaml:"active,omitempty"`
 }
 
 // EditPipelineSchedule edits a pipeline schedule.
@@ -243,8 +243,8 @@ func (s *PipelineSchedulesService) DeletePipelineSchedule(pid interface{}, sched
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/pipeline_schedules.html#create-a-new-pipeline-schedule
 type CreatePipelineScheduleVariableOptions struct {
-	Key   *string `url:"key" json:"key"`
-	Value *string `url:"value" json:"value"`
+	Key   *string `url:"key" json:"key" yaml:"key"`
+	Value *string `url:"value" json:"value" yaml:"value"`
 }
 
 // CreatePipelineScheduleVariable creates a pipeline schedule variable.
@@ -278,7 +278,7 @@ func (s *PipelineSchedulesService) CreatePipelineScheduleVariable(pid interface{
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/pipeline_schedules.html#edit-a-pipeline-schedule-variable
 type EditPipelineScheduleVariableOptions struct {
-	Value *string `url:"value" json:"value"`
+	Value *string `url:"value" json:"value" yaml:"value"`
 }
 
 // EditPipelineScheduleVariable creates a pipeline schedule variable.

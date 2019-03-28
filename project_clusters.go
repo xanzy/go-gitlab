@@ -35,16 +35,16 @@ type ProjectClustersService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/project_clusters.html
 type ProjectCluster struct {
-	ID                 int                 `json:"id"`
-	Name               string              `json:"name"`
-	CreatedAt          *time.Time          `json:"created_at"`
-	ProviderType       string              `json:"provider_type"`
-	PlatformType       string              `json:"platform_type"`
-	EnvironmentScope   string              `json:"environment_scope"`
-	ClusterType        string              `json:"cluster_type"`
-	User               *User               `json:"user"`
-	PlatformKubernetes *PlatformKubernetes `json:"platform_kubernetes"`
-	Project            *Project            `json:"project"`
+	ID                 int                 `json:"id" yaml:"id"`
+	Name               string              `json:"name" yaml:"name"`
+	CreatedAt          *time.Time          `json:"created_at" yaml:"created_at"`
+	ProviderType       string              `json:"provider_type" yaml:"provider_type"`
+	PlatformType       string              `json:"platform_type" yaml:"platform_type"`
+	EnvironmentScope   string              `json:"environment_scope" yaml:"environment_scope"`
+	ClusterType        string              `json:"cluster_type" yaml:"cluster_type"`
+	User               *User               `json:"user" yaml:"user"`
+	PlatformKubernetes *PlatformKubernetes `json:"platform_kubernetes" yaml:"platform_kubernetes"`
+	Project            *Project            `json:"project" yaml:"project"`
 }
 
 func (v ProjectCluster) String() string {
@@ -53,11 +53,11 @@ func (v ProjectCluster) String() string {
 
 // PlatformKubernetes represents a GitLab Project Cluster PlatformKubernetes.
 type PlatformKubernetes struct {
-	APIURL            string `json:"api_url"`
-	Token             string `json:"token"`
-	CaCert            string `json:"ca_cert"`
-	Namespace         string `json:"namespace"`
-	AuthorizationType string `json:"authorization_type"`
+	APIURL            string `json:"api_url" yaml:"api_url"`
+	Token             string `json:"token" yaml:"token"`
+	CaCert            string `json:"ca_cert" yaml:"ca_cert"`
+	Namespace         string `json:"namespace" yaml:"namespace"`
+	AuthorizationType string `json:"authorization_type" yaml:"authorization_type"`
 }
 
 // ListClusters gets a list of all clusters in a project.
@@ -115,19 +115,19 @@ func (s *ProjectClustersService) GetCluster(pid interface{}, cluster int, option
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/project_clusters.html#add-existing-cluster-to-project
 type AddClusterOptions struct {
-	Name               *string                       `url:"name,omitempty" json:"name,omitempty"`
-	Enabled            *bool                         `url:"enabled,omitempty" json:"enabled,omitempty"`
-	EnvironmentScope   *string                       `url:"environment_scope,omitempty" json:"environment_scope,omitempty"`
-	PlatformKubernetes *AddPlatformKubernetesOptions `url:"platform_kubernetes_attributes,omitempty" json:"platform_kubernetes_attributes,omitempty"`
+	Name               *string                       `url:"name,omitempty" json:"name,omitempty" yaml:"name,omitempty"`
+	Enabled            *bool                         `url:"enabled,omitempty" json:"enabled,omitempty" yaml:"enabled,omitempty"`
+	EnvironmentScope   *string                       `url:"environment_scope,omitempty" json:"environment_scope,omitempty" yaml:"environment_scope,omitempty"`
+	PlatformKubernetes *AddPlatformKubernetesOptions `url:"platform_kubernetes_attributes,omitempty" json:"platform_kubernetes_attributes,omitempty" yaml:"platform_kubernetes_attributes,omitempty"`
 }
 
 // AddPlatformKubernetesOptions represents the available PlatformKubernetes options for adding.
 type AddPlatformKubernetesOptions struct {
-	APIURL            *string `url:"api_url,omitempty" json:"api_url,omitempty"`
-	Token             *string `url:"token,omitempty" json:"token,omitempty"`
-	CaCert            *string `url:"ca_cert,omitempty" json:"ca_cert,omitempty"`
-	Namespace         *string `url:"namespace,omitempty" json:"namespace,omitempty"`
-	AuthorizationType *string `url:"authorization_type,omitempty" json:"authorization_type,omitempty"`
+	APIURL            *string `url:"api_url,omitempty" json:"api_url,omitempty" yaml:"api_url,omitempty"`
+	Token             *string `url:"token,omitempty" json:"token,omitempty" yaml:"token,omitempty"`
+	CaCert            *string `url:"ca_cert,omitempty" json:"ca_cert,omitempty" yaml:"ca_cert,omitempty"`
+	Namespace         *string `url:"namespace,omitempty" json:"namespace,omitempty" yaml:"namespace,omitempty"`
+	AuthorizationType *string `url:"authorization_type,omitempty" json:"authorization_type,omitempty" yaml:"authorization_type,omitempty"`
 }
 
 // AddCluster adds an existing cluster to the project.
@@ -160,17 +160,17 @@ func (s *ProjectClustersService) AddCluster(pid interface{}, opt *AddClusterOpti
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/project_clusters.html#edit-project-cluster
 type EditClusterOptions struct {
-	Name               *string                        `url:"name,omitempty" json:"name,omitempty"`
-	EnvironmentScope   *string                        `url:"environment_scope,omitempty" json:"environment_scope,omitempty"`
-	PlatformKubernetes *EditPlatformKubernetesOptions `url:"platform_kubernetes_attributes,omitempty" json:"platform_kubernetes_attributes,omitempty"`
+	Name               *string                        `url:"name,omitempty" json:"name,omitempty" yaml:"name,omitempty"`
+	EnvironmentScope   *string                        `url:"environment_scope,omitempty" json:"environment_scope,omitempty" yaml:"environment_scope,omitempty"`
+	PlatformKubernetes *EditPlatformKubernetesOptions `url:"platform_kubernetes_attributes,omitempty" json:"platform_kubernetes_attributes,omitempty" yaml:"platform_kubernetes_attributes,omitempty"`
 }
 
 // EditPlatformKubernetesOptions represents the available PlatformKubernetes options for editing.
 type EditPlatformKubernetesOptions struct {
-	APIURL    *string `url:"api_url,omitempty" json:"api_url,omitempty"`
-	Token     *string `url:"token,omitempty" json:"token,omitempty"`
-	CaCert    *string `url:"ca_cert,omitempty" json:"ca_cert,omitempty"`
-	Namespace *string `url:"namespace,omitempty" json:"namespace,omitempty"`
+	APIURL    *string `url:"api_url,omitempty" json:"api_url,omitempty" yaml:"api_url,omitempty"`
+	Token     *string `url:"token,omitempty" json:"token,omitempty" yaml:"token,omitempty"`
+	CaCert    *string `url:"ca_cert,omitempty" json:"ca_cert,omitempty" yaml:"ca_cert,omitempty"`
+	Namespace *string `url:"namespace,omitempty" json:"namespace,omitempty" yaml:"namespace,omitempty"`
 }
 
 // EditCluster updates an existing project cluster.

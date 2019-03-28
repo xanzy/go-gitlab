@@ -33,8 +33,8 @@ type GitIgnoreTemplatesService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/templates/gitignores.html
 type GitIgnoreTemplate struct {
-	Name    string `json:"name"`
-	Content string `json:"content"`
+	Name    string `json:"name" yaml:"name"`
+	Content string `json:"content" yaml:"content"`
 }
 
 // ListTemplatesOptions represents the available ListAllTemplates() options.

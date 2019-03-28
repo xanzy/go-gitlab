@@ -35,11 +35,11 @@ type GroupIssueBoardsService struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/group_boards.html
 type GroupIssueBoard struct {
-	ID        int          `json:"id"`
-	Name      string       `json:"name"`
-	Group     *Group       `json:"group"`
-	Milestone *Milestone   `json:"milestone"`
-	Lists     []*BoardList `json:"lists"`
+	ID        int          `json:"id" yaml:"id"`
+	Name      string       `json:"name" yaml:"name"`
+	Group     *Group       `json:"group" yaml:"group"`
+	Milestone *Milestone   `json:"milestone" yaml:"milestone"`
+	Lists     []*BoardList `json:"lists" yaml:"lists"`
 }
 
 func (b GroupIssueBoard) String() string {
@@ -170,7 +170,7 @@ func (s *GroupIssueBoardsService) GetGroupIssueBoardList(gid interface{}, board,
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/group_boards.html#new-board-list
 type CreateGroupIssueBoardListOptions struct {
-	LabelID *int `url:"label_id" json:"label_id"`
+	LabelID *int `url:"label_id" json:"label_id" yaml:"label_id"`
 }
 
 // CreateGroupIssueBoardList creates a new issue board list.
@@ -204,7 +204,7 @@ func (s *GroupIssueBoardsService) CreateGroupIssueBoardList(gid interface{}, boa
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/group_boards.html#edit-board-list
 type UpdateGroupIssueBoardListOptions struct {
-	Position *int `url:"position" json:"position"`
+	Position *int `url:"position" json:"position" yaml:"position"`
 }
 
 // UpdateIssueBoardList updates the position of an existing

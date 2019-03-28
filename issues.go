@@ -35,63 +35,63 @@ type IssuesService struct {
 
 // IssueAuthor represents a author of the issue.
 type IssueAuthor struct {
-	ID        int    `json:"id"`
-	State     string `json:"state"`
-	WebURL    string `json:"web_url"`
-	Name      string `json:"name"`
-	AvatarURL string `json:"avatar_url"`
-	Username  string `json:"username"`
+	ID        int    `json:"id" yaml:"id"`
+	State     string `json:"state" yaml:"state"`
+	WebURL    string `json:"web_url" yaml:"web_url"`
+	Name      string `json:"name" yaml:"name"`
+	AvatarURL string `json:"avatar_url" yaml:"avatar_url"`
+	Username  string `json:"username" yaml:"username"`
 }
 
 // IssueAssignee represents a assignee of the issue.
 type IssueAssignee struct {
-	ID        int    `json:"id"`
-	State     string `json:"state"`
-	WebURL    string `json:"web_url"`
-	Name      string `json:"name"`
-	AvatarURL string `json:"avatar_url"`
-	Username  string `json:"username"`
+	ID        int    `json:"id" yaml:"id"`
+	State     string `json:"state" yaml:"state"`
+	WebURL    string `json:"web_url" yaml:"web_url"`
+	Name      string `json:"name" yaml:"name"`
+	AvatarURL string `json:"avatar_url" yaml:"avatar_url"`
+	Username  string `json:"username" yaml:"username"`
 }
 
 // IssueLinks represents links of the issue.
 type IssueLinks struct {
-	Self       string `json:"self"`
-	Notes      string `json:"notes"`
-	AwardEmoji string `json:"award_emoji"`
-	Project    string `json:"project"`
+	Self       string `json:"self" yaml:"self"`
+	Notes      string `json:"notes" yaml:"notes"`
+	AwardEmoji string `json:"award_emoji" yaml:"award_emoji"`
+	Project    string `json:"project" yaml:"project"`
 }
 
 // Issue represents a GitLab issue.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/issues.html
 type Issue struct {
-	ID                int              `json:"id"`
-	IID               int              `json:"iid"`
-	ProjectID         int              `json:"project_id"`
-	Milestone         *Milestone       `json:"milestone"`
-	Author            *IssueAuthor     `json:"author"`
-	Description       string           `json:"description"`
-	State             string           `json:"state"`
-	Assignees         []*IssueAssignee `json:"assignees"`
-	Assignee          *IssueAssignee   `json:"assignee"`
-	Upvotes           int              `json:"upvotes"`
-	Downvotes         int              `json:"downvotes"`
-	Labels            []string         `json:"labels"`
-	Title             string           `json:"title"`
-	UpdatedAt         *time.Time       `json:"updated_at"`
-	CreatedAt         *time.Time       `json:"created_at"`
-	ClosedAt          *time.Time       `json:"closed_at"`
-	Subscribed        bool             `json:"subscribed"`
-	UserNotesCount    int              `json:"user_notes_count"`
-	DueDate           *ISOTime         `json:"due_date"`
-	WebURL            string           `json:"web_url"`
-	TimeStats         *TimeStats       `json:"time_stats"`
-	Confidential      bool             `json:"confidential"`
-	Weight            int              `json:"weight"`
-	DiscussionLocked  bool             `json:"discussion_locked"`
-	Links             *IssueLinks      `json:"_links"`
-	IssueLinkID       int              `json:"issue_link_id"`
-	MergeRequestCount int              `json:"merge_requests_count"`
+	ID                int              `json:"id" yaml:"id"`
+	IID               int              `json:"iid" yaml:"iid"`
+	ProjectID         int              `json:"project_id" yaml:"project_id"`
+	Milestone         *Milestone       `json:"milestone" yaml:"milestone"`
+	Author            *IssueAuthor     `json:"author" yaml:"author"`
+	Description       string           `json:"description" yaml:"description"`
+	State             string           `json:"state" yaml:"state"`
+	Assignees         []*IssueAssignee `json:"assignees" yaml:"assignees"`
+	Assignee          *IssueAssignee   `json:"assignee" yaml:"assignee"`
+	Upvotes           int              `json:"upvotes" yaml:"upvotes"`
+	Downvotes         int              `json:"downvotes" yaml:"downvotes"`
+	Labels            []string         `json:"labels" yaml:"labels"`
+	Title             string           `json:"title" yaml:"title"`
+	UpdatedAt         *time.Time       `json:"updated_at" yaml:"updated_at"`
+	CreatedAt         *time.Time       `json:"created_at" yaml:"created_at"`
+	ClosedAt          *time.Time       `json:"closed_at" yaml:"closed_at"`
+	Subscribed        bool             `json:"subscribed" yaml:"subscribed"`
+	UserNotesCount    int              `json:"user_notes_count" yaml:"user_notes_count"`
+	DueDate           *ISOTime         `json:"due_date" yaml:"due_date"`
+	WebURL            string           `json:"web_url" yaml:"web_url"`
+	TimeStats         *TimeStats       `json:"time_stats" yaml:"time_stats"`
+	Confidential      bool             `json:"confidential" yaml:"confidential"`
+	Weight            int              `json:"weight" yaml:"weight"`
+	DiscussionLocked  bool             `json:"discussion_locked" yaml:"discussion_locked"`
+	Links             *IssueLinks      `json:"_links" yaml:"_links"`
+	IssueLinkID       int              `json:"issue_link_id" yaml:"issue_link_id"`
+	MergeRequestCount int              `json:"merge_requests_count" yaml:"merge_requests_count"`
 }
 
 func (i Issue) String() string {
@@ -111,21 +111,21 @@ func (l *Labels) MarshalJSON() ([]byte, error) {
 // GitLab API docs: https://docs.gitlab.com/ce/api/issues.html#list-issues
 type ListIssuesOptions struct {
 	ListOptions
-	State           *string    `url:"state,omitempty" json:"state,omitempty"`
-	Labels          Labels     `url:"labels,comma,omitempty" json:"labels,omitempty"`
-	Milestone       *string    `url:"milestone,omitempty" json:"milestone,omitempty"`
-	Scope           *string    `url:"scope,omitempty" json:"scope,omitempty"`
-	AuthorID        *int       `url:"author_id,omitempty" json:"author_id,omitempty"`
-	AssigneeID      *int       `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
-	MyReactionEmoji *string    `url:"my_reaction_emoji,omitempty" json:"my_reaction_emoji,omitempty"`
-	IIDs            []int      `url:"iids[],omitempty" json:"iids,omitempty"`
-	OrderBy         *string    `url:"order_by,omitempty" json:"order_by,omitempty"`
-	Sort            *string    `url:"sort,omitempty" json:"sort,omitempty"`
-	Search          *string    `url:"search,omitempty" json:"search,omitempty"`
-	CreatedAfter    *time.Time `url:"created_after,omitempty" json:"created_after,omitempty"`
-	CreatedBefore   *time.Time `url:"created_before,omitempty" json:"created_before,omitempty"`
-	UpdatedAfter    *time.Time `url:"updated_after,omitempty" json:"updated_after,omitempty"`
-	UpdatedBefore   *time.Time `url:"updated_before,omitempty" json:"updated_before,omitempty"`
+	State           *string    `url:"state,omitempty" json:"state,omitempty" yaml:"state,omitempty"`
+	Labels          Labels     `url:"labels,comma,omitempty" json:"labels,omitempty" yaml:"labels,omitempty"`
+	Milestone       *string    `url:"milestone,omitempty" json:"milestone,omitempty" yaml:"milestone,omitempty"`
+	Scope           *string    `url:"scope,omitempty" json:"scope,omitempty" yaml:"scope,omitempty"`
+	AuthorID        *int       `url:"author_id,omitempty" json:"author_id,omitempty" yaml:"author_id,omitempty"`
+	AssigneeID      *int       `url:"assignee_id,omitempty" json:"assignee_id,omitempty" yaml:"assignee_id,omitempty"`
+	MyReactionEmoji *string    `url:"my_reaction_emoji,omitempty" json:"my_reaction_emoji,omitempty" yaml:"my_reaction_emoji,omitempty"`
+	IIDs            []int      `url:"iids[],omitempty" json:"iids,omitempty" yaml:"iids,omitempty"`
+	OrderBy         *string    `url:"order_by,omitempty" json:"order_by,omitempty" yaml:"order_by,omitempty"`
+	Sort            *string    `url:"sort,omitempty" json:"sort,omitempty" yaml:"sort,omitempty"`
+	Search          *string    `url:"search,omitempty" json:"search,omitempty" yaml:"search,omitempty"`
+	CreatedAfter    *time.Time `url:"created_after,omitempty" json:"created_after,omitempty" yaml:"created_after,omitempty"`
+	CreatedBefore   *time.Time `url:"created_before,omitempty" json:"created_before,omitempty" yaml:"created_before,omitempty"`
+	UpdatedAfter    *time.Time `url:"updated_after,omitempty" json:"updated_after,omitempty" yaml:"updated_after,omitempty"`
+	UpdatedBefore   *time.Time `url:"updated_before,omitempty" json:"updated_before,omitempty" yaml:"updated_before,omitempty"`
 }
 
 // ListIssues gets all issues created by authenticated user. This function
@@ -152,21 +152,21 @@ func (s *IssuesService) ListIssues(opt *ListIssuesOptions, options ...OptionFunc
 // GitLab API docs: https://docs.gitlab.com/ce/api/issues.html#list-group-issues
 type ListGroupIssuesOptions struct {
 	ListOptions
-	State           *string    `url:"state,omitempty" json:"state,omitempty"`
-	Labels          Labels     `url:"labels,comma,omitempty" json:"labels,omitempty"`
-	IIDs            []int      `url:"iids[],omitempty" json:"iids,omitempty"`
-	Milestone       *string    `url:"milestone,omitempty" json:"milestone,omitempty"`
-	Scope           *string    `url:"scope,omitempty" json:"scope,omitempty"`
-	AuthorID        *int       `url:"author_id,omitempty" json:"author_id,omitempty"`
-	AssigneeID      *int       `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
-	MyReactionEmoji *string    `url:"my_reaction_emoji,omitempty" json:"my_reaction_emoji,omitempty"`
-	OrderBy         *string    `url:"order_by,omitempty" json:"order_by,omitempty"`
-	Sort            *string    `url:"sort,omitempty" json:"sort,omitempty"`
-	Search          *string    `url:"search,omitempty" json:"search,omitempty"`
-	CreatedAfter    *time.Time `url:"created_after,omitempty" json:"created_after,omitempty"`
-	CreatedBefore   *time.Time `url:"created_before,omitempty" json:"created_before,omitempty"`
-	UpdatedAfter    *time.Time `url:"updated_after,omitempty" json:"updated_after,omitempty"`
-	UpdatedBefore   *time.Time `url:"updated_before,omitempty" json:"updated_before,omitempty"`
+	State           *string    `url:"state,omitempty" json:"state,omitempty" yaml:"state,omitempty"`
+	Labels          Labels     `url:"labels,comma,omitempty" json:"labels,omitempty" yaml:"labels,omitempty"`
+	IIDs            []int      `url:"iids[],omitempty" json:"iids,omitempty" yaml:"iids,omitempty"`
+	Milestone       *string    `url:"milestone,omitempty" json:"milestone,omitempty" yaml:"milestone,omitempty"`
+	Scope           *string    `url:"scope,omitempty" json:"scope,omitempty" yaml:"scope,omitempty"`
+	AuthorID        *int       `url:"author_id,omitempty" json:"author_id,omitempty" yaml:"author_id,omitempty"`
+	AssigneeID      *int       `url:"assignee_id,omitempty" json:"assignee_id,omitempty" yaml:"assignee_id,omitempty"`
+	MyReactionEmoji *string    `url:"my_reaction_emoji,omitempty" json:"my_reaction_emoji,omitempty" yaml:"my_reaction_emoji,omitempty"`
+	OrderBy         *string    `url:"order_by,omitempty" json:"order_by,omitempty" yaml:"order_by,omitempty"`
+	Sort            *string    `url:"sort,omitempty" json:"sort,omitempty" yaml:"sort,omitempty"`
+	Search          *string    `url:"search,omitempty" json:"search,omitempty" yaml:"search,omitempty"`
+	CreatedAfter    *time.Time `url:"created_after,omitempty" json:"created_after,omitempty" yaml:"created_after,omitempty"`
+	CreatedBefore   *time.Time `url:"created_before,omitempty" json:"created_before,omitempty" yaml:"created_before,omitempty"`
+	UpdatedAfter    *time.Time `url:"updated_after,omitempty" json:"updated_after,omitempty" yaml:"updated_after,omitempty"`
+	UpdatedBefore   *time.Time `url:"updated_before,omitempty" json:"updated_before,omitempty" yaml:"updated_before,omitempty"`
 }
 
 // ListGroupIssues gets a list of group issues. This function accepts
@@ -199,21 +199,21 @@ func (s *IssuesService) ListGroupIssues(pid interface{}, opt *ListGroupIssuesOpt
 // GitLab API docs: https://docs.gitlab.com/ce/api/issues.html#list-project-issues
 type ListProjectIssuesOptions struct {
 	ListOptions
-	IIDs            []int      `url:"iids[],omitempty" json:"iids,omitempty"`
-	State           *string    `url:"state,omitempty" json:"state,omitempty"`
-	Labels          Labels     `url:"labels,comma,omitempty" json:"labels,omitempty"`
-	Milestone       *string    `url:"milestone,omitempty" json:"milestone,omitempty"`
-	Scope           *string    `url:"scope,omitempty" json:"scope,omitempty"`
-	AuthorID        *int       `url:"author_id,omitempty" json:"author_id,omitempty"`
-	AssigneeID      *int       `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
-	MyReactionEmoji *string    `url:"my_reaction_emoji,omitempty" json:"my_reaction_emoji,omitempty"`
-	OrderBy         *string    `url:"order_by,omitempty" json:"order_by,omitempty"`
-	Sort            *string    `url:"sort,omitempty" json:"sort,omitempty"`
-	Search          *string    `url:"search,omitempty" json:"search,omitempty"`
-	CreatedAfter    *time.Time `url:"created_after,omitempty" json:"created_after,omitempty"`
-	CreatedBefore   *time.Time `url:"created_before,omitempty" json:"created_before,omitempty"`
-	UpdatedAfter    *time.Time `url:"updated_after,omitempty" json:"updated_after,omitempty"`
-	UpdatedBefore   *time.Time `url:"updated_before,omitempty" json:"updated_before,omitempty"`
+	IIDs            []int      `url:"iids[],omitempty" json:"iids,omitempty" yaml:"iids,omitempty"`
+	State           *string    `url:"state,omitempty" json:"state,omitempty" yaml:"state,omitempty"`
+	Labels          Labels     `url:"labels,comma,omitempty" json:"labels,omitempty" yaml:"labels,omitempty"`
+	Milestone       *string    `url:"milestone,omitempty" json:"milestone,omitempty" yaml:"milestone,omitempty"`
+	Scope           *string    `url:"scope,omitempty" json:"scope,omitempty" yaml:"scope,omitempty"`
+	AuthorID        *int       `url:"author_id,omitempty" json:"author_id,omitempty" yaml:"author_id,omitempty"`
+	AssigneeID      *int       `url:"assignee_id,omitempty" json:"assignee_id,omitempty" yaml:"assignee_id,omitempty"`
+	MyReactionEmoji *string    `url:"my_reaction_emoji,omitempty" json:"my_reaction_emoji,omitempty" yaml:"my_reaction_emoji,omitempty"`
+	OrderBy         *string    `url:"order_by,omitempty" json:"order_by,omitempty" yaml:"order_by,omitempty"`
+	Sort            *string    `url:"sort,omitempty" json:"sort,omitempty" yaml:"sort,omitempty"`
+	Search          *string    `url:"search,omitempty" json:"search,omitempty" yaml:"search,omitempty"`
+	CreatedAfter    *time.Time `url:"created_after,omitempty" json:"created_after,omitempty" yaml:"created_after,omitempty"`
+	CreatedBefore   *time.Time `url:"created_before,omitempty" json:"created_before,omitempty" yaml:"created_before,omitempty"`
+	UpdatedAfter    *time.Time `url:"updated_after,omitempty" json:"updated_after,omitempty" yaml:"updated_after,omitempty"`
+	UpdatedBefore   *time.Time `url:"updated_before,omitempty" json:"updated_before,omitempty" yaml:"updated_before,omitempty"`
 }
 
 // ListProjectIssues gets a list of project issues. This function accepts
@@ -269,17 +269,17 @@ func (s *IssuesService) GetIssue(pid interface{}, issue int, options ...OptionFu
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/issues.html#new-issues
 type CreateIssueOptions struct {
-	Title                              *string    `url:"title,omitempty" json:"title,omitempty"`
-	Description                        *string    `url:"description,omitempty" json:"description,omitempty"`
-	Confidential                       *bool      `url:"confidential,omitempty" json:"confidential,omitempty"`
-	AssigneeIDs                        []int      `url:"assignee_ids,omitempty" json:"assignee_ids,omitempty"`
-	MilestoneID                        *int       `url:"milestone_id,omitempty" json:"milestone_id,omitempty"`
-	Labels                             Labels     `url:"labels,comma,omitempty" json:"labels,omitempty"`
-	CreatedAt                          *time.Time `url:"created_at,omitempty" json:"created_at,omitempty"`
-	DueDate                            *ISOTime   `url:"due_date,omitempty" json:"due_date,omitempty"`
-	MergeRequestToResolveDiscussionsOf *int       `url:"merge_request_to_resolve_discussions_of,omitempty" json:"merge_request_to_resolve_discussions_of,omitempty"`
-	DiscussionToResolve                *string    `url:"discussion_to_resolve,omitempty" json:"discussion_to_resolve,omitempty"`
-	Weight                             *int       `url:"weight,omitempty" json:"weight,omitempty"`
+	Title                              *string    `url:"title,omitempty" json:"title,omitempty" yaml:"title,omitempty"`
+	Description                        *string    `url:"description,omitempty" json:"description,omitempty" yaml:"description,omitempty"`
+	Confidential                       *bool      `url:"confidential,omitempty" json:"confidential,omitempty" yaml:"confidential,omitempty"`
+	AssigneeIDs                        []int      `url:"assignee_ids,omitempty" json:"assignee_ids,omitempty" yaml:"assignee_ids,omitempty"`
+	MilestoneID                        *int       `url:"milestone_id,omitempty" json:"milestone_id,omitempty" yaml:"milestone_id,omitempty"`
+	Labels                             Labels     `url:"labels,comma,omitempty" json:"labels,omitempty" yaml:"labels,omitempty"`
+	CreatedAt                          *time.Time `url:"created_at,omitempty" json:"created_at,omitempty" yaml:"created_at,omitempty"`
+	DueDate                            *ISOTime   `url:"due_date,omitempty" json:"due_date,omitempty" yaml:"due_date,omitempty"`
+	MergeRequestToResolveDiscussionsOf *int       `url:"merge_request_to_resolve_discussions_of,omitempty" json:"merge_request_to_resolve_discussions_of,omitempty" yaml:"merge_request_to_resolve_discussions_of,omitempty"`
+	DiscussionToResolve                *string    `url:"discussion_to_resolve,omitempty" json:"discussion_to_resolve,omitempty" yaml:"discussion_to_resolve,omitempty"`
+	Weight                             *int       `url:"weight,omitempty" json:"weight,omitempty" yaml:"weight,omitempty"`
 }
 
 // CreateIssue creates a new project issue.
@@ -310,17 +310,17 @@ func (s *IssuesService) CreateIssue(pid interface{}, opt *CreateIssueOptions, op
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/issues.html#edit-issue
 type UpdateIssueOptions struct {
-	Title            *string    `url:"title,omitempty" json:"title,omitempty"`
-	Description      *string    `url:"description,omitempty" json:"description,omitempty"`
-	Confidential     *bool      `url:"confidential,omitempty" json:"confidential,omitempty"`
-	AssigneeIDs      []int      `url:"assignee_ids,omitempty" json:"assignee_ids,omitempty"`
-	MilestoneID      *int       `url:"milestone_id,omitempty" json:"milestone_id,omitempty"`
-	Labels           Labels     `url:"labels,comma,omitempty" json:"labels,omitempty"`
-	StateEvent       *string    `url:"state_event,omitempty" json:"state_event,omitempty"`
-	UpdatedAt        *time.Time `url:"updated_at,omitempty" json:"updated_at,omitempty"`
-	DueDate          *ISOTime   `url:"due_date,omitempty" json:"due_date,omitempty"`
-	Weight           *int       `url:"weight,omitempty" json:"weight,omitempty"`
-	DiscussionLocked *bool      `url:"discussion_locked,omitempty" json:"discussion_locked,omitempty"`
+	Title            *string    `url:"title,omitempty" json:"title,omitempty" yaml:"title,omitempty"`
+	Description      *string    `url:"description,omitempty" json:"description,omitempty" yaml:"description,omitempty"`
+	Confidential     *bool      `url:"confidential,omitempty" json:"confidential,omitempty" yaml:"confidential,omitempty"`
+	AssigneeIDs      []int      `url:"assignee_ids,omitempty" json:"assignee_ids,omitempty" yaml:"assignee_ids,omitempty"`
+	MilestoneID      *int       `url:"milestone_id,omitempty" json:"milestone_id,omitempty" yaml:"milestone_id,omitempty"`
+	Labels           Labels     `url:"labels,comma,omitempty" json:"labels,omitempty" yaml:"labels,omitempty"`
+	StateEvent       *string    `url:"state_event,omitempty" json:"state_event,omitempty" yaml:"state_event,omitempty"`
+	UpdatedAt        *time.Time `url:"updated_at,omitempty" json:"updated_at,omitempty" yaml:"updated_at,omitempty"`
+	DueDate          *ISOTime   `url:"due_date,omitempty" json:"due_date,omitempty" yaml:"due_date,omitempty"`
+	Weight           *int       `url:"weight,omitempty" json:"weight,omitempty" yaml:"weight,omitempty"`
+	DiscussionLocked *bool      `url:"discussion_locked,omitempty" json:"discussion_locked,omitempty" yaml:"discussion_locked,omitempty"`
 }
 
 // UpdateIssue updates an existing project issue. This function is also used

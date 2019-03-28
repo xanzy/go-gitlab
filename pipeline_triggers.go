@@ -19,14 +19,14 @@ type PipelineTriggersService struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/pipeline_triggers.html#pipeline-triggers
 type PipelineTrigger struct {
-	ID          int        `json:"id"`
-	Description string     `json:"description"`
-	CreatedAt   *time.Time `json:"created_at"`
-	DeletedAt   *time.Time `json:"deleted_at"`
-	LastUsed    *time.Time `json:"last_used"`
-	Token       string     `json:"token"`
-	UpdatedAt   *time.Time `json:"updated_at"`
-	Owner       *User      `json:"owner"`
+	ID          int        `json:"id" yaml:"id"`
+	Description string     `json:"description" yaml:"description"`
+	CreatedAt   *time.Time `json:"created_at" yaml:"created_at"`
+	DeletedAt   *time.Time `json:"deleted_at" yaml:"deleted_at"`
+	LastUsed    *time.Time `json:"last_used" yaml:"last_used"`
+	Token       string     `json:"token" yaml:"token"`
+	UpdatedAt   *time.Time `json:"updated_at" yaml:"updated_at"`
+	Owner       *User      `json:"owner" yaml:"owner"`
 }
 
 // ListPipelineTriggersOptions represents the available ListPipelineTriggers() options.
@@ -90,7 +90,7 @@ func (s *PipelineTriggersService) GetPipelineTrigger(pid interface{}, trigger in
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/pipeline_triggers.html#create-a-project-trigger
 type AddPipelineTriggerOptions struct {
-	Description *string `url:"description,omitempty" json:"description,omitempty"`
+	Description *string `url:"description,omitempty" json:"description,omitempty" yaml:"description,omitempty"`
 }
 
 // AddPipelineTrigger adds a pipeline trigger to a specified project.
@@ -123,7 +123,7 @@ func (s *PipelineTriggersService) AddPipelineTrigger(pid interface{}, opt *AddPi
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/pipeline_triggers.html#update-a-project-trigger
 type EditPipelineTriggerOptions struct {
-	Description *string `url:"description,omitempty" json:"description,omitempty"`
+	Description *string `url:"description,omitempty" json:"description,omitempty" yaml:"description,omitempty"`
 }
 
 // EditPipelineTrigger edits a trigger for a specified project.
@@ -201,9 +201,9 @@ func (s *PipelineTriggersService) DeletePipelineTrigger(pid interface{}, trigger
 // GitLab API docs:
 // https://docs.gitlab.com/ce/ci/triggers/README.html#triggering-a-pipeline
 type RunPipelineTriggerOptions struct {
-	Ref       *string           `url:"ref" json:"ref"`
-	Token     *string           `url:"token" json:"token"`
-	Variables map[string]string `url:"variables,omitempty" json:"variables,omitempty"`
+	Ref       *string           `url:"ref" json:"ref" yaml:"ref"`
+	Token     *string           `url:"token" json:"token" yaml:"token"`
+	Variables map[string]string `url:"variables,omitempty" json:"variables,omitempty" yaml:"variables,omitempty"`
 }
 
 // RunPipelineTrigger starts a trigger from a project.

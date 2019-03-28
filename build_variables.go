@@ -17,9 +17,9 @@ type BuildVariablesService struct {
 //
 // Gitlab API Docs : https://docs.gitlab.com/ce/api/build_variables.html
 type BuildVariable struct {
-	Key       string `json:"key"`
-	Value     string `json:"value"`
-	Protected bool   `json:"protected"`
+	Key       string `json:"key" yaml:"key"`
+	Value     string `json:"value" yaml:"value"`
+	Protected bool   `json:"protected" yaml:"protected"`
 }
 
 func (v BuildVariable) String() string {
@@ -87,9 +87,9 @@ func (s *BuildVariablesService) GetBuildVariable(pid interface{}, key string, op
 // Gitlab API Docs:
 // https://docs.gitlab.com/ce/api/build_variables.html#create-variable
 type CreateBuildVariableOptions struct {
-	Key       *string `url:"key" json:"key"`
-	Value     *string `url:"value" json:"value"`
-	Protected *bool   `url:"protected,omitempty" json:"protected,omitempty"`
+	Key       *string `url:"key" json:"key" yaml:"key"`
+	Value     *string `url:"value" json:"value" yaml:"value"`
+	Protected *bool   `url:"protected,omitempty" json:"protected,omitempty" yaml:"protected,omitempty"`
 }
 
 // CreateBuildVariable creates a variable for a given project
@@ -122,9 +122,9 @@ func (s *BuildVariablesService) CreateBuildVariable(pid interface{}, opt *Create
 // Gitlab API Docs:
 // https://docs.gitlab.com/ce/api/build_variables.html#update-variable
 type UpdateBuildVariableOptions struct {
-	Key       *string `url:"key" json:"key"`
-	Value     *string `url:"value" json:"value"`
-	Protected *bool   `url:"protected,omitempty" json:"protected,omitempty"`
+	Key       *string `url:"key" json:"key" yaml:"key"`
+	Value     *string `url:"value" json:"value" yaml:"value"`
+	Protected *bool   `url:"protected,omitempty" json:"protected,omitempty" yaml:"protected,omitempty"`
 }
 
 // UpdateBuildVariable updates an existing project variable

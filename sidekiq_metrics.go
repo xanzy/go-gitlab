@@ -31,9 +31,9 @@ type SidekiqService struct {
 // https://docs.gitlab.com/ce/api/sidekiq_metrics.html#get-the-current-queue-metrics
 type QueueMetrics struct {
 	Queues map[string]struct {
-		Backlog int `json:"backlog"`
-		Latency int `json:"latency"`
-	} `json:"queues"`
+		Backlog int `json:"backlog" yaml:"backlog"`
+		Latency int `json:"latency" yaml:"latency"`
+	} `json:"queues" yaml:"queues"`
 }
 
 // GetQueueMetrics lists information about all the registered queues,
@@ -62,15 +62,15 @@ func (s *SidekiqService) GetQueueMetrics(options ...OptionFunc) (*QueueMetrics, 
 // https://docs.gitlab.com/ce/api/sidekiq_metrics.html#get-the-current-process-metrics
 type ProcessMetrics struct {
 	Processes []struct {
-		Hostname    string     `json:"hostname"`
-		Pid         int        `json:"pid"`
-		Tag         string     `json:"tag"`
-		StartedAt   *time.Time `json:"started_at"`
-		Queues      []string   `json:"queues"`
-		Labels      []string   `json:"labels"`
-		Concurrency int        `json:"concurrency"`
-		Busy        int        `json:"busy"`
-	} `json:"processes"`
+		Hostname    string     `json:"hostname" yaml:"hostname"`
+		Pid         int        `json:"pid" yaml:"pid"`
+		Tag         string     `json:"tag" yaml:"tag"`
+		StartedAt   *time.Time `json:"started_at" yaml:"started_at"`
+		Queues      []string   `json:"queues" yaml:"queues"`
+		Labels      []string   `json:"labels" yaml:"labels"`
+		Concurrency int        `json:"concurrency" yaml:"concurrency"`
+		Busy        int        `json:"busy" yaml:"busy"`
+	} `json:"processes" yaml:"processes"`
 }
 
 // GetProcessMetrics lists information about all the Sidekiq workers registered
@@ -99,10 +99,10 @@ func (s *SidekiqService) GetProcessMetrics(options ...OptionFunc) (*ProcessMetri
 // https://docs.gitlab.com/ce/api/sidekiq_metrics.html#get-the-current-job-statistics
 type JobStats struct {
 	Jobs struct {
-		Processed int `json:"processed"`
-		Failed    int `json:"failed"`
-		Enqueued  int `json:"enqueued"`
-	} `json:"jobs"`
+		Processed int `json:"processed" yaml:"processed"`
+		Failed    int `json:"failed" yaml:"failed"`
+		Enqueued  int `json:"enqueued" yaml:"enqueued"`
+	} `json:"jobs" yaml:"jobs"`
 }
 
 // GetJobStats list information about the jobs that Sidekiq has performed.

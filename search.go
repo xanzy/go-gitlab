@@ -36,8 +36,8 @@ type SearchOptions ListOptions
 
 type searchOptions struct {
 	SearchOptions
-	Scope  string `url:"scope" json:"scope"`
-	Search string `url:"search" json:"search"`
+	Scope  string `url:"scope" json:"scope" yaml:"scope"`
+	Search string `url:"search" json:"search" yaml:"search"`
 }
 
 // Projects searches the expression within projects
@@ -242,13 +242,13 @@ func (s *SearchService) CommitsByProject(pid interface{}, query string, opt *Sea
 
 // Blob represents a single blob.
 type Blob struct {
-	Basename  string `json:"basename"`
-	Data      string `json:"data"`
-	Filename  string `json:"filename"`
-	ID        int    `json:"id"`
-	Ref       string `json:"ref"`
-	Startline int    `json:"startline"`
-	ProjectID int    `json:"project_id"`
+	Basename  string `json:"basename" yaml:"basename"`
+	Data      string `json:"data" yaml:"data"`
+	Filename  string `json:"filename" yaml:"filename"`
+	ID        int    `json:"id" yaml:"id"`
+	Ref       string `json:"ref" yaml:"ref"`
+	Startline int    `json:"startline" yaml:"startline"`
+	ProjectID int    `json:"project_id" yaml:"project_id"`
 }
 
 // Blobs searches the expression within all blobs

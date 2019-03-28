@@ -19,9 +19,9 @@ type NotificationSettingsService struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/notification_settings.html#notification-settings
 type NotificationSettings struct {
-	Level             NotificationLevelValue `json:"level"`
-	NotificationEmail string                 `json:"notification_email"`
-	Events            *NotificationEvents    `json:"events"`
+	Level             NotificationLevelValue `json:"level" yaml:"level"`
+	NotificationEmail string                 `json:"notification_email" yaml:"notification_email"`
+	Events            *NotificationEvents    `json:"events" yaml:"events"`
 }
 
 // NotificationEvents represents the available notification setting events.
@@ -29,18 +29,18 @@ type NotificationSettings struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/notification_settings.html#notification-settings
 type NotificationEvents struct {
-	CloseIssue           bool `json:"close_issue"`
-	CloseMergeRequest    bool `json:"close_merge_request"`
-	FailedPipeline       bool `json:"failed_pipeline"`
-	MergeMergeRequest    bool `json:"merge_merge_request"`
-	NewIssue             bool `json:"new_issue"`
-	NewMergeRequest      bool `json:"new_merge_request"`
-	NewNote              bool `json:"new_note"`
-	ReassignIssue        bool `json:"reassign_issue"`
-	ReassignMergeRequest bool `json:"reassign_merge_request"`
-	ReopenIssue          bool `json:"reopen_issue"`
-	ReopenMergeRequest   bool `json:"reopen_merge_request"`
-	SuccessPipeline      bool `json:"success_pipeline"`
+	CloseIssue           bool `json:"close_issue" yaml:"close_issue"`
+	CloseMergeRequest    bool `json:"close_merge_request" yaml:"close_merge_request"`
+	FailedPipeline       bool `json:"failed_pipeline" yaml:"failed_pipeline"`
+	MergeMergeRequest    bool `json:"merge_merge_request" yaml:"merge_merge_request"`
+	NewIssue             bool `json:"new_issue" yaml:"new_issue"`
+	NewMergeRequest      bool `json:"new_merge_request" yaml:"new_merge_request"`
+	NewNote              bool `json:"new_note" yaml:"new_note"`
+	ReassignIssue        bool `json:"reassign_issue" yaml:"reassign_issue"`
+	ReassignMergeRequest bool `json:"reassign_merge_request" yaml:"reassign_merge_request"`
+	ReopenIssue          bool `json:"reopen_issue" yaml:"reopen_issue"`
+	ReopenMergeRequest   bool `json:"reopen_merge_request" yaml:"reopen_merge_request"`
+	SuccessPipeline      bool `json:"success_pipeline" yaml:"success_pipeline"`
 }
 
 func (ns NotificationSettings) String() string {
@@ -71,20 +71,20 @@ func (s *NotificationSettingsService) GetGlobalSettings(options ...OptionFunc) (
 // NotificationSettingsOptions represents the available options that can be passed
 // to the API when updating the notification settings.
 type NotificationSettingsOptions struct {
-	Level                *NotificationLevelValue `url:"level,omitempty" json:"level,omitempty"`
-	NotificationEmail    *string                 `url:"notification_email,omitempty" json:"notification_email,omitempty"`
-	CloseIssue           *bool                   `url:"close_issue,omitempty" json:"close_issue,omitempty"`
-	CloseMergeRequest    *bool                   `url:"close_merge_request,omitempty" json:"close_merge_request,omitempty"`
-	FailedPipeline       *bool                   `url:"failed_pipeline,omitempty" json:"failed_pipeline,omitempty"`
-	MergeMergeRequest    *bool                   `url:"merge_merge_request,omitempty" json:"merge_merge_request,omitempty"`
-	NewIssue             *bool                   `url:"new_issue,omitempty" json:"new_issue,omitempty"`
-	NewMergeRequest      *bool                   `url:"new_merge_request,omitempty" json:"new_merge_request,omitempty"`
-	NewNote              *bool                   `url:"new_note,omitempty" json:"new_note,omitempty"`
-	ReassignIssue        *bool                   `url:"reassign_issue,omitempty" json:"reassign_issue,omitempty"`
-	ReassignMergeRequest *bool                   `url:"reassign_merge_request,omitempty" json:"reassign_merge_request,omitempty"`
-	ReopenIssue          *bool                   `url:"reopen_issue,omitempty" json:"reopen_issue,omitempty"`
-	ReopenMergeRequest   *bool                   `url:"reopen_merge_request,omitempty" json:"reopen_merge_request,omitempty"`
-	SuccessPipeline      *bool                   `url:"success_pipeline,omitempty" json:"success_pipeline,omitempty"`
+	Level                *NotificationLevelValue `url:"level,omitempty" json:"level,omitempty" yaml:"level,omitempty"`
+	NotificationEmail    *string                 `url:"notification_email,omitempty" json:"notification_email,omitempty" yaml:"notification_email,omitempty"`
+	CloseIssue           *bool                   `url:"close_issue,omitempty" json:"close_issue,omitempty" yaml:"close_issue,omitempty"`
+	CloseMergeRequest    *bool                   `url:"close_merge_request,omitempty" json:"close_merge_request,omitempty" yaml:"close_merge_request,omitempty"`
+	FailedPipeline       *bool                   `url:"failed_pipeline,omitempty" json:"failed_pipeline,omitempty" yaml:"failed_pipeline,omitempty"`
+	MergeMergeRequest    *bool                   `url:"merge_merge_request,omitempty" json:"merge_merge_request,omitempty" yaml:"merge_merge_request,omitempty"`
+	NewIssue             *bool                   `url:"new_issue,omitempty" json:"new_issue,omitempty" yaml:"new_issue,omitempty"`
+	NewMergeRequest      *bool                   `url:"new_merge_request,omitempty" json:"new_merge_request,omitempty" yaml:"new_merge_request,omitempty"`
+	NewNote              *bool                   `url:"new_note,omitempty" json:"new_note,omitempty" yaml:"new_note,omitempty"`
+	ReassignIssue        *bool                   `url:"reassign_issue,omitempty" json:"reassign_issue,omitempty" yaml:"reassign_issue,omitempty"`
+	ReassignMergeRequest *bool                   `url:"reassign_merge_request,omitempty" json:"reassign_merge_request,omitempty" yaml:"reassign_merge_request,omitempty"`
+	ReopenIssue          *bool                   `url:"reopen_issue,omitempty" json:"reopen_issue,omitempty" yaml:"reopen_issue,omitempty"`
+	ReopenMergeRequest   *bool                   `url:"reopen_merge_request,omitempty" json:"reopen_merge_request,omitempty" yaml:"reopen_merge_request,omitempty"`
+	SuccessPipeline      *bool                   `url:"success_pipeline,omitempty" json:"success_pipeline,omitempty" yaml:"success_pipeline,omitempty"`
 }
 
 // UpdateGlobalSettings updates current notification settings and email address.

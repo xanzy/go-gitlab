@@ -18,16 +18,16 @@ type PagesDomainsService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/pages_domains.html
 type PagesDomain struct {
-	Domain           string     `json:"domain"`
-	URL              string     `json:"url"`
-	ProjectID        int        `json:"project_id"`
-	Verified         bool       `json:"verified"`
-	VerificationCode string     `json:"verification_code"`
-	EnabledUntil     *time.Time `json:"enabled_until"`
+	Domain           string     `json:"domain" yaml:"domain"`
+	URL              string     `json:"url" yaml:"url"`
+	ProjectID        int        `json:"project_id" yaml:"project_id"`
+	Verified         bool       `json:"verified" yaml:"verified"`
+	VerificationCode string     `json:"verification_code" yaml:"verification_code"`
+	EnabledUntil     *time.Time `json:"enabled_until" yaml:"enabled_until"`
 	Certificate      struct {
-		Expired    bool       `json:"expired"`
-		Expiration *time.Time `json:"expiration"`
-	} `json:"certificate"`
+		Expired    bool       `json:"expired" yaml:"expired"`
+		Expiration *time.Time `json:"expiration" yaml:"expiration"`
+	} `json:"certificate" yaml:"certificate"`
 }
 
 // ListPagesDomainsOptions represents the available ListPagesDomains() options.
@@ -110,9 +110,9 @@ func (s *PagesDomainsService) GetPagesDomain(pid interface{}, domain string, opt
 // GitLab API docs:
 // // https://docs.gitlab.com/ce/api/pages_domains.html#create-new-pages-domain
 type CreatePagesDomainOptions struct {
-	Domain      *string `url:"domain,omitempty" json:"domain,omitempty"`
-	Certificate *string `url:"certifiate,omitempty" json:"certifiate,omitempty"`
-	Key         *string `url:"key,omitempty" json:"key,omitempty"`
+	Domain      *string `url:"domain,omitempty" json:"domain,omitempty" yaml:"domain,omitempty"`
+	Certificate *string `url:"certifiate,omitempty" json:"certifiate,omitempty" yaml:"certifiate,omitempty"`
+	Key         *string `url:"key,omitempty" json:"key,omitempty" yaml:"key,omitempty"`
 }
 
 // CreatePagesDomain creates a new project pages domain.
@@ -145,8 +145,8 @@ func (s *PagesDomainsService) CreatePagesDomain(pid interface{}, opt *CreatePage
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/pages_domains.html#update-pages-domain
 type UpdatePagesDomainOptions struct {
-	Cerificate *string `url:"certifiate" json:"certifiate"`
-	Key        *string `url:"key" json:"key"`
+	Cerificate *string `url:"certifiate" json:"certifiate" yaml:"certifiate"`
+	Key        *string `url:"key" json:"key" yaml:"key"`
 }
 
 // UpdatePagesDomain updates an existing project pages domain.

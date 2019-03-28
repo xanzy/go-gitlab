@@ -36,8 +36,8 @@ type ProtectedBranchesService struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/protected_branches.html#protected-branches-api
 type BranchAccessDescription struct {
-	AccessLevel            AccessLevelValue `json:"access_level"`
-	AccessLevelDescription string           `json:"access_level_description"`
+	AccessLevel            AccessLevelValue `json:"access_level" yaml:"access_level"`
+	AccessLevelDescription string           `json:"access_level_description" yaml:"access_level_description"`
 }
 
 // ProtectedBranch represents a protected branch.
@@ -45,9 +45,9 @@ type BranchAccessDescription struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/protected_branches.html#list-protected-branches
 type ProtectedBranch struct {
-	Name              string                     `json:"name"`
-	PushAccessLevels  []*BranchAccessDescription `json:"push_access_levels"`
-	MergeAccessLevels []*BranchAccessDescription `json:"merge_access_levels"`
+	Name              string                     `json:"name" yaml:"name"`
+	PushAccessLevels  []*BranchAccessDescription `json:"push_access_levels" yaml:"push_access_levels"`
+	MergeAccessLevels []*BranchAccessDescription `json:"merge_access_levels" yaml:"merge_access_levels"`
 }
 
 // ListProtectedBranchesOptions represents the available ListProtectedBranches()
@@ -113,9 +113,9 @@ func (s *ProtectedBranchesService) GetProtectedBranch(pid interface{}, branch st
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/protected_branches.html#protect-repository-branches
 type ProtectRepositoryBranchesOptions struct {
-	Name             *string           `url:"name,omitempty" json:"name,omitempty"`
-	PushAccessLevel  *AccessLevelValue `url:"push_access_level,omitempty" json:"push_access_level,omitempty"`
-	MergeAccessLevel *AccessLevelValue `url:"merge_access_level,omitempty" json:"merge_access_level,omitempty"`
+	Name             *string           `url:"name,omitempty" json:"name,omitempty" yaml:"name,omitempty"`
+	PushAccessLevel  *AccessLevelValue `url:"push_access_level,omitempty" json:"push_access_level,omitempty" yaml:"push_access_level,omitempty"`
+	MergeAccessLevel *AccessLevelValue `url:"merge_access_level,omitempty" json:"merge_access_level,omitempty" yaml:"merge_access_level,omitempty"`
 }
 
 // ProtectRepositoryBranches protects a single repository branch or several

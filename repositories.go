@@ -34,11 +34,11 @@ type RepositoriesService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/repositories.html
 type TreeNode struct {
-	ID   string `json:"id"`
-	Name string `json:"name"`
-	Type string `json:"type"`
-	Path string `json:"path"`
-	Mode string `json:"mode"`
+	ID   string `json:"id" yaml:"id"`
+	Name string `json:"name" yaml:"name"`
+	Type string `json:"type" yaml:"type"`
+	Path string `json:"path" yaml:"path"`
+	Mode string `json:"mode" yaml:"mode"`
 }
 
 func (t TreeNode) String() string {
@@ -51,9 +51,9 @@ func (t TreeNode) String() string {
 // https://docs.gitlab.com/ce/api/repositories.html#list-repository-tree
 type ListTreeOptions struct {
 	ListOptions
-	Path      *string `url:"path,omitempty" json:"path,omitempty"`
-	Ref       *string `url:"ref,omitempty" json:"ref,omitempty"`
-	Recursive *bool   `url:"recursive,omitempty" json:"recursive,omitempty"`
+	Path      *string `url:"path,omitempty" json:"path,omitempty" yaml:"path,omitempty"`
+	Ref       *string `url:"ref,omitempty" json:"ref,omitempty" yaml:"ref,omitempty"`
+	Recursive *bool   `url:"recursive,omitempty" json:"recursive,omitempty" yaml:"recursive,omitempty"`
 }
 
 // ListTree gets a list of repository files and directories in a project.
@@ -137,8 +137,8 @@ func (s *RepositoriesService) RawBlobContent(pid interface{}, sha string, option
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/repositories.html#get-file-archive
 type ArchiveOptions struct {
-	Format *string `url:"-" json:"-"`
-	SHA    *string `url:"sha,omitempty" json:"sha,omitempty"`
+	Format *string `url:"-" json:"-" yaml:"-"`
+	SHA    *string `url:"sha,omitempty" json:"sha,omitempty" yaml:"sha,omitempty"`
 }
 
 // Archive gets an archive of the repository.
@@ -176,11 +176,11 @@ func (s *RepositoriesService) Archive(pid interface{}, opt *ArchiveOptions, opti
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/repositories.html#compare-branches-tags-or-commits
 type Compare struct {
-	Commit         *Commit   `json:"commit"`
-	Commits        []*Commit `json:"commits"`
-	Diffs          []*Diff   `json:"diffs"`
-	CompareTimeout bool      `json:"compare_timeout"`
-	CompareSameRef bool      `json:"compare_same_ref"`
+	Commit         *Commit   `json:"commit" yaml:"commit"`
+	Commits        []*Commit `json:"commits" yaml:"commits"`
+	Diffs          []*Diff   `json:"diffs" yaml:"diffs"`
+	CompareTimeout bool      `json:"compare_timeout" yaml:"compare_timeout"`
+	CompareSameRef bool      `json:"compare_same_ref" yaml:"compare_same_ref"`
 }
 
 func (c Compare) String() string {
@@ -192,9 +192,9 @@ func (c Compare) String() string {
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/repositories.html#compare-branches-tags-or-commits
 type CompareOptions struct {
-	From     *string `url:"from,omitempty" json:"from,omitempty"`
-	To       *string `url:"to,omitempty" json:"to,omitempty"`
-	Straight *bool   `url:"straight,omitempty" json:"straight,omitempty"`
+	From     *string `url:"from,omitempty" json:"from,omitempty" yaml:"from,omitempty"`
+	To       *string `url:"to,omitempty" json:"to,omitempty" yaml:"to,omitempty"`
+	Straight *bool   `url:"straight,omitempty" json:"straight,omitempty" yaml:"straight,omitempty"`
 }
 
 // Compare compares branches, tags or commits.
@@ -226,11 +226,11 @@ func (s *RepositoriesService) Compare(pid interface{}, opt *CompareOptions, opti
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/repositories.html#contributors
 type Contributor struct {
-	Name      string `json:"name,omitempty"`
-	Email     string `json:"email,omitempty"`
-	Commits   int    `json:"commits,omitempty"`
-	Additions int    `json:"additions,omitempty"`
-	Deletions int    `json:"deletions,omitempty"`
+	Name      string `json:"name,omitempty" yaml:"name,omitempty"`
+	Email     string `json:"email,omitempty" yaml:"email,omitempty"`
+	Commits   int    `json:"commits,omitempty" yaml:"commits,omitempty"`
+	Additions int    `json:"additions,omitempty" yaml:"additions,omitempty"`
+	Deletions int    `json:"deletions,omitempty" yaml:"deletions,omitempty"`
 }
 
 func (c Contributor) String() string {
@@ -271,7 +271,7 @@ func (s *RepositoriesService) Contributors(pid interface{}, opt *ListContributor
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/repositories.html#merge-base
 type MergeBaseOptions struct {
-	Ref []string `url:"refs[],omitempty" json:"refs,omitempty"`
+	Ref []string `url:"refs[],omitempty" json:"refs,omitempty" yaml:"refs,omitempty"`
 }
 
 // MergeBase gets the common ancestor for 2 refs (commit SHAs, branch

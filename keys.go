@@ -36,11 +36,11 @@ type KeysService struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/keys.html
 type Key struct {
-	ID        int        `json:"id"`
-	Title     string     `json:"title"`
-	Key       string     `json:"key"`
-	CreatedAt *time.Time `json:"created_at"`
-	User      User       `json:"user"`
+	ID        int        `json:"id" yaml:"id"`
+	Title     string     `json:"title" yaml:"title"`
+	Key       string     `json:"key" yaml:"key"`
+	CreatedAt *time.Time `json:"created_at" yaml:"created_at"`
+	User      User       `json:"user" yaml:"user"`
 }
 
 // GetKeyWithUser gets a single key by id along with the associated

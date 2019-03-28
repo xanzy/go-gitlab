@@ -33,21 +33,21 @@ type GroupsService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/groups.html
 type Group struct {
-	ID                   int                `json:"id"`
-	Name                 string             `json:"name"`
-	Path                 string             `json:"path"`
-	Description          string             `json:"description"`
-	Visibility           *VisibilityValue   `json:"visibility"`
-	LFSEnabled           bool               `json:"lfs_enabled"`
-	AvatarURL            string             `json:"avatar_url"`
-	WebURL               string             `json:"web_url"`
-	RequestAccessEnabled bool               `json:"request_access_enabled"`
-	FullName             string             `json:"full_name"`
-	FullPath             string             `json:"full_path"`
-	ParentID             int                `json:"parent_id"`
-	Projects             []*Project         `json:"projects"`
-	Statistics           *StorageStatistics `json:"statistics"`
-	CustomAttributes     []*CustomAttribute `json:"custom_attributes"`
+	ID                   int                `json:"id" yaml:"id"`
+	Name                 string             `json:"name" yaml:"name"`
+	Path                 string             `json:"path" yaml:"path"`
+	Description          string             `json:"description" yaml:"description"`
+	Visibility           *VisibilityValue   `json:"visibility" yaml:"visibility"`
+	LFSEnabled           bool               `json:"lfs_enabled" yaml:"lfs_enabled"`
+	AvatarURL            string             `json:"avatar_url" yaml:"avatar_url"`
+	WebURL               string             `json:"web_url" yaml:"web_url"`
+	RequestAccessEnabled bool               `json:"request_access_enabled" yaml:"request_access_enabled"`
+	FullName             string             `json:"full_name" yaml:"full_name"`
+	FullPath             string             `json:"full_path" yaml:"full_path"`
+	ParentID             int                `json:"parent_id" yaml:"parent_id"`
+	Projects             []*Project         `json:"projects" yaml:"projects"`
+	Statistics           *StorageStatistics `json:"statistics" yaml:"statistics"`
+	CustomAttributes     []*CustomAttribute `json:"custom_attributes" yaml:"custom_attributes"`
 }
 
 // ListGroupsOptions represents the available ListGroups() options.
@@ -55,15 +55,15 @@ type Group struct {
 // GitLab API docs: https://docs.gitlab.com/ce/api/groups.html#list-project-groups
 type ListGroupsOptions struct {
 	ListOptions
-	AllAvailable         *bool             `url:"all_available,omitempty" json:"all_available,omitempty"`
-	MinAccessLevel       *AccessLevelValue `url:"min_access_level,omitempty" json:"min_access_level,omitempty"`
-	OrderBy              *string           `url:"order_by,omitempty" json:"order_by,omitempty"`
-	Owned                *bool             `url:"owned,omitempty" json:"owned,omitempty"`
-	Search               *string           `url:"search,omitempty" json:"search,omitempty"`
-	SkipGroups           []int             `url:"skip_groups,omitempty" json:"skip_groups,omitempty"`
-	Sort                 *string           `url:"sort,omitempty" json:"sort,omitempty"`
-	Statistics           *bool             `url:"statistics,omitempty" json:"statistics,omitempty"`
-	WithCustomAttributes *bool             `url:"with_custom_attributes,omitempty" json:"with_custom_attributes,omitempty"`
+	AllAvailable         *bool             `url:"all_available,omitempty" json:"all_available,omitempty" yaml:"all_available,omitempty"`
+	MinAccessLevel       *AccessLevelValue `url:"min_access_level,omitempty" json:"min_access_level,omitempty" yaml:"min_access_level,omitempty"`
+	OrderBy              *string           `url:"order_by,omitempty" json:"order_by,omitempty" yaml:"order_by,omitempty"`
+	Owned                *bool             `url:"owned,omitempty" json:"owned,omitempty" yaml:"owned,omitempty"`
+	Search               *string           `url:"search,omitempty" json:"search,omitempty" yaml:"search,omitempty"`
+	SkipGroups           []int             `url:"skip_groups,omitempty" json:"skip_groups,omitempty" yaml:"skip_groups,omitempty"`
+	Sort                 *string           `url:"sort,omitempty" json:"sort,omitempty" yaml:"sort,omitempty"`
+	Statistics           *bool             `url:"statistics,omitempty" json:"statistics,omitempty" yaml:"statistics,omitempty"`
+	WithCustomAttributes *bool             `url:"with_custom_attributes,omitempty" json:"with_custom_attributes,omitempty" yaml:"with_custom_attributes,omitempty"`
 }
 
 // ListGroups gets a list of groups (as user: my groups, as admin: all groups).
@@ -113,13 +113,13 @@ func (s *GroupsService) GetGroup(gid interface{}, options ...OptionFunc) (*Group
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/groups.html#new-group
 type CreateGroupOptions struct {
-	Name                 *string          `url:"name,omitempty" json:"name,omitempty"`
-	Path                 *string          `url:"path,omitempty" json:"path,omitempty"`
-	Description          *string          `url:"description,omitempty" json:"description,omitempty"`
-	Visibility           *VisibilityValue `url:"visibility,omitempty" json:"visibility,omitempty"`
-	LFSEnabled           *bool            `url:"lfs_enabled,omitempty" json:"lfs_enabled,omitempty"`
-	RequestAccessEnabled *bool            `url:"request_access_enabled,omitempty" json:"request_access_enabled,omitempty"`
-	ParentID             *int             `url:"parent_id,omitempty" json:"parent_id,omitempty"`
+	Name                 *string          `url:"name,omitempty" json:"name,omitempty" yaml:"name,omitempty"`
+	Path                 *string          `url:"path,omitempty" json:"path,omitempty" yaml:"path,omitempty"`
+	Description          *string          `url:"description,omitempty" json:"description,omitempty" yaml:"description,omitempty"`
+	Visibility           *VisibilityValue `url:"visibility,omitempty" json:"visibility,omitempty" yaml:"visibility,omitempty"`
+	LFSEnabled           *bool            `url:"lfs_enabled,omitempty" json:"lfs_enabled,omitempty" yaml:"lfs_enabled,omitempty"`
+	RequestAccessEnabled *bool            `url:"request_access_enabled,omitempty" json:"request_access_enabled,omitempty" yaml:"request_access_enabled,omitempty"`
+	ParentID             *int             `url:"parent_id,omitempty" json:"parent_id,omitempty" yaml:"parent_id,omitempty"`
 }
 
 // CreateGroup creates a new project group. Available only for users who can
@@ -228,7 +228,7 @@ func (s *GroupsService) DeleteGroup(gid interface{}, options ...OptionFunc) (*Re
 // GitLab API docs: https://docs.gitlab.com/ce/api/groups.html#search-for-group
 func (s *GroupsService) SearchGroup(query string, options ...OptionFunc) ([]*Group, *Response, error) {
 	var q struct {
-		Search string `url:"search,omitempty" json:"search,omitempty"`
+		Search string `url:"search,omitempty" json:"search,omitempty" yaml:"search,omitempty"`
 	}
 	q.Search = query
 

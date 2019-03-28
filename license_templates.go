@@ -9,17 +9,17 @@ import (
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/templates/licenses.html
 type LicenseTemplate struct {
-	Key         string   `json:"key"`
-	Name        string   `json:"name"`
-	Nickname    string   `json:"nickname"`
-	Featured    bool     `json:"featured"`
-	HTMLURL     string   `json:"html_url"`
-	SourceURL   string   `json:"source_url"`
-	Description string   `json:"description"`
-	Conditions  []string `json:"conditions"`
-	Permissions []string `json:"permissions"`
-	Limitations []string `json:"limitations"`
-	Content     string   `json:"content"`
+	Key         string   `json:"key" yaml:"key"`
+	Name        string   `json:"name" yaml:"name"`
+	Nickname    string   `json:"nickname" yaml:"nickname"`
+	Featured    bool     `json:"featured" yaml:"featured"`
+	HTMLURL     string   `json:"html_url" yaml:"html_url"`
+	SourceURL   string   `json:"source_url" yaml:"source_url"`
+	Description string   `json:"description" yaml:"description"`
+	Conditions  []string `json:"conditions" yaml:"conditions"`
+	Permissions []string `json:"permissions" yaml:"permissions"`
+	Limitations []string `json:"limitations" yaml:"limitations"`
+	Content     string   `json:"content" yaml:"content"`
 }
 
 // LicenseTemplatesService handles communication with the license templates
@@ -37,7 +37,7 @@ type LicenseTemplatesService struct {
 // https://docs.gitlab.com/ce/api/templates/licenses.html#list-license-templates
 type ListLicenseTemplatesOptions struct {
 	ListOptions
-	Popular *bool `url:"popular,omitempty" json:"popular,omitempty"`
+	Popular *bool `url:"popular,omitempty" json:"popular,omitempty" yaml:"popular,omitempty"`
 }
 
 // ListLicenseTemplates get all license templates.
@@ -65,8 +65,8 @@ func (s *LicenseTemplatesService) ListLicenseTemplates(opt *ListLicenseTemplates
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/templates/licenses.html#single-license-template
 type GetLicenseTemplateOptions struct {
-	Project  *string `url:"project,omitempty" json:"project,omitempty"`
-	Fullname *string `url:"fullname,omitempty" json:"fullname,omitempty"`
+	Project  *string `url:"project,omitempty" json:"project,omitempty" yaml:"project,omitempty"`
+	Fullname *string `url:"fullname,omitempty" json:"fullname,omitempty" yaml:"fullname,omitempty"`
 }
 
 // GetLicenseTemplate get a single license template. You can pass parameters

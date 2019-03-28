@@ -10,13 +10,13 @@ import (
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/project_badges.html#list-all-badges-of-a-project
 type ProjectBadge struct {
-	ID               int    `json:"id"`
-	LinkURL          string `json:"link_url"`
-	ImageURL         string `json:"image_url"`
-	RenderedLinkURL  string `json:"rendered_link_url"`
-	RenderedImageURL string `json:"rendered_image_url"`
+	ID               int    `json:"id" yaml:"id"`
+	LinkURL          string `json:"link_url" yaml:"link_url"`
+	ImageURL         string `json:"image_url" yaml:"image_url"`
+	RenderedLinkURL  string `json:"rendered_link_url" yaml:"rendered_link_url"`
+	RenderedImageURL string `json:"rendered_image_url" yaml:"rendered_image_url"`
 	// Kind represents a project badge kind. Can be empty, when used PreviewProjectBadge().
-	Kind string `json:"kind"`
+	Kind string `json:"kind" yaml:"kind"`
 }
 
 // ProjectBadgesService handles communication with the project badges
@@ -89,8 +89,8 @@ func (s *ProjectBadgesService) GetProjectBadge(pid interface{}, badge int, optio
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/project_badges.html#add-a-badge-to-a-project
 type AddProjectBadgeOptions struct {
-	LinkURL  *string `url:"link_url,omitempty" json:"link_url,omitempty"`
-	ImageURL *string `url:"image_url,omitempty" json:"image_url,omitempty"`
+	LinkURL  *string `url:"link_url,omitempty" json:"link_url,omitempty" yaml:"link_url,omitempty"`
+	ImageURL *string `url:"image_url,omitempty" json:"image_url,omitempty" yaml:"image_url,omitempty"`
 }
 
 // AddProjectBadge adds a badge to a project.
@@ -123,8 +123,8 @@ func (s *ProjectBadgesService) AddProjectBadge(pid interface{}, opt *AddProjectB
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/project_badges.html#edit-a-badge-of-a-project
 type EditProjectBadgeOptions struct {
-	LinkURL  *string `url:"link_url,omitempty" json:"link_url,omitempty"`
-	ImageURL *string `url:"image_url,omitempty" json:"image_url,omitempty"`
+	LinkURL  *string `url:"link_url,omitempty" json:"link_url,omitempty" yaml:"link_url,omitempty"`
+	ImageURL *string `url:"image_url,omitempty" json:"image_url,omitempty" yaml:"image_url,omitempty"`
 }
 
 // EditProjectBadge updates a badge of a project.
@@ -177,8 +177,8 @@ func (s *ProjectBadgesService) DeleteProjectBadge(pid interface{}, badge int, op
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/project_badges.html#preview-a-badge-from-a-project
 type ProjectBadgePreviewOptions struct {
-	LinkURL  *string `url:"link_url,omitempty" json:"link_url,omitempty"`
-	ImageURL *string `url:"image_url,omitempty" json:"image_url,omitempty"`
+	LinkURL  *string `url:"link_url,omitempty" json:"link_url,omitempty" yaml:"link_url,omitempty"`
+	ImageURL *string `url:"image_url,omitempty" json:"image_url,omitempty" yaml:"image_url,omitempty"`
 }
 
 // PreviewProjectBadge returns how the link_url and image_url final URLs would be after

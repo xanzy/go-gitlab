@@ -33,14 +33,14 @@ type GroupMembersService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/members.html
 type GroupMember struct {
-	ID          int              `json:"id"`
-	Username    string           `json:"username"`
-	Name        string           `json:"name"`
-	State       string           `json:"state"`
-	AvatarURL   string           `json:"avatar_url"`
-	WebURL      string           `json:"web_url"`
-	ExpiresAt   *ISOTime         `json:"expires_at"`
-	AccessLevel AccessLevelValue `json:"access_level"`
+	ID          int              `json:"id" yaml:"id"`
+	Username    string           `json:"username" yaml:"username"`
+	Name        string           `json:"name" yaml:"name"`
+	State       string           `json:"state" yaml:"state"`
+	AvatarURL   string           `json:"avatar_url" yaml:"avatar_url"`
+	WebURL      string           `json:"web_url" yaml:"web_url"`
+	ExpiresAt   *ISOTime         `json:"expires_at" yaml:"expires_at"`
+	AccessLevel AccessLevelValue `json:"access_level" yaml:"access_level"`
 }
 
 // ListGroupMembersOptions represents the available ListGroupMembers() and
@@ -50,7 +50,7 @@ type GroupMember struct {
 // https://docs.gitlab.com/ce/api/members.html#list-all-members-of-a-group-or-project
 type ListGroupMembersOptions struct {
 	ListOptions
-	Query *string `url:"query,omitempty" json:"query,omitempty"`
+	Query *string `url:"query,omitempty" json:"query,omitempty" yaml:"query,omitempty"`
 }
 
 // ListGroupMembers get a list of group members viewable by the authenticated
@@ -110,9 +110,9 @@ func (s *GroupsService) ListAllGroupMembers(gid interface{}, opt *ListGroupMembe
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/members.html#add-a-member-to-a-group-or-project
 type AddGroupMemberOptions struct {
-	UserID      *int              `url:"user_id,omitempty" json:"user_id,omitempty"`
-	AccessLevel *AccessLevelValue `url:"access_level,omitempty" json:"access_level,omitempty"`
-	ExpiresAt   *string           `url:"expires_at,omitempty" json:"expires_at"`
+	UserID      *int              `url:"user_id,omitempty" json:"user_id,omitempty" yaml:"user_id,omitempty"`
+	AccessLevel *AccessLevelValue `url:"access_level,omitempty" json:"access_level,omitempty" yaml:"access_level,omitempty"`
+	ExpiresAt   *string           `url:"expires_at,omitempty" json:"expires_at" yaml:"expires_at"`
 }
 
 // GetGroupMember gets a member of a group.
@@ -171,8 +171,8 @@ func (s *GroupMembersService) AddGroupMember(gid interface{}, opt *AddGroupMembe
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/members.html#edit-a-member-of-a-group-or-project
 type EditGroupMemberOptions struct {
-	AccessLevel *AccessLevelValue `url:"access_level,omitempty" json:"access_level,omitempty"`
-	ExpiresAt   *string           `url:"expires_at,omitempty" json:"expires_at"`
+	AccessLevel *AccessLevelValue `url:"access_level,omitempty" json:"access_level,omitempty" yaml:"access_level,omitempty"`
+	ExpiresAt   *string           `url:"expires_at,omitempty" json:"expires_at" yaml:"expires_at"`
 }
 
 // EditGroupMember updates a member of a group.

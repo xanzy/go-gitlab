@@ -33,11 +33,11 @@ type IssueBoardsService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/boards.html
 type IssueBoard struct {
-	ID        int          `json:"id"`
-	Name      string       `json:"name"`
-	Project   *Project     `json:"project"`
-	Milestone *Milestone   `json:"milestone"`
-	Lists     []*BoardList `json:"lists"`
+	ID        int          `json:"id" yaml:"id"`
+	Name      string       `json:"name" yaml:"name"`
+	Project   *Project     `json:"project" yaml:"project"`
+	Milestone *Milestone   `json:"milestone" yaml:"milestone"`
+	Lists     []*BoardList `json:"lists" yaml:"lists"`
 }
 
 func (b IssueBoard) String() string {
@@ -48,9 +48,9 @@ func (b IssueBoard) String() string {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/boards.html
 type BoardList struct {
-	ID       int    `json:"id"`
-	Label    *Label `json:"label"`
-	Position int    `json:"position"`
+	ID       int    `json:"id" yaml:"id"`
+	Label    *Label `json:"label" yaml:"label"`
+	Position int    `json:"position" yaml:"position"`
 }
 
 func (b BoardList) String() string {
@@ -173,7 +173,7 @@ func (s *IssueBoardsService) GetIssueBoardList(pid interface{}, board, list int,
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/boards.html#new-board-list
 type CreateIssueBoardListOptions struct {
-	LabelID *int `url:"label_id" json:"label_id"`
+	LabelID *int `url:"label_id" json:"label_id" yaml:"label_id"`
 }
 
 // CreateIssueBoardList creates a new issue board list.
@@ -205,7 +205,7 @@ func (s *IssueBoardsService) CreateIssueBoardList(pid interface{}, board int, op
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/boards.html#edit-board-list
 type UpdateIssueBoardListOptions struct {
-	Position *int `url:"position" json:"position"`
+	Position *int `url:"position" json:"position" yaml:"position"`
 }
 
 // UpdateIssueBoardList updates the position of an existing issue board list.

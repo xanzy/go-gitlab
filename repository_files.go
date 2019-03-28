@@ -35,14 +35,14 @@ type RepositoryFilesService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/repository_files.html
 type File struct {
-	FileName string `json:"file_name"`
-	FilePath string `json:"file_path"`
-	Size     int    `json:"size"`
-	Encoding string `json:"encoding"`
-	Content  string `json:"content"`
-	Ref      string `json:"ref"`
-	BlobID   string `json:"blob_id"`
-	CommitID string `json:"commit_id"`
+	FileName string `json:"file_name" yaml:"file_name"`
+	FilePath string `json:"file_path" yaml:"file_path"`
+	Size     int    `json:"size" yaml:"size"`
+	Encoding string `json:"encoding" yaml:"encoding"`
+	Content  string `json:"content" yaml:"content"`
+	Ref      string `json:"ref" yaml:"ref"`
+	BlobID   string `json:"blob_id" yaml:"blob_id"`
+	CommitID string `json:"commit_id" yaml:"commit_id"`
 }
 
 func (r File) String() string {
@@ -54,7 +54,7 @@ func (r File) String() string {
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/repository_files.html#get-file-from-repository
 type GetFileOptions struct {
-	Ref *string `url:"ref,omitempty" json:"ref,omitempty"`
+	Ref *string `url:"ref,omitempty" json:"ref,omitempty" yaml:"ref,omitempty"`
 }
 
 // GetFile allows you to receive information about a file in repository like
@@ -92,7 +92,7 @@ func (s *RepositoryFilesService) GetFile(pid interface{}, fileName string, opt *
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/repository_files.html#get-file-from-repository
 type GetFileMetaDataOptions struct {
-	Ref *string `url:"ref,omitempty" json:"ref,omitempty"`
+	Ref *string `url:"ref,omitempty" json:"ref,omitempty" yaml:"ref,omitempty"`
 }
 
 // GetFileMetaData allows you to receive meta information about a file in
@@ -145,7 +145,7 @@ func (s *RepositoryFilesService) GetFileMetaData(pid interface{}, fileName strin
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/repository_files.html#get-raw-file-from-repository
 type GetRawFileOptions struct {
-	Ref *string `url:"ref,omitempty" json:"ref,omitempty"`
+	Ref *string `url:"ref,omitempty" json:"ref,omitempty" yaml:"ref,omitempty"`
 }
 
 // GetRawFile allows you to receive the raw file in repository.
@@ -181,8 +181,8 @@ func (s *RepositoryFilesService) GetRawFile(pid interface{}, fileName string, op
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/repository_files.html
 type FileInfo struct {
-	FilePath string `json:"file_path"`
-	Branch   string `json:"branch"`
+	FilePath string `json:"file_path" yaml:"file_path"`
+	Branch   string `json:"branch" yaml:"branch"`
 }
 
 func (r FileInfo) String() string {
@@ -194,12 +194,12 @@ func (r FileInfo) String() string {
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/repository_files.html#create-new-file-in-repository
 type CreateFileOptions struct {
-	Branch        *string `url:"branch,omitempty" json:"branch,omitempty"`
-	Encoding      *string `url:"encoding,omitempty" json:"encoding,omitempty"`
-	AuthorEmail   *string `url:"author_email,omitempty" json:"author_email,omitempty"`
-	AuthorName    *string `url:"author_name,omitempty" json:"author_name,omitempty"`
-	Content       *string `url:"content,omitempty" json:"content,omitempty"`
-	CommitMessage *string `url:"commit_message,omitempty" json:"commit_message,omitempty"`
+	Branch        *string `url:"branch,omitempty" json:"branch,omitempty" yaml:"branch,omitempty"`
+	Encoding      *string `url:"encoding,omitempty" json:"encoding,omitempty" yaml:"encoding,omitempty"`
+	AuthorEmail   *string `url:"author_email,omitempty" json:"author_email,omitempty" yaml:"author_email,omitempty"`
+	AuthorName    *string `url:"author_name,omitempty" json:"author_name,omitempty" yaml:"author_name,omitempty"`
+	Content       *string `url:"content,omitempty" json:"content,omitempty" yaml:"content,omitempty"`
+	CommitMessage *string `url:"commit_message,omitempty" json:"commit_message,omitempty" yaml:"commit_message,omitempty"`
 }
 
 // CreateFile creates a new file in a repository.
@@ -236,13 +236,13 @@ func (s *RepositoryFilesService) CreateFile(pid interface{}, fileName string, op
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/repository_files.html#update-existing-file-in-repository
 type UpdateFileOptions struct {
-	Branch        *string `url:"branch,omitempty" json:"branch,omitempty"`
-	Encoding      *string `url:"encoding,omitempty" json:"encoding,omitempty"`
-	AuthorEmail   *string `url:"author_email,omitempty" json:"author_email,omitempty"`
-	AuthorName    *string `url:"author_name,omitempty" json:"author_name,omitempty"`
-	Content       *string `url:"content,omitempty" json:"content,omitempty"`
-	CommitMessage *string `url:"commit_message,omitempty" json:"commit_message,omitempty"`
-	LastCommitID  *string `url:"last_commit_id,omitempty" json:"last_commit_id,omitempty"`
+	Branch        *string `url:"branch,omitempty" json:"branch,omitempty" yaml:"branch,omitempty"`
+	Encoding      *string `url:"encoding,omitempty" json:"encoding,omitempty" yaml:"encoding,omitempty"`
+	AuthorEmail   *string `url:"author_email,omitempty" json:"author_email,omitempty" yaml:"author_email,omitempty"`
+	AuthorName    *string `url:"author_name,omitempty" json:"author_name,omitempty" yaml:"author_name,omitempty"`
+	Content       *string `url:"content,omitempty" json:"content,omitempty" yaml:"content,omitempty"`
+	CommitMessage *string `url:"commit_message,omitempty" json:"commit_message,omitempty" yaml:"commit_message,omitempty"`
+	LastCommitID  *string `url:"last_commit_id,omitempty" json:"last_commit_id,omitempty" yaml:"last_commit_id,omitempty"`
 }
 
 // UpdateFile updates an existing file in a repository
@@ -279,10 +279,10 @@ func (s *RepositoryFilesService) UpdateFile(pid interface{}, fileName string, op
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/repository_files.html#delete-existing-file-in-repository
 type DeleteFileOptions struct {
-	Branch        *string `url:"branch,omitempty" json:"branch,omitempty"`
-	AuthorEmail   *string `url:"author_email,omitempty" json:"author_email,omitempty"`
-	AuthorName    *string `url:"author_name,omitempty" json:"author_name,omitempty"`
-	CommitMessage *string `url:"commit_message,omitempty" json:"commit_message,omitempty"`
+	Branch        *string `url:"branch,omitempty" json:"branch,omitempty" yaml:"branch,omitempty"`
+	AuthorEmail   *string `url:"author_email,omitempty" json:"author_email,omitempty" yaml:"author_email,omitempty"`
+	AuthorName    *string `url:"author_name,omitempty" json:"author_name,omitempty" yaml:"author_name,omitempty"`
+	CommitMessage *string `url:"commit_message,omitempty" json:"commit_message,omitempty" yaml:"commit_message,omitempty"`
 }
 
 // DeleteFile deletes an existing file in a repository

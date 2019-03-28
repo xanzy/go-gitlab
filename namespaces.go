@@ -32,13 +32,13 @@ type NamespacesService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/namespaces.html
 type Namespace struct {
-	ID                          int    `json:"id"`
-	Name                        string `json:"name"`
-	Path                        string `json:"path"`
-	Kind                        string `json:"kind"`
-	FullPath                    string `json:"full_path"`
-	ParentID                    int    `json:"parent_id"`
-	MembersCountWithDescendants int    `json:"members_count_with_descendants"`
+	ID                          int    `json:"id" yaml:"id"`
+	Name                        string `json:"name" yaml:"name"`
+	Path                        string `json:"path" yaml:"path"`
+	Kind                        string `json:"kind" yaml:"kind"`
+	FullPath                    string `json:"full_path" yaml:"full_path"`
+	ParentID                    int    `json:"parent_id" yaml:"parent_id"`
+	MembersCountWithDescendants int    `json:"members_count_with_descendants" yaml:"members_count_with_descendants"`
 }
 
 func (n Namespace) String() string {
@@ -50,7 +50,7 @@ func (n Namespace) String() string {
 // GitLab API docs: https://docs.gitlab.com/ce/api/namespaces.html#list-namespaces
 type ListNamespacesOptions struct {
 	ListOptions
-	Search *string `url:"search,omitempty" json:"search,omitempty"`
+	Search *string `url:"search,omitempty" json:"search,omitempty" yaml:"search,omitempty"`
 }
 
 // ListNamespaces gets a list of projects accessible by the authenticated user.
@@ -78,7 +78,7 @@ func (s *NamespacesService) ListNamespaces(opt *ListNamespacesOptions, options .
 // https://docs.gitlab.com/ce/api/namespaces.html#search-for-namespace
 func (s *NamespacesService) SearchNamespace(query string, options ...OptionFunc) ([]*Namespace, *Response, error) {
 	var q struct {
-		Search string `url:"search,omitempty" json:"search,omitempty"`
+		Search string `url:"search,omitempty" json:"search,omitempty" yaml:"search,omitempty"`
 	}
 	q.Search = query
 

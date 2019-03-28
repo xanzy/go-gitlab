@@ -358,10 +358,10 @@ type Client struct {
 // support pagination.
 type ListOptions struct {
 	// For paginated result sets, page of results to retrieve.
-	Page int `url:"page,omitempty" json:"page,omitempty"`
+	Page int `url:"page,omitempty" json:"page,omitempty" yaml:"page,omitempty"`
 
 	// For paginated result sets, the number of results to include per page.
-	PerPage int `url:"per_page,omitempty" json:"per_page,omitempty"`
+	PerPage int `url:"per_page,omitempty" json:"per_page,omitempty" yaml:"per_page,omitempty"`
 }
 
 // NewClient returns a new GitLab API client. If a nil httpClient is

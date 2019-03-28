@@ -34,16 +34,16 @@ type MilestonesService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/milestones.html
 type Milestone struct {
-	ID          int        `json:"id"`
-	IID         int        `json:"iid"`
-	ProjectID   int        `json:"project_id"`
-	Title       string     `json:"title"`
-	Description string     `json:"description"`
-	StartDate   *ISOTime   `json:"start_date"`
-	DueDate     *ISOTime   `json:"due_date"`
-	State       string     `json:"state"`
-	UpdatedAt   *time.Time `json:"updated_at"`
-	CreatedAt   *time.Time `json:"created_at"`
+	ID          int        `json:"id" yaml:"id"`
+	IID         int        `json:"iid" yaml:"iid"`
+	ProjectID   int        `json:"project_id" yaml:"project_id"`
+	Title       string     `json:"title" yaml:"title"`
+	Description string     `json:"description" yaml:"description"`
+	StartDate   *ISOTime   `json:"start_date" yaml:"start_date"`
+	DueDate     *ISOTime   `json:"due_date" yaml:"due_date"`
+	State       string     `json:"state" yaml:"state"`
+	UpdatedAt   *time.Time `json:"updated_at" yaml:"updated_at"`
+	CreatedAt   *time.Time `json:"created_at" yaml:"created_at"`
 }
 
 func (m Milestone) String() string {
@@ -56,9 +56,9 @@ func (m Milestone) String() string {
 // https://docs.gitlab.com/ce/api/milestones.html#list-project-milestones
 type ListMilestonesOptions struct {
 	ListOptions
-	IIDs   []int  `url:"iids,omitempty" json:"iids,omitempty"`
-	State  string `url:"state,omitempty" json:"state,omitempty"`
-	Search string `url:"search,omitempty" json:"search,omitempty"`
+	IIDs   []int  `url:"iids,omitempty" json:"iids,omitempty" yaml:"iids,omitempty"`
+	State  string `url:"state,omitempty" json:"state,omitempty" yaml:"state,omitempty"`
+	Search string `url:"search,omitempty" json:"search,omitempty" yaml:"search,omitempty"`
 }
 
 // ListMilestones returns a list of project milestones.
@@ -116,10 +116,10 @@ func (s *MilestonesService) GetMilestone(pid interface{}, milestone int, options
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/milestones.html#create-new-milestone
 type CreateMilestoneOptions struct {
-	Title       *string  `url:"title,omitempty" json:"title,omitempty"`
-	Description *string  `url:"description,omitempty" json:"description,omitempty"`
-	StartDate   *ISOTime `url:"start_date,omitempty" json:"start_date,omitempty"`
-	DueDate     *ISOTime `url:"due_date,omitempty" json:"due_date,omitempty"`
+	Title       *string  `url:"title,omitempty" json:"title,omitempty" yaml:"title,omitempty"`
+	Description *string  `url:"description,omitempty" json:"description,omitempty" yaml:"description,omitempty"`
+	StartDate   *ISOTime `url:"start_date,omitempty" json:"start_date,omitempty" yaml:"start_date,omitempty"`
+	DueDate     *ISOTime `url:"due_date,omitempty" json:"due_date,omitempty" yaml:"due_date,omitempty"`
 }
 
 // CreateMilestone creates a new project milestone.
@@ -152,11 +152,11 @@ func (s *MilestonesService) CreateMilestone(pid interface{}, opt *CreateMileston
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/milestones.html#edit-milestone
 type UpdateMilestoneOptions struct {
-	Title       *string  `url:"title,omitempty" json:"title,omitempty"`
-	Description *string  `url:"description,omitempty" json:"description,omitempty"`
-	StartDate   *ISOTime `url:"start_date,omitempty" json:"start_date,omitempty"`
-	DueDate     *ISOTime `url:"due_date,omitempty" json:"due_date,omitempty"`
-	StateEvent  *string  `url:"state_event,omitempty" json:"state_event,omitempty"`
+	Title       *string  `url:"title,omitempty" json:"title,omitempty" yaml:"title,omitempty"`
+	Description *string  `url:"description,omitempty" json:"description,omitempty" yaml:"description,omitempty"`
+	StartDate   *ISOTime `url:"start_date,omitempty" json:"start_date,omitempty" yaml:"start_date,omitempty"`
+	DueDate     *ISOTime `url:"due_date,omitempty" json:"due_date,omitempty" yaml:"due_date,omitempty"`
+	StateEvent  *string  `url:"state_event,omitempty" json:"state_event,omitempty" yaml:"state_event,omitempty"`
 }
 
 // UpdateMilestone updates an existing project milestone.

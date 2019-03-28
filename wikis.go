@@ -43,10 +43,10 @@ const (
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/wikis.html
 type Wiki struct {
-	Content string     `json:"content"`
-	Format  WikiFormat `json:"format"`
-	Slug    string     `json:"slug"`
-	Title   string     `json:"title"`
+	Content string     `json:"content" yaml:"content"`
+	Format  WikiFormat `json:"format" yaml:"format"`
+	Slug    string     `json:"slug" yaml:"slug"`
+	Title   string     `json:"title" yaml:"title"`
 }
 
 func (w Wiki) String() string {
@@ -58,7 +58,7 @@ func (w Wiki) String() string {
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/wikis.html#list-wiki-pages
 type ListWikisOptions struct {
-	WithContent *bool `url:"with_content,omitempty" json:"with_content,omitempty"`
+	WithContent *bool `url:"with_content,omitempty" json:"with_content,omitempty" yaml:"with_content,omitempty"`
 }
 
 // ListWikis lists all pages of the wiki of the given project id.
@@ -117,9 +117,9 @@ func (s *WikisService) GetWikiPage(pid interface{}, slug string, options ...Opti
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/wikis.html#create-a-new-wiki-page
 type CreateWikiPageOptions struct {
-	Content *string `url:"content" json:"content"`
-	Title   *string `url:"title" json:"title"`
-	Format  *string `url:"format,omitempty" json:"format,omitempty"`
+	Content *string `url:"content" json:"content" yaml:"content"`
+	Title   *string `url:"title" json:"title" yaml:"title"`
+	Format  *string `url:"format,omitempty" json:"format,omitempty" yaml:"format,omitempty"`
 }
 
 // CreateWikiPage creates a new wiki page for the given repository with
@@ -153,9 +153,9 @@ func (s *WikisService) CreateWikiPage(pid interface{}, opt *CreateWikiPageOption
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/wikis.html#edit-an-existing-wiki-page
 type EditWikiPageOptions struct {
-	Content *string `url:"content" json:"content"`
-	Title   *string `url:"title" json:"title"`
-	Format  *string `url:"format,omitempty" json:"format,omitempty"`
+	Content *string `url:"content" json:"content" yaml:"content"`
+	Title   *string `url:"title" json:"title" yaml:"title"`
+	Format  *string `url:"format,omitempty" json:"format,omitempty" yaml:"format,omitempty"`
 }
 
 // EditWikiPage Updates an existing wiki page. At least one parameter is

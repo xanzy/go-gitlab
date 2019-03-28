@@ -31,35 +31,35 @@ type DeploymentsService struct {
 
 // Deployment represents the Gitlab deployment
 type Deployment struct {
-	ID          int          `json:"id"`
-	IID         int          `json:"iid"`
-	Ref         string       `json:"ref"`
-	SHA         string       `json:"sha"`
-	CreatedAt   *time.Time   `json:"created_at"`
-	User        *ProjectUser `json:"user"`
-	Environment *Environment `json:"environment"`
+	ID          int          `json:"id" yaml:"id"`
+	IID         int          `json:"iid" yaml:"iid"`
+	Ref         string       `json:"ref" yaml:"ref"`
+	SHA         string       `json:"sha" yaml:"sha"`
+	CreatedAt   *time.Time   `json:"created_at" yaml:"created_at"`
+	User        *ProjectUser `json:"user" yaml:"user"`
+	Environment *Environment `json:"environment" yaml:"environment"`
 	Deployable  struct {
-		ID         int        `json:"id"`
-		Status     string     `json:"status"`
-		Stage      string     `json:"stage"`
-		Name       string     `json:"name"`
-		Ref        string     `json:"ref"`
-		Tag        bool       `json:"tag"`
-		Coverage   float64    `json:"coverage"`
-		CreatedAt  *time.Time `json:"created_at"`
-		StartedAt  *time.Time `json:"started_at"`
-		FinishedAt *time.Time `json:"finished_at"`
-		Duration   float64    `json:"duration"`
-		User       *User      `json:"user"`
-		Commit     *Commit    `json:"commit"`
+		ID         int        `json:"id" yaml:"id"`
+		Status     string     `json:"status" yaml:"status"`
+		Stage      string     `json:"stage" yaml:"stage"`
+		Name       string     `json:"name" yaml:"name"`
+		Ref        string     `json:"ref" yaml:"ref"`
+		Tag        bool       `json:"tag" yaml:"tag"`
+		Coverage   float64    `json:"coverage" yaml:"coverage"`
+		CreatedAt  *time.Time `json:"created_at" yaml:"created_at"`
+		StartedAt  *time.Time `json:"started_at" yaml:"started_at"`
+		FinishedAt *time.Time `json:"finished_at" yaml:"finished_at"`
+		Duration   float64    `json:"duration" yaml:"duration"`
+		User       *User      `json:"user" yaml:"user"`
+		Commit     *Commit    `json:"commit" yaml:"commit"`
 		Pipeline   struct {
-			ID     int    `json:"id"`
-			SHA    string `json:"sha"`
-			Ref    string `json:"ref"`
-			Status string `json:"status"`
-		} `json:"pipeline"`
-		Runner *Runner `json:"runner"`
-	} `json:"deployable"`
+			ID     int    `json:"id" yaml:"id"`
+			SHA    string `json:"sha" yaml:"sha"`
+			Ref    string `json:"ref" yaml:"ref"`
+			Status string `json:"status" yaml:"status"`
+		} `json:"pipeline" yaml:"pipeline"`
+		Runner *Runner `json:"runner" yaml:"runner"`
+	} `json:"deployable" yaml:"deployable"`
 }
 
 // ListProjectDeploymentsOptions represents the available ListProjectDeployments() options.
@@ -68,8 +68,8 @@ type Deployment struct {
 // https://docs.gitlab.com/ce/api/deployments.html#list-project-deployments
 type ListProjectDeploymentsOptions struct {
 	ListOptions
-	OrderBy *string `url:"order_by,omitempty" json:"order_by,omitempty"`
-	Sort    *string `url:"sort,omitempty" json:"sort,omitempty"`
+	OrderBy *string `url:"order_by,omitempty" json:"order_by,omitempty" yaml:"order_by,omitempty"`
+	Sort    *string `url:"sort,omitempty" json:"sort,omitempty" yaml:"sort,omitempty"`
 }
 
 // ListProjectDeployments gets a list of deployments in a project.

@@ -27,12 +27,12 @@ const (
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/group_badges.html
 type GroupBadge struct {
-	ID               int       `json:"id"`
-	LinkURL          string    `json:"link_url"`
-	ImageURL         string    `json:"image_url"`
-	RenderedLinkURL  string    `json:"rendered_link_url"`
-	RenderedImageURL string    `json:"rendered_image_url"`
-	Kind             BadgeKind `json:"kind"`
+	ID               int       `json:"id" yaml:"id"`
+	LinkURL          string    `json:"link_url" yaml:"link_url"`
+	ImageURL         string    `json:"image_url" yaml:"image_url"`
+	RenderedLinkURL  string    `json:"rendered_link_url" yaml:"rendered_link_url"`
+	RenderedImageURL string    `json:"rendered_image_url" yaml:"rendered_image_url"`
+	Kind             BadgeKind `json:"kind" yaml:"kind"`
 }
 
 // ListGroupBadgesOptions represents the available ListGroupBadges() options.
@@ -96,8 +96,8 @@ func (s *GroupBadgesService) GetGroupBadge(gid interface{}, badge int, options .
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/group_badges.html#add-a-badge-to-a-group
 type AddGroupBadgeOptions struct {
-	LinkURL  *string `url:"link_url,omitempty" json:"link_url,omitempty"`
-	ImageURL *string `url:"image_url,omitempty" json:"image_url,omitempty"`
+	LinkURL  *string `url:"link_url,omitempty" json:"link_url,omitempty" yaml:"link_url,omitempty"`
+	ImageURL *string `url:"image_url,omitempty" json:"image_url,omitempty" yaml:"image_url,omitempty"`
 }
 
 // AddGroupBadge adds a badge to a group.
@@ -130,8 +130,8 @@ func (s *GroupBadgesService) AddGroupBadge(gid interface{}, opt *AddGroupBadgeOp
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/group_badges.html#edit-a-badge-of-a-group
 type EditGroupBadgeOptions struct {
-	LinkURL  *string `url:"link_url,omitempty" json:"link_url,omitempty"`
-	ImageURL *string `url:"image_url,omitempty" json:"image_url,omitempty"`
+	LinkURL  *string `url:"link_url,omitempty" json:"link_url,omitempty" yaml:"link_url,omitempty"`
+	ImageURL *string `url:"image_url,omitempty" json:"image_url,omitempty" yaml:"image_url,omitempty"`
 }
 
 // EditGroupBadge updates a badge of a group.
@@ -183,8 +183,8 @@ func (s *GroupBadgesService) DeleteGroupBadge(gid interface{}, badge int, option
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/group_badges.html#preview-a-badge-from-a-group
 type GroupBadgePreviewOptions struct {
-	LinkURL  *string `url:"link_url,omitempty" json:"link_url,omitempty"`
-	ImageURL *string `url:"image_url,omitempty" json:"image_url,omitempty"`
+	LinkURL  *string `url:"link_url,omitempty" json:"link_url,omitempty" yaml:"link_url,omitempty"`
+	ImageURL *string `url:"image_url,omitempty" json:"image_url,omitempty" yaml:"image_url,omitempty"`
 }
 
 // PreviewGroupBadge returns how the link_url and image_url final URLs would be after

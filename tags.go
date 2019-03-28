@@ -33,18 +33,18 @@ type TagsService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/tags.html
 type Tag struct {
-	Commit  *Commit      `json:"commit"`
-	Release *ReleaseNote `json:"release"`
-	Name    string       `json:"name"`
-	Message string       `json:"message"`
+	Commit  *Commit      `json:"commit" yaml:"commit"`
+	Release *ReleaseNote `json:"release" yaml:"release"`
+	Name    string       `json:"name" yaml:"name"`
+	Message string       `json:"message" yaml:"message"`
 }
 
 // ReleaseNote represents a GitLab version release.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/tags.html
 type ReleaseNote struct {
-	TagName     string `json:"tag_name"`
-	Description string `json:"description"`
+	TagName     string `json:"tag_name" yaml:"tag_name"`
+	Description string `json:"description" yaml:"description"`
 }
 
 func (t Tag) String() string {
@@ -57,8 +57,8 @@ func (t Tag) String() string {
 // https://docs.gitlab.com/ce/api/tags.html#list-project-repository-tags
 type ListTagsOptions struct {
 	ListOptions
-	OrderBy *string `url:"order_by,omitempty" json:"order_by,omitempty"`
-	Sort    *string `url:"sort,omitempty" json:"sort,omitempty"`
+	OrderBy *string `url:"order_by,omitempty" json:"order_by,omitempty" yaml:"order_by,omitempty"`
+	Sort    *string `url:"sort,omitempty" json:"sort,omitempty" yaml:"sort,omitempty"`
 }
 
 // ListTags gets a list of tags from a project, sorted by name in reverse
@@ -118,11 +118,11 @@ func (s *TagsService) GetTag(pid interface{}, tag string, options ...OptionFunc)
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/tags.html#create-a-new-tag
 type CreateTagOptions struct {
-	TagName *string `url:"tag_name,omitempty" json:"tag_name,omitempty"`
-	Ref     *string `url:"ref,omitempty" json:"ref,omitempty"`
-	Message *string `url:"message,omitempty" json:"message,omitempty"`
+	TagName *string `url:"tag_name,omitempty" json:"tag_name,omitempty" yaml:"tag_name,omitempty"`
+	Ref     *string `url:"ref,omitempty" json:"ref,omitempty" yaml:"ref,omitempty"`
+	Message *string `url:"message,omitempty" json:"message,omitempty" yaml:"message,omitempty"`
 	// ReleaseDescription parameter was deprecated in GitLab 11.7
-	ReleaseDescription *string `url:"release_description:omitempty" json:"release_description,omitempty"`
+	ReleaseDescription *string `url:"release_description:omitempty" json:"release_description,omitempty" yaml:"release_description,omitempty"`
 }
 
 // CreateTag creates a new tag in the repository that points to the supplied ref.
@@ -176,7 +176,7 @@ func (s *TagsService) DeleteTag(pid interface{}, tag string, options ...OptionFu
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/tags.html#create-a-new-release
 type CreateReleaseNoteOptions struct {
-	Description *string `url:"description:omitempty" json:"description,omitempty"`
+	Description *string `url:"description:omitempty" json:"description,omitempty" yaml:"description,omitempty"`
 }
 
 // CreateReleaseNote Add release notes to the existing git tag.
@@ -212,7 +212,7 @@ func (s *TagsService) CreateReleaseNote(pid interface{}, tag string, opt *Create
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/tags.html#update-a-release
 type UpdateReleaseNoteOptions struct {
-	Description *string `url:"description:omitempty" json:"description,omitempty"`
+	Description *string `url:"description:omitempty" json:"description,omitempty" yaml:"description,omitempty"`
 }
 
 // UpdateReleaseNote Updates the release notes of a given release.

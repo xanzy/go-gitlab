@@ -34,16 +34,16 @@ type GroupMilestonesService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/group_milestones.html
 type GroupMilestone struct {
-	ID          int        `json:"id"`
-	IID         int        `json:"iid"`
-	GroupID     int        `json:"group_id"`
-	Title       string     `json:"title"`
-	Description string     `json:"description"`
-	StartDate   *ISOTime   `json:"start_date"`
-	DueDate     *ISOTime   `json:"due_date"`
-	State       string     `json:"state"`
-	UpdatedAt   *time.Time `json:"updated_at"`
-	CreatedAt   *time.Time `json:"created_at"`
+	ID          int        `json:"id" yaml:"id"`
+	IID         int        `json:"iid" yaml:"iid"`
+	GroupID     int        `json:"group_id" yaml:"group_id"`
+	Title       string     `json:"title" yaml:"title"`
+	Description string     `json:"description" yaml:"description"`
+	StartDate   *ISOTime   `json:"start_date" yaml:"start_date"`
+	DueDate     *ISOTime   `json:"due_date" yaml:"due_date"`
+	State       string     `json:"state" yaml:"state"`
+	UpdatedAt   *time.Time `json:"updated_at" yaml:"updated_at"`
+	CreatedAt   *time.Time `json:"created_at" yaml:"created_at"`
 }
 
 func (m GroupMilestone) String() string {
@@ -57,9 +57,9 @@ func (m GroupMilestone) String() string {
 // https://docs.gitlab.com/ce/api/group_milestones.html#list-group-milestones
 type ListGroupMilestonesOptions struct {
 	ListOptions
-	IIDs   []int  `url:"iids,omitempty" json:"iids,omitempty"`
-	State  string `url:"state,omitempty" json:"state,omitempty"`
-	Search string `url:"search,omitempty" json:"search,omitempty"`
+	IIDs   []int  `url:"iids,omitempty" json:"iids,omitempty" yaml:"iids,omitempty"`
+	State  string `url:"state,omitempty" json:"state,omitempty" yaml:"state,omitempty"`
+	Search string `url:"search,omitempty" json:"search,omitempty" yaml:"search,omitempty"`
 }
 
 // ListGroupMilestones returns a list of group milestones.
@@ -117,10 +117,10 @@ func (s *GroupMilestonesService) GetGroupMilestone(gid interface{}, milestone in
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/group_milestones.html#create-new-milestone
 type CreateGroupMilestoneOptions struct {
-	Title       *string  `url:"title,omitempty" json:"title,omitempty"`
-	Description *string  `url:"description,omitempty" json:"description,omitempty"`
-	StartDate   *ISOTime `url:"start_date,omitempty" json:"start_date,omitempty"`
-	DueDate     *ISOTime `url:"due_date,omitempty" json:"due_date,omitempty"`
+	Title       *string  `url:"title,omitempty" json:"title,omitempty" yaml:"title,omitempty"`
+	Description *string  `url:"description,omitempty" json:"description,omitempty" yaml:"description,omitempty"`
+	StartDate   *ISOTime `url:"start_date,omitempty" json:"start_date,omitempty" yaml:"start_date,omitempty"`
+	DueDate     *ISOTime `url:"due_date,omitempty" json:"due_date,omitempty" yaml:"due_date,omitempty"`
 }
 
 // CreateGroupMilestone creates a new group milestone.
@@ -153,11 +153,11 @@ func (s *GroupMilestonesService) CreateGroupMilestone(gid interface{}, opt *Crea
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/group_milestones.html#edit-milestone
 type UpdateGroupMilestoneOptions struct {
-	Title       *string  `url:"title,omitempty" json:"title,omitempty"`
-	Description *string  `url:"description,omitempty" json:"description,omitempty"`
-	StartDate   *ISOTime `url:"start_date,omitempty" json:"start_date,omitempty"`
-	DueDate     *ISOTime `url:"due_date,omitempty" json:"due_date,omitempty"`
-	StateEvent  *string  `url:"state_event,omitempty" json:"state_event,omitempty"`
+	Title       *string  `url:"title,omitempty" json:"title,omitempty" yaml:"title,omitempty"`
+	Description *string  `url:"description,omitempty" json:"description,omitempty" yaml:"description,omitempty"`
+	StartDate   *ISOTime `url:"start_date,omitempty" json:"start_date,omitempty" yaml:"start_date,omitempty"`
+	DueDate     *ISOTime `url:"due_date,omitempty" json:"due_date,omitempty" yaml:"due_date,omitempty"`
+	StateEvent  *string  `url:"state_event,omitempty" json:"state_event,omitempty" yaml:"state_event,omitempty"`
 }
 
 // UpdateGroupMilestone updates an existing group milestone.

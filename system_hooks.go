@@ -33,9 +33,9 @@ type SystemHooksService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/system_hooks.html
 type Hook struct {
-	ID        int        `json:"id"`
-	URL       string     `json:"url"`
-	CreatedAt *time.Time `json:"created_at"`
+	ID        int        `json:"id" yaml:"id"`
+	URL       string     `json:"url" yaml:"url"`
+	CreatedAt *time.Time `json:"created_at" yaml:"created_at"`
 }
 
 func (h Hook) String() string {
@@ -66,7 +66,7 @@ func (s *SystemHooksService) ListHooks(options ...OptionFunc) ([]*Hook, *Respons
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/system_hooks.html#add-new-system-hook-hook
 type AddHookOptions struct {
-	URL *string `url:"url,omitempty" json:"url,omitempty"`
+	URL *string `url:"url,omitempty" json:"url,omitempty" yaml:"url,omitempty"`
 }
 
 // AddHook adds a new system hook hook.
@@ -92,12 +92,12 @@ func (s *SystemHooksService) AddHook(opt *AddHookOptions, options ...OptionFunc)
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/system_hooks.html
 type HookEvent struct {
-	EventName  string `json:"event_name"`
-	Name       string `json:"name"`
-	Path       string `json:"path"`
-	ProjectID  int    `json:"project_id"`
-	OwnerName  string `json:"owner_name"`
-	OwnerEmail string `json:"owner_email"`
+	EventName  string `json:"event_name" yaml:"event_name"`
+	Name       string `json:"name" yaml:"name"`
+	Path       string `json:"path" yaml:"path"`
+	ProjectID  int    `json:"project_id" yaml:"project_id"`
+	OwnerName  string `json:"owner_name" yaml:"owner_name"`
+	OwnerEmail string `json:"owner_email" yaml:"owner_email"`
 }
 
 func (h HookEvent) String() string {

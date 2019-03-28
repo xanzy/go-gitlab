@@ -35,89 +35,89 @@ type MergeRequestsService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/merge_requests.html
 type MergeRequest struct {
-	ID           int        `json:"id"`
-	IID          int        `json:"iid"`
-	TargetBranch string     `json:"target_branch"`
-	SourceBranch string     `json:"source_branch"`
-	ProjectID    int        `json:"project_id"`
-	Title        string     `json:"title"`
-	State        string     `json:"state"`
-	CreatedAt    *time.Time `json:"created_at"`
-	UpdatedAt    *time.Time `json:"updated_at"`
-	Upvotes      int        `json:"upvotes"`
-	Downvotes    int        `json:"downvotes"`
+	ID           int        `json:"id" yaml:"id"`
+	IID          int        `json:"iid" yaml:"iid"`
+	TargetBranch string     `json:"target_branch" yaml:"target_branch"`
+	SourceBranch string     `json:"source_branch" yaml:"source_branch"`
+	ProjectID    int        `json:"project_id" yaml:"project_id"`
+	Title        string     `json:"title" yaml:"title"`
+	State        string     `json:"state" yaml:"state"`
+	CreatedAt    *time.Time `json:"created_at" yaml:"created_at"`
+	UpdatedAt    *time.Time `json:"updated_at" yaml:"updated_at"`
+	Upvotes      int        `json:"upvotes" yaml:"upvotes"`
+	Downvotes    int        `json:"downvotes" yaml:"downvotes"`
 	Author       struct {
-		ID        int        `json:"id"`
-		Username  string     `json:"username"`
-		Name      string     `json:"name"`
-		State     string     `json:"state"`
-		CreatedAt *time.Time `json:"created_at"`
-	} `json:"author"`
+		ID        int        `json:"id" yaml:"id"`
+		Username  string     `json:"username" yaml:"username"`
+		Name      string     `json:"name" yaml:"name"`
+		State     string     `json:"state" yaml:"state"`
+		CreatedAt *time.Time `json:"created_at" yaml:"created_at"`
+	} `json:"author" yaml:"author"`
 	Assignee struct {
-		ID        int        `json:"id"`
-		Username  string     `json:"username"`
-		Name      string     `json:"name"`
-		State     string     `json:"state"`
-		CreatedAt *time.Time `json:"created_at"`
-	} `json:"assignee"`
-	SourceProjectID           int        `json:"source_project_id"`
-	TargetProjectID           int        `json:"target_project_id"`
-	Labels                    []string   `json:"labels"`
-	Description               string     `json:"description"`
-	WorkInProgress            bool       `json:"work_in_progress"`
-	Milestone                 *Milestone `json:"milestone"`
-	MergeWhenPipelineSucceeds bool       `json:"merge_when_pipeline_succeeds"`
-	MergeStatus               string     `json:"merge_status"`
+		ID        int        `json:"id" yaml:"id"`
+		Username  string     `json:"username" yaml:"username"`
+		Name      string     `json:"name" yaml:"name"`
+		State     string     `json:"state" yaml:"state"`
+		CreatedAt *time.Time `json:"created_at" yaml:"created_at"`
+	} `json:"assignee" yaml:"assignee"`
+	SourceProjectID           int        `json:"source_project_id" yaml:"source_project_id"`
+	TargetProjectID           int        `json:"target_project_id" yaml:"target_project_id"`
+	Labels                    []string   `json:"labels" yaml:"labels"`
+	Description               string     `json:"description" yaml:"description"`
+	WorkInProgress            bool       `json:"work_in_progress" yaml:"work_in_progress"`
+	Milestone                 *Milestone `json:"milestone" yaml:"milestone"`
+	MergeWhenPipelineSucceeds bool       `json:"merge_when_pipeline_succeeds" yaml:"merge_when_pipeline_succeeds"`
+	MergeStatus               string     `json:"merge_status" yaml:"merge_status"`
 	MergedBy                  struct {
-		ID        int        `json:"id"`
-		Username  string     `json:"username"`
-		Name      string     `json:"name"`
-		State     string     `json:"state"`
-		CreatedAt *time.Time `json:"created_at"`
-	} `json:"merged_by"`
-	MergedAt *time.Time `json:"merged_at"`
+		ID        int        `json:"id" yaml:"id"`
+		Username  string     `json:"username" yaml:"username"`
+		Name      string     `json:"name" yaml:"name"`
+		State     string     `json:"state" yaml:"state"`
+		CreatedAt *time.Time `json:"created_at" yaml:"created_at"`
+	} `json:"merged_by" yaml:"merged_by"`
+	MergedAt *time.Time `json:"merged_at" yaml:"merged_at"`
 	ClosedBy struct {
-		ID        int        `json:"id"`
-		Username  string     `json:"username"`
-		Name      string     `json:"name"`
-		State     string     `json:"state"`
-		CreatedAt *time.Time `json:"created_at"`
-	} `json:"closed_by"`
-	ClosedAt                 *time.Time `json:"closed_at"`
-	Subscribed               bool       `json:"subscribed"`
-	SHA                      string     `json:"sha"`
-	MergeCommitSHA           string     `json:"merge_commit_sha"`
-	UserNotesCount           int        `json:"user_notes_count"`
-	ChangesCount             string     `json:"changes_count"`
-	ShouldRemoveSourceBranch bool       `json:"should_remove_source_branch"`
-	ForceRemoveSourceBranch  bool       `json:"force_remove_source_branch"`
-	WebURL                   string     `json:"web_url"`
-	DiscussionLocked         bool       `json:"discussion_locked"`
+		ID        int        `json:"id" yaml:"id"`
+		Username  string     `json:"username" yaml:"username"`
+		Name      string     `json:"name" yaml:"name"`
+		State     string     `json:"state" yaml:"state"`
+		CreatedAt *time.Time `json:"created_at" yaml:"created_at"`
+	} `json:"closed_by" yaml:"closed_by"`
+	ClosedAt                 *time.Time `json:"closed_at" yaml:"closed_at"`
+	Subscribed               bool       `json:"subscribed" yaml:"subscribed"`
+	SHA                      string     `json:"sha" yaml:"sha"`
+	MergeCommitSHA           string     `json:"merge_commit_sha" yaml:"merge_commit_sha"`
+	UserNotesCount           int        `json:"user_notes_count" yaml:"user_notes_count"`
+	ChangesCount             string     `json:"changes_count" yaml:"changes_count"`
+	ShouldRemoveSourceBranch bool       `json:"should_remove_source_branch" yaml:"should_remove_source_branch"`
+	ForceRemoveSourceBranch  bool       `json:"force_remove_source_branch" yaml:"force_remove_source_branch"`
+	WebURL                   string     `json:"web_url" yaml:"web_url"`
+	DiscussionLocked         bool       `json:"discussion_locked" yaml:"discussion_locked"`
 	Changes                  []struct {
-		OldPath     string `json:"old_path"`
-		NewPath     string `json:"new_path"`
-		AMode       string `json:"a_mode"`
-		BMode       string `json:"b_mode"`
-		Diff        string `json:"diff"`
-		NewFile     bool   `json:"new_file"`
-		RenamedFile bool   `json:"renamed_file"`
-		DeletedFile bool   `json:"deleted_file"`
-	} `json:"changes"`
-	TimeStats *TimeStats `json:"time_stats"`
-	Squash    bool       `json:"squash"`
+		OldPath     string `json:"old_path" yaml:"old_path"`
+		NewPath     string `json:"new_path" yaml:"new_path"`
+		AMode       string `json:"a_mode" yaml:"a_mode"`
+		BMode       string `json:"b_mode" yaml:"b_mode"`
+		Diff        string `json:"diff" yaml:"diff"`
+		NewFile     bool   `json:"new_file" yaml:"new_file"`
+		RenamedFile bool   `json:"renamed_file" yaml:"renamed_file"`
+		DeletedFile bool   `json:"deleted_file" yaml:"deleted_file"`
+	} `json:"changes" yaml:"changes"`
+	TimeStats *TimeStats `json:"time_stats" yaml:"time_stats"`
+	Squash    bool       `json:"squash" yaml:"squash"`
 	Pipeline  struct {
-		ID     int    `json:"id"`
-		Ref    string `json:"ref"`
-		SHA    string `json:"sha"`
-		Status string `json:"status"`
-	} `json:"pipeline"`
+		ID     int    `json:"id" yaml:"id"`
+		Ref    string `json:"ref" yaml:"ref"`
+		SHA    string `json:"sha" yaml:"sha"`
+		Status string `json:"status" yaml:"status"`
+	} `json:"pipeline" yaml:"pipeline"`
 	DiffRefs struct {
-		BaseSha  string `json:"base_sha"`
-		HeadSha  string `json:"head_sha"`
-		StartSha string `json:"start_sha"`
-	} `json:"diff_refs"`
-	DivergedCommitsCount int  `json:"diverged_commits_count"`
-	RebaseInProgress     bool `json:"rebase_in_progress"`
+		BaseSha  string `json:"base_sha" yaml:"base_sha"`
+		HeadSha  string `json:"head_sha" yaml:"head_sha"`
+		StartSha string `json:"start_sha" yaml:"start_sha"`
+	} `json:"diff_refs" yaml:"diff_refs"`
+	DivergedCommitsCount int  `json:"diverged_commits_count" yaml:"diverged_commits_count"`
+	RebaseInProgress     bool `json:"rebase_in_progress" yaml:"rebase_in_progress"`
 }
 
 func (m MergeRequest) String() string {
@@ -129,16 +129,16 @@ func (m MergeRequest) String() string {
 // Gitlab API docs:
 // https://docs.gitlab.com/ce/api/merge_requests.html#get-a-single-mr-diff-version
 type MergeRequestDiffVersion struct {
-	ID             int        `json:"id"`
-	HeadCommitSHA  string     `json:"head_commit_sha,omitempty"`
-	BaseCommitSHA  string     `json:"base_commit_sha,omitempty"`
-	StartCommitSHA string     `json:"start_commit_sha,omitempty"`
-	CreatedAt      *time.Time `json:"created_at,omitempty"`
-	MergeRequestID int        `json:"merge_request_id,omitempty"`
-	State          string     `json:"state,omitempty"`
-	RealSize       string     `json:"real_size,omitempty"`
-	Commits        []*Commit  `json:"commits,omitempty"`
-	Diffs          []*Diff    `json:"diffs,omitempty"`
+	ID             int        `json:"id" yaml:"id"`
+	HeadCommitSHA  string     `json:"head_commit_sha,omitempty" yaml:"head_commit_sha,omitempty"`
+	BaseCommitSHA  string     `json:"base_commit_sha,omitempty" yaml:"base_commit_sha,omitempty"`
+	StartCommitSHA string     `json:"start_commit_sha,omitempty" yaml:"start_commit_sha,omitempty"`
+	CreatedAt      *time.Time `json:"created_at,omitempty" yaml:"created_at,omitempty"`
+	MergeRequestID int        `json:"merge_request_id,omitempty" yaml:"merge_request_id,omitempty"`
+	State          string     `json:"state,omitempty" yaml:"state,omitempty"`
+	RealSize       string     `json:"real_size,omitempty" yaml:"real_size,omitempty"`
+	Commits        []*Commit  `json:"commits,omitempty" yaml:"commits,omitempty"`
+	Diffs          []*Diff    `json:"diffs,omitempty" yaml:"diffs,omitempty"`
 }
 
 func (m MergeRequestDiffVersion) String() string {
@@ -152,25 +152,25 @@ func (m MergeRequestDiffVersion) String() string {
 // https://docs.gitlab.com/ce/api/merge_requests.html#list-merge-requests
 type ListMergeRequestsOptions struct {
 	ListOptions
-	State           *string    `url:"state,omitempty" json:"state,omitempty"`
-	OrderBy         *string    `url:"order_by,omitempty" json:"order_by,omitempty"`
-	Sort            *string    `url:"sort,omitempty" json:"sort,omitempty"`
-	Milestone       *string    `url:"milestone,omitempty" json:"milestone,omitempty"`
-	View            *string    `url:"view,omitempty" json:"view,omitempty"`
-	Labels          Labels     `url:"labels,omitempty" json:"labels,omitempty"`
-	CreatedAfter    *time.Time `url:"created_after,omitempty" json:"created_after,omitempty"`
-	CreatedBefore   *time.Time `url:"created_before,omitempty" json:"created_before,omitempty"`
-	UpdatedAfter    *time.Time `url:"updated_after,omitempty" json:"updated_after,omitempty"`
-	UpdatedBefore   *time.Time `url:"updated_before,omitempty" json:"updated_before,omitempty"`
-	Scope           *string    `url:"scope,omitempty" json:"scope,omitempty"`
-	AuthorID        *int       `url:"author_id,omitempty" json:"author_id,omitempty"`
-	AssigneeID      *int       `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
-	MyReactionEmoji *string    `url:"my_reaction_emoji,omitempty" json:"my_reaction_emoji,omitempty"`
-	SourceBranch    *string    `url:"source_branch,omitempty" json:"source_branch,omitempty"`
-	TargetBranch    *string    `url:"target_branch,omitempty" json:"target_branch,omitempty"`
-	Search          *string    `url:"search,omitempty" json:"search,omitempty"`
-	In              *string    `url:"in,omitempty" json:"in,omitempty"`
-	WIP             *string    `url:"wip,omitempty" json:"wip,omitempty"`
+	State           *string    `url:"state,omitempty" json:"state,omitempty" yaml:"state,omitempty"`
+	OrderBy         *string    `url:"order_by,omitempty" json:"order_by,omitempty" yaml:"order_by,omitempty"`
+	Sort            *string    `url:"sort,omitempty" json:"sort,omitempty" yaml:"sort,omitempty"`
+	Milestone       *string    `url:"milestone,omitempty" json:"milestone,omitempty" yaml:"milestone,omitempty"`
+	View            *string    `url:"view,omitempty" json:"view,omitempty" yaml:"view,omitempty"`
+	Labels          Labels     `url:"labels,omitempty" json:"labels,omitempty" yaml:"labels,omitempty"`
+	CreatedAfter    *time.Time `url:"created_after,omitempty" json:"created_after,omitempty" yaml:"created_after,omitempty"`
+	CreatedBefore   *time.Time `url:"created_before,omitempty" json:"created_before,omitempty" yaml:"created_before,omitempty"`
+	UpdatedAfter    *time.Time `url:"updated_after,omitempty" json:"updated_after,omitempty" yaml:"updated_after,omitempty"`
+	UpdatedBefore   *time.Time `url:"updated_before,omitempty" json:"updated_before,omitempty" yaml:"updated_before,omitempty"`
+	Scope           *string    `url:"scope,omitempty" json:"scope,omitempty" yaml:"scope,omitempty"`
+	AuthorID        *int       `url:"author_id,omitempty" json:"author_id,omitempty" yaml:"author_id,omitempty"`
+	AssigneeID      *int       `url:"assignee_id,omitempty" json:"assignee_id,omitempty" yaml:"assignee_id,omitempty"`
+	MyReactionEmoji *string    `url:"my_reaction_emoji,omitempty" json:"my_reaction_emoji,omitempty" yaml:"my_reaction_emoji,omitempty"`
+	SourceBranch    *string    `url:"source_branch,omitempty" json:"source_branch,omitempty" yaml:"source_branch,omitempty"`
+	TargetBranch    *string    `url:"target_branch,omitempty" json:"target_branch,omitempty" yaml:"target_branch,omitempty"`
+	Search          *string    `url:"search,omitempty" json:"search,omitempty" yaml:"search,omitempty"`
+	In              *string    `url:"in,omitempty" json:"in,omitempty" yaml:"in,omitempty"`
+	WIP             *string    `url:"wip,omitempty" json:"wip,omitempty" yaml:"wip,omitempty"`
 }
 
 // ListMergeRequests gets all merge requests. The state parameter can be used
@@ -202,23 +202,23 @@ func (s *MergeRequestsService) ListMergeRequests(opt *ListMergeRequestsOptions, 
 // https://docs.gitlab.com/ce/api/merge_requests.html#list-group-merge-requests
 type ListGroupMergeRequestsOptions struct {
 	ListOptions
-	State           *string    `url:"state,omitempty" json:"state,omitempty"`
-	OrderBy         *string    `url:"order_by,omitempty" json:"order_by,omitempty"`
-	Sort            *string    `url:"sort,omitempty" json:"sort,omitempty"`
-	Milestone       *string    `url:"milestone,omitempty" json:"milestone,omitempty"`
-	View            *string    `url:"view,omitempty" json:"view,omitempty"`
-	Labels          Labels     `url:"labels,omitempty" json:"labels,omitempty"`
-	CreatedAfter    *time.Time `url:"created_after,omitempty" json:"created_after,omitempty"`
-	CreatedBefore   *time.Time `url:"created_before,omitempty" json:"created_before,omitempty"`
-	UpdatedAfter    *time.Time `url:"updated_after,omitempty" json:"updated_after,omitempty"`
-	UpdatedBefore   *time.Time `url:"updated_before,omitempty" json:"updated_before,omitempty"`
-	Scope           *string    `url:"scope,omitempty" json:"scope,omitempty"`
-	AuthorID        *int       `url:"author_id,omitempty" json:"author_id,omitempty"`
-	AssigneeID      *int       `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
-	MyReactionEmoji *string    `url:"my_reaction_emoji,omitempty" json:"my_reaction_emoji,omitempty"`
-	SourceBranch    *string    `url:"source_branch,omitempty" json:"source_branch,omitempty"`
-	TargetBranch    *string    `url:"target_branch,omitempty" json:"target_branch,omitempty"`
-	Search          *string    `url:"search,omitempty" json:"search,omitempty"`
+	State           *string    `url:"state,omitempty" json:"state,omitempty" yaml:"state,omitempty"`
+	OrderBy         *string    `url:"order_by,omitempty" json:"order_by,omitempty" yaml:"order_by,omitempty"`
+	Sort            *string    `url:"sort,omitempty" json:"sort,omitempty" yaml:"sort,omitempty"`
+	Milestone       *string    `url:"milestone,omitempty" json:"milestone,omitempty" yaml:"milestone,omitempty"`
+	View            *string    `url:"view,omitempty" json:"view,omitempty" yaml:"view,omitempty"`
+	Labels          Labels     `url:"labels,omitempty" json:"labels,omitempty" yaml:"labels,omitempty"`
+	CreatedAfter    *time.Time `url:"created_after,omitempty" json:"created_after,omitempty" yaml:"created_after,omitempty"`
+	CreatedBefore   *time.Time `url:"created_before,omitempty" json:"created_before,omitempty" yaml:"created_before,omitempty"`
+	UpdatedAfter    *time.Time `url:"updated_after,omitempty" json:"updated_after,omitempty" yaml:"updated_after,omitempty"`
+	UpdatedBefore   *time.Time `url:"updated_before,omitempty" json:"updated_before,omitempty" yaml:"updated_before,omitempty"`
+	Scope           *string    `url:"scope,omitempty" json:"scope,omitempty" yaml:"scope,omitempty"`
+	AuthorID        *int       `url:"author_id,omitempty" json:"author_id,omitempty" yaml:"author_id,omitempty"`
+	AssigneeID      *int       `url:"assignee_id,omitempty" json:"assignee_id,omitempty" yaml:"assignee_id,omitempty"`
+	MyReactionEmoji *string    `url:"my_reaction_emoji,omitempty" json:"my_reaction_emoji,omitempty" yaml:"my_reaction_emoji,omitempty"`
+	SourceBranch    *string    `url:"source_branch,omitempty" json:"source_branch,omitempty" yaml:"source_branch,omitempty"`
+	TargetBranch    *string    `url:"target_branch,omitempty" json:"target_branch,omitempty" yaml:"target_branch,omitempty"`
+	Search          *string    `url:"search,omitempty" json:"search,omitempty" yaml:"search,omitempty"`
 }
 
 // ListGroupMergeRequests gets all merge requests for this group.
@@ -253,25 +253,25 @@ func (s *MergeRequestsService) ListGroupMergeRequests(gid interface{}, opt *List
 // https://docs.gitlab.com/ce/api/merge_requests.html#list-project-merge-requests
 type ListProjectMergeRequestsOptions struct {
 	ListOptions
-	IIDs            []int      `url:"iids[],omitempty" json:"iids,omitempty"`
-	State           *string    `url:"state,omitempty" json:"state,omitempty"`
-	OrderBy         *string    `url:"order_by,omitempty" json:"order_by,omitempty"`
-	Sort            *string    `url:"sort,omitempty" json:"sort,omitempty"`
-	Milestone       *string    `url:"milestone,omitempty" json:"milestone,omitempty"`
-	View            *string    `url:"view,omitempty" json:"view,omitempty"`
-	Labels          Labels     `url:"labels,omitempty" json:"labels,omitempty"`
-	CreatedAfter    *time.Time `url:"created_after,omitempty" json:"created_after,omitempty"`
-	CreatedBefore   *time.Time `url:"created_before,omitempty" json:"created_before,omitempty"`
-	UpdatedAfter    *time.Time `url:"updated_after,omitempty" json:"updated_after,omitempty"`
-	UpdatedBefore   *time.Time `url:"updated_before,omitempty" json:"updated_before,omitempty"`
-	Scope           *string    `url:"scope,omitempty" json:"scope,omitempty"`
-	AuthorID        *int       `url:"author_id,omitempty" json:"author_id,omitempty"`
-	AssigneeID      *int       `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
-	MyReactionEmoji *string    `url:"my_reaction_emoji,omitempty" json:"my_reaction_emoji,omitempty"`
-	SourceBranch    *string    `url:"source_branch,omitempty" json:"source_branch,omitempty"`
-	TargetBranch    *string    `url:"target_branch,omitempty" json:"target_branch,omitempty"`
-	Search          *string    `url:"search,omitempty" json:"search,omitempty"`
-	WIP             *string    `url:"wip,omitempty" json:"wip,omitempty"`
+	IIDs            []int      `url:"iids[],omitempty" json:"iids,omitempty" yaml:"iids,omitempty"`
+	State           *string    `url:"state,omitempty" json:"state,omitempty" yaml:"state,omitempty"`
+	OrderBy         *string    `url:"order_by,omitempty" json:"order_by,omitempty" yaml:"order_by,omitempty"`
+	Sort            *string    `url:"sort,omitempty" json:"sort,omitempty" yaml:"sort,omitempty"`
+	Milestone       *string    `url:"milestone,omitempty" json:"milestone,omitempty" yaml:"milestone,omitempty"`
+	View            *string    `url:"view,omitempty" json:"view,omitempty" yaml:"view,omitempty"`
+	Labels          Labels     `url:"labels,omitempty" json:"labels,omitempty" yaml:"labels,omitempty"`
+	CreatedAfter    *time.Time `url:"created_after,omitempty" json:"created_after,omitempty" yaml:"created_after,omitempty"`
+	CreatedBefore   *time.Time `url:"created_before,omitempty" json:"created_before,omitempty" yaml:"created_before,omitempty"`
+	UpdatedAfter    *time.Time `url:"updated_after,omitempty" json:"updated_after,omitempty" yaml:"updated_after,omitempty"`
+	UpdatedBefore   *time.Time `url:"updated_before,omitempty" json:"updated_before,omitempty" yaml:"updated_before,omitempty"`
+	Scope           *string    `url:"scope,omitempty" json:"scope,omitempty" yaml:"scope,omitempty"`
+	AuthorID        *int       `url:"author_id,omitempty" json:"author_id,omitempty" yaml:"author_id,omitempty"`
+	AssigneeID      *int       `url:"assignee_id,omitempty" json:"assignee_id,omitempty" yaml:"assignee_id,omitempty"`
+	MyReactionEmoji *string    `url:"my_reaction_emoji,omitempty" json:"my_reaction_emoji,omitempty" yaml:"my_reaction_emoji,omitempty"`
+	SourceBranch    *string    `url:"source_branch,omitempty" json:"source_branch,omitempty" yaml:"source_branch,omitempty"`
+	TargetBranch    *string    `url:"target_branch,omitempty" json:"target_branch,omitempty" yaml:"target_branch,omitempty"`
+	Search          *string    `url:"search,omitempty" json:"search,omitempty" yaml:"search,omitempty"`
+	WIP             *string    `url:"wip,omitempty" json:"wip,omitempty" yaml:"wip,omitempty"`
 }
 
 // ListProjectMergeRequests gets all merge requests for this project.
@@ -305,9 +305,9 @@ func (s *MergeRequestsService) ListProjectMergeRequests(pid interface{}, opt *Li
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/merge_requests.html#get-single-mr
 type GetMergeRequestsOptions struct {
-	RenderHTML                  *bool `url:"render_html,omitempty" json:"render_html,omitempty"`
-	IncludeDivergedCommitsCount *bool `url:"include_diverged_commits_count,omitempty" json:"include_diverged_commits_count,omitempty"`
-	IncludeRebaseInProgress     *bool `url:"include_rebase_in_progress,omitempty" json:"include_rebase_in_progress,omitempty"`
+	RenderHTML                  *bool `url:"render_html,omitempty" json:"render_html,omitempty" yaml:"render_html,omitempty"`
+	IncludeDivergedCommitsCount *bool `url:"include_diverged_commits_count,omitempty" json:"include_diverged_commits_count,omitempty" yaml:"include_diverged_commits_count,omitempty"`
+	IncludeRebaseInProgress     *bool `url:"include_rebase_in_progress,omitempty" json:"include_rebase_in_progress,omitempty" yaml:"include_rebase_in_progress,omitempty"`
 }
 
 // GetMergeRequest shows information about a single merge request.
@@ -482,17 +482,17 @@ func (s *MergeRequestsService) GetIssuesClosedOnMerge(pid interface{}, mergeRequ
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/merge_requests.html#create-mr
 type CreateMergeRequestOptions struct {
-	Title              *string `url:"title,omitempty" json:"title,omitempty"`
-	Description        *string `url:"description,omitempty" json:"description,omitempty"`
-	SourceBranch       *string `url:"source_branch,omitempty" json:"source_branch,omitempty"`
-	TargetBranch       *string `url:"target_branch,omitempty" json:"target_branch,omitempty"`
-	Labels             Labels  `url:"labels,comma,omitempty" json:"labels,omitempty"`
-	AssigneeID         *int    `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
-	TargetProjectID    *int    `url:"target_project_id,omitempty" json:"target_project_id,omitempty"`
-	MilestoneID        *int    `url:"milestone_id,omitempty" json:"milestone_id,omitempty"`
-	RemoveSourceBranch *bool   `url:"remove_source_branch,omitempty" json:"remove_source_branch,omitempty"`
-	Squash             *bool   `url:"squash,omitempty" json:"squash,omitempty"`
-	AllowCollaboration *bool   `url:"allow_collaboration,omitempty" json:"allow_collaboration,omitempty"`
+	Title              *string `url:"title,omitempty" json:"title,omitempty" yaml:"title,omitempty"`
+	Description        *string `url:"description,omitempty" json:"description,omitempty" yaml:"description,omitempty"`
+	SourceBranch       *string `url:"source_branch,omitempty" json:"source_branch,omitempty" yaml:"source_branch,omitempty"`
+	TargetBranch       *string `url:"target_branch,omitempty" json:"target_branch,omitempty" yaml:"target_branch,omitempty"`
+	Labels             Labels  `url:"labels,comma,omitempty" json:"labels,omitempty" yaml:"labels,omitempty"`
+	AssigneeID         *int    `url:"assignee_id,omitempty" json:"assignee_id,omitempty" yaml:"assignee_id,omitempty"`
+	TargetProjectID    *int    `url:"target_project_id,omitempty" json:"target_project_id,omitempty" yaml:"target_project_id,omitempty"`
+	MilestoneID        *int    `url:"milestone_id,omitempty" json:"milestone_id,omitempty" yaml:"milestone_id,omitempty"`
+	RemoveSourceBranch *bool   `url:"remove_source_branch,omitempty" json:"remove_source_branch,omitempty" yaml:"remove_source_branch,omitempty"`
+	Squash             *bool   `url:"squash,omitempty" json:"squash,omitempty" yaml:"squash,omitempty"`
+	AllowCollaboration *bool   `url:"allow_collaboration,omitempty" json:"allow_collaboration,omitempty" yaml:"allow_collaboration,omitempty"`
 }
 
 // CreateMergeRequest creates a new merge request.
@@ -526,17 +526,17 @@ func (s *MergeRequestsService) CreateMergeRequest(pid interface{}, opt *CreateMe
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/merge_requests.html#update-mr
 type UpdateMergeRequestOptions struct {
-	Title              *string `url:"title,omitempty" json:"title,omitempty"`
-	Description        *string `url:"description,omitempty" json:"description,omitempty"`
-	TargetBranch       *string `url:"target_branch,omitempty" json:"target_branch,omitempty"`
-	AssigneeID         *int    `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
-	Labels             Labels  `url:"labels,comma,omitempty" json:"labels,omitempty"`
-	MilestoneID        *int    `url:"milestone_id,omitempty" json:"milestone_id,omitempty"`
-	StateEvent         *string `url:"state_event,omitempty" json:"state_event,omitempty"`
-	RemoveSourceBranch *bool   `url:"remove_source_branch,omitempty" json:"remove_source_branch,omitempty"`
-	Squash             *bool   `url:"squash,omitempty" json:"squash,omitempty"`
-	DiscussionLocked   *bool   `url:"discussion_locked,omitempty" json:"discussion_locked,omitempty"`
-	AllowCollaboration *bool   `url:"allow_collaboration,omitempty" json:"allow_collaboration,omitempty"`
+	Title              *string `url:"title,omitempty" json:"title,omitempty" yaml:"title,omitempty"`
+	Description        *string `url:"description,omitempty" json:"description,omitempty" yaml:"description,omitempty"`
+	TargetBranch       *string `url:"target_branch,omitempty" json:"target_branch,omitempty" yaml:"target_branch,omitempty"`
+	AssigneeID         *int    `url:"assignee_id,omitempty" json:"assignee_id,omitempty" yaml:"assignee_id,omitempty"`
+	Labels             Labels  `url:"labels,comma,omitempty" json:"labels,omitempty" yaml:"labels,omitempty"`
+	MilestoneID        *int    `url:"milestone_id,omitempty" json:"milestone_id,omitempty" yaml:"milestone_id,omitempty"`
+	StateEvent         *string `url:"state_event,omitempty" json:"state_event,omitempty" yaml:"state_event,omitempty"`
+	RemoveSourceBranch *bool   `url:"remove_source_branch,omitempty" json:"remove_source_branch,omitempty" yaml:"remove_source_branch,omitempty"`
+	Squash             *bool   `url:"squash,omitempty" json:"squash,omitempty" yaml:"squash,omitempty"`
+	DiscussionLocked   *bool   `url:"discussion_locked,omitempty" json:"discussion_locked,omitempty" yaml:"discussion_locked,omitempty"`
+	AllowCollaboration *bool   `url:"allow_collaboration,omitempty" json:"allow_collaboration,omitempty" yaml:"allow_collaboration,omitempty"`
 }
 
 // UpdateMergeRequest updates an existing project milestone.
@@ -589,10 +589,10 @@ func (s *MergeRequestsService) DeleteMergeRequest(pid interface{}, mergeRequest 
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/merge_requests.html#accept-mr
 type AcceptMergeRequestOptions struct {
-	MergeCommitMessage        *string `url:"merge_commit_message,omitempty" json:"merge_commit_message,omitempty"`
-	ShouldRemoveSourceBranch  *bool   `url:"should_remove_source_branch,omitempty" json:"should_remove_source_branch,omitempty"`
-	MergeWhenPipelineSucceeds *bool   `url:"merge_when_pipeline_succeeds,omitempty" json:"merge_when_pipeline_succeeds,omitempty"`
-	SHA                       *string `url:"sha,omitempty" json:"sha,omitempty"`
+	MergeCommitMessage        *string `url:"merge_commit_message,omitempty" json:"merge_commit_message,omitempty" yaml:"merge_commit_message,omitempty"`
+	ShouldRemoveSourceBranch  *bool   `url:"should_remove_source_branch,omitempty" json:"should_remove_source_branch,omitempty" yaml:"should_remove_source_branch,omitempty"`
+	MergeWhenPipelineSucceeds *bool   `url:"merge_when_pipeline_succeeds,omitempty" json:"merge_when_pipeline_succeeds,omitempty" yaml:"merge_when_pipeline_succeeds,omitempty"`
+	SHA                       *string `url:"sha,omitempty" json:"sha,omitempty" yaml:"sha,omitempty"`
 }
 
 // AcceptMergeRequest merges changes submitted with MR using this API. If merge

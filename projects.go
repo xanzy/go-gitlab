@@ -39,145 +39,145 @@ type ProjectsService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/projects.html
 type Project struct {
-	ID                                        int               `json:"id"`
-	Description                               string            `json:"description"`
-	DefaultBranch                             string            `json:"default_branch"`
-	Public                                    bool              `json:"public"`
-	Visibility                                VisibilityValue   `json:"visibility"`
-	SSHURLToRepo                              string            `json:"ssh_url_to_repo"`
-	HTTPURLToRepo                             string            `json:"http_url_to_repo"`
-	WebURL                                    string            `json:"web_url"`
-	ReadmeURL                                 string            `json:"readme_url"`
-	TagList                                   []string          `json:"tag_list"`
-	Owner                                     *User             `json:"owner"`
-	Name                                      string            `json:"name"`
-	NameWithNamespace                         string            `json:"name_with_namespace"`
-	Path                                      string            `json:"path"`
-	PathWithNamespace                         string            `json:"path_with_namespace"`
-	IssuesEnabled                             bool              `json:"issues_enabled"`
-	OpenIssuesCount                           int               `json:"open_issues_count"`
-	MergeRequestsEnabled                      bool              `json:"merge_requests_enabled"`
-	ApprovalsBeforeMerge                      int               `json:"approvals_before_merge"`
-	JobsEnabled                               bool              `json:"jobs_enabled"`
-	WikiEnabled                               bool              `json:"wiki_enabled"`
-	SnippetsEnabled                           bool              `json:"snippets_enabled"`
-	ContainerRegistryEnabled                  bool              `json:"container_registry_enabled"`
-	CreatedAt                                 *time.Time        `json:"created_at,omitempty"`
-	LastActivityAt                            *time.Time        `json:"last_activity_at,omitempty"`
-	CreatorID                                 int               `json:"creator_id"`
-	Namespace                                 *ProjectNamespace `json:"namespace"`
-	ImportStatus                              string            `json:"import_status"`
-	ImportError                               string            `json:"import_error"`
-	Permissions                               *Permissions      `json:"permissions"`
-	Archived                                  bool              `json:"archived"`
-	AvatarURL                                 string            `json:"avatar_url"`
-	SharedRunnersEnabled                      bool              `json:"shared_runners_enabled"`
-	ForksCount                                int               `json:"forks_count"`
-	StarCount                                 int               `json:"star_count"`
-	RunnersToken                              string            `json:"runners_token"`
-	PublicBuilds                              bool              `json:"public_builds"`
-	OnlyAllowMergeIfPipelineSucceeds          bool              `json:"only_allow_merge_if_pipeline_succeeds"`
-	OnlyAllowMergeIfAllDiscussionsAreResolved bool              `json:"only_allow_merge_if_all_discussions_are_resolved"`
-	LFSEnabled                                bool              `json:"lfs_enabled"`
-	RequestAccessEnabled                      bool              `json:"request_access_enabled"`
-	MergeMethod                               MergeMethodValue  `json:"merge_method"`
-	ForkedFromProject                         *ForkParent       `json:"forked_from_project"`
-	Mirror                                    bool              `json:"mirror"`
-	MirrorUserID                              int               `json:"mirror_user_id"`
-	MirrorTriggerBuilds                       bool              `json:"mirror_trigger_builds"`
-	OnlyMirrorProtectedBranches               bool              `json:"only_mirror_protected_branches"`
-	MirrorOverwritesDivergedBranches          bool              `json:"mirror_overwrites_diverged_branches"`
+	ID                                        int               `json:"id" yaml:"id"`
+	Description                               string            `json:"description" yaml:"description"`
+	DefaultBranch                             string            `json:"default_branch" yaml:"default_branch"`
+	Public                                    bool              `json:"public" yaml:"public"`
+	Visibility                                VisibilityValue   `json:"visibility" yaml:"visibility"`
+	SSHURLToRepo                              string            `json:"ssh_url_to_repo" yaml:"ssh_url_to_repo"`
+	HTTPURLToRepo                             string            `json:"http_url_to_repo" yaml:"http_url_to_repo"`
+	WebURL                                    string            `json:"web_url" yaml:"web_url"`
+	ReadmeURL                                 string            `json:"readme_url" yaml:"readme_url"`
+	TagList                                   []string          `json:"tag_list" yaml:"tag_list"`
+	Owner                                     *User             `json:"owner" yaml:"owner"`
+	Name                                      string            `json:"name" yaml:"name"`
+	NameWithNamespace                         string            `json:"name_with_namespace" yaml:"name_with_namespace"`
+	Path                                      string            `json:"path" yaml:"path"`
+	PathWithNamespace                         string            `json:"path_with_namespace" yaml:"path_with_namespace"`
+	IssuesEnabled                             bool              `json:"issues_enabled" yaml:"issues_enabled"`
+	OpenIssuesCount                           int               `json:"open_issues_count" yaml:"open_issues_count"`
+	MergeRequestsEnabled                      bool              `json:"merge_requests_enabled" yaml:"merge_requests_enabled"`
+	ApprovalsBeforeMerge                      int               `json:"approvals_before_merge" yaml:"approvals_before_merge"`
+	JobsEnabled                               bool              `json:"jobs_enabled" yaml:"jobs_enabled"`
+	WikiEnabled                               bool              `json:"wiki_enabled" yaml:"wiki_enabled"`
+	SnippetsEnabled                           bool              `json:"snippets_enabled" yaml:"snippets_enabled"`
+	ContainerRegistryEnabled                  bool              `json:"container_registry_enabled" yaml:"container_registry_enabled"`
+	CreatedAt                                 *time.Time        `json:"created_at,omitempty" yaml:"created_at,omitempty"`
+	LastActivityAt                            *time.Time        `json:"last_activity_at,omitempty" yaml:"last_activity_at,omitempty"`
+	CreatorID                                 int               `json:"creator_id" yaml:"creator_id"`
+	Namespace                                 *ProjectNamespace `json:"namespace" yaml:"namespace"`
+	ImportStatus                              string            `json:"import_status" yaml:"import_status"`
+	ImportError                               string            `json:"import_error" yaml:"import_error"`
+	Permissions                               *Permissions      `json:"permissions" yaml:"permissions"`
+	Archived                                  bool              `json:"archived" yaml:"archived"`
+	AvatarURL                                 string            `json:"avatar_url" yaml:"avatar_url"`
+	SharedRunnersEnabled                      bool              `json:"shared_runners_enabled" yaml:"shared_runners_enabled"`
+	ForksCount                                int               `json:"forks_count" yaml:"forks_count"`
+	StarCount                                 int               `json:"star_count" yaml:"star_count"`
+	RunnersToken                              string            `json:"runners_token" yaml:"runners_token"`
+	PublicBuilds                              bool              `json:"public_builds" yaml:"public_builds"`
+	OnlyAllowMergeIfPipelineSucceeds          bool              `json:"only_allow_merge_if_pipeline_succeeds" yaml:"only_allow_merge_if_pipeline_succeeds"`
+	OnlyAllowMergeIfAllDiscussionsAreResolved bool              `json:"only_allow_merge_if_all_discussions_are_resolved" yaml:"only_allow_merge_if_all_discussions_are_resolved"`
+	LFSEnabled                                bool              `json:"lfs_enabled" yaml:"lfs_enabled"`
+	RequestAccessEnabled                      bool              `json:"request_access_enabled" yaml:"request_access_enabled"`
+	MergeMethod                               MergeMethodValue  `json:"merge_method" yaml:"merge_method"`
+	ForkedFromProject                         *ForkParent       `json:"forked_from_project" yaml:"forked_from_project"`
+	Mirror                                    bool              `json:"mirror" yaml:"mirror"`
+	MirrorUserID                              int               `json:"mirror_user_id" yaml:"mirror_user_id"`
+	MirrorTriggerBuilds                       bool              `json:"mirror_trigger_builds" yaml:"mirror_trigger_builds"`
+	OnlyMirrorProtectedBranches               bool              `json:"only_mirror_protected_branches" yaml:"only_mirror_protected_branches"`
+	MirrorOverwritesDivergedBranches          bool              `json:"mirror_overwrites_diverged_branches" yaml:"mirror_overwrites_diverged_branches"`
 	SharedWithGroups                          []struct {
-		GroupID          int    `json:"group_id"`
-		GroupName        string `json:"group_name"`
-		GroupAccessLevel int    `json:"group_access_level"`
-	} `json:"shared_with_groups"`
-	Statistics       *ProjectStatistics `json:"statistics"`
-	Links            *Links             `json:"_links,omitempty"`
-	CIConfigPath     *string            `json:"ci_config_path"`
-	CustomAttributes []*CustomAttribute `json:"custom_attributes"`
+		GroupID          int    `json:"group_id" yaml:"group_id"`
+		GroupName        string `json:"group_name" yaml:"group_name"`
+		GroupAccessLevel int    `json:"group_access_level" yaml:"group_access_level"`
+	} `json:"shared_with_groups" yaml:"shared_with_groups"`
+	Statistics       *ProjectStatistics `json:"statistics" yaml:"statistics"`
+	Links            *Links             `json:"_links,omitempty" yaml:"_links,omitempty"`
+	CIConfigPath     *string            `json:"ci_config_path" yaml:"ci_config_path"`
+	CustomAttributes []*CustomAttribute `json:"custom_attributes" yaml:"custom_attributes"`
 }
 
 // Repository represents a repository.
 type Repository struct {
-	Name              string          `json:"name"`
-	Description       string          `json:"description"`
-	WebURL            string          `json:"web_url"`
-	AvatarURL         string          `json:"avatar_url"`
-	GitSSHURL         string          `json:"git_ssh_url"`
-	GitHTTPURL        string          `json:"git_http_url"`
-	Namespace         string          `json:"namespace"`
-	Visibility        VisibilityValue `json:"visibility"`
-	PathWithNamespace string          `json:"path_with_namespace"`
-	DefaultBranch     string          `json:"default_branch"`
-	Homepage          string          `json:"homepage"`
-	URL               string          `json:"url"`
-	SSHURL            string          `json:"ssh_url"`
-	HTTPURL           string          `json:"http_url"`
+	Name              string          `json:"name" yaml:"name"`
+	Description       string          `json:"description" yaml:"description"`
+	WebURL            string          `json:"web_url" yaml:"web_url"`
+	AvatarURL         string          `json:"avatar_url" yaml:"avatar_url"`
+	GitSSHURL         string          `json:"git_ssh_url" yaml:"git_ssh_url"`
+	GitHTTPURL        string          `json:"git_http_url" yaml:"git_http_url"`
+	Namespace         string          `json:"namespace" yaml:"namespace"`
+	Visibility        VisibilityValue `json:"visibility" yaml:"visibility"`
+	PathWithNamespace string          `json:"path_with_namespace" yaml:"path_with_namespace"`
+	DefaultBranch     string          `json:"default_branch" yaml:"default_branch"`
+	Homepage          string          `json:"homepage" yaml:"homepage"`
+	URL               string          `json:"url" yaml:"url"`
+	SSHURL            string          `json:"ssh_url" yaml:"ssh_url"`
+	HTTPURL           string          `json:"http_url" yaml:"http_url"`
 }
 
 // ProjectNamespace represents a project namespace.
 type ProjectNamespace struct {
-	ID       int    `json:"id"`
-	Name     string `json:"name"`
-	Path     string `json:"path"`
-	Kind     string `json:"kind"`
-	FullPath string `json:"full_path"`
+	ID       int    `json:"id" yaml:"id"`
+	Name     string `json:"name" yaml:"name"`
+	Path     string `json:"path" yaml:"path"`
+	Kind     string `json:"kind" yaml:"kind"`
+	FullPath string `json:"full_path" yaml:"full_path"`
 }
 
 // StorageStatistics represents a statistics record for a group or project.
 type StorageStatistics struct {
-	StorageSize      int64 `json:"storage_size"`
-	RepositorySize   int64 `json:"repository_size"`
-	LfsObjectsSize   int64 `json:"lfs_objects_size"`
-	JobArtifactsSize int64 `json:"job_artifacts_size"`
+	StorageSize      int64 `json:"storage_size" yaml:"storage_size"`
+	RepositorySize   int64 `json:"repository_size" yaml:"repository_size"`
+	LfsObjectsSize   int64 `json:"lfs_objects_size" yaml:"lfs_objects_size"`
+	JobArtifactsSize int64 `json:"job_artifacts_size" yaml:"job_artifacts_size"`
 }
 
 // ProjectStatistics represents a statistics record for a project.
 type ProjectStatistics struct {
 	StorageStatistics
-	CommitCount int `json:"commit_count"`
+	CommitCount int `json:"commit_count" yaml:"commit_count"`
 }
 
 // Permissions represents permissions.
 type Permissions struct {
-	ProjectAccess *ProjectAccess `json:"project_access"`
-	GroupAccess   *GroupAccess   `json:"group_access"`
+	ProjectAccess *ProjectAccess `json:"project_access" yaml:"project_access"`
+	GroupAccess   *GroupAccess   `json:"group_access" yaml:"group_access"`
 }
 
 // ProjectAccess represents project access.
 type ProjectAccess struct {
-	AccessLevel       AccessLevelValue       `json:"access_level"`
-	NotificationLevel NotificationLevelValue `json:"notification_level"`
+	AccessLevel       AccessLevelValue       `json:"access_level" yaml:"access_level"`
+	NotificationLevel NotificationLevelValue `json:"notification_level" yaml:"notification_level"`
 }
 
 // GroupAccess represents group access.
 type GroupAccess struct {
-	AccessLevel       AccessLevelValue       `json:"access_level"`
-	NotificationLevel NotificationLevelValue `json:"notification_level"`
+	AccessLevel       AccessLevelValue       `json:"access_level" yaml:"access_level"`
+	NotificationLevel NotificationLevelValue `json:"notification_level" yaml:"notification_level"`
 }
 
 // ForkParent represents the parent project when this is a fork.
 type ForkParent struct {
-	HTTPURLToRepo     string `json:"http_url_to_repo"`
-	ID                int    `json:"id"`
-	Name              string `json:"name"`
-	NameWithNamespace string `json:"name_with_namespace"`
-	Path              string `json:"path"`
-	PathWithNamespace string `json:"path_with_namespace"`
-	WebURL            string `json:"web_url"`
+	HTTPURLToRepo     string `json:"http_url_to_repo" yaml:"http_url_to_repo"`
+	ID                int    `json:"id" yaml:"id"`
+	Name              string `json:"name" yaml:"name"`
+	NameWithNamespace string `json:"name_with_namespace" yaml:"name_with_namespace"`
+	Path              string `json:"path" yaml:"path"`
+	PathWithNamespace string `json:"path_with_namespace" yaml:"path_with_namespace"`
+	WebURL            string `json:"web_url" yaml:"web_url"`
 }
 
 // Links represents a project web links for self, issues, merge_requests,
 // repo_branches, labels, events, members.
 type Links struct {
-	Self          string `json:"self"`
-	Issues        string `json:"issues"`
-	MergeRequests string `json:"merge_requests"`
-	RepoBranches  string `json:"repo_branches"`
-	Labels        string `json:"labels"`
-	Events        string `json:"events"`
-	Members       string `json:"members"`
+	Self          string `json:"self" yaml:"self"`
+	Issues        string `json:"issues" yaml:"issues"`
+	MergeRequests string `json:"merge_requests" yaml:"merge_requests"`
+	RepoBranches  string `json:"repo_branches" yaml:"repo_branches"`
+	Labels        string `json:"labels" yaml:"labels"`
+	Events        string `json:"events" yaml:"events"`
+	Members       string `json:"members" yaml:"members"`
 }
 
 func (s Project) String() string {
@@ -189,20 +189,20 @@ func (s Project) String() string {
 // GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#list-projects
 type ListProjectsOptions struct {
 	ListOptions
-	Archived                 *bool             `url:"archived,omitempty" json:"archived,omitempty"`
-	OrderBy                  *string           `url:"order_by,omitempty" json:"order_by,omitempty"`
-	Sort                     *string           `url:"sort,omitempty" json:"sort,omitempty"`
-	Search                   *string           `url:"search,omitempty" json:"search,omitempty"`
-	Simple                   *bool             `url:"simple,omitempty" json:"simple,omitempty"`
-	Owned                    *bool             `url:"owned,omitempty" json:"owned,omitempty"`
-	Membership               *bool             `url:"membership,omitempty" json:"membership,omitempty"`
-	Starred                  *bool             `url:"starred,omitempty" json:"starred,omitempty"`
-	Statistics               *bool             `url:"statistics,omitempty" json:"statistics,omitempty"`
-	Visibility               *VisibilityValue  `url:"visibility,omitempty" json:"visibility,omitempty"`
-	WithIssuesEnabled        *bool             `url:"with_issues_enabled,omitempty" json:"with_issues_enabled,omitempty"`
-	WithMergeRequestsEnabled *bool             `url:"with_merge_requests_enabled,omitempty" json:"with_merge_requests_enabled,omitempty"`
-	MinAccessLevel           *AccessLevelValue `url:"min_access_level,omitempty" json:"min_access_level,omitempty"`
-	WithCustomAttributes     *bool             `url:"with_custom_attributes,omitempty" json:"with_custom_attributes,omitempty"`
+	Archived                 *bool             `url:"archived,omitempty" json:"archived,omitempty" yaml:"archived,omitempty"`
+	OrderBy                  *string           `url:"order_by,omitempty" json:"order_by,omitempty" yaml:"order_by,omitempty"`
+	Sort                     *string           `url:"sort,omitempty" json:"sort,omitempty" yaml:"sort,omitempty"`
+	Search                   *string           `url:"search,omitempty" json:"search,omitempty" yaml:"search,omitempty"`
+	Simple                   *bool             `url:"simple,omitempty" json:"simple,omitempty" yaml:"simple,omitempty"`
+	Owned                    *bool             `url:"owned,omitempty" json:"owned,omitempty" yaml:"owned,omitempty"`
+	Membership               *bool             `url:"membership,omitempty" json:"membership,omitempty" yaml:"membership,omitempty"`
+	Starred                  *bool             `url:"starred,omitempty" json:"starred,omitempty" yaml:"starred,omitempty"`
+	Statistics               *bool             `url:"statistics,omitempty" json:"statistics,omitempty" yaml:"statistics,omitempty"`
+	Visibility               *VisibilityValue  `url:"visibility,omitempty" json:"visibility,omitempty" yaml:"visibility,omitempty"`
+	WithIssuesEnabled        *bool             `url:"with_issues_enabled,omitempty" json:"with_issues_enabled,omitempty" yaml:"with_issues_enabled,omitempty"`
+	WithMergeRequestsEnabled *bool             `url:"with_merge_requests_enabled,omitempty" json:"with_merge_requests_enabled,omitempty" yaml:"with_merge_requests_enabled,omitempty"`
+	MinAccessLevel           *AccessLevelValue `url:"min_access_level,omitempty" json:"min_access_level,omitempty" yaml:"min_access_level,omitempty"`
+	WithCustomAttributes     *bool             `url:"with_custom_attributes,omitempty" json:"with_custom_attributes,omitempty" yaml:"with_custom_attributes,omitempty"`
 }
 
 // ListProjects gets a list of projects accessible by the authenticated user.
@@ -250,12 +250,12 @@ func (s *ProjectsService) ListUserProjects(uid interface{}, opt *ListProjectsOpt
 
 // ProjectUser represents a GitLab project user.
 type ProjectUser struct {
-	ID        int    `json:"id"`
-	Name      string `json:"name"`
-	Username  string `json:"username"`
-	State     string `json:"state"`
-	AvatarURL string `json:"avatar_url"`
-	WebURL    string `json:"web_url"`
+	ID        int    `json:"id" yaml:"id"`
+	Name      string `json:"name" yaml:"name"`
+	Username  string `json:"username" yaml:"username"`
+	State     string `json:"state" yaml:"state"`
+	AvatarURL string `json:"avatar_url" yaml:"avatar_url"`
+	WebURL    string `json:"web_url" yaml:"web_url"`
 }
 
 // ListProjectUserOptions represents the available ListProjectsUsers() options.
@@ -263,7 +263,7 @@ type ProjectUser struct {
 // GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#get-project-users
 type ListProjectUserOptions struct {
 	ListOptions
-	Search *string `url:"search,omitempty" json:"search,omitempty"`
+	Search *string `url:"search,omitempty" json:"search,omitempty" yaml:"search,omitempty"`
 }
 
 // ListProjectsUsers gets a list of users for the given project.
@@ -324,9 +324,9 @@ func (s *ProjectsService) GetProjectLanguages(pid interface{}, options ...Option
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/projects.html#get-single-project
 type GetProjectOptions struct {
-	Statistics           *bool `url:"statistics,omitempty" json:"statistics,omitempty"`
-	License              *bool `url:"license,omitempty" json:"license,omitempty"`
-	WithCustomAttributes *bool `url:"with_custom_attributes,omitempty" json:"with_custom_attributes,omitempty"`
+	Statistics           *bool `url:"statistics,omitempty" json:"statistics,omitempty" yaml:"statistics,omitempty"`
+	License              *bool `url:"license,omitempty" json:"license,omitempty" yaml:"license,omitempty"`
+	WithCustomAttributes *bool `url:"with_custom_attributes,omitempty" json:"with_custom_attributes,omitempty" yaml:"with_custom_attributes,omitempty"`
 }
 
 // GetProject gets a specific project, identified by project ID or
@@ -360,24 +360,24 @@ func (s *ProjectsService) GetProject(pid interface{}, opt *GetProjectOptions, op
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/projects.html#get-project-events
 type ProjectEvent struct {
-	Title          interface{} `json:"title"`
-	ProjectID      int         `json:"project_id"`
-	ActionName     string      `json:"action_name"`
-	TargetID       interface{} `json:"target_id"`
-	TargetType     interface{} `json:"target_type"`
-	AuthorID       int         `json:"author_id"`
-	AuthorUsername string      `json:"author_username"`
+	Title          interface{} `json:"title" yaml:"title"`
+	ProjectID      int         `json:"project_id" yaml:"project_id"`
+	ActionName     string      `json:"action_name" yaml:"action_name"`
+	TargetID       interface{} `json:"target_id" yaml:"target_id"`
+	TargetType     interface{} `json:"target_type" yaml:"target_type"`
+	AuthorID       int         `json:"author_id" yaml:"author_id"`
+	AuthorUsername string      `json:"author_username" yaml:"author_username"`
 	Data           struct {
-		Before            string      `json:"before"`
-		After             string      `json:"after"`
-		Ref               string      `json:"ref"`
-		UserID            int         `json:"user_id"`
-		UserName          string      `json:"user_name"`
-		Repository        *Repository `json:"repository"`
-		Commits           []*Commit   `json:"commits"`
-		TotalCommitsCount int         `json:"total_commits_count"`
-	} `json:"data"`
-	TargetTitle interface{} `json:"target_title"`
+		Before            string      `json:"before" yaml:"before"`
+		After             string      `json:"after" yaml:"after"`
+		Ref               string      `json:"ref" yaml:"ref"`
+		UserID            int         `json:"user_id" yaml:"user_id"`
+		UserName          string      `json:"user_name" yaml:"user_name"`
+		Repository        *Repository `json:"repository" yaml:"repository"`
+		Commits           []*Commit   `json:"commits" yaml:"commits"`
+		TotalCommitsCount int         `json:"total_commits_count" yaml:"total_commits_count"`
+	} `json:"data" yaml:"data"`
+	TargetTitle interface{} `json:"target_title" yaml:"target_title"`
 }
 
 func (s ProjectEvent) String() string {
@@ -420,31 +420,31 @@ func (s *ProjectsService) GetProjectEvents(pid interface{}, opt *GetProjectEvent
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/projects.html#create-project
 type CreateProjectOptions struct {
-	Name                                      *string           `url:"name,omitempty" json:"name,omitempty"`
-	Path                                      *string           `url:"path,omitempty" json:"path,omitempty"`
-	DefaultBranch                             *string           `url:"default_branch,omitempty" json:"default_branch,omitempty"`
-	NamespaceID                               *int              `url:"namespace_id,omitempty" json:"namespace_id,omitempty"`
-	Description                               *string           `url:"description,omitempty" json:"description,omitempty"`
-	IssuesEnabled                             *bool             `url:"issues_enabled,omitempty" json:"issues_enabled,omitempty"`
-	MergeRequestsEnabled                      *bool             `url:"merge_requests_enabled,omitempty" json:"merge_requests_enabled,omitempty"`
-	JobsEnabled                               *bool             `url:"jobs_enabled,omitempty" json:"jobs_enabled,omitempty"`
-	WikiEnabled                               *bool             `url:"wiki_enabled,omitempty" json:"wiki_enabled,omitempty"`
-	SnippetsEnabled                           *bool             `url:"snippets_enabled,omitempty" json:"snippets_enabled,omitempty"`
-	ResolveOutdatedDiffDiscussions            *bool             `url:"resolve_outdated_diff_discussions,omitempty" json:"resolve_outdated_diff_discussions,omitempty"`
-	ContainerRegistryEnabled                  *bool             `url:"container_registry_enabled,omitempty" json:"container_registry_enabled,omitempty"`
-	SharedRunnersEnabled                      *bool             `url:"shared_runners_enabled,omitempty" json:"shared_runners_enabled,omitempty"`
-	Visibility                                *VisibilityValue  `url:"visibility,omitempty" json:"visibility,omitempty"`
-	ImportURL                                 *string           `url:"import_url,omitempty" json:"import_url,omitempty"`
-	PublicBuilds                              *bool             `url:"public_builds,omitempty" json:"public_builds,omitempty"`
-	OnlyAllowMergeIfPipelineSucceeds          *bool             `url:"only_allow_merge_if_pipeline_succeeds,omitempty" json:"only_allow_merge_if_pipeline_succeeds,omitempty"`
-	OnlyAllowMergeIfAllDiscussionsAreResolved *bool             `url:"only_allow_merge_if_all_discussions_are_resolved,omitempty" json:"only_allow_merge_if_all_discussions_are_resolved,omitempty"`
-	MergeMethod                               *MergeMethodValue `url:"merge_method,omitempty" json:"merge_method,omitempty"`
-	LFSEnabled                                *bool             `url:"lfs_enabled,omitempty" json:"lfs_enabled,omitempty"`
-	RequestAccessEnabled                      *bool             `url:"request_access_enabled,omitempty" json:"request_access_enabled,omitempty"`
-	TagList                                   *[]string         `url:"tag_list,omitempty" json:"tag_list,omitempty"`
-	PrintingMergeRequestLinkEnabled           *bool             `url:"printing_merge_request_link_enabled,omitempty" json:"printing_merge_request_link_enabled,omitempty"`
-	CIConfigPath                              *string           `url:"ci_config_path,omitempty" json:"ci_config_path,omitempty"`
-	ApprovalsBeforeMerge                      *int              `url:"approvals_before_merge,omitempty" json:"approvals_before_merge,omitempty"`
+	Name                                      *string           `url:"name,omitempty" json:"name,omitempty" yaml:"name,omitempty"`
+	Path                                      *string           `url:"path,omitempty" json:"path,omitempty" yaml:"path,omitempty"`
+	DefaultBranch                             *string           `url:"default_branch,omitempty" json:"default_branch,omitempty" yaml:"default_branch,omitempty"`
+	NamespaceID                               *int              `url:"namespace_id,omitempty" json:"namespace_id,omitempty" yaml:"namespace_id,omitempty"`
+	Description                               *string           `url:"description,omitempty" json:"description,omitempty" yaml:"description,omitempty"`
+	IssuesEnabled                             *bool             `url:"issues_enabled,omitempty" json:"issues_enabled,omitempty" yaml:"issues_enabled,omitempty"`
+	MergeRequestsEnabled                      *bool             `url:"merge_requests_enabled,omitempty" json:"merge_requests_enabled,omitempty" yaml:"merge_requests_enabled,omitempty"`
+	JobsEnabled                               *bool             `url:"jobs_enabled,omitempty" json:"jobs_enabled,omitempty" yaml:"jobs_enabled,omitempty"`
+	WikiEnabled                               *bool             `url:"wiki_enabled,omitempty" json:"wiki_enabled,omitempty" yaml:"wiki_enabled,omitempty"`
+	SnippetsEnabled                           *bool             `url:"snippets_enabled,omitempty" json:"snippets_enabled,omitempty" yaml:"snippets_enabled,omitempty"`
+	ResolveOutdatedDiffDiscussions            *bool             `url:"resolve_outdated_diff_discussions,omitempty" json:"resolve_outdated_diff_discussions,omitempty" yaml:"resolve_outdated_diff_discussions,omitempty"`
+	ContainerRegistryEnabled                  *bool             `url:"container_registry_enabled,omitempty" json:"container_registry_enabled,omitempty" yaml:"container_registry_enabled,omitempty"`
+	SharedRunnersEnabled                      *bool             `url:"shared_runners_enabled,omitempty" json:"shared_runners_enabled,omitempty" yaml:"shared_runners_enabled,omitempty"`
+	Visibility                                *VisibilityValue  `url:"visibility,omitempty" json:"visibility,omitempty" yaml:"visibility,omitempty"`
+	ImportURL                                 *string           `url:"import_url,omitempty" json:"import_url,omitempty" yaml:"import_url,omitempty"`
+	PublicBuilds                              *bool             `url:"public_builds,omitempty" json:"public_builds,omitempty" yaml:"public_builds,omitempty"`
+	OnlyAllowMergeIfPipelineSucceeds          *bool             `url:"only_allow_merge_if_pipeline_succeeds,omitempty" json:"only_allow_merge_if_pipeline_succeeds,omitempty" yaml:"only_allow_merge_if_pipeline_succeeds,omitempty"`
+	OnlyAllowMergeIfAllDiscussionsAreResolved *bool             `url:"only_allow_merge_if_all_discussions_are_resolved,omitempty" json:"only_allow_merge_if_all_discussions_are_resolved,omitempty" yaml:"only_allow_merge_if_all_discussions_are_resolved,omitempty"`
+	MergeMethod                               *MergeMethodValue `url:"merge_method,omitempty" json:"merge_method,omitempty" yaml:"merge_method,omitempty"`
+	LFSEnabled                                *bool             `url:"lfs_enabled,omitempty" json:"lfs_enabled,omitempty" yaml:"lfs_enabled,omitempty"`
+	RequestAccessEnabled                      *bool             `url:"request_access_enabled,omitempty" json:"request_access_enabled,omitempty" yaml:"request_access_enabled,omitempty"`
+	TagList                                   *[]string         `url:"tag_list,omitempty" json:"tag_list,omitempty" yaml:"tag_list,omitempty"`
+	PrintingMergeRequestLinkEnabled           *bool             `url:"printing_merge_request_link_enabled,omitempty" json:"printing_merge_request_link_enabled,omitempty" yaml:"printing_merge_request_link_enabled,omitempty"`
+	CIConfigPath                              *string           `url:"ci_config_path,omitempty" json:"ci_config_path,omitempty" yaml:"ci_config_path,omitempty"`
+	ApprovalsBeforeMerge                      *int              `url:"approvals_before_merge,omitempty" json:"approvals_before_merge,omitempty" yaml:"approvals_before_merge,omitempty"`
 }
 
 // CreateProject creates a new project owned by the authenticated user.
@@ -673,9 +673,9 @@ func (s *ProjectsService) DeleteProject(pid interface{}, options ...OptionFunc) 
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#share-project-with-group
 type ShareWithGroupOptions struct {
-	GroupID     *int              `url:"group_id" json:"group_id"`
-	GroupAccess *AccessLevelValue `url:"group_access" json:"group_access"`
-	ExpiresAt   *string           `url:"expires_at" json:"expires_at"`
+	GroupID     *int              `url:"group_id" json:"group_id" yaml:"group_id"`
+	GroupAccess *AccessLevelValue `url:"group_access" json:"group_access" yaml:"group_access"`
+	ExpiresAt   *string           `url:"expires_at" json:"expires_at" yaml:"expires_at"`
 }
 
 // ShareProjectWithGroup allows to share a project with a group.
@@ -719,13 +719,13 @@ func (s *ProjectsService) DeleteSharedProjectFromGroup(pid interface{}, groupID 
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/projects.html#list-project-team-members
 type ProjectMember struct {
-	ID          int              `json:"id"`
-	Username    string           `json:"username"`
-	Email       string           `json:"email"`
-	Name        string           `json:"name"`
-	State       string           `json:"state"`
-	CreatedAt   *time.Time       `json:"created_at"`
-	AccessLevel AccessLevelValue `json:"access_level"`
+	ID          int              `json:"id" yaml:"id"`
+	Username    string           `json:"username" yaml:"username"`
+	Email       string           `json:"email" yaml:"email"`
+	Name        string           `json:"name" yaml:"name"`
+	State       string           `json:"state" yaml:"state"`
+	CreatedAt   *time.Time       `json:"created_at" yaml:"created_at"`
+	AccessLevel AccessLevelValue `json:"access_level" yaml:"access_level"`
 }
 
 // ProjectHook represents a project hook.
@@ -733,20 +733,20 @@ type ProjectMember struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/projects.html#list-project-hooks
 type ProjectHook struct {
-	ID                       int        `json:"id"`
-	URL                      string     `json:"url"`
-	ProjectID                int        `json:"project_id"`
-	PushEvents               bool       `json:"push_events"`
-	IssuesEvents             bool       `json:"issues_events"`
-	ConfidentialIssuesEvents bool       `json:"confidential_issues_events"`
-	MergeRequestsEvents      bool       `json:"merge_requests_events"`
-	TagPushEvents            bool       `json:"tag_push_events"`
-	NoteEvents               bool       `json:"note_events"`
-	JobEvents                bool       `json:"job_events"`
-	PipelineEvents           bool       `json:"pipeline_events"`
-	WikiPageEvents           bool       `json:"wiki_page_events"`
-	EnableSSLVerification    bool       `json:"enable_ssl_verification"`
-	CreatedAt                *time.Time `json:"created_at"`
+	ID                       int        `json:"id" yaml:"id"`
+	URL                      string     `json:"url" yaml:"url"`
+	ProjectID                int        `json:"project_id" yaml:"project_id"`
+	PushEvents               bool       `json:"push_events" yaml:"push_events"`
+	IssuesEvents             bool       `json:"issues_events" yaml:"issues_events"`
+	ConfidentialIssuesEvents bool       `json:"confidential_issues_events" yaml:"confidential_issues_events"`
+	MergeRequestsEvents      bool       `json:"merge_requests_events" yaml:"merge_requests_events"`
+	TagPushEvents            bool       `json:"tag_push_events" yaml:"tag_push_events"`
+	NoteEvents               bool       `json:"note_events" yaml:"note_events"`
+	JobEvents                bool       `json:"job_events" yaml:"job_events"`
+	PipelineEvents           bool       `json:"pipeline_events" yaml:"pipeline_events"`
+	WikiPageEvents           bool       `json:"wiki_page_events" yaml:"wiki_page_events"`
+	EnableSSLVerification    bool       `json:"enable_ssl_verification" yaml:"enable_ssl_verification"`
+	CreatedAt                *time.Time `json:"created_at" yaml:"created_at"`
 }
 
 // ListProjectHooksOptions represents the available ListProjectHooks() options.
@@ -809,18 +809,18 @@ func (s *ProjectsService) GetProjectHook(pid interface{}, hook int, options ...O
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/projects.html#add-project-hook
 type AddProjectHookOptions struct {
-	URL                      *string `url:"url,omitempty" json:"url,omitempty"`
-	PushEvents               *bool   `url:"push_events,omitempty" json:"push_events,omitempty"`
-	IssuesEvents             *bool   `url:"issues_events,omitempty" json:"issues_events,omitempty"`
-	ConfidentialIssuesEvents *bool   `url:"confidential_issues_events,omitempty" json:"confidential_issues_events,omitempty"`
-	MergeRequestsEvents      *bool   `url:"merge_requests_events,omitempty" json:"merge_requests_events,omitempty"`
-	TagPushEvents            *bool   `url:"tag_push_events,omitempty" json:"tag_push_events,omitempty"`
-	NoteEvents               *bool   `url:"note_events,omitempty" json:"note_events,omitempty"`
-	JobEvents                *bool   `url:"job_events,omitempty" json:"job_events,omitempty"`
-	PipelineEvents           *bool   `url:"pipeline_events,omitempty" json:"pipeline_events,omitempty"`
-	WikiPageEvents           *bool   `url:"wiki_page_events,omitempty" json:"wiki_page_events,omitempty"`
-	EnableSSLVerification    *bool   `url:"enable_ssl_verification,omitempty" json:"enable_ssl_verification,omitempty"`
-	Token                    *string `url:"token,omitempty" json:"token,omitempty"`
+	URL                      *string `url:"url,omitempty" json:"url,omitempty" yaml:"url,omitempty"`
+	PushEvents               *bool   `url:"push_events,omitempty" json:"push_events,omitempty" yaml:"push_events,omitempty"`
+	IssuesEvents             *bool   `url:"issues_events,omitempty" json:"issues_events,omitempty" yaml:"issues_events,omitempty"`
+	ConfidentialIssuesEvents *bool   `url:"confidential_issues_events,omitempty" json:"confidential_issues_events,omitempty" yaml:"confidential_issues_events,omitempty"`
+	MergeRequestsEvents      *bool   `url:"merge_requests_events,omitempty" json:"merge_requests_events,omitempty" yaml:"merge_requests_events,omitempty"`
+	TagPushEvents            *bool   `url:"tag_push_events,omitempty" json:"tag_push_events,omitempty" yaml:"tag_push_events,omitempty"`
+	NoteEvents               *bool   `url:"note_events,omitempty" json:"note_events,omitempty" yaml:"note_events,omitempty"`
+	JobEvents                *bool   `url:"job_events,omitempty" json:"job_events,omitempty" yaml:"job_events,omitempty"`
+	PipelineEvents           *bool   `url:"pipeline_events,omitempty" json:"pipeline_events,omitempty" yaml:"pipeline_events,omitempty"`
+	WikiPageEvents           *bool   `url:"wiki_page_events,omitempty" json:"wiki_page_events,omitempty" yaml:"wiki_page_events,omitempty"`
+	EnableSSLVerification    *bool   `url:"enable_ssl_verification,omitempty" json:"enable_ssl_verification,omitempty" yaml:"enable_ssl_verification,omitempty"`
+	Token                    *string `url:"token,omitempty" json:"token,omitempty" yaml:"token,omitempty"`
 }
 
 // AddProjectHook adds a hook to a specified project.
@@ -853,18 +853,18 @@ func (s *ProjectsService) AddProjectHook(pid interface{}, opt *AddProjectHookOpt
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/projects.html#edit-project-hook
 type EditProjectHookOptions struct {
-	URL                      *string `url:"url,omitempty" json:"url,omitempty"`
-	PushEvents               *bool   `url:"push_events,omitempty" json:"push_events,omitempty"`
-	IssuesEvents             *bool   `url:"issues_events,omitempty" json:"issues_events,omitempty"`
-	ConfidentialIssuesEvents *bool   `url:"confidential_issues_events,omitempty" json:"confidential_issues_events,omitempty"`
-	MergeRequestsEvents      *bool   `url:"merge_requests_events,omitempty" json:"merge_requests_events,omitempty"`
-	TagPushEvents            *bool   `url:"tag_push_events,omitempty" json:"tag_push_events,omitempty"`
-	NoteEvents               *bool   `url:"note_events,omitempty" json:"note_events,omitempty"`
-	JobEvents                *bool   `url:"job_events,omitempty" json:"job_events,omitempty"`
-	PipelineEvents           *bool   `url:"pipeline_events,omitempty" json:"pipeline_events,omitempty"`
-	WikiPageEvents           *bool   `url:"wiki_page_events,omitempty" json:"wiki_page_events,omitempty"`
-	EnableSSLVerification    *bool   `url:"enable_ssl_verification,omitempty" json:"enable_ssl_verification,omitempty"`
-	Token                    *string `url:"token,omitempty" json:"token,omitempty"`
+	URL                      *string `url:"url,omitempty" json:"url,omitempty" yaml:"url,omitempty"`
+	PushEvents               *bool   `url:"push_events,omitempty" json:"push_events,omitempty" yaml:"push_events,omitempty"`
+	IssuesEvents             *bool   `url:"issues_events,omitempty" json:"issues_events,omitempty" yaml:"issues_events,omitempty"`
+	ConfidentialIssuesEvents *bool   `url:"confidential_issues_events,omitempty" json:"confidential_issues_events,omitempty" yaml:"confidential_issues_events,omitempty"`
+	MergeRequestsEvents      *bool   `url:"merge_requests_events,omitempty" json:"merge_requests_events,omitempty" yaml:"merge_requests_events,omitempty"`
+	TagPushEvents            *bool   `url:"tag_push_events,omitempty" json:"tag_push_events,omitempty" yaml:"tag_push_events,omitempty"`
+	NoteEvents               *bool   `url:"note_events,omitempty" json:"note_events,omitempty" yaml:"note_events,omitempty"`
+	JobEvents                *bool   `url:"job_events,omitempty" json:"job_events,omitempty" yaml:"job_events,omitempty"`
+	PipelineEvents           *bool   `url:"pipeline_events,omitempty" json:"pipeline_events,omitempty" yaml:"pipeline_events,omitempty"`
+	WikiPageEvents           *bool   `url:"wiki_page_events,omitempty" json:"wiki_page_events,omitempty" yaml:"wiki_page_events,omitempty"`
+	EnableSSLVerification    *bool   `url:"enable_ssl_verification,omitempty" json:"enable_ssl_verification,omitempty" yaml:"enable_ssl_verification,omitempty"`
+	Token                    *string `url:"token,omitempty" json:"token,omitempty" yaml:"token,omitempty"`
 }
 
 // EditProjectHook edits a hook for a specified project.
@@ -917,11 +917,11 @@ func (s *ProjectsService) DeleteProjectHook(pid interface{}, hook int, options .
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/projects.html#admin-fork-relation
 type ProjectForkRelation struct {
-	ID                  int        `json:"id"`
-	ForkedToProjectID   int        `json:"forked_to_project_id"`
-	ForkedFromProjectID int        `json:"forked_from_project_id"`
-	CreatedAt           *time.Time `json:"created_at"`
-	UpdatedAt           *time.Time `json:"updated_at"`
+	ID                  int        `json:"id" yaml:"id"`
+	ForkedToProjectID   int        `json:"forked_to_project_id" yaml:"forked_to_project_id"`
+	ForkedFromProjectID int        `json:"forked_from_project_id" yaml:"forked_from_project_id"`
+	CreatedAt           *time.Time `json:"created_at" yaml:"created_at"`
+	UpdatedAt           *time.Time `json:"updated_at" yaml:"updated_at"`
 }
 
 // CreateProjectForkRelation creates a forked from/to relation between
@@ -965,9 +965,9 @@ func (s *ProjectsService) DeleteProjectForkRelation(pid int, options ...OptionFu
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#upload-a-file
 type ProjectFile struct {
-	Alt      string `json:"alt"`
-	URL      string `json:"url"`
-	Markdown string `json:"markdown"`
+	Alt      string `json:"alt" yaml:"alt"`
+	URL      string `json:"url" yaml:"url"`
+	Markdown string `json:"markdown" yaml:"markdown"`
 }
 
 // UploadFile upload a file from disk
@@ -1049,17 +1049,17 @@ func (s *ProjectsService) ListProjectForks(pid interface{}, opt *ListProjectsOpt
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/projects.html#push-rules
 type ProjectPushRules struct {
-	ID                 int        `json:"id"`
-	ProjectID          int        `json:"project_id"`
-	CommitMessageRegex string     `json:"commit_message_regex"`
-	BranchNameRegex    string     `json:"branch_name_regex"`
-	DenyDeleteTag      bool       `json:"deny_delete_tag"`
-	CreatedAt          *time.Time `json:"created_at"`
-	MemberCheck        bool       `json:"member_check"`
-	PreventSecrets     bool       `json:"prevent_secrets"`
-	AuthorEmailRegex   string     `json:"author_email_regex"`
-	FileNameRegex      string     `json:"file_name_regex"`
-	MaxFileSize        int        `json:"max_file_size"`
+	ID                 int        `json:"id" yaml:"id"`
+	ProjectID          int        `json:"project_id" yaml:"project_id"`
+	CommitMessageRegex string     `json:"commit_message_regex" yaml:"commit_message_regex"`
+	BranchNameRegex    string     `json:"branch_name_regex" yaml:"branch_name_regex"`
+	DenyDeleteTag      bool       `json:"deny_delete_tag" yaml:"deny_delete_tag"`
+	CreatedAt          *time.Time `json:"created_at" yaml:"created_at"`
+	MemberCheck        bool       `json:"member_check" yaml:"member_check"`
+	PreventSecrets     bool       `json:"prevent_secrets" yaml:"prevent_secrets"`
+	AuthorEmailRegex   string     `json:"author_email_regex" yaml:"author_email_regex"`
+	FileNameRegex      string     `json:"file_name_regex" yaml:"file_name_regex"`
+	MaxFileSize        int        `json:"max_file_size" yaml:"max_file_size"`
 }
 
 // GetProjectPushRules gets the push rules of a project.
@@ -1093,14 +1093,14 @@ func (s *ProjectsService) GetProjectPushRules(pid interface{}, options ...Option
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/projects.html#add-project-push-rule
 type AddProjectPushRuleOptions struct {
-	DenyDeleteTag      *bool   `url:"deny_delete_tag,omitempty" json:"deny_delete_tag,omitempty"`
-	MemberCheck        *bool   `url:"member_check,omitempty" json:"member_check,omitempty"`
-	PreventSecrets     *bool   `url:"prevent_secrets,omitempty" json:"prevent_secrets,omitempty"`
-	CommitMessageRegex *string `url:"commit_message_regex,omitempty" json:"commit_message_regex,omitempty"`
-	BranchNameRegex    *string `url:"branch_name_regex,omitempty" json:"branch_name_regex,omitempty"`
-	AuthorEmailRegex   *string `url:"author_email_regex,omitempty" json:"author_email_regex,omitempty"`
-	FileNameRegex      *string `url:"file_name_regex,omitempty" json:"file_name_regex,omitempty"`
-	MaxFileSize        *int    `url:"max_file_size,omitempty" json:"max_file_size,omitempty"`
+	DenyDeleteTag      *bool   `url:"deny_delete_tag,omitempty" json:"deny_delete_tag,omitempty" yaml:"deny_delete_tag,omitempty"`
+	MemberCheck        *bool   `url:"member_check,omitempty" json:"member_check,omitempty" yaml:"member_check,omitempty"`
+	PreventSecrets     *bool   `url:"prevent_secrets,omitempty" json:"prevent_secrets,omitempty" yaml:"prevent_secrets,omitempty"`
+	CommitMessageRegex *string `url:"commit_message_regex,omitempty" json:"commit_message_regex,omitempty" yaml:"commit_message_regex,omitempty"`
+	BranchNameRegex    *string `url:"branch_name_regex,omitempty" json:"branch_name_regex,omitempty" yaml:"branch_name_regex,omitempty"`
+	AuthorEmailRegex   *string `url:"author_email_regex,omitempty" json:"author_email_regex,omitempty" yaml:"author_email_regex,omitempty"`
+	FileNameRegex      *string `url:"file_name_regex,omitempty" json:"file_name_regex,omitempty" yaml:"file_name_regex,omitempty"`
+	MaxFileSize        *int    `url:"max_file_size,omitempty" json:"max_file_size,omitempty" yaml:"max_file_size,omitempty"`
 }
 
 // AddProjectPushRule adds a push rule to a specified project.
@@ -1134,14 +1134,14 @@ func (s *ProjectsService) AddProjectPushRule(pid interface{}, opt *AddProjectPus
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/projects.html#edit-project-push-rule
 type EditProjectPushRuleOptions struct {
-	AuthorEmailRegex   *string `url:"author_email_regex,omitempty" json:"author_email_regex,omitempty"`
-	BranchNameRegex    *string `url:"branch_name_regex,omitempty" json:"branch_name_regex,omitempty"`
-	CommitMessageRegex *string `url:"commit_message_regex,omitempty" json:"commit_message_regex,omitempty"`
-	FileNameRegex      *string `url:"file_name_regex,omitempty" json:"file_name_regex,omitempty"`
-	DenyDeleteTag      *bool   `url:"deny_delete_tag,omitempty" json:"deny_delete_tag,omitempty"`
-	MemberCheck        *bool   `url:"member_check,omitempty" json:"member_check,omitempty"`
-	PreventSecrets     *bool   `url:"prevent_secrets,omitempty" json:"prevent_secrets,omitempty"`
-	MaxFileSize        *int    `url:"max_file_size,omitempty" json:"max_file_size,omitempty"`
+	AuthorEmailRegex   *string `url:"author_email_regex,omitempty" json:"author_email_regex,omitempty" yaml:"author_email_regex,omitempty"`
+	BranchNameRegex    *string `url:"branch_name_regex,omitempty" json:"branch_name_regex,omitempty" yaml:"branch_name_regex,omitempty"`
+	CommitMessageRegex *string `url:"commit_message_regex,omitempty" json:"commit_message_regex,omitempty" yaml:"commit_message_regex,omitempty"`
+	FileNameRegex      *string `url:"file_name_regex,omitempty" json:"file_name_regex,omitempty" yaml:"file_name_regex,omitempty"`
+	DenyDeleteTag      *bool   `url:"deny_delete_tag,omitempty" json:"deny_delete_tag,omitempty" yaml:"deny_delete_tag,omitempty"`
+	MemberCheck        *bool   `url:"member_check,omitempty" json:"member_check,omitempty" yaml:"member_check,omitempty"`
+	PreventSecrets     *bool   `url:"prevent_secrets,omitempty" json:"prevent_secrets,omitempty" yaml:"prevent_secrets,omitempty"`
+	MaxFileSize        *int    `url:"max_file_size,omitempty" json:"max_file_size,omitempty" yaml:"max_file_size,omitempty"`
 }
 
 // EditProjectPushRule edits a push rule for a specified project.
@@ -1195,11 +1195,11 @@ func (s *ProjectsService) DeleteProjectPushRule(pid interface{}, options ...Opti
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#project-level-mr-approvals
 type ProjectApprovals struct {
-	Approvers                                 []*MergeRequestApproverUser  `json:"approvers"`
-	ApproverGroups                            []*MergeRequestApproverGroup `json:"approver_groups"`
-	ApprovalsBeforeMerge                      int                          `json:"approvals_before_merge"`
-	ResetApprovalsOnPush                      bool                         `json:"reset_approvals_on_push"`
-	DisableOverridingApproversPerMergeRequest bool                         `json:"disable_overriding_approvers_per_merge_request"`
+	Approvers                                 []*MergeRequestApproverUser  `json:"approvers" yaml:"approvers"`
+	ApproverGroups                            []*MergeRequestApproverGroup `json:"approver_groups" yaml:"approver_groups"`
+	ApprovalsBeforeMerge                      int                          `json:"approvals_before_merge" yaml:"approvals_before_merge"`
+	ResetApprovalsOnPush                      bool                         `json:"reset_approvals_on_push" yaml:"reset_approvals_on_push"`
+	DisableOverridingApproversPerMergeRequest bool                         `json:"disable_overriding_approvers_per_merge_request" yaml:"disable_overriding_approvers_per_merge_request"`
 }
 
 // GetApprovalConfiguration get the approval configuration for a project.
@@ -1233,9 +1233,9 @@ func (s *ProjectsService) GetApprovalConfiguration(pid interface{}, options ...O
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#change-configuration
 type ChangeApprovalConfigurationOptions struct {
-	ApprovalsBeforeMerge                      *int  `url:"approvals_before_merge,omitempty" json:"approvals_before_merge,omitempty"`
-	ResetApprovalsOnPush                      *bool `url:"reset_approvals_on_push,omitempty" json:"reset_approvals_on_push,omitempty"`
-	DisableOverridingApproversPerMergeRequest *bool `url:"disable_overriding_approvers_per_merge_request,omitempty" json:"disable_overriding_approvers_per_merge_request,omitempty"`
+	ApprovalsBeforeMerge                      *int  `url:"approvals_before_merge,omitempty" json:"approvals_before_merge,omitempty" yaml:"approvals_before_merge,omitempty"`
+	ResetApprovalsOnPush                      *bool `url:"reset_approvals_on_push,omitempty" json:"reset_approvals_on_push,omitempty" yaml:"reset_approvals_on_push,omitempty"`
+	DisableOverridingApproversPerMergeRequest *bool `url:"disable_overriding_approvers_per_merge_request,omitempty" json:"disable_overriding_approvers_per_merge_request,omitempty" yaml:"disable_overriding_approvers_per_merge_request,omitempty"`
 }
 
 // ChangeApprovalConfiguration updates the approval configuration for a project.
@@ -1269,8 +1269,8 @@ func (s *ProjectsService) ChangeApprovalConfiguration(pid interface{}, opt *Chan
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#change-allowed-approvers
 type ChangeAllowedApproversOptions struct {
-	ApproverIDs      []*int `url:"approver_ids,omitempty" json:"approver_ids,omitempty"`
-	ApproverGroupIDs []*int `url:"approver_group_ids,omitempty" json:"approver_group_ids,omitempty"`
+	ApproverIDs      []*int `url:"approver_ids,omitempty" json:"approver_ids,omitempty" yaml:"approver_ids,omitempty"`
+	ApproverGroupIDs []*int `url:"approver_group_ids,omitempty" json:"approver_group_ids,omitempty" yaml:"approver_group_ids,omitempty"`
 }
 
 // ChangeAllowedApprovers updates the list of approvers and approver groups.
