@@ -526,8 +526,13 @@ type EditProjectOptions struct {
 	PrintingMergeRequestLinkEnabled           *bool             `url:"printing_merge_request_link_enabled,omitempty" json:"printing_merge_request_link_enabled,omitempty"`
 	CIConfigPath                              *string           `url:"ci_config_path,omitempty" json:"ci_config_path,omitempty"`
 	ApprovalsBeforeMerge                      *int              `url:"approvals_before_merge,omitempty" json:"approvals_before_merge,omitempty"`
+	ExternalAuthorizationClassificationLabel  *string           `url:"external_authorization_classification_label,omitempty" json:"external_authorization_classification_label,omitempty"`
 	Mirror                                    *bool             `url:"mirror,omitempty" json:"mirror,omitempty"`
 	MirrorTriggerBuilds                       *bool             `url:"mirror_trigger_builds,omitempty" json:"mirror_trigger_builds,omitempty"`
+	MirrorUserID                              *int              `url:"mirror_user_id,omitempty" json:"mirror_user_id,omitempty"`
+	OnlyMirrorProtectedBranches               *bool             `url:"only_mirror_protected_branches,omitempty" json:"only_mirror_protected_branches,omitempty"`
+	MirrorOverwritesDivergedBranches          *bool             `url:"mirror_overwrites_diverged_branches,omitempty" json:"mirror_overwrites_diverged_branches,omitempty"`
+	PackagesEnabled                           *bool             `url:"packages_enabled,omitempty" json:"packages_enabled,omitempty"`
 }
 
 // EditProject updates an existing project.
