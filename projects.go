@@ -504,7 +504,6 @@ type EditProjectOptions struct {
 	Name                                      *string           `url:"name,omitempty" json:"name,omitempty"`
 	Path                                      *string           `url:"path,omitempty" json:"path,omitempty"`
 	DefaultBranch                             *string           `url:"default_branch,omitempty" json:"default_branch,omitempty"`
-	NamespaceID                               *int              `url:"namespace_id,omitempty" json:"namespace_id,omitempty"`
 	Description                               *string           `url:"description,omitempty" json:"description,omitempty"`
 	IssuesEnabled                             *bool             `url:"issues_enabled,omitempty" json:"issues_enabled,omitempty"`
 	MergeRequestsEnabled                      *bool             `url:"merge_requests_enabled,omitempty" json:"merge_requests_enabled,omitempty"`
@@ -523,7 +522,6 @@ type EditProjectOptions struct {
 	LFSEnabled                                *bool             `url:"lfs_enabled,omitempty" json:"lfs_enabled,omitempty"`
 	RequestAccessEnabled                      *bool             `url:"request_access_enabled,omitempty" json:"request_access_enabled,omitempty"`
 	TagList                                   *[]string         `url:"tag_list,omitempty" json:"tag_list,omitempty"`
-	PrintingMergeRequestLinkEnabled           *bool             `url:"printing_merge_request_link_enabled,omitempty" json:"printing_merge_request_link_enabled,omitempty"`
 	CIConfigPath                              *string           `url:"ci_config_path,omitempty" json:"ci_config_path,omitempty"`
 	ApprovalsBeforeMerge                      *int              `url:"approvals_before_merge,omitempty" json:"approvals_before_merge,omitempty"`
 	ExternalAuthorizationClassificationLabel  *string           `url:"external_authorization_classification_label,omitempty" json:"external_authorization_classification_label,omitempty"`
