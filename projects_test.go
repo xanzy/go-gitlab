@@ -486,12 +486,12 @@ func TestChangeAllowedApprovers(t *testing.T) {
 		Approvers: []*MergeRequestApproverUser{
 			&MergeRequestApproverUser{
 				User: struct {
-					ID        int    `json:"id"`
-					Name      string `json:"name"`
-					Username  string `json:"username"`
-					State     string `json:"state"`
-					AvatarURL string `json:"avatar_url"`
-					WebURL    string `json:"web_url"`
+					ID        int    `json:"id" yaml:"id"`
+					Name      string `json:"name" yaml:"name"`
+					Username  string `json:"username" yaml:"username"`
+					State     string `json:"state" yaml:"state"`
+					AvatarURL string `json:"avatar_url" yaml:"avatar_url"`
+					WebURL    string `json:"web_url" yaml:"web_url"`
 				}{
 					ID: 1,
 				},
@@ -500,17 +500,17 @@ func TestChangeAllowedApprovers(t *testing.T) {
 		ApproverGroups: []*MergeRequestApproverGroup{
 			&MergeRequestApproverGroup{
 				Group: struct {
-					ID                   int    `json:"id"`
-					Name                 string `json:"name"`
-					Path                 string `json:"path"`
-					Description          string `json:"description"`
-					Visibility           string `json:"visibility"`
-					AvatarURL            string `json:"avatar_url"`
-					WebURL               string `json:"web_url"`
-					FullName             string `json:"full_name"`
-					FullPath             string `json:"full_path"`
-					LFSEnabled           bool   `json:"lfs_enabled"`
-					RequestAccessEnabled bool   `json:"request_access_enabled"`
+					ID                   int    `json:"id" yaml:"id"`
+					Name                 string `json:"name" yaml:"name"`
+					Path                 string `json:"path" yaml:"path"`
+					Description          string `json:"description" yaml:"description"`
+					Visibility           string `json:"visibility" yaml:"visibility"`
+					AvatarURL            string `json:"avatar_url" yaml:"avatar_url"`
+					WebURL               string `json:"web_url" yaml:"web_url"`
+					FullName             string `json:"full_name" yaml:"full_name"`
+					FullPath             string `json:"full_path" yaml:"full_path"`
+					LFSEnabled           bool   `json:"lfs_enabled" yaml:"lfs_enabled"`
+					RequestAccessEnabled bool   `json:"request_access_enabled" yaml:"request_access_enabled"`
 				}{
 					ID: 2,
 				},
