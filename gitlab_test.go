@@ -5,9 +5,11 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"io"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
+	"os"
 	"strings"
 	"testing"
 )
@@ -56,6 +58,17 @@ func testBody(t *testing.T, r *http.Request, want string) {
 
 	if got := buffer.String(); got != want {
 		t.Errorf("Request body: %s, want %s", got, want)
+	}
+}
+
+func mustWriteHTTPResponse(t *testing.T, w io.Writer, fixturePath string) {
+	f, err := os.Open(fixturePath)
+	if err != nil {
+		t.Fatalf("error opening fixture file: %v", err)
+	}
+
+	if _, err = io.Copy(w, f); err != nil {
+		t.Fatalf("error writing response: %v", err)
 	}
 }
 

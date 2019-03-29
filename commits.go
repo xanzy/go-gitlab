@@ -48,6 +48,8 @@ type Commit struct {
 	ParentIDs      []string         `json:"parent_ids"`
 	Stats          *CommitStats     `json:"stats"`
 	Status         *BuildStateValue `json:"status"`
+	LastPipeline   *PipelineInfo    `json:"last_pipeline"`
+	ProjectID      int              `json:"project_id"`
 }
 
 // CommitStats represents the number of added and deleted files in a commit.
