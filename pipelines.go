@@ -74,7 +74,11 @@ func (i Pipeline) String() string {
 // PipelineList represents a GitLab list project pipelines
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/pipelines.html#list-project-pipelines
-type PipelineList []struct {
+type PipelineList []*PipelineInfo
+
+// PipelineInfo shows the basic entities of a pipeline, mostly used as fields
+// on other assets, like Commit.
+type PipelineInfo struct {
 	ID     int    `json:"id"`
 	Status string `json:"status"`
 	Ref    string `json:"ref"`
