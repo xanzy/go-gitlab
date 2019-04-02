@@ -57,6 +57,90 @@ func (b BoardList) String() string {
 	return Stringify(b)
 }
 
+// CreateIssueBoardOptions represents the available CreateIssueBoard() options.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/boards.html#create-a-board-starter
+type CreateIssueBoardOptions struct {
+	Name *string `url:"name" json:"name"`
+}
+
+// CreateIssueBoard creates a new issue board.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/boards.html#create-a-board-starter
+func (s *IssueBoardsService) CreateIssueBoard(pid interface{}, opt *CreateIssueBoardOptions, options ...OptionFunc) (*IssueBoard, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/boards", url.QueryEscape(project))
+
+	req, err := s.client.NewRequest("POST", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	board := new(IssueBoard)
+	resp, err := s.client.Do(req, board)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return board, resp, err
+}
+
+// UpdateIssueBoardOptions represents the available UpdateIssueBoard() options.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/boards.html#update-a-board-starter
+type UpdateIssueBoardOptions struct {
+	Name        *string `url:"name,omitempty" json:"name,omitempty"`
+	AssigneeID  *int    `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
+	MilestoneID *int    `url:"milestone_id,omitempty" json:"milestone_id,omitempty"`
+	Labels      Labels  `url:"labels,omitempty" json:"labels,omitempty"`
+	Weight      *int    `url:"weight,omitempty" json:"weight,omitempty"`
+}
+
+// UpdateIssueBoard update an issue board.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/boards.html#create-a-board-starter
+func (s *IssueBoardsService) UpdateIssueBoard(pid interface{}, board int, opt *UpdateIssueBoardOptions, options ...OptionFunc) (*IssueBoard, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/boards/%d", url.QueryEscape(project), board)
+
+	req, err := s.client.NewRequest("PUT", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	is := new(IssueBoard)
+	resp, err := s.client.Do(req, is)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return is, resp, err
+}
+
+// DeleteIssueBoard deletes an issue board.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/boards.html#delete-a-board-starter
+func (s *IssueBoardsService) DeleteIssueBoard(pid interface{}, board int, options ...OptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/boards/%d", url.QueryEscape(project), board)
+
+	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
+
 // ListIssueBoardsOptions represents the available ListIssueBoards() options.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/boards.html#project-board
