@@ -460,7 +460,7 @@ func (s *MergeRequestsService) GetIssuesClosedOnMerge(pid interface{}, mergeRequ
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("/projects/%s/merge_requests/%d/closes_issues", url.QueryEscape(project), mergeRequest)
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/closes_issues", url.QueryEscape(project), mergeRequest)
 
 	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
