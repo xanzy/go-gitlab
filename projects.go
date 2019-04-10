@@ -61,6 +61,7 @@ type Project struct {
 	JobsEnabled                               bool              `json:"jobs_enabled"`
 	WikiEnabled                               bool              `json:"wiki_enabled"`
 	SnippetsEnabled                           bool              `json:"snippets_enabled"`
+	ResolveOutdatedDiffDiscussions            bool              `json:"resolve_outdated_diff_discussions"`
 	ContainerRegistryEnabled                  bool              `json:"container_registry_enabled"`
 	CreatedAt                                 *time.Time        `json:"created_at,omitempty"`
 	LastActivityAt                            *time.Time        `json:"last_activity_at,omitempty"`
@@ -87,7 +88,6 @@ type Project struct {
 	MirrorTriggerBuilds                       bool              `json:"mirror_trigger_builds"`
 	OnlyMirrorProtectedBranches               bool              `json:"only_mirror_protected_branches"`
 	MirrorOverwritesDivergedBranches          bool              `json:"mirror_overwrites_diverged_branches"`
-	ResolveOutdatedDiffDiscussions            bool              `json:"resolve_outdated_diff_discussions"`
 	SharedWithGroups                          []struct {
 		GroupID          int    `json:"group_id"`
 		GroupName        string `json:"group_name"`
