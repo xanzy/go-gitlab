@@ -60,9 +60,16 @@ type Group struct {
 	SharedProjects                 []*Project                 `json:"shared_projects"`
 	LDAPCN                         string                     `json:"ldap_cn"`
 	LDAPAccess                     AccessLevelValue           `json:"ldap_access"`
+	LDAPGroupLinks                 []LDAPGroupLink            `json:"ldap_group_links"`
 	SharedRunnersMinutesLimit      int                        `json:"shared_runners_minutes_limit"`
 	ExtraSharedRunnersMinutesLimit int                        `json:"extra_shared_runners_minutes_limit"`
 	PendingDelete                  bool                       `json:"pending_delete"`
+}
+
+type LDAPGroupLink struct {
+	CN          string           `json:"cn"`
+	GroupAccess AccessLevelValue `json:"group_access"`
+	Provider    string           `json:"provider"`
 }
 
 // ListGroupsOptions represents the available ListGroups() options.
