@@ -545,7 +545,7 @@ func (c *Client) NewRequest(method, path string, opt interface{}, options []Opti
 	}
 
 	// Set the encoded path data
-	u.RawPath = c.baseURL.Path + path
+	u.RawPath = c.baseURL.Path + strings.Replace(path, ".","%2E", -1)
 	u.Path = c.baseURL.Path + unescaped
 
 	if opt != nil {
