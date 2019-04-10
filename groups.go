@@ -19,6 +19,7 @@ package gitlab
 import (
 	"fmt"
 	"net/url"
+	"strings"
 )
 
 // GroupsService handles communication with the group related methods of
@@ -277,7 +278,8 @@ func (s *GroupsService) ListGroupProjects(gid interface{}, opt *ListGroupProject
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s/projects", url.QueryEscape(group))
+	group = url.QueryEscape(group)
+	u := fmt.Sprintf("groups/%s/projects", strings.Replace(group, ".", "%2e", -1))
 
 	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
