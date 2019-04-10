@@ -87,6 +87,7 @@ type Project struct {
 	MirrorTriggerBuilds                       bool              `json:"mirror_trigger_builds"`
 	OnlyMirrorProtectedBranches               bool              `json:"only_mirror_protected_branches"`
 	MirrorOverwritesDivergedBranches          bool              `json:"mirror_overwrites_diverged_branches"`
+	ResolveOutdatedDiffDiscussions            bool              `json:"resolve_outdated_diff_discussions"`
 	SharedWithGroups                          []struct {
 		GroupID          int    `json:"group_id"`
 		GroupName        string `json:"group_name"`
