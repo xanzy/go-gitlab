@@ -216,25 +216,24 @@ func (s *PipelineSchedulesService) TakeOwnershipOfPipelineSchedule(pid interface
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/pipeline_schedules.html#delete-a-pipeline-schedule
-func (s *PipelineSchedulesService) DeletePipelineSchedule(pid interface{}, schedule int, options ...OptionFunc) (*PipelineSchedule, *Response, error) {
+func (s *PipelineSchedulesService) DeletePipelineSchedule(pid interface{}, schedule int, options ...OptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 	u := fmt.Sprintf("projects/%s/pipeline_schedules/%d", url.QueryEscape(project), schedule)
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
-	p := new(PipelineSchedule)
-	resp, err := s.client.Do(req, p)
+	req, err = s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {
-		return nil, resp, err
+		return nil, err
 	}
 
-	return p, resp, err
+	return s.client.Do(req, nil)
 }
 
 // CreatePipelineScheduleVariableOptions represents the available
