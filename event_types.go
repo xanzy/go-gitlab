@@ -161,13 +161,21 @@ type IssueEvent struct {
 		Username  string `json:"username"`
 		AvatarURL string `json:"avatar_url"`
 	} `json:"assignee"`
-	Labels []Label `json:"labels"`
+	Assignees []struct {
+		Name      string `json:"name"`
+		Username  string `json:"username"`
+		AvatarURL string `json:"avatar_url"`
+	} `json:"assignees"`
+	Labels  []Label `json:"labels"`
 	Changes struct {
 		Labels struct {
 			Previous []Label `json:"previous"`
 			Current  []Label `json:"current"`
 		} `json:"labels"`
-		UpdatedByID []int `json:"updated_by_id"`
+		UpdatedByID struct {
+			Previous []Label `json:"previous"`
+			Current  []Label `json:"current"`
+		} `json:"updated_by_id"`
 	} `json:"changes"`
 }
 
@@ -407,7 +415,31 @@ type IssueCommentEvent struct {
 		StDiff       []*Diff `json:"st_diff"`
 		URL          string  `json:"url"`
 	} `json:"object_attributes"`
-	Issue *Issue `json:"issue"`
+	Issue struct {
+		ID                  int      `json:"id"`
+		IID                 int      `json:"iid"`
+		ProjectID           int      `json:"project_id"`
+		MilestoneID         int      `json:"milestone_id`
+		AuthorID            int      `json:"author_id"`
+		Description         string   `json:"description"`
+		State               string   `json:"state"`
+		Title               string   `json:"title"`
+		LastEditedAt        string   `json:"last_edit_at"`
+		LastEditedByID      int      `json:"last_edited_by_id`
+		UpdatedAt           string   `json:"updated_at"`
+		UpdatedByID         int      `json:"updated_by_id`
+		CreatedAt           string   `json:"created_at"`
+		ClosedAt            string   `json:"closed_at"`
+		DueDate             *ISOTime `json:"due_date"`
+		URL                 string   `json:"url"`
+		TimeEstimate        int      `json:"time_estimate"`
+		Confidential        bool     `json:"confidential"`
+		TotalTimeSpent      int      `json:"total_time_spent"`
+		HumanTotalTimeSpent int      `json:"human_total_time_spent"`
+		HumanTimeEstimate   int      `json:"human_time_estimate"`
+		AssigneeIDs         []int    `json:"assignee_ids"`
+		AssigneeID          int      `json:"assignee_id"`
+	} `json:"issue"`
 }
 
 // SnippetCommentEvent represents a comment on a snippet event.
@@ -540,7 +572,7 @@ type MergeEvent struct {
 		Username  string `json:"username"`
 		AvatarURL string `json:"avatar_url"`
 	} `json:"assignee"`
-	Labels []Label `json:"labels"`
+	Labels  []Label `json:"labels"`
 	Changes struct {
 		AssigneeID struct {
 			Previous int `json:"previous"`
@@ -554,7 +586,10 @@ type MergeEvent struct {
 			Previous []Label `json:"previous"`
 			Current  []Label `json:"current"`
 		} `json:"labels"`
-		UpdatedByID []int `json:"updated_by_id"`
+		UpdatedByID struct {
+			Previous []Label `json:"previous"`
+			Current  []Label `json:"current"`
+		} `json:"updated_by_id"`
 	} `json:"changes"`
 }
 
