@@ -71,7 +71,7 @@ type Job struct {
 // ListJobsOptions are options for two list apis
 type ListJobsOptions struct {
 	ListOptions
-	Scope []BuildStateValue `url:"scope,omitempty" json:"scope,omitempty"`
+	Scope []BuildStateValue `url:"scope[],omitempty" json:"scope,omitempty"`
 }
 
 // ListProjectJobs gets a list of jobs in a project.
