@@ -118,6 +118,7 @@ type MergeRequest struct {
 	} `json:"diff_refs"`
 	DivergedCommitsCount int  `json:"diverged_commits_count"`
 	RebaseInProgress     bool `json:"rebase_in_progress"`
+	ApprovalsBeforeMerge int  `json:"approvals_before_merge"`
 }
 
 func (m MergeRequest) String() string {
