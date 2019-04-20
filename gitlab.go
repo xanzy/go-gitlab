@@ -300,6 +300,7 @@ type Client struct {
 	Deployments           *DeploymentsService
 	Discussions           *DiscussionsService
 	Environments          *EnvironmentsService
+	Epics                 *EpicsService
 	Events                *EventsService
 	Features              *FeaturesService
 	GitIgnoreTemplates    *GitIgnoreTemplatesService
@@ -447,6 +448,7 @@ func newClient(httpClient *http.Client) *Client {
 	c.Deployments = &DeploymentsService{client: c}
 	c.Discussions = &DiscussionsService{client: c}
 	c.Environments = &EnvironmentsService{client: c}
+	c.Epics = &EpicsService{client: c}
 	c.Events = &EventsService{client: c}
 	c.Features = &FeaturesService{client: c}
 	c.GitIgnoreTemplates = &GitIgnoreTemplatesService{client: c}
