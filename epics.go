@@ -68,8 +68,8 @@ type ListGroupEpicsOptions struct {
 	Search   *string `url:"search,omitempty" json:"search,omitempty"`
 }
 
-// ListGroupEpics gets a list of group epics. This function accepts
-// pagination parameters page and per_page to return the list of group epics.
+// ListGroupEpics gets a list of group epics. This function accepts pagination
+// parameters page and per_page to return the list of group epics.
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/epics.html#list-epics-for-a-group
 func (s *EpicsService) ListGroupEpics(gid interface{}, opt *ListGroupEpicsOptions, options ...OptionFunc) ([]*Epic, *Response, error) {
@@ -84,13 +84,13 @@ func (s *EpicsService) ListGroupEpics(gid interface{}, opt *ListGroupEpicsOption
 		return nil, nil, err
 	}
 
-	var i []*Epic
-	resp, err := s.client.Do(req, &i)
+	var es []*Epic
+	resp, err := s.client.Do(req, &es)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return i, resp, err
+	return es, resp, err
 }
 
 // GetEpic gets a single group epic.
@@ -108,13 +108,13 @@ func (s *EpicsService) GetEpic(gid interface{}, epic int, options ...OptionFunc)
 		return nil, nil, err
 	}
 
-	i := new(Epic)
-	resp, err := s.client.Do(req, i)
+	e := new(Epic)
+	resp, err := s.client.Do(req, e)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return i, resp, err
+	return e, resp, err
 }
 
 // CreateEpicOptions represents the available CreateEpic() options.
@@ -124,10 +124,10 @@ type CreateEpicOptions struct {
 	Title            *string  `url:"title,omitempty" json:"title,omitempty"`
 	Description      *string  `url:"description,omitempty" json:"description,omitempty"`
 	Labels           Labels   `url:"labels,comma,omitempty" json:"labels,omitempty"`
-	StartDateIsFixed bool     `json:"start_date_is_fixed"`
-	StartDateFixed   *ISOTime `json:"start_date_fixed"`
-	DueDateIsFixed   bool     `json:"due_date_is_fixed"`
-	DueDateFixed     *ISOTime `json:"due_date_fixed"`
+	StartDateIsFixed *bool    `url:"start_date_is_fixed,omitempty" json:"start_date_is_fixed,omitempty"`
+	StartDateFixed   *ISOTime `url:"start_date_fixed,omitempty" json:"start_date_fixed,omitempty"`
+	DueDateIsFixed   *bool    `url:"due_date_is_fixed,omitempty" json:"due_date_is_fixed,omitempty"`
+	DueDateFixed     *ISOTime `url:"due_date_fixed,omitempty" json:"due_date_fixed,omitempty"`
 }
 
 // CreateEpic creates a new group epic.
@@ -145,13 +145,13 @@ func (s *EpicsService) CreateEpic(gid interface{}, opt *CreateEpicOptions, optio
 		return nil, nil, err
 	}
 
-	i := new(Epic)
-	resp, err := s.client.Do(req, i)
+	e := new(Epic)
+	resp, err := s.client.Do(req, e)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return i, resp, err
+	return e, resp, err
 }
 
 // UpdateEpicOptions represents the available UpdateEpic() options.
@@ -161,10 +161,10 @@ type UpdateEpicOptions struct {
 	Title            *string  `url:"title,omitempty" json:"title,omitempty"`
 	Description      *string  `url:"description,omitempty" json:"description,omitempty"`
 	Labels           Labels   `url:"labels,comma,omitempty" json:"labels,omitempty"`
-	StartDateIsFixed bool     `json:"start_date_is_fixed"`
-	StartDateFixed   *ISOTime `json:"start_date_fixed"`
-	DueDateIsFixed   bool     `json:"due_date_is_fixed"`
-	DueDateFixed     *ISOTime `json:"due_date_fixed"`
+	StartDateIsFixed *bool    `url:"start_date_is_fixed,omitempty" json:"start_date_is_fixed,omitempty"`
+	StartDateFixed   *ISOTime `url:"start_date_fixed,omitempty" json:"start_date_fixed,omitempty"`
+	DueDateIsFixed   *bool    `url:"due_date_is_fixed,omitempty" json:"due_date_is_fixed,omitempty"`
+	DueDateFixed     *ISOTime `url:"due_date_fixed,omitempty" json:"due_date_fixed,omitempty"`
 	StateEvent       *string  `url:"state_event,omitempty" json:"state_event,omitempty"`
 }
 
@@ -184,13 +184,13 @@ func (s *EpicsService) UpdateEpic(gid interface{}, epic int, opt *UpdateEpicOpti
 		return nil, nil, err
 	}
 
-	i := new(Epic)
-	resp, err := s.client.Do(req, i)
+	e := new(Epic)
+	resp, err := s.client.Do(req, e)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return i, resp, err
+	return e, resp, err
 }
 
 // DeleteEpic deletes a single group epic.

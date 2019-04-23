@@ -64,7 +64,6 @@ func TestListGroupEpics(t *testing.T) {
 	}
 
 	epics, _, err := client.Epics.ListGroupEpics("7", listGroupEpics)
-
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -96,7 +95,6 @@ func TestCreateEpic(t *testing.T) {
 	}
 
 	epic, _, err := client.Epics.CreateEpic("7", createEpicOptions)
-
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -128,7 +126,6 @@ func TestUpdateEpic(t *testing.T) {
 	}
 
 	epic, _, err := client.Epics.UpdateEpic("7", 8, updateEpicOptions)
-
 	if err != nil {
 		log.Fatal(err)
 	}
