@@ -18,7 +18,6 @@ package gitlab
 
 import (
 	"fmt"
-	"net/url"
 )
 
 // GroupsService handles communication with the group related methods of
@@ -93,7 +92,7 @@ func (s *GroupsService) GetGroup(gid interface{}, options ...OptionFunc) (*Group
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s", url.QueryEscape(group))
+	u := fmt.Sprintf("groups/%s", pathEscape(group))
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
@@ -151,14 +150,11 @@ func (s *GroupsService) TransferGroup(gid interface{}, pid interface{}, options 
 	if err != nil {
 		return nil, nil, err
 	}
-
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
-
-	u := fmt.Sprintf("groups/%s/projects/%s", url.QueryEscape(group),
-		url.QueryEscape(project))
+	u := fmt.Sprintf("groups/%s/projects/%s", pathEscape(group), pathEscape(project))
 
 	req, err := s.client.NewRequest("POST", u, nil, options)
 	if err != nil {
@@ -189,7 +185,7 @@ func (s *GroupsService) UpdateGroup(gid interface{}, opt *UpdateGroupOptions, op
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s", url.QueryEscape(group))
+	u := fmt.Sprintf("groups/%s", pathEscape(group))
 
 	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
@@ -213,7 +209,7 @@ func (s *GroupsService) DeleteGroup(gid interface{}, options ...OptionFunc) (*Re
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("groups/%s", url.QueryEscape(group))
+	u := fmt.Sprintf("groups/%s", pathEscape(group))
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {
@@ -277,7 +273,7 @@ func (s *GroupsService) ListGroupProjects(gid interface{}, opt *ListGroupProject
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s/projects", url.QueryEscape(group))
+	u := fmt.Sprintf("groups/%s/projects", pathEscape(group))
 
 	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
@@ -309,7 +305,7 @@ func (s *GroupsService) ListSubgroups(gid interface{}, opt *ListSubgroupsOptions
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s/subgroups", url.QueryEscape(group))
+	u := fmt.Sprintf("groups/%s/subgroups", pathEscape(group))
 
 	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {

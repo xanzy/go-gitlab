@@ -2,7 +2,6 @@ package gitlab
 
 import (
 	"fmt"
-	"net/url"
 )
 
 // BuildVariablesService handles communication with the project variables related methods
@@ -41,7 +40,7 @@ func (s *BuildVariablesService) ListBuildVariables(pid interface{}, opts *ListBu
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/variables", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/variables", pathEscape(project))
 
 	req, err := s.client.NewRequest("GET", u, opts, options)
 	if err != nil {
@@ -66,7 +65,7 @@ func (s *BuildVariablesService) GetBuildVariable(pid interface{}, key string, op
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/variables/%s", url.QueryEscape(project), key)
+	u := fmt.Sprintf("projects/%s/variables/%s", pathEscape(project), key)
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
@@ -101,7 +100,7 @@ func (s *BuildVariablesService) CreateBuildVariable(pid interface{}, opt *Create
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/variables", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/variables", pathEscape(project))
 
 	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
@@ -137,7 +136,7 @@ func (s *BuildVariablesService) UpdateBuildVariable(pid interface{}, key string,
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/variables/%s", url.QueryEscape(project), key)
+	u := fmt.Sprintf("projects/%s/variables/%s", pathEscape(project), key)
 
 	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
@@ -162,7 +161,7 @@ func (s *BuildVariablesService) RemoveBuildVariable(pid interface{}, key string,
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/variables/%s", url.QueryEscape(project), key)
+	u := fmt.Sprintf("projects/%s/variables/%s", pathEscape(project), key)
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {

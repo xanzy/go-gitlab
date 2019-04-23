@@ -19,7 +19,6 @@ package gitlab
 import (
 	"bytes"
 	"fmt"
-	"net/url"
 )
 
 // ProjectSnippetsService handles communication with the project snippets
@@ -43,7 +42,7 @@ func (s *ProjectSnippetsService) ListSnippets(pid interface{}, opt *ListProjectS
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/snippets", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/snippets", pathEscape(project))
 
 	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
@@ -68,7 +67,7 @@ func (s *ProjectSnippetsService) GetSnippet(pid interface{}, snippet int, option
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/snippets/%d", url.QueryEscape(project), snippet)
+	u := fmt.Sprintf("projects/%s/snippets/%d", pathEscape(project), snippet)
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
@@ -106,7 +105,7 @@ func (s *ProjectSnippetsService) CreateSnippet(pid interface{}, opt *CreateProje
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/snippets", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/snippets", pathEscape(project))
 
 	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
@@ -144,7 +143,7 @@ func (s *ProjectSnippetsService) UpdateSnippet(pid interface{}, snippet int, opt
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/snippets/%d", url.QueryEscape(project), snippet)
+	u := fmt.Sprintf("projects/%s/snippets/%d", pathEscape(project), snippet)
 
 	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
@@ -171,7 +170,7 @@ func (s *ProjectSnippetsService) DeleteSnippet(pid interface{}, snippet int, opt
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/snippets/%d", url.QueryEscape(project), snippet)
+	u := fmt.Sprintf("projects/%s/snippets/%d", pathEscape(project), snippet)
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {
@@ -190,7 +189,7 @@ func (s *ProjectSnippetsService) SnippetContent(pid interface{}, snippet int, op
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/snippets/%d/raw", url.QueryEscape(project), snippet)
+	u := fmt.Sprintf("projects/%s/snippets/%d/raw", pathEscape(project), snippet)
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {

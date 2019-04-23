@@ -18,7 +18,6 @@ package gitlab
 
 import (
 	"fmt"
-	"net/url"
 )
 
 // SearchService handles communication with the search related methods of the
@@ -296,7 +295,7 @@ func (s *SearchService) searchByGroup(gid interface{}, scope, query string, resu
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("groups/%s/-/search", url.QueryEscape(group))
+	u := fmt.Sprintf("groups/%s/-/search", pathEscape(group))
 
 	opts := &searchOptions{SearchOptions: *opt, Scope: scope, Search: query}
 
@@ -313,7 +312,7 @@ func (s *SearchService) searchByProject(pid interface{}, scope, query string, re
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/-/search", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/-/search", pathEscape(project))
 
 	opts := &searchOptions{SearchOptions: *opt, Scope: scope, Search: query}
 

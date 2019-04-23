@@ -18,7 +18,6 @@ package gitlab
 
 import (
 	"fmt"
-	"net/url"
 )
 
 // ProtectedBranchesService handles communication with the protected branch
@@ -66,7 +65,7 @@ func (s *ProtectedBranchesService) ListProtectedBranches(pid interface{}, opt *L
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/protected_branches", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/protected_branches", pathEscape(project))
 
 	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
@@ -91,7 +90,7 @@ func (s *ProtectedBranchesService) GetProtectedBranch(pid interface{}, branch st
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/protected_branches/%s", url.QueryEscape(project), branch)
+	u := fmt.Sprintf("projects/%s/protected_branches/%s", pathEscape(project), branch)
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
@@ -128,7 +127,7 @@ func (s *ProtectedBranchesService) ProtectRepositoryBranches(pid interface{}, op
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/protected_branches", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/protected_branches", pathEscape(project))
 
 	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
@@ -154,7 +153,7 @@ func (s *ProtectedBranchesService) UnprotectRepositoryBranches(pid interface{}, 
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/protected_branches/%s", url.QueryEscape(project), branch)
+	u := fmt.Sprintf("projects/%s/protected_branches/%s", pathEscape(project), branch)
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {

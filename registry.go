@@ -2,7 +2,6 @@ package gitlab
 
 import (
 	"fmt"
-	"net/url"
 	"time"
 )
 
@@ -63,7 +62,7 @@ func (s *ContainerRegistryService) ListRegistryRepositories(pid interface{}, opt
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/registry/repositories", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/registry/repositories", pathEscape(project))
 
 	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
@@ -88,7 +87,7 @@ func (s *ContainerRegistryService) DeleteRegistryRepository(pid interface{}, rep
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/registry/repositories/%d", url.QueryEscape(project), repository)
+	u := fmt.Sprintf("projects/%s/registry/repositories/%d", pathEscape(project), repository)
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {
@@ -115,7 +114,7 @@ func (s *ContainerRegistryService) ListRegistryRepositoryTags(pid interface{}, r
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/registry/repositories/%d/tags",
-		url.QueryEscape(project),
+		pathEscape(project),
 		repository,
 	)
 
@@ -143,7 +142,7 @@ func (s *ContainerRegistryService) GetRegistryRepositoryTagDetail(pid interface{
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/registry/repositories/%d/tags/%s",
-		url.QueryEscape(project),
+		pathEscape(project),
 		repository,
 		tagName,
 	)
@@ -172,7 +171,7 @@ func (s *ContainerRegistryService) DeleteRegistryRepositoryTag(pid interface{}, 
 		return nil, err
 	}
 	u := fmt.Sprintf("projects/%s/registry/repositories/%d/tags/%s",
-		url.QueryEscape(project),
+		pathEscape(project),
 		repository,
 		tagName,
 	)
@@ -207,7 +206,7 @@ func (s *ContainerRegistryService) DeleteRegistryRepositoryTags(pid interface{},
 		return nil, err
 	}
 	u := fmt.Sprintf("projects/%s/registry/repositories/%d/tags",
-		url.QueryEscape(project),
+		pathEscape(project),
 		repository,
 	)
 

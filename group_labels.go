@@ -2,7 +2,6 @@ package gitlab
 
 import (
 	"fmt"
-	"net/url"
 )
 
 // GroupLabelsService handles communication with the label related methods of the
@@ -36,7 +35,7 @@ func (s *GroupLabelsService) ListGroupLabels(gid interface{}, opt *ListGroupLabe
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s/labels", url.QueryEscape(group))
+	u := fmt.Sprintf("groups/%s/labels", pathEscape(group))
 
 	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
@@ -68,7 +67,7 @@ func (s *GroupLabelsService) CreateGroupLabel(gid interface{}, opt *CreateGroupL
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s/labels", url.QueryEscape(group))
+	u := fmt.Sprintf("groups/%s/labels", pathEscape(group))
 
 	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
@@ -98,7 +97,7 @@ func (s *GroupLabelsService) DeleteGroupLabel(gid interface{}, opt *DeleteGroupL
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("groups/%s/labels", url.QueryEscape(group))
+	u := fmt.Sprintf("groups/%s/labels", pathEscape(group))
 
 	req, err := s.client.NewRequest("DELETE", u, opt, options)
 	if err != nil {
@@ -124,7 +123,7 @@ func (s *GroupLabelsService) UpdateGroupLabel(gid interface{}, opt *UpdateGroupL
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s/labels", url.QueryEscape(group))
+	u := fmt.Sprintf("groups/%s/labels", pathEscape(group))
 
 	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
@@ -155,7 +154,7 @@ func (s *GroupLabelsService) SubscribeToGroupLabel(gid interface{}, labelID inte
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s/labels/%s/subscribe", url.QueryEscape(group), label)
+	u := fmt.Sprintf("groups/%s/labels/%s/subscribe", pathEscape(group), label)
 
 	req, err := s.client.NewRequest("POST", u, nil, options)
 	if err != nil {
@@ -186,7 +185,7 @@ func (s *GroupLabelsService) UnsubscribeFromGroupLabel(gid interface{}, labelID 
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("groups/%s/labels/%s/unsubscribe", url.QueryEscape(group), label)
+	u := fmt.Sprintf("groups/%s/labels/%s/unsubscribe", pathEscape(group), label)
 
 	req, err := s.client.NewRequest("POST", u, nil, options)
 	if err != nil {

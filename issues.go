@@ -19,7 +19,6 @@ package gitlab
 import (
 	"encoding/json"
 	"fmt"
-	"net/url"
 	"strings"
 	"time"
 )
@@ -178,7 +177,7 @@ func (s *IssuesService) ListGroupIssues(pid interface{}, opt *ListGroupIssuesOpt
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s/issues", url.QueryEscape(group))
+	u := fmt.Sprintf("groups/%s/issues", pathEscape(group))
 
 	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
@@ -225,7 +224,7 @@ func (s *IssuesService) ListProjectIssues(pid interface{}, opt *ListProjectIssue
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/issues", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/issues", pathEscape(project))
 
 	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
@@ -249,7 +248,7 @@ func (s *IssuesService) GetIssue(pid interface{}, issue int, options ...OptionFu
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/issues/%d", url.QueryEscape(project), issue)
+	u := fmt.Sprintf("projects/%s/issues/%d", pathEscape(project), issue)
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
@@ -290,7 +289,7 @@ func (s *IssuesService) CreateIssue(pid interface{}, opt *CreateIssueOptions, op
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/issues", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/issues", pathEscape(project))
 
 	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
@@ -332,7 +331,7 @@ func (s *IssuesService) UpdateIssue(pid interface{}, issue int, opt *UpdateIssue
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/issues/%d", url.QueryEscape(project), issue)
+	u := fmt.Sprintf("projects/%s/issues/%d", pathEscape(project), issue)
 
 	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
@@ -356,7 +355,7 @@ func (s *IssuesService) DeleteIssue(pid interface{}, issue int, options ...Optio
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/issues/%d", url.QueryEscape(project), issue)
+	u := fmt.Sprintf("projects/%s/issues/%d", pathEscape(project), issue)
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {
@@ -377,7 +376,7 @@ func (s *IssuesService) SubscribeToIssue(pid interface{}, issue int, options ...
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/issues/%d/subscribe", url.QueryEscape(project), issue)
+	u := fmt.Sprintf("projects/%s/issues/%d/subscribe", pathEscape(project), issue)
 
 	req, err := s.client.NewRequest("POST", u, nil, options)
 	if err != nil {
@@ -404,7 +403,7 @@ func (s *IssuesService) UnsubscribeFromIssue(pid interface{}, issue int, options
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/issues/%d/unsubscribe", url.QueryEscape(project), issue)
+	u := fmt.Sprintf("projects/%s/issues/%d/unsubscribe", pathEscape(project), issue)
 
 	req, err := s.client.NewRequest("POST", u, nil, options)
 	if err != nil {
@@ -437,7 +436,7 @@ func (s *IssuesService) ListMergeRequestsClosingIssue(pid interface{}, issue int
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("/projects/%s/issues/%d/closed_by", url.QueryEscape(project), issue)
+	u := fmt.Sprintf("/projects/%s/issues/%d/closed_by", pathEscape(project), issue)
 
 	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
@@ -471,7 +470,7 @@ func (s *IssuesService) ListMergeRequestsRelatedToIssue(pid interface{}, issue i
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("/projects/%s/issues/%d/related_merge_requests",
-		url.QueryEscape(project),
+		pathEscape(project),
 		issue,
 	)
 

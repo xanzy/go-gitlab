@@ -71,7 +71,7 @@ func (s *TagsService) ListTags(pid interface{}, opt *ListTagsOptions, options ..
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/repository/tags", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/repository/tags", pathEscape(project))
 
 	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
@@ -97,7 +97,7 @@ func (s *TagsService) GetTag(pid interface{}, tag string, options ...OptionFunc)
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/repository/tags/%s", url.QueryEscape(project), url.QueryEscape(tag))
+	u := fmt.Sprintf("projects/%s/repository/tags/%s", pathEscape(project), url.PathEscape(tag))
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
@@ -134,7 +134,7 @@ func (s *TagsService) CreateTag(pid interface{}, opt *CreateTagOptions, options 
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/repository/tags", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/repository/tags", pathEscape(project))
 
 	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
@@ -159,7 +159,7 @@ func (s *TagsService) DeleteTag(pid interface{}, tag string, options ...OptionFu
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/repository/tags/%s", url.QueryEscape(project), url.QueryEscape(tag))
+	u := fmt.Sprintf("projects/%s/repository/tags/%s", pathEscape(project), url.PathEscape(tag))
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {
@@ -191,7 +191,7 @@ func (s *TagsService) CreateReleaseNote(pid interface{}, tag string, opt *Create
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/repository/tags/%s/release", url.QueryEscape(project), url.QueryEscape(tag))
+	u := fmt.Sprintf("projects/%s/repository/tags/%s/release", pathEscape(project), url.PathEscape(tag))
 
 	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
@@ -226,7 +226,7 @@ func (s *TagsService) UpdateReleaseNote(pid interface{}, tag string, opt *Update
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/repository/tags/%s/release", url.QueryEscape(project), url.QueryEscape(tag))
+	u := fmt.Sprintf("projects/%s/repository/tags/%s/release", pathEscape(project), url.PathEscape(tag))
 
 	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {

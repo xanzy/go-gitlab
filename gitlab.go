@@ -720,6 +720,11 @@ func parseID(id interface{}) (string, error) {
 	}
 }
 
+// Helper function to escape a project identifier.
+func pathEscape(s string) string {
+	return strings.Replace(url.PathEscape(s), ".", "%2E", -1)
+}
+
 // An ErrorResponse reports one or more errors caused by an API request.
 //
 // GitLab API docs:

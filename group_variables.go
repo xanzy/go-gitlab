@@ -53,7 +53,7 @@ func (s *GroupVariablesService) ListVariables(gid interface{}, options ...Option
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s/variables", url.QueryEscape(group))
+	u := fmt.Sprintf("groups/%s/variables", pathEscape(group))
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
@@ -78,7 +78,7 @@ func (s *GroupVariablesService) GetVariable(gid interface{}, key string, options
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s/variables/%s", url.QueryEscape(group), url.QueryEscape(key))
+	u := fmt.Sprintf("groups/%s/variables/%s", pathEscape(group), url.PathEscape(key))
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
@@ -103,7 +103,7 @@ func (s *GroupVariablesService) CreateVariable(gid interface{}, opt *CreateVaria
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s/variables", url.QueryEscape(group))
+	u := fmt.Sprintf("groups/%s/variables", pathEscape(group))
 
 	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
@@ -129,10 +129,7 @@ func (s *GroupVariablesService) UpdateVariable(gid interface{}, key string, opt 
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s/variables/%s",
-		url.QueryEscape(group),
-		url.QueryEscape(key),
-	)
+	u := fmt.Sprintf("groups/%s/variables/%s", pathEscape(group), url.PathEscape(key))
 
 	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
@@ -157,10 +154,7 @@ func (s *GroupVariablesService) RemoveVariable(gid interface{}, key string, opti
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("groups/%s/variables/%s",
-		url.QueryEscape(group),
-		url.QueryEscape(key),
-	)
+	u := fmt.Sprintf("groups/%s/variables/%s", pathEscape(group), url.PathEscape(key))
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {

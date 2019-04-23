@@ -2,7 +2,6 @@ package gitlab
 
 import (
 	"fmt"
-	"net/url"
 	"time"
 )
 
@@ -77,7 +76,7 @@ func (s *EpicsService) ListGroupEpics(gid interface{}, opt *ListGroupEpicsOption
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s/epics", url.QueryEscape(group))
+	u := fmt.Sprintf("groups/%s/epics", pathEscape(group))
 
 	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
@@ -101,7 +100,7 @@ func (s *EpicsService) GetEpic(gid interface{}, epic int, options ...OptionFunc)
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s/epics/%d", url.QueryEscape(group), epic)
+	u := fmt.Sprintf("groups/%s/epics/%d", pathEscape(group), epic)
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
@@ -138,7 +137,7 @@ func (s *EpicsService) CreateEpic(gid interface{}, opt *CreateEpicOptions, optio
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s/epics", url.QueryEscape(group))
+	u := fmt.Sprintf("groups/%s/epics", pathEscape(group))
 
 	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
@@ -177,7 +176,7 @@ func (s *EpicsService) UpdateEpic(gid interface{}, epic int, opt *UpdateEpicOpti
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s/epics/%d", url.QueryEscape(group), epic)
+	u := fmt.Sprintf("groups/%s/epics/%d", pathEscape(group), epic)
 
 	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
@@ -201,7 +200,7 @@ func (s *EpicsService) DeleteEpic(gid interface{}, epic int, options ...OptionFu
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("groups/%s/epics/%d", url.QueryEscape(group), epic)
+	u := fmt.Sprintf("groups/%s/epics/%d", pathEscape(group), epic)
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {

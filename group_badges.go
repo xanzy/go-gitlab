@@ -2,7 +2,6 @@ package gitlab
 
 import (
 	"fmt"
-	"net/url"
 )
 
 // GroupBadgesService handles communication with the group badges
@@ -50,7 +49,7 @@ func (s *GroupBadgesService) ListGroupBadges(gid interface{}, opt *ListGroupBadg
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s/badges", url.QueryEscape(group))
+	u := fmt.Sprintf("groups/%s/badges", pathEscape(group))
 
 	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
@@ -75,7 +74,7 @@ func (s *GroupBadgesService) GetGroupBadge(gid interface{}, badge int, options .
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s/badges/%d", url.QueryEscape(group), badge)
+	u := fmt.Sprintf("groups/%s/badges/%d", pathEscape(group), badge)
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
@@ -109,7 +108,7 @@ func (s *GroupBadgesService) AddGroupBadge(gid interface{}, opt *AddGroupBadgeOp
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s/badges", url.QueryEscape(group))
+	u := fmt.Sprintf("groups/%s/badges", pathEscape(group))
 
 	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
@@ -143,7 +142,7 @@ func (s *GroupBadgesService) EditGroupBadge(gid interface{}, badge int, opt *Edi
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s/badges/%d", url.QueryEscape(group), badge)
+	u := fmt.Sprintf("groups/%s/badges/%d", pathEscape(group), badge)
 
 	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
@@ -168,7 +167,7 @@ func (s *GroupBadgesService) DeleteGroupBadge(gid interface{}, badge int, option
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("groups/%s/badges/%d", url.QueryEscape(group), badge)
+	u := fmt.Sprintf("groups/%s/badges/%d", pathEscape(group), badge)
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {
@@ -197,7 +196,7 @@ func (s *GroupBadgesService) PreviewGroupBadge(gid interface{}, opt *GroupBadgeP
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s/badges/render", url.QueryEscape(group))
+	u := fmt.Sprintf("groups/%s/badges/render", pathEscape(group))
 
 	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {

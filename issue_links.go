@@ -18,7 +18,6 @@ package gitlab
 
 import (
 	"fmt"
-	"net/url"
 )
 
 // IssueLinksService handles communication with the issue relations related methods
@@ -49,7 +48,7 @@ func (s *IssueLinksService) ListIssueRelations(pid interface{}, issueIID int, op
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/issues/%d/links", url.QueryEscape(project), issueIID)
+	u := fmt.Sprintf("projects/%s/issues/%d/links", pathEscape(project), issueIID)
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
@@ -83,7 +82,7 @@ func (s *IssueLinksService) CreateIssueLink(pid interface{}, issueIID int, opt *
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/issues/%d/links", url.QueryEscape(project), issueIID)
+	u := fmt.Sprintf("projects/%s/issues/%d/links", pathEscape(project), issueIID)
 
 	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
@@ -109,7 +108,7 @@ func (s *IssueLinksService) DeleteIssueLink(pid interface{}, issueIID, issueLink
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/issues/%d/links/%d",
-		url.QueryEscape(project),
+		pathEscape(project),
 		issueIID,
 		issueLinkID)
 

@@ -18,7 +18,6 @@ package gitlab
 
 import (
 	"fmt"
-	"net/url"
 )
 
 // EnvironmentsService handles communication with the environment related methods
@@ -59,7 +58,7 @@ func (s *EnvironmentsService) ListEnvironments(pid interface{}, opts *ListEnviro
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/environments", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/environments", pathEscape(project))
 
 	req, err := s.client.NewRequest("GET", u, opts, options)
 	if err != nil {
@@ -96,7 +95,7 @@ func (s *EnvironmentsService) CreateEnvironment(pid interface{}, opt *CreateEnvi
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/environments", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/environments", pathEscape(project))
 
 	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
@@ -130,7 +129,7 @@ func (s *EnvironmentsService) EditEnvironment(pid interface{}, environment int, 
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/environments/%d", url.QueryEscape(project), environment)
+	u := fmt.Sprintf("projects/%s/environments/%d", pathEscape(project), environment)
 
 	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
@@ -155,7 +154,7 @@ func (s *EnvironmentsService) DeleteEnvironment(pid interface{}, environment int
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/environments/%d", url.QueryEscape(project), environment)
+	u := fmt.Sprintf("projects/%s/environments/%d", pathEscape(project), environment)
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {
@@ -174,7 +173,7 @@ func (s *EnvironmentsService) StopEnvironment(pid interface{}, environmentID int
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/environments/%d/stop", url.QueryEscape(project), environmentID)
+	u := fmt.Sprintf("projects/%s/environments/%d/stop", pathEscape(project), environmentID)
 
 	req, err := s.client.NewRequest("POST", u, nil, options)
 	if err != nil {

@@ -18,7 +18,6 @@ package gitlab
 
 import (
 	"fmt"
-	"net/url"
 	"time"
 )
 
@@ -130,7 +129,7 @@ func (s *EventsService) ListProjectVisibleEvents(pid interface{}, opt *ListContr
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/events", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/events", pathEscape(project))
 
 	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
