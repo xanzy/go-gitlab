@@ -82,6 +82,7 @@ type TagEvent struct {
 	UserName    string `json:"user_name"`
 	UserAvatar  string `json:"user_avatar"`
 	ProjectID   int    `json:"project_id"`
+	Message     string `json:"message"`
 	Project     struct {
 		Name              string          `json:"name"`
 		Description       string          `json:"description"`
