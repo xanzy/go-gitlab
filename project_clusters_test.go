@@ -17,6 +17,7 @@ func TestListClusters(t *testing.T) {
   {
     "id":18,
     "name":"cluster-1",
+    "domain":"example.com",
     "created_at":"2019-01-02T20:18:12.563Z",
     "provider_type":"user",
     "platform_type":"kubernetes",
@@ -56,6 +57,10 @@ func TestListClusters(t *testing.T) {
 	if clusters[0].ID != 18 {
 		t.Errorf("expected clusterID 1; got %d", clusters[0].ID)
 	}
+
+	if clusters[0].Domain != "example.com" {
+		t.Errorf("expected cluster domain example.com; got %q", clusters[0].Domain)
+	}
 }
 
 func TestGetCluster(t *testing.T) {
@@ -68,6 +73,7 @@ func TestGetCluster(t *testing.T) {
 		response := `{
   "id":18,
   "name":"cluster-1",
+  "domain":"example.com",
   "created_at":"2019-01-02T20:18:12.563Z",
   "provider_type":"user",
   "platform_type":"kubernetes",
@@ -131,6 +137,10 @@ func TestGetCluster(t *testing.T) {
 	if cluster.ID != 18 {
 		t.Errorf("expected clusterID 18; got %d", cluster.ID)
 	}
+
+	if cluster.Domain != "example.com" {
+		t.Errorf("expected cluster domain example.com; got %q", cluster.Domain)
+	}
 }
 
 func TestAddCluster(t *testing.T) {
@@ -143,6 +153,7 @@ func TestAddCluster(t *testing.T) {
 		response := `{
   "id":24,
   "name":"cluster-5",
+  "domain":"example.com",
   "created_at":"2019-01-03T21:53:40.610Z",
   "provider_type":"user",
   "platform_type":"kubernetes",
@@ -218,6 +229,7 @@ func TestEditCluster(t *testing.T) {
 		response := `{
   "id":24,
   "name":"new-cluster-name",
+  "domain":"example.com",
   "created_at":"2019-01-03T21:53:40.610Z",
   "provider_type":"user",
   "platform_type":"kubernetes",
