@@ -18,7 +18,6 @@ package gitlab
 
 import (
 	"fmt"
-	"net/url"
 	"time"
 )
 
@@ -108,7 +107,7 @@ func (s *NotesService) ListIssueNotes(pid interface{}, issue int, opt *ListIssue
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/issues/%d/notes", url.QueryEscape(project), issue)
+	u := fmt.Sprintf("projects/%s/issues/%d/notes", pathEscape(project), issue)
 
 	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
@@ -133,7 +132,7 @@ func (s *NotesService) GetIssueNote(pid interface{}, issue, note int, options ..
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/issues/%d/notes/%d", url.QueryEscape(project), issue, note)
+	u := fmt.Sprintf("projects/%s/issues/%d/notes/%d", pathEscape(project), issue, note)
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
@@ -167,7 +166,7 @@ func (s *NotesService) CreateIssueNote(pid interface{}, issue int, opt *CreateIs
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/issues/%d/notes", url.QueryEscape(project), issue)
+	u := fmt.Sprintf("projects/%s/issues/%d/notes", pathEscape(project), issue)
 
 	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
@@ -201,7 +200,7 @@ func (s *NotesService) UpdateIssueNote(pid interface{}, issue, note int, opt *Up
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/issues/%d/notes/%d", url.QueryEscape(project), issue, note)
+	u := fmt.Sprintf("projects/%s/issues/%d/notes/%d", pathEscape(project), issue, note)
 
 	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
@@ -226,7 +225,7 @@ func (s *NotesService) DeleteIssueNote(pid interface{}, issue, note int, options
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/issues/%d/notes/%d", url.QueryEscape(project), issue, note)
+	u := fmt.Sprintf("projects/%s/issues/%d/notes/%d", pathEscape(project), issue, note)
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {
@@ -256,7 +255,7 @@ func (s *NotesService) ListSnippetNotes(pid interface{}, snippet int, opt *ListS
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/snippets/%d/notes", url.QueryEscape(project), snippet)
+	u := fmt.Sprintf("projects/%s/snippets/%d/notes", pathEscape(project), snippet)
 
 	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
@@ -281,7 +280,7 @@ func (s *NotesService) GetSnippetNote(pid interface{}, snippet, note int, option
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/snippets/%d/notes/%d", url.QueryEscape(project), snippet, note)
+	u := fmt.Sprintf("projects/%s/snippets/%d/notes/%d", pathEscape(project), snippet, note)
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
@@ -316,7 +315,7 @@ func (s *NotesService) CreateSnippetNote(pid interface{}, snippet int, opt *Crea
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/snippets/%d/notes", url.QueryEscape(project), snippet)
+	u := fmt.Sprintf("projects/%s/snippets/%d/notes", pathEscape(project), snippet)
 
 	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
@@ -350,7 +349,7 @@ func (s *NotesService) UpdateSnippetNote(pid interface{}, snippet, note int, opt
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/snippets/%d/notes/%d", url.QueryEscape(project), snippet, note)
+	u := fmt.Sprintf("projects/%s/snippets/%d/notes/%d", pathEscape(project), snippet, note)
 
 	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
@@ -375,7 +374,7 @@ func (s *NotesService) DeleteSnippetNote(pid interface{}, snippet, note int, opt
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/snippets/%d/notes/%d", url.QueryEscape(project), snippet, note)
+	u := fmt.Sprintf("projects/%s/snippets/%d/notes/%d", pathEscape(project), snippet, note)
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {
@@ -405,7 +404,7 @@ func (s *NotesService) ListMergeRequestNotes(pid interface{}, mergeRequest int, 
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/merge_requests/%d/notes", url.QueryEscape(project), mergeRequest)
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/notes", pathEscape(project), mergeRequest)
 
 	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
@@ -430,7 +429,7 @@ func (s *NotesService) GetMergeRequestNote(pid interface{}, mergeRequest, note i
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/merge_requests/%d/notes/%d", url.QueryEscape(project), mergeRequest, note)
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/notes/%d", pathEscape(project), mergeRequest, note)
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
@@ -464,7 +463,7 @@ func (s *NotesService) CreateMergeRequestNote(pid interface{}, mergeRequest int,
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/merge_requests/%d/notes", url.QueryEscape(project), mergeRequest)
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/notes", pathEscape(project), mergeRequest)
 
 	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
@@ -499,7 +498,7 @@ func (s *NotesService) UpdateMergeRequestNote(pid interface{}, mergeRequest, not
 		return nil, nil, err
 	}
 	u := fmt.Sprintf(
-		"projects/%s/merge_requests/%d/notes/%d", url.QueryEscape(project), mergeRequest, note)
+		"projects/%s/merge_requests/%d/notes/%d", pathEscape(project), mergeRequest, note)
 	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
 		return nil, nil, err
@@ -524,7 +523,7 @@ func (s *NotesService) DeleteMergeRequestNote(pid interface{}, mergeRequest, not
 		return nil, err
 	}
 	u := fmt.Sprintf(
-		"projects/%s/merge_requests/%d/notes/%d", url.QueryEscape(project), mergeRequest, note)
+		"projects/%s/merge_requests/%d/notes/%d", pathEscape(project), mergeRequest, note)
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {
@@ -553,7 +552,7 @@ func (s *NotesService) ListEpicNotes(gid interface{}, epic int, opt *ListEpicNot
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s/epics/%d/notes", url.QueryEscape(group), epic)
+	u := fmt.Sprintf("groups/%s/epics/%d/notes", pathEscape(group), epic)
 
 	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
@@ -578,7 +577,7 @@ func (s *NotesService) GetEpicNote(gid interface{}, epic, note int, options ...O
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s/epics/%d/notes/%d", url.QueryEscape(group), epic, note)
+	u := fmt.Sprintf("groups/%s/epics/%d/notes/%d", pathEscape(group), epic, note)
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
@@ -611,7 +610,7 @@ func (s *NotesService) CreateEpicNote(gid interface{}, epic int, opt *CreateEpic
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s/epics/%d/notes", url.QueryEscape(group), epic)
+	u := fmt.Sprintf("groups/%s/epics/%d/notes", pathEscape(group), epic)
 
 	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
@@ -643,7 +642,7 @@ func (s *NotesService) UpdateEpicNote(gid interface{}, epic, note int, opt *Upda
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s/epics/%d/notes/%d", url.QueryEscape(group), epic, note)
+	u := fmt.Sprintf("groups/%s/epics/%d/notes/%d", pathEscape(group), epic, note)
 
 	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
@@ -667,7 +666,7 @@ func (s *NotesService) DeleteEpicNote(gid interface{}, epic, note int, options .
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("groups/%s/epics/%d/notes/%d", url.QueryEscape(group), epic, note)
+	u := fmt.Sprintf("groups/%s/epics/%d/notes/%d", pathEscape(group), epic, note)
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {

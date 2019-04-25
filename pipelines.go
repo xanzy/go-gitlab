@@ -18,7 +18,6 @@ package gitlab
 
 import (
 	"fmt"
-	"net/url"
 	"time"
 )
 
@@ -114,7 +113,7 @@ func (s *PipelinesService) ListProjectPipelines(pid interface{}, opt *ListProjec
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/pipelines", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/pipelines", pathEscape(project))
 
 	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
@@ -137,7 +136,7 @@ func (s *PipelinesService) GetPipeline(pid interface{}, pipeline int, options ..
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/pipelines/%d", url.QueryEscape(project), pipeline)
+	u := fmt.Sprintf("projects/%s/pipelines/%d", pathEscape(project), pipeline)
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
@@ -169,7 +168,7 @@ func (s *PipelinesService) CreatePipeline(pid interface{}, opt *CreatePipelineOp
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/pipeline", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/pipeline", pathEscape(project))
 
 	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {

@@ -18,7 +18,6 @@ package gitlab
 
 import (
 	"fmt"
-	"net/url"
 	"time"
 )
 
@@ -70,7 +69,7 @@ func (s *ProjectClustersService) ListClusters(pid interface{}, options ...Option
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/clusters", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/clusters", pathEscape(project))
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
@@ -95,7 +94,7 @@ func (s *ProjectClustersService) GetCluster(pid interface{}, cluster int, option
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/clusters/%d", url.QueryEscape(project), cluster)
+	u := fmt.Sprintf("projects/%s/clusters/%d", pathEscape(project), cluster)
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
@@ -141,7 +140,7 @@ func (s *ProjectClustersService) AddCluster(pid interface{}, opt *AddClusterOpti
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/clusters/user", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/clusters/user", pathEscape(project))
 
 	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
@@ -185,7 +184,7 @@ func (s *ProjectClustersService) EditCluster(pid interface{}, cluster int, opt *
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/clusters/%d", url.QueryEscape(project), cluster)
+	u := fmt.Sprintf("projects/%s/clusters/%d", pathEscape(project), cluster)
 
 	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
@@ -210,7 +209,7 @@ func (s *ProjectClustersService) DeleteCluster(pid interface{}, cluster int, opt
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/clusters/%d", url.QueryEscape(project), cluster)
+	u := fmt.Sprintf("projects/%s/clusters/%d", pathEscape(project), cluster)
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {

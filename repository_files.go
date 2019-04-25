@@ -69,7 +69,7 @@ func (s *RepositoryFilesService) GetFile(pid interface{}, fileName string, opt *
 	}
 	u := fmt.Sprintf(
 		"projects/%s/repository/files/%s",
-		url.QueryEscape(project),
+		pathEscape(project),
 		url.PathEscape(fileName),
 	)
 
@@ -107,7 +107,7 @@ func (s *RepositoryFilesService) GetFileMetaData(pid interface{}, fileName strin
 	}
 	u := fmt.Sprintf(
 		"projects/%s/repository/files/%s",
-		url.QueryEscape(project),
+		pathEscape(project),
 		url.PathEscape(fileName),
 	)
 
@@ -159,7 +159,7 @@ func (s *RepositoryFilesService) GetRawFile(pid interface{}, fileName string, op
 	}
 	u := fmt.Sprintf(
 		"projects/%s/repository/files/%s/raw",
-		url.QueryEscape(project),
+		pathEscape(project),
 		url.PathEscape(fileName),
 	)
 
@@ -213,7 +213,7 @@ func (s *RepositoryFilesService) CreateFile(pid interface{}, fileName string, op
 	}
 	u := fmt.Sprintf(
 		"projects/%s/repository/files/%s",
-		url.QueryEscape(project),
+		pathEscape(project),
 		url.PathEscape(fileName),
 	)
 
@@ -256,7 +256,7 @@ func (s *RepositoryFilesService) UpdateFile(pid interface{}, fileName string, op
 	}
 	u := fmt.Sprintf(
 		"projects/%s/repository/files/%s",
-		url.QueryEscape(project),
+		pathEscape(project),
 		url.PathEscape(fileName),
 	)
 
@@ -296,7 +296,7 @@ func (s *RepositoryFilesService) DeleteFile(pid interface{}, fileName string, op
 	}
 	u := fmt.Sprintf(
 		"projects/%s/repository/files/%s",
-		url.QueryEscape(project),
+		pathEscape(project),
 		url.PathEscape(fileName),
 	)
 

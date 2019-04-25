@@ -2,7 +2,6 @@ package gitlab
 
 import (
 	"fmt"
-	"net/url"
 	"time"
 )
 
@@ -93,7 +92,7 @@ func (s *MergeRequestApprovalsService) ApproveMergeRequest(pid interface{}, mr i
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/merge_requests/%d/approve", url.QueryEscape(project), mr)
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/approve", pathEscape(project), mr)
 
 	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
@@ -118,7 +117,7 @@ func (s *MergeRequestApprovalsService) UnapproveMergeRequest(pid interface{}, mr
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/merge_requests/%d/unapprove", url.QueryEscape(project), mr)
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/unapprove", pathEscape(project), mr)
 
 	req, err := s.client.NewRequest("POST", u, nil, options)
 	if err != nil {

@@ -54,7 +54,7 @@ func (s *ProjectVariablesService) ListVariables(pid interface{}, options ...Opti
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/variables", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/variables", pathEscape(project))
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
@@ -79,7 +79,7 @@ func (s *ProjectVariablesService) GetVariable(pid interface{}, key string, optio
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/variables/%s", url.QueryEscape(project), url.QueryEscape(key))
+	u := fmt.Sprintf("projects/%s/variables/%s", pathEscape(project), url.PathEscape(key))
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
@@ -116,7 +116,7 @@ func (s *ProjectVariablesService) CreateVariable(pid interface{}, opt *CreateVar
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/variables", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/variables", pathEscape(project))
 
 	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
@@ -152,10 +152,7 @@ func (s *ProjectVariablesService) UpdateVariable(pid interface{}, key string, op
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/variables/%s",
-		url.QueryEscape(project),
-		url.QueryEscape(key),
-	)
+	u := fmt.Sprintf("projects/%s/variables/%s", pathEscape(project), url.PathEscape(key))
 
 	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
@@ -180,10 +177,7 @@ func (s *ProjectVariablesService) RemoveVariable(pid interface{}, key string, op
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/variables/%s",
-		url.QueryEscape(project),
-		url.QueryEscape(key),
-	)
+	u := fmt.Sprintf("projects/%s/variables/%s", pathEscape(project), url.PathEscape(key))
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {

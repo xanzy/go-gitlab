@@ -3,7 +3,6 @@ package gitlab
 import (
 	"errors"
 	"fmt"
-	"net/url"
 )
 
 // NotificationSettingsService handles communication with the notification settings
@@ -122,7 +121,7 @@ func (s *NotificationSettingsService) GetSettingsForGroup(gid interface{}, optio
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s/notification_settings", url.QueryEscape(group))
+	u := fmt.Sprintf("groups/%s/notification_settings", pathEscape(group))
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
@@ -147,7 +146,7 @@ func (s *NotificationSettingsService) GetSettingsForProject(pid interface{}, opt
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/notification_settings", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/notification_settings", pathEscape(project))
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
@@ -172,7 +171,7 @@ func (s *NotificationSettingsService) UpdateSettingsForGroup(gid interface{}, op
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s/notification_settings", url.QueryEscape(group))
+	u := fmt.Sprintf("groups/%s/notification_settings", pathEscape(group))
 
 	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
@@ -197,7 +196,7 @@ func (s *NotificationSettingsService) UpdateSettingsForProject(pid interface{}, 
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/notification_settings", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/notification_settings", pathEscape(project))
 
 	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {

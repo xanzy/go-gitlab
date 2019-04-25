@@ -2,7 +2,6 @@ package gitlab
 
 import (
 	"fmt"
-	"net/url"
 )
 
 // ReleaseLinksService handles communication with the release link methods
@@ -36,7 +35,7 @@ func (s *ReleaseLinksService) ListReleaseLinks(pid interface{}, tagName string, 
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/releases/%s/assets/links", url.QueryEscape(project), tagName)
+	u := fmt.Sprintf("projects/%s/releases/%s/assets/links", pathEscape(project), tagName)
 
 	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
@@ -61,7 +60,7 @@ func (s *ReleaseLinksService) GetReleaseLink(pid interface{}, tagName string, li
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/releases/%s/assets/links/%d",
-		url.QueryEscape(project),
+		pathEscape(project),
 		tagName,
 		link)
 
@@ -95,7 +94,7 @@ func (s *ReleaseLinksService) CreateReleaseLink(pid interface{}, tagName string,
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/releases/%s/assets/links", url.QueryEscape(project), tagName)
+	u := fmt.Sprintf("projects/%s/releases/%s/assets/links", pathEscape(project), tagName)
 
 	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
@@ -130,7 +129,7 @@ func (s *ReleaseLinksService) UpdateReleaseLink(pid interface{}, tagName string,
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/releases/%s/assets/links/%d",
-		url.QueryEscape(project),
+		pathEscape(project),
 		tagName,
 		link)
 
@@ -157,7 +156,7 @@ func (s *ReleaseLinksService) DeleteReleaseLink(pid interface{}, tagName string,
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/releases/%s/assets/links/%d",
-		url.QueryEscape(project),
+		pathEscape(project),
 		tagName,
 		link,
 	)

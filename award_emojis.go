@@ -18,7 +18,6 @@ package gitlab
 
 import (
 	"fmt"
-	"net/url"
 	"time"
 )
 
@@ -93,7 +92,7 @@ func (s *AwardEmojiService) listAwardEmoji(pid interface{}, resource string, res
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/%s/%d/award_emoji",
-		url.QueryEscape(project),
+		pathEscape(project),
 		resource,
 		resourceID,
 	)
@@ -142,7 +141,7 @@ func (s *AwardEmojiService) getAwardEmoji(pid interface{}, resource string, reso
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/%s/%d/award_emoji/%d",
-		url.QueryEscape(project),
+		pathEscape(project),
 		resource,
 		resourceID,
 		awardID,
@@ -201,7 +200,7 @@ func (s *AwardEmojiService) createAwardEmoji(pid interface{}, resource string, r
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/%s/%d/award_emoji",
-		url.QueryEscape(project),
+		pathEscape(project),
 		resource,
 		resourceID,
 	)
@@ -253,7 +252,7 @@ func (s *AwardEmojiService) deleteAwardEmoji(pid interface{}, resource string, r
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/%s/%d/award_emoji/%d", url.QueryEscape(project), resource,
+	u := fmt.Sprintf("projects/%s/%s/%d/award_emoji/%d", pathEscape(project), resource,
 		resourceID, awardID)
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
@@ -295,7 +294,7 @@ func (s *AwardEmojiService) listAwardEmojiOnNote(pid interface{}, resources stri
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/%s/%d/notes/%d/award_emoji", url.QueryEscape(project), resources,
+	u := fmt.Sprintf("projects/%s/%s/%d/notes/%d/award_emoji", pathEscape(project), resources,
 		ressourceID, noteID)
 
 	req, err := s.client.NewRequest("GET", u, opt, options)
@@ -344,7 +343,7 @@ func (s *AwardEmojiService) getSingleNoteAwardEmoji(pid interface{}, ressource s
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/%s/%d/notes/%d/award_emoji/%d",
-		url.QueryEscape(project),
+		pathEscape(project),
 		ressource,
 		resourceID,
 		noteID,
@@ -400,7 +399,7 @@ func (s *AwardEmojiService) createAwardEmojiOnNote(pid interface{}, resource str
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/%s/%d/notes/%d/award_emoji",
-		url.QueryEscape(project),
+		pathEscape(project),
 		resource,
 		resourceID,
 		noteID,
@@ -452,7 +451,7 @@ func (s *AwardEmojiService) deleteAwardEmojiOnNote(pid interface{}, resource str
 		return nil, err
 	}
 	u := fmt.Sprintf("projects/%s/%s/%d/notes/%d/award_emoji/%d",
-		url.QueryEscape(project),
+		pathEscape(project),
 		resource,
 		resourceID,
 		noteID,

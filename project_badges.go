@@ -2,7 +2,6 @@ package gitlab
 
 import (
 	"fmt"
-	"net/url"
 )
 
 // ProjectBadge represents a project badge.
@@ -43,7 +42,7 @@ func (s *ProjectBadgesService) ListProjectBadges(pid interface{}, opt *ListProje
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/badges", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/badges", pathEscape(project))
 
 	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
@@ -68,7 +67,7 @@ func (s *ProjectBadgesService) GetProjectBadge(pid interface{}, badge int, optio
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/badges/%d", url.QueryEscape(project), badge)
+	u := fmt.Sprintf("projects/%s/badges/%d", pathEscape(project), badge)
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
@@ -102,7 +101,7 @@ func (s *ProjectBadgesService) AddProjectBadge(pid interface{}, opt *AddProjectB
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/badges", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/badges", pathEscape(project))
 
 	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
@@ -136,7 +135,7 @@ func (s *ProjectBadgesService) EditProjectBadge(pid interface{}, badge int, opt 
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/badges/%d", url.QueryEscape(project), badge)
+	u := fmt.Sprintf("projects/%s/badges/%d", pathEscape(project), badge)
 
 	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
@@ -162,7 +161,7 @@ func (s *ProjectBadgesService) DeleteProjectBadge(pid interface{}, badge int, op
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/badges/%d", url.QueryEscape(project), badge)
+	u := fmt.Sprintf("projects/%s/badges/%d", pathEscape(project), badge)
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {
@@ -191,7 +190,7 @@ func (s *ProjectBadgesService) PreviewProjectBadge(pid interface{}, opt *Project
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/badges/render", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/badges/render", pathEscape(project))
 
 	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {

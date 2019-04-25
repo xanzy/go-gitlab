@@ -2,7 +2,6 @@ package gitlab
 
 import (
 	"fmt"
-	"net/url"
 	"time"
 )
 
@@ -58,7 +57,7 @@ func (s *ReleasesService) ListReleases(pid interface{}, opt *ListReleasesOptions
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/releases", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/releases", pathEscape(project))
 
 	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
@@ -83,7 +82,7 @@ func (s *ReleasesService) GetRelease(pid interface{}, tagName string, options ..
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/releases/%s", url.QueryEscape(project), tagName)
+	u := fmt.Sprintf("projects/%s/releases/%s", pathEscape(project), tagName)
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
@@ -137,7 +136,7 @@ func (s *ReleasesService) CreateRelease(pid interface{}, opts *CreateReleaseOpti
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/releases", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/releases", pathEscape(project))
 
 	req, err := s.client.NewRequest("POST", u, opts, options)
 	if err != nil {
@@ -171,7 +170,7 @@ func (s *ReleasesService) UpdateRelease(pid interface{}, tagName string, opts *U
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/releases/%s", url.QueryEscape(project), tagName)
+	u := fmt.Sprintf("projects/%s/releases/%s", pathEscape(project), tagName)
 
 	req, err := s.client.NewRequest("PUT", u, opts, options)
 	if err != nil {
@@ -196,7 +195,7 @@ func (s *ReleasesService) DeleteRelease(pid interface{}, tagName string, options
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/releases/%s", url.QueryEscape(project), tagName)
+	u := fmt.Sprintf("projects/%s/releases/%s", pathEscape(project), tagName)
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {

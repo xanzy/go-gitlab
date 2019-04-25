@@ -18,7 +18,6 @@ package gitlab
 
 import (
 	"fmt"
-	"net/url"
 )
 
 // IssueBoardsService handles communication with the issue board related
@@ -72,7 +71,7 @@ func (s *IssueBoardsService) CreateIssueBoard(pid interface{}, opt *CreateIssueB
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/boards", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/boards", pathEscape(project))
 
 	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
@@ -107,7 +106,7 @@ func (s *IssueBoardsService) UpdateIssueBoard(pid interface{}, board int, opt *U
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/boards/%d", url.QueryEscape(project), board)
+	u := fmt.Sprintf("projects/%s/boards/%d", pathEscape(project), board)
 
 	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
@@ -131,7 +130,7 @@ func (s *IssueBoardsService) DeleteIssueBoard(pid interface{}, board int, option
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/boards/%d", url.QueryEscape(project), board)
+	u := fmt.Sprintf("projects/%s/boards/%d", pathEscape(project), board)
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {
@@ -154,7 +153,7 @@ func (s *IssueBoardsService) ListIssueBoards(pid interface{}, opt *ListIssueBoar
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/boards", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/boards", pathEscape(project))
 
 	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
@@ -178,7 +177,7 @@ func (s *IssueBoardsService) GetIssueBoard(pid interface{}, board int, options .
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/boards/%d", url.QueryEscape(project), board)
+	u := fmt.Sprintf("projects/%s/boards/%d", pathEscape(project), board)
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
@@ -208,7 +207,7 @@ func (s *IssueBoardsService) GetIssueBoardLists(pid interface{}, board int, opt 
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/boards/%d/lists", url.QueryEscape(project), board)
+	u := fmt.Sprintf("projects/%s/boards/%d/lists", pathEscape(project), board)
 
 	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
@@ -233,7 +232,7 @@ func (s *IssueBoardsService) GetIssueBoardList(pid interface{}, board, list int,
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/boards/%d/lists/%d",
-		url.QueryEscape(project),
+		pathEscape(project),
 		board,
 		list,
 	)
@@ -268,7 +267,7 @@ func (s *IssueBoardsService) CreateIssueBoardList(pid interface{}, board int, op
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/boards/%d/lists", url.QueryEscape(project), board)
+	u := fmt.Sprintf("projects/%s/boards/%d/lists", pathEscape(project), board)
 
 	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
@@ -301,7 +300,7 @@ func (s *IssueBoardsService) UpdateIssueBoardList(pid interface{}, board, list i
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/boards/%d/lists/%d",
-		url.QueryEscape(project),
+		pathEscape(project),
 		board,
 		list,
 	)
@@ -331,7 +330,7 @@ func (s *IssueBoardsService) DeleteIssueBoardList(pid interface{}, board, list i
 		return nil, err
 	}
 	u := fmt.Sprintf("projects/%s/boards/%d/lists/%d",
-		url.QueryEscape(project),
+		pathEscape(project),
 		board,
 		list,
 	)

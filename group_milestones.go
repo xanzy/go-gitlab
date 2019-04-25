@@ -18,7 +18,6 @@ package gitlab
 
 import (
 	"fmt"
-	"net/url"
 	"time"
 )
 
@@ -71,7 +70,7 @@ func (s *GroupMilestonesService) ListGroupMilestones(gid interface{}, opt *ListG
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s/milestones", url.QueryEscape(group))
+	u := fmt.Sprintf("groups/%s/milestones", pathEscape(group))
 
 	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
@@ -96,7 +95,7 @@ func (s *GroupMilestonesService) GetGroupMilestone(gid interface{}, milestone in
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s/milestones/%d", url.QueryEscape(group), milestone)
+	u := fmt.Sprintf("groups/%s/milestones/%d", pathEscape(group), milestone)
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
@@ -132,7 +131,7 @@ func (s *GroupMilestonesService) CreateGroupMilestone(gid interface{}, opt *Crea
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s/milestones", url.QueryEscape(group))
+	u := fmt.Sprintf("groups/%s/milestones", pathEscape(group))
 
 	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
@@ -169,7 +168,7 @@ func (s *GroupMilestonesService) UpdateGroupMilestone(gid interface{}, milestone
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s/milestones/%d", url.QueryEscape(group), milestone)
+	u := fmt.Sprintf("groups/%s/milestones/%d", pathEscape(group), milestone)
 
 	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
@@ -200,7 +199,7 @@ func (s *GroupMilestonesService) GetGroupMilestoneIssues(gid interface{}, milest
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s/milestones/%d/issues", url.QueryEscape(group), milestone)
+	u := fmt.Sprintf("groups/%s/milestones/%d/issues", pathEscape(group), milestone)
 
 	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
@@ -233,7 +232,7 @@ func (s *GroupMilestonesService) GetGroupMilestoneMergeRequests(gid interface{},
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s/milestones/%d/merge_requests", url.QueryEscape(group), milestone)
+	u := fmt.Sprintf("groups/%s/milestones/%d/merge_requests", pathEscape(group), milestone)
 
 	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {

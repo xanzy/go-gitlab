@@ -18,7 +18,6 @@ package gitlab
 
 import (
 	"fmt"
-	"net/url"
 	"time"
 )
 
@@ -70,7 +69,7 @@ func (s *ServicesService) SetGitLabCIService(pid interface{}, opt *SetGitLabCISe
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/services/gitlab-ci", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/services/gitlab-ci", pathEscape(project))
 
 	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
@@ -89,7 +88,7 @@ func (s *ServicesService) DeleteGitLabCIService(pid interface{}, options ...Opti
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/services/gitlab-ci", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/services/gitlab-ci", pathEscape(project))
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {
@@ -118,7 +117,7 @@ func (s *ServicesService) SetHipChatService(pid interface{}, opt *SetHipChatServ
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/services/hipchat", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/services/hipchat", pathEscape(project))
 
 	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
@@ -137,7 +136,7 @@ func (s *ServicesService) DeleteHipChatService(pid interface{}, options ...Optio
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/services/hipchat", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/services/hipchat", pathEscape(project))
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {
@@ -175,7 +174,7 @@ func (s *ServicesService) GetDroneCIService(pid interface{}, options ...OptionFu
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/services/drone-ci", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/services/drone-ci", pathEscape(project))
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
@@ -211,7 +210,7 @@ func (s *ServicesService) SetDroneCIService(pid interface{}, opt *SetDroneCIServ
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/services/drone-ci", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/services/drone-ci", pathEscape(project))
 
 	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
@@ -230,7 +229,7 @@ func (s *ServicesService) DeleteDroneCIService(pid interface{}, options ...Optio
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/services/drone-ci", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/services/drone-ci", pathEscape(project))
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {
@@ -287,7 +286,7 @@ func (s *ServicesService) GetSlackService(pid interface{}, options ...OptionFunc
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/services/slack", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/services/slack", pathEscape(project))
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
@@ -346,7 +345,7 @@ func (s *ServicesService) SetSlackService(pid interface{}, opt *SetSlackServiceO
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/services/slack", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/services/slack", pathEscape(project))
 
 	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
@@ -365,7 +364,7 @@ func (s *ServicesService) DeleteSlackService(pid interface{}, options ...OptionF
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/services/slack", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/services/slack", pathEscape(project))
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {
@@ -405,7 +404,7 @@ func (s *ServicesService) GetJiraService(pid interface{}, options ...OptionFunc)
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/services/jira", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/services/jira", pathEscape(project))
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
@@ -437,7 +436,7 @@ func (s *ServicesService) SetJiraService(pid interface{}, opt *SetJiraServiceOpt
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/services/jira", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/services/jira", pathEscape(project))
 
 	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
@@ -456,7 +455,7 @@ func (s *ServicesService) DeleteJiraService(pid interface{}, options ...OptionFu
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/services/jira", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/services/jira", pathEscape(project))
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {
@@ -494,7 +493,7 @@ func (s *ServicesService) GetJenkinsCIService(pid interface{}, options ...Option
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/services/jenkins", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/services/jenkins", pathEscape(project))
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
@@ -531,7 +530,7 @@ func (s *ServicesService) SetJenkinsCIService(pid interface{}, opt *SetJenkinsCI
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/services/jenkins", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/services/jenkins", pathEscape(project))
 
 	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
@@ -550,7 +549,7 @@ func (s *ServicesService) DeleteJenkinsCIService(pid interface{}, options ...Opt
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/services/jenkins", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/services/jenkins", pathEscape(project))
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {
@@ -586,7 +585,7 @@ func (s *ServicesService) GetMicrosoftTeamsService(pid interface{}, options ...O
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/services/microsoft-teams", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/services/microsoft-teams", pathEscape(project))
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
@@ -620,7 +619,7 @@ func (s *ServicesService) SetMicrosoftTeamsService(pid interface{}, opt *SetMicr
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/services/microsoft-teams", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/services/microsoft-teams", pathEscape(project))
 
 	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
@@ -638,7 +637,7 @@ func (s *ServicesService) DeleteMicrosoftTeamsService(pid interface{}, options .
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/services/microsoft-teams", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/services/microsoft-teams", pathEscape(project))
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {
@@ -674,7 +673,7 @@ func (s *ServicesService) GetExternalWikiService(pid interface{}, options ...Opt
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/services/external-wiki", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/services/external-wiki", pathEscape(project))
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
@@ -708,7 +707,7 @@ func (s *ServicesService) SetExternalWikiService(pid interface{}, opt *SetExtern
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/services/external-wiki", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/services/external-wiki", pathEscape(project))
 
 	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
@@ -727,7 +726,7 @@ func (s *ServicesService) DeleteExternalWikiService(pid interface{}, options ...
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/services/external-wiki", url.QueryEscape(project))
+	u := fmt.Sprintf("projects/%s/services/external-wiki", pathEscape(project))
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {
