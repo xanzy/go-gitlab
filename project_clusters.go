@@ -37,6 +37,7 @@ type ProjectClustersService struct {
 type ProjectCluster struct {
 	ID                 int                 `json:"id"`
 	Name               string              `json:"name"`
+	Domain             string              `json:"domain"`
 	CreatedAt          *time.Time          `json:"created_at"`
 	ProviderType       string              `json:"provider_type"`
 	PlatformType       string              `json:"platform_type"`
@@ -116,6 +117,7 @@ func (s *ProjectClustersService) GetCluster(pid interface{}, cluster int, option
 // https://docs.gitlab.com/ee/api/project_clusters.html#add-existing-cluster-to-project
 type AddClusterOptions struct {
 	Name               *string                       `url:"name,omitempty" json:"name,omitempty"`
+	Domain             *string                       `url:"domain,omitempty" json:"domain,omitempty"`
 	Enabled            *bool                         `url:"enabled,omitempty" json:"enabled,omitempty"`
 	EnvironmentScope   *string                       `url:"environment_scope,omitempty" json:"environment_scope,omitempty"`
 	PlatformKubernetes *AddPlatformKubernetesOptions `url:"platform_kubernetes_attributes,omitempty" json:"platform_kubernetes_attributes,omitempty"`
@@ -161,6 +163,7 @@ func (s *ProjectClustersService) AddCluster(pid interface{}, opt *AddClusterOpti
 // https://docs.gitlab.com/ee/api/project_clusters.html#edit-project-cluster
 type EditClusterOptions struct {
 	Name               *string                        `url:"name,omitempty" json:"name,omitempty"`
+	Domain             *string                        `url:"domain,omitempty" json:"domain,omitempty"`
 	EnvironmentScope   *string                        `url:"environment_scope,omitempty" json:"environment_scope,omitempty"`
 	PlatformKubernetes *EditPlatformKubernetesOptions `url:"platform_kubernetes_attributes,omitempty" json:"platform_kubernetes_attributes,omitempty"`
 }
