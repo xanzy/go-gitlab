@@ -173,10 +173,7 @@ type IssueEvent struct {
 			Previous []Label `json:"previous"`
 			Current  []Label `json:"current"`
 		} `json:"labels"`
-		UpdatedByID struct {
-			Previous []Label `json:"previous"`
-			Current  []Label `json:"current"`
-		} `json:"updated_by_id"`
+		UpdatedByID []int `json:"updated_by_id"`
 	} `json:"changes"`
 }
 
@@ -587,10 +584,7 @@ type MergeEvent struct {
 			Previous []Label `json:"previous"`
 			Current  []Label `json:"current"`
 		} `json:"labels"`
-		UpdatedByID struct {
-			Previous []Label `json:"previous"`
-			Current  []Label `json:"current"`
-		} `json:"updated_by_id"`
+		UpdatedByID []int `json:"updated_by_id"`
 	} `json:"changes"`
 }
 
