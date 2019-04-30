@@ -3,6 +3,7 @@ package gitlab
 import (
 	"net/http"
 	"testing"
+
 	"github.com/stretchr/testify/assert"
 )
 
@@ -260,8 +261,14 @@ func TestParseIssueHook(t *testing.T) {
     "group_id": 41
   }],
   "changes": {
-    "updated_by_id": [null, 1],
-    "updated_at": ["2017-09-15 16:50:55 UTC", "2017-09-15 16:52:00 UTC"],
+    "updated_by_id": {
+      "previous": null,
+      "current": 1
+    },
+    "updated_at": {
+      "previous": "2017-09-15 16:50:55 UTC", 
+      "current": "2017-09-15 16:52:00 UTC"
+    },
     "labels": {
       "previous": [{
         "id": 206,
@@ -317,7 +324,8 @@ func TestParseIssueHook(t *testing.T) {
 		t.Errorf("Assignee username is %v, want %v", event.Assignee.Username, "user1")
 	}
 	assert.Equal(t, 1, len(event.Labels))
-	assert.Equal(t, []int{0, 1}, event.Changes.UpdatedByID)
+	assert.Equal(t, 0, event.Changes.UpdatedByID.Previous)
+	assert.Equal(t, 1, event.Changes.UpdatedByID.Current)
 	assert.Equal(t, 1, len(event.Changes.Labels.Previous))
 	assert.Equal(t, 1, len(event.Changes.Labels.Current))
 }
@@ -855,8 +863,14 @@ func TestParseMergeRequestHook(t *testing.T) {
     "group_id": 41
   }],
   "changes": {
-    "updated_by_id": [null, 1],
-    "updated_at": ["2017-09-15 16:50:55 UTC", "2017-09-15 16:52:00 UTC"],
+    "updated_by_id": {
+      "previous": null,
+      "current": 1
+    },
+    "updated_at": {
+      "previous": "2017-09-15 16:50:55 UTC", 
+      "current": "2017-09-15 16:52:00 UTC"
+    },
     "labels": {
       "previous": [{
         "id": 206,
@@ -912,7 +926,8 @@ func TestParseMergeRequestHook(t *testing.T) {
 		t.Errorf("WorkInProgress is %v, want %v", event.ObjectAttributes.WorkInProgress, false)
 	}
 	assert.Equal(t, 1, len(event.Labels))
-	assert.Equal(t, []int{0, 1}, event.Changes.UpdatedByID)
+	assert.Equal(t, 0, event.Changes.UpdatedByID.Previous)
+	assert.Equal(t, 1, event.Changes.UpdatedByID.Current)
 	assert.Equal(t, 1, len(event.Changes.Labels.Previous))
 	assert.Equal(t, 1, len(event.Changes.Labels.Current))
 }
