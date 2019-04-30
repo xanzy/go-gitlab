@@ -417,15 +417,15 @@ type IssueCommentEvent struct {
 		ID                  int      `json:"id"`
 		IID                 int      `json:"iid"`
 		ProjectID           int      `json:"project_id"`
-		MilestoneID         int      `json:"milestone_id`
+		MilestoneID         int      `json:"milestone_id"`
 		AuthorID            int      `json:"author_id"`
 		Description         string   `json:"description"`
 		State               string   `json:"state"`
 		Title               string   `json:"title"`
 		LastEditedAt        string   `json:"last_edit_at"`
-		LastEditedByID      int      `json:"last_edited_by_id`
+		LastEditedByID      int      `json:"last_edited_by_id"`
 		UpdatedAt           string   `json:"updated_at"`
-		UpdatedByID         int      `json:"updated_by_id`
+		UpdatedByID         int      `json:"updated_by_id"`
 		CreatedAt           string   `json:"created_at"`
 		ClosedAt            string   `json:"closed_at"`
 		DueDate             *ISOTime `json:"due_date"`
