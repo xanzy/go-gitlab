@@ -389,6 +389,7 @@ type JiraService struct {
 // https://docs.gitlab.com/ce/api/services.html#jira
 type JiraServiceProperties struct {
 	URL                   *string `url:"url,omitempty" json:"url,omitempty"`
+	APIURL                *string `url:"api_url,omitempty" json:"api_url,omitempty"`
 	ProjectKey            *string `url:"project_key,omitempty" json:"project_key,omitempty" `
 	Username              *string `url:"username,omitempty" json:"username,omitempty" `
 	Password              *string `url:"password,omitempty" json:"password,omitempty" `
