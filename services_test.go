@@ -138,6 +138,7 @@ func TestSetJiraService(t *testing.T) {
 
 	opt := &SetJiraServiceOptions{
 		URL:                   String("asd"),
+		APIURL:                String("asd"),
 		ProjectKey:            String("as"),
 		Username:              String("aas"),
 		Password:              String("asd"),
