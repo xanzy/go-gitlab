@@ -72,7 +72,7 @@ func (s *ProtectedTagsService) GetProtectedTag(pid interface{}, tag string, opti
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/protected_tags/%s", pathEscape(project), tag)
+	u := fmt.Sprintf("projects/%s/protected_tags/%s", pathEscape(project), pathEscape(tag))
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
@@ -134,7 +134,7 @@ func (s *ProtectedTagsService) UnprotectRepositoryTags(pid interface{}, tag stri
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/protected_tags/%s", pathEscape(project), tag)
+	u := fmt.Sprintf("projects/%s/protected_tags/%s", pathEscape(project), pathEscape(tag))
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {
