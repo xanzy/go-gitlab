@@ -15,18 +15,22 @@ type ProjectImportExportService struct {
 	client *Client
 }
 
-// ExportProjectsOptions represents the available ExportProject() options.
+// ExportProjectOptions represents the available ExportProject() options.
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/project_import_export.html#schedule-an-export
-type ExportProjectsOptions struct {
+type ExportProjectOptions struct {
 	Description *string `url:"description,omitempty" json:"description,omitempty"`
 	Upload      struct {
-		Url        *string `json:"url,omitempty"`
-		HttpMethod *string `json:"http_method,omitempty"`
+		URL        *string `json:"url,omitempty"`
+		HTTPMethod *string `json:"http_method,omitempty"`
 	} `json:"upload,omitempty"`
 }
 
-func (s *ProjectImportExportService) ExportProject(pid interface{}, opt *ExportProjectsOptions, options ...OptionFunc) (*Response, error) {
+// ExportProject schedule project export.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/project_import_export.html#schedule-an-export
+func (s *ProjectImportExportService) ExportProject(pid interface{}, opt *ExportProjectOptions, options ...OptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, err
@@ -58,7 +62,7 @@ type ProjectExportStatus struct {
 	ExportStatus      *string `json:"export_status,omitempty"`
 	Message           *string `json:"message,omitempty"`
 	Links             struct {
-		ApiURL *string `json:"api_url,omitempty"`
+		APIURL *string `json:"api_url,omitempty"`
 		WebURL *string `json:"web_url,omitempty"`
 	} `json:"_links,omitempty"`
 }
@@ -67,7 +71,7 @@ func (s ProjectExportStatus) String() string {
 	return Stringify(s)
 }
 
-// GetProjectExportStatus Get the status of export.
+// GetExportStatus Get the status of export.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/project_import_export.html#export-status
@@ -89,7 +93,7 @@ func (s *ProjectImportExportService) GetExportStatus(pid interface{}, options ..
 	return pb, resp, err
 }
 
-// GetProjectExportDownload Download the finished export.
+// DownloadExport Download the finished export.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/project_import_export.html#export-download
@@ -145,7 +149,7 @@ type ProjectImportStatus struct {
 func (s ProjectImportStatus) String() string {
 	return Stringify(s)
 }
-// GetProjectImportFile import the project.
+// ImportProject import the project.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/project_import_export.html#import-a-file
@@ -162,7 +166,7 @@ func (s *ProjectImportExportService) ImportProject(opt *ImportFileOptions, optio
 	return pb, resp, err
 }
 
-// GetProjectImportStatus Get the status of an import.
+// GetImportStatus Get the status of an import.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/project_import_export.html#import-status
