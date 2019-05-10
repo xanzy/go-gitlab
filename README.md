@@ -24,7 +24,7 @@ to add new and/or missing endpoints. Currently the following services are suppor
 - [ ] Epic Issues
 - [ ] Epics
 - [ ] Geo Nodes
-- [ ] Project import/export
+- [x] Project import/export
 - [x] Award Emojis
 - [x] Branches
 - [x] Broadcast Messages
