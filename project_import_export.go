@@ -58,7 +58,7 @@ type ProjectExportStatus struct {
 	NameWithNamespace *string `json:"name_with_namespace,omitempty"`
 	Path              *string `json:"path,omitempty"`
 	PathWithNamespace *string `json:"path_with_namespace,omitempty"`
-	CreateAt          *string `json:"create_at,omitempty"`
+	CreatedAt         *string `json:"created_at,omitempty"`
 	ExportStatus      *string `json:"export_status,omitempty"`
 	Message           *string `json:"message,omitempty"`
 	Links             struct {
