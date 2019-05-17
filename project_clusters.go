@@ -118,6 +118,7 @@ type AddClusterOptions struct {
 	Name               *string                       `url:"name,omitempty" json:"name,omitempty"`
 	Domain             *string                       `url:"domain,omitempty" json:"domain,omitempty"`
 	Enabled            *bool                         `url:"enabled,omitempty" json:"enabled,omitempty"`
+	Managed            *bool                         `url:"managed,omitempty" json:"managed,omitempty"`
 	EnvironmentScope   *string                       `url:"environment_scope,omitempty" json:"environment_scope,omitempty"`
 	PlatformKubernetes *AddPlatformKubernetesOptions `url:"platform_kubernetes_attributes,omitempty" json:"platform_kubernetes_attributes,omitempty"`
 }
