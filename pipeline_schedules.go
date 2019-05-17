@@ -227,11 +227,6 @@ func (s *PipelineSchedulesService) DeletePipelineSchedule(pid interface{}, sched
 		return nil, err
 	}
 
-	req, err = s.client.NewRequest("DELETE", u, nil, options)
-	if err != nil {
-		return nil, err
-	}
-
 	return s.client.Do(req, nil)
 }
 

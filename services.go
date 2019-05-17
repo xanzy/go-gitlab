@@ -261,20 +261,20 @@ type SlackServiceProperties struct {
 	// We need to handle this, until the bug will be fixed.
 	// Ref: https://gitlab.com/gitlab-org/gitlab-ce/issues/50122
 
-	NotifyOnlyBrokenPipelines BoolValue `url:"notify_only_broken_pipelines,omitempty" json:"notify_only_broken_pipelines,omitempty"`
-	NotifyOnlyDefaultBranch   BoolValue `url:"notify_only_default_branch,omitempty" json:"notify_only_default_branch,omitempty"`
-	WebHook                   string    `url:"webhook,omitempty" json:"webhook,omitempty"`
-	Username                  string    `url:"username,omitempty" json:"username,omitempty"`
-	Channel                   string    `url:"channel,omitempty" json:"channel,omitempty"`
-	PushChannel               string    `url:"push_channel,omitempty" json:"push_channel,omitempty"`
-	IssueChannel              string    `url:"issue_channel,omitempty" json:"issue_channel,omitempty"`
-	ConfidentialIssueChannel  string    `url:"confidential_issue_channel,omitempty" json:"confidential_issue_channel,omitempty"`
-	MergeRequestChannel       string    `url:"merge_request_channel,omitempty" json:"merge_request_channel,omitempty"`
-	NoteChannel               string    `url:"note_channel,omitempty" json:"note_channel,omitempty"`
-	ConfidentialNoteChannel   string    `url:"confidential_note_channel,omitempty" json:"confidential_note_channel,omitempty"`
-	TagPushChannel            string    `url:"tag_push_channel,omitempty" json:"tag_push_channel,omitempty"`
-	PipelineChannel           string    `url:"pipeline_channel,omitempty" json:"pipeline_channel,omitempty"`
-	WikiPageChannel           string    `url:"wiki_page_channel,omitempty" json:"wiki_page_channel,omitempty"`
+	NotifyOnlyBrokenPipelines BoolValue `json:"notify_only_broken_pipelines,omitempty"`
+	NotifyOnlyDefaultBranch   BoolValue `json:"notify_only_default_branch,omitempty"`
+	WebHook                   string    `json:"webhook,omitempty"`
+	Username                  string    `json:"username,omitempty"`
+	Channel                   string    `json:"channel,omitempty"`
+	PushChannel               string    `json:"push_channel,omitempty"`
+	IssueChannel              string    `json:"issue_channel,omitempty"`
+	ConfidentialIssueChannel  string    `json:"confidential_issue_channel,omitempty"`
+	MergeRequestChannel       string    `json:"merge_request_channel,omitempty"`
+	NoteChannel               string    `json:"note_channel,omitempty"`
+	ConfidentialNoteChannel   string    `json:"confidential_note_channel,omitempty"`
+	TagPushChannel            string    `json:"tag_push_channel,omitempty"`
+	PipelineChannel           string    `json:"pipeline_channel,omitempty"`
+	WikiPageChannel           string    `json:"wiki_page_channel,omitempty"`
 }
 
 // GetSlackService gets Slack service settings for a project.
@@ -388,12 +388,12 @@ type JiraService struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/services.html#jira
 type JiraServiceProperties struct {
-	URL                   *string `url:"url,omitempty" json:"url,omitempty"`
-	APIURL                *string `url:"api_url,omitempty" json:"api_url,omitempty"`
-	ProjectKey            *string `url:"project_key,omitempty" json:"project_key,omitempty" `
-	Username              *string `url:"username,omitempty" json:"username,omitempty" `
-	Password              *string `url:"password,omitempty" json:"password,omitempty" `
-	JiraIssueTransitionID *int    `url:"jira_issue_transition_id,omitempty" json:"jira_issue_transition_id,omitempty"`
+	URL                   string `json:"url,omitempty"`
+	APIURL                string `json:"api_url,omitempty"`
+	ProjectKey            string `json:"project_key,omitempty" `
+	Username              string `json:"username,omitempty" `
+	Password              string `json:"password,omitempty" `
+	JiraIssueTransitionID string `json:"jira_issue_transition_id,omitempty"`
 }
 
 // GetJiraService gets Jira service settings for a project.
@@ -426,7 +426,14 @@ func (s *ServicesService) GetJiraService(pid interface{}, options ...OptionFunc)
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/services.html#edit-jira-service
-type SetJiraServiceOptions JiraServiceProperties
+type SetJiraServiceOptions struct {
+	URL                   *string `url:"url,omitempty" json:"url,omitempty"`
+	APIURL                *string `url:"api_url,omitempty" json:"api_url,omitempty"`
+	ProjectKey            *string `url:"project_key,omitempty" json:"project_key,omitempty" `
+	Username              *string `url:"username,omitempty" json:"username,omitempty" `
+	Password              *string `url:"password,omitempty" json:"password,omitempty" `
+	JiraIssueTransitionID *string `url:"jira_issue_transition_id,omitempty" json:"jira_issue_transition_id,omitempty"`
+}
 
 // SetJiraService sets Jira service for a project
 //
@@ -480,9 +487,9 @@ type JenkinsCIService struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/services.html#jenkins-ci
 type JenkinsCIServiceProperties struct {
-	URL         *string `url:"jenkins_url,omitempty" json:"jenkins_url,omitempty"`
-	ProjectName *string `url:"project_name,omitempty" json:"project_name,omitempty"`
-	Username    *string `url:"username,omitempty" json:"username,omitempty"`
+	URL         string `json:"jenkins_url,omitempty"`
+	ProjectName string `json:"project_name,omitempty"`
+	Username    string `json:"username,omitempty"`
 }
 
 // GetJenkinsCIService gets Jenkins CI service settings for a project.
