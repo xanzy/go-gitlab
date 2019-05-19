@@ -522,3 +522,32 @@ func TestChangeAllowedApprovers(t *testing.T) {
 		t.Errorf("Projects.ChangeAllowedApprovers returned %+v, want %+v", approvals, want)
 	}
 }
+
+func TestForkProject(t *testing.T) {
+	mux, server, client := setup()
+	defer teardown(server)
+
+	namespace := "mynamespace"
+	name := "myreponame"
+	path := "myrepopath"
+
+	mux.HandleFunc("/api/v4/projects/1/fork", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "POST")
+		testBody(t, r, fmt.Sprintf(`{"namespace":"%s","name":"%s","path":"%s"}`, namespace, name, path))
+		fmt.Fprint(w, `{"id":2}`)
+	})
+
+	project, _, err := client.Projects.ForkProject(1, &ForkProjectOptions{
+		Namespace: &namespace,
+		Name:      &name,
+		Path:      &path,
+	})
+	if err != nil {
+		t.Errorf("Projects.ForkProject returned error: %v", err)
+	}
+
+	want := &Project{ID: 2}
+	if !reflect.DeepEqual(want, project) {
+		t.Errorf("Projects.ForProject returned %+v, want %+v", project, want)
+	}
+}
