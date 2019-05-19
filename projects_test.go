@@ -538,9 +538,9 @@ func TestForkProject(t *testing.T) {
 	})
 
 	project, _, err := client.Projects.ForkProject(1, &ForkProjectOptions{
-		Namespace: &namespace,
-		Name:      &name,
-		Path:      &path,
+		Namespace: String(namespace),
+		Name:      String(name),
+		Path:      String(path),
 	})
 	if err != nil {
 		t.Errorf("Projects.ForkProject returned error: %v", err)
