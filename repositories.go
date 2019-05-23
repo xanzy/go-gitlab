@@ -137,8 +137,8 @@ func (s *RepositoriesService) RawBlobContent(pid interface{}, sha string, option
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/repositories.html#get-file-archive
 type ArchiveOptions struct {
-	Format *string `url:"-" json:"-"`
-	SHA    *string `url:"sha,omitempty" json:"sha,omitempty"`
+	Format *string    `url:"-" json:"-"`
+	SHA    *string    `url:"sha,omitempty" json:"sha,omitempty"`
 	Writer *io.Writer `url:"-" json:"-"`
 }
 
