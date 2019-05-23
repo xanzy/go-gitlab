@@ -19,6 +19,7 @@ package gitlab
 import (
 	"bytes"
 	"fmt"
+	"io"
 )
 
 // RepositoriesService handles communication with the repositories related
@@ -138,6 +139,7 @@ func (s *RepositoriesService) RawBlobContent(pid interface{}, sha string, option
 type ArchiveOptions struct {
 	Format *string `url:"-" json:"-"`
 	SHA    *string `url:"sha,omitempty" json:"sha,omitempty"`
+	Writer *io.Writer `url:"-" json:"-"`
 }
 
 // Archive gets an archive of the repository.
@@ -162,7 +164,13 @@ func (s *RepositoriesService) Archive(pid interface{}, opt *ArchiveOptions, opti
 	}
 
 	var b bytes.Buffer
-	resp, err := s.client.Do(req, &b)
+	var resp *Response
+	if opt != nil && opt.Writer != nil {
+		resp, err = s.client.Do(req, opt.Writer)
+	} else {
+		resp, err = s.client.Do(req, &b)
+	}
+
 	if err != nil {
 		return nil, resp, err
 	}
