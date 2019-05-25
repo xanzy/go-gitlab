@@ -19,6 +19,7 @@ package gitlab
 import (
 	"bytes"
 	"fmt"
+	"io"
 )
 
 // RepositoriesService handles communication with the repositories related
@@ -168,6 +169,31 @@ func (s *RepositoriesService) Archive(pid interface{}, opt *ArchiveOptions, opti
 	}
 
 	return b.Bytes(), resp, err
+}
+
+// StreamArchive streams an archive of the repository to the provided
+// io.Writer.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/repositories.html#get-file-archive
+func (s *RepositoriesService) StreamArchive(pid interface{}, w io.Writer, opt *ArchiveOptions, options ...OptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/repository/archive", pathEscape(project))
+
+	// Set an optional format for the archive.
+	if opt != nil && opt.Format != nil {
+		u = fmt.Sprintf("%s.%s", u, *opt.Format)
+	}
+
+	req, err := s.client.NewRequest("GET", u, opt, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, w)
 }
 
 // Compare represents the result of a comparison of branches, tags or commits.
