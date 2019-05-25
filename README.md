@@ -24,7 +24,6 @@ to add new and/or missing endpoints. Currently the following services are suppor
 - [ ] Epic Issues
 - [ ] Epics
 - [ ] Geo Nodes
-- [ ] Project import/export
 - [x] Award Emojis
 - [x] Branches
 - [x] Broadcast Messages
@@ -35,14 +34,14 @@ to add new and/or missing endpoints. Currently the following services are suppor
 - [x] Deployments
 - [x] Environments
 - [x] Events
-- [x] Feature flags
-- [x] GitLab CI Config templates
-- [x] Gitignores templates
+- [x] Feature Flags
+- [x] GitLab CI Config Templates
+- [x] Gitignores Templates
 - [x] Group Access Requests
 - [x] Group Issue Boards
 - [x] Group Members
 - [x] Group Milestones
-- [x] Group-level Variables
+- [x] Group-Level Variables
 - [x] Groups
 - [x] Issue Boards
 - [x] Issues
@@ -54,19 +53,20 @@ to add new and/or missing endpoints. Currently the following services are suppor
 - [x] Merge Requests
 - [x] Namespaces
 - [x] Notes (comments)
-- [x] Notification settings
-- [x] Open source license templates
+- [x] Notification Settings
+- [x] Open Source License Templates
 - [x] Pages Domains
 - [x] Pipeline Schedules
 - [x] Pipeline Triggers
 - [x] Pipelines
 - [x] Project Access Requests
+- [x] Project Badges
 - [x] Project Clusters
+- [x] Project Import/export
 - [x] Project Members
 - [x] Project Milestones
 - [x] Project Snippets
-- [x] Project badges
-- [x] Project-level Variables
+- [x] Project-Level Variables
 - [x] Projects (including setting Webhooks)
 - [x] Protected Branches
 - [x] Protected Tags
@@ -76,12 +76,12 @@ to add new and/or missing endpoints. Currently the following services are suppor
 - [x] Search
 - [x] Services
 - [x] Settings
-- [x] Sidekiq metrics
+- [x] Sidekiq Metrics
 - [x] System Hooks
 - [x] Tags
 - [x] Todos
 - [x] Users
-- [x] Validate CI configuration
+- [x] Validate CI Configuration
 - [x] Version
 - [x] Wikis
 
