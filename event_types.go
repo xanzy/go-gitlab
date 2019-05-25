@@ -17,6 +17,9 @@
 package gitlab
 
 import (
+	"encoding/json"
+	"fmt"
+	"strconv"
 	"time"
 )
 
@@ -512,41 +515,39 @@ type MergeEvent struct {
 		Visibility        VisibilityValue `json:"visibility"`
 	} `json:"project"`
 	ObjectAttributes struct {
-		ID              int       `json:"id"`
-		TargetBranch    string    `json:"target_branch"`
-		SourceBranch    string    `json:"source_branch"`
-		SourceProjectID int       `json:"source_project_id"`
-		AuthorID        int       `json:"author_id"`
-		AssigneeID      int       `json:"assignee_id"`
-		Title           string    `json:"title"`
-		CreatedAt       string    `json:"created_at"` // Should be *time.Time (see Gitlab issue #21468)
-		UpdatedAt       string    `json:"updated_at"` // Should be *time.Time (see Gitlab issue #21468)
-		StCommits       []*Commit `json:"st_commits"`
-		StDiffs         []*Diff   `json:"st_diffs"`
-		MilestoneID     int       `json:"milestone_id"`
-		State           string    `json:"state"`
-		MergeStatus     string    `json:"merge_status"`
-		TargetProjectID int       `json:"target_project_id"`
-		IID             int       `json:"iid"`
-		Description     string    `json:"description"`
-		Position        int       `json:"position"`
-		LockedAt        string    `json:"locked_at"`
-		UpdatedByID     int       `json:"updated_by_id"`
-		MergeError      string    `json:"merge_error"`
-		MergeParams     struct {
-			ForceRemoveSourceBranch string `json:"force_remove_source_branch"`
-		} `json:"merge_params"`
-		MergeWhenBuildSucceeds   bool        `json:"merge_when_build_succeeds"`
-		MergeUserID              int         `json:"merge_user_id"`
-		MergeCommitSHA           string      `json:"merge_commit_sha"`
-		DeletedAt                string      `json:"deleted_at"`
-		ApprovalsBeforeMerge     string      `json:"approvals_before_merge"`
-		RebaseCommitSHA          string      `json:"rebase_commit_sha"`
-		InProgressMergeCommitSHA string      `json:"in_progress_merge_commit_sha"`
-		LockVersion              int         `json:"lock_version"`
-		TimeEstimate             int         `json:"time_estimate"`
-		Source                   *Repository `json:"source"`
-		Target                   *Repository `json:"target"`
+		ID                       int          `json:"id"`
+		TargetBranch             string       `json:"target_branch"`
+		SourceBranch             string       `json:"source_branch"`
+		SourceProjectID          int          `json:"source_project_id"`
+		AuthorID                 int          `json:"author_id"`
+		AssigneeID               int          `json:"assignee_id"`
+		Title                    string       `json:"title"`
+		CreatedAt                string       `json:"created_at"` // Should be *time.Time (see Gitlab issue #21468)
+		UpdatedAt                string       `json:"updated_at"` // Should be *time.Time (see Gitlab issue #21468)
+		StCommits                []*Commit    `json:"st_commits"`
+		StDiffs                  []*Diff      `json:"st_diffs"`
+		MilestoneID              int          `json:"milestone_id"`
+		State                    string       `json:"state"`
+		MergeStatus              string       `json:"merge_status"`
+		TargetProjectID          int          `json:"target_project_id"`
+		IID                      int          `json:"iid"`
+		Description              string       `json:"description"`
+		Position                 int          `json:"position"`
+		LockedAt                 string       `json:"locked_at"`
+		UpdatedByID              int          `json:"updated_by_id"`
+		MergeError               string       `json:"merge_error"`
+		MergeParams              *MergeParams `json:"merge_params"`
+		MergeWhenBuildSucceeds   bool         `json:"merge_when_build_succeeds"`
+		MergeUserID              int          `json:"merge_user_id"`
+		MergeCommitSHA           string       `json:"merge_commit_sha"`
+		DeletedAt                string       `json:"deleted_at"`
+		ApprovalsBeforeMerge     string       `json:"approvals_before_merge"`
+		RebaseCommitSHA          string       `json:"rebase_commit_sha"`
+		InProgressMergeCommitSHA string       `json:"in_progress_merge_commit_sha"`
+		LockVersion              int          `json:"lock_version"`
+		TimeEstimate             int          `json:"time_estimate"`
+		Source                   *Repository  `json:"source"`
+		Target                   *Repository  `json:"target"`
 		LastCommit               struct {
 			ID        string     `json:"id"`
 			Message   string     `json:"message"`
@@ -592,6 +593,45 @@ type MergeEvent struct {
 			Current  int `json:"current"`
 		} `json:"updated_by_id"`
 	} `json:"changes"`
+}
+
+// MergeParams represents the merge params.
+type MergeParams struct {
+	ForceRemoveSourceBranch bool `json:"force_remove_source_branch"`
+}
+
+// UnmarshalJSON decodes the merge parameters
+//
+// This allows support of ForceRemoveSourceBranch for both type bool (>11.9) and string (<11.9)
+func (p *MergeParams) UnmarshalJSON(b []byte) error {
+	type Alias MergeParams
+	raw := struct {
+		*Alias
+		ForceRemoveSourceBranch interface{} `json:"force_remove_source_branch"`
+	}{
+		Alias: (*Alias)(p),
+	}
+
+	err := json.Unmarshal(b, &raw)
+	if err != nil {
+		return err
+	}
+
+	switch v := raw.ForceRemoveSourceBranch.(type) {
+	case nil:
+		// No action needed.
+	case bool:
+		p.ForceRemoveSourceBranch = v
+	case string:
+		p.ForceRemoveSourceBranch, err = strconv.ParseBool(v)
+		if err != nil {
+			return err
+		}
+	default:
+		return fmt.Errorf("failed to unmarshal ForceRemoveSourceBranch of type: %T", v)
+	}
+
+	return nil
 }
 
 // WikiPageEvent represents a wiki page event.
