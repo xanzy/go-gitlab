@@ -416,7 +416,7 @@ func (p *JiraServiceProperties) UnmarshalJSON(b []byte) error {
 
 	switch id := raw.JiraIssueTransitionID.(type) {
 	case nil:
-		p.JiraIssueTransitionID = ""
+		// No action needed.
 	case string:
 		p.JiraIssueTransitionID = id
 	case float64:
