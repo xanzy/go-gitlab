@@ -17,7 +17,9 @@
 package gitlab
 
 import (
+	"encoding/json"
 	"fmt"
+	"strconv"
 	"time"
 )
 
@@ -394,6 +396,36 @@ type JiraServiceProperties struct {
 	Username              string `json:"username,omitempty" `
 	Password              string `json:"password,omitempty" `
 	JiraIssueTransitionID string `json:"jira_issue_transition_id,omitempty"`
+}
+
+// UnmarshalJSON decodes the Jira Service Properties.
+//
+// This allows support of JiraIssueTransitionID for both type string (>11.9) and float64 (<11.9)
+func (p *JiraServiceProperties) UnmarshalJSON(b []byte) error {
+	type Alias JiraServiceProperties
+	raw := struct {
+		*Alias
+		JiraIssueTransitionID interface{} `json:"jira_issue_transition_id"`
+	}{
+		Alias: (*Alias)(p),
+	}
+
+	if err := json.Unmarshal(b, &raw); err != nil {
+		return err
+	}
+
+	switch id := raw.JiraIssueTransitionID.(type) {
+	case nil:
+		p.JiraIssueTransitionID = ""
+	case string:
+		p.JiraIssueTransitionID = id
+	case float64:
+		p.JiraIssueTransitionID = strconv.Itoa(int(id))
+	default:
+		return fmt.Errorf("failed to unmarshal JiraTransitionID of type: %T", id)
+	}
+
+	return nil
 }
 
 // GetJiraService gets Jira service settings for a project.

@@ -113,18 +113,60 @@ func TestGetJiraService(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
+	mux.HandleFunc("/api/v4/projects/0/services/jira", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "GET")
+		fmt.Fprint(w, `{"id":1, "properties": {"jira_issue_transition_id": "2"}}`)
+	})
+
 	mux.HandleFunc("/api/v4/projects/1/services/jira", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
-		fmt.Fprint(w, `{"id":1}`)
+		fmt.Fprint(w, `{"id":1, "properties": {"jira_issue_transition_id": 2}}`)
 	})
-	want := &JiraService{Service: Service{ID: 1}}
 
-	service, _, err := client.Services.GetJiraService(1)
-	if err != nil {
-		t.Fatalf("Services.GetJiraService returns an error: %v", err)
+	mux.HandleFunc("/api/v4/projects/2/services/jira", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "GET")
+		fmt.Fprint(w, `{"id":1, "properties": {"jira_issue_transition_id": "2,3"}}`)
+	})
+
+	mux.HandleFunc("/api/v4/projects/3/services/jira", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "GET")
+		fmt.Fprint(w, `{"id":1, "properties": {}}`)
+	})
+
+	want := []*JiraService{
+		&JiraService{
+			Service: Service{ID: 1},
+			Properties: &JiraServiceProperties{
+				JiraIssueTransitionID: "2",
+			},
+		},
+		&JiraService{
+			Service: Service{ID: 1},
+			Properties: &JiraServiceProperties{
+				JiraIssueTransitionID: "2",
+			},
+		},
+		&JiraService{
+			Service: Service{ID: 1},
+			Properties: &JiraServiceProperties{
+				JiraIssueTransitionID: "2,3",
+			},
+		},
+		&JiraService{
+			Service:    Service{ID: 1},
+			Properties: &JiraServiceProperties{},
+		},
 	}
-	if !reflect.DeepEqual(want, service) {
-		t.Errorf("Services.GetJiraService returned %+v, want %+v", service, want)
+
+	for testcase := 0; testcase < len(want); testcase++ {
+		service, _, err := client.Services.GetJiraService(testcase)
+		if err != nil {
+			t.Fatalf("Services.GetJiraService returns an error: %v", err)
+		}
+
+		if !reflect.DeepEqual(want[testcase], service) {
+			t.Errorf("Services.GetJiraService returned %+v, want %+v", service, want[testcase])
+		}
 	}
 }
 
@@ -142,7 +184,7 @@ func TestSetJiraService(t *testing.T) {
 		ProjectKey:            String("as"),
 		Username:              String("aas"),
 		Password:              String("asd"),
-		JiraIssueTransitionID: String("2"),
+		JiraIssueTransitionID: String("2,3"),
 	}
 
 	_, err := client.Services.SetJiraService(1, opt)
