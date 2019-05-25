@@ -225,11 +225,11 @@ func (s *RepositoriesService) Compare(pid interface{}, opt *CompareOptions, opti
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/repositories.html#contributors
 type Contributor struct {
-	Name      string `json:"name,omitempty"`
-	Email     string `json:"email,omitempty"`
-	Commits   int    `json:"commits,omitempty"`
-	Additions int    `json:"additions,omitempty"`
-	Deletions int    `json:"deletions,omitempty"`
+	Name      string `json:"name"`
+	Email     string `json:"email"`
+	Commits   int    `json:"commits"`
+	Additions int    `json:"additions"`
+	Deletions int    `json:"deletions"`
 }
 
 func (c Contributor) String() string {
