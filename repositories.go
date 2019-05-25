@@ -137,9 +137,8 @@ func (s *RepositoriesService) RawBlobContent(pid interface{}, sha string, option
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/repositories.html#get-file-archive
 type ArchiveOptions struct {
-	Format *string    `url:"-" json:"-"`
-	SHA    *string    `url:"sha,omitempty" json:"sha,omitempty"`
-	Writer *io.Writer `url:"-" json:"-"`
+	Format *string `url:"-" json:"-"`
+	SHA    *string `url:"sha,omitempty" json:"sha,omitempty"`
 }
 
 // Archive gets an archive of the repository.
@@ -164,18 +163,37 @@ func (s *RepositoriesService) Archive(pid interface{}, opt *ArchiveOptions, opti
 	}
 
 	var b bytes.Buffer
-	var resp *Response
-	if opt != nil && opt.Writer != nil {
-		resp, err = s.client.Do(req, opt.Writer)
-	} else {
-		resp, err = s.client.Do(req, &b)
-	}
-
+	resp, err := s.client.Do(req, &b)
 	if err != nil {
 		return nil, resp, err
 	}
 
 	return b.Bytes(), resp, err
+}
+
+// StreamArchive streams an archive of the repository to the provided
+// io.Writer.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/repositories.html#get-file-archive
+func (s *RepositoriesService) StreamArchive(pid interface{}, w io.Writer, opt *ArchiveOptions, options ...OptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/repository/archive", pathEscape(project))
+
+	// Set an optional format for the archive.
+	if opt != nil && opt.Format != nil {
+		u = fmt.Sprintf("%s.%s", u, *opt.Format)
+	}
+
+	req, err := s.client.NewRequest("GET", u, opt, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, w)
 }
 
 // Compare represents the result of a comparison of branches, tags or commits.
