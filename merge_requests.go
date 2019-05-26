@@ -30,6 +30,24 @@ type MergeRequestsService struct {
 	timeStats *timeStatsService
 }
 
+// MergeRequestAssignee represents the assignee of a merge request.
+type MergeRequestAssignee struct {
+	ID        int        `json:"id"`
+	Username  string     `json:"username"`
+	Name      string     `json:"name"`
+	State     string     `json:"state"`
+	CreatedAt *time.Time `json:"created_at"`
+}
+
+// MergeRequestAuthor represents the author of the merge request.
+type MergeRequestAuthor struct {
+	ID        int        `json:"id"`
+	Username  string     `json:"username"`
+	Name      string     `json:"name"`
+	State     string     `json:"state"`
+	CreatedAt *time.Time `json:"created_at"`
+}
+
 // MergeRequest represents a GitLab merge request.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/merge_requests.html
@@ -45,20 +63,8 @@ type MergeRequest struct {
 	UpdatedAt    *time.Time `json:"updated_at"`
 	Upvotes      int        `json:"upvotes"`
 	Downvotes    int        `json:"downvotes"`
-	Author       struct {
-		ID        int        `json:"id"`
-		Username  string     `json:"username"`
-		Name      string     `json:"name"`
-		State     string     `json:"state"`
-		CreatedAt *time.Time `json:"created_at"`
-	} `json:"author"`
-	Assignee struct {
-		ID        int        `json:"id"`
-		Username  string     `json:"username"`
-		Name      string     `json:"name"`
-		State     string     `json:"state"`
-		CreatedAt *time.Time `json:"created_at"`
-	} `json:"assignee"`
+	Assignee     *MergeRequestAssignee   `json:"assignee"`
+	Author       *MergeRequestAuthor     `json:"author"`
 	SourceProjectID           int        `json:"source_project_id"`
 	TargetProjectID           int        `json:"target_project_id"`
 	Labels                    []string   `json:"labels"`
@@ -67,21 +73,9 @@ type MergeRequest struct {
 	Milestone                 *Milestone `json:"milestone"`
 	MergeWhenPipelineSucceeds bool       `json:"merge_when_pipeline_succeeds"`
 	MergeStatus               string     `json:"merge_status"`
-	MergedBy                  struct {
-		ID        int        `json:"id"`
-		Username  string     `json:"username"`
-		Name      string     `json:"name"`
-		State     string     `json:"state"`
-		CreatedAt *time.Time `json:"created_at"`
-	} `json:"merged_by"`
-	MergedAt *time.Time `json:"merged_at"`
-	ClosedBy struct {
-		ID        int        `json:"id"`
-		Username  string     `json:"username"`
-		Name      string     `json:"name"`
-		State     string     `json:"state"`
-		CreatedAt *time.Time `json:"created_at"`
-	} `json:"closed_by"`
+	MergedBy     *MergeRequestAuthor     `json:"merged_by"`
+	MergedAt                  *time.Time `json:"merged_at"`
+	ClosedBy     *MergeRequestAuthor    `json:"closed_by"`
 	ClosedAt                 *time.Time `json:"closed_at"`
 	Subscribed               bool       `json:"subscribed"`
 	SHA                      string     `json:"sha"`
@@ -104,20 +98,24 @@ type MergeRequest struct {
 	} `json:"changes"`
 	TimeStats *TimeStats `json:"time_stats"`
 	Squash    bool       `json:"squash"`
-	Pipeline  struct {
-		ID     int    `json:"id"`
-		Ref    string `json:"ref"`
-		SHA    string `json:"sha"`
-		Status string `json:"status"`
-	} `json:"pipeline"`
-	DiffRefs struct {
-		BaseSha  string `json:"base_sha"`
-		HeadSha  string `json:"head_sha"`
-		StartSha string `json:"start_sha"`
-	} `json:"diff_refs"`
+	Pipeline  *MergeRequestPipeline     `json:"pipeline"`
+	DiffRefs  *MergeRequestDiffRefs     `json:"diff_refs"`
 	DivergedCommitsCount int  `json:"diverged_commits_count"`
 	RebaseInProgress     bool `json:"rebase_in_progress"`
 	ApprovalsBeforeMerge int  `json:"approvals_before_merge"`
+}
+
+type MergeRequestPipeline struct {
+	ID     int    `json:"id"`
+	Ref    string `json:"ref"`
+	SHA    string `json:"sha"`
+	Status string `json:"status"`
+}
+
+type MergeRequestDiffRefs struct {
+	BaseSha  string `json:"base_sha"`
+	HeadSha  string `json:"head_sha"`
+	StartSha string `json:"start_sha"`
 }
 
 func (m MergeRequest) String() string {
