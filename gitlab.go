@@ -369,8 +369,9 @@ type ListOptions struct {
 // NewClient returns a new GitLab API client. If a nil httpClient is
 // provided, http.DefaultClient will be used. To use API methods which require
 // authentication, provide a valid private or personal token.
-func NewClient(httpClient *http.Client, token string) *Client {
+func NewClient(httpClient *http.Client, endpoint, token string) *Client {
 	client := newClient(httpClient)
+	client.SetBaseURL(endpoint)
 	client.authType = privateToken
 	client.token = token
 	return client
