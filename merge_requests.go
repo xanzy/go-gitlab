@@ -71,6 +71,7 @@ type MergeRequest struct {
 	Milestone                 *Milestone `json:"milestone"`
 	MergeWhenPipelineSucceeds bool       `json:"merge_when_pipeline_succeeds"`
 	MergeStatus               string     `json:"merge_status"`
+	MergeError                string     `json:"merge_error"`
 	MergedBy                  struct {
 		ID        int        `json:"id"`
 		Username  string     `json:"username"`
