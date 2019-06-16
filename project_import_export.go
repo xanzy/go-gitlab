@@ -156,7 +156,7 @@ type ImportFileOptions struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/project_import_export.html#import-a-file
 func (s *ProjectImportExportService) ImportProject(opt *ImportFileOptions, options ...OptionFunc) (*ImportStatus, *Response, error) {
-	req, err := s.client.NewRequest("POST", "/projects/import", opt, options)
+	req, err := s.client.NewRequest("POST", "projects/import", opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
