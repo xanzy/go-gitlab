@@ -38,6 +38,7 @@ type GroupVariable struct {
 	Key       string `json:"key"`
 	Value     string `json:"value"`
 	Protected bool   `json:"protected"`
+	Masked    bool   `json:"masked"`
 }
 
 func (v GroupVariable) String() string {
