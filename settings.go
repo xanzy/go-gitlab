@@ -92,7 +92,7 @@ type Settings struct {
 	PerformanceBarEnabled               bool              `json:"performance_bar_enabled"`
 	PlantumlEnabled                     bool              `json:"plantuml_enabled"`
 	PlantumlURL                         string            `json:"plantuml_url"`
-	PollingIntervalMultiplier           float64           `json:"polling_interval_multiplier"`
+	PollingIntervalMultiplier           float64           `json:"polling_interval_multiplier,string"`
 	ProjectExportEnabled                bool              `json:"project_export_enabled"`
 	PrometheusMetricsEnabled            bool              `json:"prometheus_metrics_enabled"`
 	RecaptchaEnabled                    bool              `json:"recaptcha_enabled"`
