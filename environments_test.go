@@ -29,6 +29,26 @@ func TestListEnvironments(t *testing.T) {
 	}
 }
 
+func TestGetEnvironment(t *testing.T) {
+	mux, server, client := setup()
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/environments/5949167", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "GET")
+		fmt.Fprint(w, `{"id":1,"name":"test/test"}`)
+	})
+
+	env, _, err := client.Environments.GetEnvironment(1, 5949167)
+	if err != nil {
+		t.Errorf("Environemtns.GetEnvironment returned error: %v", err)
+	}
+
+	want := &Environment{ID: 1, Name: "test/test"}
+	if !reflect.DeepEqual(want, env) {
+		t.Errorf("Environments.GetEnvironment returned %+v, want %+v", env, want)
+	}
+}
+
 func TestCreateEnvironment(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
