@@ -56,7 +56,7 @@ type ResourceLabelEvent struct {
 	} `json:"label"`
 }
 
-// ListResourceLabelEventsOptions represents the options for 
+// ListResourceLabelEventsOptions represents the options for resource label events services list functions.
 type ListResourceLabelEventsOptions struct {
 	ListOptions
 }
