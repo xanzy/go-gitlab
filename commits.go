@@ -515,3 +515,34 @@ func (s *CommitsService) CherryPickCommit(pid interface{}, sha string, opt *Cher
 
 	return c, resp, err
 }
+
+// RevertCommitOptions represents the available RevertCommit() options.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/commits.html#revert-a-commit
+type RevertCommitOptions struct {
+	Branch *string `url:"branch,omitempty" json:"branch,omitempty"`
+}
+
+// RevertCommit reverts a commit in a given branch.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/commits.html#revert-a-commit
+func (s *CommitsService) RevertCommit(pid interface{}, sha string, opt *RevertCommitOptions, options ...OptionFunc) (*Commit, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/repository/commits/%s/revert", pathEscape(project), sha)
+
+	req, err := s.client.NewRequest("POST", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var c *Commit
+	resp, err := s.client.Do(req, &c)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return c, resp, err
+}
