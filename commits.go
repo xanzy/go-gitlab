@@ -492,7 +492,7 @@ type CherryPickCommitOptions struct {
 	TargetBranch *string `url:"branch" json:"branch,omitempty"`
 }
 
-// CherryPickCommit sherry picks a commit to a given branch.
+// CherryPickCommit cherry picks a commit to a given branch.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/commits.html#cherry-pick-a-commit
 func (s *CommitsService) CherryPickCommit(pid interface{}, sha string, opt *CherryPickCommitOptions, options ...OptionFunc) (*Commit, *Response, error) {
