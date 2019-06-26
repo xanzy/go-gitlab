@@ -485,11 +485,11 @@ func (s *CommitsService) GetMergeRequestsByCommit(pid interface{}, sha string, o
 	return mrs, resp, err
 }
 
-// CherryPickCommitOptions represents the available options for cherry-picking a commit.
+// CherryPickCommitOptions represents the available CherryPickCommit() options.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/commits.html#cherry-pick-a-commit
 type CherryPickCommitOptions struct {
-	TargetBranch *string `url:"branch" json:"branch,omitempty"`
+	Branch *string `url:"branch,omitempty" json:"branch,omitempty"`
 }
 
 // CherryPickCommit cherry picks a commit to a given branch.
