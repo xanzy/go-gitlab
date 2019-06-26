@@ -29,7 +29,7 @@ type ResourceLabelEventsService struct {
 	client *Client
 }
 
-// ContributionEvent represents a user's contribution
+// LabelEvent represents a resource label event.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/resource_label_events.html#get-single-issue-label-event
