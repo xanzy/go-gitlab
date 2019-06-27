@@ -17,6 +17,7 @@
 package gitlab
 
 import (
+	"database/sql"
 	"fmt"
 	"time"
 )
@@ -545,4 +546,48 @@ func (s *CommitsService) RevertCommit(pid interface{}, sha string, opt *RevertCo
 	}
 
 	return c, resp, err
+}
+
+// GPGSubKey represents a GPG subkey ID.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/commits.html#get-gpg-signature-of-a-commit
+type GPGSubKey struct {
+	KeyID sql.NullInt64
+}
+
+// GPGSignature represents a Gitlab commit's GPG Signature.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/commits.html#get-gpg-signature-of-a-commit
+type GPGSignature struct {
+	KeyID              int        `json:"gpg_key_id"`
+	KeyPrimaryKeyID    string     `json:"gpg_key_primary_keyid"`
+	KeyUserName        string     `json:"gpg_key_user_name"`
+	KeyUserEmail       string     `json:"gpg_key_user_email"`
+	VerificationStatus string     `json:"verification_status"`
+	KeySubkeyID        *GPGSubKey `json:"gpg_key_subkey_id"`
+}
+
+// GetGPGSiganature gets a GPG signature of a commit.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/commits.html#get-gpg-signature-of-a-commit
+func (s *CommitsService) GetGPGSiganature(pid interface{}, sha string, options ...OptionFunc) (*GPGSignature, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	url := fmt.Sprintf("projects/%s/repository/commits/%s/signature", pathEscape(project), sha)
+	req, err := s.client.NewRequest("GET", url, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var signature *GPGSignature
+	resp, err := s.client.Do(req, &signature)
+
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return signature, resp, err
 }
