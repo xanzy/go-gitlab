@@ -270,6 +270,7 @@ func (s *IssuesService) GetIssue(pid interface{}, issue int, options ...OptionFu
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/issues.html#new-issues
 type CreateIssueOptions struct {
+	IID                                *int       `url:"iid,omitempty" json:"iid,omitempty"`
 	Title                              *string    `url:"title,omitempty" json:"title,omitempty"`
 	Description                        *string    `url:"description,omitempty" json:"description,omitempty"`
 	Confidential                       *bool      `url:"confidential,omitempty" json:"confidential,omitempty"`
