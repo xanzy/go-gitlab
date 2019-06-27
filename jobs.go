@@ -65,6 +65,7 @@ type Job struct {
 	Tag       bool       `json:"tag"`
 	User      *User      `json:"user"`
 	WebURL    string     `json:"web_url"`
+	Duration  float64    `json:"duration"`
 }
 
 // ListJobsOptions are options for two list apis
