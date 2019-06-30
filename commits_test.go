@@ -174,3 +174,29 @@ func TestRevertCommit_WithOptions(t *testing.T) {
 
 	assert.Equal(t, want, commit)
 }
+
+func TestGetGPGSignature(t *testing.T) {
+	mux, server, client := setup()
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/repository/commits/b0b3a907f41409829b307a28b82fdbd552ee5a27/signature", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "GET")
+		mustWriteHTTPResponse(t, w, "testdata/get_signature.json")
+	})
+
+	sig, resp, err := client.Commits.GetGPGSiganature("1", "b0b3a907f41409829b307a28b82fdbd552ee5a27", nil)
+	if err != nil {
+		t.Fatalf("Commits.GetGPGSignature returned error: %v, response: %v", err, resp)
+	}
+
+	want := &GPGSignature{
+		KeyID:              7977,
+		KeyPrimaryKeyID:    "627C5F589F467F17",
+		KeyUserName:        "Dmitriy Zaporozhets",
+		KeyUserEmail:       "dmitriy.zaporozhets@gmail.com",
+		VerificationStatus: "verified",
+		KeySubkeyID:        nil,
+	}
+
+	assert.Equal(t, want, sig)
+}

@@ -552,7 +552,7 @@ func (s *CommitsService) RevertCommit(pid interface{}, sha string, opt *RevertCo
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/commits.html#get-gpg-signature-of-a-commit
 type GPGSubKey struct {
-	KeyID sql.NullInt64
+	sql.NullInt64
 }
 
 // GPGSignature represents a Gitlab commit's GPG Signature.
@@ -575,19 +575,19 @@ func (s *CommitsService) GetGPGSiganature(pid interface{}, sha string, options .
 	if err != nil {
 		return nil, nil, err
 	}
+	u := fmt.Sprintf("projects/%s/repository/commits/%s/signature", pathEscape(project), sha)
 
-	url := fmt.Sprintf("projects/%s/repository/commits/%s/signature", pathEscape(project), sha)
-	req, err := s.client.NewRequest("GET", url, nil, options)
+	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	var signature *GPGSignature
-	resp, err := s.client.Do(req, &signature)
+	sig := new(GPGSignature)
+	resp, err := s.client.Do(req, &sig)
 
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return signature, resp, err
+	return sig, resp, err
 }
