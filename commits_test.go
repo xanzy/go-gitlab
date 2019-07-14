@@ -195,7 +195,7 @@ func TestGetGPGSignature(t *testing.T) {
 		KeyUserName:        "Dmitriy Zaporozhets",
 		KeyUserEmail:       "dmitriy.zaporozhets@gmail.com",
 		VerificationStatus: "verified",
-		KeySubkeyID:        nil,
+		KeySubkeyID:        0,
 	}
 
 	assert.Equal(t, want, sig)
