@@ -1343,7 +1343,7 @@ func (s *ProjectsService) ChangeAllowedApprovers(pid interface{}, opt *ChangeAll
 	return pa, resp, err
 }
 
-// StartPullMirroringProject Start the pull mirroring process for a Project.
+// StartMirroringProject start the pull mirroring process for a project.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/projects.html#start-the-pull-mirroring-process-for-a-project-starter
