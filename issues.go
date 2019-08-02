@@ -112,6 +112,7 @@ type ListIssuesOptions struct {
 	ListOptions
 	State            *string    `url:"state,omitempty" json:"state,omitempty"`
 	Labels           Labels     `url:"labels,comma,omitempty" json:"labels,omitempty"`
+	WithLabelDetails *bool      `url:"with_labels_details,omitempty" json:"with_labels_details,omitempty"`
 	Milestone        *string    `url:"milestone,omitempty" json:"milestone,omitempty"`
 	Scope            *string    `url:"scope,omitempty" json:"scope,omitempty"`
 	AuthorID         *int       `url:"author_id,omitempty" json:"author_id,omitempty"`
@@ -126,7 +127,6 @@ type ListIssuesOptions struct {
 	UpdatedAfter     *time.Time `url:"updated_after,omitempty" json:"updated_after,omitempty"`
 	UpdatedBefore    *time.Time `url:"updated_before,omitempty" json:"updated_before,omitempty"`
 	Confidential     *bool      `url:"confidential,omitempty" json:"confidential,omitempty"`
-	WithLabelDetails *bool      `url:"with_labels_details,omitempty" json:"with_labels_details,omitempty"`
 }
 
 // ListIssues gets all issues created by authenticated user. This function
@@ -204,6 +204,7 @@ type ListProjectIssuesOptions struct {
 	IIDs             []int      `url:"iids[],omitempty" json:"iids,omitempty"`
 	State            *string    `url:"state,omitempty" json:"state,omitempty"`
 	Labels           Labels     `url:"labels,comma,omitempty" json:"labels,omitempty"`
+	WithLabelDetails *bool      `url:"with_labels_details,omitempty" json:"with_labels_details,omitempty"`
 	Milestone        *string    `url:"milestone,omitempty" json:"milestone,omitempty"`
 	Scope            *string    `url:"scope,omitempty" json:"scope,omitempty"`
 	AuthorID         *int       `url:"author_id,omitempty" json:"author_id,omitempty"`
@@ -218,7 +219,6 @@ type ListProjectIssuesOptions struct {
 	UpdatedAfter     *time.Time `url:"updated_after,omitempty" json:"updated_after,omitempty"`
 	UpdatedBefore    *time.Time `url:"updated_before,omitempty" json:"updated_before,omitempty"`
 	Confidential     *bool      `url:"confidential,omitempty" json:"confidential,omitempty"`
-	WithLabelDetails *bool      `url:"with_labels_details,omitempty" json:"with_labels_details,omitempty"`
 }
 
 // ListProjectIssues gets a list of project issues. This function accepts
