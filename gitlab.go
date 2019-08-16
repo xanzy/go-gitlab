@@ -897,6 +897,14 @@ func NotificationLevel(v NotificationLevelValue) *NotificationLevelValue {
 	return p
 }
 
+// VariableType is a helper routine that allocates a new VariableTypeValue
+// to store v and returns a pointer to it.
+func VariableType(v VariableTypeValue) *VariableTypeValue {
+	p := new(VariableTypeValue)
+	*p = v
+	return p
+}
+
 // Visibility is a helper routine that allocates a new VisibilityValue
 // to store v and returns a pointer to it.
 func Visibility(v VisibilityValue) *VisibilityValue {
