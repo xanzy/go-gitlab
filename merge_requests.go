@@ -45,9 +45,9 @@ type MergeRequest struct {
 	UpdatedAt                 *time.Time          `json:"updated_at"`
 	Upvotes                   int                 `json:"upvotes"`
 	Downvotes                 int                 `json:"downvotes"`
-	Author                    MergeRequestUser    `json:"author"`
+	Author                    *MergeRequestUser   `json:"author"`
 	Assignee                  *MergeRequestUser   `json:"assignee"`
-	Assignees                 *[]MergeRequestUser `json:"assignees"`
+	Assignees                 []*MergeRequestUser `json:"assignees"`
 	SourceProjectID           int                 `json:"source_project_id"`
 	TargetProjectID           int                 `json:"target_project_id"`
 	Labels                    []string            `json:"labels"`
@@ -92,7 +92,7 @@ type MergeRequest struct {
 	DivergedCommitsCount int    `json:"diverged_commits_count"`
 	RebaseInProgress     bool   `json:"rebase_in_progress"`
 	ApprovalsBeforeMerge int    `json:"approvals_before_merge"`
-	Reference            string `json:"reference"` // eg: "!14656"
+	Reference            string `json:"reference"`
 }
 
 // MergeRequestUser represents a GitLab User record within a MergeRequest
