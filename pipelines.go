@@ -69,15 +69,15 @@ type Pipeline struct {
 
 // DetailedStatus contains detailed information about the status of a pipeline
 type DetailedStatus struct {
-	Icon         string        `json:"icon"`         // eg. "status_warning",
-	Text         string        `json:"text"`         // eg. "passed",
-	Label        string        `json:"label"`        // eg. "passed with warnings",
-	Group        string        `json:"group"`        // eg. "success-with-warnings",
-	Tooltip      string        `json:"tooltip"`      // eg. "passed",
-	HasDetails   bool          `json:"has_details"`  // eg. true,
-	DetailsPath  string        `json:"details_path"` // eg. "/gitlab-org/gitlab-ee/pipelines/77056819",
-	Illustration *Illustration `json:"illustration"` // eg. : null,
-	Favicon      string        `json:"favicon"`      // eg. "https://gitlab.com/assets/ci_favicons/favicon_status_success-8451333011eee8ce9f2ab25dc487fe24a8758c694827a582f17f42b0a90446a2.png"
+	Icon         string        `json:"icon"`
+	Text         string        `json:"text"`
+	Label        string        `json:"label"`
+	Group        string        `json:"group"`
+	Tooltip      string        `json:"tooltip"`
+	HasDetails   bool          `json:"has_details"`
+	DetailsPath  string        `json:"details_path"`
+	Illustration *Illustration `json:"illustration"`
+	Favicon      string        `json:"favicon"`
 }
 
 // Illustration includes a link to an image to display
