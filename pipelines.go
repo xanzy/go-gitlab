@@ -67,6 +67,7 @@ type Pipeline struct {
 	DetailedStatus *DetailedStatus `json:"detailed_status"`
 }
 
+// DetailedStatus contains detailed information about the status of a pipeline
 type DetailedStatus struct {
 	Icon         string        `json:"icon"`         // eg. "status_warning",
 	Text         string        `json:"text"`         // eg. "passed",
@@ -79,6 +80,7 @@ type DetailedStatus struct {
 	Favicon      string        `json:"favicon"`      // eg. "https://gitlab.com/assets/ci_favicons/favicon_status_success-8451333011eee8ce9f2ab25dc487fe24a8758c694827a582f17f42b0a90446a2.png"
 }
 
+// Illustration includes a link to an image to display
 type Illustration struct {
 	Image string `json:"image"`
 }

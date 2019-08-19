@@ -95,6 +95,9 @@ type MergeRequest struct {
 	Reference            string `json:"reference"` // eg: "!14656"
 }
 
+// MergeRequestUser represents a GitLab User record within a MergeRequest
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/merge_requests.html
 type MergeRequestUser struct {
 	ID        int        `json:"id"`
 	Username  string     `json:"username"`
