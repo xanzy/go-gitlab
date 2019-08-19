@@ -76,7 +76,7 @@ type DetailedStatus struct {
 	Tooltip      string `json:"tooltip"`
 	HasDetails   bool   `json:"has_details"`
 	DetailsPath  string `json:"details_path"`
-	Illustration *struct {
+	Illustration struct {
 		Image string `json:"image"`
 	} `json:"illustration"`
 	Favicon string `json:"favicon"`
