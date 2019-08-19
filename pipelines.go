@@ -56,14 +56,30 @@ type Pipeline struct {
 		AvatarURL string `json:"avatar_url"`
 		WebURL    string `json:"web_url"`
 	}
-	UpdatedAt   *time.Time `json:"updated_at"`
-	CreatedAt   *time.Time `json:"created_at"`
-	StartedAt   *time.Time `json:"started_at"`
-	FinishedAt  *time.Time `json:"finished_at"`
-	CommittedAt *time.Time `json:"committed_at"`
-	Duration    int        `json:"duration"`
-	Coverage    string     `json:"coverage"`
-	WebURL      string     `json:"web_url"`
+	UpdatedAt      *time.Time      `json:"updated_at"`
+	CreatedAt      *time.Time      `json:"created_at"`
+	StartedAt      *time.Time      `json:"started_at"`
+	FinishedAt     *time.Time      `json:"finished_at"`
+	CommittedAt    *time.Time      `json:"committed_at"`
+	Duration       int             `json:"duration"`
+	Coverage       string          `json:"coverage"`
+	WebURL         string          `json:"web_url"`
+	DetailedStatus *DetailedStatus `json:"detailed_status"`
+}
+
+// DetailedStatus contains detailed information about the status of a pipeline
+type DetailedStatus struct {
+	Icon         string `json:"icon"`
+	Text         string `json:"text"`
+	Label        string `json:"label"`
+	Group        string `json:"group"`
+	Tooltip      string `json:"tooltip"`
+	HasDetails   bool   `json:"has_details"`
+	DetailsPath  string `json:"details_path"`
+	Illustration *struct {
+		Image string `json:"image"`
+	} `json:"illustration"`
+	Favicon string `json:"favicon"`
 }
 
 func (i Pipeline) String() string {
