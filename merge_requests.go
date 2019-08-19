@@ -111,15 +111,11 @@ type MergeRequest struct {
 		RenamedFile bool   `json:"renamed_file"`
 		DeletedFile bool   `json:"deleted_file"`
 	} `json:"changes"`
-	TimeStats *TimeStats `json:"time_stats"`
-	Squash    bool       `json:"squash"`
-	Pipeline  struct {
-		ID     int    `json:"id"`
-		Ref    string `json:"ref"`
-		SHA    string `json:"sha"`
-		Status string `json:"status"`
-	} `json:"pipeline"`
-	DiffRefs struct {
+	TimeStats    *TimeStats    `json:"time_stats"`
+	Squash       bool          `json:"squash"`
+	Pipeline     *PipelineInfo `json:"pipeline"`
+	HeadPipeline *Pipeline     `json:"head_pipeline"`
+	DiffRefs     struct {
 		BaseSha  string `json:"base_sha"`
 		HeadSha  string `json:"head_sha"`
 		StartSha string `json:"start_sha"`

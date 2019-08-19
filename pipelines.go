@@ -56,14 +56,31 @@ type Pipeline struct {
 		AvatarURL string `json:"avatar_url"`
 		WebURL    string `json:"web_url"`
 	}
-	UpdatedAt   *time.Time `json:"updated_at"`
-	CreatedAt   *time.Time `json:"created_at"`
-	StartedAt   *time.Time `json:"started_at"`
-	FinishedAt  *time.Time `json:"finished_at"`
-	CommittedAt *time.Time `json:"committed_at"`
-	Duration    int        `json:"duration"`
-	Coverage    string     `json:"coverage"`
-	WebURL      string     `json:"web_url"`
+	UpdatedAt      *time.Time      `json:"updated_at"`
+	CreatedAt      *time.Time      `json:"created_at"`
+	StartedAt      *time.Time      `json:"started_at"`
+	FinishedAt     *time.Time      `json:"finished_at"`
+	CommittedAt    *time.Time      `json:"committed_at"`
+	Duration       int             `json:"duration"`
+	Coverage       string          `json:"coverage"`
+	WebURL         string          `json:"web_url"`
+	DetailedStatus *DetailedStatus `json:"detailed_status"`
+}
+
+type DetailedStatus struct {
+	Icon         string        `json:"icon"`         // eg. "status_warning",
+	Text         string        `json:"text"`         // eg. "passed",
+	Label        string        `json:"label"`        // eg. "passed with warnings",
+	Group        string        `json:"group"`        // eg. "success-with-warnings",
+	Tooltip      string        `json:"tooltip"`      // eg. "passed",
+	HasDetails   bool          `json:"has_details"`  // eg. true,
+	DetailsPath  string        `json:"details_path"` // eg. "/gitlab-org/gitlab-ee/pipelines/77056819",
+	Illustration *Illustration `json:"illustration"` // eg. : null,
+	Favicon      string        `json:"favicon"`      // eg. "https://gitlab.com/assets/ci_favicons/favicon_status_success-8451333011eee8ce9f2ab25dc487fe24a8758c694827a582f17f42b0a90446a2.png"
+}
+
+type Illustration struct {
+	Image string `json:"image"`
 }
 
 func (i Pipeline) String() string {
