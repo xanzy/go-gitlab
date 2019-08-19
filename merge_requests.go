@@ -34,74 +34,43 @@ type MergeRequestsService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/merge_requests.html
 type MergeRequest struct {
-	ID           int        `json:"id"`
-	IID          int        `json:"iid"`
-	TargetBranch string     `json:"target_branch"`
-	SourceBranch string     `json:"source_branch"`
-	ProjectID    int        `json:"project_id"`
-	Title        string     `json:"title"`
-	State        string     `json:"state"`
-	CreatedAt    *time.Time `json:"created_at"`
-	UpdatedAt    *time.Time `json:"updated_at"`
-	Upvotes      int        `json:"upvotes"`
-	Downvotes    int        `json:"downvotes"`
-	Author       struct {
-		ID        int        `json:"id"`
-		Username  string     `json:"username"`
-		Name      string     `json:"name"`
-		State     string     `json:"state"`
-		CreatedAt *time.Time `json:"created_at"`
-		AvatarURL string     `json:"avatar_url"`
-		WebURL    string     `json:"web_url"`
-	} `json:"author"`
-	Assignee struct {
-		ID        int        `json:"id"`
-		Username  string     `json:"username"`
-		Name      string     `json:"name"`
-		State     string     `json:"state"`
-		CreatedAt *time.Time `json:"created_at"`
-		AvatarURL string     `json:"avatar_url"`
-		WebURL    string     `json:"web_url"`
-	} `json:"assignee"`
-	SourceProjectID           int        `json:"source_project_id"`
-	TargetProjectID           int        `json:"target_project_id"`
-	Labels                    []string   `json:"labels"`
-	Description               string     `json:"description"`
-	WorkInProgress            bool       `json:"work_in_progress"`
-	Milestone                 *Milestone `json:"milestone"`
-	MergeWhenPipelineSucceeds bool       `json:"merge_when_pipeline_succeeds"`
-	MergeStatus               string     `json:"merge_status"`
-	MergeError                string     `json:"merge_error"`
-	MergedBy                  struct {
-		ID        int        `json:"id"`
-		Username  string     `json:"username"`
-		Name      string     `json:"name"`
-		State     string     `json:"state"`
-		CreatedAt *time.Time `json:"created_at"`
-		AvatarURL string     `json:"avatar_url"`
-		WebURL    string     `json:"web_url"`
-	} `json:"merged_by"`
-	MergedAt *time.Time `json:"merged_at"`
-	ClosedBy struct {
-		ID        int        `json:"id"`
-		Username  string     `json:"username"`
-		Name      string     `json:"name"`
-		State     string     `json:"state"`
-		CreatedAt *time.Time `json:"created_at"`
-		AvatarURL string     `json:"avatar_url"`
-		WebURL    string     `json:"web_url"`
-	} `json:"closed_by"`
-	ClosedAt                 *time.Time `json:"closed_at"`
-	Subscribed               bool       `json:"subscribed"`
-	SHA                      string     `json:"sha"`
-	MergeCommitSHA           string     `json:"merge_commit_sha"`
-	UserNotesCount           int        `json:"user_notes_count"`
-	ChangesCount             string     `json:"changes_count"`
-	ShouldRemoveSourceBranch bool       `json:"should_remove_source_branch"`
-	ForceRemoveSourceBranch  bool       `json:"force_remove_source_branch"`
-	WebURL                   string     `json:"web_url"`
-	DiscussionLocked         bool       `json:"discussion_locked"`
-	Changes                  []struct {
+	ID                        int                 `json:"id"`
+	IID                       int                 `json:"iid"`
+	TargetBranch              string              `json:"target_branch"`
+	SourceBranch              string              `json:"source_branch"`
+	ProjectID                 int                 `json:"project_id"`
+	Title                     string              `json:"title"`
+	State                     string              `json:"state"`
+	CreatedAt                 *time.Time          `json:"created_at"`
+	UpdatedAt                 *time.Time          `json:"updated_at"`
+	Upvotes                   int                 `json:"upvotes"`
+	Downvotes                 int                 `json:"downvotes"`
+	Author                    MergeRequestUser    `json:"author"`
+	Assignee                  *MergeRequestUser   `json:"assignee"`
+	Assignees                 *[]MergeRequestUser `json:"assignees"`
+	SourceProjectID           int                 `json:"source_project_id"`
+	TargetProjectID           int                 `json:"target_project_id"`
+	Labels                    []string            `json:"labels"`
+	Description               string              `json:"description"`
+	WorkInProgress            bool                `json:"work_in_progress"`
+	Milestone                 *Milestone          `json:"milestone"`
+	MergeWhenPipelineSucceeds bool                `json:"merge_when_pipeline_succeeds"`
+	MergeStatus               string              `json:"merge_status"`
+	MergeError                string              `json:"merge_error"`
+	MergedBy                  *MergeRequestUser   `json:"merged_by"`
+	MergedAt                  *time.Time          `json:"merged_at"`
+	ClosedBy                  *MergeRequestUser   `json:"closed_by"`
+	ClosedAt                  *time.Time          `json:"closed_at"`
+	Subscribed                bool                `json:"subscribed"`
+	SHA                       string              `json:"sha"`
+	MergeCommitSHA            string              `json:"merge_commit_sha"`
+	UserNotesCount            int                 `json:"user_notes_count"`
+	ChangesCount              string              `json:"changes_count"`
+	ShouldRemoveSourceBranch  bool                `json:"should_remove_source_branch"`
+	ForceRemoveSourceBranch   bool                `json:"force_remove_source_branch"`
+	WebURL                    string              `json:"web_url"`
+	DiscussionLocked          bool                `json:"discussion_locked"`
+	Changes                   []struct {
 		OldPath     string `json:"old_path"`
 		NewPath     string `json:"new_path"`
 		AMode       string `json:"a_mode"`
@@ -123,6 +92,16 @@ type MergeRequest struct {
 	DivergedCommitsCount int  `json:"diverged_commits_count"`
 	RebaseInProgress     bool `json:"rebase_in_progress"`
 	ApprovalsBeforeMerge int  `json:"approvals_before_merge"`
+}
+
+type MergeRequestUser struct {
+	ID        int        `json:"id"`
+	Username  string     `json:"username"`
+	Name      string     `json:"name"`
+	State     string     `json:"state"`
+	CreatedAt *time.Time `json:"created_at"`
+	AvatarURL string     `json:"avatar_url"`
+	WebURL    string     `json:"web_url"`
 }
 
 func (m MergeRequest) String() string {
