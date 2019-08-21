@@ -317,6 +317,7 @@ type Client struct {
 	Features              *FeaturesService
 	GitIgnoreTemplates    *GitIgnoreTemplatesService
 	GroupBadges           *GroupBadgesService
+  GroupClusters         *GroupClustersService
 	GroupIssueBoards      *GroupIssueBoardsService
 	GroupLabels           *GroupLabelsService
 	GroupMembers          *GroupMembersService
