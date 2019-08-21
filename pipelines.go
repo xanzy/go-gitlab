@@ -41,21 +41,14 @@ type PipelineVariable struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/pipelines.html
 type Pipeline struct {
-	ID         int    `json:"id"`
-	Status     string `json:"status"`
-	Ref        string `json:"ref"`
-	SHA        string `json:"sha"`
-	BeforeSHA  string `json:"before_sha"`
-	Tag        bool   `json:"tag"`
-	YamlErrors string `json:"yaml_errors"`
-	User       struct {
-		Name      string `json:"name"`
-		Username  string `json:"username"`
-		ID        int    `json:"id"`
-		State     string `json:"state"`
-		AvatarURL string `json:"avatar_url"`
-		WebURL    string `json:"web_url"`
-	}
+	ID             int             `json:"id"`
+	Status         string          `json:"status"`
+	Ref            string          `json:"ref"`
+	SHA            string          `json:"sha"`
+	BeforeSHA      string          `json:"before_sha"`
+	Tag            bool            `json:"tag"`
+	YamlErrors     string          `json:"yaml_errors"`
+	User           *BasicUser      `json:"user"`
 	UpdatedAt      *time.Time      `json:"updated_at"`
 	CreatedAt      *time.Time      `json:"created_at"`
 	StartedAt      *time.Time      `json:"started_at"`
