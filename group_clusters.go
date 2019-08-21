@@ -51,15 +51,6 @@ func (v GroupCluster) String() string {
 	return Stringify(v)
 }
 
-// PlatformKubernetes represents a GitLab group Cluster PlatformKubernetes.
-type PlatformKubernetes struct {
-	APIURL            string `json:"api_url"`
-	Token             string `json:"token"`
-	CaCert            string `json:"ca_cert"`
-	Namespace         string `json:"namespace"`
-	AuthorizationType string `json:"authorization_type"`
-}
-
 // ListClusters gets a list of all clusters in a group.
 //
 // GitLab API docs:
@@ -110,21 +101,21 @@ func (s *GroupClustersService) GetCluster(pid interface{}, cluster int, options 
 	return pc, resp, err
 }
 
-// AddClusterOptions represents the available AddCluster() options.
+// AddGroupClusterOptions represents the available AddCluster() options.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/group_clusters.html#add-existing-cluster-to-group
-type AddClusterOptions struct {
+type AddGroupClusterOptions struct {
 	Name               *string                       `url:"name,omitempty" json:"name,omitempty"`
 	Domain             *string                       `url:"domain,omitempty" json:"domain,omitempty"`
 	Enabled            *bool                         `url:"enabled,omitempty" json:"enabled,omitempty"`
 	Managed            *bool                         `url:"managed,omitempty" json:"managed,omitempty"`
 	EnvironmentScope   *string                       `url:"environment_scope,omitempty" json:"environment_scope,omitempty"`
-	PlatformKubernetes *AddPlatformKubernetesOptions `url:"platform_kubernetes_attributes,omitempty" json:"platform_kubernetes_attributes,omitempty"`
+	PlatformKubernetes *AddGroupPlatformKubernetesOptions `url:"platform_kubernetes_attributes,omitempty" json:"platform_kubernetes_attributes,omitempty"`
 }
 
-// AddPlatformKubernetesOptions represents the available PlatformKubernetes options for adding.
-type AddPlatformKubernetesOptions struct {
+// AddGroupPlatformKubernetesOptions represents the available PlatformKubernetes options for adding.
+type AddGroupPlatformKubernetesOptions struct {
 	APIURL            *string `url:"api_url,omitempty" json:"api_url,omitempty"`
 	Token             *string `url:"token,omitempty" json:"token,omitempty"`
 	CaCert            *string `url:"ca_cert,omitempty" json:"ca_cert,omitempty"`
@@ -136,7 +127,7 @@ type AddPlatformKubernetesOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/group_clusters.html#add-existing-cluster-to-group
-func (s *GroupClustersService) AddCluster(pid interface{}, opt *AddClusterOptions, options ...OptionFunc) (*GroupCluster, *Response, error) {
+func (s *GroupClustersService) AddCluster(pid interface{}, opt *AddGroupClusterOptions, options ...OptionFunc) (*GroupCluster, *Response, error) {
 	group, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -157,30 +148,30 @@ func (s *GroupClustersService) AddCluster(pid interface{}, opt *AddClusterOption
 	return pc, resp, err
 }
 
-// EditClusterOptions represents the available EditCluster() options.
+// EditGroupClusterOptions represents the available EditCluster() options.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/group_clusters.html#edit-group-cluster
-type EditClusterOptions struct {
+type EditGroupClusterOptions struct {
 	Name               *string                        `url:"name,omitempty" json:"name,omitempty"`
 	Domain             *string                        `url:"domain,omitempty" json:"domain,omitempty"`
 	EnvironmentScope   *string                        `url:"environment_scope,omitempty" json:"environment_scope,omitempty"`
-	PlatformKubernetes *EditPlatformKubernetesOptions `url:"platform_kubernetes_attributes,omitempty" json:"platform_kubernetes_attributes,omitempty"`
+	PlatformKubernetes *EditGroupPlatformKubernetesOptions `url:"platform_kubernetes_attributes,omitempty" json:"platform_kubernetes_attributes,omitempty"`
 }
 
-// EditPlatformKubernetesOptions represents the available PlatformKubernetes options for editing.
-type EditPlatformKubernetesOptions struct {
+// EditGroupPlatformKubernetesOptions represents the available PlatformKubernetes options for editing.
+type EditGroupPlatformKubernetesOptions struct {
 	APIURL    *string `url:"api_url,omitempty" json:"api_url,omitempty"`
 	Token     *string `url:"token,omitempty" json:"token,omitempty"`
 	CaCert    *string `url:"ca_cert,omitempty" json:"ca_cert,omitempty"`
-	Namespace *string `url:"namespace,omitempty" json:"namespace,omitempty"`
 }
+
 
 // EditCluster updates an existing group cluster.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/group_clusters.html#edit-group-cluster
-func (s *GroupClustersService) EditCluster(pid interface{}, cluster int, opt *EditClusterOptions, options ...OptionFunc) (*GroupCluster, *Response, error) {
+func (s *GroupClustersService) EditCluster(pid interface{}, cluster int, opt *EditGroupClusterOptions, options ...OptionFunc) (*GroupCluster, *Response, error) {
 	group, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
