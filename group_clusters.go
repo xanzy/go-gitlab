@@ -175,7 +175,7 @@ func (s *GroupClustersService) EditCluster(pid interface{}, cluster int, opt *Ed
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("group/%s/clusters/%d", pathEscape(group), cluster)
+	u := fmt.Sprintf("groups/%s/clusters/%d", pathEscape(group), cluster)
 
 	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
