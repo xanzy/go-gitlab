@@ -19,6 +19,7 @@ package gitlab
 import (
 	"bytes"
 	"context"
+	"crypto/tls"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -688,6 +689,12 @@ func (r *Response) populatePageValues() {
 // interface, the raw response body will be written to v, without attempting to
 // first decode it.
 func (c *Client) Do(req *http.Request, v interface{}) (*Response, error) {
+
+	tr := &http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+	}
+	c.client.Transport = tr
+
 	resp, err := c.client.Do(req)
 	if err != nil {
 		return nil, err
