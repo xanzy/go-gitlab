@@ -209,7 +209,7 @@ func (s *PipelinesService) RetryPipelineBuild(pid interface{}, pipeline int, opt
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/pipelines/%d/retry", project, pipeline)
+	u := fmt.Sprintf("projects/%s/pipelines/%d/retry", pathEscape(project), pipeline)
 
 	req, err := s.client.NewRequest("POST", u, nil, options)
 	if err != nil {
@@ -234,7 +234,7 @@ func (s *PipelinesService) CancelPipelineBuild(pid interface{}, pipeline int, op
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/pipelines/%d/cancel", project, pipeline)
+	u := fmt.Sprintf("projects/%s/pipelines/%d/cancel", pathEscape(project), pipeline)
 
 	req, err := s.client.NewRequest("POST", u, nil, options)
 	if err != nil {
@@ -259,7 +259,7 @@ func (s *PipelinesService) DeletePipeline(pid interface{}, pipeline int, options
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/pipelines/%d", project, pipeline)
+	u := fmt.Sprintf("projects/%s/pipelines/%d", pathEscape(project), pipeline)
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {
