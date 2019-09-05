@@ -873,6 +873,14 @@ func String(v string) *string {
 	return p
 }
 
+// Time is a helper routine that allocates a new time.Time value
+// to store v and returns a pointer to it.
+func Time(v time.Time) *time.Time {
+	p := new(time.Time)
+	*p = v
+	return p
+}
+
 // AccessLevel is a helper routine that allocates a new AccessLevelValue
 // to store v and returns a pointer to it.
 func AccessLevel(v AccessLevelValue) *AccessLevelValue {
