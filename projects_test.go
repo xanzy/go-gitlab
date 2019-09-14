@@ -468,7 +468,7 @@ func TestChangeAllowedApprovers(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/approvers", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "POST")
+		testMethod(t, r, "PUT")
 		testBody(t, r, `{"approver_ids":[1],"approver_group_ids":[2]}`)
 		fmt.Fprint(w, `{
 			"approvers": [{"user":{"id":1}}],
