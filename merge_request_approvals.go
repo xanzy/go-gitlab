@@ -33,6 +33,7 @@ type MergeRequestApprovals struct {
 	ApprovedBy           []*MergeRequestApproverUser  `json:"approved_by"`
 	Approvers            []*MergeRequestApproverUser  `json:"approvers"`
 	ApproverGroups       []*MergeRequestApproverGroup `json:"approver_groups"`
+	SuggestedApprovers   []*BasicUser                 `json:"suggested_approvers"`
 }
 
 // MergeRequestApproverGroup  represents GitLab project level merge request approver group.
@@ -60,14 +61,7 @@ type MergeRequestApproverGroup struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#project-level-mr-approvals
 type MergeRequestApproverUser struct {
-	User struct {
-		ID        int    `json:"id"`
-		Name      string `json:"name"`
-		Username  string `json:"username"`
-		State     string `json:"state"`
-		AvatarURL string `json:"avatar_url"`
-		WebURL    string `json:"web_url"`
-	}
+	User BasicUser
 }
 
 func (m MergeRequestApprovals) String() string {
