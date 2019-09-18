@@ -199,9 +199,13 @@ type CreateCommitOptions struct {
 	Branch        *string         `url:"branch" json:"branch"`
 	CommitMessage *string         `url:"commit_message" json:"commit_message"`
 	StartBranch   *string         `url:"start_branch,omitempty" json:"start_branch,omitempty"`
+	StartSha      *string         `url:"start_sha,omitempty" json:"start_sha,omitempty"`
+	StartProject  *string         `url:"start_project,omitempty" json:"start_project,omitempty"`
 	Actions       []*CommitAction `url:"actions" json:"actions"`
 	AuthorEmail   *string         `url:"author_email,omitempty" json:"author_email,omitempty"`
 	AuthorName    *string         `url:"author_name,omitempty" json:"author_name,omitempty"`
+	Stats         *bool           `url:"stats,omitempty" json:"stats,omitempty"`
+	Force         *bool           `url:"force,omitempty" json:"force,omitempty"`
 }
 
 // CreateCommit creates a commit with multiple files and actions.
