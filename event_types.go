@@ -311,6 +311,7 @@ type MergeCommentEvent struct {
 	} `json:"project"`
 	ObjectAttributes struct {
 		ID           int    `json:"id"`
+		DiscussionID string `json:"discussion_id"`
 		Note         string `json:"note"`
 		NoteableType string `json:"noteable_type"`
 		AuthorID     int    `json:"author_id"`
