@@ -376,6 +376,7 @@ type MergeCommentEvent struct {
 		} `json:"last_commit"`
 		WorkInProgress bool `json:"work_in_progress"`
 		TotalTimeSpent int  `json:"total_time_spent"`
+		HeadPipelineID int  `json:"head_pipeline_id"`
 	} `json:"merge_request"`
 }
 
