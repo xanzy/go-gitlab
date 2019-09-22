@@ -578,6 +578,8 @@ func (s *MergeRequestsService) DeleteMergeRequest(pid interface{}, mergeRequest 
 // https://docs.gitlab.com/ce/api/merge_requests.html#accept-mr
 type AcceptMergeRequestOptions struct {
 	MergeCommitMessage        *string `url:"merge_commit_message,omitempty" json:"merge_commit_message,omitempty"`
+	SquashCommitMessage       *string `url:"squash_commit_message,omitempty" json:"squash_commit_message,omitempty"`
+	Squash                    *bool   `url:"squash,omitempty" json:"squash,omitempty"`
 	ShouldRemoveSourceBranch  *bool   `url:"should_remove_source_branch,omitempty" json:"should_remove_source_branch,omitempty"`
 	MergeWhenPipelineSucceeds *bool   `url:"merge_when_pipeline_succeeds,omitempty" json:"merge_when_pipeline_succeeds,omitempty"`
 	SHA                       *string `url:"sha,omitempty" json:"sha,omitempty"`
