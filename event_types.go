@@ -35,8 +35,8 @@ type PushEvent struct {
 	CheckoutSHA  string `json:"checkout_sha"`
 	UserID       int    `json:"user_id"`
 	UserName     string `json:"user_name"`
-	UserEmail    string `json:"user_email"`
 	UserUsername string `json:"user_username"`
+	UserEmail    string `json:"user_email"`
 	UserAvatar   string `json:"user_avatar"`
 	ProjectID    int    `json:"project_id"`
 	Project      struct {
