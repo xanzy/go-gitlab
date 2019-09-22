@@ -28,17 +28,18 @@ import (
 // GitLab API docs:
 // https://docs.gitlab.com/ce/user/project/integrations/webhooks.html#push-events
 type PushEvent struct {
-	ObjectKind  string `json:"object_kind"`
-	Before      string `json:"before"`
-	After       string `json:"after"`
-	Ref         string `json:"ref"`
-	CheckoutSHA string `json:"checkout_sha"`
-	UserID      int    `json:"user_id"`
-	UserName    string `json:"user_name"`
-	UserEmail   string `json:"user_email"`
-	UserAvatar  string `json:"user_avatar"`
-	ProjectID   int    `json:"project_id"`
-	Project     struct {
+	ObjectKind   string `json:"object_kind"`
+	Before       string `json:"before"`
+	After        string `json:"after"`
+	Ref          string `json:"ref"`
+	CheckoutSHA  string `json:"checkout_sha"`
+	UserID       int    `json:"user_id"`
+	UserName     string `json:"user_name"`
+	UserEmail    string `json:"user_email"`
+	UserUsername string `json:"user_username"`
+	UserAvatar   string `json:"user_avatar"`
+	ProjectID    int    `json:"project_id"`
+	Project      struct {
 		Name              string          `json:"name"`
 		Description       string          `json:"description"`
 		AvatarURL         string          `json:"avatar_url"`
