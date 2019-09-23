@@ -133,14 +133,14 @@ func (s *MergeRequestApprovalsService) UnapproveMergeRequest(pid interface{}, mr
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#change-approval-configuration
 type ChangeMergeRequestApprovalConfigurationOptions struct {
-	ApprovalsRequired *int `url:"approvals_required" json:"approvals_required"`
+	ApprovalsRequired *int `url:"approvals_required,omitempty" json:"approvals_required,omitempty"`
 }
 
-// ChangeMergeRequestApprovalConfiguration updates the approval configuration of a MR.
+// ChangeApprovalConfiguration updates the approval configuration of a merge request.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#change-approval-configuration
-func (s *MergeRequestApprovalsService) ChangeMergeRequestApprovalConfiguration(pid interface{}, mergeRequestIID int, opt *ChangeMergeRequestApprovalConfigurationOptions, options ...OptionFunc) (*MergeRequest, *Response, error) {
+func (s *MergeRequestApprovalsService) ChangeApprovalConfiguration(pid interface{}, mergeRequestIID int, opt *ChangeMergeRequestApprovalConfigurationOptions, options ...OptionFunc) (*MergeRequest, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -167,15 +167,15 @@ func (s *MergeRequestApprovalsService) ChangeMergeRequestApprovalConfiguration(p
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#change-allowed-approvers-for-merge-request
 type ChangeMergeRequestAllowedApproversOptions struct {
-	ApproverIDs      []int `url:"approver_ids" json:"approver_ids"`
-	ApproverGroupIDs []int `url:"approver_group_ids" json:"approver_group_ids"`
+	ApproverIDs      []int `url:"approver_ids,omitempty" json:"approver_ids,omitempty"`
+	ApproverGroupIDs []int `url:"approver_group_ids,omitempty" json:"approver_group_ids,omitempty"`
 }
 
-// ChangeMergeRequestAllowedApprovers updates the approvers for a MR.
+// ChangeAllowedApprovers updates the approvers for a merge request.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#change-allowed-approvers-for-merge-request
-func (s *MergeRequestApprovalsService) ChangeMergeRequestAllowedApprovers(pid interface{}, mergeRequestIID int, opt *ChangeMergeRequestAllowedApproversOptions, options ...OptionFunc) (*MergeRequest, *Response, error) {
+func (s *MergeRequestApprovalsService) ChangeAllowedApprovers(pid interface{}, mergeRequestIID int, opt *ChangeMergeRequestAllowedApproversOptions, options ...OptionFunc) (*MergeRequest, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
