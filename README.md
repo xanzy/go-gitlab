@@ -38,6 +38,7 @@ to add new and/or missing endpoints. Currently the following services are suppor
 - [x] GitLab CI Config Templates
 - [x] Gitignores Templates
 - [x] Group Access Requests
+- [x] Group Clusters
 - [x] Group Issue Boards
 - [x] Group Members
 - [x] Group Milestones
