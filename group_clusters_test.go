@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-func TestListClusters(t *testing.T) {
+func TestListGroupClusters(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 	pid := 1234
@@ -35,7 +35,6 @@ func TestListClusters(t *testing.T) {
     "platform_kubernetes":
     {
       "api_url":"https://104.197.68.152",
-      "namespace":"cluster-1-namespace",
       "authorization_type":"rbac",
       "ca_cert":"-----BEGIN CERTIFICATE-----\r\nhFiK1L61owwDQYJKoZIhvcNAQELBQAw\r\nLzEtMCsGA1UEAxMkZDA1YzQ1YjctNzdiMS00NDY0LThjNmEtMTQ0ZDJkZjM4ZDBj\r\nMB4XDTE4MTIyNzIwMDM1MVoXDTIzMTIyNjIxMDM1MVowLzEtMCsGA1UEAxMkZDA1\r\nYzQ1YjctNzdiMS00NDY0LThjNmEtMTQ0ZDJkZjM.......-----END CERTIFICATE-----"
     }
@@ -63,7 +62,7 @@ func TestListClusters(t *testing.T) {
 	}
 }
 
-func TestGetCluster(t *testing.T) {
+func TestGetGroupCluster(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 	pid := 1234
@@ -91,7 +90,6 @@ func TestGetCluster(t *testing.T) {
   "platform_kubernetes":
   {
     "api_url":"https://104.197.68.152",
-    "namespace":"cluster-1-namespace",
     "authorization_type":"rbac",
     "ca_cert":"-----BEGIN CERTIFICATE-----\r\nhFiK1L61owwDQYJKoZIhvcNAQELBQAw\r\nLzEtMCsGA1UEAxMkZDA1YzQ1YjctNzdiMS00NDY0LThjNmEtMTQ0ZDJkZjM4ZDBj\r\nMB4XDTE4MTIyNzIwMDM1MVoXDTIzMTIyNjIxMDM1MVowLzEtMCsGA1UEAxMkZDA1\r\nYzQ1YjctNzdiMS00NDY0LThjNmEtMTQ0ZDJkZjM.......-----END CERTIFICATE-----"
   },
@@ -143,7 +141,7 @@ func TestGetCluster(t *testing.T) {
 	}
 }
 
-func TestAddCluster(t *testing.T) {
+func TestAddGroupCluster(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 	pid := 1234
@@ -171,7 +169,6 @@ func TestAddCluster(t *testing.T) {
   "platform_kubernetes":
   {
     "api_url":"https://35.111.51.20",
-    "namespace":"cluster-5-namespace",
     "authorization_type":"rbac",
     "ca_cert":"-----BEGIN CERTIFICATE-----\r\nhFiK1L61owwDQYJKoZIhvcNAQELBQAw\r\nLzEtMCsGA1UEAxMkZDA1YzQ1YjctNzdiMS00NDY0LThjNmEtMTQ0ZDJkZjM4ZDBj\r\nMB4XDTE4MTIyNzIwMDM1MVoXDTIzMTIyNjIxMDM1MVowLzEtMCsGA1UEAxMkZDA1\r\nYzQ1YjctNzdiMS00NDY0LThjNmEtMTQ0ZDJkZjM.......-----END CERTIFICATE-----"
   },
@@ -219,7 +216,7 @@ func TestAddCluster(t *testing.T) {
 	}
 }
 
-func TestEditCluster(t *testing.T) {
+func TestEditGroupCluster(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 	pid := 1234
@@ -247,7 +244,6 @@ func TestEditCluster(t *testing.T) {
   "platform_kubernetes":
   {
     "api_url":"https://new-api-url.com",
-    "namespace":"cluster-5-namespace",
     "authorization_type":"rbac",
     "ca_cert":null
   },
@@ -295,7 +291,7 @@ func TestEditCluster(t *testing.T) {
 	}
 }
 
-func TestDeleteCluster(t *testing.T) {
+func TestDeleteGroupCluster(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
