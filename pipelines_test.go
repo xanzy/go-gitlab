@@ -22,7 +22,7 @@ func TestListProjectPipelines(t *testing.T) {
 		t.Errorf("Pipelines.ListProjectPipelines returned error: %v", err)
 	}
 
-	want := PipelineList{{ID: 1}, {ID: 2}}
+	want := []*PipelineInfo{{ID: 1}, {ID: 2}}
 	if !reflect.DeepEqual(want, piplines) {
 		t.Errorf("Pipelines.ListProjectPipelines returned %+v, want %+v", piplines, want)
 	}

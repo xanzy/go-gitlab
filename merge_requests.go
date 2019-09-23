@@ -34,42 +34,42 @@ type MergeRequestsService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/merge_requests.html
 type MergeRequest struct {
-	ID                        int                 `json:"id"`
-	IID                       int                 `json:"iid"`
-	TargetBranch              string              `json:"target_branch"`
-	SourceBranch              string              `json:"source_branch"`
-	ProjectID                 int                 `json:"project_id"`
-	Title                     string              `json:"title"`
-	State                     MergeRequestState   `json:"state"`
-	CreatedAt                 *time.Time          `json:"created_at"`
-	UpdatedAt                 *time.Time          `json:"updated_at"`
-	Upvotes                   int                 `json:"upvotes"`
-	Downvotes                 int                 `json:"downvotes"`
-	Author                    *MergeRequestUser   `json:"author"`
-	Assignee                  *MergeRequestUser   `json:"assignee"`
-	Assignees                 []*MergeRequestUser `json:"assignees"`
-	SourceProjectID           int                 `json:"source_project_id"`
-	TargetProjectID           int                 `json:"target_project_id"`
-	Labels                    []string            `json:"labels"`
-	Description               string              `json:"description"`
-	WorkInProgress            bool                `json:"work_in_progress"`
-	Milestone                 *Milestone          `json:"milestone"`
-	MergeWhenPipelineSucceeds bool                `json:"merge_when_pipeline_succeeds"`
-	MergeStatus               string              `json:"merge_status"`
-	MergeError                string              `json:"merge_error"`
-	MergedBy                  *MergeRequestUser   `json:"merged_by"`
-	MergedAt                  *time.Time          `json:"merged_at"`
-	ClosedBy                  *MergeRequestUser   `json:"closed_by"`
-	ClosedAt                  *time.Time          `json:"closed_at"`
-	Subscribed                bool                `json:"subscribed"`
-	SHA                       string              `json:"sha"`
-	MergeCommitSHA            string              `json:"merge_commit_sha"`
-	UserNotesCount            int                 `json:"user_notes_count"`
-	ChangesCount              string              `json:"changes_count"`
-	ShouldRemoveSourceBranch  bool                `json:"should_remove_source_branch"`
-	ForceRemoveSourceBranch   bool                `json:"force_remove_source_branch"`
-	WebURL                    string              `json:"web_url"`
-	DiscussionLocked          bool                `json:"discussion_locked"`
+	ID                        int          `json:"id"`
+	IID                       int          `json:"iid"`
+	TargetBranch              string       `json:"target_branch"`
+	SourceBranch              string       `json:"source_branch"`
+	ProjectID                 int          `json:"project_id"`
+	Title                     string       `json:"title"`
+	State                     string       `json:"state"`
+	CreatedAt                 *time.Time   `json:"created_at"`
+	UpdatedAt                 *time.Time   `json:"updated_at"`
+	Upvotes                   int          `json:"upvotes"`
+	Downvotes                 int          `json:"downvotes"`
+	Author                    *BasicUser   `json:"author"`
+	Assignee                  *BasicUser   `json:"assignee"`
+	Assignees                 []*BasicUser `json:"assignees"`
+	SourceProjectID           int          `json:"source_project_id"`
+	TargetProjectID           int          `json:"target_project_id"`
+	Labels                    []string     `json:"labels"`
+	Description               string       `json:"description"`
+	WorkInProgress            bool         `json:"work_in_progress"`
+	Milestone                 *Milestone   `json:"milestone"`
+	MergeWhenPipelineSucceeds bool         `json:"merge_when_pipeline_succeeds"`
+	MergeStatus               string       `json:"merge_status"`
+	MergeError                string       `json:"merge_error"`
+	MergedBy                  *BasicUser   `json:"merged_by"`
+	MergedAt                  *time.Time   `json:"merged_at"`
+	ClosedBy                  *BasicUser   `json:"closed_by"`
+	ClosedAt                  *time.Time   `json:"closed_at"`
+	Subscribed                bool         `json:"subscribed"`
+	SHA                       string       `json:"sha"`
+	MergeCommitSHA            string       `json:"merge_commit_sha"`
+	UserNotesCount            int          `json:"user_notes_count"`
+	ChangesCount              string       `json:"changes_count"`
+	ShouldRemoveSourceBranch  bool         `json:"should_remove_source_branch"`
+	ForceRemoveSourceBranch   bool         `json:"force_remove_source_branch"`
+	WebURL                    string       `json:"web_url"`
+	DiscussionLocked          bool         `json:"discussion_locked"`
 	Changes                   []struct {
 		OldPath     string `json:"old_path"`
 		NewPath     string `json:"new_path"`
@@ -98,11 +98,6 @@ type MergeRequest struct {
 		CompletedCount int `json:"completed_count"`
 	} `json:"task_completion_status"`
 }
-
-// MergeRequestUser represents a GitLab User record within a MergeRequest
-//
-// GitLab API docs: https://docs.gitlab.com/ce/api/merge_requests.html
-type MergeRequestUser = BasicUser
 
 func (m MergeRequest) String() string {
 	return Stringify(m)
@@ -136,57 +131,26 @@ func (m MergeRequestDiffVersion) String() string {
 // https://docs.gitlab.com/ce/api/merge_requests.html#list-merge-requests
 type ListMergeRequestsOptions struct {
 	ListOptions
-	State           *MergeRequestState `url:"state,omitempty" json:"state,omitempty"`
-	OrderBy         *string            `url:"order_by,omitempty" json:"order_by,omitempty"`
-	Sort            *SortDirection     `url:"sort,omitempty" json:"sort,omitempty"`
-	Milestone       *string            `url:"milestone,omitempty" json:"milestone,omitempty"`
-	View            *MergeRequestView  `url:"view,omitempty" json:"view,omitempty"`
-	Labels          Labels             `url:"labels,omitempty" json:"labels,omitempty"`
-	CreatedAfter    *time.Time         `url:"created_after,omitempty" json:"created_after,omitempty"`
-	CreatedBefore   *time.Time         `url:"created_before,omitempty" json:"created_before,omitempty"`
-	UpdatedAfter    *time.Time         `url:"updated_after,omitempty" json:"updated_after,omitempty"`
-	UpdatedBefore   *time.Time         `url:"updated_before,omitempty" json:"updated_before,omitempty"`
-	Scope           *Scope             `url:"scope,omitempty" json:"scope,omitempty"`
-	AuthorID        *int               `url:"author_id,omitempty" json:"author_id,omitempty"`
-	AssigneeID      *int               `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
-	MyReactionEmoji *string            `url:"my_reaction_emoji,omitempty" json:"my_reaction_emoji,omitempty"`
-	SourceBranch    *string            `url:"source_branch,omitempty" json:"source_branch,omitempty"`
-	TargetBranch    *string            `url:"target_branch,omitempty" json:"target_branch,omitempty"`
-	Search          *string            `url:"search,omitempty" json:"search,omitempty"`
-	In              *SearchDomain      `url:"in,omitempty" json:"in,omitempty"`
-	WIP             *YesNo             `url:"wip,omitempty" json:"wip,omitempty"`
+	State           *string    `url:"state,omitempty" json:"state,omitempty"`
+	OrderBy         *string    `url:"order_by,omitempty" json:"order_by,omitempty"`
+	Sort            *string    `url:"sort,omitempty" json:"sort,omitempty"`
+	Milestone       *string    `url:"milestone,omitempty" json:"milestone,omitempty"`
+	View            *string    `url:"view,omitempty" json:"view,omitempty"`
+	Labels          Labels     `url:"labels,omitempty" json:"labels,omitempty"`
+	CreatedAfter    *time.Time `url:"created_after,omitempty" json:"created_after,omitempty"`
+	CreatedBefore   *time.Time `url:"created_before,omitempty" json:"created_before,omitempty"`
+	UpdatedAfter    *time.Time `url:"updated_after,omitempty" json:"updated_after,omitempty"`
+	UpdatedBefore   *time.Time `url:"updated_before,omitempty" json:"updated_before,omitempty"`
+	Scope           *string    `url:"scope,omitempty" json:"scope,omitempty"`
+	AuthorID        *int       `url:"author_id,omitempty" json:"author_id,omitempty"`
+	AssigneeID      *int       `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
+	MyReactionEmoji *string    `url:"my_reaction_emoji,omitempty" json:"my_reaction_emoji,omitempty"`
+	SourceBranch    *string    `url:"source_branch,omitempty" json:"source_branch,omitempty"`
+	TargetBranch    *string    `url:"target_branch,omitempty" json:"target_branch,omitempty"`
+	Search          *string    `url:"search,omitempty" json:"search,omitempty"`
+	In              *string    `url:"in,omitempty" json:"in,omitempty"`
+	WIP             *string    `url:"wip,omitempty" json:"wip,omitempty"`
 }
-
-type MergeRequestView = string
-type Scope = string
-type SortDirection = string
-type MergeRequestState = string
-type SearchDomain = string
-type YesNo = string
-
-// The values options that take known strings
-const (
-	AssignedToMe Scope = "assigned_to_me"
-	CreatedByMe  Scope = "created_by_me"
-	All          Scope = "all"
-
-	SimpleView MergeRequestView = "simple"
-
-	Asc  SortDirection = "asc"
-	Desc SortDirection = "desc"
-
-	Opened MergeRequestState = "opened"
-	Closed MergeRequestState = "closed"
-	Locked MergeRequestState = "locked"
-	Merged MergeRequestState = "merged"
-
-	InTitle              SearchDomain = "title"
-	InDescription        SearchDomain = "description"
-	InTitleOrDescription SearchDomain = "title,description"
-
-	Yes YesNo = "yes"
-	No  YesNo = "no"
-)
 
 // ListMergeRequests gets all merge requests. The state parameter can be used
 // to get only merge requests with a given state (opened, closed, or merged)
@@ -268,25 +232,25 @@ func (s *MergeRequestsService) ListGroupMergeRequests(gid interface{}, opt *List
 // https://docs.gitlab.com/ce/api/merge_requests.html#list-project-merge-requests
 type ListProjectMergeRequestsOptions struct {
 	ListOptions
-	IIDs            []int              `url:"iids[],omitempty" json:"iids,omitempty"`
-	State           *MergeRequestState `url:"state,omitempty" json:"state,omitempty"`
-	OrderBy         *string            `url:"order_by,omitempty" json:"order_by,omitempty"`
-	Sort            *SortDirection     `url:"sort,omitempty" json:"sort,omitempty"`
-	Milestone       *string            `url:"milestone,omitempty" json:"milestone,omitempty"`
-	View            *MergeRequestView  `url:"view,omitempty" json:"view,omitempty"`
-	Labels          Labels             `url:"labels,omitempty" json:"labels,omitempty"`
-	CreatedAfter    *time.Time         `url:"created_after,omitempty" json:"created_after,omitempty"`
-	CreatedBefore   *time.Time         `url:"created_before,omitempty" json:"created_before,omitempty"`
-	UpdatedAfter    *time.Time         `url:"updated_after,omitempty" json:"updated_after,omitempty"`
-	UpdatedBefore   *time.Time         `url:"updated_before,omitempty" json:"updated_before,omitempty"`
-	Scope           *Scope             `url:"scope,omitempty" json:"scope,omitempty"`
-	AuthorID        *int               `url:"author_id,omitempty" json:"author_id,omitempty"`
-	AssigneeID      *int               `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
-	MyReactionEmoji *string            `url:"my_reaction_emoji,omitempty" json:"my_reaction_emoji,omitempty"`
-	SourceBranch    *string            `url:"source_branch,omitempty" json:"source_branch,omitempty"`
-	TargetBranch    *string            `url:"target_branch,omitempty" json:"target_branch,omitempty"`
-	Search          *SearchDomain      `url:"search,omitempty" json:"search,omitempty"`
-	WIP             *YesNo             `url:"wip,omitempty" json:"wip,omitempty"`
+	IIDs            []int      `url:"iids[],omitempty" json:"iids,omitempty"`
+	State           *string    `url:"state,omitempty" json:"state,omitempty"`
+	OrderBy         *string    `url:"order_by,omitempty" json:"order_by,omitempty"`
+	Sort            *string    `url:"sort,omitempty" json:"sort,omitempty"`
+	Milestone       *string    `url:"milestone,omitempty" json:"milestone,omitempty"`
+	View            *string    `url:"view,omitempty" json:"view,omitempty"`
+	Labels          Labels     `url:"labels,omitempty" json:"labels,omitempty"`
+	CreatedAfter    *time.Time `url:"created_after,omitempty" json:"created_after,omitempty"`
+	CreatedBefore   *time.Time `url:"created_before,omitempty" json:"created_before,omitempty"`
+	UpdatedAfter    *time.Time `url:"updated_after,omitempty" json:"updated_after,omitempty"`
+	UpdatedBefore   *time.Time `url:"updated_before,omitempty" json:"updated_before,omitempty"`
+	Scope           *string    `url:"scope,omitempty" json:"scope,omitempty"`
+	AuthorID        *int       `url:"author_id,omitempty" json:"author_id,omitempty"`
+	AssigneeID      *int       `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
+	MyReactionEmoji *string    `url:"my_reaction_emoji,omitempty" json:"my_reaction_emoji,omitempty"`
+	SourceBranch    *string    `url:"source_branch,omitempty" json:"source_branch,omitempty"`
+	TargetBranch    *string    `url:"target_branch,omitempty" json:"target_branch,omitempty"`
+	Search          *string    `url:"search,omitempty" json:"search,omitempty"`
+	WIP             *string    `url:"wip,omitempty" json:"wip,omitempty"`
 }
 
 // ListProjectMergeRequests gets all merge requests for this project.
@@ -437,7 +401,7 @@ func (s *MergeRequestsService) GetMergeRequestChanges(pid interface{}, mergeRequ
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/merge_requests.html#list-mr-pipelines
-func (s *MergeRequestsService) ListMergeRequestPipelines(pid interface{}, mergeRequest int, options ...OptionFunc) (PipelineList, *Response, error) {
+func (s *MergeRequestsService) ListMergeRequestPipelines(pid interface{}, mergeRequest int, options ...OptionFunc) ([]*PipelineInfo, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -449,7 +413,7 @@ func (s *MergeRequestsService) ListMergeRequestPipelines(pid interface{}, mergeR
 		return nil, nil, err
 	}
 
-	var p PipelineList
+	var p []*PipelineInfo
 	resp, err := s.client.Do(req, &p)
 	if err != nil {
 		return nil, resp, err

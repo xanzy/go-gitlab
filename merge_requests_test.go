@@ -10,7 +10,7 @@ import (
 )
 
 var (
-	ajk = MergeRequestUser{
+	ajk = BasicUser{
 		ID:        3614858,
 		Name:      "Alex Kalderimis",
 		Username:  "alexkalderimis",
@@ -18,7 +18,7 @@ var (
 		AvatarURL: "https://assets.gitlab-static.net/uploads/-/system/user/avatar/3614858/avatar.png",
 		WebURL:    "https://gitlab.com/alexkalderimis",
 	}
-	tk = MergeRequestUser{
+	tk = BasicUser{
 		ID:        2535118,
 		Name:      "Thong Kuah",
 		Username:  "tkuah",
@@ -108,7 +108,7 @@ func TestGetMergeRequest(t *testing.T) {
 	require.Equal(t, mergeRequest.MergeStatus, "can_be_merged")
 	require.Equal(t, mergeRequest.Author, &ajk)
 	require.Equal(t, mergeRequest.Assignee, &tk)
-	require.Equal(t, mergeRequest.Assignees, []*MergeRequestUser{&tk})
+	require.Equal(t, mergeRequest.Assignees, []*BasicUser{&tk})
 	require.Equal(t, mergeRequest.Labels, labels)
 	require.Equal(t, mergeRequest.Squash, true)
 	require.Equal(t, mergeRequest.UserNotesCount, 245)
@@ -137,7 +137,7 @@ func TestListProjectMergeRequests(t *testing.T) {
 	require.NoError(t, err)
 	require.Equal(t, 20, len(mergeRequests))
 
-	validStates := []MergeRequestState{Opened, Closed, Locked, Merged}
+	validStates := []string{"opened", "closed", "locked", "merged"}
 	mergeStatuses := []string{"can_be_merged", "cannot_be_merged"}
 	allCreatedBefore := time.Date(2019, 8, 21, 0, 0, 0, 0, time.UTC)
 	allCreatedAfter := time.Date(2019, 8, 17, 0, 0, 0, 0, time.UTC)

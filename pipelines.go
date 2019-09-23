@@ -75,14 +75,9 @@ type DetailedStatus struct {
 	Favicon string `json:"favicon"`
 }
 
-func (i Pipeline) String() string {
-	return Stringify(i)
+func (p Pipeline) String() string {
+	return Stringify(p)
 }
-
-// PipelineList represents a GitLab list project pipelines
-//
-// GitLab API docs: https://docs.gitlab.com/ce/api/pipelines.html#list-project-pipelines
-type PipelineList []*PipelineInfo
 
 // PipelineInfo shows the basic entities of a pipeline, mostly used as fields
 // on other assets, like Commit.
@@ -94,8 +89,8 @@ type PipelineInfo struct {
 	WebURL string `json:"web_url"`
 }
 
-func (i PipelineList) String() string {
-	return Stringify(i)
+func (p PipelineInfo) String() string {
+	return Stringify(p)
 }
 
 // ListProjectPipelinesOptions represents the available ListProjectPipelines() options.
@@ -117,7 +112,7 @@ type ListProjectPipelinesOptions struct {
 // ListProjectPipelines gets a list of project piplines.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/pipelines.html#list-project-pipelines
-func (s *PipelinesService) ListProjectPipelines(pid interface{}, opt *ListProjectPipelinesOptions, options ...OptionFunc) (PipelineList, *Response, error) {
+func (s *PipelinesService) ListProjectPipelines(pid interface{}, opt *ListProjectPipelinesOptions, options ...OptionFunc) ([]*PipelineInfo, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -129,11 +124,12 @@ func (s *PipelinesService) ListProjectPipelines(pid interface{}, opt *ListProjec
 		return nil, nil, err
 	}
 
-	var p PipelineList
+	var p []*PipelineInfo
 	resp, err := s.client.Do(req, &p)
 	if err != nil {
 		return nil, resp, err
 	}
+
 	return p, resp, err
 }
 
