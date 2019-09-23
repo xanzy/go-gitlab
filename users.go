@@ -37,7 +37,7 @@ type UsersService struct {
 	client *Client
 }
 
-// User when included in other service responses (such as merge requests, pipelines, etc).
+// BasicUser included in other service responses (such as merge requests, pipelines, etc).
 type BasicUser struct {
 	ID        int        `json:"id"`
 	Username  string     `json:"username"`
