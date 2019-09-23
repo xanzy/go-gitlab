@@ -312,6 +312,7 @@ type MergeCommentEvent struct {
 	} `json:"project"`
 	ObjectAttributes struct {
 		ID           int    `json:"id"`
+		DiscussionID string `json:"discussion_id"`
 		Note         string `json:"note"`
 		NoteableType string `json:"noteable_type"`
 		AuthorID     int    `json:"author_id"`
@@ -376,6 +377,7 @@ type MergeCommentEvent struct {
 		} `json:"last_commit"`
 		WorkInProgress bool `json:"work_in_progress"`
 		TotalTimeSpent int  `json:"total_time_spent"`
+		HeadPipelineID int  `json:"head_pipeline_id"`
 	} `json:"merge_request"`
 }
 
