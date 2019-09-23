@@ -48,6 +48,26 @@ func TestGetPipeline(t *testing.T) {
 	}
 }
 
+func TestGetPipelineVariables(t *testing.T) {
+	mux, server, client := setup()
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/pipelines/5949167/variables", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "GET")
+		fmt.Fprint(w, `[{"key":"RUN_NIGHTLY_BUILD","variable_type":"env_var","value":"true"},{"key":"foo","value":"bar"}]`)
+	})
+
+	variables, _, err := client.Pipelines.GetPipelineVariables(1, 5949167)
+	if err != nil {
+		t.Errorf("Pipelines.GetPipelineVariables returned error: %v", err)
+	}
+
+	want := []*PipelineVariable{{Key: "RUN_NIGHTLY_BUILD", Value: "true"}, {Key: "foo", Value: "bar"}}
+	if !reflect.DeepEqual(want, variables) {
+		t.Errorf("Pipelines.GetPipelineVariables returned %+v, want %+v", variables, want)
+	}
+}
+
 func TestCreatePipeline(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
