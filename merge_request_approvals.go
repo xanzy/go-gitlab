@@ -36,6 +36,10 @@ type MergeRequestApprovals struct {
 	SuggestedApprovers   []*BasicUser                 `json:"suggested_approvers"`
 }
 
+func (m MergeRequestApprovals) String() string {
+	return Stringify(m)
+}
+
 // MergeRequestApproverGroup  represents GitLab project level merge request approver group.
 //
 // GitLab API docs:
@@ -61,11 +65,7 @@ type MergeRequestApproverGroup struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#project-level-mr-approvals
 type MergeRequestApproverUser struct {
-	User BasicUser
-}
-
-func (m MergeRequestApprovals) String() string {
-	return Stringify(m)
+	User *BasicUser
 }
 
 // ApproveMergeRequestOptions represents the available ApproveMergeRequest() options.
