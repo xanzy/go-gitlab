@@ -277,6 +277,7 @@ type SlackServiceProperties struct {
 	TagPushChannel            string    `json:"tag_push_channel,omitempty"`
 	PipelineChannel           string    `json:"pipeline_channel,omitempty"`
 	WikiPageChannel           string    `json:"wiki_page_channel,omitempty"`
+	DeploymentChannel         string    `json:"deployment_channel,omitempty"`
 }
 
 // GetSlackService gets Slack service settings for a project.
@@ -332,10 +333,12 @@ type SetSlackServiceOptions struct {
 	// there is no way to set it. Uncomment when this is fixed.
 	// See: https://gitlab.com/gitlab-org/gitlab-ce/issues/49730
 	//ConfidentialNoteChannel   *string `json:"confidential_note_channel,omitempty"`
-	PipelineEvents  *bool   `url:"pipeline_events,omitempty" json:"pipeline_events,omitempty"`
-	PipelineChannel *string `url:"pipeline_channel,omitempty" json:"pipeline_channel,omitempty"`
-	WikiPageChannel *string `url:"wiki_page_channel,omitempty" json:"wiki_page_channel,omitempty"`
-	WikiPageEvents  *bool   `url:"wiki_page_events" json:"wiki_page_events"`
+	PipelineEvents    *bool   `url:"pipeline_events,omitempty" json:"pipeline_events,omitempty"`
+	PipelineChannel   *string `url:"pipeline_channel,omitempty" json:"pipeline_channel,omitempty"`
+	WikiPageChannel   *string `url:"wiki_page_channel,omitempty" json:"wiki_page_channel,omitempty"`
+	WikiPageEvents    *bool   `url:"wiki_page_events" json:"wiki_page_events"`
+	DeploymentEvents  *bool   `url:"deployment_events" json:"deployment_events"`
+	DeploymentChannel *string `url:"deployment_channel,omitempty" json:"deployment_channel,omitempty"`
 }
 
 // SetSlackService sets Slack service for a project
