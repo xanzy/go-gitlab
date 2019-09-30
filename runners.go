@@ -72,6 +72,11 @@ type RunnerDetails struct {
 	Version        string   `json:"version"`
 	AccessLevel    string   `json:"access_level"`
 	MaximumTimeout int      `json:"maximum_timeout"`
+	Groups         []struct {
+		ID     int    `json:"id"`
+		Name   string `json:"name"`
+		WebURL string `json:"web_url"`
+	} `json:"groups"`
 }
 
 // ListRunnersOptions represents the available ListRunners() options.
