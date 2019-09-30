@@ -79,24 +79,16 @@ type RunnerDetails struct {
 	} `json:"groups"`
 }
 
-// TagList is a custom type with specific marshaling characteristics.
-type TagList []string
-
-// MarshalJSON implements the json.Marshaler interface.
-func (l *TagList) MarshalJSON() ([]byte, error) {
-	return json.Marshal(strings.Join(*l, ","))
-}
-
 // ListRunnersOptions represents the available ListRunners() options.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/runners.html#list-owned-runners
 type ListRunnersOptions struct {
 	ListOptions
-	Scope   *string `url:"scope,omitempty" json:"scope,omitempty"`
-	Status  *string `url:"status,omitempty" json:"status,omitempty"`
-	TagList TagList `url:"tag_list,comma,omitempty" json:"type,omitempty"`
-	Type    *string `url:"type,omitempty" json:"type,omitempty"`
+	Scope   *string  `url:"scope,omitempty" json:"scope,omitempty"`
+	Type    *string  `url:"type,omitempty" json:"type,omitempty"`
+	Status  *string  `url:"status,omitempty" json:"status,omitempty"`
+	TagList []string `url:"tag_list,comma,omitempty" json:"tag_list,omitempty"`
 }
 
 // ListRunners gets a list of runners accessible by the authenticated user.
