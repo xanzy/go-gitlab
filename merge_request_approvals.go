@@ -189,3 +189,38 @@ func (s *MergeRequestApprovalsService) ChangeAllowedApprovers(pid interface{}, m
 
 	return m, resp, err
 }
+
+// ProjectMergeRequestApprovalOptions represents the available
+// ChangeProjectMergeRequestApprovalConfiguration() options
+type ProjectMergeRequestApprovalSettings struct {
+  ApprovalsBeforeMerge                      *int  `json:"approvals_before_merge,omitempty"`
+  DisableOverridingApproversPerMergeRequest *bool `json:"disable_overriding_approvers_per_merge_request,omitempty"`
+  MergeRequestsAuthorApproval               *bool `json:"merge_requests_author_approval,omitempty"`
+  MergeRequestsDisableCommittersApproval    *bool `json:"merge_requests_disable_committers_approval,omitempty"`
+  ResetApprovalsOnPush                      *bool `json:"reset_approvals_on_push,omitempty"`
+}
+
+// ChangeProjectMergeRequestApprovalConfoguration updates the approval configuration of a project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/merge_request_approvals.html#change-configuration
+func (s *MergeRequestApprovalsService) ChangeProjectMergeRequestApprovalConfiguration(pid interface{}, opt *ProjectMergeRequestApprovalSettings, options ...OptionFunc) (*MergeRequestApprovals, *Response, error) {
+  project, err := parseID(pid)
+  if err != nil {
+    return nil, nil, err
+  }
+  u := fmt.Sprintf("projects/%s/approvals", pathEscape(project))
+
+  req, err := s.client.NewRequest("POST", u, opt, options)
+  if err != nil {
+    return nil, nil, err
+  }
+
+  m := new(MergeRequestApprovals)
+  resp, err := s.client.Do(req, m)
+  if err != nil {
+    return nil, resp, err
+  }
+
+  return m, resp, err
+}
