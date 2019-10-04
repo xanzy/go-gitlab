@@ -220,7 +220,9 @@ func (s *RunnersService) RemoveRunner(rid interface{}, options ...OptionFunc) (*
 // https://docs.gitlab.com/ce/api/runners.html#list-runner-39-s-jobs
 type ListRunnerJobsOptions struct {
 	ListOptions
-	Status *string `url:"status,omitempty" json:"status,omitempty"`
+	Status  *string `url:"status,omitempty" json:"status,omitempty"`
+	OrderBy *string `url:"order_by,omitempty" json:"order_by,omitempty"`
+	Sort    *string `url:"sort,omitempty" json:"sort,omitempty"`
 }
 
 // ListRunnerJobs gets a list of jobs that are being processed or were processed by specified Runner.
