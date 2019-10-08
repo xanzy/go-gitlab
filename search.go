@@ -279,6 +279,15 @@ func (s *SearchService) BlobsByProject(pid interface{}, query string, opt *Searc
 	return bs, resp, err
 }
 
+// Users searches the expression within users
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/search.html#scope-users
+func (s *SearchService) Users(query string, opt *SearchOptions, options ...OptionFunc) ([]*User, *Response, error) {
+	var us []*User
+	resp, err := s.search("users", query, &us, opt, options...)
+	return us, resp, err
+}
+
 func (s *SearchService) search(scope, query string, result interface{}, opt *SearchOptions, options ...OptionFunc) (*Response, error) {
 	opts := &searchOptions{SearchOptions: *opt, Scope: scope, Search: query}
 
