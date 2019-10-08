@@ -279,6 +279,35 @@ func (s *SearchService) BlobsByProject(pid interface{}, query string, opt *Searc
 	return bs, resp, err
 }
 
+// Users searches the expression within all users
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/search.html#scope-users
+func (s *SearchService) Users(query string, opt *SearchOptions, options ...OptionFunc) ([]*User, *Response, error) {
+	var ret []*User
+	resp, err := s.search("users", query, &ret, opt, options...)
+	return ret, resp, err
+}
+
+// UsersByGroup searches the expression within users for the specified
+// group
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/search.html#scope-users-1
+func (s *SearchService) UsersByGroup(gid interface{}, query string, opt *SearchOptions, options ...OptionFunc) ([]*User, *Response, error) {
+	var ret []*User
+	resp, err := s.searchByGroup(gid, "users", query, &ret, opt, options...)
+	return ret, resp, err
+}
+
+// UsersByProject searches the expression within users for the
+// specified project
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/search.html#scope-users-2
+func (s *SearchService) UsersByProject(pid interface{}, query string, opt *SearchOptions, options ...OptionFunc) ([]*User, *Response, error) {
+	var ret []*User
+	resp, err := s.searchByProject(pid, "users", query, &ret, opt, options...)
+	return ret, resp, err
+}
+
 func (s *SearchService) search(scope, query string, result interface{}, opt *SearchOptions, options ...OptionFunc) (*Response, error) {
 	opts := &searchOptions{SearchOptions: *opt, Scope: scope, Search: query}
 
@@ -295,7 +324,7 @@ func (s *SearchService) searchByGroup(gid interface{}, scope, query string, resu
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("groups/%s/-/search", pathEscape(group))
+	u := fmt.Sprintf("groups/%s/search", pathEscape(group))
 
 	opts := &searchOptions{SearchOptions: *opt, Scope: scope, Search: query}
 
@@ -312,7 +341,7 @@ func (s *SearchService) searchByProject(pid interface{}, scope, query string, re
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/-/search", pathEscape(project))
+	u := fmt.Sprintf("projects/%s/search", pathEscape(project))
 
 	opts := &searchOptions{SearchOptions: *opt, Scope: scope, Search: query}
 
