@@ -324,7 +324,7 @@ func (s *SearchService) searchByGroup(gid interface{}, scope, query string, resu
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("groups/%s/search", pathEscape(group))
+	u := fmt.Sprintf("groups/%s/-/search", pathEscape(group))
 
 	opts := &searchOptions{SearchOptions: *opt, Scope: scope, Search: query}
 
