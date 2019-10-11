@@ -772,6 +772,7 @@ type ProjectMember struct {
 	Name        string           `json:"name"`
 	State       string           `json:"state"`
 	CreatedAt   *time.Time       `json:"created_at"`
+	ExpiresAt   *ISOTime         `json:"expires_at"`
 	AccessLevel AccessLevelValue `json:"access_level"`
 }
 
