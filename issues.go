@@ -372,6 +372,38 @@ func (s *IssuesService) DeleteIssue(pid interface{}, issue int, options ...Optio
 	return s.client.Do(req, nil)
 }
 
+// MoveIssueOptions represents the available MoveIssue() options.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/issues.html#move-an-issue
+type MoveIssueOptions struct {
+	ToProjectID *int `url:"to_project_id,omitempty" json:"to_project_id,omitempty"`
+}
+
+// MoveIssue updates an existing project issue. This function is also used
+// to mark an issue as closed.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/issues.html#move-an-issue
+func (s *IssuesService) MoveIssue(pid interface{}, issue int, opt *MoveIssueOptions, options ...OptionFunc) (*Issue, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/issues/%d/move", pathEscape(project), issue)
+
+	req, err := s.client.NewRequest("POST", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	i := new(Issue)
+	resp, err := s.client.Do(req, i)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return i, resp, err
+}
+
 // SubscribeToIssue subscribes the authenticated user to the given issue to
 // receive notifications. If the user is already subscribed to the issue, the
 // status code 304 is returned.

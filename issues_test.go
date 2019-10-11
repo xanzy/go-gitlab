@@ -6,6 +6,8 @@ import (
 	"net/http"
 	"reflect"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestGetIssue(t *testing.T) {
@@ -48,6 +50,30 @@ func TestDeleteIssue(t *testing.T) {
 	if err != nil {
 		log.Fatal(err)
 	}
+}
+
+func TestMoveIssue(t *testing.T) {
+	mux, server, client := setup()
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/issues/11/move", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "POST")
+		mustWriteHTTPResponse(t, w, "testdata/issue_move.json")
+	})
+
+	issue, _, err := client.Issues.MoveIssue("1", 11, &MoveIssueOptions{ToProjectID: Int(5)})
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	want := &Issue{
+		ID:        92,
+		IID:       11,
+		ProjectID: 5,
+	}
+
+	assert.Equal(t, want.IID, issue.IID)
+	assert.Equal(t, want.ProjectID, issue.ProjectID)
 }
 
 func TestListIssues(t *testing.T) {
