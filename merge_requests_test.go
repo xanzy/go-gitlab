@@ -27,7 +27,7 @@ var (
 		WebURL:    "https://gitlab.com/tkuah",
 	}
 	getOpts = GetMergeRequestsOptions{}
-	labels  = []string{
+	labels  = Labels{
 		"GitLab Enterprise Edition",
 		"backend",
 		"database",
