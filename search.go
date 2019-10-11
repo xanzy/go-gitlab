@@ -341,7 +341,7 @@ func (s *SearchService) searchByProject(pid interface{}, scope, query string, re
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/search", pathEscape(project))
+	u := fmt.Sprintf("projects/%s/-/search", pathEscape(project))
 
 	opts := &searchOptions{SearchOptions: *opt, Scope: scope, Search: query}
 
