@@ -20,6 +20,7 @@ const (
 	EventTypePush         EventType = "Push Hook"
 	EventTypeTagPush      EventType = "Tag Push Hook"
 	EventTypeWikiPage     EventType = "Wiki Page Hook"
+	EventSystemHook       EventType = "System Hook"
 )
 
 const (
@@ -114,4 +115,90 @@ func ParseWebhook(eventType EventType, payload []byte) (event interface{}, err e
 	}
 
 	return event, nil
+}
+
+// ParseSystemhook parses the System Hook event payload. For recognized event types, a
+// value of the corresponding struct type will be returned. An error will
+// be returned for unrecognized event types.
+func ParseSystemhook(eventType EventType, payload []byte) (event interface{}, err error) {
+	switch eventType {
+	case EventSystemHook:
+		e := &systemHookEvent{}
+		err := json.Unmarshal(payload, e)
+		if err != nil {
+			return nil, err
+		}
+
+		switch e.EventName {
+		case "push":
+			event = &PushSystemHookEvent{}
+		case "tag_push":
+			event = &TagPushSystemHookEvent{}
+		case "repository_update":
+			event = &RepositoryUpdateSystemHookEvent{}
+		case "project_create":
+			fallthrough
+		case "project_update":
+			fallthrough
+		case "project_destroy":
+			fallthrough
+		case "project_transfer":
+			fallthrough
+		case "project_rename":
+			event = &ProjectSystemHookEvent{}
+		case "group_create":
+			fallthrough
+		case "group_destroy":
+			fallthrough
+		case "group_rename":
+			event = &GroupSystemHookEvent{}
+		case "key_create":
+			fallthrough
+		case "key_destroy":
+			event = &KeySystemHookEvent{}
+		case "user_create":
+			fallthrough
+		case "user_destroy":
+			fallthrough
+		case "user_rename":
+			event = &UserSystemHookEvent{}
+		case "user_add_to_group":
+			fallthrough
+		case "user_remove_from_group":
+			fallthrough
+		case "user_update_for_group":
+			event = &UserGroupSystemHookEvent{}
+		case "user_add_to_team":
+			fallthrough
+		case "user_remove_from_team":
+			fallthrough
+		case "user_update_for_team":
+			event = &UserTeamSystemHookEvent{}
+		default:
+			switch e.ObjectKind {
+			case "merge_request":
+				event = &MergeEvent{}
+			default:
+				return nil, fmt.Errorf("unexpected system hook type %s", e.EventName)
+			}
+		}
+
+	default:
+		return nil, fmt.Errorf("unexpected event type: %s", eventType)
+	}
+
+	if err := json.Unmarshal(payload, event); err != nil {
+		return nil, err
+	}
+
+	return event, nil
+}
+
+// ParseHook processes both ParseWebhook & ParseSystemhook
+func ParseHook(eventType EventType, payload []byte) (event interface{}, err error) {
+	if event, err = ParseWebhook(eventType, payload); err != nil {
+		event, err = ParseSystemhook(eventType, payload)
+		return
+	}
+	return
 }
