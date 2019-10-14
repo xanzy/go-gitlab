@@ -111,7 +111,7 @@ func (l *Labels) MarshalJSON() ([]byte, error) {
 type ListIssuesOptions struct {
 	ListOptions
 	State            *string    `url:"state,omitempty" json:"state,omitempty"`
-	Labels           *Labels    `url:"labels,comma,omitempty" json:"labels,omitempty"`
+	Labels           Labels     `url:"labels,comma,omitempty" json:"labels,omitempty"`
 	WithLabelDetails *bool      `url:"with_labels_details,omitempty" json:"with_labels_details,omitempty"`
 	Milestone        *string    `url:"milestone,omitempty" json:"milestone,omitempty"`
 	Scope            *string    `url:"scope,omitempty" json:"scope,omitempty"`
@@ -154,7 +154,7 @@ func (s *IssuesService) ListIssues(opt *ListIssuesOptions, options ...OptionFunc
 type ListGroupIssuesOptions struct {
 	ListOptions
 	State           *string    `url:"state,omitempty" json:"state,omitempty"`
-	Labels          *Labels    `url:"labels,comma,omitempty" json:"labels,omitempty"`
+	Labels          Labels     `url:"labels,comma,omitempty" json:"labels,omitempty"`
 	IIDs            []int      `url:"iids[],omitempty" json:"iids,omitempty"`
 	Milestone       *string    `url:"milestone,omitempty" json:"milestone,omitempty"`
 	Scope           *string    `url:"scope,omitempty" json:"scope,omitempty"`
@@ -203,7 +203,7 @@ type ListProjectIssuesOptions struct {
 	ListOptions
 	IIDs             []int      `url:"iids[],omitempty" json:"iids,omitempty"`
 	State            *string    `url:"state,omitempty" json:"state,omitempty"`
-	Labels           *Labels    `url:"labels,comma,omitempty" json:"labels,omitempty"`
+	Labels           Labels     `url:"labels,comma,omitempty" json:"labels,omitempty"`
 	WithLabelDetails *bool      `url:"with_labels_details,omitempty" json:"with_labels_details,omitempty"`
 	Milestone        *string    `url:"milestone,omitempty" json:"milestone,omitempty"`
 	Scope            *string    `url:"scope,omitempty" json:"scope,omitempty"`
