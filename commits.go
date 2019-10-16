@@ -177,7 +177,7 @@ func (s *CommitsService) GetCommit(pid interface{}, sha string, options ...Optio
 		return nil, nil, err
 	}
 	if sha == "" {
-		return nil, nil, fmt.Errorf("sha mustn't be empty")
+		return nil, nil, fmt.Errorf("SHA must be a non-empty string")
 	}
 	u := fmt.Sprintf("projects/%s/repository/commits/%s", pathEscape(project), url.PathEscape(sha))
 
