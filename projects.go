@@ -1412,7 +1412,7 @@ func (s *ProjectsService) GetProjectApprovalRules(pid interface{}, options ...Op
 	return pa, resp, err
 }
 
-type CreateProjectLevelRulesOptions struct {
+type CreateProjectLevelRuleOptions struct {
 	Name              string `json:"name"`
 	ApprovalsRequired int    `json:"approvals_required"`
 	UserIDs           []int  `json:"user_ids"`
@@ -1423,7 +1423,7 @@ type CreateProjectLevelRulesOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#create-project-level-rules
-func (s *ProjectsService) CreateProjectApprovalRule(pid interface{}, opt *CreateProjectLevelRulesOptions, options ...OptionFunc) (*ProjectApprovalRule, *Response, error) {
+func (s *ProjectsService) CreateProjectApprovalRule(pid interface{}, opt *CreateProjectLevelRuleOptions, options ...OptionFunc) (*ProjectApprovalRule, *Response, error) {
 	var project string
 	var req *http.Request
 	var resp *Response
@@ -1447,7 +1447,7 @@ func (s *ProjectsService) CreateProjectApprovalRule(pid interface{}, opt *Create
 	return pa, resp, err
 }
 
-type UpdateProjectLevelRulesOptions struct {
+type UpdateProjectLevelRuleOptions struct {
 	Name              string `json:"name"`
 	ApprovalsRequired int    `json:"approvals_required"`
 	UserIDs           []int  `json:"user_ids"`
@@ -1460,7 +1460,7 @@ type UpdateProjectLevelRulesOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#update-project-level-rules
-func (s *ProjectsService) UpdateProjectApprovalRule(pid interface{}, approvalRuleID int, opt *UpdateProjectLevelRulesOptions, options ...OptionFunc) (*ProjectApprovalRule, *Response, error) {
+func (s *ProjectsService) UpdateProjectApprovalRule(pid interface{}, approvalRuleID int, opt *UpdateProjectLevelRuleOptions, options ...OptionFunc) (*ProjectApprovalRule, *Response, error) {
 	var project string
 	var req *http.Request
 	var resp *Response
