@@ -735,7 +735,7 @@ func TestCreateProjectApprovalRule(t *testing.T) {
 		}`)
 	})
 
-	opt := &CreateProjectLevelRulesOptions{
+	opt := &CreateProjectLevelRuleOptions{
 		Name:              "security",
 		ApprovalsRequired: 3,
 		UserIDs:           []int{5, 50},
