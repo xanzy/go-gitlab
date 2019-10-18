@@ -22,6 +22,7 @@ import (
 	"io"
 	"io/ioutil"
 	"mime/multipart"
+	"net/http"
 	"os"
 	"time"
 )
@@ -1370,4 +1371,137 @@ func (s *ProjectsService) StartMirroringProject(pid interface{}, options ...Opti
 	}
 
 	return resp, err
+}
+
+type ProjectApprovalRule struct {
+	ID                   int          `json:"id"`
+	Name                 string       `json:"name"`
+	RuleType             string       `json:"rule_type"`
+	EligibleApprovers    []*BasicUser `json:"eligible_approvers"`
+	ApprovalsRequired    int          `json:"approvals_required"`
+	Users                []*BasicUser `json:"users"`
+	Groups               []*Group     `json:"groups"`
+	ContainsHiddenGroups bool         `json:"contains_hidden_groups"`
+}
+
+// GetProjectApprovalRules Looks up the list of project level approvers.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/merge_request_approvals.html#get-project-level-rules
+func (s *ProjectsService) GetProjectApprovalRules(pid interface{}, options ...OptionFunc) ([]*ProjectApprovalRule, *Response, error) {
+	var project string
+	var req *http.Request
+	var resp *Response
+	var pa []*ProjectApprovalRule
+	var err error
+
+	if project, err = parseID(pid); err != nil {
+		return nil, nil, err
+	}
+
+	u := fmt.Sprintf("projects/%s/approval_rules", pathEscape(project))
+
+	if req, err = s.client.NewRequest("GET", u, nil, options); err != nil {
+		return nil, nil, err
+	}
+
+	if resp, err = s.client.Do(req, &pa); err != nil {
+		return nil, resp, err
+	}
+
+	return pa, resp, err
+}
+
+type CreateProjectLevelRulesOptions struct {
+	Name              string `json:"name"`
+	ApprovalsRequired int    `json:"approvals_required"`
+	UserIDs           []int  `json:"user_ids"`
+	GroupIDs          []int  `json:"group_ids"`
+}
+
+// CreateProjectApprovalRule creates a new project-level approval rule.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/merge_request_approvals.html#create-project-level-rules
+func (s *ProjectsService) CreateProjectApprovalRule(pid interface{}, opt *CreateProjectLevelRulesOptions, options ...OptionFunc) (*ProjectApprovalRule, *Response, error) {
+	var project string
+	var req *http.Request
+	var resp *Response
+	var pa *ProjectApprovalRule
+	var err error
+
+	if project, err = parseID(pid); err != nil {
+		return nil, nil, err
+	}
+
+	u := fmt.Sprintf("projects/%s/approval_rules", pathEscape(project))
+
+	if req, err = s.client.NewRequest("POST", u, opt, options); err != nil {
+		return nil, nil, err
+	}
+
+	if resp, err = s.client.Do(req, &pa); err != nil {
+		return nil, resp, err
+	}
+
+	return pa, resp, err
+}
+
+type UpdateProjectLevelRulesOptions struct {
+	Name              string `json:"name"`
+	ApprovalsRequired int    `json:"approvals_required"`
+	UserIDs           []int  `json:"user_ids"`
+	GroupIDs          []int  `json:"group_ids"`
+}
+
+// UpdateProjectApprovalRule updates an existing approval rule id with new options.
+//
+// The users and group ids provided will override the existing settings.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/merge_request_approvals.html#update-project-level-rules
+func (s *ProjectsService) UpdateProjectApprovalRule(pid interface{}, approvalRuleID int, opt *UpdateProjectLevelRulesOptions, options ...OptionFunc) (*ProjectApprovalRule, *Response, error) {
+	var project string
+	var req *http.Request
+	var resp *Response
+	var pa *ProjectApprovalRule
+	var err error
+
+	if project, err = parseID(pid); err != nil {
+		return nil, nil, err
+	}
+
+	u := fmt.Sprintf("projects/%s/approval_rules/%d", pathEscape(project), approvalRuleID)
+
+	if req, err = s.client.NewRequest("PUT", u, opt, options); err != nil {
+		return nil, nil, err
+	}
+
+	if resp, err = s.client.Do(req, &pa); err != nil {
+		return nil, resp, err
+	}
+
+	return pa, resp, err
+}
+
+// DeleteProjectApprovalRule deletes a project-level approval rule.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/merge_request_approvals.html#delete-project-level-rules
+func (s *ProjectsService) DeleteProjectApprovalRule(pid interface{}, approvalRuleID int, options ...OptionFunc) (*Response, error) {
+	var project string
+	var req *http.Request
+	var err error
+
+	if project, err = parseID(pid); err != nil {
+		return nil, err
+	}
+
+	u := fmt.Sprintf("projects/%s/approval_rules/%d", pathEscape(project), approvalRuleID)
+
+	if req, err = s.client.NewRequest("DELETE", u, nil, options); err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
 }
