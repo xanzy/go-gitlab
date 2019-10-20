@@ -1249,6 +1249,7 @@ type ProjectApprovals struct {
 	ResetApprovalsOnPush                      bool                         `json:"reset_approvals_on_push"`
 	DisableOverridingApproversPerMergeRequest bool                         `json:"disable_overriding_approvers_per_merge_request"`
 	MergeRequestsAuthorApproval               bool                         `json:"merge_requests_author_approval"`
+	MergeRequestsDisableCommittersApproval    bool                         `json:"merge_requests_disable_committers_approval"`
 }
 
 // GetApprovalConfiguration get the approval configuration for a project.
@@ -1286,6 +1287,7 @@ type ChangeApprovalConfigurationOptions struct {
 	ResetApprovalsOnPush                      *bool `url:"reset_approvals_on_push,omitempty" json:"reset_approvals_on_push,omitempty"`
 	DisableOverridingApproversPerMergeRequest *bool `url:"disable_overriding_approvers_per_merge_request,omitempty" json:"disable_overriding_approvers_per_merge_request,omitempty"`
 	MergeRequestsAuthorApproval               *bool `url:"merge_requests_author_approval,omitempty" json:"merge_requests_author_approval,omitempty"`
+	MergeRequestsDisableCommittersApproval    *bool `url:"merge_requests_disable_committers_approval,omitempty" json:"merge_requests_disable_committers_approval,omitempty"`
 }
 
 // ChangeApprovalConfiguration updates the approval configuration for a project.

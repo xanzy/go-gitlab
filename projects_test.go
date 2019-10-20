@@ -400,7 +400,8 @@ func TestGetApprovalConfiguration(t *testing.T) {
 			"approvals_before_merge": 3,
 			"reset_approvals_on_push": false,
 			"disable_overriding_approvers_per_merge_request": false,
-			"merge_requests_author_approval": true
+			"merge_requests_author_approval": true,
+			"merge_requests_disable_committers_approval": true
 		}`)
 	})
 
@@ -416,6 +417,7 @@ func TestGetApprovalConfiguration(t *testing.T) {
 		ResetApprovalsOnPush: false,
 		DisableOverridingApproversPerMergeRequest: false,
 		MergeRequestsAuthorApproval:               true,
+		MergeRequestsDisableCommittersApproval:    true,
 	}
 
 	if !reflect.DeepEqual(want, approvals) {
@@ -436,7 +438,8 @@ func TestChangeApprovalConfiguration(t *testing.T) {
 			"approvals_before_merge": 3,
 			"reset_approvals_on_push": false,
 			"disable_overriding_approvers_per_merge_request": false,
-			"merge_requests_author_approval": true
+			"merge_requests_author_approval": true,
+			"merge_requests_disable_committers_approval": true
 		}`)
 	})
 
@@ -456,6 +459,7 @@ func TestChangeApprovalConfiguration(t *testing.T) {
 		ResetApprovalsOnPush: false,
 		DisableOverridingApproversPerMergeRequest: false,
 		MergeRequestsAuthorApproval:               true,
+		MergeRequestsDisableCommittersApproval:    true,
 	}
 
 	if !reflect.DeepEqual(want, approvals) {
