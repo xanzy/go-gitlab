@@ -247,7 +247,37 @@ func TestMergeEventUnmarshal(t *testing.T) {
         "type": "ProjectLabel",
         "group_id": 41
       }]
-    }
+    },
+	"source_branch": {
+		"previous": null,
+		"current": "feature/test"
+	},
+	"source_project_id": {
+		"previous": null,
+		"current": 1
+	},
+	"target_branch": {
+		"previous": null,
+		"current": "develop"
+	},
+	"target_project_id": {
+		"previous": null,
+		"current": 1
+	},
+	"assignees": {
+		"previous": [],
+		"current": [
+			{
+				"name": "Administrator",
+				"username": "root",
+				"avatar_url": "http://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=40\u0026d=identicon"
+			}
+		]
+	},
+	"total_time_spent": {
+		"previous": null,
+		"current": 0
+	}
   }
 }`
 
@@ -291,6 +321,14 @@ func TestMergeEventUnmarshal(t *testing.T) {
 
 	if name := event.ObjectAttributes.LastCommit.Author.Name; name != "GitLab dev user" {
 		t.Errorf("Commit Username is %s, want %s", name, "GitLab dev user")
+	}
+
+	if name :=event.Changes.SourceBranch.Current; name != "feature/test" {
+		t.Errorf("Changed First Assignee Username is %s, want %s", name, "feature/test")
+	}
+
+	if name :=event.Changes.Assignees.Current[0].Name; name != "Administrator" {
+		t.Errorf("Changed First Assignee Username is %s, want %s", name, "Administrator")
 	}
 }
 
