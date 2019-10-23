@@ -184,6 +184,25 @@ func (s Project) String() string {
 	return Stringify(s)
 }
 
+// ProjectApprovalRule represents a GitLab project approval rule.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/merge_request_approvals.html#get-project-level-rules
+type ProjectApprovalRule struct {
+	ID                   int          `json:"id"`
+	Name                 string       `json:"name"`
+	RuleType             string       `json:"rule_type"`
+	EligibleApprovers    []*BasicUser `json:"eligible_approvers"`
+	ApprovalsRequired    int          `json:"approvals_required"`
+	Users                []*BasicUser `json:"users"`
+	Groups               []*Group     `json:"groups"`
+	ContainsHiddenGroups bool         `json:"contains_hidden_groups"`
+}
+
+func (s ProjectApprovalRule) String() string {
+	return Stringify(s)
+}
+
 // ListProjectsOptions represents the available ListProjects() options.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#list-projects
@@ -1315,14 +1334,132 @@ func (s *ProjectsService) ChangeApprovalConfiguration(pid interface{}, opt *Chan
 	return pa, resp, err
 }
 
+// GetProjectApprovalRules looks up the list of project level approvers.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/merge_request_approvals.html#get-project-level-rules
+func (s *ProjectsService) GetProjectApprovalRules(pid interface{}, options ...OptionFunc) ([]*ProjectApprovalRule, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/approval_rules", pathEscape(project))
+
+	req, err := s.client.NewRequest("GET", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var par []*ProjectApprovalRule
+	resp, err := s.client.Do(req, &par)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return par, resp, err
+}
+
+// CreateProjectLevelRuleOptions represents the available CreateProjectApprovalRule()
+// options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/merge_request_approvals.html#create-project-level-rules
+type CreateProjectLevelRuleOptions struct {
+	Name              *string `url:"name,omitempty" json:"name,omitempty"`
+	ApprovalsRequired *int    `url:"approvals_required,omitempty" json:"approvals_required,omitempty"`
+	UserIDs           []int   `url:"user_ids,omitempty" json:"user_ids,omitempty"`
+	GroupIDs          []int   `url:"group_ids,omitempty" json:"group_ids,omitempty"`
+}
+
+// CreateProjectApprovalRule creates a new project-level approval rule.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/merge_request_approvals.html#create-project-level-rules
+func (s *ProjectsService) CreateProjectApprovalRule(pid interface{}, opt *CreateProjectLevelRuleOptions, options ...OptionFunc) (*ProjectApprovalRule, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/approval_rules", pathEscape(project))
+
+	req, err := s.client.NewRequest("POST", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	par := new(ProjectApprovalRule)
+	resp, err := s.client.Do(req, &par)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return par, resp, err
+}
+
+// UpdateProjectLevelRuleOptions represents the available UpdateProjectApprovalRule()
+// options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/merge_request_approvals.html#update-project-level-rules
+type UpdateProjectLevelRuleOptions struct {
+	Name              *string `url:"name,omitempty" json:"name,omitempty"`
+	ApprovalsRequired *int    `url:"approvals_required,omitempty" json:"approvals_required,omitempty"`
+	UserIDs           []int   `url:"user_ids,omitempty" json:"user_ids,omitempty"`
+	GroupIDs          []int   `url:"group_ids,omitempty" json:"group_ids,omitempty"`
+}
+
+// UpdateProjectApprovalRule updates an existing approval rule with new options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/merge_request_approvals.html#update-project-level-rules
+func (s *ProjectsService) UpdateProjectApprovalRule(pid interface{}, approvalRule int, opt *UpdateProjectLevelRuleOptions, options ...OptionFunc) (*ProjectApprovalRule, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/approval_rules/%d", pathEscape(project), approvalRule)
+
+	req, err := s.client.NewRequest("PUT", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	par := new(ProjectApprovalRule)
+	resp, err := s.client.Do(req, &par)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return par, resp, err
+}
+
+// DeleteProjectApprovalRule deletes a project-level approval rule.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/merge_request_approvals.html#delete-project-level-rules
+func (s *ProjectsService) DeleteProjectApprovalRule(pid interface{}, approvalRule int, options ...OptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/approval_rules/%d", pathEscape(project), approvalRule)
+
+	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
+
 // ChangeAllowedApproversOptions represents the available ChangeAllowedApprovers()
 // options.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#change-allowed-approvers
 type ChangeAllowedApproversOptions struct {
-	ApproverIDs      []*int `url:"approver_ids" json:"approver_ids"`
-	ApproverGroupIDs []*int `url:"approver_group_ids" json:"approver_group_ids"`
+	ApproverIDs      []int `url:"approver_ids,omitempty" json:"approver_ids,omitempty"`
+	ApproverGroupIDs []int `url:"approver_group_ids,omitempty" json:"approver_group_ids,omitempty"`
 }
 
 // ChangeAllowedApprovers updates the list of approvers and approver groups.
