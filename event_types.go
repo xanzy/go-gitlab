@@ -595,6 +595,10 @@ type MergeEvent struct {
 			Previous int `json:"previous"`
 			Current  int `json:"current"`
 		} `json:"updated_by_id"`
+		Title struct {
+			Previous int `json:"previous"`
+			Current  int `json:"current"`
+		}
 	} `json:"changes"`
 }
 
