@@ -598,7 +598,7 @@ type MergeEvent struct {
 		Title struct {
 			Previous string `json:"previous"`
 			Current  string `json:"current"`
-		}
+		} `json:"title"`
 	} `json:"changes"`
 }
 
