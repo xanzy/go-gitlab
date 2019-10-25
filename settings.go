@@ -30,9 +30,9 @@ type SettingsService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/settings.html
 type Settings struct {
-	ID                                  int               `json:"id"`
-	CreatedAt                           *time.Time        `json:"created_at"`
-	UpdatedAt                           *time.Time        `json:"updated_at"`
+	ID                                        int               `json:"id"`
+	CreatedAt                                 *time.Time        `json:"created_at"`
+	UpdatedAt                                 *time.Time        `json:"updated_at"`
 	AdminNotificationEmail                    *string           `json:"admin_notification_email,omitempty"`
 	AfterSignOutPath                          *string           `json:"after_sign_out_path,omitempty"`
 	AfterSignUpText                           *string           `json:"after_sign_up_text,omitempty"`
@@ -78,7 +78,7 @@ type Settings struct {
 	ElasticsearchNamespaceIds                 []int             `json:"elasticsearch_namespace_ids,omitempty"`
 	ElasticsearchProjectIds                   []int             `json:"elasticsearch_project_ids,omitempty"`
 	ElasticsearchSearch                       *bool             `json:"elasticsearch_search,omitempty"`
-	ElasticsearchURL                          []string           `json:"elasticsearch_url,omitempty"`
+	ElasticsearchURL                          []string          `json:"elasticsearch_url,omitempty"`
 	EmailAdditionalText                       *string           `json:"email_additional_text,omitempty"`
 	EmailAuthorInBody                         *bool             `json:"email_author_in_body,omitempty"`
 	EnabledGitAccessProtocol                  *string           `json:"enabled_git_access_protocol,omitempty"`
