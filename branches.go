@@ -52,7 +52,7 @@ func (b Branch) String() string {
 // https://docs.gitlab.com/ce/api/branches.html#list-repository-branches
 type ListBranchesOptions struct {
 	ListOptions
-	Search string `url:"search,omitempty" json:"search,omitempty"`
+	Search *string `url:"search,omitempty" json:"search,omitempty"`
 }
 
 // ListBranches gets a list of repository branches from a project, sorted by
