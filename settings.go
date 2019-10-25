@@ -204,9 +204,9 @@ type UpdateSettingsOptions struct {
 	EmailAuthorInBody                         *bool             `url:"email_author_in_body,omitempty" json:"email_author_in_body,omitempty"`
 	EnabledGitAccessProtocol                  *string           `url:"enabled_git_access_protocol,omitempty" json:"enabled_git_access_protocol,omitempty"`
 	EnforceTerms                              *bool             `url:"enforce_terms,omitempty" json:"enabled_git_access_protocol,omitempty"`
-	ExternalAuthClientCert                    *string           `url:"external_auth_client_cert,omitempty" json:"enabled_git_access_protocol,omitempty"`
-	ExternalAuthClientKeyPass                 *string           `url:"external_auth_client_key_pass,omitempty" json:"enabled_git_access_protocol,omitempty"`
-	ExternalAuthClientKey                     *string           `url:"external_auth_client_key,omitempty" json:"enabled_git_access_protocol,omitempty"`
+	ExternalAuthClientCert                    *string           `url:"external_auth_client_cert,omitempty" json:"external_auth_client_cert,omitempty"`
+	ExternalAuthClientKeyPass                 *string           `url:"external_auth_client_key_pass,omitempty" json:"external_auth_client_key_pass,omitempty"`
+	ExternalAuthClientKey                     *string           `url:"external_auth_client_key,omitempty" json:"external_auth_client_key,omitempty"`
 	ExternalAuthorizationServiceDefaultLabel  *string           `url:"external_authorization_service_default_label,omitempty" json:"external_authorization_service_default_label,omitempty"`
 	ExternalAuthorizationServiceEnabled       *bool             `url:"external_authorization_service_enabled,omitempty" json:"external_authorization_service_enabled,omitempty"`
 	ExternalAuthorizationServiceTimeout       *float64          `url:"external_authorization_service_timeout,omitempty" json:"external_authorization_service_timeout,omitempty"`
