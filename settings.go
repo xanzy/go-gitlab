@@ -47,7 +47,7 @@ type Settings struct {
 	AssetProxySecretKey                       string            `json:"asset_proxy_secret_key"`
 	AssetProxyURL                             string            `json:"asset_proxy_url"`
 	AssetProxyWhitelist                       []string          `json:"asset_proxy_whitelist"`
-	AuthorizedKeysEnabled                     bool              `json:"akismet_enabled"`
+	AuthorizedKeysEnabled                     bool              `json:"authorized_keys_enabled_enabled"`
 	AutoDevOpsDomain                          string            `json:"auto_devops_domain"`
 	AutoDevOpsEnabled                         bool              `json:"auto_devops_enabled"`
 	CheckNamespacePlan                        bool              `json:"check_namespace_plan"`
@@ -75,14 +75,14 @@ type Settings struct {
 	ElasticsearchAWSSecretAccessKey           string            `json:"elasticsearch_aws_secret_access_key"`
 	ElasticsearchIndexing                     bool              `json:"elasticsearch_indexing"`
 	ElasticsearchLimitIndexing                bool              `json:"elasticsearch_limit_indexing"`
-	ElasticsearchNamespaceIds                 []int             `json:"elasticsearch_namespace_ids"`
-	ElasticsearchProjectIds                   []int             `json:"elasticsearch_project_ids"`
+	ElasticsearchNamespaceIDs                 []int             `json:"elasticsearch_namespace_ids"`
+	ElasticsearchProjectIDs                   []int             `json:"elasticsearch_project_ids"`
 	ElasticsearchSearch                       bool              `json:"elasticsearch_search"`
 	ElasticsearchURL                          []string          `json:"elasticsearch_url"`
 	EmailAdditionalText                       string            `json:"email_additional_text"`
 	EmailAuthorInBody                         bool              `json:"email_author_in_body"`
 	EnabledGitAccessProtocol                  string            `json:"enabled_git_access_protocol"`
-	EnforceTerms                              bool              `json:"enabled_git_access_protocol"`
+	EnforceTerms                              bool              `json:"enforce_terms"`
 	ExternalAuthClientCert                    string            `json:"external_auth_client_cert"`
 	ExternalAuthClientKeyPass                 string            `json:"external_auth_client_key_pass"`
 	ExternalAuthClientKey                     string            `json:"external_auth_client_key"`
@@ -90,7 +90,7 @@ type Settings struct {
 	ExternalAuthorizationServiceEnabled       bool              `json:"external_authorization_service_enabled"`
 	ExternalAuthorizationServiceTimeout       float64           `json:"external_authorization_service_timeout"`
 	ExternalAuthorizationServiceURL           string            `json:"external_authorization_service_url"`
-	FileTemplateProjectId                     int               `json:"file_template_project_id"`
+	FileTemplateProjectID                     int               `json:"file_template_project_id"`
 	FirstDayOfWeek                            int               `json:"first_day_of_week"`
 	GeoNodeAllowedIPs                         string            `json:"geo_node_allowed_ips"`
 	GeoStatusTimeout                          int               `json:"geo_status_timeout"`
@@ -136,7 +136,7 @@ type Settings struct {
 	PasswordAuthenticationEnabledForGit       bool              `json:"password_authentication_enabled_for_git"`
 	PasswordAuthenticationEnabledForWeb       bool              `json:"password_authentication_enabled_for_web"`
 	PerformanceBarAllowedGroupID              string            `json:"performance_bar_allowed_group_id"`
-	PerformanceBarAllowedGroupPath            string            `json:"performance_bar_allowed_group_id"`
+	PerformanceBarAllowedGroupPath            string            `json:"performance_bar_allowed_group_path"`
 	PerformanceBarEnabled                     bool              `json:"performance_bar_enabled"`
 	PlantumlEnabled                           bool              `json:"plantuml_enabled"`
 	PlantumlURL                               string            `json:"plantuml_url"`
@@ -165,13 +165,13 @@ type Settings struct {
 	SignInText                                string            `json:"sign_in_text"`
 	SignupEnabled                             bool              `json:"signup_enabled"`
 	SlackAppEnabled                           bool              `json:"slack_app_enabled"`
-	SlackAppId                                string            `json:"slack_app_id"`
+	SlackAppID                                string            `json:"slack_app_id"`
 	SlackAppSecret                            string            `json:"slack_app_secret"`
 	SlackAppVerificationToken                 string            `json:"slack_app_verification_token"`
 	SnowplowCollectorHostname                 string            `json:"snowplow_collector_hostname"`
 	SnowplowCookieDomain                      string            `json:"snowplow_cookie_domain"`
 	SnowplowEnabled                           bool              `json:"snowplow_enabled"`
-	SnowplowSiteId                            string            `json:"snowplow_site_id"`
+	SnowplowSiteID                            string            `json:"snowplow_site_id"`
 	TerminalMaxSessionTime                    int               `json:"terminal_max_session_time"`
 	Terms                                     string            `json:"terms"`
 	ThrottleAuthenticatedAPIEnabled           bool              `json:"throttle_authenticated_api_enabled"`
@@ -239,7 +239,7 @@ type UpdateSettingsOptions struct {
 	AssetProxySecretKey                       *string           `url:"asset_proxy_secret_key,omitempty" json:"asset_proxy_secret_key,omitempty"`
 	AssetProxyURL                             *string           `url:"asset_proxy_url,omitempty" json:"asset_proxy_url,omitempty"`
 	AssetProxyWhitelist                       []string          `url:"asset_proxy_whitelist,omitempty" json:"asset_proxy_whitelist,omitempty"`
-	AuthorizedKeysEnabled                     *bool             `url:"authorized_keys_enabled,omitempty" json:"akismet_enabled,omitempty"`
+	AuthorizedKeysEnabled                     *bool             `url:"authorized_keys_enabled,omitempty" json:"authorized_keys_enabled,omitempty"`
 	AutoDevOpsDomain                          *string           `url:"auto_devops_domain,omitempty" json:"auto_devops_domain,omitempty"`
 	AutoDevOpsEnabled                         *bool             `url:"auto_devops_enabled,omitempty" json:"auto_devops_enabled,omitempty"`
 	CheckNamespacePlan                        *bool             `url:"check_namespace_plan,omitempty" json:"check_namespace_plan,omitempty"`
@@ -267,14 +267,14 @@ type UpdateSettingsOptions struct {
 	ElasticsearchAWSSecretAccessKey           *string           `url:"elasticsearch_aws_secret_access_key,omitempty" json:"elasticsearch_aws_secret_access_key,omitempty"`
 	ElasticsearchIndexing                     *bool             `url:"elasticsearch_indexing,omitempty" json:"elasticsearch_indexing,omitempty"`
 	ElasticsearchLimitIndexing                *bool             `url:"elasticsearch_limit_indexing,omitempty" json:"elasticsearch_limit_indexing,omitempty"`
-	ElasticsearchNamespaceIds                 []int             `url:"elasticsearch_namespace_ids,omitempty" json:"elasticsearch_namespace_ids,omitempty"`
-	ElasticsearchProjectIds                   []int             `url:"elasticsearch_project_ids,omitempty" json:"elasticsearch_project_ids,omitempty"`
+	ElasticsearchNamespaceIDs                 []int             `url:"elasticsearch_namespace_ids,omitempty" json:"elasticsearch_namespace_ids,omitempty"`
+	ElasticsearchProjectIDs                   []int             `url:"elasticsearch_project_ids,omitempty" json:"elasticsearch_project_ids,omitempty"`
 	ElasticsearchSearch                       *bool             `url:"elasticsearch_search,omitempty" json:"elasticsearch_search,omitempty"`
 	ElasticsearchURL                          *string           `url:"elasticsearch_url,omitempty" json:"elasticsearch_url,omitempty"`
 	EmailAdditionalText                       *string           `url:"email_additional_text,omitempty" json:"email_additional_text,omitempty"`
 	EmailAuthorInBody                         *bool             `url:"email_author_in_body,omitempty" json:"email_author_in_body,omitempty"`
 	EnabledGitAccessProtocol                  *string           `url:"enabled_git_access_protocol,omitempty" json:"enabled_git_access_protocol,omitempty"`
-	EnforceTerms                              *bool             `url:"enforce_terms,omitempty" json:"enabled_git_access_protocol,omitempty"`
+	EnforceTerms                              *bool             `url:"enforce_terms,omitempty" json:"enforce_terms,omitempty"`
 	ExternalAuthClientCert                    *string           `url:"external_auth_client_cert,omitempty" json:"external_auth_client_cert,omitempty"`
 	ExternalAuthClientKeyPass                 *string           `url:"external_auth_client_key_pass,omitempty" json:"external_auth_client_key_pass,omitempty"`
 	ExternalAuthClientKey                     *string           `url:"external_auth_client_key,omitempty" json:"external_auth_client_key,omitempty"`
@@ -282,7 +282,7 @@ type UpdateSettingsOptions struct {
 	ExternalAuthorizationServiceEnabled       *bool             `url:"external_authorization_service_enabled,omitempty" json:"external_authorization_service_enabled,omitempty"`
 	ExternalAuthorizationServiceTimeout       *float64          `url:"external_authorization_service_timeout,omitempty" json:"external_authorization_service_timeout,omitempty"`
 	ExternalAuthorizationServiceURL           *string           `url:"external_authorization_service_url,omitempty" json:"external_authorization_service_url,omitempty"`
-	FileTemplateProjectId                     *int              `url:"file_template_project_id,omitempty" json:"file_template_project_id,omitempty"`
+	FileTemplateProjectID                     *int              `url:"file_template_project_id,omitempty" json:"file_template_project_id,omitempty"`
 	FirstDayOfWeek                            *int              `url:"first_day_of_week,omitempty" json:"first_day_of_week,omitempty"`
 	GeoNodeAllowedIPs                         *string           `url:"geo_node_allowed_ips,omitempty" json:"geo_node_allowed_ips,omitempty"`
 	GeoStatusTimeout                          *int              `url:"geo_status_timeout,omitempty" json:"geo_status_timeout,omitempty"`
@@ -328,7 +328,7 @@ type UpdateSettingsOptions struct {
 	PasswordAuthenticationEnabledForGit       *bool             `url:"password_authentication_enabled_for_git,omitempty" json:"password_authentication_enabled_for_git,omitempty"`
 	PasswordAuthenticationEnabledForWeb       *bool             `url:"password_authentication_enabled_for_web,omitempty" json:"password_authentication_enabled_for_web,omitempty"`
 	PerformanceBarAllowedGroupID              *string           `url:"performance_bar_allowed_group_id,omitempty" json:"performance_bar_allowed_group_id,omitempty"`
-	PerformanceBarAllowedGroupPath            *string           `url:"performance_bar_allowed_group_id,omitempty" json:"performance_bar_allowed_group_id,omitempty"`
+	PerformanceBarAllowedGroupPath            *string           `url:"performance_bar_allowed_group_path,omitempty" json:"performance_bar_allowed_group_path,omitempty"`
 	PerformanceBarEnabled                     *bool             `url:"performance_bar_enabled,omitempty" json:"performance_bar_enabled,omitempty"`
 	PlantumlEnabled                           *bool             `url:"plantuml_enabled,omitempty" json:"plantuml_enabled,omitempty"`
 	PlantumlURL                               *string           `url:"plantuml_url,omitempty" json:"plantuml_url,omitempty"`
@@ -357,13 +357,13 @@ type UpdateSettingsOptions struct {
 	SignInText                                *string           `url:"sign_in_text,omitempty" json:"sign_in_text,omitempty"`
 	SignupEnabled                             *bool             `url:"signup_enabled,omitempty" json:"signup_enabled,omitempty"`
 	SlackAppEnabled                           *bool             `url:"slack_app_enabled,omitempty" json:"slack_app_enabled,omitempty"`
-	SlackAppId                                *string           `url:"slack_app_id,omitempty" json:"slack_app_id,omitempty"`
+	SlackAppID                                *string           `url:"slack_app_id,omitempty" json:"slack_app_id,omitempty"`
 	SlackAppSecret                            *string           `url:"slack_app_secret,omitempty" json:"slack_app_secret,omitempty"`
 	SlackAppVerificationToken                 *string           `url:"slack_app_verification_token,omitempty" json:"slack_app_verification_token,omitempty"`
 	SnowplowCollectorHostname                 *string           `url:"snowplow_collector_hostname,omitempty" json:"snowplow_collector_hostname,omitempty"`
 	SnowplowCookieDomain                      *string           `url:"snowplow_cookie_domain,omitempty" json:"snowplow_cookie_domain,omitempty"`
 	SnowplowEnabled                           *bool             `url:"snowplow_enabled,omitempty" json:"snowplow_enabled,omitempty"`
-	SnowplowSiteId                            *string           `url:"snowplow_site_id,omitempty" json:"snowplow_site_id,omitempty"`
+	SnowplowSiteID                            *string           `url:"snowplow_site_id,omitempty" json:"snowplow_site_id,omitempty"`
 	TerminalMaxSessionTime                    *int              `url:"terminal_max_session_time,omitempty" json:"terminal_max_session_time,omitempty"`
 	Terms                                     *string           `url:"terms,omitempty" json:"terms,omitempty"`
 	ThrottleAuthenticatedAPIEnabled           *bool             `url:"throttle_authenticated_api_enabled,omitempty" json:"throttle_authenticated_api_enabled,omitempty"`
