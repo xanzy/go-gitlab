@@ -33,8 +33,9 @@ type PipelinesService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/pipelines.html
 type PipelineVariable struct {
-	Key   string `json:"key"`
-	Value string `json:"value"`
+	Key          string `json:"key"`
+	Value        string `json:"value"`
+	VariableType string `json:"variable_type"`
 }
 
 // Pipeline represents a GitLab pipeline.
