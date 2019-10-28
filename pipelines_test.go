@@ -62,7 +62,7 @@ func TestGetPipelineVariables(t *testing.T) {
 		t.Errorf("Pipelines.GetPipelineVariables returned error: %v", err)
 	}
 
-	want := []*PipelineVariable{{Key: "RUN_NIGHTLY_BUILD", Value: "true"}, {Key: "foo", Value: "bar"}}
+	want := []*PipelineVariable{{Key: "RUN_NIGHTLY_BUILD", Value: "true", VariableType: "env_var"}, {Key: "foo", Value: "bar"}}
 	if !reflect.DeepEqual(want, variables) {
 		t.Errorf("Pipelines.GetPipelineVariables returned %+v, want %+v", variables, want)
 	}
