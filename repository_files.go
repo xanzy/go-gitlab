@@ -43,6 +43,7 @@ type File struct {
 	Ref      string `json:"ref"`
 	BlobID   string `json:"blob_id"`
 	CommitID string `json:"commit_id"`
+	Sha256   string `json:"content_sha256"`
 }
 
 func (r File) String() string {
@@ -128,6 +129,7 @@ func (s *RepositoryFilesService) GetFileMetaData(pid interface{}, fileName strin
 		FileName: resp.Header.Get("X-Gitlab-File-Name"),
 		FilePath: resp.Header.Get("X-Gitlab-File-Path"),
 		Ref:      resp.Header.Get("X-Gitlab-Ref"),
+		Sha256:   resp.Header.Get("X-Gitlab-Content-Sha256"),
 	}
 
 	if sizeString := resp.Header.Get("X-Gitlab-Size"); sizeString != "" {
