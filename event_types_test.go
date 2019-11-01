@@ -2,6 +2,7 @@ package gitlab
 
 import (
 	"encoding/json"
+	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
@@ -284,51 +285,22 @@ func TestMergeEventUnmarshal(t *testing.T) {
 	var event *MergeEvent
 	err := json.Unmarshal([]byte(jsonObject), &event)
 
-	if err != nil {
-		t.Errorf("Merge Event can not unmarshaled: %v\n ", err.Error())
+	if !assert.NoError(t, err, "Merge Event can not unmarshaled") {
+		return
 	}
 
-	if event == nil {
-		t.Errorf("Merge Event is null")
-	}
-
-	if event.ObjectAttributes.ID != 99 {
-		t.Errorf("ObjectAttributes.ID is %v, want %v", event.ObjectAttributes.ID, 99)
-	}
-
-	if event.ObjectAttributes.Source.Homepage != "http://example.com/awesome_space/awesome_project" {
-		t.Errorf("ObjectAttributes.Source.Homepage is %v, want %v", event.ObjectAttributes.Source.Homepage, "http://example.com/awesome_space/awesome_project")
-	}
-
-	if event.ObjectAttributes.LastCommit.ID != "da1560886d4f094c3e6c9ef40349f7d38b5d27d7" {
-		t.Errorf("ObjectAttributes.LastCommit.ID is %v, want %s", event.ObjectAttributes.LastCommit.ID, "da1560886d4f094c3e6c9ef40349f7d38b5d27d7")
-	}
-	if event.ObjectAttributes.Assignee.Name != "User1" {
-		t.Errorf("Assignee.Name is %v, want %v", event.ObjectAttributes.ID, "User1")
-	}
-
-	if event.ObjectAttributes.Assignee.Username != "user1" {
-		t.Errorf("ObjectAttributes is %v, want %v", event.ObjectAttributes.Assignee.Username, "user1")
-	}
-
-	if event.User.Name == "" {
-		t.Errorf("Username is %s, want %s", event.User.Name, "Administrator")
-	}
-
-	if event.ObjectAttributes.LastCommit.Timestamp == nil {
-		t.Errorf("Timestamp isn't nil")
-	}
-
-	if name := event.ObjectAttributes.LastCommit.Author.Name; name != "GitLab dev user" {
-		t.Errorf("Commit Username is %s, want %s", name, "GitLab dev user")
-	}
-
-	if name :=event.Changes.SourceBranch.Current; name != "feature/test" {
-		t.Errorf("Changed First Assignee Username is %s, want %s", name, "feature/test")
-	}
-
-	if name :=event.Changes.Assignees.Current[0].Name; name != "Administrator" {
-		t.Errorf("Changed First Assignee Username is %s, want %s", name, "Administrator")
+	assert.Equal(t, 99, event.ObjectAttributes.ID)
+	assert.Equal(t, "http://example.com/awesome_space/awesome_project", event.ObjectAttributes.Source.Homepage)
+	assert.Equal(t, "da1560886d4f094c3e6c9ef40349f7d38b5d27d7", event.ObjectAttributes.LastCommit.ID)
+	assert.Equal(t, "User1", event.ObjectAttributes.Assignee.Name)
+	assert.Equal(t, "user1", event.ObjectAttributes.Assignee.Username)
+	assert.Equal(t, "Administrator", event.User.Name)
+	assert.NotNil(t, "Administrator", event.ObjectAttributes.LastCommit.Timestamp)
+	assert.Equal(t, "GitLab dev user", event.ObjectAttributes.LastCommit.Author.Name)
+	assert.Equal(t, "feature/test", event.Changes.SourceBranch.Current)
+	assert.Empty(t, event.Changes.Assignees.Previous)
+	if assert.NotEmpty(t, event.Changes.Assignees.Current) {
+		assert.Equal(t, "Administrator", event.Changes.Assignees.Current[0].Name)
 	}
 }
 
