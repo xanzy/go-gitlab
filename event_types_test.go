@@ -2,6 +2,7 @@ package gitlab
 
 import (
 	"encoding/json"
+	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
@@ -247,50 +248,59 @@ func TestMergeEventUnmarshal(t *testing.T) {
         "type": "ProjectLabel",
         "group_id": 41
       }]
-    }
+    },
+	"source_branch": {
+		"previous": null,
+		"current": "feature/test"
+	},
+	"source_project_id": {
+		"previous": null,
+		"current": 1
+	},
+	"target_branch": {
+		"previous": null,
+		"current": "develop"
+	},
+	"target_project_id": {
+		"previous": null,
+		"current": 1
+	},
+	"assignees": {
+		"previous": [],
+		"current": [
+			{
+				"name": "Administrator",
+				"username": "root",
+				"avatar_url": "http://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=40\u0026d=identicon"
+			}
+		]
+	},
+	"total_time_spent": {
+		"previous": null,
+		"current": 0
+	}
   }
 }`
 
 	var event *MergeEvent
 	err := json.Unmarshal([]byte(jsonObject), &event)
 
-	if err != nil {
-		t.Errorf("Merge Event can not unmarshaled: %v\n ", err.Error())
+	if !assert.NoError(t, err, "Merge Event can not unmarshaled") {
+		return
 	}
 
-	if event == nil {
-		t.Errorf("Merge Event is null")
-	}
-
-	if event.ObjectAttributes.ID != 99 {
-		t.Errorf("ObjectAttributes.ID is %v, want %v", event.ObjectAttributes.ID, 99)
-	}
-
-	if event.ObjectAttributes.Source.Homepage != "http://example.com/awesome_space/awesome_project" {
-		t.Errorf("ObjectAttributes.Source.Homepage is %v, want %v", event.ObjectAttributes.Source.Homepage, "http://example.com/awesome_space/awesome_project")
-	}
-
-	if event.ObjectAttributes.LastCommit.ID != "da1560886d4f094c3e6c9ef40349f7d38b5d27d7" {
-		t.Errorf("ObjectAttributes.LastCommit.ID is %v, want %s", event.ObjectAttributes.LastCommit.ID, "da1560886d4f094c3e6c9ef40349f7d38b5d27d7")
-	}
-	if event.ObjectAttributes.Assignee.Name != "User1" {
-		t.Errorf("Assignee.Name is %v, want %v", event.ObjectAttributes.ID, "User1")
-	}
-
-	if event.ObjectAttributes.Assignee.Username != "user1" {
-		t.Errorf("ObjectAttributes is %v, want %v", event.ObjectAttributes.Assignee.Username, "user1")
-	}
-
-	if event.User.Name == "" {
-		t.Errorf("Username is %s, want %s", event.User.Name, "Administrator")
-	}
-
-	if event.ObjectAttributes.LastCommit.Timestamp == nil {
-		t.Errorf("Timestamp isn't nil")
-	}
-
-	if name := event.ObjectAttributes.LastCommit.Author.Name; name != "GitLab dev user" {
-		t.Errorf("Commit Username is %s, want %s", name, "GitLab dev user")
+	assert.Equal(t, 99, event.ObjectAttributes.ID)
+	assert.Equal(t, "http://example.com/awesome_space/awesome_project", event.ObjectAttributes.Source.Homepage)
+	assert.Equal(t, "da1560886d4f094c3e6c9ef40349f7d38b5d27d7", event.ObjectAttributes.LastCommit.ID)
+	assert.Equal(t, "User1", event.ObjectAttributes.Assignee.Name)
+	assert.Equal(t, "user1", event.ObjectAttributes.Assignee.Username)
+	assert.Equal(t, "Administrator", event.User.Name)
+	assert.NotNil(t, "Administrator", event.ObjectAttributes.LastCommit.Timestamp)
+	assert.Equal(t, "GitLab dev user", event.ObjectAttributes.LastCommit.Author.Name)
+	assert.Equal(t, "feature/test", event.Changes.SourceBranch.Current)
+	assert.Empty(t, event.Changes.Assignees.Previous)
+	if assert.NotEmpty(t, event.Changes.Assignees.Current) {
+		assert.Equal(t, "Administrator", event.Changes.Assignees.Current[0].Name)
 	}
 }
 
