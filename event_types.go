@@ -587,7 +587,7 @@ type MergeEvent struct {
 			Previous string `json:"previous"`
 			Current  string `json:"current"`
 		} `json:"source_branch"`
-		SourceProjectId struct {
+		SourceProjectID struct {
 			Previous int `json:"previous"`
 			Current  int `json:"current"`
 		} `json:"source_project_id"`
@@ -595,7 +595,7 @@ type MergeEvent struct {
 			Previous string `json:"previous"`
 			Current  string `json:"current"`
 		} `json:"target_branch"`
-		TargetProjectId struct {
+		TargetProjectID struct {
 			Previous int `json:"previous"`
 			Current  int `json:"current"`
 		} `json:"target_project_id"`
@@ -607,13 +607,10 @@ type MergeEvent struct {
 			Previous int `json:"previous"`
 			Current  int `json:"current"`
 		} `json:"updated_by_id"`
-		Title struct {
-			Previous string `json:"previous"`
-			Current  string `json:"current"`
-		} `json:"title"`
 	} `json:"changes"`
 }
 
+// MergeAssignee represents a merge assignee.
 type MergeAssignee struct {
 	Name      string `json:"name"`
 	Username  string `json:"username"`
