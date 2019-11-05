@@ -38,17 +38,19 @@ var (
 		"group::knowledge",
 		"missed:12.1",
 	}
-	pipelineBasic = PipelineInfo{
-		ID:     77056819,
-		SHA:    "8e0b45049b6253b8984cde9241830d2851168142",
-		Ref:    "delete-designs-v2",
-		Status: "success",
-		WebURL: "https://gitlab.com/gitlab-org/gitlab-ee/pipelines/77056819",
-	}
 	pipelineCreation = time.Date(2019, 8, 19, 9, 50, 58, 157000000, time.UTC)
+	pipelineUpdate   = time.Date(2019, 8, 19, 19, 22, 29, 647000000, time.UTC)
+	pipelineBasic    = PipelineInfo{
+		ID:        77056819,
+		SHA:       "8e0b45049b6253b8984cde9241830d2851168142",
+		Ref:       "delete-designs-v2",
+		Status:    "success",
+		WebURL:    "https://gitlab.com/gitlab-org/gitlab-ee/pipelines/77056819",
+		CreatedAt: &pipelineCreation,
+		UpdatedAt: &pipelineUpdate,
+	}
 	pipelineStarted  = time.Date(2019, 8, 19, 9, 51, 6, 545000000, time.UTC)
 	pipelineFinished = time.Date(2019, 8, 19, 19, 22, 29, 632000000, time.UTC)
-	pipelineUpdate   = time.Date(2019, 8, 19, 19, 22, 29, 647000000, time.UTC)
 	pipelineDetailed = Pipeline{
 		ID:         77056819,
 		SHA:        "8e0b45049b6253b8984cde9241830d2851168142",

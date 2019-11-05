@@ -100,7 +100,9 @@
     "sha": "8e0b45049b6253b8984cde9241830d2851168142",
     "ref": "delete-designs-v2",
     "status": "success",
-    "web_url": "https://gitlab.com/gitlab-org/gitlab-ee/pipelines/77056819"
+    "web_url": "https://gitlab.com/gitlab-org/gitlab-ee/pipelines/77056819",
+    "created_at": "2019-08-19T09:50:58.157Z",
+    "updated_at": "2019-08-19T19:22:29.647Z"
   },
   "head_pipeline": {
     "id": 77056819,

@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"reflect"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -25,6 +26,8 @@ func TestGetCommit(t *testing.T) {
 		t.Fatalf("Commits.GetCommit returned error: %v, response: %v", err, resp)
 	}
 
+	updatedAt := time.Date(2019, 11, 4, 15, 39, 03, 935000000, time.UTC)
+	createdAt := time.Date(2019, 11, 4, 15, 38, 53, 154000000, time.UTC)
 	want := &Commit{
 		ID:             "6104942438c14ec7bd21c6cd5bd995272b3faff6",
 		ShortID:        "6104942438c",
@@ -38,11 +41,13 @@ func TestGetCommit(t *testing.T) {
 		Stats:          &CommitStats{Additions: 15, Deletions: 10, Total: 25},
 		Status:         BuildState(Running),
 		LastPipeline: &PipelineInfo{
-			ID:     8,
-			Ref:    "master",
-			SHA:    "2dc6aa325a317eda67812f05600bdf0fcdc70ab0",
-			Status: "created",
-			WebURL: "https://gitlab.com/gitlab-org/gitlab-ce/pipelines/54268416",
+			ID:        8,
+			Ref:       "master",
+			SHA:       "2dc6aa325a317eda67812f05600bdf0fcdc70ab0",
+			Status:    "created",
+			WebURL:    "https://gitlab.com/gitlab-org/gitlab-ce/pipelines/54268416",
+			UpdatedAt: &updatedAt,
+			CreatedAt: &createdAt,
 		},
 		ProjectID: 13083,
 	}
@@ -108,6 +113,8 @@ func TestRevertCommit_NoOptions(t *testing.T) {
 		t.Fatalf("Commits.RevertCommit returned error: %v, response: %v", err, resp)
 	}
 
+	updatedAt := time.Date(2019, 11, 4, 15, 39, 03, 935000000, time.UTC)
+	createdAt := time.Date(2019, 11, 4, 15, 38, 53, 154000000, time.UTC)
 	want := &Commit{
 		ID:             "6104942438c14ec7bd21c6cd5bd995272b3faff6",
 		ShortID:        "6104942438c",
@@ -121,11 +128,13 @@ func TestRevertCommit_NoOptions(t *testing.T) {
 		Stats:          &CommitStats{Additions: 15, Deletions: 10, Total: 25},
 		Status:         BuildState(Running),
 		LastPipeline: &PipelineInfo{
-			ID:     8,
-			Ref:    "master",
-			SHA:    "2dc6aa325a317eda67812f05600bdf0fcdc70ab0",
-			Status: "created",
-			WebURL: "https://gitlab.com/gitlab-org/gitlab-ce/pipelines/54268416",
+			ID:        8,
+			Ref:       "master",
+			SHA:       "2dc6aa325a317eda67812f05600bdf0fcdc70ab0",
+			Status:    "created",
+			WebURL:    "https://gitlab.com/gitlab-org/gitlab-ce/pipelines/54268416",
+			UpdatedAt: &updatedAt,
+			CreatedAt: &createdAt,
 		},
 		ProjectID: 13083,
 	}
@@ -150,6 +159,8 @@ func TestRevertCommit_WithOptions(t *testing.T) {
 		t.Fatalf("Commits.RevertCommit returned error: %v, response: %v", err, resp)
 	}
 
+	updatedAt := time.Date(2019, 11, 4, 15, 39, 03, 935000000, time.UTC)
+	createdAt := time.Date(2019, 11, 4, 15, 38, 53, 154000000, time.UTC)
 	want := &Commit{
 		ID:             "6104942438c14ec7bd21c6cd5bd995272b3faff6",
 		ShortID:        "6104942438c",
@@ -163,11 +174,13 @@ func TestRevertCommit_WithOptions(t *testing.T) {
 		Stats:          &CommitStats{Additions: 15, Deletions: 10, Total: 25},
 		Status:         BuildState(Running),
 		LastPipeline: &PipelineInfo{
-			ID:     8,
-			Ref:    "master",
-			SHA:    "2dc6aa325a317eda67812f05600bdf0fcdc70ab0",
-			Status: "created",
-			WebURL: "https://gitlab.com/gitlab-org/gitlab-ce/pipelines/54268416",
+			ID:        8,
+			Ref:       "master",
+			SHA:       "2dc6aa325a317eda67812f05600bdf0fcdc70ab0",
+			Status:    "created",
+			WebURL:    "https://gitlab.com/gitlab-org/gitlab-ce/pipelines/54268416",
+			UpdatedAt: &updatedAt,
+			CreatedAt: &createdAt,
 		},
 		ProjectID: 13083,
 	}

@@ -83,11 +83,13 @@ func (p Pipeline) String() string {
 // PipelineInfo shows the basic entities of a pipeline, mostly used as fields
 // on other assets, like Commit.
 type PipelineInfo struct {
-	ID     int    `json:"id"`
-	Status string `json:"status"`
-	Ref    string `json:"ref"`
-	SHA    string `json:"sha"`
-	WebURL string `json:"web_url"`
+	ID        int        `json:"id"`
+	Status    string     `json:"status"`
+	Ref       string     `json:"ref"`
+	SHA       string     `json:"sha"`
+	WebURL    string     `json:"web_url"`
+	UpdatedAt *time.Time `json:"updated_at"`
+	CreatedAt *time.Time `json:"created_at"`
 }
 
 func (p PipelineInfo) String() string {
