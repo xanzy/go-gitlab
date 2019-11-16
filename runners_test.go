@@ -105,7 +105,7 @@ const exampleDetailRsp = `{
 	"version": null,
 	"access_level": "ref_protected",
 	"maximum_timeout": 3600,
-        "locked": false
+	"locked": false
 }`
 
 func TestUpdateRunnersDetails(t *testing.T) {
@@ -179,7 +179,7 @@ func expectedParsedDetails() *RunnerDetails {
 			PathWithNamespace string `json:"path_with_namespace"`
 		}{proj},
 		MaximumTimeout: 3600,
-                Locked: false,
+		Locked:         false,
 	}
 }
 
