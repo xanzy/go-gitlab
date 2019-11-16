@@ -77,6 +77,7 @@ type RunnerDetails struct {
 		Name   string `json:"name"`
 		WebURL string `json:"web_url"`
 	} `json:"groups"`
+	Locked         bool `json:"locked"`
 }
 
 // ListRunnersOptions represents the available ListRunners() options.
