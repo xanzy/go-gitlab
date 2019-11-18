@@ -70,6 +70,7 @@ type RunnerDetails struct {
 	Revision       string   `json:"revision"`
 	TagList        []string `json:"tag_list"`
 	Version        string   `json:"version"`
+	Locked         bool `json:"locked"`
 	AccessLevel    string   `json:"access_level"`
 	MaximumTimeout int      `json:"maximum_timeout"`
 	Groups         []struct {
