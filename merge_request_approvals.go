@@ -235,12 +235,12 @@ func (s *MergeRequestApprovalsService) GetApprovalRules(pid interface{}, mergeRe
 	return par, resp, err
 }
 
-// CreateApprovalRuleOptions represents the available CreateApprovalRule()
+// CreateMergeRequestApprovalRuleOptions represents the available CreateApprovalRule()
 // options.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#create-merge-request-level-rule
-type CreateApprovalRuleOptions struct {
+type CreateMergeRequestApprovalRuleOptions struct {
 	Name                  *string `url:"name,omitempty" json:"name,omitempty"`
 	ApprovalsRequired     *int    `url:"approvals_required,omitempty" json:"approvals_required,omitempty"`
 	ApprovalProjectRuleID *int    `url:"approval_project_rule_id,omitempty" json:"approval_project_rule_id,omitempty"`
@@ -252,7 +252,7 @@ type CreateApprovalRuleOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#create-merge-request-level-rule
-func (s *MergeRequestApprovalsService) CreateApprovalRule(pid interface{}, mergeRequestIID int, opt *CreateApprovalRuleOptions, options ...OptionFunc) (*MergeRequestApprovalRule, *Response, error) {
+func (s *MergeRequestApprovalsService) CreateApprovalRule(pid interface{}, mergeRequestIID int, opt *CreateMergeRequestApprovalRuleOptions, options ...OptionFunc) (*MergeRequestApprovalRule, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -273,12 +273,12 @@ func (s *MergeRequestApprovalsService) CreateApprovalRule(pid interface{}, merge
 	return par, resp, err
 }
 
-// UpdateApprovalRuleOptions represents the available UpdateApprovalRule()
+// UpdateMergeRequestApprovalRuleOptions represents the available UpdateApprovalRule()
 // options.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#update-merge-request-level-rule
-type UpdateApprovalRuleOptions struct {
+type UpdateMergeRequestApprovalRuleOptions struct {
 	Name              *string `url:"name,omitempty" json:"name,omitempty"`
 	ApprovalsRequired *int    `url:"approvals_required,omitempty" json:"approvals_required,omitempty"`
 	UserIDs           []int   `url:"user_ids,omitempty" json:"user_ids,omitempty"`
@@ -289,7 +289,7 @@ type UpdateApprovalRuleOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#update-merge-request-level-rule
-func (s *MergeRequestApprovalsService) UpdateApprovalRule(pid interface{}, mergeRequestIID int, approvalRule int, opt *UpdateProjectLevelRuleOptions, options ...OptionFunc) (*MergeRequestApprovalRule, *Response, error) {
+func (s *MergeRequestApprovalsService) UpdateApprovalRule(pid interface{}, mergeRequestIID int, approvalRule int, opt *UpdateMergeRequestApprovalRuleOptions, options ...OptionFunc) (*MergeRequestApprovalRule, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
