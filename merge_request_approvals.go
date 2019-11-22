@@ -65,15 +65,15 @@ type MergeRequestApproverGroup struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#get-merge-request-level-rules
 type MergeRequestApprovalRule struct {
-	ID                   int                        `json:"id,omitempty""`
-	Name                 string                     `json:"name,omitempty""`
-	RuleType             string                     `json:"rule_type,omitempty""`
-	EligibleApprovers    []*BasicUser               `json:"eligible_approvers,omitempty""`
-	ApprovalsRequired    int                        `json:"approvals_required,omitempty""`
-	SourceRule           *CreateApprovalRuleOptions `json:"source_rule,omitempty""`
-	Users                []*BasicUser               `json:"users,omitempty""`
-	Groups               []*Group                   `json:"groups,omitempty""`
-	ContainsHiddenGroups bool                       `json:"contains_hidden_groups,omitempty""`
+	ID                   int                        `json:"id,omitempty"`
+	Name                 string                     `json:"name,omitempty"`
+	RuleType             string                     `json:"rule_type,omitempty"`
+	EligibleApprovers    []*BasicUser               `json:"eligible_approvers,omitempty"`
+	ApprovalsRequired    int                        `json:"approvals_required,omitempty"`
+	SourceRule           *CreateApprovalRuleOptions `json:"source_rule,omitempty"`
+	Users                []*BasicUser               `json:"users,omitempty"`
+	Groups               []*Group                   `json:"groups,omitempty"`
+	ContainsHiddenGroups bool                       `json:"contains_hidden_groups,omitempty"`
 }
 
 func (s MergeRequestApprovalRule) String() string {
@@ -241,11 +241,11 @@ func (s *MergeRequestApprovalsService) GetApprovalRules(pid interface{}, mergeRe
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#create-merge-request-level-rule
 type CreateApprovalRuleOptions struct {
-	Name                  string `url:"name,omitempty" json:"name,omitempty"`
-	ApprovalsRequired     int    `url:"approvals_required,omitempty" json:"approvals_required,omitempty"`
-	ApprovalProjectRuleID int    `url:"approval_project_rule_id,omitempty" json:"approval_project_rule_id,omitempty"`
-	UserIDs               []int  `url:"user_ids,omitempty" json:"user_ids,omitempty"`
-	GroupIDs              []int  `url:"group_ids,omitempty" json:"group_ids,omitempty"`
+	Name                  *string `url:"name,omitempty" json:"name,omitempty"`
+	ApprovalsRequired     *int    `url:"approvals_required,omitempty" json:"approvals_required,omitempty"`
+	ApprovalProjectRuleID *int    `url:"approval_project_rule_id,omitempty" json:"approval_project_rule_id,omitempty"`
+	UserIDs               []int   `url:"user_ids,omitempty" json:"user_ids,omitempty"`
+	GroupIDs              []int   `url:"group_ids,omitempty" json:"group_ids,omitempty"`
 }
 
 // CreateApprovalRule creates a new MR level approval rule.
