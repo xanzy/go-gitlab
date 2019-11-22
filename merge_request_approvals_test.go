@@ -195,7 +195,7 @@ func TestCreateApprovalRules(t *testing.T) {
 		}`)
 	})
 
-	opt := &CreateApprovalRuleOptions{
+	opt := &CreateMergeRequestApprovalRuleOptions{
 		Name:              String("security"),
 		ApprovalsRequired: Int(3),
 		UserIDs:           []int{5, 50},
