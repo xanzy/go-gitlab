@@ -424,7 +424,7 @@ type SetSlackServiceOptions struct {
 	PushEvents             *bool   `url:"push_events,omitempty" json:"push_events,omitempty"`
 	WikiPageChannel        *string `url:"wiki_page_channel,omitempty" json:"wiki_page_channel,omitempty"`
 	WikiPageEvents         *bool   `url:"wiki_page_events,omitempty" json:"wiki_page_events,omitempty"`
-	BranchesToBeNotified   *string `url:"branches_to_be_notified,omitempty"` `json:"branches_to_be_notified,omitempty"`
+	BranchesToBeNotified   *string `url:"branches_to_be_notified,omitempty" json:"branches_to_be_notified,omitempty"`
 }
 
 // SetSlackService sets Slack service for a project
