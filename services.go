@@ -352,6 +352,7 @@ type SlackServiceProperties struct {
 	Channel                   string    `json:"channel,omitempty"`
 	NotifyOnlyBrokenPipelines BoolValue `json:"notify_only_broken_pipelines,omitempty"`
 	NotifyOnlyDefaultBranch   BoolValue `json:"notify_only_default_branch,omitempty"`
+	BranchesToBeNotified      string    `json:"branches_to_be_notified,omitempty"`
 	ConfidentialIssueChannel  string    `json:"confidential_issue_channel,omitempty"`
 	ConfidentialNoteChannel   string    `json:"confidential_note_channel,omitempty"`
 	DeploymentChannel         string    `json:"deployment_channel,omitempty"`
