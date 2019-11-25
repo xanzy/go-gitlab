@@ -352,6 +352,7 @@ type SlackServiceProperties struct {
 	Channel                   string    `json:"channel,omitempty"`
 	NotifyOnlyBrokenPipelines BoolValue `json:"notify_only_broken_pipelines,omitempty"`
 	NotifyOnlyDefaultBranch   BoolValue `json:"notify_only_default_branch,omitempty"`
+	BranchesToBeNotified      string    `json:"branches_to_be_notified,omitempty"`
 	ConfidentialIssueChannel  string    `json:"confidential_issue_channel,omitempty"`
 	ConfidentialNoteChannel   string    `json:"confidential_note_channel,omitempty"`
 	DeploymentChannel         string    `json:"deployment_channel,omitempty"`
@@ -400,6 +401,7 @@ type SetSlackServiceOptions struct {
 	Channel                   *string `url:"channel,omitempty" json:"channel,omitempty"`
 	NotifyOnlyBrokenPipelines *bool   `url:"notify_only_broken_pipelines,omitempty" json:"notify_only_broken_pipelines,omitempty"`
 	NotifyOnlyDefaultBranch   *bool   `url:"notify_only_default_branch,omitempty" json:"notify_only_default_branch,omitempty"`
+	BranchesToBeNotified      *string `url:"branches_to_be_notified,omitempty" json:"branches_to_be_notified,omitempty"`
 	ConfidentialIssueChannel  *string `url:"confidential_issue_channel,omitempty" json:"confidential_issue_channel,omitempty"`
 	ConfidentialIssuesEvents  *bool   `url:"confidential_issues_events,omitempty" json:"confidential_issues_events,omitempty"`
 	// TODO: Currently, GitLab ignores this option (not implemented yet?), so
