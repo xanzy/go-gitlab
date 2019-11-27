@@ -348,9 +348,7 @@ type MergeCommentEvent struct {
 		LockedAt        string `json:"locked_at"`
 		UpdatedByID     int    `json:"updated_by_id"`
 		MergeError      string `json:"merge_error"`
-		MergeParams     struct {
-			ForceRemoveSourceBranch string `json:"force_remove_source_branch"`
-		} `json:"merge_params"`
+		MergeParams     *MergeParams `json:"merge_params"`
 		MergeWhenPipelineSucceeds bool        `json:"merge_when_pipeline_succeeds"`
 		MergeUserID               int         `json:"merge_user_id"`
 		MergeCommitSHA            string      `json:"merge_commit_sha"`
