@@ -155,12 +155,12 @@ type ChangeMergeRequestApprovalConfigurationOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#change-approval-configuration
-func (s *MergeRequestApprovalsService) ChangeApprovalConfiguration(pid interface{}, mergeRequestIID int, opt *ChangeMergeRequestApprovalConfigurationOptions, options ...OptionFunc) (*MergeRequest, *Response, error) {
+func (s *MergeRequestApprovalsService) ChangeApprovalConfiguration(pid interface{}, mergeRequest int, opt *ChangeMergeRequestApprovalConfigurationOptions, options ...OptionFunc) (*MergeRequest, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/merge_requests/%d/approvals", pathEscape(project), mergeRequestIID)
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/approvals", pathEscape(project), mergeRequest)
 
 	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
@@ -190,12 +190,12 @@ type ChangeMergeRequestAllowedApproversOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#change-allowed-approvers-for-merge-request
-func (s *MergeRequestApprovalsService) ChangeAllowedApprovers(pid interface{}, mergeRequestIID int, opt *ChangeMergeRequestAllowedApproversOptions, options ...OptionFunc) (*MergeRequest, *Response, error) {
+func (s *MergeRequestApprovalsService) ChangeAllowedApprovers(pid interface{}, mergeRequest int, opt *ChangeMergeRequestAllowedApproversOptions, options ...OptionFunc) (*MergeRequest, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/merge_requests/%d/approvers", pathEscape(project), mergeRequestIID)
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/approvers", pathEscape(project), mergeRequest)
 
 	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
@@ -215,12 +215,12 @@ func (s *MergeRequestApprovalsService) ChangeAllowedApprovers(pid interface{}, m
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#get-merge-request-level-rules
-func (s *MergeRequestApprovalsService) GetApprovalRules(pid interface{}, mergeRequestIID int, options ...OptionFunc) ([]*MergeRequestApprovalRule, *Response, error) {
+func (s *MergeRequestApprovalsService) GetApprovalRules(pid interface{}, mergeRequest int, options ...OptionFunc) ([]*MergeRequestApprovalRule, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/merge_requests/%d/approval_rules", pathEscape(project), mergeRequestIID)
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/approval_rules", pathEscape(project), mergeRequest)
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
@@ -258,7 +258,7 @@ func (s *MergeRequestApprovalsService) CreateApprovalRule(pid interface{}, merge
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/merge_requests/%d/approval_rules", pathEscape(project), mergeRequestIID)
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/approval_rules", pathEscape(project), mergeRequest)
 
 	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
@@ -295,7 +295,7 @@ func (s *MergeRequestApprovalsService) UpdateApprovalRule(pid interface{}, merge
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/merge_requests/%d/approval_rules/%d", pathEscape(project), mergeRequestIID, approvalRule)
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/approval_rules/%d", pathEscape(project), mergeRequest, approvalRule)
 
 	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
@@ -320,7 +320,7 @@ func (s *MergeRequestApprovalsService) DeleteApprovalRule(pid interface{}, merge
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/merge_requests/%d/approval_rules/%d", pathEscape(project), mergeRequestIID, approvalRule)
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/approval_rules/%d", pathEscape(project), mergeRequest, approvalRule)
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {
