@@ -65,17 +65,18 @@ type MergeRequestApproverGroup struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#get-merge-request-level-rules
 type MergeRequestApprovalRule struct {
-	ID                   int                                    `json:"id,omitempty"`
-	Name                 string                                 `json:"name,omitempty"`
-	RuleType             string                                 `json:"rule_type,omitempty"`
-	EligibleApprovers    []*BasicUser                           `json:"eligible_approvers,omitempty"`
-	ApprovalsRequired    int                                    `json:"approvals_required,omitempty"`
-	SourceRule           *CreateMergeRequestApprovalRuleOptions `json:"source_rule,omitempty"`
-	Users                []*BasicUser                           `json:"users,omitempty"`
-	Groups               []*Group                               `json:"groups,omitempty"`
-	ContainsHiddenGroups bool                                   `json:"contains_hidden_groups,omitempty"`
+	ID                   int                  `json:"id"`
+	Name                 string               `json:"name"`
+	RuleType             string               `json:"rule_type"`
+	EligibleApprovers    []*BasicUser         `json:"eligible_approvers"`
+	ApprovalsRequired    int                  `json:"approvals_required"`
+	SourceRule           *ProjectApprovalRule `json:"source_rule"`
+	Users                []*BasicUser         `json:"users"`
+	Groups               []*Group             `json:"groups"`
+	ContainsHiddenGroups bool                 `json:"contains_hidden_groups"`
 }
 
+// String is a stringify for MergeRequestApprovalRule
 func (s MergeRequestApprovalRule) String() string {
 	return Stringify(s)
 }
