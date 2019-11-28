@@ -471,6 +471,7 @@ type CreateProjectOptions struct {
 	TemplateName                              *string           `url:"template_name,omitempty" json:"template_name,omitempty"`
 	UseCustomTemplate                         *bool             `url:"use_custom_template,omitempty" json:"use_custom_template,omitempty"`
 	GroupWithProjectTemplatesID               *int              `url:"group_with_project_templates_id,omitempty" json:"group_with_project_templates_id,omitempty"`
+	BuildCoverageRegex                        *string           `url:"build_coverage_regex,omitempty" json:"build_coverage_regex,omitempty"`
 }
 
 // CreateProject creates a new project owned by the authenticated user.
@@ -554,6 +555,7 @@ type EditProjectOptions struct {
 	OnlyMirrorProtectedBranches               *bool             `url:"only_mirror_protected_branches,omitempty" json:"only_mirror_protected_branches,omitempty"`
 	MirrorOverwritesDivergedBranches          *bool             `url:"mirror_overwrites_diverged_branches,omitempty" json:"mirror_overwrites_diverged_branches,omitempty"`
 	PackagesEnabled                           *bool             `url:"packages_enabled,omitempty" json:"packages_enabled,omitempty"`
+	BuildCoverageRegex                        *string           `url:"build_coverage_regex,omitempty" json:"build_coverage_regex,omitempty"`
 }
 
 // EditProject updates an existing project.
