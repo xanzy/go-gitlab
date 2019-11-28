@@ -252,7 +252,7 @@ type CreateMergeRequestApprovalRuleOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#create-merge-request-level-rule
-func (s *MergeRequestApprovalsService) CreateApprovalRule(pid interface{}, mergeRequestIID int, opt *CreateMergeRequestApprovalRuleOptions, options ...OptionFunc) (*MergeRequestApprovalRule, *Response, error) {
+func (s *MergeRequestApprovalsService) CreateApprovalRule(pid interface{}, mergeRequest int, opt *CreateMergeRequestApprovalRuleOptions, options ...OptionFunc) (*MergeRequestApprovalRule, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -289,7 +289,7 @@ type UpdateMergeRequestApprovalRuleOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#update-merge-request-level-rule
-func (s *MergeRequestApprovalsService) UpdateApprovalRule(pid interface{}, mergeRequestIID int, approvalRule int, opt *UpdateMergeRequestApprovalRuleOptions, options ...OptionFunc) (*MergeRequestApprovalRule, *Response, error) {
+func (s *MergeRequestApprovalsService) UpdateApprovalRule(pid interface{}, mergeRequest int, approvalRule int, opt *UpdateMergeRequestApprovalRuleOptions, options ...OptionFunc) (*MergeRequestApprovalRule, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -314,7 +314,7 @@ func (s *MergeRequestApprovalsService) UpdateApprovalRule(pid interface{}, merge
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#delete-merge-request-level-rule
-func (s *MergeRequestApprovalsService) DeleteApprovalRule(pid interface{}, mergeRequestIID int, approvalRule int, options ...OptionFunc) (*Response, error) {
+func (s *MergeRequestApprovalsService) DeleteApprovalRule(pid interface{}, mergeRequest int, approvalRule int, options ...OptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, err
