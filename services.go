@@ -115,7 +115,7 @@ type GithubService struct {
 // https://docs.gitlab.com/ce/api/services.html#github-premium
 type GithubServiceProperties struct {
 	RepositoryURL string `json:"repository_url,omitempty"`
-	StaticContext string `json:"static_context,omitempty"`
+	StaticContext bool   `json:"static_context,omitempty"`
 }
 
 // GetGithubService gets Github service settings for a project.
