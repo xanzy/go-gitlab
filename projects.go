@@ -459,10 +459,12 @@ type CreateProjectOptions struct {
 	OnlyAllowMergeIfPipelineSucceeds          *bool             `url:"only_allow_merge_if_pipeline_succeeds,omitempty" json:"only_allow_merge_if_pipeline_succeeds,omitempty"`
 	OnlyAllowMergeIfAllDiscussionsAreResolved *bool             `url:"only_allow_merge_if_all_discussions_are_resolved,omitempty" json:"only_allow_merge_if_all_discussions_are_resolved,omitempty"`
 	MergeMethod                               *MergeMethodValue `url:"merge_method,omitempty" json:"merge_method,omitempty"`
+	RemoveSourceBranchAfterMerge              *bool             `url:"remove_source_branch_after_merge,omitempty" json:"remove_source_branch_after_merge,omitempty"`
 	LFSEnabled                                *bool             `url:"lfs_enabled,omitempty" json:"lfs_enabled,omitempty"`
 	RequestAccessEnabled                      *bool             `url:"request_access_enabled,omitempty" json:"request_access_enabled,omitempty"`
 	TagList                                   *[]string         `url:"tag_list,omitempty" json:"tag_list,omitempty"`
 	PrintingMergeRequestLinkEnabled           *bool             `url:"printing_merge_request_link_enabled,omitempty" json:"printing_merge_request_link_enabled,omitempty"`
+	BuildCoverageRegex                        *string           `url:"build_coverage_regex,omitempty" json:"build_coverage_regex,omitempty"`
 	CIConfigPath                              *string           `url:"ci_config_path,omitempty" json:"ci_config_path,omitempty"`
 	ApprovalsBeforeMerge                      *int              `url:"approvals_before_merge,omitempty" json:"approvals_before_merge,omitempty"`
 	Mirror                                    *bool             `url:"mirror,omitempty" json:"mirror,omitempty"`
@@ -471,7 +473,6 @@ type CreateProjectOptions struct {
 	TemplateName                              *string           `url:"template_name,omitempty" json:"template_name,omitempty"`
 	UseCustomTemplate                         *bool             `url:"use_custom_template,omitempty" json:"use_custom_template,omitempty"`
 	GroupWithProjectTemplatesID               *int              `url:"group_with_project_templates_id,omitempty" json:"group_with_project_templates_id,omitempty"`
-	BuildCoverageRegex                        *string           `url:"build_coverage_regex,omitempty" json:"build_coverage_regex,omitempty"`
 }
 
 // CreateProject creates a new project owned by the authenticated user.
@@ -543,9 +544,11 @@ type EditProjectOptions struct {
 	OnlyAllowMergeIfPipelineSucceeds          *bool             `url:"only_allow_merge_if_pipeline_succeeds,omitempty" json:"only_allow_merge_if_pipeline_succeeds,omitempty"`
 	OnlyAllowMergeIfAllDiscussionsAreResolved *bool             `url:"only_allow_merge_if_all_discussions_are_resolved,omitempty" json:"only_allow_merge_if_all_discussions_are_resolved,omitempty"`
 	MergeMethod                               *MergeMethodValue `url:"merge_method,omitempty" json:"merge_method,omitempty"`
+	RemoveSourceBranchAfterMerge              *bool             `url:"remove_source_branch_after_merge,omitempty" json:"remove_source_branch_after_merge,omitempty"`
 	LFSEnabled                                *bool             `url:"lfs_enabled,omitempty" json:"lfs_enabled,omitempty"`
 	RequestAccessEnabled                      *bool             `url:"request_access_enabled,omitempty" json:"request_access_enabled,omitempty"`
 	TagList                                   *[]string         `url:"tag_list,omitempty" json:"tag_list,omitempty"`
+	BuildCoverageRegex                        *string           `url:"build_coverage_regex,omitempty" json:"build_coverage_regex,omitempty"`
 	CIConfigPath                              *string           `url:"ci_config_path,omitempty" json:"ci_config_path,omitempty"`
 	ApprovalsBeforeMerge                      *int              `url:"approvals_before_merge,omitempty" json:"approvals_before_merge,omitempty"`
 	ExternalAuthorizationClassificationLabel  *string           `url:"external_authorization_classification_label,omitempty" json:"external_authorization_classification_label,omitempty"`
@@ -555,7 +558,6 @@ type EditProjectOptions struct {
 	OnlyMirrorProtectedBranches               *bool             `url:"only_mirror_protected_branches,omitempty" json:"only_mirror_protected_branches,omitempty"`
 	MirrorOverwritesDivergedBranches          *bool             `url:"mirror_overwrites_diverged_branches,omitempty" json:"mirror_overwrites_diverged_branches,omitempty"`
 	PackagesEnabled                           *bool             `url:"packages_enabled,omitempty" json:"packages_enabled,omitempty"`
-	BuildCoverageRegex                        *string           `url:"build_coverage_regex,omitempty" json:"build_coverage_regex,omitempty"`
 }
 
 // EditProject updates an existing project.
