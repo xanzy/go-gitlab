@@ -2,21 +2,19 @@ package gitlab
 
 import (
 	"fmt"
-	"net/url"
 )
 
-// TimeStatsService handles communication with the time tracking related
+// timeStatsService handles communication with the time tracking related
 // methods of the GitLab API.
 //
 // GitLab docs: https://docs.gitlab.com/ce/workflow/time_tracking.html
-// GitLab API docs: https://docs.gitlab.com/ce/api/issues.html
-type TimeStatsService struct {
+type timeStatsService struct {
 	client *Client
 }
 
 // TimeStats represents the time estimates and time spent for an issue.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/issues.html
+// GitLab docs: https://docs.gitlab.com/ce/workflow/time_tracking.html
 type TimeStats struct {
 	HumanTimeEstimate   string `json:"human_time_estimate"`
 	HumanTotalTimeSpent string `json:"human_total_time_spent"`
@@ -31,27 +29,22 @@ func (t TimeStats) String() string {
 // SetTimeEstimateOptions represents the available SetTimeEstimate()
 // options.
 //
-// GitLab API docs:
-// https://docs.gitlab.com/ce/api/issues.html#set-a-time-estimate-for-an-issue
+// GitLab docs: https://docs.gitlab.com/ce/workflow/time_tracking.html
 type SetTimeEstimateOptions struct {
 	Duration *string `url:"duration,omitempty" json:"duration,omitempty"`
 }
 
-// SetTimeEstimate sets the time estimate for a single project issue.
+// setTimeEstimate sets the time estimate for a single project issue.
 //
-// GitLab API docs:
-// https://docs.gitlab.com/ce/api/issues.html#set-a-time-estimate-for-an-issue
-func (s *TimeStatsService) SetTimeEstimate(
-	pid interface{},
-	issue int,
-	opt *SetTimeEstimateOptions) (*TimeStats, *Response, error) {
+// GitLab docs: https://docs.gitlab.com/ce/workflow/time_tracking.html
+func (s *timeStatsService) setTimeEstimate(pid interface{}, entity string, issue int, opt *SetTimeEstimateOptions, options ...OptionFunc) (*TimeStats, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/issues/%d/time_estimate", url.QueryEscape(project), issue)
+	u := fmt.Sprintf("projects/%s/%s/%d/time_estimate", pathEscape(project), entity, issue)
 
-	req, err := s.client.NewRequest("POST", u, opt)
+	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -65,20 +58,17 @@ func (s *TimeStatsService) SetTimeEstimate(
 	return t, resp, err
 }
 
-// ResetTimeEstimate resets the time estimate for a single project issue.
+// resetTimeEstimate resets the time estimate for a single project issue.
 //
-// GitLab API docs:
-// https://docs.gitlab.com/ce/api/issues.html#reset-the-time-estimate-for-an-issue
-func (s *TimeStatsService) ResetTimeEstimate(
-	pid interface{},
-	issue int) (*TimeStats, *Response, error) {
+// GitLab docs: https://docs.gitlab.com/ce/workflow/time_tracking.html
+func (s *timeStatsService) resetTimeEstimate(pid interface{}, entity string, issue int, options ...OptionFunc) (*TimeStats, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/issues/%d/reset_time_estimate", url.QueryEscape(project), issue)
+	u := fmt.Sprintf("projects/%s/%s/%d/reset_time_estimate", pathEscape(project), entity, issue)
 
-	req, err := s.client.NewRequest("POST", u, nil)
+	req, err := s.client.NewRequest("POST", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -94,27 +84,22 @@ func (s *TimeStatsService) ResetTimeEstimate(
 
 // AddSpentTimeOptions represents the available AddSpentTime() options.
 //
-// GitLab API docs:
-// https://docs.gitlab.com/ce/api/issues.html#add-spent-time-for-an-issue
+// GitLab docs: https://docs.gitlab.com/ce/workflow/time_tracking.html
 type AddSpentTimeOptions struct {
 	Duration *string `url:"duration,omitempty" json:"duration,omitempty"`
 }
 
-// AddSpentTime adds spent time for a single project issue.
+// addSpentTime adds spent time for a single project issue.
 //
-// GitLab API docs:
-// https://docs.gitlab.com/ce/api/issues.html#add-spent-time-for-an-issue
-func (s *TimeStatsService) AddSpentTime(
-	pid interface{},
-	issue int,
-	opt *AddSpentTimeOptions) (*TimeStats, *Response, error) {
+// GitLab docs: https://docs.gitlab.com/ce/workflow/time_tracking.html
+func (s *timeStatsService) addSpentTime(pid interface{}, entity string, issue int, opt *AddSpentTimeOptions, options ...OptionFunc) (*TimeStats, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/issues/%d/add_spent_time", url.QueryEscape(project), issue)
+	u := fmt.Sprintf("projects/%s/%s/%d/add_spent_time", pathEscape(project), entity, issue)
 
-	req, err := s.client.NewRequest("POST", u, opt)
+	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -128,20 +113,17 @@ func (s *TimeStatsService) AddSpentTime(
 	return t, resp, err
 }
 
-// ResetSpentTime resets the spent time for a single project issue.
+// resetSpentTime resets the spent time for a single project issue.
 //
-// GitLab API docs:
-// https://docs.gitlab.com/ce/api/issues.html#reset-spent-time-for-an-issue
-func (s *TimeStatsService) ResetSpentTime(
-	pid interface{},
-	issue int) (*TimeStats, *Response, error) {
+// GitLab docs: https://docs.gitlab.com/ce/workflow/time_tracking.html
+func (s *timeStatsService) resetSpentTime(pid interface{}, entity string, issue int, options ...OptionFunc) (*TimeStats, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/issues/%d/reset_spent_time", url.QueryEscape(project), issue)
+	u := fmt.Sprintf("projects/%s/%s/%d/reset_spent_time", pathEscape(project), entity, issue)
 
-	req, err := s.client.NewRequest("POST", u, nil)
+	req, err := s.client.NewRequest("POST", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -155,20 +137,17 @@ func (s *TimeStatsService) ResetSpentTime(
 	return t, resp, err
 }
 
-// GetTimeSpent gets the spent time for a single project issue.
+// getTimeSpent gets the spent time for a single project issue.
 //
-// GitLab API docs:
-// https://docs.gitlab.com/ce/api/issues.html#get-time-tracking-stats
-func (s *TimeStatsService) GetTimeSpent(
-	pid interface{},
-	issue int) (*TimeStats, *Response, error) {
+// GitLab docs: https://docs.gitlab.com/ce/workflow/time_tracking.html
+func (s *timeStatsService) getTimeSpent(pid interface{}, entity string, issue int, options ...OptionFunc) (*TimeStats, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/issues/%d/time_stats", url.QueryEscape(project), issue)
+	u := fmt.Sprintf("projects/%s/%s/%d/time_stats", pathEscape(project), entity, issue)
 
-	req, err := s.client.NewRequest("GET", u, nil)
+	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}

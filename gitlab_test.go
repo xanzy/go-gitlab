@@ -1,12 +1,15 @@
 package gitlab
 
 import (
+	"bytes"
+	"context"
 	"encoding/json"
+	"errors"
+	"io"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
-	"net/url"
-	"reflect"
+	"os"
 	"strings"
 	"testing"
 )
@@ -45,93 +48,150 @@ func testMethod(t *testing.T, r *http.Request, want string) {
 	}
 }
 
-type values map[string]string
-
-func testFormValues(t *testing.T, r *http.Request, values values) {
-	want := url.Values{}
-	for k, v := range values {
-		want.Add(k, v)
-	}
-
-	err := r.ParseForm()
-	if err != nil {
-		t.Errorf("Error parsing form: %v", err)
-	}
-
-	if got := r.Form; !reflect.DeepEqual(got, want) {
-		t.Errorf("Request parameters: %v, want %v", got, want)
-	}
-}
-
-func testHeader(t *testing.T, r *http.Request, header string, want string) {
-	if got := r.Header.Get(header); got != want {
-		t.Errorf("Header.Get(%q) returned %s, want %s", header, got, want)
-	}
-}
-
 func testBody(t *testing.T, r *http.Request, want string) {
-	b, err := ioutil.ReadAll(r.Body)
+	buffer := new(bytes.Buffer)
+	_, err := buffer.ReadFrom(r.Body)
+
 	if err != nil {
-		t.Errorf("Error reading request body: %v", err)
+		t.Fatalf("Failed to Read Body: %v", err)
 	}
 
-	if got := string(b); got != want {
-		t.Errorf("request Body is %s, want %s", got, want)
+	if got := buffer.String(); got != want {
+		t.Errorf("Request body: %s, want %s", got, want)
 	}
 }
 
-func testJSONBody(t *testing.T, r *http.Request, want values) {
-	b, err := ioutil.ReadAll(r.Body)
+func mustWriteHTTPResponse(t *testing.T, w io.Writer, fixturePath string) {
+	f, err := os.Open(fixturePath)
 	if err != nil {
-		t.Errorf("Error reading request body: %v", err)
+		t.Fatalf("error opening fixture file: %v", err)
 	}
 
-	var got values
-	err = json.Unmarshal(b, &got)
-	if err != nil {
-		t.Errorf("Error unmarshalling request body: %v", err)
-	}
-
-	if !reflect.DeepEqual(got, want) {
-		t.Errorf("Request parameters: %v, want %v", got, want)
+	if _, err = io.Copy(w, f); err != nil {
+		t.Fatalf("error writing response: %v", err)
 	}
 }
 
-func responseBody(w http.ResponseWriter, filename string) {
-	body, _ := ioutil.ReadFile(filename)
-	w.Write([]byte(body))
+func errorOption(*http.Request) error {
+	return errors.New("OptionFunc returns an error")
 }
 
 func TestNewClient(t *testing.T) {
 	c := NewClient(nil, "")
+	expectedBaseURL := defaultBaseURL + apiVersionPath
 
-	if c.BaseURL().String() != defaultBaseURL {
-		t.Errorf("NewClient BaseURL is %s, want %s", c.BaseURL().String(), defaultBaseURL)
+	if c.BaseURL().String() != expectedBaseURL {
+		t.Errorf("NewClient BaseURL is %s, want %s", c.BaseURL().String(), expectedBaseURL)
 	}
 	if c.UserAgent != userAgent {
 		t.Errorf("NewClient UserAgent is %s, want %s", c.UserAgent, userAgent)
 	}
 }
 
+func TestSetBaseURL(t *testing.T) {
+	expectedBaseURL := "http://gitlab.local/foo/" + apiVersionPath
+	c := NewClient(nil, "")
+	err := c.SetBaseURL("http://gitlab.local/foo")
+	if err != nil {
+		t.Fatalf("Failed to SetBaseURL: %v", err)
+	}
+	if c.BaseURL().String() != expectedBaseURL {
+		t.Errorf("BaseURL is %s, want %s", c.BaseURL().String(), expectedBaseURL)
+	}
+}
+
 func TestCheckResponse(t *testing.T) {
-	res := &http.Response{
-		Request:    &http.Request{},
+	req, err := NewClient(nil, "").NewRequest("GET", "test", nil, nil)
+	if err != nil {
+		t.Fatalf("Failed to create request: %v", err)
+	}
+
+	resp := &http.Response{
+		Request:    req,
 		StatusCode: http.StatusBadRequest,
-		Body: ioutil.NopCloser(strings.NewReader(`{"message":"m",
-			"errors": [{"resource": "r", "field": "f", "code": "c"}]}`)),
+		Body: ioutil.NopCloser(strings.NewReader(`
+		{
+			"message": {
+				"prop1": [
+					"message 1",
+					"message 2"
+				],
+				"prop2":[
+					"message 3"
+				],
+				"embed1": {
+					"prop3": [
+						"msg 1",
+						"msg2"
+					]
+				},
+				"embed2": {
+					"prop4": [
+						"some msg"
+					]
+				}
+			},
+			"error": "message 1"
+		}`)),
 	}
-	err := CheckResponse(res).(*ErrorResponse)
 
-	if err == nil {
-		t.Errorf("Expected error response.")
+	errResp := CheckResponse(resp)
+	if errResp == nil {
+		t.Fatal("Expected error response.")
 	}
 
-	want := &ErrorResponse{
-		Response: res,
-		Message:  "m",
-		Errors:   []Error{{Resource: "r", Field: "f", Code: "c"}},
+	want := "GET https://gitlab.com/api/v4/test: 400 {error: message 1}, {message: {embed1: {prop3: [msg 1, msg2]}}, {embed2: {prop4: [some msg]}}, {prop1: [message 1, message 2]}, {prop2: [message 3]}}"
+
+	if errResp.Error() != want {
+		t.Errorf("Expected error: %s, got %s", want, errResp.Error())
 	}
-	if !reflect.DeepEqual(err, want) {
-		t.Errorf("Error = %#v, want %#v", err, want)
+}
+
+func TestRequestWithContext(t *testing.T) {
+	ctx := context.WithValue(context.Background(), interface{}("myKey"), interface{}("myValue"))
+	req, err := NewClient(nil, "").NewRequest("GET", "test", nil, []OptionFunc{WithContext(ctx)})
+	if err != nil {
+		t.Fatalf("Failed to create request: %v", err)
+	}
+
+	if req.Context() != ctx {
+		t.Fatal("Context was not set correctly")
+	}
+}
+
+func TestBoolValue(t *testing.T) {
+	testCases := map[string]struct {
+		data     []byte
+		expected bool
+	}{
+		"should unmarshal true as true": {
+			data:     []byte("true"),
+			expected: true,
+		},
+		"should unmarshal false as true": {
+			data:     []byte("false"),
+			expected: false,
+		},
+		"should unmarshal \"1\" as true": {
+			data:     []byte(`"1"`),
+			expected: true,
+		},
+		"should unmarshal \"0\" as false": {
+			data:     []byte(`"0"`),
+			expected: false,
+		},
+	}
+
+	for name, testCase := range testCases {
+		t.Run(name, func(t *testing.T) {
+			var b BoolValue
+			if err := json.Unmarshal(testCase.data, &b); err != nil {
+				t.Fatalf("Unexpected error: %v", err)
+			}
+
+			if bool(b) != testCase.expected {
+				t.Fatalf("Expected %v but got %v", testCase.expected, b)
+			}
+		})
 	}
 }

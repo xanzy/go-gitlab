@@ -2,6 +2,7 @@ package gitlab
 
 import (
 	"encoding/json"
+	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
@@ -14,10 +15,12 @@ func TestPushEventUnmarshal(t *testing.T) {
   "checkout_sha": "da1560886d4f094c3e6c9ef40349f7d38b5d27d7",
   "user_id": 4,
   "user_name": "John Smith",
+  "user_username": "jsmith",
   "user_email": "john@example.com",
   "user_avatar": "https://s.gravatar.com/avatar/d4c74594d841139328695756648b6bd6?s=8://s.gravatar.com/avatar/d4c74594d841139328695756648b6bd6?s=80",
   "project_id": 15,
   "project":{
+    "id": 15,
     "name":"Diaspora",
     "description":"",
     "web_url":"http://example.com/mike/diaspora",
@@ -87,6 +90,17 @@ func TestPushEventUnmarshal(t *testing.T) {
 		t.Errorf("ProjectID is %v, want %v", event.ProjectID, 15)
 	}
 
+	if event.UserName != "John Smith" {
+		t.Errorf("Username is %s, want %s", event.UserName, "John Smith")
+	}
+
+	if event.Commits[0] == nil || event.Commits[0].Timestamp == nil {
+		t.Errorf("Commit Timestamp isn't nil")
+	}
+
+	if event.Commits[0] == nil || event.Commits[0].Author.Name != "Jordi Mallach" {
+		t.Errorf("Commit Username is %s, want %s", event.UserName, "Jordi Mallach")
+	}
 }
 
 func TestMergeEventUnmarshal(t *testing.T) {
@@ -98,6 +112,29 @@ func TestMergeEventUnmarshal(t *testing.T) {
     "username": "root",
     "avatar_url": "http://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=40\u0026d=identicon"
   },
+  "project": {
+    "id": 1,
+    "name":"Gitlab Test",
+    "description":"Aut reprehenderit ut est.",
+    "web_url":"http://example.com/gitlabhq/gitlab-test",
+    "avatar_url":null,
+    "git_ssh_url":"git@example.com:gitlabhq/gitlab-test.git",
+    "git_http_url":"http://example.com/gitlabhq/gitlab-test.git",
+    "namespace":"GitlabHQ",
+    "visibility_level":20,
+    "path_with_namespace":"gitlabhq/gitlab-test",
+    "default_branch":"master",
+    "homepage":"http://example.com/gitlabhq/gitlab-test",
+    "url":"http://example.com/gitlabhq/gitlab-test.git",
+    "ssh_url":"git@example.com:gitlabhq/gitlab-test.git",
+    "http_url":"http://example.com/gitlabhq/gitlab-test.git"
+  },
+  "repository": {
+    "name": "Gitlab Test",
+    "url": "http://example.com/gitlabhq/gitlab-test.git",
+    "description": "Aut reprehenderit ut est.",
+    "homepage": "http://example.com/gitlabhq/gitlab-test"
+  },
   "object_attributes": {
     "id": 99,
     "target_branch": "master",
@@ -108,15 +145,13 @@ func TestMergeEventUnmarshal(t *testing.T) {
     "title": "MS-Viewport",
     "created_at": "2013-12-03T17:23:34Z",
     "updated_at": "2013-12-03T17:23:34Z",
-    "st_commits": null,
-    "st_diffs": null,
     "milestone_id": null,
     "state": "opened",
     "merge_status": "unchecked",
     "target_project_id": 14,
     "iid": 1,
     "description": "",
-    "source":{
+    "source": {
       "name":"Awesome Project",
       "description":"Aut reprehenderit ut est.",
       "web_url":"http://example.com/awesome_space/awesome_project",
@@ -166,39 +201,107 @@ func TestMergeEventUnmarshal(t *testing.T) {
       "username": "user1",
       "avatar_url": "http://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=40\u0026d=identicon"
     }
+  },
+  "labels": [{
+    "id": 206,
+    "title": "API",
+    "color": "#ffffff",
+    "project_id": 14,
+    "created_at": "2013-12-03T17:15:43Z",
+    "updated_at": "2013-12-03T17:15:43Z",
+    "template": false,
+    "description": "API related issues",
+    "type": "ProjectLabel",
+    "group_id": 41
+  }],
+  "changes": {
+    "updated_by_id": {
+      "previous": null, 
+      "current": 1
+    },
+    "updated_at": {
+      "previous": "2017-09-15 16:50:55 UTC", 
+      "current": "2017-09-15 16:52:00 UTC"
+    },
+    "labels": {
+      "previous": [{
+        "id": 206,
+        "title": "API",
+        "color": "#ffffff",
+        "project_id": 14,
+        "created_at": "2013-12-03T17:15:43Z",
+        "updated_at": "2013-12-03T17:15:43Z",
+        "template": false,
+        "description": "API related issues",
+        "type": "ProjectLabel",
+        "group_id": 41
+      }],
+      "current": [{
+        "id": 205,
+        "title": "Platform",
+        "color": "#123123",
+        "project_id": 14,
+        "created_at": "2013-12-03T17:15:43Z",
+        "updated_at": "2013-12-03T17:15:43Z",
+        "template": false,
+        "description": "Platform related issues",
+        "type": "ProjectLabel",
+        "group_id": 41
+      }]
+    },
+	"source_branch": {
+		"previous": null,
+		"current": "feature/test"
+	},
+	"source_project_id": {
+		"previous": null,
+		"current": 1
+	},
+	"target_branch": {
+		"previous": null,
+		"current": "develop"
+	},
+	"target_project_id": {
+		"previous": null,
+		"current": 1
+	},
+	"assignees": {
+		"previous": [],
+		"current": [
+			{
+				"name": "Administrator",
+				"username": "root",
+				"avatar_url": "http://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=40\u0026d=identicon"
+			}
+		]
+	},
+	"total_time_spent": {
+		"previous": null,
+		"current": 0
+	}
   }
 }`
 
 	var event *MergeEvent
 	err := json.Unmarshal([]byte(jsonObject), &event)
 
-	if err != nil {
-		t.Errorf("Merge Event can not unmarshaled: %v\n ", err.Error())
+	if !assert.NoError(t, err, "Merge Event can not unmarshaled") {
+		return
 	}
 
-	if event == nil {
-		t.Errorf("Merge Event is null")
+	assert.Equal(t, 99, event.ObjectAttributes.ID)
+	assert.Equal(t, "http://example.com/awesome_space/awesome_project", event.ObjectAttributes.Source.Homepage)
+	assert.Equal(t, "da1560886d4f094c3e6c9ef40349f7d38b5d27d7", event.ObjectAttributes.LastCommit.ID)
+	assert.Equal(t, "User1", event.ObjectAttributes.Assignee.Name)
+	assert.Equal(t, "user1", event.ObjectAttributes.Assignee.Username)
+	assert.Equal(t, "Administrator", event.User.Name)
+	assert.NotNil(t, "Administrator", event.ObjectAttributes.LastCommit.Timestamp)
+	assert.Equal(t, "GitLab dev user", event.ObjectAttributes.LastCommit.Author.Name)
+	assert.Equal(t, "feature/test", event.Changes.SourceBranch.Current)
+	assert.Empty(t, event.Changes.Assignees.Previous)
+	if assert.NotEmpty(t, event.Changes.Assignees.Current) {
+		assert.Equal(t, "Administrator", event.Changes.Assignees.Current[0].Name)
 	}
-
-	if event.ObjectAttributes.ID != 99 {
-		t.Errorf("ObjectAttributes.ID is %v, want %v", event.ObjectAttributes.ID, 99)
-	}
-
-	if event.ObjectAttributes.Source.Homepage != "http://example.com/awesome_space/awesome_project" {
-		t.Errorf("ObjectAttributes.Source.Homepage is %v, want %v", event.ObjectAttributes.Source.Homepage, "http://example.com/awesome_space/awesome_project")
-	}
-
-	if event.ObjectAttributes.LastCommit.ID != "da1560886d4f094c3e6c9ef40349f7d38b5d27d7" {
-		t.Errorf("ObjectAttributes.LastCommit.ID is %v, want %s", event.ObjectAttributes.LastCommit.ID, "da1560886d4f094c3e6c9ef40349f7d38b5d27d7")
-	}
-	if event.ObjectAttributes.Assignee.Name != "User1" {
-		t.Errorf("Assignee.Name is %v, want %v", event.ObjectAttributes.ID, "User1")
-	}
-
-	if event.ObjectAttributes.Assignee.Username != "user1" {
-		t.Errorf("ObjectAttributes is %v, want %v", event.ObjectAttributes.Assignee.Username, "user1")
-	}
-
 }
 
 func TestPipelineEventUnmarshal(t *testing.T) {
@@ -218,7 +321,13 @@ func TestPipelineEventUnmarshal(t *testing.T) {
       ],
       "created_at": "2016-08-12 15:23:28 UTC",
       "finished_at": "2016-08-12 15:26:29 UTC",
-      "duration": 63
+      "duration": 63,
+      "variables": [
+        {
+          "key": "NESTOR_PROD_ENVIRONMENT",
+          "value": "us-west-1"
+        }
+      ]
    },
    "user":{
       "name": "Administrator",
@@ -226,6 +335,7 @@ func TestPipelineEventUnmarshal(t *testing.T) {
       "avatar_url": "http://www.gravatar.com/avatar/e32bd13e2add097461cb96824b7a829c?s=80\u0026d=identicon"
    },
    "project":{
+      "id": 1,
       "name": "Gitlab Test",
       "description": "Atque in sunt eos similique dolores voluptatem.",
       "web_url": "http://192.168.64.1:3005/gitlab-org/gitlab-test",
@@ -284,7 +394,12 @@ func TestPipelineEventUnmarshal(t *testing.T) {
             "username": "root",
             "avatar_url": "http://www.gravatar.com/avatar/e32bd13e2add097461cb96824b7a829c?s=80\u0026d=identicon"
          },
-         "runner": null,
+         "runner": {
+            "id":380987,
+            "description":"shared-runners-manager-6.gitlab.com",
+            "active":true,
+            "is_shared":true
+         },
          "artifacts_file":{
             "filename": null,
             "size": null
@@ -305,7 +420,12 @@ func TestPipelineEventUnmarshal(t *testing.T) {
             "username": "root",
             "avatar_url": "http://www.gravatar.com/avatar/e32bd13e2add097461cb96824b7a829c?s=80\u0026d=identicon"
          },
-         "runner": null,
+         "runner": {
+            "id":380987,
+            "description":"shared-runners-manager-6.gitlab.com",
+            "active":true,
+            "is_shared":true
+         },
          "artifacts_file":{
             "filename": null,
             "size": null
@@ -326,7 +446,12 @@ func TestPipelineEventUnmarshal(t *testing.T) {
             "username": "root",
             "avatar_url": "http://www.gravatar.com/avatar/e32bd13e2add097461cb96824b7a829c?s=80\u0026d=identicon"
          },
-         "runner": null,
+         "runner": {
+            "id":380987,
+            "description":"shared-runners-manager-6.gitlab.com",
+            "active":true,
+            "is_shared":true
+         },
          "artifacts_file":{
             "filename": null,
             "size": null
@@ -371,6 +496,17 @@ func TestPipelineEventUnmarshal(t *testing.T) {
 		t.Errorf("ObjectAttributes is %v, want %v", event.ObjectAttributes.ID, 1977)
 	}
 
+	if event.User.Name == "" {
+		t.Errorf("Username is %s, want %s", event.User.Name, "Administrator")
+	}
+
+	if event.Commit.Timestamp == nil {
+		t.Errorf("Timestamp isn't nil")
+	}
+
+	if name := event.Commit.Author.Name; name != "User" {
+		t.Errorf("Commit Username is %s, want %s", name, "User")
+	}
 }
 
 func TestBuildEventUnmarshal(t *testing.T) {
@@ -388,6 +524,7 @@ func TestBuildEventUnmarshal(t *testing.T) {
   "build_finished_at": null,
   "build_duration": null,
   "build_allow_failure": false,
+  "build_failure_reason": "script_failure",
   "project_id": 380,
   "project_name": "gitlab-org/gitlab-test",
   "user": {
@@ -408,7 +545,6 @@ func TestBuildEventUnmarshal(t *testing.T) {
   },
   "repository": {
     "name": "gitlab_test",
-    "git_ssh_url": "git@192.168.64.1:gitlab-org/gitlab-test.git",
     "description": "Atque in sunt eos similique dolores voluptatem.",
     "homepage": "http://192.168.64.1:3005/gitlab-org/gitlab-test",
     "git_ssh_url": "git@192.168.64.1:gitlab-org/gitlab-test.git",
@@ -449,7 +585,7 @@ func TestMergeEventUnmarshalFromGroup(t *testing.T) {
 		"git_ssh_url": "git@example.com:exm-namespace/example-project.git",
 		"git_http_url": "http://example.com/exm-namespace/example-project.git",
 		"namespace": "exm-namespace",
-		"visibility_level": 0,
+		"visibility": "public",
 		"path_with_namespace": "exm-namespace/example-project",
 		"default_branch": "master",
 		"homepage": "http://example.com/exm-namespace/example-project",
@@ -497,7 +633,7 @@ func TestMergeEventUnmarshalFromGroup(t *testing.T) {
 			"git_ssh_url": "git@example.com:exm-namespace/example-project.git",
 			"git_http_url": "http://example.com/exm-namespace/example-project.git",
 			"namespace": "exm-namespace",
-			"visibility_level": 0,
+			"visibility": "public",
 			"path_with_namespace": "exm-namespace/example-project",
 			"default_branch": "master",
 			"homepage": "http://example.com/exm-namespace/example-project",
@@ -513,7 +649,7 @@ func TestMergeEventUnmarshalFromGroup(t *testing.T) {
 			"git_ssh_url": "git@example.com:exm-namespace/example-project.git",
 			"git_http_url": "http://example.com/exm-namespace/example-project.git",
 			"namespace": "exm-namespace",
-			"visibility_level": 0,
+			"visibility": "public",
 			"path_with_namespace": "exm-namespace/example-project",
 			"default_branch": "master",
 			"homepage": "http://example.com/exm-namespace/example-project",
@@ -589,5 +725,17 @@ func TestMergeEventUnmarshalFromGroup(t *testing.T) {
 
 	if event.Assignee.Username != "root" {
 		t.Errorf("Assignee.Username is %v, want %v", event.Assignee, "root")
+	}
+
+	if event.User.Name == "" {
+		t.Errorf("Username is %s, want %s", event.User.Name, "Administrator")
+	}
+
+	if event.ObjectAttributes.LastCommit.Timestamp == nil {
+		t.Errorf("Timestamp isn't nil")
+	}
+
+	if name := event.ObjectAttributes.LastCommit.Author.Name; name != "Test User" {
+		t.Errorf("Commit Username is %s, want %s", name, "Test User")
 	}
 }
