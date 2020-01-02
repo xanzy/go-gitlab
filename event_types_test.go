@@ -329,6 +329,18 @@ func TestPipelineEventUnmarshal(t *testing.T) {
         }
       ]
    },
+   "merge_request": {
+      "id": 1,
+      "iid": 1,
+      "title": "Test",
+      "source_branch": "test",
+      "source_project_id": 1,
+      "target_branch": "master",
+      "target_project_id": 1,
+      "state": "opened",
+      "merge_status": "can_be_merged",
+      "url": "http://192.168.64.1:3005/gitlab-org/gitlab-test/merge_requests/1"
+   },
    "user":{
       "name": "Administrator",
       "username": "root",
@@ -506,6 +518,10 @@ func TestPipelineEventUnmarshal(t *testing.T) {
 
 	if name := event.Commit.Author.Name; name != "User" {
 		t.Errorf("Commit Username is %s, want %s", name, "User")
+	}
+
+	if mergeRequestID := event.MergeRequest.ID; mergeRequestID != 1 {
+		t.Errorf("Merge Request ID is %d, want %d", mergeRequestID, 1)
 	}
 }
 
