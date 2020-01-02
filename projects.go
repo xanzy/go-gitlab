@@ -1517,7 +1517,7 @@ func (s *ProjectsService) StartMirroringProject(pid interface{}, options ...Opti
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#transfer-a-project-to-a-new-namespace
 type TransferProjectOptions struct {
-	NamespaceID *int `url:"namespace,omitempty" json:"namespace,omitempty"`
+	Namespace interface{} `url:"namespace,omitempty" json:"namespace,omitempty"`
 }
 
 // TransferProject transfer a project into the specified namespace
