@@ -1514,3 +1514,34 @@ func (s *ProjectsService) StartMirroringProject(pid interface{}, options ...Opti
 
 	return resp, err
 }
+
+// TransferProjectOptions represents the available TransferProject() options.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#transfer-a-project-to-a-new-namespace
+type TransferProjectOptions struct {
+	Namespace interface{} `url:"namespace,omitempty" json:"namespace,omitempty"`
+}
+
+// TransferProject transfer a project into the specified namespace
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#transfer-a-project-to-a-new-namespace
+func (s *ProjectsService) TransferProject(pid interface{}, opt *TransferProjectOptions, options ...OptionFunc) (*Project, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/transfer", pathEscape(project))
+
+	req, err := s.client.NewRequest("PUT", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	p := new(Project)
+	resp, err := s.client.Do(req, p)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return p, resp, err
+}
