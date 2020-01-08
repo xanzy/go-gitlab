@@ -163,3 +163,99 @@ func TestUnblockUser_BadResponseFromNet(t *testing.T) {
 		t.Errorf("Users.UnblockUser error.\nExpected: %+v\n     Got: %+v", want, err)
 	}
 }
+
+func TestDeactivateUser(t *testing.T) {
+	mux, server, client := setup()
+	defer teardown(server)
+
+	path := fmt.Sprintf("/%susers/1/deactivate", apiVersionPath)
+	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "POST")
+		w.WriteHeader(http.StatusCreated)
+	})
+
+	err := client.Users.DeactivateUser(1)
+	if err != nil {
+		t.Errorf("Users.DeactivateUser returned error: %v", err)
+	}
+}
+
+func TestDeactivateUser_UserNotFound(t *testing.T) {
+	mux, server, client := setup()
+	defer teardown(server)
+
+	path := fmt.Sprintf("/%susers/1/deactivate", apiVersionPath)
+	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "POST")
+		w.WriteHeader(http.StatusNotFound)
+	})
+
+	err := client.Users.DeactivateUser(1)
+	if err != ErrUserNotFound {
+		t.Errorf("Users.DeactivateUser error.\nExpected: %+v\n     Got: %+v", ErrUserNotFound, err)
+	}
+}
+
+func TestDeactivateUser_DeactivatePrevented(t *testing.T) {
+	mux, server, client := setup()
+	defer teardown(server)
+
+	path := fmt.Sprintf("/%susers/1/deactivate", apiVersionPath)
+	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "POST")
+		w.WriteHeader(http.StatusForbidden)
+	})
+
+	err := client.Users.DeactivateUser(1)
+	if err != ErrUserDeactivatePrevented {
+		t.Errorf("Users.DeactivateUser error.\nExpected: %+v\n     Got: %+v", ErrUserDeactivatePrevented, err)
+	}
+}
+
+func TestActivateUser(t *testing.T) {
+	mux, server, client := setup()
+	defer teardown(server)
+
+	path := fmt.Sprintf("/%susers/1/activate", apiVersionPath)
+	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "POST")
+		w.WriteHeader(http.StatusCreated)
+	})
+
+	err := client.Users.ActivateUser(1)
+	if err != nil {
+		t.Errorf("Users.ActivateUser returned error: %v", err)
+	}
+}
+
+func TestActivateUser_ActivatePrevented(t *testing.T) {
+	mux, server, client := setup()
+	defer teardown(server)
+
+	path := fmt.Sprintf("/%susers/1/activate", apiVersionPath)
+	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "POST")
+		w.WriteHeader(http.StatusForbidden)
+	})
+
+	err := client.Users.ActivateUser(1)
+	if err != ErrUserActivatePrevented {
+		t.Errorf("Users.ActivateUser error.\nExpected: %+v\n     Got: %+v", ErrUserActivatePrevented, err)
+	}
+}
+
+func TestActivateUser_UserNotFound(t *testing.T) {
+	mux, server, client := setup()
+	defer teardown(server)
+
+	path := fmt.Sprintf("/%susers/1/activate", apiVersionPath)
+	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "POST")
+		w.WriteHeader(http.StatusNotFound)
+	})
+
+	err := client.Users.ActivateUser(1)
+	if err != ErrUserNotFound {
+		t.Errorf("Users.ActivateUser error.\nExpected: %+v\n     Got: %+v", ErrUserNotFound, err)
+	}
+}
