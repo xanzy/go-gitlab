@@ -400,7 +400,8 @@ func TestGetApprovalConfiguration(t *testing.T) {
 			"approvals_before_merge": 3,
 			"reset_approvals_on_push": false,
 			"disable_overriding_approvers_per_merge_request": false,
-			"merge_requests_author_approval": true
+			"merge_requests_author_approval": true,
+			"merge_requests_disable_committers_approval": true
 		}`)
 	})
 
@@ -416,6 +417,7 @@ func TestGetApprovalConfiguration(t *testing.T) {
 		ResetApprovalsOnPush: false,
 		DisableOverridingApproversPerMergeRequest: false,
 		MergeRequestsAuthorApproval:               true,
+		MergeRequestsDisableCommittersApproval:    true,
 	}
 
 	if !reflect.DeepEqual(want, approvals) {
@@ -436,7 +438,8 @@ func TestChangeApprovalConfiguration(t *testing.T) {
 			"approvals_before_merge": 3,
 			"reset_approvals_on_push": false,
 			"disable_overriding_approvers_per_merge_request": false,
-			"merge_requests_author_approval": true
+			"merge_requests_author_approval": true,
+			"merge_requests_disable_committers_approval": true
 		}`)
 	})
 
@@ -456,6 +459,7 @@ func TestChangeApprovalConfiguration(t *testing.T) {
 		ResetApprovalsOnPush: false,
 		DisableOverridingApproversPerMergeRequest: false,
 		MergeRequestsAuthorApproval:               true,
+		MergeRequestsDisableCommittersApproval:    true,
 	}
 
 	if !reflect.DeepEqual(want, approvals) {
@@ -477,8 +481,8 @@ func TestChangeAllowedApprovers(t *testing.T) {
 	})
 
 	opt := &ChangeAllowedApproversOptions{
-		ApproverIDs:      []*int{Int(1)},
-		ApproverGroupIDs: []*int{Int(2)},
+		ApproverIDs:      []int{1},
+		ApproverGroupIDs: []int{2},
 	}
 
 	approvals, _, err := client.Projects.ChangeAllowedApprovers(1, opt)
@@ -546,5 +550,258 @@ func TestForkProject(t *testing.T) {
 	want := &Project{ID: 2}
 	if !reflect.DeepEqual(want, project) {
 		t.Errorf("Projects.ForProject returned %+v, want %+v", project, want)
+	}
+}
+
+func TestGetProjectApprovalRules(t *testing.T) {
+	mux, server, client := setup()
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/approval_rules", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "GET")
+		fmt.Fprint(w, `[
+			{
+				"id": 1,
+				"name": "security",
+				"rule_type": "regular",
+				"eligible_approvers": [
+					{
+						"id": 5,
+						"name": "John Doe",
+						"username": "jdoe",
+						"state": "active",
+						"avatar_url": "https://www.gravatar.com/avatar/0?s=80&d=identicon",
+						"web_url": "http://localhost/jdoe"
+					},
+					{
+						"id": 50,
+						"name": "Group Member 1",
+						"username": "group_member_1",
+						"state": "active",
+						"avatar_url": "https://www.gravatar.com/avatar/0?s=80&d=identicon",
+						"web_url": "http://localhost/group_member_1"
+					}
+				],
+				"approvals_required": 3,
+				"users": [
+					{
+						"id": 5,
+						"name": "John Doe",
+						"username": "jdoe",
+						"state": "active",
+						"avatar_url": "https://www.gravatar.com/avatar/0?s=80&d=identicon",
+						"web_url": "http://localhost/jdoe"
+					}
+				],
+				"groups": [
+					{
+						"id": 5,
+						"name": "group1",
+						"path": "group1",
+						"description": "",
+						"visibility": "public",
+						"lfs_enabled": false,
+						"avatar_url": null,
+						"web_url": "http://localhost/groups/group1",
+						"request_access_enabled": false,
+						"full_name": "group1",
+						"full_path": "group1",
+						"parent_id": null,
+						"ldap_cn": null,
+						"ldap_access": null
+					}
+				],
+				"contains_hidden_groups": false
+			}
+		]`)
+	})
+
+	approvals, _, err := client.Projects.GetProjectApprovalRules(1)
+	if err != nil {
+		t.Errorf("Projects.GetProjectApprovalRules returned error: %v", err)
+	}
+
+	want := []*ProjectApprovalRule{
+		&ProjectApprovalRule{
+			ID:       1,
+			Name:     "security",
+			RuleType: "regular",
+			EligibleApprovers: []*BasicUser{
+				&BasicUser{
+					ID:        5,
+					Name:      "John Doe",
+					Username:  "jdoe",
+					State:     "active",
+					AvatarURL: "https://www.gravatar.com/avatar/0?s=80&d=identicon",
+					WebURL:    "http://localhost/jdoe",
+				},
+				&BasicUser{
+					ID:        50,
+					Name:      "Group Member 1",
+					Username:  "group_member_1",
+					State:     "active",
+					AvatarURL: "https://www.gravatar.com/avatar/0?s=80&d=identicon",
+					WebURL:    "http://localhost/group_member_1",
+				},
+			},
+			ApprovalsRequired: 3,
+			Users: []*BasicUser{
+				&BasicUser{
+					ID:        5,
+					Name:      "John Doe",
+					Username:  "jdoe",
+					State:     "active",
+					AvatarURL: "https://www.gravatar.com/avatar/0?s=80&d=identicon",
+					WebURL:    "http://localhost/jdoe",
+				},
+			},
+			Groups: []*Group{
+				&Group{
+					ID:                   5,
+					Name:                 "group1",
+					Path:                 "group1",
+					Description:          "",
+					Visibility:           Visibility(PublicVisibility),
+					LFSEnabled:           false,
+					AvatarURL:            "",
+					WebURL:               "http://localhost/groups/group1",
+					RequestAccessEnabled: false,
+					FullName:             "group1",
+					FullPath:             "group1",
+				},
+			},
+		},
+	}
+
+	if !reflect.DeepEqual(want, approvals) {
+		t.Errorf("Projects.GetProjectApprovalRules returned %+v, want %+v", approvals, want)
+	}
+}
+
+func TestCreateProjectApprovalRule(t *testing.T) {
+	mux, server, client := setup()
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/approval_rules", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "POST")
+		fmt.Fprint(w, `{
+			"id": 1,
+			"name": "security",
+			"rule_type": "regular",
+			"eligible_approvers": [
+				{
+					"id": 5,
+					"name": "John Doe",
+					"username": "jdoe",
+					"state": "active",
+					"avatar_url": "https://www.gravatar.com/avatar/0?s=80&d=identicon",
+					"web_url": "http://localhost/jdoe"
+				},
+				{
+					"id": 50,
+					"name": "Group Member 1",
+					"username": "group_member_1",
+					"state": "active",
+					"avatar_url": "https://www.gravatar.com/avatar/0?s=80&d=identicon",
+					"web_url": "http://localhost/group_member_1"
+				}
+			],
+			"approvals_required": 3,
+			"users": [
+				{
+					"id": 5,
+					"name": "John Doe",
+					"username": "jdoe",
+					"state": "active",
+					"avatar_url": "https://www.gravatar.com/avatar/0?s=80&d=identicon",
+					"web_url": "http://localhost/jdoe"
+				}
+			],
+			"groups": [
+				{
+					"id": 5,
+					"name": "group1",
+					"path": "group1",
+					"description": "",
+					"visibility": "public",
+					"lfs_enabled": false,
+					"avatar_url": null,
+					"web_url": "http://localhost/groups/group1",
+					"request_access_enabled": false,
+					"full_name": "group1",
+					"full_path": "group1",
+					"parent_id": null,
+					"ldap_cn": null,
+					"ldap_access": null
+				}
+			],
+			"contains_hidden_groups": false
+		}`)
+	})
+
+	opt := &CreateProjectLevelRuleOptions{
+		Name:              String("security"),
+		ApprovalsRequired: Int(3),
+		UserIDs:           []int{5, 50},
+		GroupIDs:          []int{5},
+	}
+
+	rule, _, err := client.Projects.CreateProjectApprovalRule(1, opt)
+	if err != nil {
+		t.Errorf("Projects.CreateProjectApprovalRule returned error: %v", err)
+	}
+
+	want := &ProjectApprovalRule{
+		ID:       1,
+		Name:     "security",
+		RuleType: "regular",
+		EligibleApprovers: []*BasicUser{
+			&BasicUser{
+				ID:        5,
+				Name:      "John Doe",
+				Username:  "jdoe",
+				State:     "active",
+				AvatarURL: "https://www.gravatar.com/avatar/0?s=80&d=identicon",
+				WebURL:    "http://localhost/jdoe",
+			},
+			&BasicUser{
+				ID:        50,
+				Name:      "Group Member 1",
+				Username:  "group_member_1",
+				State:     "active",
+				AvatarURL: "https://www.gravatar.com/avatar/0?s=80&d=identicon",
+				WebURL:    "http://localhost/group_member_1",
+			},
+		},
+		ApprovalsRequired: 3,
+		Users: []*BasicUser{
+			&BasicUser{
+				ID:        5,
+				Name:      "John Doe",
+				Username:  "jdoe",
+				State:     "active",
+				AvatarURL: "https://www.gravatar.com/avatar/0?s=80&d=identicon",
+				WebURL:    "http://localhost/jdoe",
+			},
+		},
+		Groups: []*Group{
+			&Group{
+				ID:                   5,
+				Name:                 "group1",
+				Path:                 "group1",
+				Description:          "",
+				Visibility:           Visibility(PublicVisibility),
+				LFSEnabled:           false,
+				AvatarURL:            "",
+				WebURL:               "http://localhost/groups/group1",
+				RequestAccessEnabled: false,
+				FullName:             "group1",
+				FullPath:             "group1",
+			},
+		},
+	}
+
+	if !reflect.DeepEqual(want, rule) {
+		t.Errorf("Projects.CreateProjectApprovalRule returned %+v, want %+v", rule, want)
 	}
 }

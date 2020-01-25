@@ -1,11 +1,14 @@
 package gitlab
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
 	"reflect"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestListEnvironments(t *testing.T) {
@@ -116,5 +119,58 @@ func TestStopEnvironment(t *testing.T) {
 	_, err := client.Environments.StopEnvironment(1, 1)
 	if err != nil {
 		log.Fatal(err)
+	}
+}
+
+func TestUnmarshal(t *testing.T) {
+	jsonObject := `
+    {
+        "id": 10,
+        "name": "production",
+        "slug": "production",
+        "external_url": "https://example.com",
+        "project": {
+            "id": 1,
+            "description": "",
+            "name": "Awesome Project",
+            "name_with_namespace": "FooBar Group / Awesome Project",
+            "path": "awesome-project",
+            "path_with_namespace": "foobar-group/awesome-project",
+            "created_at": "2017-09-30T11:10:08.476-04:00",
+            "default_branch": "develop",
+            "tag_list": [],
+            "ssh_url_to_repo": "git@example.gitlab.com:foobar-group/api.git",
+            "http_url_to_repo": "https://example.gitlab.com/foobar-group/api.git",
+            "web_url": "https://example.gitlab.com/foobar-group/api",
+            "readme_url": null,
+            "avatar_url": null,
+            "star_count": 0,
+            "forks_count": 1,
+            "last_activity_at": "2019-11-03T22:22:46.564-05:00",
+            "namespace": {
+                "id": 15,
+                "name": "FooBar Group",
+                "path": "foobar-group",
+                "kind": "group",
+                "full_path": "foobar-group",
+                "parent_id": null,
+                "avatar_url": null,
+                "web_url": "https://example.gitlab.com/groups/foobar-group"
+            }
+        },
+        "state": "available"
+    }`
+
+	var env Environment
+	err := json.Unmarshal([]byte(jsonObject), &env)
+
+	if assert.NoError(t, err) {
+		assert.Equal(t, 10, env.ID)
+		assert.Equal(t, "production", env.Name)
+		assert.Equal(t, "https://example.com", env.ExternalURL)
+		assert.Equal(t, "available", env.State)
+		if assert.NotNil(t, env.Project) {
+			assert.Equal(t, "Awesome Project", env.Project.Name)
+		}
 	}
 }

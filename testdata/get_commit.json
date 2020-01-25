@@ -15,7 +15,9 @@
         "ref": "master",
         "sha": "2dc6aa325a317eda67812f05600bdf0fcdc70ab0",
         "status": "created",
-        "web_url": "https://gitlab.com/gitlab-org/gitlab-ce/pipelines/54268416"
+        "web_url": "https://gitlab.com/gitlab-org/gitlab-ce/pipelines/54268416",
+        "created_at": "2019-11-04T15:38:53.154Z",
+        "updated_at": "2019-11-04T15:39:03.935Z"
     },
     "stats": {
         "additions": 15,
