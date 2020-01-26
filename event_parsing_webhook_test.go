@@ -14,7 +14,7 @@ func TestWebhookEventType(t *testing.T) {
 	}
 	req.Header.Set("X-Gitlab-Event", "Push Hook")
 
-	eventType := WebhookEventType(req)
+	eventType := HookEventType(req)
 	if eventType != "Push Hook" {
 		t.Errorf("WebhookEventType is %s, want %s", eventType, "Push Hook")
 	}
