@@ -36,7 +36,7 @@ type Group struct {
 	Name                           string             `json:"name"`
 	Path                           string             `json:"path"`
 	Description                    string             `json:"description"`
-	Visibility                     *VisibilityValue   `json:"visibility"`
+	Visibility                     VisibilityValue    `json:"visibility"`
 	LFSEnabled                     bool               `json:"lfs_enabled"`
 	AvatarURL                      string             `json:"avatar_url"`
 	WebURL                         string             `json:"web_url"`
@@ -57,7 +57,7 @@ type Group struct {
 	RunnersToken                   string             `json:"runners_token"`
 	SharedProjects                 []*Project         `json:"shared_projects"`
 	LDAPCN                         string             `json:"ldap_cn"`
-	LDAPAccess                     bool               `json:"ldap_access"`
+	LDAPAccess                     AccessLevelValue   `json:"ldap_access"`
 	SharedRunnersMinutesLimit      int                `json:"shared_runners_minutes_limit"`
 	ExtraSharedRunnersMinutesLimit int                `json:"extra_shared_runners_minutes_limit"`
 }
