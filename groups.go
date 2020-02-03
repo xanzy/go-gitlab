@@ -125,13 +125,17 @@ func (s *GroupsService) GetGroup(gid interface{}, options ...OptionFunc) (*Group
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/groups.html#new-group
 type CreateGroupOptions struct {
-	Name                 *string          `url:"name,omitempty" json:"name,omitempty"`
-	Path                 *string          `url:"path,omitempty" json:"path,omitempty"`
-	Description          *string          `url:"description,omitempty" json:"description,omitempty"`
-	Visibility           *VisibilityValue `url:"visibility,omitempty" json:"visibility,omitempty"`
-	LFSEnabled           *bool            `url:"lfs_enabled,omitempty" json:"lfs_enabled,omitempty"`
-	RequestAccessEnabled *bool            `url:"request_access_enabled,omitempty" json:"request_access_enabled,omitempty"`
-	ParentID             *int             `url:"parent_id,omitempty" json:"parent_id,omitempty"`
+	Name                  *string          `url:"name,omitempty" json:"name,omitempty"`
+	Path                  *string          `url:"path,omitempty" json:"path,omitempty"`
+	Description           *string          `url:"description,omitempty" json:"description,omitempty"`
+	Visibility            *VisibilityValue `url:"visibility,omitempty" json:"visibility,omitempty"`
+    RequireTwoFactorAuth  *bool            `url:"require_two_factor_authentication,omitempty" json:"require_two_factor_authentication,omitempty"`
+    TwoFactorGracePeriod  *int             `url:"two_factor_grace_period,omitempty" json:"two_factor_grace_period,omitempty"`
+    ProjectCreationLevel  *string          `url:"project_creation_level,omitempty" json:"project_creation_level,omitempty"`
+    SubGroupCreationLevel *string          `url:"subgroup_creation_level,omitempty" json:"subgroup_creation_level,omitempty"`
+	LFSEnabled            *bool            `url:"lfs_enabled,omitempty" json:"lfs_enabled,omitempty"`
+	RequestAccessEnabled  *bool            `url:"request_access_enabled,omitempty" json:"request_access_enabled,omitempty"`
+	ParentID              *int             `url:"parent_id,omitempty" json:"parent_id,omitempty"`
 }
 
 // CreateGroup creates a new project group. Available only for users who can
