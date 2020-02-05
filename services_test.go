@@ -56,59 +56,6 @@ func TestDeleteDroneCIService(t *testing.T) {
 	}
 }
 
-func TestGetSlackService(t *testing.T) {
-	mux, server, client := setup()
-	defer teardown(server)
-
-	mux.HandleFunc("/api/v4/projects/1/services/slack", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
-		fmt.Fprint(w, `{"id":1}`)
-	})
-	want := &SlackService{Service: Service{ID: 1}}
-
-	service, _, err := client.Services.GetSlackService(1)
-	if err != nil {
-		t.Fatalf("Services.GetSlackService returns an error: %v", err)
-	}
-	if !reflect.DeepEqual(want, service) {
-		t.Errorf("Services.GetSlackService returned %+v, want %+v", service, want)
-	}
-}
-
-func TestSetSlackService(t *testing.T) {
-	mux, server, client := setup()
-	defer teardown(server)
-
-	mux.HandleFunc("/api/v4/projects/1/services/slack", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "PUT")
-	})
-
-	opt := &SetSlackServiceOptions{
-		WebHook:  String("webhook_uri"),
-		Username: String("username"),
-		Channel:  String("#development"),
-	}
-
-	_, err := client.Services.SetSlackService(1, opt)
-	if err != nil {
-		t.Fatalf("Services.SetSlackService returns an error: %v", err)
-	}
-}
-
-func TestDeleteSlackService(t *testing.T) {
-	mux, server, client := setup()
-	defer teardown(server)
-
-	mux.HandleFunc("/api/v4/projects/1/services/slack", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "DELETE")
-	})
-
-	_, err := client.Services.DeleteSlackService(1)
-	if err != nil {
-		t.Fatalf("Services.DeleteSlackService returns an error: %v", err)
-	}
-}
-
 func TestGetJiraService(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
@@ -204,5 +151,114 @@ func TestDeleteJiraService(t *testing.T) {
 	_, err := client.Services.DeleteJiraService(1)
 	if err != nil {
 		t.Fatalf("Services.DeleteJiraService returns an error: %v", err)
+	}
+}
+
+func TestGetSlackService(t *testing.T) {
+	mux, server, client := setup()
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/services/slack", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "GET")
+		fmt.Fprint(w, `{"id":1}`)
+	})
+	want := &SlackService{Service: Service{ID: 1}}
+
+	service, _, err := client.Services.GetSlackService(1)
+	if err != nil {
+		t.Fatalf("Services.GetSlackService returns an error: %v", err)
+	}
+	if !reflect.DeepEqual(want, service) {
+		t.Errorf("Services.GetSlackService returned %+v, want %+v", service, want)
+	}
+}
+
+func TestSetSlackService(t *testing.T) {
+	mux, server, client := setup()
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/services/slack", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "PUT")
+	})
+
+	opt := &SetSlackServiceOptions{
+		WebHook:  String("webhook_uri"),
+		Username: String("username"),
+		Channel:  String("#development"),
+	}
+
+	_, err := client.Services.SetSlackService(1, opt)
+	if err != nil {
+		t.Fatalf("Services.SetSlackService returns an error: %v", err)
+	}
+}
+
+func TestDeleteSlackService(t *testing.T) {
+	mux, server, client := setup()
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/services/slack", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "DELETE")
+	})
+
+	_, err := client.Services.DeleteSlackService(1)
+	if err != nil {
+		t.Fatalf("Services.DeleteSlackService returns an error: %v", err)
+	}
+}
+
+func TestGetPipelinesEmailService(t *testing.T) {
+	mux, server, client := setup()
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/services/pipelines-email", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "GET")
+		fmt.Fprint(w, `{"id":1}`)
+	})
+	want := &PipelinesEmailService{Service: Service{ID: 1}}
+
+	service, _, err := client.Services.GetPipelinesEmailService(1)
+	if err != nil {
+		t.Fatalf("Services.GetPipelinesEmailService returns an error: %v", err)
+	}
+	if !reflect.DeepEqual(want, service) {
+		t.Errorf("Services.GetPipelinesEmailService returned %+v, want %+v", service, want)
+	}
+}
+
+func TestSetPipelinesEmailService(t *testing.T) {
+	mux, server, client := setup()
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/services/pipelines-email", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "PUT")
+	})
+
+	opt := &SetPipelinesEmailServiceOptions{
+		Recipients:                String("test@email.com"),
+		NotifyOnlyBrokenPipelines: Bool(true),
+		NotifyOnlyDefaultBranch:   Bool(false),
+		AddPusher:                 nil,
+		BranchesToBeNotified:      nil,
+		PipelineEvents:            nil,
+	}
+
+	_, err := client.Services.SetPipelinesEmailService(1, opt)
+	if err != nil {
+		t.Fatalf("Services.SetPipelinesEmailService returns an error: %v", err)
+	}
+}
+
+func TestDeletePipelinesEmailService(t *testing.T) {
+	mux, server, client := setup()
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/services/pipelines-email", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "DELETE")
+	})
+
+	_, err := client.Services.DeletePipelinesEmailService(1)
+	if err != nil {
+		t.Fatalf("Services.DeletePipelinesEmailService returns an error: %v", err)
 	}
 }

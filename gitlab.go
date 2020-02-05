@@ -215,6 +215,33 @@ const (
 	PublicVisibility   VisibilityValue = "public"
 )
 
+// ProjectCreationLevelValue represents a project creation level within GitLab.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/
+type ProjectCreationLevelValue string
+
+// List of available project creation levels.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/
+const (
+	NoOneProjectCreation      ProjectCreationLevelValue = "noone"
+	MaintainerProjectCreation ProjectCreationLevelValue = "maintainer"
+	DeveloperProjectCreation  ProjectCreationLevelValue = "developer"
+)
+
+// SubGroupCreationLevelValue represents a sub group creation level within GitLab.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/
+type SubGroupCreationLevelValue string
+
+// List of available sub group creation levels.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/
+const (
+	OwnerSubGroupCreationLevelValue      SubGroupCreationLevelValue = "owner"
+	MaintainerSubGroupCreationLevelValue SubGroupCreationLevelValue = "maintainer"
+)
+
 // VariableTypeValue represents a variable type within GitLab.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/
@@ -921,6 +948,22 @@ func VariableType(v VariableTypeValue) *VariableTypeValue {
 // to store v and returns a pointer to it.
 func Visibility(v VisibilityValue) *VisibilityValue {
 	p := new(VisibilityValue)
+	*p = v
+	return p
+}
+
+// ProjectCreationLevel is a helper routine that allocates a new ProjectCreationLevelValue
+// to store v and returns a pointer to it.
+func ProjectCreationLevel(v ProjectCreationLevelValue) *ProjectCreationLevelValue {
+	p := new(ProjectCreationLevelValue)
+	*p = v
+	return p
+}
+
+// SubGroupCreationLevel is a helper routine that allocates a new SubGroupCreationLevelValue
+// to store v and returns a pointer to it.
+func SubGroupCreationLevel(v SubGroupCreationLevelValue) *SubGroupCreationLevelValue {
+	p := new(SubGroupCreationLevelValue)
 	*p = v
 	return p
 }

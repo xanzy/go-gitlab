@@ -7,6 +7,7 @@ import (
 	"errors"
 	"io"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -194,4 +195,13 @@ func TestBoolValue(t *testing.T) {
 			}
 		})
 	}
+}
+
+func loadFixture(filePath string) []byte {
+	content, err := ioutil.ReadFile(filePath)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return content
 }
