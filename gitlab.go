@@ -218,7 +218,7 @@ const (
 // ProjectCreationLevelValue represents a project creation level within GitLab.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/
-type ProjectCreationLevelValue String
+type ProjectCreationLevelValue string
 
 // List of available project creation levels.
 //
@@ -232,7 +232,7 @@ const (
 // SubGroupCreationLevelValue represents a sub group creation level within GitLab.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/
-type SubGroupCreationLevelValue String
+type SubGroupCreationLevelValue string
 
 // List of available sub group creation levels.
 //
