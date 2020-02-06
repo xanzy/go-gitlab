@@ -13,7 +13,9 @@ func TestGetApprovalState(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/merge_requests/1/approval_state", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
-		fmt.Fprint(w, `[
+		fmt.Fprint(w, `{
+			"approval_rules_overwritten": true,
+			"rules": [
 			{
 				"id": 1,
 				"name": "security",
@@ -79,7 +81,8 @@ func TestGetApprovalState(t *testing.T) {
 				],
 				"approved": false
 			}
-		]`)
+		]
+		}`)
 	})
 
 	approvals, _, err := client.MergeRequestApprovals.GetApprovalState(1, 1)
@@ -87,66 +90,69 @@ func TestGetApprovalState(t *testing.T) {
 		t.Errorf("MergeRequestApprovals.GetApprovalState returned error: %v", err)
 	}
 
-	want := []*MergeRequestApprovalState{
-		&MergeRequestApprovalState{
-			ID:       1,
-			Name:     "security",
-			RuleType: "regular",
-			EligibleApprovers: []*BasicUser{
-				&BasicUser{
-					ID:        5,
-					Name:      "John Doe",
-					Username:  "jdoe",
-					State:     "active",
-					AvatarURL: "https://www.gravatar.com/avatar/0?s=80&d=identicon",
-					WebURL:    "http://localhost/jdoe",
+	want := &MergeRequestApprovalState{
+		ApprovalRulesOverwritten: true,
+		Rules: []*MergeRequestApprovalStateRule{
+			&MergeRequestApprovalStateRule{
+				ID:       1,
+				Name:     "security",
+				RuleType: "regular",
+				EligibleApprovers: []*BasicUser{
+					&BasicUser{
+						ID:        5,
+						Name:      "John Doe",
+						Username:  "jdoe",
+						State:     "active",
+						AvatarURL: "https://www.gravatar.com/avatar/0?s=80&d=identicon",
+						WebURL:    "http://localhost/jdoe",
+					},
+					&BasicUser{
+						ID:        50,
+						Name:      "Group Member 1",
+						Username:  "group_member_1",
+						State:     "active",
+						AvatarURL: "https://www.gravatar.com/avatar/0?s=80&d=identicon",
+						WebURL:    "http://localhost/group_member_1",
+					},
 				},
-				&BasicUser{
-					ID:        50,
-					Name:      "Group Member 1",
-					Username:  "group_member_1",
-					State:     "active",
-					AvatarURL: "https://www.gravatar.com/avatar/0?s=80&d=identicon",
-					WebURL:    "http://localhost/group_member_1",
+				ApprovalsRequired: 3,
+				Users: []*BasicUser{
+					&BasicUser{
+						ID:        5,
+						Name:      "John Doe",
+						Username:  "jdoe",
+						State:     "active",
+						AvatarURL: "https://www.gravatar.com/avatar/0?s=80&d=identicon",
+						WebURL:    "http://localhost/jdoe",
+					},
 				},
+				Groups: []*Group{
+					&Group{
+						ID:                   5,
+						Name:                 "group1",
+						Path:                 "group1",
+						Description:          "",
+						Visibility:           PublicVisibility,
+						LFSEnabled:           false,
+						AvatarURL:            "",
+						WebURL:               "http://localhost/groups/group1",
+						RequestAccessEnabled: false,
+						FullName:             "group1",
+						FullPath:             "group1",
+					},
+				},
+				ApprovedBy: []*BasicUser{
+					&BasicUser{
+						ID:        5,
+						Name:      "John Doe",
+						Username:  "jdoe",
+						State:     "active",
+						AvatarURL: "https://www.gravatar.com/avatar/0?s=80&d=identicon",
+						WebURL:    "http://localhost/jdoe",
+					},
+				},
+				Approved: false,
 			},
-			ApprovalsRequired: 3,
-			Users: []*BasicUser{
-				&BasicUser{
-					ID:        5,
-					Name:      "John Doe",
-					Username:  "jdoe",
-					State:     "active",
-					AvatarURL: "https://www.gravatar.com/avatar/0?s=80&d=identicon",
-					WebURL:    "http://localhost/jdoe",
-				},
-			},
-			Groups: []*Group{
-				&Group{
-					ID:                   5,
-					Name:                 "group1",
-					Path:                 "group1",
-					Description:          "",
-					Visibility:           PublicVisibility,
-					LFSEnabled:           false,
-					AvatarURL:            "",
-					WebURL:               "http://localhost/groups/group1",
-					RequestAccessEnabled: false,
-					FullName:             "group1",
-					FullPath:             "group1",
-				},
-			},
-			ApprovedBy: []*BasicUser{
-				&BasicUser{
-					ID:        5,
-					Name:      "John Doe",
-					Username:  "jdoe",
-					State:     "active",
-					AvatarURL: "https://www.gravatar.com/avatar/0?s=80&d=identicon",
-					WebURL:    "http://localhost/jdoe",
-				},
-			},
-			Approved: false,
 		},
 	}
 

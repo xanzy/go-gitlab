@@ -81,6 +81,12 @@ type MergeRequestApprovalRule struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#get-the-approval-state-of-merge-requests
 type MergeRequestApprovalState struct {
+	ApprovalRulesOverwritten bool                             `json:"approval_rules_overwritten"`
+	Rules                    []*MergeRequestApprovalStateRule `json:"rules"`
+}
+
+// MergeRequestApprovalStateRule represent rules as part of the MergeRequestApprovalState
+type MergeRequestApprovalStateRule struct {
 	ID                   int                  `json:"id"`
 	Name                 string               `json:"name"`
 	RuleType             string               `json:"rule_type"`
@@ -258,7 +264,7 @@ func (s *MergeRequestApprovalsService) GetApprovalRules(pid interface{}, mergeRe
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#get-the-approval-state-of-merge-requests
-func (s *MergeRequestApprovalsService) GetApprovalState(pid interface{}, mergeRequest int, options ...OptionFunc) ([]*MergeRequestApprovalState, *Response, error) {
+func (s *MergeRequestApprovalsService) GetApprovalState(pid interface{}, mergeRequest int, options ...OptionFunc) (*MergeRequestApprovalState, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -270,7 +276,7 @@ func (s *MergeRequestApprovalsService) GetApprovalState(pid interface{}, mergeRe
 		return nil, nil, err
 	}
 
-	var par []*MergeRequestApprovalState
+	var par *MergeRequestApprovalState
 	resp, err := s.client.Do(req, &par)
 	if err != nil {
 		return nil, resp, err
