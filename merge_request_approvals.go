@@ -74,6 +74,17 @@ type MergeRequestApprovalRule struct {
 	Users                []*BasicUser         `json:"users"`
 	Groups               []*Group             `json:"groups"`
 	ContainsHiddenGroups bool                 `json:"contains_hidden_groups"`
+	ApprovedBy           []*BasicUser         `json:"approved_by"`
+	Approved             bool                 `json:"approved"`
+}
+
+// MergeRequestApprovalState represents a GitLab merge request approval state.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/merge_request_approvals.html#get-the-approval-state-of-merge-requests
+type MergeRequestApprovalState struct {
+	ApprovalRulesOverwritten bool                        `json:"approval_rules_overwritten"`
+	Rules                    []*MergeRequestApprovalRule `json:"rules"`
 }
 
 // String is a stringify for MergeRequestApprovalRule
@@ -234,6 +245,31 @@ func (s *MergeRequestApprovalsService) GetApprovalRules(pid interface{}, mergeRe
 	}
 
 	return par, resp, err
+}
+
+// GetApprovalState requests information about a merge request’s approval state
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/merge_request_approvals.html#get-the-approval-state-of-merge-requests
+func (s *MergeRequestApprovalsService) GetApprovalState(pid interface{}, mergeRequest int, options ...OptionFunc) (*MergeRequestApprovalState, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/approval_state", pathEscape(project), mergeRequest)
+
+	req, err := s.client.NewRequest("GET", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var pas *MergeRequestApprovalState
+	resp, err := s.client.Do(req, &pas)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return pas, resp, err
 }
 
 // CreateMergeRequestApprovalRuleOptions represents the available CreateApprovalRule()
