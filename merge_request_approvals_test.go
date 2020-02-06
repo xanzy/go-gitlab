@@ -92,8 +92,8 @@ func TestGetApprovalState(t *testing.T) {
 
 	want := &MergeRequestApprovalState{
 		ApprovalRulesOverwritten: true,
-		Rules: []*MergeRequestApprovalStateRule{
-			&MergeRequestApprovalStateRule{
+		Rules: []*MergeRequestApprovalRule{
+			&MergeRequestApprovalRule{
 				ID:       1,
 				Name:     "security",
 				RuleType: "regular",

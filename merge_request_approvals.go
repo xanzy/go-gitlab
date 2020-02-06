@@ -74,6 +74,8 @@ type MergeRequestApprovalRule struct {
 	Users                []*BasicUser         `json:"users"`
 	Groups               []*Group             `json:"groups"`
 	ContainsHiddenGroups bool                 `json:"contains_hidden_groups"`
+	ApprovedBy           []*BasicUser         `json:"approved_by"`
+	Approved             bool                 `json:"approved"`
 }
 
 // MergeRequestApprovalState represents a GitLab merge request approval state.
@@ -81,23 +83,8 @@ type MergeRequestApprovalRule struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#get-the-approval-state-of-merge-requests
 type MergeRequestApprovalState struct {
-	ApprovalRulesOverwritten bool                             `json:"approval_rules_overwritten"`
-	Rules                    []*MergeRequestApprovalStateRule `json:"rules"`
-}
-
-// MergeRequestApprovalStateRule represent rules as part of the MergeRequestApprovalState
-type MergeRequestApprovalStateRule struct {
-	ID                   int                  `json:"id"`
-	Name                 string               `json:"name"`
-	RuleType             string               `json:"rule_type"`
-	EligibleApprovers    []*BasicUser         `json:"eligible_approvers"`
-	ApprovalsRequired    int                  `json:"approvals_required"`
-	SourceRule           *ProjectApprovalRule `json:"source_rule"`
-	Users                []*BasicUser         `json:"users"`
-	Groups               []*Group             `json:"groups"`
-	ContainsHiddenGroups bool                 `json:"contains_hidden_groups"`
-	ApprovedBy           []*BasicUser         `json:"approved_by"`
-	Approved             bool                 `json:"approved"`
+	ApprovalRulesOverwritten bool                        `json:"approval_rules_overwritten"`
+	Rules                    []*MergeRequestApprovalRule `json:"rules"`
 }
 
 // String is a stringify for MergeRequestApprovalRule
@@ -276,13 +263,13 @@ func (s *MergeRequestApprovalsService) GetApprovalState(pid interface{}, mergeRe
 		return nil, nil, err
 	}
 
-	var par *MergeRequestApprovalState
-	resp, err := s.client.Do(req, &par)
+	var pas *MergeRequestApprovalState
+	resp, err := s.client.Do(req, &pas)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return par, resp, err
+	return pas, resp, err
 }
 
 // CreateMergeRequestApprovalRuleOptions represents the available CreateApprovalRule()
