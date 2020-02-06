@@ -7,6 +7,154 @@ import (
 	"testing"
 )
 
+func TestGetApprovalState(t *testing.T) {
+	mux, server, client := setup()
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/merge_requests/1/approval_state", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "GET")
+		fmt.Fprint(w, `[
+			{
+				"id": 1,
+				"name": "security",
+				"rule_type": "regular",
+				"eligible_approvers": [
+					{
+						"id": 5,
+						"name": "John Doe",
+						"username": "jdoe",
+						"state": "active",
+						"avatar_url": "https://www.gravatar.com/avatar/0?s=80&d=identicon",
+						"web_url": "http://localhost/jdoe"
+					},
+					{
+						"id": 50,
+						"name": "Group Member 1",
+						"username": "group_member_1",
+						"state": "active",
+						"avatar_url": "https://www.gravatar.com/avatar/0?s=80&d=identicon",
+						"web_url": "http://localhost/group_member_1"
+					}
+				],
+				"approvals_required": 3,
+				"source_rule": null,
+				"users": [
+					{
+						"id": 5,
+						"name": "John Doe",
+						"username": "jdoe",
+						"state": "active",
+						"avatar_url": "https://www.gravatar.com/avatar/0?s=80&d=identicon",
+						"web_url": "http://localhost/jdoe"
+					}
+				],
+				"groups": [
+					{
+						"id": 5,
+						"name": "group1",
+						"path": "group1",
+						"description": "",
+						"visibility": "public",
+						"lfs_enabled": false,
+						"avatar_url": null,
+						"web_url": "http://localhost/groups/group1",
+						"request_access_enabled": false,
+						"full_name": "group1",
+						"full_path": "group1",
+						"parent_id": null,
+						"ldap_cn": null,
+						"ldap_access": null
+					}
+				],
+				"contains_hidden_groups": false,
+				"approved_by": [
+					{
+						"id": 5,
+						"name": "John Doe",
+						"username": "jdoe",
+						"state": "active",
+						"avatar_url": "https://www.gravatar.com/avatar/0?s=80&d=identicon",
+						"web_url": "http://localhost/jdoe"
+					}
+				],
+				"approved": false
+			}
+		]`)
+	})
+
+	approvals, _, err := client.MergeRequestApprovals.GetApprovalState(1, 1)
+	if err != nil {
+		t.Errorf("MergeRequestApprovals.GetApprovalState returned error: %v", err)
+	}
+
+	want := []*MergeRequestApprovalState{
+		&MergeRequestApprovalState{
+			ID:       1,
+			Name:     "security",
+			RuleType: "regular",
+			EligibleApprovers: []*BasicUser{
+				&BasicUser{
+					ID:        5,
+					Name:      "John Doe",
+					Username:  "jdoe",
+					State:     "active",
+					AvatarURL: "https://www.gravatar.com/avatar/0?s=80&d=identicon",
+					WebURL:    "http://localhost/jdoe",
+				},
+				&BasicUser{
+					ID:        50,
+					Name:      "Group Member 1",
+					Username:  "group_member_1",
+					State:     "active",
+					AvatarURL: "https://www.gravatar.com/avatar/0?s=80&d=identicon",
+					WebURL:    "http://localhost/group_member_1",
+				},
+			},
+			ApprovalsRequired: 3,
+			Users: []*BasicUser{
+				&BasicUser{
+					ID:        5,
+					Name:      "John Doe",
+					Username:  "jdoe",
+					State:     "active",
+					AvatarURL: "https://www.gravatar.com/avatar/0?s=80&d=identicon",
+					WebURL:    "http://localhost/jdoe",
+				},
+			},
+			Groups: []*Group{
+				&Group{
+					ID:                   5,
+					Name:                 "group1",
+					Path:                 "group1",
+					Description:          "",
+					Visibility:           PublicVisibility,
+					LFSEnabled:           false,
+					AvatarURL:            "",
+					WebURL:               "http://localhost/groups/group1",
+					RequestAccessEnabled: false,
+					FullName:             "group1",
+					FullPath:             "group1",
+				},
+			},
+			ApprovedBy: []*BasicUser{
+				&BasicUser{
+					ID:        5,
+					Name:      "John Doe",
+					Username:  "jdoe",
+					State:     "active",
+					AvatarURL: "https://www.gravatar.com/avatar/0?s=80&d=identicon",
+					WebURL:    "http://localhost/jdoe",
+				},
+			},
+			Approved: false,
+		},
+	}
+
+	if !reflect.DeepEqual(want, approvals) {
+		t.Errorf("MergeRequestApprovals.GetApprovalState returned %+v, want %+v", approvals, want)
+	}
+}
+
 func TestGetApprovalRules(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)

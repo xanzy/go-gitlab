@@ -76,6 +76,24 @@ type MergeRequestApprovalRule struct {
 	ContainsHiddenGroups bool                 `json:"contains_hidden_groups"`
 }
 
+// MergeRequestApprovalState represents a GitLab merge request approval state.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/merge_request_approvals.html#get-the-approval-state-of-merge-requests
+type MergeRequestApprovalState struct {
+	ID                   int                  `json:"id"`
+	Name                 string               `json:"name"`
+	RuleType             string               `json:"rule_type"`
+	EligibleApprovers    []*BasicUser         `json:"eligible_approvers"`
+	ApprovalsRequired    int                  `json:"approvals_required"`
+	SourceRule           *ProjectApprovalRule `json:"source_rule"`
+	Users                []*BasicUser         `json:"users"`
+	Groups               []*Group             `json:"groups"`
+	ContainsHiddenGroups bool                 `json:"contains_hidden_groups"`
+	ApprovedBy           []*BasicUser         `json:"approved_by"`
+	Approved             bool                 `json:"approved"`
+}
+
 // String is a stringify for MergeRequestApprovalRule
 func (s MergeRequestApprovalRule) String() string {
 	return Stringify(s)
@@ -228,6 +246,31 @@ func (s *MergeRequestApprovalsService) GetApprovalRules(pid interface{}, mergeRe
 	}
 
 	var par []*MergeRequestApprovalRule
+	resp, err := s.client.Do(req, &par)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return par, resp, err
+}
+
+// GetApprovalState requests information about a merge request’s approval state
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/merge_request_approvals.html#get-the-approval-state-of-merge-requests
+func (s *MergeRequestApprovalsService) GetApprovalState(pid interface{}, mergeRequest int, options ...OptionFunc) ([]*MergeRequestApprovalState, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/approval_state", pathEscape(project), mergeRequest)
+
+	req, err := s.client.NewRequest("GET", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var par []*MergeRequestApprovalState
 	resp, err := s.client.Do(req, &par)
 	if err != nil {
 		return nil, resp, err
