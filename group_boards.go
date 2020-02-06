@@ -77,6 +77,40 @@ func (s *GroupIssueBoardsService) ListGroupIssueBoards(gid interface{}, opt *Lis
 	return gs, resp, err
 }
 
+// CreateGroupIssueBoardOptions represents the available
+// CreateGroupIssueBoard() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/group_boards.html#create-a-group-issue-board-premium
+type CreateGroupIssueBoardOptions struct {
+	Name *string `url:"name" json:"name"`
+}
+
+// CreateGroupIssueBoard creates a new issue board.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/group_boards.html#create-a-group-issue-board-premium
+func (s *GroupIssueBoardsService) CreateGroupIssueBoard(gid interface{}, opt *CreateGroupIssueBoardOptions, options ...OptionFunc) (*GroupIssueBoard, *Response, error) {
+	group, err := parseID(gid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("groups/%s/boards", pathEscape(group))
+
+	req, err := s.client.NewRequest("POST", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	gib := new(GroupIssueBoard)
+	resp, err := s.client.Do(req, gib)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return gib, resp, err
+}
+
 // GetGroupIssueBoard gets a single issue board of a group.
 //
 // GitLab API docs:
