@@ -136,6 +136,66 @@ func (s *GroupIssueBoardsService) GetGroupIssueBoard(gid interface{}, board int,
 	return gib, resp, err
 }
 
+type UpdateGroupIssueBoardOptions struct {
+	ID          *string `url:"id" json:"id"`
+	BoardID     *int    `url:"board_id" json:"board_id"`
+	Name        *string `url:"name" json:"name"`
+	AssigneeID  *int    `url:"assignee_id" json:"assignee_id"`
+	MilestoneID *int    `url:"milestone_id" json:"milestone_id"`
+	Labels      *string `url:"labels" json:"labels"`
+	Weight      *int    `url:"weight" json:"weight"`
+}
+
+// UpdateIssueBoard updates a single issue board of a group.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/group_boards.html#update-a-group-issue-board-premium
+func (s *GroupIssueBoardsService) UpdateIssueBoard(gid interface{}, board int, opt *UpdateGroupIssueBoardOptions, options ...OptionFunc) (*GroupIssueBoard, *Response, error) {
+	group, err := parseID(gid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("groups/%s/boards/%d",
+		pathEscape(group),
+		board,
+	)
+
+	req, err := s.client.NewRequest("PUT", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var gib GroupIssueBoard
+	resp, err := s.client.Do(req, gbl)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return gib, resp, err
+}
+
+// DeleteIssueBoard delete a single issue board of a group.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/group_boards.html#delete-a-group-issue-board-premium
+func (s *GroupIssueBoardsService) DeleteIssueBoard(gid interface{}, board int, options ...OptionFunc) (*Response, error) {
+	group, err := parseID(gid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("groups/%s/boards/%d",
+		pathEscape(group),
+		board,
+	)
+
+	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
+
 // ListGroupIssueBoardListsOptions represents the available
 // ListGroupIssueBoardLists() options.
 //
