@@ -147,8 +147,8 @@ func (s *PagesDomainsService) CreatePagesDomain(pid interface{}, opt *CreatePage
 // https://docs.gitlab.com/ce/api/pages_domains.html#update-pages-domain
 type UpdatePagesDomainOptions struct {
 	AutoSslEnabled *bool   `url:"auto_ssl_enabled,omitempty" json:"auto_ssl_enabled,omitempty"`
-	Certificate    *string `url:"certifiate" json:"certifiate"`
-	Key            *string `url:"key" json:"key"`
+	Certificate    *string `url:"certifiate,omitempty" json:"certifiate,omitempty"`
+	Key            *string `url:"key,omitempty" json:"key,omitempty"`
 }
 
 // UpdatePagesDomain updates an existing project pages domain.
