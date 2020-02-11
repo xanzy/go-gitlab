@@ -91,6 +91,10 @@ type Issue struct {
 	Links             *IssueLinks      `json:"_links"`
 	IssueLinkID       int              `json:"issue_link_id"`
 	MergeRequestCount int              `json:"merge_requests_count"`
+	TaskCompletionStatus struct {
+		Count          int `json:"count"`
+		CompletedCount int `json:"completed_count"`
+	} `json:"task_completion_status"`
 }
 
 func (i Issue) String() string {
