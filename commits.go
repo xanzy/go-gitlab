@@ -76,7 +76,7 @@ type ListCommitsOptions struct {
 	Path        *string    `url:"path,omitempty" json:"path,omitempty"`
 	All         *bool      `url:"all,omitempty" json:"all,omitempty"`
 	WithStats   *bool      `url:"with_stats,omitempty" json:"with_stats,omitempty"`
-	FirstParent *string    `url:"first_parent,omitempty" json:"first_parent,omitempty"`
+	FirstParent *bool    `url:"first_parent,omitempty" json:"first_parent,omitempty"`
 }
 
 // ListCommits gets a list of repository commits in a project.
