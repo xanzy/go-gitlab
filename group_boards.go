@@ -136,6 +136,10 @@ func (s *GroupIssueBoardsService) GetGroupIssueBoard(gid interface{}, board int,
 	return gib, resp, err
 }
 
+// UpdateGroupIssueBoardOptions represents a group issue board.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/group_boards.html#update-a-group-issue-board-premium
 type UpdateGroupIssueBoardOptions struct {
 	Name        *string `url:"name,omitempty" json:"name,omitempty"`
 	AssigneeID  *int    `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
