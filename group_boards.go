@@ -164,8 +164,8 @@ func (s *GroupIssueBoardsService) UpdateIssueBoard(gid interface{}, board int, o
 		return nil, nil, err
 	}
 
-	var gib GroupIssueBoard
-	resp, err := s.client.Do(req, gbl)
+	gib := new(GroupIssueBoard)
+	resp, err := s.client.Do(req, gib)
 	if err != nil {
 		return nil, resp, err
 	}
