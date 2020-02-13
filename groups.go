@@ -54,6 +54,7 @@ type Group struct {
 	AutoDevopsEnabled              bool                       `json:"auto_devops_enabled"`
 	SubGroupCreationLevel          SubGroupCreationLevelValue `json:"subgroup_creation_level"`
 	EmailsDisabled                 bool                       `json:"emails_disabled"`
+	MentionsDisabled               bool                       `json:"mentions_disabled"`
 	RunnersToken                   string                     `json:"runners_token"`
 	SharedProjects                 []*Project                 `json:"shared_projects"`
 	LDAPCN                         string                     `json:"ldap_cn"`
