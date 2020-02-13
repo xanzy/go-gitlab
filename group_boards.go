@@ -137,13 +137,11 @@ func (s *GroupIssueBoardsService) GetGroupIssueBoard(gid interface{}, board int,
 }
 
 type UpdateGroupIssueBoardOptions struct {
-	ID          *string `url:"id" json:"id"`
-	BoardID     *int    `url:"board_id" json:"board_id"`
-	Name        *string `url:"name" json:"name"`
-	AssigneeID  *int    `url:"assignee_id" json:"assignee_id"`
-	MilestoneID *int    `url:"milestone_id" json:"milestone_id"`
-	Labels      *string `url:"labels" json:"labels"`
-	Weight      *int    `url:"weight" json:"weight"`
+	Name        *string `url:"name,omitempty" json:"name,omitempty"`
+	AssigneeID  *int    `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
+	MilestoneID *int    `url:"milestone_id,omitempty" json:"milestone_id,omitempty"`
+	Labels      *string `url:"labels,omitempty" json:"labels,omitempty"`
+	Weight      *int    `url:"weight,omitempty" json:"weight,omitempty"`
 }
 
 // UpdateIssueBoard updates a single issue board of a group.
@@ -155,10 +153,7 @@ func (s *GroupIssueBoardsService) UpdateIssueBoard(gid interface{}, board int, o
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s/boards/%d",
-		pathEscape(group),
-		board,
-	)
+	u := fmt.Sprintf("groups/%s/boards/%d", pathEscape(group), board)
 
 	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
@@ -183,10 +178,7 @@ func (s *GroupIssueBoardsService) DeleteIssueBoard(gid interface{}, board int, o
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("groups/%s/boards/%d",
-		pathEscape(group),
-		board,
-	)
+	u := fmt.Sprintf("groups/%s/boards/%d", pathEscape(group), board)
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {
