@@ -40,6 +40,31 @@ func (m MergeRequestApprovals) String() string {
 	return Stringify(m)
 }
 
+// GetConfiguration shows information about single merge request approvals
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/merge_request_approvals.html#get-configuration-1
+func (s *MergeRequestApprovalsService) GetConfiguration(pid interface{}, mr int, options ...OptionFunc) (*MergeRequestApprovals, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/approvals", pathEscape(project), mr)
+
+	req, err := s.client.NewRequest("GET", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	m := new(MergeRequestApprovals)
+	resp, err := s.client.Do(req, m)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return m, resp, err
+}
+
 // MergeRequestApproverGroup  represents GitLab project level merge request approver group.
 //
 // GitLab API docs:
