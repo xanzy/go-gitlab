@@ -157,26 +157,27 @@ func (s *UsersService) GetUser(user int, options ...OptionFunc) (*User, *Respons
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/users.html#user-creation
 type CreateUserOptions struct {
-	Email            *string `url:"email,omitempty" json:"email,omitempty"`
-	Password         *string `url:"password,omitempty" json:"password,omitempty"`
-	ResetPassword    *bool   `url:"reset_password,omitempty" json:"reset_password,omitempty"`
-	Username         *string `url:"username,omitempty" json:"username,omitempty"`
-	Name             *string `url:"name,omitempty" json:"name,omitempty"`
-	Skype            *string `url:"skype,omitempty" json:"skype,omitempty"`
-	Linkedin         *string `url:"linkedin,omitempty" json:"linkedin,omitempty"`
-	Twitter          *string `url:"twitter,omitempty" json:"twitter,omitempty"`
-	WebsiteURL       *string `url:"website_url,omitempty" json:"website_url,omitempty"`
-	Organization     *string `url:"organization,omitempty" json:"organization,omitempty"`
-	ProjectsLimit    *int    `url:"projects_limit,omitempty" json:"projects_limit,omitempty"`
-	ExternUID        *string `url:"extern_uid,omitempty" json:"extern_uid,omitempty"`
-	Provider         *string `url:"provider,omitempty" json:"provider,omitempty"`
-	Bio              *string `url:"bio,omitempty" json:"bio,omitempty"`
-	Location         *string `url:"location,omitempty" json:"location,omitempty"`
-	Admin            *bool   `url:"admin,omitempty" json:"admin,omitempty"`
-	CanCreateGroup   *bool   `url:"can_create_group,omitempty" json:"can_create_group,omitempty"`
-	SkipConfirmation *bool   `url:"skip_confirmation,omitempty" json:"skip_confirmation,omitempty"`
-	External         *bool   `url:"external,omitempty" json:"external,omitempty"`
-	PrivateProfile   *bool   `url:"private_profile,omitempty" json:"private_profile,omitempty"`
+	Email               *string `url:"email,omitempty" json:"email,omitempty"`
+	Password            *string `url:"password,omitempty" json:"password,omitempty"`
+	ResetPassword       *bool   `url:"reset_password,omitempty" json:"reset_password,omitempty"`
+	ForceRandomPassword *bool   `url:"force_random_password,omitempty" json:"force_random_password,omitempty"`
+	Username            *string `url:"username,omitempty" json:"username,omitempty"`
+	Name                *string `url:"name,omitempty" json:"name,omitempty"`
+	Skype               *string `url:"skype,omitempty" json:"skype,omitempty"`
+	Linkedin            *string `url:"linkedin,omitempty" json:"linkedin,omitempty"`
+	Twitter             *string `url:"twitter,omitempty" json:"twitter,omitempty"`
+	WebsiteURL          *string `url:"website_url,omitempty" json:"website_url,omitempty"`
+	Organization        *string `url:"organization,omitempty" json:"organization,omitempty"`
+	ProjectsLimit       *int    `url:"projects_limit,omitempty" json:"projects_limit,omitempty"`
+	ExternUID           *string `url:"extern_uid,omitempty" json:"extern_uid,omitempty"`
+	Provider            *string `url:"provider,omitempty" json:"provider,omitempty"`
+	Bio                 *string `url:"bio,omitempty" json:"bio,omitempty"`
+	Location            *string `url:"location,omitempty" json:"location,omitempty"`
+	Admin               *bool   `url:"admin,omitempty" json:"admin,omitempty"`
+	CanCreateGroup      *bool   `url:"can_create_group,omitempty" json:"can_create_group,omitempty"`
+	SkipConfirmation    *bool   `url:"skip_confirmation,omitempty" json:"skip_confirmation,omitempty"`
+	External            *bool   `url:"external,omitempty" json:"external,omitempty"`
+	PrivateProfile      *bool   `url:"private_profile,omitempty" json:"private_profile,omitempty"`
 }
 
 // CreateUser creates a new user. Note only administrators can create new users.
