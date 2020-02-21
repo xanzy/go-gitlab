@@ -797,6 +797,8 @@ type ProjectMember struct {
 	CreatedAt   *time.Time       `json:"created_at"`
 	ExpiresAt   *ISOTime         `json:"expires_at"`
 	AccessLevel AccessLevelValue `json:"access_level"`
+	WebURL      string           `json:"web_url"`
+	AvatarURL   string           `json:"avatar_url"`
 }
 
 // ProjectHook represents a project hook.
