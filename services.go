@@ -975,9 +975,9 @@ type CustomIssueTrackerService struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/services.html#custom-issue-tracker
 type CustomIssueTrackerServiceProperties struct {
-	ProjectURL  string `json:"project_url"`
-	IssuesURL   string `json:"issues_url"`
-	NewIssueURL string `json:"new_issue_url"`
+	ProjectURL  string `json:"project_url,omitempty"`
+	IssuesURL   string `json:"issues_url,omitempty"`
+	NewIssueURL string `json:"new_issue_url,omitempty"`
 }
 
 // GetCustomIssueTrackerService gets Custom Issue Tracker service settings for a project.
@@ -1011,12 +1011,12 @@ func (s *ServicesService) GetCustomIssueTrackerService(pid interface{}, options 
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/services.html#createedit-custom-issue-tracker-service
 type SetCustomIssueTrackerServiceOptions struct {
-	NewIssueURL *string `url:"new_issue_url" json:"new_issue_url" `
-	IssuesURL   *string `url:"issues_url" json:"issues_url" `
-	ProjectURL  *string `url:"project_url" json:"project_url" `
-	Description *string `url:"description" json:"description" `
-	Title       *string `url:"title" json:"title" `
-	PushEvents  *bool   `url:"push_events" json:"push_events" `
+	NewIssueURL *string `url:"new_issue_url,omitempty" json:"new_issue_url,omitempty"`
+	IssuesURL   *string `url:"issues_url,omitempty" json:"issues_url,omitempty"`
+	ProjectURL  *string `url:"project_url,omitempty" json:"project_url,omitempty"`
+	Description *string `url:"description,omitempty" json:"description,omitempty"`
+	Title       *string `url:"title,omitempty" json:"title,omitempty"`
+	PushEvents  *bool   `url:"push_events,omitempty" json:"push_events,omitempty"`
 }
 
 // SetCustomIssueTrackerService sets Custom Issue Tracker service for a project.
