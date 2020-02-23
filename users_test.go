@@ -3,7 +3,7 @@ package gitlab
 import (
 	"fmt"
 	"net/http"
-	"reflect"
+	"strings"
 	"testing"
 )
 
@@ -35,7 +35,7 @@ func TestBlockUser_UserNotFound(t *testing.T) {
 
 	err := client.Users.BlockUser(1)
 	if err != ErrUserNotFound {
-		t.Errorf("Users.BlockUser error.\nExpected: %+v\n     Got: %+v", ErrUserNotFound, err)
+		t.Errorf("Users.BlockUser error.\nExpected: %+v\nGot: %+v", ErrUserNotFound, err)
 	}
 }
 
@@ -51,7 +51,7 @@ func TestBlockUser_BlockPrevented(t *testing.T) {
 
 	err := client.Users.BlockUser(1)
 	if err != ErrUserBlockPrevented {
-		t.Errorf("Users.BlockUser error.\nExpected: %+v\n     Got: %+v", ErrUserBlockPrevented, err)
+		t.Errorf("Users.BlockUser error.\nExpected: %+v\nGot: %+v", ErrUserBlockPrevented, err)
 	}
 }
 
@@ -65,11 +65,11 @@ func TestBlockUser_UnknownError(t *testing.T) {
 		w.WriteHeader(http.StatusTeapot)
 	})
 
-	want := fmt.Errorf("Received unexpected result code: %d", http.StatusTeapot)
+	want := fmt.Sprintf("Received unexpected result code: %d", http.StatusTeapot)
 
 	err := client.Users.BlockUser(1)
-	if !reflect.DeepEqual(err, want) {
-		t.Errorf("Users.BlockUser error.\nExpected: %+v\n     Got: %+v", want, err)
+	if err.Error() != want {
+		t.Errorf("Users.BlockUser error.\nExpected: %s\nGot: %v", want, err)
 	}
 }
 
@@ -77,11 +77,11 @@ func TestBlockUser_BadResponseFromNet(t *testing.T) {
 	client := NewClient(nil, "")
 	client.SetBaseURL("")
 
-	want := fmt.Sprintf("Post /%susers/1/block: unsupported protocol scheme \"\"", apiVersionPath)
+	want := "unsupported protocol scheme"
 
 	err := client.Users.BlockUser(1)
-	if err.Error() != want {
-		t.Errorf("Users.BlockUser error.\nExpected: %+v\n     Got: %+v", want, err)
+	if !strings.Contains(err.Error(), want) {
+		t.Errorf("Users.BlockUser error.\nExpected error to contain: %s\nGot: %v", want, err)
 	}
 }
 
@@ -114,7 +114,7 @@ func TestUnblockUser_UserNotFound(t *testing.T) {
 
 	err := client.Users.UnblockUser(1)
 	if err != ErrUserNotFound {
-		t.Errorf("Users.UnblockUser error.\nExpected: %+v\n     Got: %+v", ErrUserNotFound, err)
+		t.Errorf("Users.UnblockUser error.\nExpected: %v\nGot: %v", ErrUserNotFound, err)
 	}
 }
 
@@ -130,7 +130,7 @@ func TestUnblockUser_UnblockPrevented(t *testing.T) {
 
 	err := client.Users.UnblockUser(1)
 	if err != ErrUserUnblockPrevented {
-		t.Errorf("Users.UnblockUser error.\nExpected: %+v\n     Got: %+v", ErrUserUnblockPrevented, err)
+		t.Errorf("Users.UnblockUser error.\nExpected: %v\nGot: %v", ErrUserUnblockPrevented, err)
 	}
 }
 
@@ -144,11 +144,11 @@ func TestUnblockUser_UnknownError(t *testing.T) {
 		w.WriteHeader(http.StatusTeapot)
 	})
 
-	want := fmt.Errorf("Received unexpected result code: %d", http.StatusTeapot)
+	want := fmt.Sprintf("Received unexpected result code: %d", http.StatusTeapot)
 
 	err := client.Users.UnblockUser(1)
-	if !reflect.DeepEqual(err, want) {
-		t.Errorf("Users.UnblockUser error.\nExpected: %+v\n     Got: %+v", want, err)
+	if err.Error() != want {
+		t.Errorf("Users.UnblockUser error.\nExpected: %s\n\tGot: %v", want, err)
 	}
 }
 
@@ -156,11 +156,11 @@ func TestUnblockUser_BadResponseFromNet(t *testing.T) {
 	client := NewClient(nil, "")
 	client.SetBaseURL("")
 
-	want := fmt.Sprintf("Post /%susers/1/unblock: unsupported protocol scheme \"\"", apiVersionPath)
+	want := "unsupported protocol scheme"
 
 	err := client.Users.UnblockUser(1)
-	if err.Error() != want {
-		t.Errorf("Users.UnblockUser error.\nExpected: %+v\n     Got: %+v", want, err)
+	if !strings.Contains(err.Error(), want) {
+		t.Errorf("Users.BlockUser error.\nExpected error to contain: %s\nGot: %v", want, err)
 	}
 }
 
@@ -192,7 +192,7 @@ func TestDeactivateUser_UserNotFound(t *testing.T) {
 
 	err := client.Users.DeactivateUser(1)
 	if err != ErrUserNotFound {
-		t.Errorf("Users.DeactivateUser error.\nExpected: %+v\n     Got: %+v", ErrUserNotFound, err)
+		t.Errorf("Users.DeactivateUser error.\nExpected: %+v\n\tGot: %+v", ErrUserNotFound, err)
 	}
 }
 
@@ -208,7 +208,7 @@ func TestDeactivateUser_DeactivatePrevented(t *testing.T) {
 
 	err := client.Users.DeactivateUser(1)
 	if err != ErrUserDeactivatePrevented {
-		t.Errorf("Users.DeactivateUser error.\nExpected: %+v\n     Got: %+v", ErrUserDeactivatePrevented, err)
+		t.Errorf("Users.DeactivateUser error.\nExpected: %+v\n\tGot: %+v", ErrUserDeactivatePrevented, err)
 	}
 }
 
@@ -240,7 +240,7 @@ func TestActivateUser_ActivatePrevented(t *testing.T) {
 
 	err := client.Users.ActivateUser(1)
 	if err != ErrUserActivatePrevented {
-		t.Errorf("Users.ActivateUser error.\nExpected: %+v\n     Got: %+v", ErrUserActivatePrevented, err)
+		t.Errorf("Users.ActivateUser error.\nExpected: %+v\n\tGot: %+v", ErrUserActivatePrevented, err)
 	}
 }
 
@@ -256,6 +256,6 @@ func TestActivateUser_UserNotFound(t *testing.T) {
 
 	err := client.Users.ActivateUser(1)
 	if err != ErrUserNotFound {
-		t.Errorf("Users.ActivateUser error.\nExpected: %+v\n     Got: %+v", ErrUserNotFound, err)
+		t.Errorf("Users.ActivateUser error.\nExpected: %+v\n\tGot: %+v", ErrUserNotFound, err)
 	}
 }
