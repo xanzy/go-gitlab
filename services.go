@@ -960,3 +960,99 @@ func (s *ServicesService) DeleteSlackService(pid interface{}, options ...OptionF
 
 	return s.client.Do(req, nil)
 }
+
+// CustomIssueTrackerService represents Custom Issue Tracker service settings.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/services.html#custom-issue-tracker
+type CustomIssueTrackerService struct {
+	Service
+	Properties *CustomIssueTrackerServiceProperties `json:"properties"`
+}
+
+// CustomIssueTrackerServiceProperties represents Custom Issue Tracker specific properties.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/services.html#custom-issue-tracker
+type CustomIssueTrackerServiceProperties struct {
+	ProjectURL  string `json:"project_url,omitempty"`
+	IssuesURL   string `json:"issues_url,omitempty"`
+	NewIssueURL string `json:"new_issue_url,omitempty"`
+}
+
+// GetCustomIssueTrackerService gets Custom Issue Tracker service settings for a project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/services.html#get-custom-issue-tracker-service-settings
+func (s *ServicesService) GetCustomIssueTrackerService(pid interface{}, options ...OptionFunc) (*CustomIssueTrackerService, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/services/custom-issue-tracker", pathEscape(project))
+
+	req, err := s.client.NewRequest("GET", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	svc := new(CustomIssueTrackerService)
+	resp, err := s.client.Do(req, svc)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return svc, resp, err
+}
+
+// SetCustomIssueTrackerServiceOptions represents the available SetCustomIssueTrackerService()
+// options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/services.html#createedit-custom-issue-tracker-service
+type SetCustomIssueTrackerServiceOptions struct {
+	NewIssueURL *string `url:"new_issue_url,omitempty" json:"new_issue_url,omitempty"`
+	IssuesURL   *string `url:"issues_url,omitempty" json:"issues_url,omitempty"`
+	ProjectURL  *string `url:"project_url,omitempty" json:"project_url,omitempty"`
+	Description *string `url:"description,omitempty" json:"description,omitempty"`
+	Title       *string `url:"title,omitempty" json:"title,omitempty"`
+	PushEvents  *bool   `url:"push_events,omitempty" json:"push_events,omitempty"`
+}
+
+// SetCustomIssueTrackerService sets Custom Issue Tracker service for a project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/services.html#createedit-custom-issue-tracker-service
+func (s *ServicesService) SetCustomIssueTrackerService(pid interface{}, opt *SetCustomIssueTrackerServiceOptions, options ...OptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/services/custom-issue-tracker", pathEscape(project))
+
+	req, err := s.client.NewRequest("PUT", u, opt, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
+
+// DeleteCustomIssueTrackerService deletes Custom Issue Tracker service settings for a project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/services.html#delete-custom-issue-tracker-service
+func (s *ServicesService) DeleteCustomIssueTrackerService(pid interface{}, options ...OptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/services/custom-issue-tracker", pathEscape(project))
+
+	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
