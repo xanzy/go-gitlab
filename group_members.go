@@ -28,18 +28,30 @@ type GroupMembersService struct {
 	client *Client
 }
 
+// GroupMemberSamlIdentity represents the SAML Identity link for the group member.
+//
+// GitLab API docs: TBD
+// Gitlab MR for API change: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/20357
+// Gitlab MR for API Doc change: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/25652
+type GroupMemberSamlIdentity struct {
+	ExternUID      string `json:"extern_uid"`
+	Provider       string `json:"provider"`
+	SamlProviderID int    `json:"saml_provider_id"`
+}
+
 // GroupMember represents a GitLab group member.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/members.html
 type GroupMember struct {
-	ID          int              `json:"id"`
-	Username    string           `json:"username"`
-	Name        string           `json:"name"`
-	State       string           `json:"state"`
-	AvatarURL   string           `json:"avatar_url"`
-	WebURL      string           `json:"web_url"`
-	ExpiresAt   *ISOTime         `json:"expires_at"`
-	AccessLevel AccessLevelValue `json:"access_level"`
+	ID                int                     `json:"id"`
+	Username          string                  `json:"username"`
+	Name              string                  `json:"name"`
+	State             string                  `json:"state"`
+	AvatarURL         string                  `json:"avatar_url"`
+	WebURL            string                  `json:"web_url"`
+	ExpiresAt         *ISOTime                `json:"expires_at"`
+	AccessLevel       AccessLevelValue        `json:"access_level"`
+	GroupSamlIdentity GroupMemberSamlIdentity `json:"group_saml_identity"`
 }
 
 // ListGroupMembersOptions represents the available ListGroupMembers() and
