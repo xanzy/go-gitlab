@@ -536,6 +536,9 @@ type JiraServiceProperties struct {
 	Username              string `json:"username,omitempty" `
 	Password              string `json:"password,omitempty" `
 	JiraIssueTransitionID string `json:"jira_issue_transition_id,omitempty"`
+	CommitEvents          bool   `json:"commit_events,omitempty" `
+	MergeRequestsEvents   bool   `json:"merge_requests_events,omitempty" `
+	CommentOnEventEnabled bool   `json:"comment_on_event_enabled,omitempty" `
 }
 
 // UnmarshalJSON decodes the Jira Service Properties.
@@ -605,6 +608,9 @@ type SetJiraServiceOptions struct {
 	Username              *string `url:"username,omitempty" json:"username,omitempty" `
 	Password              *string `url:"password,omitempty" json:"password,omitempty" `
 	JiraIssueTransitionID *string `url:"jira_issue_transition_id,omitempty" json:"jira_issue_transition_id,omitempty"`
+	CommitEvents          *bool   `url:"commit_events,omitempty" json:"commit_events,omitempty"`
+	MergeRequestsEvents   *bool   `url:"merge_requests_events,omitempty" json:"merge_requests_events,omitempty"`
+	CommentOnEventEnabled *bool   `url:"comment_on_event_enabled,omitempty" json:"comment_on_event_enabled,omitempty"`
 }
 
 // SetJiraService sets Jira service for a project
