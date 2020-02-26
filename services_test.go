@@ -132,6 +132,9 @@ func TestSetJiraService(t *testing.T) {
 		Username:              String("aas"),
 		Password:              String("asd"),
 		JiraIssueTransitionID: String("2,3"),
+		CommitEvents:          Bool(true),
+		CommentOnEventEnabled: Bool(true),
+		MergeRequestsEvents:   Bool(true),
 	}
 
 	_, err := client.Services.SetJiraService(1, opt)
