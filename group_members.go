@@ -51,7 +51,7 @@ type GroupMember struct {
 	WebURL            string                   `json:"web_url"`
 	ExpiresAt         *ISOTime                 `json:"expires_at"`
 	AccessLevel       AccessLevelValue         `json:"access_level"`
-	GroupSamlIdentity *GroupMemberSAMLIdentity `json:"group_saml_identity"`
+	GroupSAMLIdentity *GroupMemberSAMLIdentity `json:"group_saml_identity"`
 }
 
 // ListGroupMembersOptions represents the available ListGroupMembers() and
