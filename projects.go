@@ -808,6 +808,7 @@ type ProjectMember struct {
 type ProjectHook struct {
 	ID                       int        `json:"id"`
 	URL                      string     `json:"url"`
+	ConfidentialNoteEvents   bool       `json:"confidential_note_events"`
 	ProjectID                int        `json:"project_id"`
 	PushEvents               bool       `json:"push_events"`
 	IssuesEvents             bool       `json:"issues_events"`
@@ -883,6 +884,7 @@ func (s *ProjectsService) GetProjectHook(pid interface{}, hook int, options ...O
 // https://docs.gitlab.com/ce/api/projects.html#add-project-hook
 type AddProjectHookOptions struct {
 	URL                      *string `url:"url,omitempty" json:"url,omitempty"`
+	ConfidentialNoteEvents   *bool   `url:"confidential_note_events,omitempty" json:"confidential_note_events,omitempty"`
 	PushEvents               *bool   `url:"push_events,omitempty" json:"push_events,omitempty"`
 	IssuesEvents             *bool   `url:"issues_events,omitempty" json:"issues_events,omitempty"`
 	ConfidentialIssuesEvents *bool   `url:"confidential_issues_events,omitempty" json:"confidential_issues_events,omitempty"`
@@ -927,6 +929,7 @@ func (s *ProjectsService) AddProjectHook(pid interface{}, opt *AddProjectHookOpt
 // https://docs.gitlab.com/ce/api/projects.html#edit-project-hook
 type EditProjectHookOptions struct {
 	URL                      *string `url:"url,omitempty" json:"url,omitempty"`
+	ConfidentialNoteEvents   *bool   `url:"confidential_note_events,omitempty" json:"confidential_note_events,omitempty"`
 	PushEvents               *bool   `url:"push_events,omitempty" json:"push_events,omitempty"`
 	IssuesEvents             *bool   `url:"issues_events,omitempty" json:"issues_events,omitempty"`
 	ConfidentialIssuesEvents *bool   `url:"confidential_issues_events,omitempty" json:"confidential_issues_events,omitempty"`
