@@ -11,16 +11,18 @@ type EventType string
 
 // List of available event types.
 const (
-	EventTypeBuild        EventType = "Build Hook"
-	EventTypeIssue        EventType = "Issue Hook"
-	EventTypeJob          EventType = "Job Hook"
-	EventTypeMergeRequest EventType = "Merge Request Hook"
-	EventTypeNote         EventType = "Note Hook"
-	EventTypePipeline     EventType = "Pipeline Hook"
-	EventTypePush         EventType = "Push Hook"
-	EventTypeSystemHook   EventType = "System Hook"
-	EventTypeTagPush      EventType = "Tag Push Hook"
-	EventTypeWikiPage     EventType = "Wiki Page Hook"
+	EventTypeBuild         EventType = "Build Hook"
+	EventTypeIssue         EventType = "Issue Hook"
+	EventConfidentialIssue EventType = "Confidential Issue Hook"
+	EventTypeJob           EventType = "Job Hook"
+	EventTypeMergeRequest  EventType = "Merge Request Hook"
+	EventTypeNote          EventType = "Note Hook"
+	EventConfidentialNote  EventType = "Confidential Note Hook"
+	EventTypePipeline      EventType = "Pipeline Hook"
+	EventTypePush          EventType = "Push Hook"
+	EventTypeSystemHook    EventType = "System Hook"
+	EventTypeTagPush       EventType = "Tag Push Hook"
+	EventTypeWikiPage      EventType = "Wiki Page Hook"
 )
 
 const (
@@ -181,7 +183,7 @@ func ParseWebhook(eventType EventType, payload []byte) (event interface{}, err e
 	switch eventType {
 	case EventTypeBuild:
 		event = &BuildEvent{}
-	case EventTypeIssue:
+	case EventTypeIssue, EventConfidentialIssue:
 		event = &IssueEvent{}
 	case EventTypeJob:
 		event = &JobEvent{}
@@ -195,7 +197,7 @@ func ParseWebhook(eventType EventType, payload []byte) (event interface{}, err e
 		event = &TagEvent{}
 	case EventTypeWikiPage:
 		event = &WikiPageEvent{}
-	case EventTypeNote:
+	case EventTypeNote, EventConfidentialNote:
 		note := &noteEvent{}
 		err := json.Unmarshal(payload, note)
 		if err != nil {
