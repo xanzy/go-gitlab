@@ -120,6 +120,7 @@ func TestGetMergeRequest(t *testing.T) {
 	require.Equal(t, mergeRequest.CreatedAt, &mrCreation)
 	mrUpdate := time.Date(2019, 8, 20, 9, 9, 56, 690000000, time.UTC)
 	require.Equal(t, mergeRequest.UpdatedAt, &mrUpdate)
+	require.Equal(t, mergeRequest.HasConflicts, true)
 }
 
 func TestListProjectMergeRequests(t *testing.T) {

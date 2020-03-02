@@ -98,6 +98,7 @@ type MergeRequest struct {
 		Count          int `json:"count"`
 		CompletedCount int `json:"completed_count"`
 	} `json:"task_completion_status"`
+	HasConflicts bool `json:"has_conflicts"`
 }
 
 func (m MergeRequest) String() string {
