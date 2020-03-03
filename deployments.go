@@ -118,3 +118,81 @@ func (s *DeploymentsService) GetProjectDeployment(pid interface{}, deployment in
 
 	return d, resp, err
 }
+
+// CreateProjectDeploymentOptions represents the available
+// CreateProjectDeployment() options.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/deployments.html#create-a-deployment
+type CreateProjectDeploymentOptions struct {
+	// The name of the environment to create the deployment for
+	Environment string `json:"environment"`
+
+	// The name of the branch or tag that is deployed
+	Ref string `json:"ref"`
+
+	// The SHA of the commit that is deployed
+	SHA string `json:"sha"`
+
+	// A boolean that indicates if the deployed ref is a tag (true) or not (false)
+	Tag bool `json:"tag"`
+
+	// The status of the deployment
+	Status BuildStateValue `json:"status"`
+}
+
+// CreateProjectDeployment creates a project deployment.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/deployments.html#create-a-deployment
+func (s *DeploymentsService) CreateProjectDeployment(pid interface{}, opt *CreateProjectDeploymentOptions, options ...OptionFunc) (*Deployment, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/deployments", pathEscape(project))
+
+	req, err := s.client.NewRequest("POST", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	d := new(Deployment)
+	resp, err := s.client.Do(req, &d)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return d, resp, err
+}
+
+// UpdateProjectDeploymentOptions represents the available
+// UpdateProjectDeployment() options.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/deployments.html#updating-a-deployment
+type UpdateProjectDeploymentOptions struct {
+	// The status of the deployment
+	Status BuildStateValue `json:"status"`
+}
+
+// UpdateProjectDeployment updates a project deployment.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/deployments.html#updating-a-deployment
+func (s *DeploymentsService) UpdateProjectDeployment(pid interface{}, deployment int, opt *UpdateProjectDeploymentOptions, options ...OptionFunc) (*Deployment, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/deployments/%d", pathEscape(project), deployment)
+
+	req, err := s.client.NewRequest("POST", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	d := new(Deployment)
+	resp, err := s.client.Do(req, &d)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return d, resp, err
+}
