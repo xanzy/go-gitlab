@@ -19,6 +19,7 @@ package gitlab
 import (
 	"encoding/json"
 	"fmt"
+	"net/url"
 	"strings"
 	"time"
 )
@@ -107,6 +108,12 @@ type Labels []string
 // MarshalJSON implements the json.Marshaler interface.
 func (l *Labels) MarshalJSON() ([]byte, error) {
 	return json.Marshal(strings.Join(*l, ","))
+}
+
+// EncodeValues implements the query.EncodeValues interface
+func (l *Labels) EncodeValues(key string, v *url.Values) error {
+	v.Set(key, strings.Join(*l, ","))
+	return nil
 }
 
 // ListIssuesOptions represents the available ListIssues() options.
