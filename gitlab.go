@@ -92,6 +92,18 @@ const (
 	Manual   BuildStateValue = "manual"
 )
 
+// DeploymentStatusValue represents a Gitlab deployment status.
+type DeploymentStatusValue string
+
+// These constants represent all valid deployment statuses.
+const (
+	DeploymentStatusCreated  = "created"
+	DeploymentStatusRunning  = "running"
+	DeploymentStatusSuccess  = "success"
+	DeploymentStatusFailed   = "failed"
+	DeploymentStatusCanceled = "canceled"
+)
+
 // ISOTime represents an ISO 8601 formatted date
 type ISOTime time.Time
 
@@ -925,6 +937,14 @@ func AccessLevel(v AccessLevelValue) *AccessLevelValue {
 // to store v and returns a pointer to it.
 func BuildState(v BuildStateValue) *BuildStateValue {
 	p := new(BuildStateValue)
+	*p = v
+	return p
+}
+
+// DeploymentStatus is a helper routine that allocates a new
+// DeploymentStatusValue to store v and returns a pointer to it.
+func DeploymentStatus(v DeploymentStatusValue) *DeploymentStatusValue {
+	p := new(DeploymentStatusValue)
 	*p = v
 	return p
 }

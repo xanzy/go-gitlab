@@ -124,20 +124,11 @@ func (s *DeploymentsService) GetProjectDeployment(pid interface{}, deployment in
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/deployments.html#create-a-deployment
 type CreateProjectDeploymentOptions struct {
-	// The name of the environment to create the deployment for
-	Environment string `json:"environment"`
-
-	// The name of the branch or tag that is deployed
-	Ref string `json:"ref"`
-
-	// The SHA of the commit that is deployed
-	SHA string `json:"sha"`
-
-	// A boolean that indicates if the deployed ref is a tag (true) or not (false)
-	Tag bool `json:"tag"`
-
-	// The status of the deployment
-	Status BuildStateValue `json:"status"`
+	Environment *string                `url:"environment,omitempty" json:"environment,omitempty"`
+	Ref         *string                `url:"ref,omitempty" json:"ref,omitempty"`
+	SHA         *string                `url:"sha,omitempty" json:"sha,omitempty"`
+	Tag         *bool                  `url:"tag,omitempty" json:"tag,omitempty"`
+	Status      *DeploymentStatusValue `url:"status,omitempty" json:"status,omitempty"`
 }
 
 // CreateProjectDeployment creates a project deployment.
@@ -169,8 +160,7 @@ func (s *DeploymentsService) CreateProjectDeployment(pid interface{}, opt *Creat
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/deployments.html#updating-a-deployment
 type UpdateProjectDeploymentOptions struct {
-	// The status of the deployment
-	Status BuildStateValue `json:"status"`
+	Status *DeploymentStatusValue `url:"status,omitempty" json:"status,omitempty"`
 }
 
 // UpdateProjectDeployment updates a project deployment.
