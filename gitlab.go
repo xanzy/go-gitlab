@@ -97,11 +97,11 @@ type DeploymentStatusValue string
 
 // These constants represent all valid deployment statuses.
 const (
-	DeploymentStatusCreated  = "created"
-	DeploymentStatusRunning  = "running"
-	DeploymentStatusSuccess  = "success"
-	DeploymentStatusFailed   = "failed"
-	DeploymentStatusCanceled = "canceled"
+	DeploymentStatusCreated  DeploymentStatusValue = "created"
+	DeploymentStatusRunning  DeploymentStatusValue = "running"
+	DeploymentStatusSuccess  DeploymentStatusValue = "success"
+	DeploymentStatusFailed   DeploymentStatusValue = "failed"
+	DeploymentStatusCanceled DeploymentStatusValue = "canceled"
 )
 
 // ISOTime represents an ISO 8601 formatted date
