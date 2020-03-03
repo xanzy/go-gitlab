@@ -183,7 +183,7 @@ func (s *DeploymentsService) UpdateProjectDeployment(pid interface{}, deployment
 	}
 	u := fmt.Sprintf("projects/%s/deployments/%d", pathEscape(project), deployment)
 
-	req, err := s.client.NewRequest("POST", u, opt, options)
+	req, err := s.client.NewRequest("PUT", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
