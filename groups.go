@@ -62,6 +62,7 @@ type Group struct {
 	LDAPAccess                     AccessLevelValue           `json:"ldap_access"`
 	SharedRunnersMinutesLimit      int                        `json:"shared_runners_minutes_limit"`
 	ExtraSharedRunnersMinutesLimit int                        `json:"extra_shared_runners_minutes_limit"`
+	PendingDelete                  bool                       `json:"pending_delete"`
 }
 
 // ListGroupsOptions represents the available ListGroups() options.
