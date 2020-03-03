@@ -83,6 +83,7 @@ type BuildStateValue string
 // These constants represent all valid build states.
 const (
 	Pending  BuildStateValue = "pending"
+	Created  BuildStateValue = "created"
 	Running  BuildStateValue = "running"
 	Success  BuildStateValue = "success"
 	Failed   BuildStateValue = "failed"
