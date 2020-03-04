@@ -36,6 +36,7 @@ type Group struct {
 	Name                           string                     `json:"name"`
 	Path                           string                     `json:"path"`
 	Description                    string                     `json:"description"`
+	MembershipLock                 bool                       `json:"membership_lock"`
 	Visibility                     VisibilityValue            `json:"visibility"`
 	LFSEnabled                     bool                       `json:"lfs_enabled"`
 	AvatarURL                      string                     `json:"avatar_url"`
@@ -129,6 +130,7 @@ type CreateGroupOptions struct {
 	Name                           *string                     `url:"name,omitempty" json:"name,omitempty"`
 	Path                           *string                     `url:"path,omitempty" json:"path,omitempty"`
 	Description                    *string                     `url:"description,omitempty" json:"description,omitempty"`
+	MembershipLock                 *bool                       `url:"membership_lock,omitempty" json:"membership_lock,omitempty"`
 	Visibility                     *VisibilityValue            `url:"visibility,omitempty" json:"visibility,omitempty"`
 	ShareWithGroupLock             *bool                       `url:"share_with_group_lock,omitempty" json:"share_with_group_lock,omitempty"`
 	RequireTwoFactorAuth           *bool                       `url:"require_two_factor_authentication,omitempty" json:"require_two_factor_authentication,omitempty"`
