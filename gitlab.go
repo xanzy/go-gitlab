@@ -318,10 +318,15 @@ const (
 	UserEventTargetType         EventTargetTypeValue = "user"
 )
 
+// HTTPClient interface
+type HTTPClient interface {
+	Do(*http.Request) (*http.Response, error)
+}
+
 // A Client manages communication with the GitLab API.
 type Client struct {
 	// HTTP client used to communicate with the API.
-	client *http.Client
+	client HTTPClient
 
 	// Base URL for API requests. Defaults to the public GitLab API, but can be
 	// set to a domain endpoint to use with a self hosted GitLab server. baseURL
@@ -425,7 +430,7 @@ type ListOptions struct {
 // NewClient returns a new GitLab API client. If a nil httpClient is
 // provided, http.DefaultClient will be used. To use API methods which require
 // authentication, provide a valid private or personal token.
-func NewClient(httpClient *http.Client, token string) *Client {
+func NewClient(httpClient HTTPClient, token string) *Client {
 	client := newClient(httpClient)
 	client.authType = privateToken
 	client.token = token
@@ -435,7 +440,7 @@ func NewClient(httpClient *http.Client, token string) *Client {
 // NewBasicAuthClient returns a new GitLab API client. If a nil httpClient is
 // provided, http.DefaultClient will be used. To use API methods which require
 // authentication, provide a valid username and password.
-func NewBasicAuthClient(httpClient *http.Client, endpoint, username, password string) (*Client, error) {
+func NewBasicAuthClient(httpClient HTTPClient, endpoint, username, password string) (*Client, error) {
 	client := newClient(httpClient)
 	client.authType = basicAuth
 	client.username = username
@@ -469,14 +474,14 @@ func (c *Client) requestOAuthToken(ctx context.Context) error {
 // NewOAuthClient returns a new GitLab API client. If a nil httpClient is
 // provided, http.DefaultClient will be used. To use API methods which require
 // authentication, provide a valid oauth token.
-func NewOAuthClient(httpClient *http.Client, token string) *Client {
+func NewOAuthClient(httpClient HTTPClient, token string) *Client {
 	client := newClient(httpClient)
 	client.authType = oAuthToken
 	client.token = token
 	return client
 }
 
-func newClient(httpClient *http.Client) *Client {
+func newClient(httpClient HTTPClient) *Client {
 	if httpClient == nil {
 		httpClient = http.DefaultClient
 	}
