@@ -13,6 +13,8 @@ import (
 	"os"
 	"strings"
 	"testing"
+
+	retryablehttp "github.com/hashicorp/go-retryablehttp"
 )
 
 // setup sets up a test HTTP server along with a gitlab.Client that is
@@ -73,7 +75,7 @@ func mustWriteHTTPResponse(t *testing.T, w io.Writer, fixturePath string) {
 	}
 }
 
-func errorOption(*http.Request) error {
+func errorOption(*retryablehttp.Request) error {
 	return errors.New("OptionFunc returns an error")
 }
 
@@ -93,8 +95,8 @@ func TestSetBaseURL(t *testing.T) {
 	expectedBaseURL := "http://gitlab.local/foo/" + apiVersionPath
 	c := NewClient(nil, "")
 	err := c.SetBaseURL("http://gitlab.local/foo")
-	if err != nil {
-		t.Fatalf("Failed to SetBaseURL: %v", err)
+	if err == nil {
+		t.Errorf("Expected a 'no such host' error, got: %v", err)
 	}
 	if c.BaseURL().String() != expectedBaseURL {
 		t.Errorf("BaseURL is %s, want %s", c.BaseURL().String(), expectedBaseURL)
@@ -108,7 +110,7 @@ func TestCheckResponse(t *testing.T) {
 	}
 
 	resp := &http.Response{
-		Request:    req,
+		Request:    req.Request,
 		StatusCode: http.StatusBadRequest,
 		Body: ioutil.NopCloser(strings.NewReader(`
 		{
