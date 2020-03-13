@@ -92,10 +92,11 @@ type Project struct {
 		GroupName        string `json:"group_name"`
 		GroupAccessLevel int    `json:"group_access_level"`
 	} `json:"shared_with_groups"`
-	Statistics       *ProjectStatistics `json:"statistics"`
-	Links            *Links             `json:"_links,omitempty"`
-	CIConfigPath     *string            `json:"ci_config_path"`
-	CustomAttributes []*CustomAttribute `json:"custom_attributes"`
+	Statistics        *ProjectStatistics `json:"statistics"`
+	Links             *Links             `json:"_links,omitempty"`
+	CIConfigPath      *string            `json:"ci_config_path"`
+	CIDefaultGitDepth int                `json:"ci_default_git_depth"`
+	CustomAttributes  []*CustomAttribute `json:"custom_attributes"`
 }
 
 // Repository represents a repository.
@@ -550,6 +551,7 @@ type EditProjectOptions struct {
 	TagList                                   *[]string         `url:"tag_list,omitempty" json:"tag_list,omitempty"`
 	BuildCoverageRegex                        *string           `url:"build_coverage_regex,omitempty" json:"build_coverage_regex,omitempty"`
 	CIConfigPath                              *string           `url:"ci_config_path,omitempty" json:"ci_config_path,omitempty"`
+	CIDefaultGitDepth                         *int              `url:"ci_default_git_depth,omitempty" json:"ci_default_git_depth,omitempty"`
 	ApprovalsBeforeMerge                      *int              `url:"approvals_before_merge,omitempty" json:"approvals_before_merge,omitempty"`
 	ExternalAuthorizationClassificationLabel  *string           `url:"external_authorization_classification_label,omitempty" json:"external_authorization_classification_label,omitempty"`
 	Mirror                                    *bool             `url:"mirror,omitempty" json:"mirror,omitempty"`
