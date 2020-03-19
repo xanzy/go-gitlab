@@ -45,6 +45,7 @@ type ProjectCluster struct {
 	User               *User               `json:"user"`
 	PlatformKubernetes *PlatformKubernetes `json:"platform_kubernetes"`
 	Project            *Project            `json:"project"`
+	ManagementProject  *ManagementProject  `json:"management_project"`
 }
 
 func (v ProjectCluster) String() string {
@@ -58,6 +59,17 @@ type PlatformKubernetes struct {
 	CaCert            string `json:"ca_cert"`
 	Namespace         string `json:"namespace"`
 	AuthorizationType string `json:"authorization_type"`
+}
+
+// ManagementProject represents a GitLab Project Cluster management_project
+type ManagementProject struct {
+	ID                int        `json:"id"`
+	Description       string     `json:"description"`
+	Name              string     `json:"name"`
+	NameWithNamespace string     `json:"name_with_namespace"`
+	Path              string     `json:"path"`
+	PathWithNamespace string     `json:"path_with_namespace"`
+	CreatedAt         *time.Time `json:"created_at"`
 }
 
 // ListClusters gets a list of all clusters in a project.
