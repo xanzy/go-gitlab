@@ -34,18 +34,18 @@ type GroupClustersService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/group_clusters.html
 type GroupCluster struct {
-	ID                  int                 `json:"id"`
-	Name                string              `json:"name"`
-	Domain              string              `json:"domain"`
-	CreatedAt           *time.Time          `json:"created_at"`
-	ProviderType        string              `json:"provider_type"`
-	PlatformType        string              `json:"platform_type"`
-	EnvironmentScope    string              `json:"environment_scope"`
-	ClusterType         string              `json:"cluster_type"`
-	User                *User               `json:"user"`
-	PlatformKubernetes  *PlatformKubernetes `json:"platform_kubernetes"`
-	Group               *Group              `json:"group"`
-	ManagementProjectId string              `json:"management_project_id"`
+	ID                 int                 `json:"id"`
+	Name               string              `json:"name"`
+	Domain             string              `json:"domain"`
+	CreatedAt          *time.Time          `json:"created_at"`
+	ProviderType       string              `json:"provider_type"`
+	PlatformType       string              `json:"platform_type"`
+	EnvironmentScope   string              `json:"environment_scope"`
+	ClusterType        string              `json:"cluster_type"`
+	User               *User               `json:"user"`
+	PlatformKubernetes *PlatformKubernetes `json:"platform_kubernetes"`
+	Group              *Group              `json:"group"`
+	ManagementProject  *ManagementProject  `json:"management_project"`
 }
 
 func (v GroupCluster) String() string {
@@ -113,7 +113,7 @@ type AddGroupClusterOptions struct {
 	Enabled             *bool                              `url:"enabled,omitempty" json:"enabled,omitempty"`
 	Managed             *bool                              `url:"managed,omitempty" json:"managed,omitempty"`
 	EnvironmentScope    *string                            `url:"environment_scope,omitempty" json:"environment_scope,omitempty"`
-	ManagementProjectId *string                            `url:"management_project_id,omitempty" json:"management_project_id,omitempty"`
+	ManagementProjectID *string                            `url:"management_project_id,omitempty" json:"management_project_id,omitempty"`
 	PlatformKubernetes  *AddGroupPlatformKubernetesOptions `url:"platform_kubernetes_attributes,omitempty" json:"platform_kubernetes_attributes,omitempty"`
 }
 
@@ -159,7 +159,7 @@ type EditGroupClusterOptions struct {
 	Name                *string                             `url:"name,omitempty" json:"name,omitempty"`
 	Domain              *string                             `url:"domain,omitempty" json:"domain,omitempty"`
 	EnvironmentScope    *string                             `url:"environment_scope,omitempty" json:"environment_scope,omitempty"`
-	ManagementProjectId *string                             `url:"management_project_id,omitempty" json:"management_project_id,omitempty"`
+	ManagementProjectID *string                             `url:"management_project_id,omitempty" json:"management_project_id,omitempty"`
 	PlatformKubernetes  *EditGroupPlatformKubernetesOptions `url:"platform_kubernetes_attributes,omitempty" json:"platform_kubernetes_attributes,omitempty"`
 }
 
