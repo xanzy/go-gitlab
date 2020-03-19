@@ -93,7 +93,6 @@ func (s *GroupClustersService) GetCluster(pid interface{}, cluster int, options 
 		return nil, nil, err
 	}
 
-	// TO DO: Map Response from "management_project":{"id":int} to "management_project_id"
 	pc := new(GroupCluster)
 	resp, err := s.client.Do(req, &pc)
 	if err != nil {
