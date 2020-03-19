@@ -112,8 +112,8 @@ type AddGroupClusterOptions struct {
 	Enabled             *bool                              `url:"enabled,omitempty" json:"enabled,omitempty"`
 	Managed             *bool                              `url:"managed,omitempty" json:"managed,omitempty"`
 	EnvironmentScope    *string                            `url:"environment_scope,omitempty" json:"environment_scope,omitempty"`
-	ManagementProjectID *string                            `url:"management_project_id,omitempty" json:"management_project_id,omitempty"`
 	PlatformKubernetes  *AddGroupPlatformKubernetesOptions `url:"platform_kubernetes_attributes,omitempty" json:"platform_kubernetes_attributes,omitempty"`
+	ManagementProjectID *string                            `url:"management_project_id,omitempty" json:"management_project_id,omitempty"`
 }
 
 // AddGroupPlatformKubernetesOptions represents the available PlatformKubernetes options for adding.
@@ -158,8 +158,8 @@ type EditGroupClusterOptions struct {
 	Name                *string                             `url:"name,omitempty" json:"name,omitempty"`
 	Domain              *string                             `url:"domain,omitempty" json:"domain,omitempty"`
 	EnvironmentScope    *string                             `url:"environment_scope,omitempty" json:"environment_scope,omitempty"`
-	ManagementProjectID *string                             `url:"management_project_id,omitempty" json:"management_project_id,omitempty"`
 	PlatformKubernetes  *EditGroupPlatformKubernetesOptions `url:"platform_kubernetes_attributes,omitempty" json:"platform_kubernetes_attributes,omitempty"`
+	ManagementProjectID *string                             `url:"management_project_id,omitempty" json:"management_project_id,omitempty"`
 }
 
 // EditGroupPlatformKubernetesOptions represents the available PlatformKubernetes options for editing.
