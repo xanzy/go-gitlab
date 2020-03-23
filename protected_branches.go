@@ -167,7 +167,7 @@ func (s *ProtectedBranchesService) UnprotectRepositoryBranches(pid interface{}, 
 }
 
 // RequireCodeOwnerApprovalsOptions represents the available
-// RequireCodeOwnerApprovalsOptions() options.
+// RequireCodeOwnerApprovals() options.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/protected_branches.html#require-code-owner-approvals-for-a-single-branch
@@ -175,7 +175,7 @@ type RequireCodeOwnerApprovalsOptions struct {
 	CodeOwnerApprovalRequired *bool `url:"code_owner_approval_required,omitempty" json:"code_owner_approval_required,omitempty"`
 }
 
-// RequireCodeOwnerApprovalsOptions updates the code owner approval
+// RequireCodeOwnerApprovalsOptions updates the code owner approval.
 //
 // Gitlab API docs:
 // https://docs.gitlab.com/ee/api/protected_branches.html#require-code-owner-approvals-for-a-single-branch
