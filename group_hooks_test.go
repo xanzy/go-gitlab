@@ -70,11 +70,70 @@ func TestListGroupHooks(t *testing.T) {
 		JobEvents:                true,
 		PipelineEvents:           true,
 		WikiPageEvents:           true,
-		EnableSslVerification:    true,
+		EnableSSLVerification:    true,
 		CreatedAt:                &datePointer,
 	}}
 
 	if !reflect.DeepEqual(groupHooks, want) {
 		t.Errorf("listGroupHooks returned \ngot:\n%v\nwant:\n%v", Stringify(groupHooks), Stringify(want))
+	}
+}
+
+func TestAddGroupHook(t *testing.T) {
+	mux, server, client := setup()
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/groups/1/hooks", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "POST")
+		fmt.Fprint(w, `
+{
+	"id": 1,
+	"url": "http://example.com/hook",
+	"group_id": 3,
+	"push_events": true,
+	"issues_events": true,
+	"confidential_issues_events": true,
+	"merge_requests_events": true,
+	"tag_push_events": true,
+	"note_events": true,
+	"job_events": true,
+	"pipeline_events": true,
+	"wiki_page_events": true,
+	"enable_ssl_verification": true,
+	"created_at": "2012-10-12T17:04:47Z"
+}`)
+	})
+
+	url := "http://www.example.com/hook"
+	opt := &AddGroupHookOptions{
+		URL: &url,
+	}
+
+	groupHooks, _, err := client.Groups.AddGroupHook(1, opt)
+	if err != nil {
+		t.Error(err)
+	}
+
+	datePointer := time.Date(2012, 10, 12, 17, 4, 47, 0, time.UTC)
+	want := &GroupHook{
+		ID:                       1,
+		URL:                      "http://example.com/hook",
+		GroupID:                  3,
+		PushEvents:               true,
+		IssuesEvents:             true,
+		ConfidentialIssuesEvents: true,
+		ConfidentialNoteEvents:   true,
+		MergeRequestsEvents:      true,
+		TagPushEvents:            true,
+		NoteEvents:               true,
+		JobEvents:                true,
+		PipelineEvents:           true,
+		WikiPageEvents:           true,
+		EnableSSLVerification:    true,
+		CreatedAt:                &datePointer,
+	}
+
+	if !reflect.DeepEqual(groupHooks, want) {
+		t.Errorf("AddGroupHook returned \ngot:\n%v\nwant:\n%v", Stringify(groupHooks), Stringify(want))
 	}
 }
