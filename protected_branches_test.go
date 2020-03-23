@@ -123,7 +123,7 @@ func TestProtectRepositoryBranches(t *testing.T) {
 		Name:                      String("master"),
 		PushAccessLevel:           AccessLevel(MaintainerPermissions),
 		MergeAccessLevel:          AccessLevel(MaintainerPermissions),
-		CodeOwnerApprovalRequired: true,
+		CodeOwnerApprovalRequired: Bool(true),
 	}
 	projects, _, err := client.ProtectedBranches.ProtectRepositoryBranches("1", opt)
 	if err != nil {

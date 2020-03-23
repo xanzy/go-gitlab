@@ -117,7 +117,7 @@ type ProtectRepositoryBranchesOptions struct {
 	Name                      *string           `url:"name,omitempty" json:"name,omitempty"`
 	PushAccessLevel           *AccessLevelValue `url:"push_access_level,omitempty" json:"push_access_level,omitempty"`
 	MergeAccessLevel          *AccessLevelValue `url:"merge_access_level,omitempty" json:"merge_access_level,omitempty"`
-	CodeOwnerApprovalRequired bool              `url:"code_owner_approval_required,omitempty" json:"code_owner_approval_required,omitempty"`
+	CodeOwnerApprovalRequired *bool             `url:"code_owner_approval_required,omitempty" json:"code_owner_approval_required,omitempty"`
 }
 
 // ProtectRepositoryBranches protects a single repository branch or several
