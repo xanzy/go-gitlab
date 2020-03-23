@@ -122,7 +122,7 @@ func TestAddGroupHook(t *testing.T) {
 		PushEvents:               true,
 		IssuesEvents:             true,
 		ConfidentialIssuesEvents: true,
-		ConfidentialNoteEvents:   true,
+		ConfidentialNoteEvents:   false,
 		MergeRequestsEvents:      true,
 		TagPushEvents:            true,
 		NoteEvents:               true,

@@ -31,6 +31,7 @@ type GroupHook struct {
 	PushEvents               bool       `json:"push_events"`
 	IssuesEvents             bool       `json:"issues_events"`
 	ConfidentialIssuesEvents bool       `json:"confidential_issues_events"`
+	ConfidentialNoteEvents	 bool       `json:"confidential_note_events"`
 	MergeRequestsEvents      bool       `json:"merge_requests_events"`
 	TagPushEvents            bool       `json:"tag_push_events"`
 	NoteEvents               bool       `json:"note_events"`
