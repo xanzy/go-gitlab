@@ -69,6 +69,7 @@ type Project struct {
 	ImportStatus                              string            `json:"import_status"`
 	ImportError                               string            `json:"import_error"`
 	Permissions                               *Permissions      `json:"permissions"`
+	MarkedForDeletionAt                       *time.Time        `json:"marked_for_deletion_at"`
 	Archived                                  bool              `json:"archived"`
 	AvatarURL                                 string            `json:"avatar_url"`
 	SharedRunnersEnabled                      bool              `json:"shared_runners_enabled"`
@@ -94,9 +95,10 @@ type Project struct {
 	} `json:"shared_with_groups"`
 	Statistics        *ProjectStatistics `json:"statistics"`
 	Links             *Links             `json:"_links,omitempty"`
-	CIConfigPath      *string            `json:"ci_config_path"`
+	CIConfigPath      string             `json:"ci_config_path"`
 	CIDefaultGitDepth int                `json:"ci_default_git_depth"`
 	CustomAttributes  []*CustomAttribute `json:"custom_attributes"`
+	PendingDelete     bool               `json:"pending_delete"`
 }
 
 // Repository represents a repository.
