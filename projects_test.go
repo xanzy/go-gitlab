@@ -492,14 +492,14 @@ func TestChangeAllowedApprovers(t *testing.T) {
 
 	want := &ProjectApprovals{
 		Approvers: []*MergeRequestApproverUser{
-			&MergeRequestApproverUser{
+			{
 				User: &BasicUser{
 					ID: 1,
 				},
 			},
 		},
 		ApproverGroups: []*MergeRequestApproverGroup{
-			&MergeRequestApproverGroup{
+			{
 				Group: struct {
 					ID                   int    `json:"id"`
 					Name                 string `json:"name"`
@@ -622,12 +622,12 @@ func TestGetProjectApprovalRules(t *testing.T) {
 	}
 
 	want := []*ProjectApprovalRule{
-		&ProjectApprovalRule{
+		{
 			ID:       1,
 			Name:     "security",
 			RuleType: "regular",
 			EligibleApprovers: []*BasicUser{
-				&BasicUser{
+				{
 					ID:        5,
 					Name:      "John Doe",
 					Username:  "jdoe",
@@ -635,7 +635,7 @@ func TestGetProjectApprovalRules(t *testing.T) {
 					AvatarURL: "https://www.gravatar.com/avatar/0?s=80&d=identicon",
 					WebURL:    "http://localhost/jdoe",
 				},
-				&BasicUser{
+				{
 					ID:        50,
 					Name:      "Group Member 1",
 					Username:  "group_member_1",
@@ -646,7 +646,7 @@ func TestGetProjectApprovalRules(t *testing.T) {
 			},
 			ApprovalsRequired: 3,
 			Users: []*BasicUser{
-				&BasicUser{
+				{
 					ID:        5,
 					Name:      "John Doe",
 					Username:  "jdoe",
@@ -656,7 +656,7 @@ func TestGetProjectApprovalRules(t *testing.T) {
 				},
 			},
 			Groups: []*Group{
-				&Group{
+				{
 					ID:                   5,
 					Name:                 "group1",
 					Path:                 "group1",
@@ -756,7 +756,7 @@ func TestCreateProjectApprovalRule(t *testing.T) {
 		Name:     "security",
 		RuleType: "regular",
 		EligibleApprovers: []*BasicUser{
-			&BasicUser{
+			{
 				ID:        5,
 				Name:      "John Doe",
 				Username:  "jdoe",
@@ -764,7 +764,7 @@ func TestCreateProjectApprovalRule(t *testing.T) {
 				AvatarURL: "https://www.gravatar.com/avatar/0?s=80&d=identicon",
 				WebURL:    "http://localhost/jdoe",
 			},
-			&BasicUser{
+			{
 				ID:        50,
 				Name:      "Group Member 1",
 				Username:  "group_member_1",
@@ -775,7 +775,7 @@ func TestCreateProjectApprovalRule(t *testing.T) {
 		},
 		ApprovalsRequired: 3,
 		Users: []*BasicUser{
-			&BasicUser{
+			{
 				ID:        5,
 				Name:      "John Doe",
 				Username:  "jdoe",
@@ -785,7 +785,7 @@ func TestCreateProjectApprovalRule(t *testing.T) {
 			},
 		},
 		Groups: []*Group{
-			&Group{
+			{
 				ID:                   5,
 				Name:                 "group1",
 				Path:                 "group1",

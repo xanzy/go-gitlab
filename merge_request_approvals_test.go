@@ -93,12 +93,12 @@ func TestGetApprovalState(t *testing.T) {
 	want := &MergeRequestApprovalState{
 		ApprovalRulesOverwritten: true,
 		Rules: []*MergeRequestApprovalRule{
-			&MergeRequestApprovalRule{
+			{
 				ID:       1,
 				Name:     "security",
 				RuleType: "regular",
 				EligibleApprovers: []*BasicUser{
-					&BasicUser{
+					{
 						ID:        5,
 						Name:      "John Doe",
 						Username:  "jdoe",
@@ -106,7 +106,7 @@ func TestGetApprovalState(t *testing.T) {
 						AvatarURL: "https://www.gravatar.com/avatar/0?s=80&d=identicon",
 						WebURL:    "http://localhost/jdoe",
 					},
-					&BasicUser{
+					{
 						ID:        50,
 						Name:      "Group Member 1",
 						Username:  "group_member_1",
@@ -117,7 +117,7 @@ func TestGetApprovalState(t *testing.T) {
 				},
 				ApprovalsRequired: 3,
 				Users: []*BasicUser{
-					&BasicUser{
+					{
 						ID:        5,
 						Name:      "John Doe",
 						Username:  "jdoe",
@@ -127,7 +127,7 @@ func TestGetApprovalState(t *testing.T) {
 					},
 				},
 				Groups: []*Group{
-					&Group{
+					{
 						ID:                   5,
 						Name:                 "group1",
 						Path:                 "group1",
@@ -142,7 +142,7 @@ func TestGetApprovalState(t *testing.T) {
 					},
 				},
 				ApprovedBy: []*BasicUser{
-					&BasicUser{
+					{
 						ID:        5,
 						Name:      "John Doe",
 						Username:  "jdoe",
@@ -231,12 +231,12 @@ func TestGetApprovalRules(t *testing.T) {
 	}
 
 	want := []*MergeRequestApprovalRule{
-		&MergeRequestApprovalRule{
+		{
 			ID:       1,
 			Name:     "security",
 			RuleType: "regular",
 			EligibleApprovers: []*BasicUser{
-				&BasicUser{
+				{
 					ID:        5,
 					Name:      "John Doe",
 					Username:  "jdoe",
@@ -244,7 +244,7 @@ func TestGetApprovalRules(t *testing.T) {
 					AvatarURL: "https://www.gravatar.com/avatar/0?s=80&d=identicon",
 					WebURL:    "http://localhost/jdoe",
 				},
-				&BasicUser{
+				{
 					ID:        50,
 					Name:      "Group Member 1",
 					Username:  "group_member_1",
@@ -255,7 +255,7 @@ func TestGetApprovalRules(t *testing.T) {
 			},
 			ApprovalsRequired: 3,
 			Users: []*BasicUser{
-				&BasicUser{
+				{
 					ID:        5,
 					Name:      "John Doe",
 					Username:  "jdoe",
@@ -265,7 +265,7 @@ func TestGetApprovalRules(t *testing.T) {
 				},
 			},
 			Groups: []*Group{
-				&Group{
+				{
 					ID:                   5,
 					Name:                 "group1",
 					Path:                 "group1",
@@ -366,7 +366,7 @@ func TestCreateApprovalRules(t *testing.T) {
 		Name:     "security",
 		RuleType: "regular",
 		EligibleApprovers: []*BasicUser{
-			&BasicUser{
+			{
 				ID:        5,
 				Name:      "John Doe",
 				Username:  "jdoe",
@@ -374,7 +374,7 @@ func TestCreateApprovalRules(t *testing.T) {
 				AvatarURL: "https://www.gravatar.com/avatar/0?s=80&d=identicon",
 				WebURL:    "http://localhost/jdoe",
 			},
-			&BasicUser{
+			{
 				ID:        50,
 				Name:      "Group Member 1",
 				Username:  "group_member_1",
@@ -385,7 +385,7 @@ func TestCreateApprovalRules(t *testing.T) {
 		},
 		ApprovalsRequired: 3,
 		Users: []*BasicUser{
-			&BasicUser{
+			{
 				ID:        5,
 				Name:      "John Doe",
 				Username:  "jdoe",
@@ -395,7 +395,7 @@ func TestCreateApprovalRules(t *testing.T) {
 			},
 		},
 		Groups: []*Group{
-			&Group{
+			{
 				ID:                   5,
 				Name:                 "group1",
 				Path:                 "group1",

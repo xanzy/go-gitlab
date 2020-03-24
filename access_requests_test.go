@@ -38,7 +38,7 @@ func TestListProjectAccessRequests(t *testing.T) {
 
 	created := time.Date(2012, 10, 22, 14, 13, 35, 0, time.UTC)
 	expected := []*AccessRequest{
-		&AccessRequest{
+		{
 			ID:          1,
 			Username:    "raymond_smith",
 			Name:        "Raymond Smith",
@@ -46,7 +46,7 @@ func TestListProjectAccessRequests(t *testing.T) {
 			CreatedAt:   &created,
 			RequestedAt: &created,
 		},
-		&AccessRequest{
+		{
 			ID:          2,
 			Username:    "john_doe",
 			Name:        "John Doe",
@@ -104,7 +104,7 @@ func TestListGroupAccessRequests(t *testing.T) {
 
 	created := time.Date(2012, 10, 22, 14, 13, 35, 0, time.UTC)
 	expected := []*AccessRequest{
-		&AccessRequest{
+		{
 			ID:          1,
 			Username:    "raymond_smith",
 			Name:        "Raymond Smith",
@@ -112,7 +112,7 @@ func TestListGroupAccessRequests(t *testing.T) {
 			CreatedAt:   &created,
 			RequestedAt: &created,
 		},
-		&AccessRequest{
+		{
 			ID:          2,
 			Username:    "john_doe",
 			Name:        "John Doe",

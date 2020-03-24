@@ -81,25 +81,25 @@ func TestGetJiraService(t *testing.T) {
 	})
 
 	want := []*JiraService{
-		&JiraService{
+		{
 			Service: Service{ID: 1},
 			Properties: &JiraServiceProperties{
 				JiraIssueTransitionID: "2",
 			},
 		},
-		&JiraService{
+		{
 			Service: Service{ID: 1},
 			Properties: &JiraServiceProperties{
 				JiraIssueTransitionID: "2",
 			},
 		},
-		&JiraService{
+		{
 			Service: Service{ID: 1},
 			Properties: &JiraServiceProperties{
 				JiraIssueTransitionID: "2,3",
 			},
 		},
-		&JiraService{
+		{
 			Service:    Service{ID: 1},
 			Properties: &JiraServiceProperties{},
 		},
