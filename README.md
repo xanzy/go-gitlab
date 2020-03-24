@@ -166,7 +166,7 @@ For complete usage of go-gitlab, see the full [package docs](https://godoc.org/g
 
 ## Author
 
-Sander van Harmelen (<sander@xanzy.io>)
+Sander van Harmelen (<sander@vanharmelen.nl>)
 
 ## License
 
