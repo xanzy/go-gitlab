@@ -1282,7 +1282,6 @@ func (s *ProjectsService) DeleteProjectPushRule(pid interface{}, options ...Opti
 type ProjectApprovals struct {
 	Approvers                                 []*MergeRequestApproverUser  `json:"approvers"`
 	ApproverGroups                            []*MergeRequestApproverGroup `json:"approver_groups"`
-	ProtectedBranches                         []*ProtectedBranch           `json:"protected_branches"`
 	ApprovalsBeforeMerge                      int                          `json:"approvals_before_merge"`
 	ResetApprovalsOnPush                      bool                         `json:"reset_approvals_on_push"`
 	DisableOverridingApproversPerMergeRequest bool                         `json:"disable_overriding_approvers_per_merge_request"`
@@ -1321,12 +1320,11 @@ func (s *ProjectsService) GetApprovalConfiguration(pid interface{}, options ...O
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#change-configuration
 type ChangeApprovalConfigurationOptions struct {
-	ApprovalsBeforeMerge                      *int   `url:"approvals_before_merge,omitempty" json:"approvals_before_merge,omitempty"`
-	ResetApprovalsOnPush                      *bool  `url:"reset_approvals_on_push,omitempty" json:"reset_approvals_on_push,omitempty"`
-	DisableOverridingApproversPerMergeRequest *bool  `url:"disable_overriding_approvers_per_merge_request,omitempty" json:"disable_overriding_approvers_per_merge_request,omitempty"`
-	MergeRequestsAuthorApproval               *bool  `url:"merge_requests_author_approval,omitempty" json:"merge_requests_author_approval,omitempty"`
-	MergeRequestsDisableCommittersApproval    *bool  `url:"merge_requests_disable_committers_approval,omitempty" json:"merge_requests_disable_committers_approval,omitempty"`
-	ProtectedBranchIDs                        *[]int `url:"protected_branch_ids,omitempty" json:"protected_branch_ids,omitempty"`
+	ApprovalsBeforeMerge                      *int  `url:"approvals_before_merge,omitempty" json:"approvals_before_merge,omitempty"`
+	ResetApprovalsOnPush                      *bool `url:"reset_approvals_on_push,omitempty" json:"reset_approvals_on_push,omitempty"`
+	DisableOverridingApproversPerMergeRequest *bool `url:"disable_overriding_approvers_per_merge_request,omitempty" json:"disable_overriding_approvers_per_merge_request,omitempty"`
+	MergeRequestsAuthorApproval               *bool `url:"merge_requests_author_approval,omitempty" json:"merge_requests_author_approval,omitempty"`
+	MergeRequestsDisableCommittersApproval    *bool `url:"merge_requests_disable_committers_approval,omitempty" json:"merge_requests_disable_committers_approval,omitempty"`
 }
 
 // ChangeApprovalConfiguration updates the approval configuration for a project.

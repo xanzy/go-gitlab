@@ -45,6 +45,7 @@ type BranchAccessDescription struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/protected_branches.html#list-protected-branches
 type ProtectedBranch struct {
+	ID                        int                        `json:"id"`
 	Name                      string                     `json:"name"`
 	PushAccessLevels          []*BranchAccessDescription `json:"push_access_levels"`
 	MergeAccessLevels         []*BranchAccessDescription `json:"merge_access_levels"`

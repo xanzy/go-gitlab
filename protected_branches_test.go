@@ -33,6 +33,7 @@ func TestListProtectedBranches(t *testing.T) {
 	}
 	want := []*ProtectedBranch{
 		{
+			ID:   1,
 			Name: "master",
 			PushAccessLevels: []*BranchAccessDescription{
 				{
@@ -50,7 +51,7 @@ func TestListProtectedBranches(t *testing.T) {
 		},
 	}
 	if !reflect.DeepEqual(want, protectedBranches) {
-		t.Errorf("Projects.ListProjects returned %+v, want %+v", protectedBranches, want)
+		t.Errorf("ProtectedBranches.ListProtectedBranches returned %+v, want %+v", protectedBranches, want)
 	}
 }
 
@@ -79,6 +80,7 @@ func TestListProtectedBranchesWithoutCodeOwnerApproval(t *testing.T) {
 	}
 	want := []*ProtectedBranch{
 		{
+			ID:   1,
 			Name: "master",
 			PushAccessLevels: []*BranchAccessDescription{
 				{
