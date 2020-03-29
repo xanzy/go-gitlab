@@ -44,8 +44,8 @@ type GroupCluster struct {
 	ClusterType        string              `json:"cluster_type"`
 	User               *User               `json:"user"`
 	PlatformKubernetes *PlatformKubernetes `json:"platform_kubernetes"`
-	Group              *Group              `json:"group"`
 	ManagementProject  *ManagementProject  `json:"management_project"`
+	Group              *Group              `json:"group"`
 }
 
 func (v GroupCluster) String() string {
@@ -109,11 +109,11 @@ func (s *GroupClustersService) GetCluster(pid interface{}, cluster int, options 
 type AddGroupClusterOptions struct {
 	Name                *string                            `url:"name,omitempty" json:"name,omitempty"`
 	Domain              *string                            `url:"domain,omitempty" json:"domain,omitempty"`
+	ManagementProjectID *string                            `url:"management_project_id,omitempty" json:"management_project_id,omitempty"`
 	Enabled             *bool                              `url:"enabled,omitempty" json:"enabled,omitempty"`
 	Managed             *bool                              `url:"managed,omitempty" json:"managed,omitempty"`
 	EnvironmentScope    *string                            `url:"environment_scope,omitempty" json:"environment_scope,omitempty"`
 	PlatformKubernetes  *AddGroupPlatformKubernetesOptions `url:"platform_kubernetes_attributes,omitempty" json:"platform_kubernetes_attributes,omitempty"`
-	ManagementProjectID *string                            `url:"management_project_id,omitempty" json:"management_project_id,omitempty"`
 }
 
 // AddGroupPlatformKubernetesOptions represents the available PlatformKubernetes options for adding.

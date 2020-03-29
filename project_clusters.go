@@ -44,8 +44,8 @@ type ProjectCluster struct {
 	ClusterType        string              `json:"cluster_type"`
 	User               *User               `json:"user"`
 	PlatformKubernetes *PlatformKubernetes `json:"platform_kubernetes"`
-	Project            *Project            `json:"project"`
 	ManagementProject  *ManagementProject  `json:"management_project"`
+	Project            *Project            `json:"project"`
 }
 
 func (v ProjectCluster) String() string {
@@ -61,7 +61,7 @@ type PlatformKubernetes struct {
 	AuthorizationType string `json:"authorization_type"`
 }
 
-// ManagementProject represents a GitLab Project Cluster management_project
+// ManagementProject represents a GitLab Project Cluster management_project.
 type ManagementProject struct {
 	ID                int        `json:"id"`
 	Description       string     `json:"description"`
@@ -178,8 +178,8 @@ type EditClusterOptions struct {
 	Name                *string                        `url:"name,omitempty" json:"name,omitempty"`
 	Domain              *string                        `url:"domain,omitempty" json:"domain,omitempty"`
 	EnvironmentScope    *string                        `url:"environment_scope,omitempty" json:"environment_scope,omitempty"`
-	PlatformKubernetes  *EditPlatformKubernetesOptions `url:"platform_kubernetes_attributes,omitempty" json:"platform_kubernetes_attributes,omitempty"`
 	ManagementProjectID *string                        `url:"management_project_id,omitempty" json:"management_project_id,omitempty"`
+	PlatformKubernetes  *EditPlatformKubernetesOptions `url:"platform_kubernetes_attributes,omitempty" json:"platform_kubernetes_attributes,omitempty"`
 }
 
 // EditPlatformKubernetesOptions represents the available PlatformKubernetes options for editing.
