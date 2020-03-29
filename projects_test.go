@@ -611,6 +611,31 @@ func TestGetProjectApprovalRules(t *testing.T) {
 						"ldap_access": null
 					}
 				],
+				"protected_branches": [
+					  {
+						"id": 1,
+						"name": "master",
+						"push_access_levels": [
+						  {
+							"access_level": 30,
+							"access_level_description": "Developers + Maintainers"
+						  }
+						],
+						"merge_access_levels": [
+						  {
+							"access_level": 30,
+							"access_level_description": "Developers + Maintainers"
+						  }
+						],
+						"unprotect_access_levels": [
+						  {
+							"access_level": 40,
+							"access_level_description": "Maintainers"
+						  }
+						],
+						"code_owner_approval_required": false
+					  }
+                ],
 				"contains_hidden_groups": false
 			}
 		]`)
@@ -668,6 +693,25 @@ func TestGetProjectApprovalRules(t *testing.T) {
 					RequestAccessEnabled: false,
 					FullName:             "group1",
 					FullPath:             "group1",
+				},
+			},
+			ProtectedBranches: []*ProtectedBranch{
+				{
+					ID: 1,
+					Name: "master",
+					PushAccessLevels: []*BranchAccessDescription{
+						{
+							AccessLevel:            30,
+							AccessLevelDescription: "Developers + Maintainers",
+						},
+					},
+					MergeAccessLevels: []*BranchAccessDescription{
+						{
+							AccessLevel:            30,
+							AccessLevelDescription: "Developers + Maintainers",
+						},
+					},
+					CodeOwnerApprovalRequired: false,
 				},
 			},
 		},
@@ -735,6 +779,31 @@ func TestCreateProjectApprovalRule(t *testing.T) {
 					"ldap_access": null
 				}
 			],
+			"protected_branches": [
+				{
+				  "id": 1,
+				  "name": "master",
+				  "push_access_levels": [
+					{
+					  "access_level": 30,
+					  "access_level_description": "Developers + Maintainers"
+					}
+				  ],
+				  "merge_access_levels": [
+					{
+					  "access_level": 30,
+					  "access_level_description": "Developers + Maintainers"
+					}
+				  ],
+				  "unprotect_access_levels": [
+					{
+					  "access_level": 40,
+					  "access_level_description": "Maintainers"
+					}
+				  ],
+				  "code_owner_approval_required": false
+				}
+			],
 			"contains_hidden_groups": false
 		}`)
 	})
@@ -797,6 +866,25 @@ func TestCreateProjectApprovalRule(t *testing.T) {
 				RequestAccessEnabled: false,
 				FullName:             "group1",
 				FullPath:             "group1",
+			},
+		},
+		ProtectedBranches: []*ProtectedBranch{
+			{
+				ID: 1,
+				Name: "master",
+				PushAccessLevels: []*BranchAccessDescription{
+					{
+						AccessLevel:            30,
+						AccessLevelDescription: "Developers + Maintainers",
+					},
+				},
+				MergeAccessLevels: []*BranchAccessDescription{
+					{
+						AccessLevel:            30,
+						AccessLevelDescription: "Developers + Maintainers",
+					},
+				},
+				CodeOwnerApprovalRequired: false,
 			},
 		},
 	}
