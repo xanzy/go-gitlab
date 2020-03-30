@@ -65,6 +65,31 @@ func (s *GroupsService) ListGroupHooks(gid interface{}) ([]*GroupHook, *Response
 	return gh, resp, err
 }
 
+// GetGroupHook gets a specific hook for a group.
+//
+// GitLab API docs:
+// https://gitlab.com/help/api/groups.md#get-group-hook
+func (s *GroupsService) GetGroupHook(pid interface{}, hook int, options ...OptionFunc) (*GroupHook, *Response, error) {
+	group, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("groups/%s/hooks/%d", pathEscape(group), hook)
+
+	req, err := s.client.NewRequest("GET", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	gh := &GroupHook{}
+	resp, err := s.client.Do(req, gh)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return gh, resp, err
+}
+
 // AddGroupHookOptions represents the available AddGroupHook() options.
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/groups.html#add-group-hook
@@ -106,4 +131,69 @@ func (s *GroupsService) AddGroupHook(gid interface{}, opt *AddGroupHookOptions, 
 	}
 
 	return gh, resp, err
+}
+
+// EditGroupHookOptions represents the available EditGroupHook() options.
+//
+// GitLab API docs:
+// https://gitlab.com/help/api/groups.md#edit-group-hook
+type EditGroupHookOptions struct {
+	URL                      *string `url:"url,omitempty" json:"url,omitempty"`
+	PushEvents               *bool   `url:"push_events,omitempty" json:"push_events,omitempty"`
+	IssuesEvents             *bool   `url:"issues_events,omitempty" json:"issues_events,omitempty"`
+	ConfidentialIssuesEvents *bool   `url:"confidential_issues_events,omitempty" json:"confidential_issues_events,omitempty"`
+	ConfidentialNoteEvents   *bool   `url:"confidential_note_events,omitempty" json:"confidential_note_events,omitempty"`
+	MergeRequestsEvents      *bool   `url:"merge_requests_events,omitempty" json:"merge_requests_events,omitempty"`
+	TagPushEvents            *bool   `url:"tag_push_events,omitempty" json:"tag_push_events,omitempty"`
+	NoteEvents               *bool   `url:"note_events,omitempty" json:"note_events,omitempty"`
+	JobEvents                *bool   `url:"job_events,omitempty" json:"job_events,omitempty"`
+	PipelineEvents           *bool   `url:"pipeline_events,omitempty" json:"pipeline_events,omitempty"`
+	WikiPageEvents           *bool   `url:"wiki_page_events,omitempty" json:"wiki_page_events,omitempty"`
+	EnableSSLVerification    *bool   `url:"enable_ssl_verification,omitempty" json:"enable_ssl_verification,omitempty"`
+	Token                    *string `url:"token,omitempty" json:"token,omitempty"`
+}
+
+// EditGroupHook edits a hook for a specified group.
+//
+// Gitlab API docs:
+// https://gitlab.com/help/api/groups.md#edit-group-hook
+func (s *GroupsService) EditGroupHook(pid interface{}, hook int, opt *EditGroupHookOptions, options ...OptionFunc) (*GroupHook, *Response, error) {
+	group, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("groups/%s/hooks/%d", pathEscape(group), hook)
+
+	req, err := s.client.NewRequest("PUT", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	ph := &GroupHook{}
+	resp, err := s.client.Do(req, ph)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return ph, resp, err
+}
+
+// DeleteGroupHook removes a hook from a group. This is an idempotent
+// method and can be called multiple times. Either the hook is available or not.
+//
+// GitLab API docs:
+// https://gitlab.com/help/api/groups.md#delete-group-hook
+func (s *GroupsService) DeleteGroupHook(pid interface{}, hook int, options ...OptionFunc) (*Response, error) {
+	group, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("groups/%s/hooks/%d", pathEscape(group), hook)
+
+	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
 }
