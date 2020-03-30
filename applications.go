@@ -26,6 +26,16 @@ type ApplicationsService struct {
 	client *Client
 }
 
+// CreateApplicationOptions represents the available CreateApplication() options.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/applications.html#create-an-application
+type CreateApplicationOptions struct {
+	Name         string `json:"name,omitempty"`
+	RedirectURI  string `json:"redirect_uri,omitempty"`
+	Scopes       string `json:"scopes,omitempty"`
+	Confidential bool   `json:"confidential,omitempty"`
+}
+
 type ListApplicationsOptions struct {
 }
 
@@ -35,6 +45,24 @@ type Application struct {
 	ApplicationName string `json:"application_name"`
 	CallbackURL     string `json:"callback_url"`
 	Confidential    bool   `json:"confidential"`
+}
+
+// CreateApplication creates a new application owned by the authenticated user.
+//
+// Gitlab API docs : https://docs.gitlab.com/ce/api/applications.html#create-an-application
+func (s *ApplicationsService) CreateApplication(opt *CreateApplicationOptions, options ...OptionFunc) (*Application, *Response, error) {
+	req, err := s.client.NewRequest("POST", "applications", opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	a := new(Application)
+	resp, err := s.client.Do(req, a)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return a, resp, err
 }
 
 // ListApplications get a list of administrables applications by the authenticated user
