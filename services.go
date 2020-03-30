@@ -607,6 +607,7 @@ type SetJiraServiceOptions struct {
 	ProjectKey            *string `url:"project_key,omitempty" json:"project_key,omitempty" `
 	Username              *string `url:"username,omitempty" json:"username,omitempty" `
 	Password              *string `url:"password,omitempty" json:"password,omitempty" `
+	Active                *bool   `url:"active,omitempty" json:"active,omitempty"`
 	JiraIssueTransitionID *string `url:"jira_issue_transition_id,omitempty" json:"jira_issue_transition_id,omitempty"`
 	CommitEvents          *bool   `url:"commit_events,omitempty" json:"commit_events,omitempty"`
 	MergeRequestsEvents   *bool   `url:"merge_requests_events,omitempty" json:"merge_requests_events,omitempty"`
