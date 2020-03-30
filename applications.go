@@ -16,9 +16,11 @@
 
 package gitlab
 
+import "fmt"
+
 // ApplicationsService handles communication with administrables applications
 // of the Gitlab API.
-
+//
 // Gitlab API docs : https://docs.gitlab.com/ee/api/applications.html
 type ApplicationsService struct {
 	client *Client
@@ -36,9 +38,11 @@ type Application struct {
 }
 
 // ListApplications get a list of administrables applications by the authenticated user
-func (s *ApplicationsService) ListApplications(opts *ListApplicationsOptions, options ...OptionFunc) ([]*Application, *Response, error) {
+//
+// Gitlab API docs : https://docs.gitlab.com/ce/api/applications.html#list-all-applications
+func (s *ApplicationsService) ListApplications(options ...OptionFunc) ([]*Application, *Response, error) {
 
-	req, err := s.client.NewRequest("GET", "applications", opts, options)
+	req, err := s.client.NewRequest("GET", "applications", &ListApplicationsOptions{}, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -50,4 +54,23 @@ func (s *ApplicationsService) ListApplications(opts *ListApplicationsOptions, op
 	}
 
 	return a, resp, err
+}
+
+// DeleteApplication removes a specific application
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/applications.html#delete-an-application
+func (s *ApplicationsService) DeleteApplication(id interface{}, options ...OptionFunc) (*Response, error) {
+	application, err := parseID(id)
+	if err != nil {
+		return nil, err
+	}
+
+	u := fmt.Sprintf("applications/%s", pathEscape(application))
+
+	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
 }
