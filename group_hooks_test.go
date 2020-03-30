@@ -25,7 +25,7 @@ import (
 )
 
 func TestListGroupHooks(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/groups/1/hooks", func(w http.ResponseWriter, r *http.Request) {
@@ -80,7 +80,7 @@ func TestListGroupHooks(t *testing.T) {
 }
 
 func TestGetGroupHook(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/groups/1/hooks/1", func(w http.ResponseWriter, r *http.Request) {
@@ -133,7 +133,7 @@ func TestGetGroupHook(t *testing.T) {
 }
 
 func TestAddGroupHook(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/groups/1/hooks", func(w http.ResponseWriter, r *http.Request) {
@@ -192,7 +192,7 @@ func TestAddGroupHook(t *testing.T) {
 }
 
 func TestEditGroupHook(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/groups/1/hooks/1", func(w http.ResponseWriter, r *http.Request) {
@@ -251,7 +251,7 @@ func TestEditGroupHook(t *testing.T) {
 }
 
 func TestDeleteGroupHook(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/groups/1/hooks/1", func(w http.ResponseWriter, r *http.Request) {

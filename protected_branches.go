@@ -63,7 +63,7 @@ type ListProtectedBranchesOptions ListOptions
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/protected_branches.html#list-protected-branches
-func (s *ProtectedBranchesService) ListProtectedBranches(pid interface{}, opt *ListProtectedBranchesOptions, options ...OptionFunc) ([]*ProtectedBranch, *Response, error) {
+func (s *ProtectedBranchesService) ListProtectedBranches(pid interface{}, opt *ListProtectedBranchesOptions, options ...RequestOptionFunc) ([]*ProtectedBranch, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -88,7 +88,7 @@ func (s *ProtectedBranchesService) ListProtectedBranches(pid interface{}, opt *L
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/protected_branches.html#get-a-single-protected-branch-or-wildcard-protected-branch
-func (s *ProtectedBranchesService) GetProtectedBranch(pid interface{}, branch string, options ...OptionFunc) (*ProtectedBranch, *Response, error) {
+func (s *ProtectedBranchesService) GetProtectedBranch(pid interface{}, branch string, options ...RequestOptionFunc) (*ProtectedBranch, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -126,7 +126,7 @@ type ProtectRepositoryBranchesOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/protected_branches.html#protect-repository-branches
-func (s *ProtectedBranchesService) ProtectRepositoryBranches(pid interface{}, opt *ProtectRepositoryBranchesOptions, options ...OptionFunc) (*ProtectedBranch, *Response, error) {
+func (s *ProtectedBranchesService) ProtectRepositoryBranches(pid interface{}, opt *ProtectRepositoryBranchesOptions, options ...RequestOptionFunc) (*ProtectedBranch, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -152,7 +152,7 @@ func (s *ProtectedBranchesService) ProtectRepositoryBranches(pid interface{}, op
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/protected_branches.html#unprotect-repository-branches
-func (s *ProtectedBranchesService) UnprotectRepositoryBranches(pid interface{}, branch string, options ...OptionFunc) (*Response, error) {
+func (s *ProtectedBranchesService) UnprotectRepositoryBranches(pid interface{}, branch string, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, err
@@ -180,7 +180,7 @@ type RequireCodeOwnerApprovalsOptions struct {
 //
 // Gitlab API docs:
 // https://docs.gitlab.com/ee/api/protected_branches.html#require-code-owner-approvals-for-a-single-branch
-func (s *ProtectedBranchesService) RequireCodeOwnerApprovals(pid interface{}, branch string, opt *RequireCodeOwnerApprovalsOptions, options ...OptionFunc) (*Response, error) {
+func (s *ProtectedBranchesService) RequireCodeOwnerApprovals(pid interface{}, branch string, opt *RequireCodeOwnerApprovalsOptions, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, err

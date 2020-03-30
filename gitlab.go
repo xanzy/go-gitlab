@@ -18,7 +18,6 @@
 package gitlab
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
 	"errors"
@@ -31,6 +30,7 @@ import (
 	"sort"
 	"strconv"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/google/go-querystring/query"
@@ -335,6 +335,13 @@ type Client struct {
 	// should always be specified with a trailing slash.
 	baseURL *url.URL
 
+	// disableRetries is used to disable the default retry logic.
+	disableRetries bool
+
+	// configLimiter is used to make sure the limiter is configured exactly
+	// once and block all other calls until the initial (one) call is done.
+	configureLimiterOnce sync.Once
+
 	// Limiter is used to limit API calls and prevent 429 responses.
 	limiter *rate.Limiter
 
@@ -434,31 +441,47 @@ type ListOptions struct {
 	PerPage int `url:"per_page,omitempty" json:"per_page,omitempty"`
 }
 
-// NewClient returns a new GitLab API client. If a nil httpClient is
-// provided, http.DefaultClient will be used. To use API methods which require
+// NewClient returns a new GitLab API client. To use API methods which require
 // authentication, provide a valid private or personal token.
-func NewClient(httpClient *http.Client, token string) *Client {
-	client := newClient(httpClient)
+func NewClient(token string, options ...ClientOptionFunc) (*Client, error) {
+	client, err := newClient(options...)
+	if err != nil {
+		return nil, err
+	}
 	client.authType = privateToken
 	client.token = token
-	return client
+	return client, nil
 }
 
-// NewBasicAuthClient returns a new GitLab API client. If a nil httpClient is
-// provided, http.DefaultClient will be used. To use API methods which require
-// authentication, provide a valid username and password.
-func NewBasicAuthClient(httpClient *http.Client, endpoint, username, password string) (*Client, error) {
-	client := newClient(httpClient)
-	client.authType = basicAuth
-	client.username = username
-	client.password = password
-	client.SetBaseURL(endpoint)
-
-	err := client.requestOAuthToken(context.TODO())
+// NewBasicAuthClient returns a new GitLab API client. To use API methods which
+// require authentication, provide a valid username and password.
+func NewBasicAuthClient(username, password string, options ...ClientOptionFunc) (*Client, error) {
+	client, err := newClient(options...)
 	if err != nil {
 		return nil, err
 	}
 
+	client.authType = basicAuth
+	client.username = username
+	client.password = password
+
+	err = client.requestOAuthToken(context.Background())
+	if err != nil {
+		return nil, err
+	}
+
+	return client, nil
+}
+
+// NewOAuthClient returns a new GitLab API client. To use API methods which
+// require authentication, provide a valid oauth token.
+func NewOAuthClient(token string, options ...ClientOptionFunc) (*Client, error) {
+	client, err := newClient(options...)
+	if err != nil {
+		return nil, err
+	}
+	client.authType = oAuthToken
+	client.token = token
 	return client, nil
 }
 
@@ -478,21 +501,7 @@ func (c *Client) requestOAuthToken(ctx context.Context) error {
 	return nil
 }
 
-// NewOAuthClient returns a new GitLab API client. If a nil httpClient is
-// provided, http.DefaultClient will be used. To use API methods which require
-// authentication, provide a valid oauth token.
-func NewOAuthClient(httpClient *http.Client, token string) *Client {
-	client := newClient(httpClient)
-	client.authType = oAuthToken
-	client.token = token
-	return client
-}
-
-func newClient(httpClient *http.Client) *Client {
-	if httpClient == nil {
-		httpClient = cleanhttp.DefaultPooledClient()
-	}
-
+func newClient(options ...ClientOptionFunc) (*Client, error) {
 	c := &Client{UserAgent: userAgent}
 
 	// Configure the HTTP client.
@@ -500,14 +509,24 @@ func newClient(httpClient *http.Client) *Client {
 		Backoff:      c.retryHTTPBackoff,
 		CheckRetry:   c.retryHTTPCheck,
 		ErrorHandler: retryablehttp.PassthroughErrorHandler,
-		HTTPClient:   httpClient,
+		HTTPClient:   cleanhttp.DefaultPooledClient(),
 		RetryWaitMin: 100 * time.Millisecond,
 		RetryWaitMax: 400 * time.Millisecond,
 		RetryMax:     30,
 	}
 
 	// Set the default base URL.
-	_ = c.SetBaseURL(defaultBaseURL)
+	c.setBaseURL(defaultBaseURL)
+
+	// Apply any given client options.
+	for _, fn := range options {
+		if fn == nil {
+			continue
+		}
+		if err := fn(c); err != nil {
+			return nil, err
+		}
+	}
 
 	// Create the internal timeStats service.
 	timeStats := &timeStatsService{client: c}
@@ -585,7 +604,7 @@ func newClient(httpClient *http.Client) *Client {
 	c.Version = &VersionService{client: c}
 	c.Wikis = &WikisService{client: c}
 
-	return c
+	return c, nil
 }
 
 // retryHTTPCheck provides a callback for Client.CheckRetry which
@@ -597,7 +616,7 @@ func (c *Client) retryHTTPCheck(ctx context.Context, resp *http.Response, err er
 	if err != nil {
 		return false, err
 	}
-	if resp.StatusCode == 429 || resp.StatusCode >= 500 {
+	if !c.disableRetries && (resp.StatusCode == 429 || resp.StatusCode >= 500) {
 		return true, nil
 	}
 	return false, nil
@@ -646,36 +665,6 @@ func rateLimitBackoff(min, max time.Duration, attemptNum int, resp *http.Respons
 	return min + jitter
 }
 
-// BaseURL return a copy of the baseURL.
-func (c *Client) BaseURL() *url.URL {
-	u := *c.baseURL
-	return &u
-}
-
-// SetBaseURL sets the base URL for API requests to a custom endpoint. urlStr
-// should always be specified with a trailing slash.
-func (c *Client) SetBaseURL(urlStr string) error {
-	// Make sure the given URL end with a slash
-	if !strings.HasSuffix(urlStr, "/") {
-		urlStr += "/"
-	}
-
-	baseURL, err := url.Parse(urlStr)
-	if err != nil {
-		return err
-	}
-
-	if !strings.HasSuffix(baseURL.Path, apiVersionPath) {
-		baseURL.Path += apiVersionPath
-	}
-
-	// Update the base URL of the client.
-	c.baseURL = baseURL
-
-	// Reconfigure the rate limiter.
-	return c.configureLimiter()
-}
-
 // configureLimiter configures the rate limiter.
 func (c *Client) configureLimiter() error {
 	// Set default values for when rate limiting is disabled.
@@ -718,12 +707,40 @@ func (c *Client) configureLimiter() error {
 	return nil
 }
 
+// BaseURL return a copy of the baseURL.
+func (c *Client) BaseURL() *url.URL {
+	u := *c.baseURL
+	return &u
+}
+
+// setBaseURL sets the base URL for API requests to a custom endpoint.
+func (c *Client) setBaseURL(urlStr string) error {
+	// Make sure the given URL end with a slash
+	if !strings.HasSuffix(urlStr, "/") {
+		urlStr += "/"
+	}
+
+	baseURL, err := url.Parse(urlStr)
+	if err != nil {
+		return err
+	}
+
+	if !strings.HasSuffix(baseURL.Path, apiVersionPath) {
+		baseURL.Path += apiVersionPath
+	}
+
+	// Update the base URL of the client.
+	c.baseURL = baseURL
+
+	return nil
+}
+
 // NewRequest creates an API request. A relative URL path can be provided in
-// urlStr, in which case it is resolved relative to the base URL of the Client.
+// path, in which case it is resolved relative to the base URL of the Client.
 // Relative URL paths should always be specified without a preceding slash. If
 // specified, the value pointed to by body is JSON encoded and included as the
 // request body.
-func (c *Client) NewRequest(method, path string, opt interface{}, options []OptionFunc) (*retryablehttp.Request, error) {
+func (c *Client) NewRequest(method, path string, opt interface{}, options []RequestOptionFunc) (*retryablehttp.Request, error) {
 	u := *c.baseURL
 	unescaped, err := url.PathUnescape(path)
 	if err != nil {
@@ -734,13 +751,6 @@ func (c *Client) NewRequest(method, path string, opt interface{}, options []Opti
 	u.RawPath = c.baseURL.Path + path
 	u.Path = c.baseURL.Path + unescaped
 
-	if opt != nil {
-		q, err := query.Values(opt)
-		if err != nil {
-			return nil, err
-		}
-		u.RawQuery = q.Encode()
-	}
 	// Create a request specific headers map.
 	reqHeaders := make(http.Header)
 	reqHeaders.Set("Accept", "application/json")
@@ -757,17 +767,22 @@ func (c *Client) NewRequest(method, path string, opt interface{}, options []Opti
 	}
 
 	var body interface{}
-	if method == "POST" || method == "PUT" {
-		u.RawQuery = ""
+	switch {
+	case method == "POST" || method == "PUT":
 		reqHeaders.Set("Content-Type", "application/json")
 
 		if opt != nil {
-			bodyBytes, err := json.Marshal(opt)
+			body, err = json.Marshal(opt)
 			if err != nil {
 				return nil, err
 			}
-			body = bytes.NewReader(bodyBytes)
 		}
+	case opt != nil:
+		q, err := query.Values(opt)
+		if err != nil {
+			return nil, err
+		}
+		u.RawQuery = q.Encode()
 	}
 
 	req, err := retryablehttp.NewRequest(method, u.String(), body)
@@ -779,7 +794,6 @@ func (c *Client) NewRequest(method, path string, opt interface{}, options []Opti
 		if fn == nil {
 			continue
 		}
-
 		if err := fn(req); err != nil {
 			return nil, err
 		}
@@ -856,6 +870,10 @@ func (r *Response) populatePageValues() {
 // interface, the raw response body will be written to v, without attempting to
 // first decode it.
 func (c *Client) Do(req *retryablehttp.Request, v interface{}) (*Response, error) {
+	// If not yet configured, try to configure the rate limiter. Fail
+	// silently as the limiter will be disabled in case of an error.
+	c.configureLimiterOnce.Do(func() { c.configureLimiter() })
+
 	// Wait will block until the limiter can obtain a new token.
 	if err := c.limiter.Wait(req.Context()); err != nil {
 		return nil, err
@@ -992,32 +1010,6 @@ func parseError(raw interface{}) string {
 
 	default:
 		return fmt.Sprintf("failed to parse unexpected error type: %T", raw)
-	}
-}
-
-// OptionFunc can be passed to all API requests to make the API call as if you were
-// another user, provided your private token is from an administrator account.
-//
-// GitLab docs: https://docs.gitlab.com/ce/api/README.html#sudo
-type OptionFunc func(*retryablehttp.Request) error
-
-// WithSudo takes either a username or user ID and sets the SUDO request header
-func WithSudo(uid interface{}) OptionFunc {
-	return func(req *retryablehttp.Request) error {
-		user, err := parseID(uid)
-		if err != nil {
-			return err
-		}
-		req.Header.Set("SUDO", user)
-		return nil
-	}
-}
-
-// WithContext runs the request with the provided context
-func WithContext(ctx context.Context) OptionFunc {
-	return func(req *retryablehttp.Request) error {
-		*req = *req.WithContext(ctx)
-		return nil
 	}
 }
 

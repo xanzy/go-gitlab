@@ -8,7 +8,7 @@ import (
 )
 
 func TestListGroups(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/groups",
@@ -29,7 +29,7 @@ func TestListGroups(t *testing.T) {
 }
 
 func TestGetGroup(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/groups/g",
@@ -50,7 +50,7 @@ func TestGetGroup(t *testing.T) {
 }
 
 func TestCreateGroup(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/groups",
@@ -76,7 +76,7 @@ func TestCreateGroup(t *testing.T) {
 }
 
 func TestTransferGroup(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/groups/1/projects/2",
@@ -98,7 +98,7 @@ func TestTransferGroup(t *testing.T) {
 }
 
 func TestDeleteGroup(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/groups/1",
@@ -120,7 +120,7 @@ func TestDeleteGroup(t *testing.T) {
 }
 
 func TestSearchGroup(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/groups",
@@ -141,7 +141,7 @@ func TestSearchGroup(t *testing.T) {
 }
 
 func TestUpdateGroup(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/groups/1",
@@ -162,7 +162,7 @@ func TestUpdateGroup(t *testing.T) {
 }
 
 func TestListGroupProjects(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/groups/22/projects",
@@ -184,7 +184,7 @@ func TestListGroupProjects(t *testing.T) {
 }
 
 func TestListSubgroups(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/groups/1/subgroups",
@@ -205,7 +205,7 @@ func TestListSubgroups(t *testing.T) {
 }
 
 func TestListGroupLDAPLinks(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/groups/1/ldap_group_links",
@@ -248,7 +248,7 @@ func TestListGroupLDAPLinks(t *testing.T) {
 }
 
 func TestAddGroupLDAPLink(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/groups/1/ldap_group_links",

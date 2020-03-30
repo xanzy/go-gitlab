@@ -7,7 +7,10 @@ import (
 )
 
 func impersonationExample() {
-	git := gitlab.NewClient(nil, "yourtokengoeshere")
+	git, err := gitlab.NewClient("yourtokengoeshere")
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	uid := 1
 

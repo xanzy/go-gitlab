@@ -92,7 +92,7 @@ type ListGroupsOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/groups.html#list-project-groups
-func (s *GroupsService) ListGroups(opt *ListGroupsOptions, options ...OptionFunc) ([]*Group, *Response, error) {
+func (s *GroupsService) ListGroups(opt *ListGroupsOptions, options ...RequestOptionFunc) ([]*Group, *Response, error) {
 	req, err := s.client.NewRequest("GET", "groups", opt, options)
 	if err != nil {
 		return nil, nil, err
@@ -110,7 +110,7 @@ func (s *GroupsService) ListGroups(opt *ListGroupsOptions, options ...OptionFunc
 // GetGroup gets all details of a group.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/groups.html#details-of-a-group
-func (s *GroupsService) GetGroup(gid interface{}, options ...OptionFunc) (*Group, *Response, error) {
+func (s *GroupsService) GetGroup(gid interface{}, options ...RequestOptionFunc) (*Group, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
 		return nil, nil, err
@@ -159,7 +159,7 @@ type CreateGroupOptions struct {
 // create groups.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/groups.html#new-group
-func (s *GroupsService) CreateGroup(opt *CreateGroupOptions, options ...OptionFunc) (*Group, *Response, error) {
+func (s *GroupsService) CreateGroup(opt *CreateGroupOptions, options ...RequestOptionFunc) (*Group, *Response, error) {
 	req, err := s.client.NewRequest("POST", "groups", opt, options)
 	if err != nil {
 		return nil, nil, err
@@ -179,7 +179,7 @@ func (s *GroupsService) CreateGroup(opt *CreateGroupOptions, options ...OptionFu
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/groups.html#transfer-project-to-group
-func (s *GroupsService) TransferGroup(gid interface{}, pid interface{}, options ...OptionFunc) (*Group, *Response, error) {
+func (s *GroupsService) TransferGroup(gid interface{}, pid interface{}, options ...RequestOptionFunc) (*Group, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
 		return nil, nil, err
@@ -214,7 +214,7 @@ type UpdateGroupOptions CreateGroupOptions
 // administrators.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/groups.html#update-group
-func (s *GroupsService) UpdateGroup(gid interface{}, opt *UpdateGroupOptions, options ...OptionFunc) (*Group, *Response, error) {
+func (s *GroupsService) UpdateGroup(gid interface{}, opt *UpdateGroupOptions, options ...RequestOptionFunc) (*Group, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
 		return nil, nil, err
@@ -238,7 +238,7 @@ func (s *GroupsService) UpdateGroup(gid interface{}, opt *UpdateGroupOptions, op
 // DeleteGroup removes group with all projects inside.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/groups.html#remove-group
-func (s *GroupsService) DeleteGroup(gid interface{}, options ...OptionFunc) (*Response, error) {
+func (s *GroupsService) DeleteGroup(gid interface{}, options ...RequestOptionFunc) (*Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
 		return nil, err
@@ -256,7 +256,7 @@ func (s *GroupsService) DeleteGroup(gid interface{}, options ...OptionFunc) (*Re
 // SearchGroup get all groups that match your string in their name or path.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/groups.html#search-for-group
-func (s *GroupsService) SearchGroup(query string, options ...OptionFunc) ([]*Group, *Response, error) {
+func (s *GroupsService) SearchGroup(query string, options ...RequestOptionFunc) ([]*Group, *Response, error) {
 	var q struct {
 		Search string `url:"search,omitempty" json:"search,omitempty"`
 	}
@@ -302,7 +302,7 @@ type ListGroupProjectsOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/groups.html#list-a-group-39-s-projects
-func (s *GroupsService) ListGroupProjects(gid interface{}, opt *ListGroupProjectsOptions, options ...OptionFunc) ([]*Project, *Response, error) {
+func (s *GroupsService) ListGroupProjects(gid interface{}, opt *ListGroupProjectsOptions, options ...RequestOptionFunc) ([]*Project, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
 		return nil, nil, err
@@ -334,7 +334,7 @@ type ListSubgroupsOptions ListGroupsOptions
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/groups.html#list-a-groups-s-subgroups
-func (s *GroupsService) ListSubgroups(gid interface{}, opt *ListSubgroupsOptions, options ...OptionFunc) ([]*Group, *Response, error) {
+func (s *GroupsService) ListSubgroups(gid interface{}, opt *ListSubgroupsOptions, options ...RequestOptionFunc) ([]*Group, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
 		return nil, nil, err
@@ -360,7 +360,7 @@ func (s *GroupsService) ListSubgroups(gid interface{}, opt *ListSubgroupsOptions
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/groups.html#list-ldap-group-links-starter
-func (s *GroupsService) ListGroupLDAPLinks(gid interface{}, options ...OptionFunc) ([]*LDAPGroupLink, *Response, error) {
+func (s *GroupsService) ListGroupLDAPLinks(gid interface{}, options ...RequestOptionFunc) ([]*LDAPGroupLink, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
 		return nil, nil, err
@@ -396,7 +396,7 @@ type AddGroupLDAPLinkOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/groups.html#add-ldap-group-link-starter
-func (s *GroupsService) AddGroupLDAPLink(gid interface{}, opt *AddGroupLDAPLinkOptions, options ...OptionFunc) (*LDAPGroupLink, *Response, error) {
+func (s *GroupsService) AddGroupLDAPLink(gid interface{}, opt *AddGroupLDAPLinkOptions, options ...RequestOptionFunc) (*LDAPGroupLink, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
 		return nil, nil, err
@@ -422,7 +422,7 @@ func (s *GroupsService) AddGroupLDAPLink(gid interface{}, opt *AddGroupLDAPLinkO
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/groups.html#delete-ldap-group-link-starter
-func (s *GroupsService) DeleteGroupLDAPLink(gid interface{}, cn string, options ...OptionFunc) (*Response, error) {
+func (s *GroupsService) DeleteGroupLDAPLink(gid interface{}, cn string, options ...RequestOptionFunc) (*Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
 		return nil, err
@@ -442,7 +442,7 @@ func (s *GroupsService) DeleteGroupLDAPLink(gid interface{}, cn string, options 
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/groups.html#delete-ldap-group-link-starter
-func (s *GroupsService) DeleteGroupLDAPLinkForProvider(gid interface{}, provider, cn string, options ...OptionFunc) (*Response, error) {
+func (s *GroupsService) DeleteGroupLDAPLinkForProvider(gid interface{}, provider, cn string, options ...RequestOptionFunc) (*Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
 		return nil, err

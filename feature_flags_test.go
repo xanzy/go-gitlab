@@ -8,7 +8,7 @@ import (
 )
 
 func TestListFeatureFlags(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/features", func(w http.ResponseWriter, r *http.Request) {
@@ -50,7 +50,7 @@ func TestListFeatureFlags(t *testing.T) {
 }
 
 func TestSetFeatureFlag(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/features/new_library", func(w http.ResponseWriter, r *http.Request) {
