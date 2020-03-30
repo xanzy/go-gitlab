@@ -3,12 +3,11 @@ package gitlab
 import (
 	"fmt"
 	"net/http"
-	"strings"
 	"testing"
 )
 
 func TestBlockUser(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	path := fmt.Sprintf("/%susers/1/block", apiVersionPath)
@@ -24,7 +23,7 @@ func TestBlockUser(t *testing.T) {
 }
 
 func TestBlockUser_UserNotFound(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	path := fmt.Sprintf("/%susers/1/block", apiVersionPath)
@@ -40,7 +39,7 @@ func TestBlockUser_UserNotFound(t *testing.T) {
 }
 
 func TestBlockUser_BlockPrevented(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	path := fmt.Sprintf("/%susers/1/block", apiVersionPath)
@@ -56,7 +55,7 @@ func TestBlockUser_BlockPrevented(t *testing.T) {
 }
 
 func TestBlockUser_UnknownError(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	path := fmt.Sprintf("/%susers/1/block", apiVersionPath)
@@ -73,21 +72,9 @@ func TestBlockUser_UnknownError(t *testing.T) {
 	}
 }
 
-func TestBlockUser_BadResponseFromNet(t *testing.T) {
-	client := NewClient(nil, "")
-	client.SetBaseURL("")
-
-	want := "unsupported protocol scheme"
-
-	err := client.Users.BlockUser(1)
-	if !strings.Contains(err.Error(), want) {
-		t.Errorf("Users.BlockUser error.\nExpected error to contain: %s\nGot: %v", want, err)
-	}
-}
-
 //  ------------------------  Unblock user -------------------------
 func TestUnblockUser(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	path := fmt.Sprintf("/%susers/1/unblock", apiVersionPath)
@@ -103,7 +90,7 @@ func TestUnblockUser(t *testing.T) {
 }
 
 func TestUnblockUser_UserNotFound(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	path := fmt.Sprintf("/%susers/1/unblock", apiVersionPath)
@@ -119,7 +106,7 @@ func TestUnblockUser_UserNotFound(t *testing.T) {
 }
 
 func TestUnblockUser_UnblockPrevented(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	path := fmt.Sprintf("/%susers/1/unblock", apiVersionPath)
@@ -135,7 +122,7 @@ func TestUnblockUser_UnblockPrevented(t *testing.T) {
 }
 
 func TestUnblockUser_UnknownError(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	path := fmt.Sprintf("/%susers/1/unblock", apiVersionPath)
@@ -152,20 +139,8 @@ func TestUnblockUser_UnknownError(t *testing.T) {
 	}
 }
 
-func TestUnblockUser_BadResponseFromNet(t *testing.T) {
-	client := NewClient(nil, "")
-	client.SetBaseURL("")
-
-	want := "unsupported protocol scheme"
-
-	err := client.Users.UnblockUser(1)
-	if !strings.Contains(err.Error(), want) {
-		t.Errorf("Users.BlockUser error.\nExpected error to contain: %s\nGot: %v", want, err)
-	}
-}
-
 func TestDeactivateUser(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	path := fmt.Sprintf("/%susers/1/deactivate", apiVersionPath)
@@ -181,7 +156,7 @@ func TestDeactivateUser(t *testing.T) {
 }
 
 func TestDeactivateUser_UserNotFound(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	path := fmt.Sprintf("/%susers/1/deactivate", apiVersionPath)
@@ -197,7 +172,7 @@ func TestDeactivateUser_UserNotFound(t *testing.T) {
 }
 
 func TestDeactivateUser_DeactivatePrevented(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	path := fmt.Sprintf("/%susers/1/deactivate", apiVersionPath)
@@ -213,7 +188,7 @@ func TestDeactivateUser_DeactivatePrevented(t *testing.T) {
 }
 
 func TestActivateUser(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	path := fmt.Sprintf("/%susers/1/activate", apiVersionPath)
@@ -229,7 +204,7 @@ func TestActivateUser(t *testing.T) {
 }
 
 func TestActivateUser_ActivatePrevented(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	path := fmt.Sprintf("/%susers/1/activate", apiVersionPath)
@@ -245,7 +220,7 @@ func TestActivateUser_ActivatePrevented(t *testing.T) {
 }
 
 func TestActivateUser_UserNotFound(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	path := fmt.Sprintf("/%susers/1/activate", apiVersionPath)

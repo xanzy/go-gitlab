@@ -8,7 +8,7 @@ import (
 )
 
 func TestListTodos(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/todos", func(w http.ResponseWriter, r *http.Request) {
@@ -26,7 +26,7 @@ func TestListTodos(t *testing.T) {
 }
 
 func TestMarkAllTodosAsDone(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/todos/mark_as_done", func(w http.ResponseWriter, r *http.Request) {
@@ -39,7 +39,7 @@ func TestMarkAllTodosAsDone(t *testing.T) {
 }
 
 func TestMarkTodoAsDone(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/todos/1/mark_as_done", func(w http.ResponseWriter, r *http.Request) {

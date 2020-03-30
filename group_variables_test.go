@@ -8,7 +8,7 @@ import (
 )
 
 func TestListGroupVariabless(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/groups/1/variables",
@@ -37,7 +37,7 @@ func TestListGroupVariabless(t *testing.T) {
 }
 
 func TestGetGroupVariable(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/groups/1/variables/TEST_VARIABLE_1",
@@ -59,7 +59,7 @@ func TestGetGroupVariable(t *testing.T) {
 }
 
 func TestCreateGroupVariable(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/groups/1/variables",
@@ -87,7 +87,7 @@ func TestCreateGroupVariable(t *testing.T) {
 }
 
 func TestDeleteGroupVariable(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/groups/1/variables/TEST_VARIABLE_1",
@@ -109,7 +109,7 @@ func TestDeleteGroupVariable(t *testing.T) {
 }
 
 func TestUpdateGroupVariable(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/groups/1/variables/TEST_VARIABLE_1",

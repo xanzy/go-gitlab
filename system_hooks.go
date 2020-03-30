@@ -46,7 +46,7 @@ func (h Hook) String() string {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/system_hooks.html#list-system-hooks
-func (s *SystemHooksService) ListHooks(options ...OptionFunc) ([]*Hook, *Response, error) {
+func (s *SystemHooksService) ListHooks(options ...RequestOptionFunc) ([]*Hook, *Response, error) {
 	req, err := s.client.NewRequest("GET", "hooks", nil, options)
 	if err != nil {
 		return nil, nil, err
@@ -79,7 +79,7 @@ type AddHookOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/system_hooks.html#add-new-system-hook-hook
-func (s *SystemHooksService) AddHook(opt *AddHookOptions, options ...OptionFunc) (*Hook, *Response, error) {
+func (s *SystemHooksService) AddHook(opt *AddHookOptions, options ...RequestOptionFunc) (*Hook, *Response, error) {
 	req, err := s.client.NewRequest("POST", "hooks", opt, options)
 	if err != nil {
 		return nil, nil, err
@@ -114,7 +114,7 @@ func (h HookEvent) String() string {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/system_hooks.html#test-system-hook
-func (s *SystemHooksService) TestHook(hook int, options ...OptionFunc) (*HookEvent, *Response, error) {
+func (s *SystemHooksService) TestHook(hook int, options ...RequestOptionFunc) (*HookEvent, *Response, error) {
 	u := fmt.Sprintf("hooks/%d", hook)
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
@@ -137,7 +137,7 @@ func (s *SystemHooksService) TestHook(hook int, options ...OptionFunc) (*HookEve
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/system_hooks.html#delete-system-hook
-func (s *SystemHooksService) DeleteHook(hook int, options ...OptionFunc) (*Response, error) {
+func (s *SystemHooksService) DeleteHook(hook int, options ...RequestOptionFunc) (*Response, error) {
 	u := fmt.Sprintf("hooks/%d", hook)
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)

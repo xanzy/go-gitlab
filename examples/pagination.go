@@ -8,7 +8,10 @@ import (
 )
 
 func pagination() {
-	git := gitlab.NewClient(nil, "yourtokengoeshere")
+	git, err := gitlab.NewClient("yourtokengoeshere")
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	opt := &gitlab.ListProjectsOptions{
 		ListOptions: gitlab.ListOptions{

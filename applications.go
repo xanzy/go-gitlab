@@ -49,7 +49,7 @@ type CreateApplicationOptions struct {
 // CreateApplication creates a new application owned by the authenticated user.
 //
 // Gitlab API docs : https://docs.gitlab.com/ce/api/applications.html#create-an-application
-func (s *ApplicationsService) CreateApplication(opt *CreateApplicationOptions, options ...OptionFunc) (*Application, *Response, error) {
+func (s *ApplicationsService) CreateApplication(opt *CreateApplicationOptions, options ...RequestOptionFunc) (*Application, *Response, error) {
 	req, err := s.client.NewRequest("POST", "applications", opt, options)
 	if err != nil {
 		return nil, nil, err
@@ -69,7 +69,7 @@ type ListApplicationsOptions ListOptions
 // ListApplications get a list of administrables applications by the authenticated user
 //
 // Gitlab API docs : https://docs.gitlab.com/ce/api/applications.html#list-all-applications
-func (s *ApplicationsService) ListApplications(opt *ListApplicationsOptions, options ...OptionFunc) ([]*Application, *Response, error) {
+func (s *ApplicationsService) ListApplications(opt *ListApplicationsOptions, options ...RequestOptionFunc) ([]*Application, *Response, error) {
 	req, err := s.client.NewRequest("GET", "applications", opt, options)
 	if err != nil {
 		return nil, nil, err
@@ -88,7 +88,7 @@ func (s *ApplicationsService) ListApplications(opt *ListApplicationsOptions, opt
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/applications.html#delete-an-application
-func (s *ApplicationsService) DeleteApplication(application int, options ...OptionFunc) (*Response, error) {
+func (s *ApplicationsService) DeleteApplication(application int, options ...RequestOptionFunc) (*Response, error) {
 	u := fmt.Sprintf("applications/%d", application)
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)

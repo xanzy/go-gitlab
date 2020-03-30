@@ -7,7 +7,10 @@ import (
 )
 
 func applicationsExample() {
-	git := gitlab.NewClient(nil, "yourtokengoeshere")
+	git, err := gitlab.NewClient("yourtokengoeshere")
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	// Create an application
 	opts := &gitlab.CreateApplicationOptions{

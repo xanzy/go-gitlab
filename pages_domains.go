@@ -40,7 +40,7 @@ type ListPagesDomainsOptions ListOptions
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/pages_domains.html#list-pages-domains
-func (s *PagesDomainsService) ListPagesDomains(pid interface{}, opt *ListPagesDomainsOptions, options ...OptionFunc) ([]*PagesDomain, *Response, error) {
+func (s *PagesDomainsService) ListPagesDomains(pid interface{}, opt *ListPagesDomainsOptions, options ...RequestOptionFunc) ([]*PagesDomain, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -65,7 +65,7 @@ func (s *PagesDomainsService) ListPagesDomains(pid interface{}, opt *ListPagesDo
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/pages_domains.html#list-all-pages-domains
-func (s *PagesDomainsService) ListAllPagesDomains(options ...OptionFunc) ([]*PagesDomain, *Response, error) {
+func (s *PagesDomainsService) ListAllPagesDomains(options ...RequestOptionFunc) ([]*PagesDomain, *Response, error) {
 	req, err := s.client.NewRequest("GET", "pages/domains", nil, options)
 	if err != nil {
 		return nil, nil, err
@@ -84,7 +84,7 @@ func (s *PagesDomainsService) ListAllPagesDomains(options ...OptionFunc) ([]*Pag
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/pages_domains.html#single-pages-domain
-func (s *PagesDomainsService) GetPagesDomain(pid interface{}, domain string, options ...OptionFunc) (*PagesDomain, *Response, error) {
+func (s *PagesDomainsService) GetPagesDomain(pid interface{}, domain string, options ...RequestOptionFunc) (*PagesDomain, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -120,7 +120,7 @@ type CreatePagesDomainOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/pages_domains.html#create-new-pages-domain
-func (s *PagesDomainsService) CreatePagesDomain(pid interface{}, opt *CreatePagesDomainOptions, options ...OptionFunc) (*PagesDomain, *Response, error) {
+func (s *PagesDomainsService) CreatePagesDomain(pid interface{}, opt *CreatePagesDomainOptions, options ...RequestOptionFunc) (*PagesDomain, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -155,7 +155,7 @@ type UpdatePagesDomainOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/pages_domains.html#update-pages-domain
-func (s *PagesDomainsService) UpdatePagesDomain(pid interface{}, domain string, opt *UpdatePagesDomainOptions, options ...OptionFunc) (*PagesDomain, *Response, error) {
+func (s *PagesDomainsService) UpdatePagesDomain(pid interface{}, domain string, opt *UpdatePagesDomainOptions, options ...RequestOptionFunc) (*PagesDomain, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -180,7 +180,7 @@ func (s *PagesDomainsService) UpdatePagesDomain(pid interface{}, domain string, 
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/pages_domains.html#delete-pages-domain
-func (s *PagesDomainsService) DeletePagesDomain(pid interface{}, domain string, options ...OptionFunc) (*Response, error) {
+func (s *PagesDomainsService) DeletePagesDomain(pid interface{}, domain string, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, err

@@ -8,7 +8,7 @@ import (
 )
 
 func TestGetVersion(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/version",

@@ -8,7 +8,7 @@ import (
 )
 
 func TestGetDroneCIService(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/services/drone-ci", func(w http.ResponseWriter, r *http.Request) {
@@ -27,7 +27,7 @@ func TestGetDroneCIService(t *testing.T) {
 }
 
 func TestSetDroneCIService(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/services/drone-ci", func(w http.ResponseWriter, r *http.Request) {
@@ -43,7 +43,7 @@ func TestSetDroneCIService(t *testing.T) {
 }
 
 func TestDeleteDroneCIService(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/services/drone-ci", func(w http.ResponseWriter, r *http.Request) {
@@ -57,7 +57,7 @@ func TestDeleteDroneCIService(t *testing.T) {
 }
 
 func TestGetJiraService(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/0/services/jira", func(w http.ResponseWriter, r *http.Request) {
@@ -118,7 +118,7 @@ func TestGetJiraService(t *testing.T) {
 }
 
 func TestSetJiraService(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/services/jira", func(w http.ResponseWriter, r *http.Request) {
@@ -145,7 +145,7 @@ func TestSetJiraService(t *testing.T) {
 }
 
 func TestDeleteJiraService(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/services/jira", func(w http.ResponseWriter, r *http.Request) {
@@ -159,7 +159,7 @@ func TestDeleteJiraService(t *testing.T) {
 }
 
 func TestGetSlackService(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/services/slack", func(w http.ResponseWriter, r *http.Request) {
@@ -178,7 +178,7 @@ func TestGetSlackService(t *testing.T) {
 }
 
 func TestSetSlackService(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/services/slack", func(w http.ResponseWriter, r *http.Request) {
@@ -198,7 +198,7 @@ func TestSetSlackService(t *testing.T) {
 }
 
 func TestDeleteSlackService(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/services/slack", func(w http.ResponseWriter, r *http.Request) {
@@ -212,7 +212,7 @@ func TestDeleteSlackService(t *testing.T) {
 }
 
 func TestGetPipelinesEmailService(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/services/pipelines-email", func(w http.ResponseWriter, r *http.Request) {
@@ -231,7 +231,7 @@ func TestGetPipelinesEmailService(t *testing.T) {
 }
 
 func TestSetPipelinesEmailService(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/services/pipelines-email", func(w http.ResponseWriter, r *http.Request) {
@@ -254,7 +254,7 @@ func TestSetPipelinesEmailService(t *testing.T) {
 }
 
 func TestDeletePipelinesEmailService(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/services/pipelines-email", func(w http.ResponseWriter, r *http.Request) {
@@ -268,7 +268,7 @@ func TestDeletePipelinesEmailService(t *testing.T) {
 }
 
 func TestCustomIssueTrackerService(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/services/custom-issue-tracker", func(w http.ResponseWriter, r *http.Request) {
@@ -298,7 +298,7 @@ func TestCustomIssueTrackerService(t *testing.T) {
 }
 
 func TestSetCustomIssueTrackerService(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/services/custom-issue-tracker", func(w http.ResponseWriter, r *http.Request) {
@@ -321,7 +321,7 @@ func TestSetCustomIssueTrackerService(t *testing.T) {
 }
 
 func TestDeleteCustomIssueTrackerService(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/services/custom-issue-tracker", func(w http.ResponseWriter, r *http.Request) {

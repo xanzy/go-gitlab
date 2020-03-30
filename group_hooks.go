@@ -69,7 +69,7 @@ func (s *GroupsService) ListGroupHooks(gid interface{}) ([]*GroupHook, *Response
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/groups.html#get-group-hook
-func (s *GroupsService) GetGroupHook(pid interface{}, hook int, options ...OptionFunc) (*GroupHook, *Response, error) {
+func (s *GroupsService) GetGroupHook(pid interface{}, hook int, options ...RequestOptionFunc) (*GroupHook, *Response, error) {
 	group, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -112,7 +112,7 @@ type AddGroupHookOptions struct {
 // AddGroupHook create a new group scoped webhook.
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/groups.html#add-group-hook
-func (s *GroupsService) AddGroupHook(gid interface{}, opt *AddGroupHookOptions, options ...OptionFunc) (*GroupHook, *Response, error) {
+func (s *GroupsService) AddGroupHook(gid interface{}, opt *AddGroupHookOptions, options ...RequestOptionFunc) (*GroupHook, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
 		return nil, nil, err
@@ -157,7 +157,7 @@ type EditGroupHookOptions struct {
 //
 // Gitlab API docs:
 // https://docs.gitlab.com/ce/api/groups.html#edit-group-hook
-func (s *GroupsService) EditGroupHook(pid interface{}, hook int, opt *EditGroupHookOptions, options ...OptionFunc) (*GroupHook, *Response, error) {
+func (s *GroupsService) EditGroupHook(pid interface{}, hook int, opt *EditGroupHookOptions, options ...RequestOptionFunc) (*GroupHook, *Response, error) {
 	group, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -183,7 +183,7 @@ func (s *GroupsService) EditGroupHook(pid interface{}, hook int, opt *EditGroupH
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/groups.html#delete-group-hook
-func (s *GroupsService) DeleteGroupHook(pid interface{}, hook int, options ...OptionFunc) (*Response, error) {
+func (s *GroupsService) DeleteGroupHook(pid interface{}, hook int, options ...RequestOptionFunc) (*Response, error) {
 	group, err := parseID(pid)
 	if err != nil {
 		return nil, err

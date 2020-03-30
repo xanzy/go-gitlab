@@ -31,7 +31,7 @@ func (k DeployToken) String() string {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/deploy_tokens.html#list-all-deploy-tokens
-func (s *DeployTokensService) ListAllDeployTokens(options ...OptionFunc) ([]*DeployToken, *Response, error) {
+func (s *DeployTokensService) ListAllDeployTokens(options ...RequestOptionFunc) ([]*DeployToken, *Response, error) {
 	req, err := s.client.NewRequest("GET", "deploy_tokens", nil, options)
 	if err != nil {
 		return nil, nil, err
@@ -57,7 +57,7 @@ type ListProjectDeployTokensOptions ListOptions
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/deploy_tokens.html#list-project-deploy-tokens
-func (s *DeployTokensService) ListProjectDeployTokens(pid interface{}, opt *ListProjectDeployTokensOptions, options ...OptionFunc) ([]*DeployToken, *Response, error) {
+func (s *DeployTokensService) ListProjectDeployTokens(pid interface{}, opt *ListProjectDeployTokensOptions, options ...RequestOptionFunc) ([]*DeployToken, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -93,7 +93,7 @@ type CreateProjectDeployTokenOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/deploy_tokens.html#create-a-project-deploy-token
-func (s *DeployTokensService) CreateProjectDeployToken(pid interface{}, opt *CreateProjectDeployTokenOptions, options ...OptionFunc) (*DeployToken, *Response, error) {
+func (s *DeployTokensService) CreateProjectDeployToken(pid interface{}, opt *CreateProjectDeployTokenOptions, options ...RequestOptionFunc) (*DeployToken, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -118,7 +118,7 @@ func (s *DeployTokensService) CreateProjectDeployToken(pid interface{}, opt *Cre
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/deploy_tokens.html#delete-a-project-deploy-token
-func (s *DeployTokensService) DeleteProjectDeployToken(pid interface{}, deployToken int, options ...OptionFunc) (*Response, error) {
+func (s *DeployTokensService) DeleteProjectDeployToken(pid interface{}, deployToken int, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, err
@@ -144,7 +144,7 @@ type ListGroupDeployTokensOptions ListOptions
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/deploy_tokens.html#list-project-deploy-tokens
-func (s *DeployTokensService) ListGroupDeployTokens(gid interface{}, opt *ListGroupDeployTokensOptions, options ...OptionFunc) ([]*DeployToken, *Response, error) {
+func (s *DeployTokensService) ListGroupDeployTokens(gid interface{}, opt *ListGroupDeployTokensOptions, options ...RequestOptionFunc) ([]*DeployToken, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
 		return nil, nil, err
@@ -180,7 +180,7 @@ type CreateGroupDeployTokenOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/deploy_tokens.html#create-a-group-deploy-token
-func (s *DeployTokensService) CreateGroupDeployToken(gid interface{}, opt *CreateGroupDeployTokenOptions, options ...OptionFunc) (*DeployToken, *Response, error) {
+func (s *DeployTokensService) CreateGroupDeployToken(gid interface{}, opt *CreateGroupDeployTokenOptions, options ...RequestOptionFunc) (*DeployToken, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
 		return nil, nil, err
@@ -205,7 +205,7 @@ func (s *DeployTokensService) CreateGroupDeployToken(gid interface{}, opt *Creat
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/deploy_tokens.html#delete-a-group-deploy-token
-func (s *DeployTokensService) DeleteGroupDeployToken(gid interface{}, deployToken int, options ...OptionFunc) (*Response, error) {
+func (s *DeployTokensService) DeleteGroupDeployToken(gid interface{}, deployToken int, options ...RequestOptionFunc) (*Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
 		return nil, err

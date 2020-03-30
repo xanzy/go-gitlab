@@ -78,7 +78,7 @@ type ListProjectDeploymentsOptions struct {
 // ListProjectDeployments gets a list of deployments in a project.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/deployments.html#list-project-deployments
-func (s *DeploymentsService) ListProjectDeployments(pid interface{}, opts *ListProjectDeploymentsOptions, options ...OptionFunc) ([]*Deployment, *Response, error) {
+func (s *DeploymentsService) ListProjectDeployments(pid interface{}, opts *ListProjectDeploymentsOptions, options ...RequestOptionFunc) ([]*Deployment, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -102,7 +102,7 @@ func (s *DeploymentsService) ListProjectDeployments(pid interface{}, opts *ListP
 // GetProjectDeployment get a deployment for a project.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/deployments.html#get-a-specific-deployment
-func (s *DeploymentsService) GetProjectDeployment(pid interface{}, deployment int, options ...OptionFunc) (*Deployment, *Response, error) {
+func (s *DeploymentsService) GetProjectDeployment(pid interface{}, deployment int, options ...RequestOptionFunc) (*Deployment, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -138,7 +138,7 @@ type CreateProjectDeploymentOptions struct {
 // CreateProjectDeployment creates a project deployment.
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/deployments.html#create-a-deployment
-func (s *DeploymentsService) CreateProjectDeployment(pid interface{}, opt *CreateProjectDeploymentOptions, options ...OptionFunc) (*Deployment, *Response, error) {
+func (s *DeploymentsService) CreateProjectDeployment(pid interface{}, opt *CreateProjectDeploymentOptions, options ...RequestOptionFunc) (*Deployment, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -170,7 +170,7 @@ type UpdateProjectDeploymentOptions struct {
 // UpdateProjectDeployment updates a project deployment.
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/deployments.html#updating-a-deployment
-func (s *DeploymentsService) UpdateProjectDeployment(pid interface{}, deployment int, opt *UpdateProjectDeploymentOptions, options ...OptionFunc) (*Deployment, *Response, error) {
+func (s *DeploymentsService) UpdateProjectDeployment(pid interface{}, deployment int, opt *UpdateProjectDeploymentOptions, options ...RequestOptionFunc) (*Deployment, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err

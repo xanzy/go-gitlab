@@ -7,7 +7,10 @@ import (
 )
 
 func labelExample() {
-	git := gitlab.NewClient(nil, "yourtokengoeshere")
+	git, err := gitlab.NewClient("yourtokengoeshere")
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	// Create new label
 	l := &gitlab.CreateLabelOptions{

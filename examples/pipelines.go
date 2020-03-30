@@ -8,8 +8,10 @@ import (
 )
 
 func pipelineExample() {
-	git := gitlab.NewClient(nil, "yourtokengoeshere")
-	git.SetBaseURL("https://gitlab.com/api/v4")
+	git, err := gitlab.NewClient("yourtokengoeshere")
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	opt := &gitlab.ListProjectPipelinesOptions{
 		Scope:         gitlab.String("branches"),

@@ -8,7 +8,7 @@ import (
 )
 
 func TestSearchService_Users(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/search", func(w http.ResponseWriter, r *http.Request) {
@@ -32,7 +32,7 @@ func TestSearchService_Users(t *testing.T) {
 }
 
 func TestSearchService_UsersByGroup(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/groups/3/-/search", func(w http.ResponseWriter, r *http.Request) {
@@ -56,7 +56,7 @@ func TestSearchService_UsersByGroup(t *testing.T) {
 }
 
 func TestSearchService_UsersByProject(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/6/-/search", func(w http.ResponseWriter, r *http.Request) {
