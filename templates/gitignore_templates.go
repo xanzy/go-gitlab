@@ -20,7 +20,7 @@ import (
 	"fmt"
 	"net/url"
 
-	"github.com/prytoegrian/go-gitlab"
+	"github.com/xanzy/go-gitlab"
 )
 
 // GitIgnoreTemplatesService handles communication with the gitignore

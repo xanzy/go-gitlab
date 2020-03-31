@@ -351,40 +351,40 @@ type Client struct {
 	UserAgent string
 
 	// Services used for talking to different parts of the GitLab API.
-	AccessRequests        *AccessRequestsService
-	Applications          *ApplicationsService
-	AwardEmoji            *AwardEmojiService
-	Boards                *IssueBoardsService
-	Branches              *BranchesService
-	BroadcastMessage      *BroadcastMessagesService
-	CIYMLTemplate         *CIYMLTemplatesService
-	Commits               *CommitsService
-	ContainerRegistry     *ContainerRegistryService
-	CustomAttribute       *CustomAttributesService
-	DeployKeys            *DeployKeysService
-	DeployTokens          *DeployTokensService
-	Deployments           *DeploymentsService
-	Discussions           *DiscussionsService
-	Environments          *EnvironmentsService
-	Epics                 *EpicsService
-	Events                *EventsService
-	Features              *FeaturesService
-	GitIgnoreTemplates    *GitIgnoreTemplatesService
-	GroupBadges           *GroupBadgesService
-	GroupCluster          *GroupClustersService
-	GroupIssueBoards      *GroupIssueBoardsService
-	GroupLabels           *GroupLabelsService
-	GroupMembers          *GroupMembersService
-	GroupMilestones       *GroupMilestonesService
-	GroupVariables        *GroupVariablesService
-	Groups                *GroupsService
-	IssueLinks            *IssueLinksService
-	Issues                *IssuesService
-	Jobs                  *JobsService
-	Keys                  *KeysService
-	Labels                *LabelsService
-	License               *LicenseService
-	LicenseTemplates      *LicenseTemplatesService
+	AccessRequests   *AccessRequestsService
+	Applications     *ApplicationsService
+	AwardEmoji       *AwardEmojiService
+	Boards           *IssueBoardsService
+	Branches         *BranchesService
+	BroadcastMessage *BroadcastMessagesService
+	// CIYMLTemplate         *CIYMLTemplatesService
+	Commits           *CommitsService
+	ContainerRegistry *ContainerRegistryService
+	CustomAttribute   *CustomAttributesService
+	DeployKeys        *DeployKeysService
+	DeployTokens      *DeployTokensService
+	Deployments       *DeploymentsService
+	Discussions       *DiscussionsService
+	Environments      *EnvironmentsService
+	Epics             *EpicsService
+	Events            *EventsService
+	Features          *FeaturesService
+	// GitIgnoreTemplates    *GitIgnoreTemplatesService
+	GroupBadges      *GroupBadgesService
+	GroupCluster     *GroupClustersService
+	GroupIssueBoards *GroupIssueBoardsService
+	GroupLabels      *GroupLabelsService
+	GroupMembers     *GroupMembersService
+	GroupMilestones  *GroupMilestonesService
+	GroupVariables   *GroupVariablesService
+	Groups           *GroupsService
+	IssueLinks       *IssueLinksService
+	Issues           *IssuesService
+	Jobs             *JobsService
+	Keys             *KeysService
+	Labels           *LabelsService
+	License          *LicenseService
+	// LicenseTemplates      *LicenseTemplatesService
 	MergeRequestApprovals *MergeRequestApprovalsService
 	MergeRequests         *MergeRequestsService
 	Milestones            *MilestonesService
@@ -519,7 +519,7 @@ func newClient(httpClient *http.Client) *Client {
 	c.Boards = &IssueBoardsService{client: c}
 	c.Branches = &BranchesService{client: c}
 	c.BroadcastMessage = &BroadcastMessagesService{client: c}
-	c.CIYMLTemplate = &CIYMLTemplatesService{client: c}
+	// c.CIYMLTemplate = &CIYMLTemplatesService{client: c}
 	c.Commits = &CommitsService{client: c}
 	c.ContainerRegistry = &ContainerRegistryService{client: c}
 	c.CustomAttribute = &CustomAttributesService{client: c}
@@ -531,7 +531,7 @@ func newClient(httpClient *http.Client) *Client {
 	c.Epics = &EpicsService{client: c}
 	c.Events = &EventsService{client: c}
 	c.Features = &FeaturesService{client: c}
-	c.GitIgnoreTemplates = &GitIgnoreTemplatesService{client: c}
+	// c.GitIgnoreTemplates = &GitIgnoreTemplatesService{client: c}
 	c.GroupBadges = &GroupBadgesService{client: c}
 	c.GroupCluster = &GroupClustersService{client: c}
 	c.GroupIssueBoards = &GroupIssueBoardsService{client: c}
@@ -546,7 +546,7 @@ func newClient(httpClient *http.Client) *Client {
 	c.Keys = &KeysService{client: c}
 	c.Labels = &LabelsService{client: c}
 	c.License = &LicenseService{client: c}
-	c.LicenseTemplates = &LicenseTemplatesService{client: c}
+	// c.LicenseTemplates = &LicenseTemplatesService{client: c}
 	c.MergeRequestApprovals = &MergeRequestApprovalsService{client: c}
 	c.MergeRequests = &MergeRequestsService{client: c, timeStats: timeStats}
 	c.Milestones = &MilestonesService{client: c}

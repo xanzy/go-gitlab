@@ -5,7 +5,7 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/prytoegrian/go-gitlab"
+	"github.com/xanzy/go-gitlab"
 )
 
 // CIYMLTemplatesService handles communication with the gitlab
