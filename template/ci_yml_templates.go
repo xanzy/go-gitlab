@@ -1,7 +1,10 @@
-package gitlab
+package template
 
 import (
 	"fmt"
+	"net/url"
+	"strings"
+
 )
 
 // CIYMLTemplatesService handles communication with the gitlab
@@ -10,10 +13,10 @@ import (
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/templates/gitlab_ci_ymls.html
 type CIYMLTemplatesService struct {
-	client *Client
+	client *gitlab.Client
 }
 
-func NewCITemplate(c *Client) CIYMLTemplatesService {
+func NewCITemplate(c *gitlab.Client) CIYMLTemplatesService {
 	return CIYMLTemplatesService{client: c}
 }
 
@@ -30,13 +33,13 @@ type CIYMLTemplate struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/templates/gitignores.html#list-gitignore-templates
-type ListCIYMLTemplatesOptions ListOptions
+type ListCIYMLTemplatesOptions gitlab.ListOptions
 
 // ListAllTemplates get all GitLab CI YML templates.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/templates/gitlab_ci_ymls.html#list-gitlab-ci-yml-templates
-func (s *CIYMLTemplatesService) ListAllTemplates(opt *ListCIYMLTemplatesOptions, options ...OptionFunc) ([]*CIYMLTemplate, *Response, error) {
+func (s *CIYMLTemplatesService) ListAllTemplates(opt *ListCIYMLTemplatesOptions, options ...gitlab.OptionFunc) ([]*CIYMLTemplate, *gitlab.Response, error) {
 	req, err := s.client.NewRequest("GET", "templates/gitlab_ci_ymls", opt, options)
 	if err != nil {
 		return nil, nil, err
@@ -55,7 +58,7 @@ func (s *CIYMLTemplatesService) ListAllTemplates(opt *ListCIYMLTemplatesOptions,
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/templates/gitlab_ci_ymls.html#single-gitlab-ci-yml-template
-func (s *CIYMLTemplatesService) GetTemplate(key string, options ...OptionFunc) (*CIYMLTemplate, *Response, error) {
+func (s *CIYMLTemplatesService) GetTemplate(key string, options ...gitlab.OptionFunc) (*CIYMLTemplate, *gitlab.Response, error) {
 	u := fmt.Sprintf("templates/gitlab_ci_ymls/%s", pathEscape(key))
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
@@ -70,4 +73,10 @@ func (s *CIYMLTemplatesService) GetTemplate(key string, options ...OptionFunc) (
 	}
 
 	return ct, resp, err
+}
+
+// Helper function to escape a project identifier.
+// Duplication of unexported gitlab.pathEscape()
+func pathEscape(s string) string {
+	return strings.Replace(url.PathEscape(s), ".", "%2E", -1)
 }
