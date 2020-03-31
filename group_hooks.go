@@ -81,7 +81,7 @@ func (s *GroupsService) GetGroupHook(pid interface{}, hook int, options ...Optio
 		return nil, nil, err
 	}
 
-	gh := &GroupHook{}
+	gh := new(GroupHook)
 	resp, err := s.client.Do(req, gh)
 	if err != nil {
 		return nil, resp, err
