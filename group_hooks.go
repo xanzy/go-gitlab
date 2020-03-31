@@ -169,13 +169,13 @@ func (s *GroupsService) EditGroupHook(pid interface{}, hook int, opt *EditGroupH
 		return nil, nil, err
 	}
 
-	ph := &GroupHook{}
-	resp, err := s.client.Do(req, ph)
+	gh := new(GroupHook)
+	resp, err := s.client.Do(req, gh)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return ph, resp, err
+	return gh, resp, err
 }
 
 // DeleteGroupHook removes a hook from a group. This is an idempotent
