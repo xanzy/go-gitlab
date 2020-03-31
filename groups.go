@@ -431,7 +431,7 @@ func (s *GroupsService) DeleteGroupLDAPLink(gid interface{}, opt *DeleteGroupLDA
 		u = fmt.Sprintf("%s/%s", u, opt.Provider)
 	}
 	u = fmt.Sprintf("%s/%s", u, opt.CN)
-	req, err := s.client.NewRequest("POST", u, opt, options)
+	req, err := s.client.NewRequest("DELETE", u, opt, options)
 	if err != nil {
 		return nil, err
 	}
