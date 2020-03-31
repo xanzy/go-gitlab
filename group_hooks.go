@@ -179,7 +179,7 @@ func (s *GroupsService) EditGroupHook(pid interface{}, hook int, opt *EditGroupH
 }
 
 // DeleteGroupHook removes a hook from a group. This is an idempotent
-// method and can be called multiple times. Either the hook is available or not.
+// method and can be called multiple times.
 //
 // GitLab API docs:
 // https://gitlab.com/help/api/groups.md#delete-group-hook
