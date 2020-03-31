@@ -132,6 +132,7 @@ func TestProtectRepositoryBranches(t *testing.T) {
 		t.Errorf("ProtectedBranches.ProtectRepositoryBranches returned error: %v", err)
 	}
 	want := &ProtectedBranch{
+		ID:   1,
 		Name: "master",
 		PushAccessLevels: []*BranchAccessDescription{
 			{
