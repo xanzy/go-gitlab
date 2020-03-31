@@ -14,10 +14,10 @@ import (
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/templates/gitlab_ci_ymls.html
 type CIYMLTemplatesService struct {
-	client *gitlab.Client
+	client gitlab.Client
 }
 
-func NewCITemplate(c *gitlab.Client) CIYMLTemplatesService {
+func NewCITemplate(c gitlab.Client) CIYMLTemplatesService {
 	return CIYMLTemplatesService{client: c}
 }
 
@@ -40,7 +40,7 @@ type ListCIYMLTemplatesOptions gitlab.ListOptions
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/templates/gitlab_ci_ymls.html#list-gitlab-ci-yml-templates
-func (s *CIYMLTemplatesService) ListAllTemplates(opt *ListCIYMLTemplatesOptions, options ...gitlab.OptionFunc) ([]*CIYMLTemplate, *gitlab.Response, error) {
+func (s CIYMLTemplatesService) ListAllTemplates(opt *ListCIYMLTemplatesOptions, options ...gitlab.OptionFunc) ([]*CIYMLTemplate, *gitlab.Response, error) {
 	req, err := s.client.NewRequest("GET", "templates/gitlab_ci_ymls", opt, options)
 	if err != nil {
 		return nil, nil, err
@@ -59,7 +59,7 @@ func (s *CIYMLTemplatesService) ListAllTemplates(opt *ListCIYMLTemplatesOptions,
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/templates/gitlab_ci_ymls.html#single-gitlab-ci-yml-template
-func (s *CIYMLTemplatesService) GetTemplate(key string, options ...gitlab.OptionFunc) (*CIYMLTemplate, *gitlab.Response, error) {
+func (s CIYMLTemplatesService) GetTemplate(key string, options ...gitlab.OptionFunc) (*CIYMLTemplate, *gitlab.Response, error) {
 	u := fmt.Sprintf("templates/gitlab_ci_ymls/%s", pathEscape(key))
 
 	req, err := s.client.NewRequest("GET", u, nil, options)

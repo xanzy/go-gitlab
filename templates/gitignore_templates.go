@@ -28,10 +28,10 @@ import (
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/templates/gitignores.html
 type GitIgnoreTemplatesService struct {
-	client *gitlab.Client
+	client gitlab.Client
 }
 
-func NewGitignoreTemplate(c *gitlab.Client) GitIgnoreTemplatesService {
+func NewGitignoreTemplate(c gitlab.Client) GitIgnoreTemplatesService {
 	return GitIgnoreTemplatesService{client: c}
 }
 
@@ -53,7 +53,7 @@ type ListTemplatesOptions gitlab.ListOptions
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/templates/gitignores.html#list-gitignore-templates
-func (s *GitIgnoreTemplatesService) ListTemplates(opt *ListTemplatesOptions, options ...gitlab.OptionFunc) ([]*GitIgnoreTemplate, *gitlab.Response, error) {
+func (s GitIgnoreTemplatesService) ListTemplates(opt *ListTemplatesOptions, options ...gitlab.OptionFunc) ([]*GitIgnoreTemplate, *gitlab.Response, error) {
 	req, err := s.client.NewRequest("GET", "templates/gitignores", opt, options)
 	if err != nil {
 		return nil, nil, err
@@ -72,7 +72,7 @@ func (s *GitIgnoreTemplatesService) ListTemplates(opt *ListTemplatesOptions, opt
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/templates/gitignores.html#single-gitignore-template
-func (s *GitIgnoreTemplatesService) GetTemplate(key string, options ...gitlab.OptionFunc) (*GitIgnoreTemplate, *gitlab.Response, error) {
+func (s GitIgnoreTemplatesService) GetTemplate(key string, options ...gitlab.OptionFunc) (*GitIgnoreTemplate, *gitlab.Response, error) {
 	u := fmt.Sprintf("templates/gitignores/%s", url.PathEscape(key))
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
