@@ -26,25 +26,24 @@ type ApplicationsService struct {
 	client *Client
 }
 
-// CreateApplicationOptions represents the available CreateApplication() options.
-//
-// GitLab API docs: https://docs.gitlab.com/ce/api/applications.html#create-an-application
-type CreateApplicationOptions struct {
-	Name         string `json:"name,omitempty"`
-	RedirectURI  string `json:"redirect_uri,omitempty"`
-	Scopes       string `json:"scopes,omitempty"`
-	Confidential bool   `json:"confidential,omitempty"`
-}
-
-type ListApplicationsOptions struct {
-}
-
 type Application struct {
 	ID              int    `json:"id"`
 	ApplicationID   string `json:"application_id"`
 	ApplicationName string `json:"application_name"`
+	Secret          string `json:"secret"`
 	CallbackURL     string `json:"callback_url"`
 	Confidential    bool   `json:"confidential"`
+}
+
+// CreateApplicationOptions represents the available CreateApplication() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/applications.html#create-an-application
+type CreateApplicationOptions struct {
+	Name         *string `url:"name,omitempty" json:"name,omitempty"`
+	RedirectURI  *string `url:"redirect_uri,omitempty" json:"redirect_uri,omitempty"`
+	Scopes       *string `url:"scopes,omitempty" json:"scopes,omitempty"`
+	Confidential *bool   `url:"confidential,omitempty" json:"confidential,omitempty"`
 }
 
 // CreateApplication creates a new application owned by the authenticated user.
@@ -65,35 +64,32 @@ func (s *ApplicationsService) CreateApplication(opt *CreateApplicationOptions, o
 	return a, resp, err
 }
 
+type ListApplicationsOptions ListOptions
+
 // ListApplications get a list of administrables applications by the authenticated user
 //
 // Gitlab API docs : https://docs.gitlab.com/ce/api/applications.html#list-all-applications
-func (s *ApplicationsService) ListApplications(options ...OptionFunc) ([]*Application, *Response, error) {
-
-	req, err := s.client.NewRequest("GET", "applications", &ListApplicationsOptions{}, options)
+func (s *ApplicationsService) ListApplications(opt *ListApplicationsOptions, options ...OptionFunc) ([]*Application, *Response, error) {
+	req, err := s.client.NewRequest("GET", "applications", opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	var a []*Application
-	resp, err := s.client.Do(req, &a)
+	var as []*Application
+	resp, err := s.client.Do(req, &as)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return a, resp, err
+	return as, resp, err
 }
 
-// DeleteApplication removes a specific application
+// DeleteApplication removes a specific application.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/applications.html#delete-an-application
-func (s *ApplicationsService) DeleteApplication(id interface{}, options ...OptionFunc) (*Response, error) {
-	application, err := parseID(id)
-	if err != nil {
-		return nil, err
-	}
-
-	u := fmt.Sprintf("applications/%s", pathEscape(application))
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/applications.html#delete-an-application
+func (s *ApplicationsService) DeleteApplication(application int, options ...OptionFunc) (*Response, error) {
+	u := fmt.Sprintf("applications/%d", application)
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {

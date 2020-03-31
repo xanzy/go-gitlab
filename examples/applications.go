@@ -8,25 +8,25 @@ import (
 
 func applicationsExample() {
 	git := gitlab.NewClient(nil, "yourtokengoeshere")
-	git.SetBaseURL("https://gitlab.com/api/v4")
+
 	// Create an application
-	opts := gitlab.CreateApplicationOptions{
-		Name:        "Travis",
-		RedirectURI: "http://example.org",
-		Scopes:      "api",
+	opts := &gitlab.CreateApplicationOptions{
+		Name:        gitlab.String("Travis"),
+		RedirectURI: gitlab.String("http://example.org"),
+		Scopes:      gitlab.String("api"),
 	}
-	created, _, err := git.Applications.CreateApplication(&opts)
+	created, _, err := git.Applications.CreateApplication(opts)
 	if err != nil {
 		log.Fatal(err)
 	}
 	log.Printf("Last created application : %v", created)
 
 	// List all applications
-	applications, _, err := git.Applications.ListApplications()
+	applications, _, err := git.Applications.ListApplications(&gitlab.ListApplicationsOptions{})
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Printf("Found %d applications :", len(applications))
+
 	for _, app := range applications {
 		log.Printf("Found app : %v", app)
 	}

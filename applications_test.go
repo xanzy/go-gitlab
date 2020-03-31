@@ -8,70 +8,84 @@ import (
 )
 
 func TestCreateApplication(t *testing.T) {
-	m, s, c := setup()
-	defer teardown(s)
+	mux, server, client := setup()
+	defer teardown(server)
 
-	m.HandleFunc("/api/v4/applications",
+	mux.HandleFunc("/api/v4/applications",
 		func(w http.ResponseWriter, r *http.Request) {
 			testMethod(t, r, "POST")
-			fmt.Fprint(w, `{"id":1, "application_name":"testApplication"}`)
+			fmt.Fprint(w, `
+{
+	"id":1,
+	"application_name":"testApplication"
+}`)
 		},
 	)
 
-	posted := CreateApplicationOptions{
-		Name: "testApplication",
+	opt := &CreateApplicationOptions{
+		Name: String("testApplication"),
 	}
-	a, _, err := c.Applications.CreateApplication(&posted)
+	app, _, err := client.Applications.CreateApplication(opt)
 	if err != nil {
-		t.Errorf("Applications.CreateApplication returned error : %v", err)
+		t.Errorf("Applications.CreateApplication returned error: %v", err)
 	}
-	want := Application{ID: 1, ApplicationName: "testApplication"}
-	if reflect.DeepEqual(want, a) {
-		t.Errorf("Applications.CreateApplication returned %v, want %v", a, want)
+
+	want := &Application{
+		ID:              1,
+		ApplicationName: "testApplication",
+	}
+	if !reflect.DeepEqual(want, app) {
+		t.Errorf("Applications.CreateApplication returned %+v, want %+v", app, want)
 	}
 }
 
 func TestListApplications(t *testing.T) {
-	m, s, c := setup()
-	defer teardown(s)
+	mux, server, client := setup()
+	defer teardown(server)
 
-	m.HandleFunc("/api/v4/applications",
+	mux.HandleFunc("/api/v4/applications",
 		func(w http.ResponseWriter, r *http.Request) {
 			testMethod(t, r, "GET")
-			fmt.Fprint(w, `[{"id":1},{"id":2}]`)
+			fmt.Fprint(w, `[
+	{"id":1},
+	{"id":2}
+]`)
 		},
 	)
 
-	apps, _, err := c.Applications.ListApplications()
+	apps, _, err := client.Applications.ListApplications(&ListApplicationsOptions{})
 	if err != nil {
 		t.Errorf("Applications.ListApplications returned error: %v", err)
 	}
 
-	want := []*Application{{ID: 1}, {ID: 2}}
+	want := []*Application{
+		{ID: 1},
+		{ID: 2},
+	}
 	if !reflect.DeepEqual(want, apps) {
 		t.Errorf("Applications.ListApplications returned %+v, want %+v", apps, want)
 	}
 }
 
 func TestDeleteApplication(t *testing.T) {
-	m, s, c := setup()
-	defer teardown(s)
+	mux, server, client := setup()
+	defer teardown(server)
 
-	m.HandleFunc("/api/v4/applications/4",
+	mux.HandleFunc("/api/v4/applications/4",
 		func(w http.ResponseWriter, r *http.Request) {
 			testMethod(t, r, "DELETE")
 			w.WriteHeader(http.StatusAccepted)
 		},
 	)
 
-	r, err := c.Applications.DeleteApplication(4)
+	resp, err := client.Applications.DeleteApplication(4)
 	if err != nil {
-		t.Errorf("Applications.DeleteApplication returned error : %v", err)
+		t.Errorf("Applications.DeleteApplication returned error: %v", err)
 	}
 
 	want := http.StatusAccepted
-	got := r.StatusCode
+	got := resp.StatusCode
 	if got != want {
-		t.Errorf("Applications.DeleteApplication returned %d, want %d", got, want)
+		t.Errorf("Applications.DeleteApplication returned status code %d, want %d", got, want)
 	}
 }
