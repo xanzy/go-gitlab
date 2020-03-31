@@ -204,7 +204,7 @@ func TestListSubgroups(t *testing.T) {
 	}
 }
 
-func TestGroupLDAPLinks(t *testing.T) {
+func TestListGroupLDAPLinks(t *testing.T) {
 	mux, server, client := setup()
 	defer teardown(server)
 
@@ -222,5 +222,32 @@ func TestGroupLDAPLinks(t *testing.T) {
 	want := []*LDAPGroupLink{{CN: "gitlab_group_example_30", GroupAccess: 30, Provider: "example_ldap_provider"}, {CN: "gitlab_group_example_40", GroupAccess: 40, Provider: "example_ldap_provider"}}
 	if !reflect.DeepEqual(want, links) {
 		t.Errorf("Groups.ListGroupLDAPLinks returned %+v, want %+v", links, want)
+	}
+}
+
+func TestAddGroupLDAPLink(t *testing.T) {
+	mux, server, client := setup()
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/groups/1/ldap_group_links",
+		func(w http.ResponseWriter, r *http.Request) {
+			testMethod(t, r, "POST")
+			fmt.Fprint(w, `{"cn":"gitlab_group_example_30","group_access":30,"provider":"example_ldap_provider"}`)
+		})
+
+	opt := &AddGroupLDAPLinkOptions{
+		CN:          "gitlab_group_example_30",
+		GroupAccess: 30,
+		Provider:    "example_ldap_provider",
+	}
+
+	link, _, err := client.Groups.AddGroupLDAPLink(1, opt)
+	if err != nil {
+		t.Errorf("Groups.AddGroupLDAPLink returned error: %v", err)
+	}
+
+	want := LDAPGroupLink{CN: "gitlab_group_example_30", GroupAccess: 30, Provider: "example_ldap_provider"}
+	if !reflect.DeepEqual(want, link) {
+		t.Errorf("Groups.AddGroupLDAPLink returned %+v, want %+v", link, want)
 	}
 }
