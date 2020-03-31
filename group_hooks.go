@@ -68,7 +68,7 @@ func (s *GroupsService) ListGroupHooks(gid interface{}) ([]*GroupHook, *Response
 // GetGroupHook gets a specific hook for a group.
 //
 // GitLab API docs:
-// https://gitlab.com/help/api/groups.md#get-group-hook
+// https://docs.gitlab.com/ce/api/groups.html#get-group-hook
 func (s *GroupsService) GetGroupHook(pid interface{}, hook int, options ...OptionFunc) (*GroupHook, *Response, error) {
 	group, err := parseID(pid)
 	if err != nil {
