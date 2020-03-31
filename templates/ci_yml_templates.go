@@ -1,10 +1,11 @@
-package template
+package templates
 
 import (
 	"fmt"
 	"net/url"
 	"strings"
 
+	"github.com/prytoegrian/go-gitlab"
 )
 
 // CIYMLTemplatesService handles communication with the gitlab

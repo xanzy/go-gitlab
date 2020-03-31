@@ -14,11 +14,13 @@
 // limitations under the License.
 //
 
-package template
+package templates
 
 import (
 	"fmt"
 	"net/url"
+
+	"github.com/prytoegrian/go-gitlab"
 )
 
 // GitIgnoreTemplatesService handles communication with the gitignore
