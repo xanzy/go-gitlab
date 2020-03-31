@@ -79,6 +79,7 @@ type Project struct {
 	PublicBuilds                              bool              `json:"public_builds"`
 	OnlyAllowMergeIfPipelineSucceeds          bool              `json:"only_allow_merge_if_pipeline_succeeds"`
 	OnlyAllowMergeIfAllDiscussionsAreResolved bool              `json:"only_allow_merge_if_all_discussions_are_resolved"`
+	RemoveSourceBranchAfterMerge              bool              `json:"remove_source_branch_after_merge"`
 	LFSEnabled                                bool              `json:"lfs_enabled"`
 	RequestAccessEnabled                      bool              `json:"request_access_enabled"`
 	MergeMethod                               MergeMethodValue  `json:"merge_method"`
