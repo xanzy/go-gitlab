@@ -131,6 +131,7 @@ func TestSetJiraService(t *testing.T) {
 		ProjectKey:            String("as"),
 		Username:              String("aas"),
 		Password:              String("asd"),
+		Active:                Bool(true),
 		JiraIssueTransitionID: String("2,3"),
 		CommitEvents:          Bool(true),
 		CommentOnEventEnabled: Bool(true),
