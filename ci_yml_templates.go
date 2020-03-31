@@ -13,6 +13,10 @@ type CIYMLTemplatesService struct {
 	client *Client
 }
 
+func NewCITemplate(c *Client) CIYMLTemplatesService {
+	return CIYMLTemplatesService{client: c}
+}
+
 // CIYMLTemplate represents a GitLab CI YML template.
 //
 // GitLab API docs:
