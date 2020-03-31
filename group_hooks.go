@@ -156,7 +156,7 @@ type EditGroupHookOptions struct {
 // EditGroupHook edits a hook for a specified group.
 //
 // Gitlab API docs:
-// https://gitlab.com/help/api/groups.md#edit-group-hook
+// https://docs.gitlab.com/ce/api/groups.html#edit-group-hook
 func (s *GroupsService) EditGroupHook(pid interface{}, hook int, opt *EditGroupHookOptions, options ...OptionFunc) (*GroupHook, *Response, error) {
 	group, err := parseID(pid)
 	if err != nil {
