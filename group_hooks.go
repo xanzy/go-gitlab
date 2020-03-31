@@ -136,7 +136,7 @@ func (s *GroupsService) AddGroupHook(gid interface{}, opt *AddGroupHookOptions, 
 // EditGroupHookOptions represents the available EditGroupHook() options.
 //
 // GitLab API docs:
-// https://gitlab.com/help/api/groups.md#edit-group-hook
+// https://docs.gitlab.com/ce/api/groups.html#edit-group-hook
 type EditGroupHookOptions struct {
 	URL                      *string `url:"url,omitempty" json:"url,omitempty"`
 	PushEvents               *bool   `url:"push_events,omitempty" json:"push_events,omitempty"`
