@@ -60,9 +60,16 @@ type Group struct {
 	SharedProjects                 []*Project                 `json:"shared_projects"`
 	LDAPCN                         string                     `json:"ldap_cn"`
 	LDAPAccess                     AccessLevelValue           `json:"ldap_access"`
+	LDAPGroupLinks                 []*LDAPGroupLink           `json:"ldap_group_links"`
 	SharedRunnersMinutesLimit      int                        `json:"shared_runners_minutes_limit"`
 	ExtraSharedRunnersMinutesLimit int                        `json:"extra_shared_runners_minutes_limit"`
 	PendingDelete                  bool                       `json:"pending_delete"`
+}
+
+type LDAPGroupLink struct {
+	CN          string           `json:"cn"`
+	GroupAccess AccessLevelValue `json:"group_access"`
+	Provider    string           `json:"provider"`
 }
 
 // ListGroupsOptions represents the available ListGroups() options.
@@ -346,4 +353,111 @@ func (s *GroupsService) ListSubgroups(gid interface{}, opt *ListSubgroupsOptions
 	}
 
 	return g, resp, err
+}
+
+// ListGroupLDAPLinks lists the group's LDAP links. Available only for users who
+// can edit groups.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/groups.html#list-ldap-group-links-starter
+func (s *GroupsService) ListGroupLDAPLinks(gid interface{}, options ...OptionFunc) ([]*LDAPGroupLink, *Response, error) {
+	group, err := parseID(gid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("groups/%s/ldap_group_links", pathEscape(group))
+
+	req, err := s.client.NewRequest("GET", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var gl []*LDAPGroupLink
+	resp, err := s.client.Do(req, &gl)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return gl, resp, nil
+}
+
+// AddGroupLDAPLinkOptions represents the available AddGroupLDAPLink() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/groups.html#add-ldap-group-link-starter
+type AddGroupLDAPLinkOptions struct {
+	CN          *string `url:"cn,omitempty" json:"cn,omitempty"`
+	GroupAccess *int    `url:"group_access,omitempty" json:"group_access,omitempty"`
+	Provider    *string `url:"provider,omitempty" json:"provider,ommitempty"`
+}
+
+// AddGroupLDAPLink creates a new group LDAP link. Available only for users who
+// can edit groups.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/groups.html#add-ldap-group-link-starter
+func (s *GroupsService) AddGroupLDAPLink(gid interface{}, opt *AddGroupLDAPLinkOptions, options ...OptionFunc) (*LDAPGroupLink, *Response, error) {
+	group, err := parseID(gid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("groups/%s/ldap_group_links", pathEscape(group))
+
+	req, err := s.client.NewRequest("POST", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	gl := new(LDAPGroupLink)
+	resp, err := s.client.Do(req, gl)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return gl, resp, err
+}
+
+// DeleteGroupLDAPLink deletes a group LDAP link. Available only for users who
+// can edit groups.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/groups.html#delete-ldap-group-link-starter
+func (s *GroupsService) DeleteGroupLDAPLink(gid interface{}, cn string, options ...OptionFunc) (*Response, error) {
+	group, err := parseID(gid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("groups/%s/ldap_group_links/%s", pathEscape(group), pathEscape(cn))
+
+	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
+
+// DeleteGroupLDAPLinkForProvider deletes a group LDAP link from a specific
+// provider. Available only for users who can edit groups.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/groups.html#delete-ldap-group-link-starter
+func (s *GroupsService) DeleteGroupLDAPLinkForProvider(gid interface{}, provider, cn string, options ...OptionFunc) (*Response, error) {
+	group, err := parseID(gid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf(
+		"groups/%s/ldap_group_links/%s/%s",
+		pathEscape(group),
+		pathEscape(provider),
+		pathEscape(cn),
+	)
+
+	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
 }
