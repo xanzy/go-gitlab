@@ -182,7 +182,7 @@ func (s *GroupsService) EditGroupHook(pid interface{}, hook int, opt *EditGroupH
 // method and can be called multiple times.
 //
 // GitLab API docs:
-// https://gitlab.com/help/api/groups.md#delete-group-hook
+// https://docs.gitlab.com/ce/api/groups.html#delete-group-hook
 func (s *GroupsService) DeleteGroupHook(pid interface{}, hook int, options ...OptionFunc) (*Response, error) {
 	group, err := parseID(pid)
 	if err != nil {
