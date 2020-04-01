@@ -16,7 +16,7 @@ func TestListLicenseTemplatesKO(t *testing.T) {
 	defer gitlabtest.Teardown(s)
 
 	m.HandleFunc("/api/v4/templates/licenses", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprint(w, `[{"key":"1",    "name" : ".ping"}`)
+		fmt.Fprint(w, `[{"key":"1", "name": ".ping"}`)
 	})
 
 	licenses := NewLicenseTemplate(*c)
@@ -32,7 +32,7 @@ func TestListLicenseTemplatesOK(t *testing.T) {
 	defer gitlabtest.Teardown(s)
 
 	m.HandleFunc("/api/v4/templates/licenses", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprint(w, `[{"key":"1", "name" : "testLicense"}]`)
+		fmt.Fprint(w, `[{"key":"1", "name": "testLicense"}]`)
 	})
 
 	licenses := NewLicenseTemplate(*c)
@@ -49,7 +49,7 @@ func TestGetLicenseTemplatesKO(t *testing.T) {
 	defer gitlabtest.Teardown(s)
 
 	m.HandleFunc("/api/v4/templates/licenses/test", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprint(w, `{"key":"1", "name" : "testLicense"`)
+		fmt.Fprint(w, `{"key":"1", "name": "testLicense"`)
 	})
 
 	licenses := NewLicenseTemplate(*c)
@@ -65,7 +65,7 @@ func TestGetLicenseTemplatesOK(t *testing.T) {
 	defer gitlabtest.Teardown(s)
 
 	m.HandleFunc("/api/v4/templates/licenses/test", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprint(w, `{"key":"1", "name" : "testLicense"}`)
+		fmt.Fprint(w, `{"key":"1", "name": "testLicense"}`)
 	})
 
 	licenses := NewLicenseTemplate(*c)
