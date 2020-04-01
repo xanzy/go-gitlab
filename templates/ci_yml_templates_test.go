@@ -1,3 +1,5 @@
+// +build integration
+
 package templates
 
 import (
@@ -7,8 +9,9 @@ import (
 	"testing"
 )
 
-func TestListAllTemplatesKO(t *testing.T) {
+func TestListAllCITemplatesKO(t *testing.T) {
 	t.Parallel()
+
 	m, s, c := gitlabtest.Setup()
 	defer gitlabtest.Teardown(s)
 
@@ -24,9 +27,8 @@ func TestListAllTemplatesKO(t *testing.T) {
 	}
 }
 
-func TestListAllTemplatesOK(t *testing.T) {
+func TestListAllCITemplatesOK(t *testing.T) {
 	t.Parallel()
-
 	m, s, c := gitlabtest.Setup()
 	defer gitlabtest.Teardown(s)
 
@@ -43,7 +45,7 @@ func TestListAllTemplatesOK(t *testing.T) {
 	}
 }
 
-func TestGetTemplateKO(t *testing.T) {
+func TestGetCITemplateKO(t *testing.T) {
 	t.Parallel()
 	m, s, c := gitlabtest.Setup()
 	defer gitlabtest.Teardown(s)
@@ -60,7 +62,7 @@ func TestGetTemplateKO(t *testing.T) {
 	}
 }
 
-func TestGetTemplateOK(t *testing.T) {
+func TestGetCITemplateOK(t *testing.T) {
 	t.Parallel()
 	m, s, c := gitlabtest.Setup()
 	defer gitlabtest.Teardown(s)
