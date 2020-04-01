@@ -128,6 +128,7 @@ type IssueEvent struct {
 	ObjectKind string `json:"object_kind"`
 	User       *User  `json:"user"`
 	Project    struct {
+		ID                int             `json:"id"`
 		Name              string          `json:"name"`
 		Description       string          `json:"description"`
 		AvatarURL         string          `json:"avatar_url"`
