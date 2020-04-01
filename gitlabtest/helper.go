@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 
-	"github.com/prytoegrian/go-gitlab"
+	"github.com/xanzy/go-gitlab"
 )
 
 // setup duplicates gitlab.setup for testability purpose

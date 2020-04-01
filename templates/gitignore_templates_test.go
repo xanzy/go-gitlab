@@ -8,7 +8,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/prytoegrian/go-gitlab/gitlabtest"
+	"github.com/xanzy/go-gitlab/gitlabtest"
 )
 
 func TestListGitignoreTemplatesKO(t *testing.T) {

@@ -7,6 +7,8 @@ import (
 	"net/http"
 	"reflect"
 	"testing"
+
+	"github.com/xanzy/go-gitlab/gitlabtest"
 )
 
 func TestListLicenseTemplatesKO(t *testing.T) {

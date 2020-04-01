@@ -7,6 +7,8 @@ import (
 	"net/http"
 	"reflect"
 	"testing"
+
+	"github.com/xanzy/go-gitlab/gitlabtest"
 )
 
 func TestListAllCITemplatesKO(t *testing.T) {
