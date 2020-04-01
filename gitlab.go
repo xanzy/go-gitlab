@@ -33,7 +33,6 @@ import (
 	"sync"
 	"time"
 
-	"github.com/google/go-querystring/query"
 	"github.com/hashicorp/go-cleanhttp"
 	retryablehttp "github.com/hashicorp/go-retryablehttp"
 	"golang.org/x/oauth2"
@@ -424,6 +423,7 @@ type Client struct {
 	Snippets              *SnippetsService
 	SystemHooks           *SystemHooksService
 	Tags                  *TagsService
+	Terraform             *TerraformService
 	Todos                 *TodosService
 	Users                 *UsersService
 	Validate              *ValidateService
@@ -598,6 +598,7 @@ func newClient(options ...ClientOptionFunc) (*Client, error) {
 	c.Snippets = &SnippetsService{client: c}
 	c.SystemHooks = &SystemHooksService{client: c}
 	c.Tags = &TagsService{client: c}
+	c.Terraform = &TerraformService{client: c}
 	c.Todos = &TodosService{client: c}
 	c.Users = &UsersService{client: c}
 	c.Validate = &ValidateService{client: c}
@@ -741,6 +742,20 @@ func (c *Client) setBaseURL(urlStr string) error {
 // specified, the value pointed to by body is JSON encoded and included as the
 // request body.
 func (c *Client) NewRequest(method, path string, opt interface{}, options []RequestOptionFunc) (*retryablehttp.Request, error) {
+	opts := make([]RequestOptionFunc, 0, len(options)+1)
+
+	if opt != nil {
+		switch method {
+		case "POST", "PUT":
+			opts = append(opts, WithJSONBody(opt))
+		default:
+			opts = append(opts, WithQueryParameters(opt))
+		}
+	}
+	return c.NewRequestRaw(method, path, append(opts, options...)...)
+}
+
+func (c *Client) NewRequestRaw(method, path string, options ...RequestOptionFunc) (*retryablehttp.Request, error) {
 	u := *c.baseURL
 	unescaped, err := url.PathUnescape(path)
 	if err != nil {
@@ -766,28 +781,14 @@ func (c *Client) NewRequest(method, path string, opt interface{}, options []Requ
 		reqHeaders.Set("User-Agent", c.UserAgent)
 	}
 
-	var body interface{}
-	switch {
-	case method == "POST" || method == "PUT":
-		reqHeaders.Set("Content-Type", "application/json")
-
-		if opt != nil {
-			body, err = json.Marshal(opt)
-			if err != nil {
-				return nil, err
-			}
-		}
-	case opt != nil:
-		q, err := query.Values(opt)
-		if err != nil {
-			return nil, err
-		}
-		u.RawQuery = q.Encode()
-	}
-
-	req, err := retryablehttp.NewRequest(method, u.String(), body)
+	req, err := retryablehttp.NewRequest(method, u.String(), nil)
 	if err != nil {
 		return nil, err
+	}
+
+	// Set the request specific headers.
+	for k, v := range reqHeaders {
+		req.Header[k] = v
 	}
 
 	for _, fn := range options {
@@ -797,11 +798,6 @@ func (c *Client) NewRequest(method, path string, opt interface{}, options []Requ
 		if err := fn(req); err != nil {
 			return nil, err
 		}
-	}
-
-	// Set the request specific headers.
-	for k, v := range reqHeaders {
-		req.Header[k] = v
 	}
 
 	return req, nil

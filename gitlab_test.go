@@ -11,10 +11,12 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"os"
+	"reflect"
 	"strings"
 	"testing"
 
 	retryablehttp "github.com/hashicorp/go-retryablehttp"
+	"github.com/stretchr/testify/assert"
 )
 
 // setup sets up a test HTTP server along with a gitlab.Client that is
@@ -52,6 +54,38 @@ func testMethod(t *testing.T, r *http.Request, want string) {
 	if got := r.Method; got != want {
 		t.Errorf("Request method: %s, want %s", got, want)
 	}
+}
+
+func testHeader(t *testing.T, r *http.Request, header, want string) {
+	got := r.Header[header]
+	if !assert.Len(t, got, 1, "Request header %s: %s, want %s", header, got, want) {
+		return
+	}
+	assert.Equal(t, want, got[0], "Request header %s: %s, want %s", header, got[0], want)
+}
+
+func testBodyJSON(t *testing.T, r *http.Request, wantObject interface{}) []byte {
+	testHeader(t, r, "Content-Type", "application/json")
+	body := getBody(t, r)
+
+	// wantObject must be a pointer to a struct.
+	gotObject := reflect.New(reflect.TypeOf(wantObject).Elem()).Interface()
+	err := json.Unmarshal(body, gotObject)
+	if !assert.NoError(t, err) {
+		panic(err)
+	}
+	assert.Equal(t, wantObject, gotObject)
+
+	return body
+}
+
+func getBody(t *testing.T, r *http.Request) []byte {
+	var buffer bytes.Buffer
+	_, err := buffer.ReadFrom(r.Body)
+	if !assert.NoError(t, err) {
+		panic(err)
+	}
+	return buffer.Bytes()
 }
 
 func testBody(t *testing.T, r *http.Request, want string) {
