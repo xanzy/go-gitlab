@@ -99,7 +99,6 @@ type Project struct {
 	CIConfigPath      string             `json:"ci_config_path"`
 	CIDefaultGitDepth int                `json:"ci_default_git_depth"`
 	CustomAttributes  []*CustomAttribute `json:"custom_attributes"`
-	PendingDelete     bool               `json:"pending_delete"`
 }
 
 // Repository represents a repository.
