@@ -43,7 +43,9 @@ type Service struct {
 	PushEvents               bool       `json:"push_events"`
 	IssuesEvents             bool       `json:"issues_events"`
 	ConfidentialIssuesEvents bool       `json:"confidential_issues_events"`
+	CommitEvents             bool       `json:"commit_events"`
 	MergeRequestsEvents      bool       `json:"merge_requests_events"`
+	CommentOnEventEnabled    bool       `json:"comment_on_event_enabled"`
 	TagPushEvents            bool       `json:"tag_push_events"`
 	NoteEvents               bool       `json:"note_events"`
 	ConfidentialNoteEvents   bool       `json:"confidential_note_events"`
@@ -536,9 +538,6 @@ type JiraServiceProperties struct {
 	Username              string `json:"username,omitempty" `
 	Password              string `json:"password,omitempty" `
 	JiraIssueTransitionID string `json:"jira_issue_transition_id,omitempty"`
-	CommitEvents          bool   `json:"commit_events,omitempty" `
-	MergeRequestsEvents   bool   `json:"merge_requests_events,omitempty" `
-	CommentOnEventEnabled bool   `json:"comment_on_event_enabled,omitempty" `
 }
 
 // UnmarshalJSON decodes the Jira Service Properties.
