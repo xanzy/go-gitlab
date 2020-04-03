@@ -91,6 +91,10 @@ type Client struct {
 	// Token used to make authenticated API calls.
 	token string
 
+	// Protects the token field from concurrent read/write accesses. Only used with basic auth when token field
+	// access needs to be synchronized.
+	tokenLock sync.Mutex
+
 	// User agent used when communicating with the GitLab API.
 	UserAgent string
 
@@ -203,11 +207,6 @@ func NewBasicAuthClient(username, password string, options ...ClientOptionFunc) 
 	client.username = username
 	client.password = password
 
-	err = client.requestOAuthToken(context.Background())
-	if err != nil {
-		return nil, err
-	}
-
 	return client, nil
 }
 
@@ -223,7 +222,7 @@ func NewOAuthClient(token string, options ...ClientOptionFunc) (*Client, error) 
 	return client, nil
 }
 
-func (c *Client) requestOAuthToken(ctx context.Context) error {
+func (c *Client) requestOAuthToken(ctx context.Context) (string, error) {
 	config := &oauth2.Config{
 		Endpoint: oauth2.Endpoint{
 			AuthURL:  fmt.Sprintf("%s://%s/oauth/authorize", c.BaseURL().Scheme, c.BaseURL().Host),
@@ -233,10 +232,9 @@ func (c *Client) requestOAuthToken(ctx context.Context) error {
 	ctx = context.WithValue(ctx, oauth2.HTTPClient, c.client.HTTPClient)
 	t, err := config.PasswordCredentialsToken(ctx, c.username, c.password)
 	if err != nil {
-		return err
+		return "", err
 	}
-	c.token = t.AccessToken
-	return nil
+	return t.AccessToken, nil
 }
 
 func newClient(options ...ClientOptionFunc) (*Client, error) {
@@ -494,13 +492,6 @@ func (c *Client) NewRequest(method, path string, opt interface{}, options []Requ
 	reqHeaders := make(http.Header)
 	reqHeaders.Set("Accept", "application/json")
 
-	switch c.authType {
-	case basicAuth, oAuthToken:
-		reqHeaders.Set("Authorization", "Bearer "+c.token)
-	case privateToken:
-		reqHeaders.Set("PRIVATE-TOKEN", c.token)
-	}
-
 	if c.UserAgent != "" {
 		reqHeaders.Set("User-Agent", c.UserAgent)
 	}
@@ -618,6 +609,32 @@ func (c *Client) Do(req *retryablehttp.Request, v interface{}) (*Response, error
 		return nil, err
 	}
 
+	var basicAuthToken string
+
+	switch c.authType {
+	case basicAuth:
+		basicAuthToken, err := func() (string, error) {
+			c.tokenLock.Lock()
+			defer c.tokenLock.Unlock()
+			if c.token == "" {
+				refreshedToken, refreshErr := c.requestOAuthToken(req.Context())
+				if refreshErr != nil {
+					return "", refreshErr
+				}
+				c.token = refreshedToken
+			}
+			return c.token, nil
+		}()
+		if err != nil {
+			return nil, err
+		}
+		req.Header.Set("Authorization", "Bearer "+basicAuthToken)
+	case oAuthToken:
+		req.Header.Set("Authorization", "Bearer "+c.token)
+	case privateToken:
+		req.Header.Set("PRIVATE-TOKEN", c.token)
+	}
+
 	resp, err := c.client.Do(req)
 	if err != nil {
 		return nil, err
@@ -625,7 +642,21 @@ func (c *Client) Do(req *retryablehttp.Request, v interface{}) (*Response, error
 	defer resp.Body.Close()
 
 	if resp.StatusCode == http.StatusUnauthorized && c.authType == basicAuth {
-		err = c.requestOAuthToken(req.Context())
+		err = func() error {
+			c.tokenLock.Lock()
+			defer c.tokenLock.Unlock()
+			if c.token != basicAuthToken {
+				// if have just made a request with basicAuthToken but in the mean time another goroutine has refreshed
+				// the token there is no need to refresh it, just retry.
+				return nil
+			}
+			// Need to refresh the token.
+			refreshedToken, refreshErr := c.requestOAuthToken(req.Context())
+			if refreshErr == nil {
+				c.token = refreshedToken
+			}
+			return refreshErr
+		}()
 		if err != nil {
 			return nil, err
 		}
