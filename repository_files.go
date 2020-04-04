@@ -145,7 +145,7 @@ func (s *RepositoryFilesService) GetFileMetaData(pid interface{}, fileName strin
 
 // FileBlameRange represents one item of blame information.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/repository_files.html#get-file-blame-from-repository
+// GitLab API docs: https://docs.gitlab.com/ce/api/repository_files.html
 type FileBlameRange struct {
 	Commit struct {
 		ID             string     `json:"id"`
@@ -173,12 +173,12 @@ type GetFileBlameOptions struct {
 	Ref *string `url:"ref,omitempty" json:"ref,omitempty"`
 }
 
-// GetFileBlame allows you to receive blame information.
-// Each blame range contains lines and corresponding commit info.
+// GetFileBlame allows you to receive blame information. Each blame range
+// contains lines and corresponding commit info.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/repository_files.html#get-file-blame-from-repository
-func (s *RepositoryFilesService) GetFileBlame(pid interface{}, fileName string, opt *GetFileBlameOptions, options ...OptionFunc) ([]*FileBlameRange, *Response, error) {
+func (s *RepositoryFilesService) GetFileBlame(pid interface{}, file string, opt *GetFileBlameOptions, options ...RequestOptionFunc) ([]*FileBlameRange, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -186,7 +186,7 @@ func (s *RepositoryFilesService) GetFileBlame(pid interface{}, fileName string, 
 	u := fmt.Sprintf(
 		"projects/%s/repository/files/%s/blame",
 		pathEscape(project),
-		url.PathEscape(fileName),
+		url.PathEscape(file),
 	)
 
 	req, err := s.client.NewRequest("GET", u, opt, options)
@@ -194,13 +194,13 @@ func (s *RepositoryFilesService) GetFileBlame(pid interface{}, fileName string, 
 		return nil, nil, err
 	}
 
-	var b []*FileBlameRange
-	resp, err := s.client.Do(req, &b)
+	var br []*FileBlameRange
+	resp, err := s.client.Do(req, &br)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return b, resp, err
+	return br, resp, err
 }
 
 // GetRawFileOptions represents the available GetRawFile() options.
