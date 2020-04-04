@@ -7,7 +7,10 @@ import (
 )
 
 func repositoryFileExample() {
-	git := gitlab.NewClient(nil, "yourtokengoeshere")
+	git, err := gitlab.NewClient("yourtokengoeshere")
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	// Create a new repository file
 	cf := &gitlab.CreateFileOptions{

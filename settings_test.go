@@ -8,7 +8,7 @@ import (
 )
 
 func TestGetSettings(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/application/settings", func(w http.ResponseWriter, r *http.Request) {
@@ -28,7 +28,7 @@ func TestGetSettings(t *testing.T) {
 }
 
 func TestUpdateSettings(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/application/settings", func(w http.ResponseWriter, r *http.Request) {

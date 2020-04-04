@@ -232,7 +232,7 @@ type ListProjectsOptions struct {
 // ListProjects gets a list of projects accessible by the authenticated user.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#list-projects
-func (s *ProjectsService) ListProjects(opt *ListProjectsOptions, options ...OptionFunc) ([]*Project, *Response, error) {
+func (s *ProjectsService) ListProjects(opt *ListProjectsOptions, options ...RequestOptionFunc) ([]*Project, *Response, error) {
 	req, err := s.client.NewRequest("GET", "projects", opt, options)
 	if err != nil {
 		return nil, nil, err
@@ -251,7 +251,7 @@ func (s *ProjectsService) ListProjects(opt *ListProjectsOptions, options ...Opti
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/projects.html#list-user-projects
-func (s *ProjectsService) ListUserProjects(uid interface{}, opt *ListProjectsOptions, options ...OptionFunc) ([]*Project, *Response, error) {
+func (s *ProjectsService) ListUserProjects(uid interface{}, opt *ListProjectsOptions, options ...RequestOptionFunc) ([]*Project, *Response, error) {
 	user, err := parseID(uid)
 	if err != nil {
 		return nil, nil, err
@@ -294,7 +294,7 @@ type ListProjectUserOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/projects.html#get-project-users
-func (s *ProjectsService) ListProjectsUsers(pid interface{}, opt *ListProjectUserOptions, options ...OptionFunc) ([]*ProjectUser, *Response, error) {
+func (s *ProjectsService) ListProjectsUsers(pid interface{}, opt *ListProjectUserOptions, options ...RequestOptionFunc) ([]*ProjectUser, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -323,7 +323,7 @@ type ProjectLanguages map[string]float32
 // GetProjectLanguages gets a list of languages used by the project
 //
 // GitLab API docs:  https://docs.gitlab.com/ce/api/projects.html#languages
-func (s *ProjectsService) GetProjectLanguages(pid interface{}, options ...OptionFunc) (*ProjectLanguages, *Response, error) {
+func (s *ProjectsService) GetProjectLanguages(pid interface{}, options ...RequestOptionFunc) (*ProjectLanguages, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -358,7 +358,7 @@ type GetProjectOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/projects.html#get-single-project
-func (s *ProjectsService) GetProject(pid interface{}, opt *GetProjectOptions, options ...OptionFunc) (*Project, *Response, error) {
+func (s *ProjectsService) GetProject(pid interface{}, opt *GetProjectOptions, options ...RequestOptionFunc) (*Project, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -419,7 +419,7 @@ type GetProjectEventsOptions ListOptions
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/projects.html#get-project-events
-func (s *ProjectsService) GetProjectEvents(pid interface{}, opt *GetProjectEventsOptions, options ...OptionFunc) ([]*ProjectEvent, *Response, error) {
+func (s *ProjectsService) GetProjectEvents(pid interface{}, opt *GetProjectEventsOptions, options ...RequestOptionFunc) ([]*ProjectEvent, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -482,7 +482,7 @@ type CreateProjectOptions struct {
 // CreateProject creates a new project owned by the authenticated user.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#create-project
-func (s *ProjectsService) CreateProject(opt *CreateProjectOptions, options ...OptionFunc) (*Project, *Response, error) {
+func (s *ProjectsService) CreateProject(opt *CreateProjectOptions, options ...RequestOptionFunc) (*Project, *Response, error) {
 	req, err := s.client.NewRequest("POST", "projects", opt, options)
 	if err != nil {
 		return nil, nil, err
@@ -509,7 +509,7 @@ type CreateProjectForUserOptions CreateProjectOptions
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/projects.html#create-project-for-user
-func (s *ProjectsService) CreateProjectForUser(user int, opt *CreateProjectForUserOptions, options ...OptionFunc) (*Project, *Response, error) {
+func (s *ProjectsService) CreateProjectForUser(user int, opt *CreateProjectForUserOptions, options ...RequestOptionFunc) (*Project, *Response, error) {
 	u := fmt.Sprintf("projects/user/%d", user)
 
 	req, err := s.client.NewRequest("POST", u, opt, options)
@@ -568,7 +568,7 @@ type EditProjectOptions struct {
 // EditProject updates an existing project.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#edit-project
-func (s *ProjectsService) EditProject(pid interface{}, opt *EditProjectOptions, options ...OptionFunc) (*Project, *Response, error) {
+func (s *ProjectsService) EditProject(pid interface{}, opt *EditProjectOptions, options ...RequestOptionFunc) (*Project, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -602,7 +602,7 @@ type ForkProjectOptions struct {
 // user.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#fork-project
-func (s *ProjectsService) ForkProject(pid interface{}, opt *ForkProjectOptions, options ...OptionFunc) (*Project, *Response, error) {
+func (s *ProjectsService) ForkProject(pid interface{}, opt *ForkProjectOptions, options ...RequestOptionFunc) (*Project, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -627,7 +627,7 @@ func (s *ProjectsService) ForkProject(pid interface{}, opt *ForkProjectOptions, 
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/projects.html#star-a-project
-func (s *ProjectsService) StarProject(pid interface{}, options ...OptionFunc) (*Project, *Response, error) {
+func (s *ProjectsService) StarProject(pid interface{}, options ...RequestOptionFunc) (*Project, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -652,7 +652,7 @@ func (s *ProjectsService) StarProject(pid interface{}, options ...OptionFunc) (*
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/projects.html#unstar-a-project
-func (s *ProjectsService) UnstarProject(pid interface{}, options ...OptionFunc) (*Project, *Response, error) {
+func (s *ProjectsService) UnstarProject(pid interface{}, options ...RequestOptionFunc) (*Project, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -678,7 +678,7 @@ func (s *ProjectsService) UnstarProject(pid interface{}, options ...OptionFunc) 
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/projects.html#archive-a-project
-func (s *ProjectsService) ArchiveProject(pid interface{}, options ...OptionFunc) (*Project, *Response, error) {
+func (s *ProjectsService) ArchiveProject(pid interface{}, options ...RequestOptionFunc) (*Project, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -704,7 +704,7 @@ func (s *ProjectsService) ArchiveProject(pid interface{}, options ...OptionFunc)
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/projects.html#unarchive-a-project
-func (s *ProjectsService) UnarchiveProject(pid interface{}, options ...OptionFunc) (*Project, *Response, error) {
+func (s *ProjectsService) UnarchiveProject(pid interface{}, options ...RequestOptionFunc) (*Project, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -729,7 +729,7 @@ func (s *ProjectsService) UnarchiveProject(pid interface{}, options ...OptionFun
 // (issues, merge requests etc.)
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#remove-project
-func (s *ProjectsService) DeleteProject(pid interface{}, options ...OptionFunc) (*Response, error) {
+func (s *ProjectsService) DeleteProject(pid interface{}, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, err
@@ -756,7 +756,7 @@ type ShareWithGroupOptions struct {
 // ShareProjectWithGroup allows to share a project with a group.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#share-project-with-group
-func (s *ProjectsService) ShareProjectWithGroup(pid interface{}, opt *ShareWithGroupOptions, options ...OptionFunc) (*Response, error) {
+func (s *ProjectsService) ShareProjectWithGroup(pid interface{}, opt *ShareWithGroupOptions, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, err
@@ -774,7 +774,7 @@ func (s *ProjectsService) ShareProjectWithGroup(pid interface{}, opt *ShareWithG
 // DeleteSharedProjectFromGroup allows to unshare a project from a group.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#delete-a-shared-project-link-within-a-group
-func (s *ProjectsService) DeleteSharedProjectFromGroup(pid interface{}, groupID int, options ...OptionFunc) (*Response, error) {
+func (s *ProjectsService) DeleteSharedProjectFromGroup(pid interface{}, groupID int, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, err
@@ -837,7 +837,7 @@ type ListProjectHooksOptions ListOptions
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/projects.html#list-project-hooks
-func (s *ProjectsService) ListProjectHooks(pid interface{}, opt *ListProjectHooksOptions, options ...OptionFunc) ([]*ProjectHook, *Response, error) {
+func (s *ProjectsService) ListProjectHooks(pid interface{}, opt *ListProjectHooksOptions, options ...RequestOptionFunc) ([]*ProjectHook, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -862,7 +862,7 @@ func (s *ProjectsService) ListProjectHooks(pid interface{}, opt *ListProjectHook
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/projects.html#get-project-hook
-func (s *ProjectsService) GetProjectHook(pid interface{}, hook int, options ...OptionFunc) (*ProjectHook, *Response, error) {
+func (s *ProjectsService) GetProjectHook(pid interface{}, hook int, options ...RequestOptionFunc) (*ProjectHook, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -907,7 +907,7 @@ type AddProjectHookOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/projects.html#add-project-hook
-func (s *ProjectsService) AddProjectHook(pid interface{}, opt *AddProjectHookOptions, options ...OptionFunc) (*ProjectHook, *Response, error) {
+func (s *ProjectsService) AddProjectHook(pid interface{}, opt *AddProjectHookOptions, options ...RequestOptionFunc) (*ProjectHook, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -952,7 +952,7 @@ type EditProjectHookOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/projects.html#edit-project-hook
-func (s *ProjectsService) EditProjectHook(pid interface{}, hook int, opt *EditProjectHookOptions, options ...OptionFunc) (*ProjectHook, *Response, error) {
+func (s *ProjectsService) EditProjectHook(pid interface{}, hook int, opt *EditProjectHookOptions, options ...RequestOptionFunc) (*ProjectHook, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -978,7 +978,7 @@ func (s *ProjectsService) EditProjectHook(pid interface{}, hook int, opt *EditPr
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/projects.html#delete-project-hook
-func (s *ProjectsService) DeleteProjectHook(pid interface{}, hook int, options ...OptionFunc) (*Response, error) {
+func (s *ProjectsService) DeleteProjectHook(pid interface{}, hook int, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, err
@@ -1010,7 +1010,7 @@ type ProjectForkRelation struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/projects.html#create-a-forked-fromto-relation-between-existing-projects.
-func (s *ProjectsService) CreateProjectForkRelation(pid int, fork int, options ...OptionFunc) (*ProjectForkRelation, *Response, error) {
+func (s *ProjectsService) CreateProjectForkRelation(pid int, fork int, options ...RequestOptionFunc) (*ProjectForkRelation, *Response, error) {
 	u := fmt.Sprintf("projects/%d/fork/%d", pid, fork)
 
 	req, err := s.client.NewRequest("POST", u, nil, options)
@@ -1031,7 +1031,7 @@ func (s *ProjectsService) CreateProjectForkRelation(pid int, fork int, options .
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/projects.html#delete-an-existing-forked-from-relationship
-func (s *ProjectsService) DeleteProjectForkRelation(pid int, options ...OptionFunc) (*Response, error) {
+func (s *ProjectsService) DeleteProjectForkRelation(pid int, options ...RequestOptionFunc) (*Response, error) {
 	u := fmt.Sprintf("projects/%d/fork", pid)
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
@@ -1054,7 +1054,7 @@ type ProjectFile struct {
 // UploadFile upload a file from disk
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#upload-a-file
-func (s *ProjectsService) UploadFile(pid interface{}, file string, options ...OptionFunc) (*ProjectFile, *Response, error) {
+func (s *ProjectsService) UploadFile(pid interface{}, file string, options ...RequestOptionFunc) (*ProjectFile, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -1104,7 +1104,7 @@ func (s *ProjectsService) UploadFile(pid interface{}, file string, options ...Op
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/projects.html#list-forks-of-a-project
-func (s *ProjectsService) ListProjectForks(pid interface{}, opt *ListProjectsOptions, options ...OptionFunc) ([]*Project, *Response, error) {
+func (s *ProjectsService) ListProjectForks(pid interface{}, opt *ListProjectsOptions, options ...RequestOptionFunc) ([]*Project, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -1149,7 +1149,7 @@ type ProjectPushRules struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/projects.html#get-project-push-rules
-func (s *ProjectsService) GetProjectPushRules(pid interface{}, options ...OptionFunc) (*ProjectPushRules, *Response, error) {
+func (s *ProjectsService) GetProjectPushRules(pid interface{}, options ...RequestOptionFunc) (*ProjectPushRules, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -1190,7 +1190,7 @@ type AddProjectPushRuleOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/projects.html#add-project-push-rule
-func (s *ProjectsService) AddProjectPushRule(pid interface{}, opt *AddProjectPushRuleOptions, options ...OptionFunc) (*ProjectPushRules, *Response, error) {
+func (s *ProjectsService) AddProjectPushRule(pid interface{}, opt *AddProjectPushRuleOptions, options ...RequestOptionFunc) (*ProjectPushRules, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -1233,7 +1233,7 @@ type EditProjectPushRuleOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/projects.html#edit-project-push-rule
-func (s *ProjectsService) EditProjectPushRule(pid interface{}, opt *EditProjectPushRuleOptions, options ...OptionFunc) (*ProjectPushRules, *Response, error) {
+func (s *ProjectsService) EditProjectPushRule(pid interface{}, opt *EditProjectPushRuleOptions, options ...RequestOptionFunc) (*ProjectPushRules, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -1260,7 +1260,7 @@ func (s *ProjectsService) EditProjectPushRule(pid interface{}, opt *EditProjectP
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/projects.html#delete-project-push-rule
-func (s *ProjectsService) DeleteProjectPushRule(pid interface{}, options ...OptionFunc) (*Response, error) {
+func (s *ProjectsService) DeleteProjectPushRule(pid interface{}, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, err
@@ -1293,7 +1293,7 @@ type ProjectApprovals struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#get-configuration
-func (s *ProjectsService) GetApprovalConfiguration(pid interface{}, options ...OptionFunc) (*ProjectApprovals, *Response, error) {
+func (s *ProjectsService) GetApprovalConfiguration(pid interface{}, options ...RequestOptionFunc) (*ProjectApprovals, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -1331,7 +1331,7 @@ type ChangeApprovalConfigurationOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#change-configuration
-func (s *ProjectsService) ChangeApprovalConfiguration(pid interface{}, opt *ChangeApprovalConfigurationOptions, options ...OptionFunc) (*ProjectApprovals, *Response, error) {
+func (s *ProjectsService) ChangeApprovalConfiguration(pid interface{}, opt *ChangeApprovalConfigurationOptions, options ...RequestOptionFunc) (*ProjectApprovals, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -1356,7 +1356,7 @@ func (s *ProjectsService) ChangeApprovalConfiguration(pid interface{}, opt *Chan
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#get-project-level-rules
-func (s *ProjectsService) GetProjectApprovalRules(pid interface{}, options ...OptionFunc) ([]*ProjectApprovalRule, *Response, error) {
+func (s *ProjectsService) GetProjectApprovalRules(pid interface{}, options ...RequestOptionFunc) ([]*ProjectApprovalRule, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -1394,7 +1394,7 @@ type CreateProjectLevelRuleOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#create-project-level-rules
-func (s *ProjectsService) CreateProjectApprovalRule(pid interface{}, opt *CreateProjectLevelRuleOptions, options ...OptionFunc) (*ProjectApprovalRule, *Response, error) {
+func (s *ProjectsService) CreateProjectApprovalRule(pid interface{}, opt *CreateProjectLevelRuleOptions, options ...RequestOptionFunc) (*ProjectApprovalRule, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -1432,7 +1432,7 @@ type UpdateProjectLevelRuleOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#update-project-level-rules
-func (s *ProjectsService) UpdateProjectApprovalRule(pid interface{}, approvalRule int, opt *UpdateProjectLevelRuleOptions, options ...OptionFunc) (*ProjectApprovalRule, *Response, error) {
+func (s *ProjectsService) UpdateProjectApprovalRule(pid interface{}, approvalRule int, opt *UpdateProjectLevelRuleOptions, options ...RequestOptionFunc) (*ProjectApprovalRule, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -1457,7 +1457,7 @@ func (s *ProjectsService) UpdateProjectApprovalRule(pid interface{}, approvalRul
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#delete-project-level-rules
-func (s *ProjectsService) DeleteProjectApprovalRule(pid interface{}, approvalRule int, options ...OptionFunc) (*Response, error) {
+func (s *ProjectsService) DeleteProjectApprovalRule(pid interface{}, approvalRule int, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, err
@@ -1486,7 +1486,7 @@ type ChangeAllowedApproversOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#change-allowed-approvers
-func (s *ProjectsService) ChangeAllowedApprovers(pid interface{}, opt *ChangeAllowedApproversOptions, options ...OptionFunc) (*ProjectApprovals, *Response, error) {
+func (s *ProjectsService) ChangeAllowedApprovers(pid interface{}, opt *ChangeAllowedApproversOptions, options ...RequestOptionFunc) (*ProjectApprovals, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -1511,7 +1511,7 @@ func (s *ProjectsService) ChangeAllowedApprovers(pid interface{}, opt *ChangeAll
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/projects.html#start-the-pull-mirroring-process-for-a-project-starter
-func (s *ProjectsService) StartMirroringProject(pid interface{}, options ...OptionFunc) (*Response, error) {
+func (s *ProjectsService) StartMirroringProject(pid interface{}, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, err
@@ -1541,7 +1541,7 @@ type TransferProjectOptions struct {
 // TransferProject transfer a project into the specified namespace
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#transfer-a-project-to-a-new-namespace
-func (s *ProjectsService) TransferProject(pid interface{}, opt *TransferProjectOptions, options ...OptionFunc) (*Project, *Response, error) {
+func (s *ProjectsService) TransferProject(pid interface{}, opt *TransferProjectOptions, options ...RequestOptionFunc) (*Project, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err

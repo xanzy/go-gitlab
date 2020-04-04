@@ -48,7 +48,7 @@ func TestValidate(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.description, func(t *testing.T) {
-			mux, server, client := setup()
+			mux, server, client := setup(t)
 			defer teardown(server)
 
 			mux.HandleFunc("/api/v4/ci/lint", func(w http.ResponseWriter, r *http.Request) {

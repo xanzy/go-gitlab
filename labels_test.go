@@ -9,7 +9,7 @@ import (
 )
 
 func TestCreateLabel(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/labels", func(w http.ResponseWriter, r *http.Request) {
@@ -34,7 +34,7 @@ func TestCreateLabel(t *testing.T) {
 }
 
 func TestDeleteLabel(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/labels", func(w http.ResponseWriter, r *http.Request) {
@@ -47,14 +47,13 @@ func TestDeleteLabel(t *testing.T) {
 	}
 
 	_, err := client.Labels.DeleteLabel("1", label)
-
 	if err != nil {
 		log.Fatal(err)
 	}
 }
 
 func TestUpdateLabel(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/labels", func(w http.ResponseWriter, r *http.Request) {
@@ -87,7 +86,7 @@ func TestUpdateLabel(t *testing.T) {
 }
 
 func TestSubscribeToLabel(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/labels/5/subscribe", func(w http.ResponseWriter, r *http.Request) {
@@ -106,7 +105,7 @@ func TestSubscribeToLabel(t *testing.T) {
 }
 
 func TestUnsubscribeFromLabel(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/labels/5/unsubscribe", func(w http.ResponseWriter, r *http.Request) {
@@ -120,7 +119,7 @@ func TestUnsubscribeFromLabel(t *testing.T) {
 }
 
 func TestListLabels(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/labels", func(w http.ResponseWriter, r *http.Request) {

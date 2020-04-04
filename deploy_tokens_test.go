@@ -9,7 +9,7 @@ import (
 )
 
 func TestListAllDeployTokens(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/deploy_tokens", func(w http.ResponseWriter, r *http.Request) {
@@ -56,7 +56,7 @@ func TestListAllDeployTokens(t *testing.T) {
 }
 
 func TestListProjectDeployTokens(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/deploy_tokens", func(w http.ResponseWriter, r *http.Request) {
@@ -103,7 +103,7 @@ func TestListProjectDeployTokens(t *testing.T) {
 }
 
 func TestCreateProjectDeployToken(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/5/deploy_tokens", func(w http.ResponseWriter, r *http.Request) {
@@ -153,7 +153,7 @@ func TestCreateProjectDeployToken(t *testing.T) {
 }
 
 func TestDeleteProjectDeployToken(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/5/deploy_tokens/13", func(w http.ResponseWriter, r *http.Request) {
@@ -175,7 +175,7 @@ func TestDeleteProjectDeployToken(t *testing.T) {
 }
 
 func TestListGroupDeployTokens(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/groups/1/deploy_tokens", func(w http.ResponseWriter, r *http.Request) {
@@ -222,7 +222,7 @@ func TestListGroupDeployTokens(t *testing.T) {
 }
 
 func TestCreateGroupDeployToken(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/groups/5/deploy_tokens", func(w http.ResponseWriter, r *http.Request) {
@@ -272,7 +272,7 @@ func TestCreateGroupDeployToken(t *testing.T) {
 }
 
 func TestDeleteGroupDeployToken(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/groups/5/deploy_tokens/13", func(w http.ResponseWriter, r *http.Request) {

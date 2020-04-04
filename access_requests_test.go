@@ -11,7 +11,7 @@ import (
 )
 
 func TestListProjectAccessRequests(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/access_requests", func(w http.ResponseWriter, r *http.Request) {
@@ -71,13 +71,13 @@ func TestListProjectAccessRequests(t *testing.T) {
 	assert.Equal(t, http.StatusNotFound, resp.StatusCode)
 
 	requests, resp, err = client.AccessRequests.ListProjectAccessRequests(1, nil, errorOption)
-	assert.EqualError(t, err, "OptionFunc returns an error")
+	assert.EqualError(t, err, "RequestOptionFunc returns an error")
 	assert.Nil(t, requests)
 	assert.Nil(t, resp)
 }
 
 func TestListGroupAccessRequests(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/groups/1/access_requests", func(w http.ResponseWriter, r *http.Request) {
@@ -137,13 +137,13 @@ func TestListGroupAccessRequests(t *testing.T) {
 	assert.Equal(t, http.StatusNotFound, resp.StatusCode)
 
 	requests, resp, err = client.AccessRequests.ListGroupAccessRequests(1, nil, errorOption)
-	assert.EqualError(t, err, "OptionFunc returns an error")
+	assert.EqualError(t, err, "RequestOptionFunc returns an error")
 	assert.Nil(t, requests)
 	assert.Nil(t, resp)
 }
 
 func TestRequestProjectAccess(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/access_requests", func(w http.ResponseWriter, r *http.Request) {
@@ -183,13 +183,13 @@ func TestRequestProjectAccess(t *testing.T) {
 	assert.Equal(t, http.StatusNotFound, resp.StatusCode)
 
 	accessRequest, resp, err = client.AccessRequests.RequestProjectAccess(1, nil, errorOption)
-	assert.EqualError(t, err, "OptionFunc returns an error")
+	assert.EqualError(t, err, "RequestOptionFunc returns an error")
 	assert.Nil(t, accessRequest)
 	assert.Nil(t, resp)
 }
 
 func TestRequestGroupAccess(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/groups/1/access_requests", func(w http.ResponseWriter, r *http.Request) {
@@ -229,13 +229,13 @@ func TestRequestGroupAccess(t *testing.T) {
 	assert.Equal(t, http.StatusNotFound, resp.StatusCode)
 
 	accessRequest, resp, err = client.AccessRequests.RequestGroupAccess(1, nil, errorOption)
-	assert.EqualError(t, err, "OptionFunc returns an error")
+	assert.EqualError(t, err, "RequestOptionFunc returns an error")
 	assert.Nil(t, accessRequest)
 	assert.Nil(t, resp)
 }
 
 func TestApproveProjectAccessRequest(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/access_requests/10/approve", func(w http.ResponseWriter, r *http.Request) {
@@ -288,13 +288,13 @@ func TestApproveProjectAccessRequest(t *testing.T) {
 	assert.Equal(t, http.StatusNotFound, resp.StatusCode)
 
 	request, resp, err = client.AccessRequests.ApproveProjectAccessRequest(1, 10, opt, errorOption)
-	assert.EqualError(t, err, "OptionFunc returns an error")
+	assert.EqualError(t, err, "RequestOptionFunc returns an error")
 	assert.Nil(t, request)
 	assert.Nil(t, resp)
 }
 
 func TestApproveGroupAccessRequest(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/groups/1/access_requests/10/approve", func(w http.ResponseWriter, r *http.Request) {
@@ -347,13 +347,13 @@ func TestApproveGroupAccessRequest(t *testing.T) {
 	assert.Equal(t, http.StatusNotFound, resp.StatusCode)
 
 	request, resp, err = client.AccessRequests.ApproveGroupAccessRequest(1, 10, opt, errorOption)
-	assert.EqualError(t, err, "OptionFunc returns an error")
+	assert.EqualError(t, err, "RequestOptionFunc returns an error")
 	assert.Nil(t, request)
 	assert.Nil(t, resp)
 }
 
 func TestDenyProjectAccessRequest(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/access_requests/10", func(w http.ResponseWriter, r *http.Request) {
@@ -372,12 +372,12 @@ func TestDenyProjectAccessRequest(t *testing.T) {
 	assert.Equal(t, http.StatusNotFound, resp.StatusCode)
 
 	resp, err = client.AccessRequests.DenyProjectAccessRequest(1, 10, errorOption)
-	assert.EqualError(t, err, "OptionFunc returns an error")
+	assert.EqualError(t, err, "RequestOptionFunc returns an error")
 	assert.Nil(t, resp)
 }
 
 func TestDenyGroupAccessRequest(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/groups/1/access_requests/10", func(w http.ResponseWriter, r *http.Request) {
@@ -396,6 +396,6 @@ func TestDenyGroupAccessRequest(t *testing.T) {
 	assert.Equal(t, http.StatusNotFound, resp.StatusCode)
 
 	resp, err = client.AccessRequests.DenyGroupAccessRequest(1, 10, errorOption)
-	assert.EqualError(t, err, "OptionFunc returns an error")
+	assert.EqualError(t, err, "RequestOptionFunc returns an error")
 	assert.Nil(t, resp)
 }

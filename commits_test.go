@@ -13,7 +13,7 @@ import (
 var testRevertCommitTargetBranch = "release"
 
 func TestGetCommit(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/repository/commits/b0b3a907f41409829b307a28b82fdbd552ee5a27", func(w http.ResponseWriter, r *http.Request) {
@@ -56,7 +56,7 @@ func TestGetCommit(t *testing.T) {
 }
 
 func TestGetCommitStatuses(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/repository/commits/b0b3a907f41409829b307a28b82fdbd552ee5a27/statuses", func(w http.ResponseWriter, r *http.Request) {
@@ -78,7 +78,7 @@ func TestGetCommitStatuses(t *testing.T) {
 }
 
 func TestSetCommitStatus(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/statuses/b0b3a907f41409829b307a28b82fdbd552ee5a27", func(w http.ResponseWriter, r *http.Request) {
@@ -100,7 +100,7 @@ func TestSetCommitStatus(t *testing.T) {
 }
 
 func TestRevertCommit_NoOptions(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/repository/commits/b0b3a907f41409829b307a28b82fdbd552ee5a27/revert", func(w http.ResponseWriter, r *http.Request) {
@@ -143,7 +143,7 @@ func TestRevertCommit_NoOptions(t *testing.T) {
 }
 
 func TestRevertCommit_WithOptions(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/repository/commits/b0b3a907f41409829b307a28b82fdbd552ee5a27/revert", func(w http.ResponseWriter, r *http.Request) {
@@ -189,7 +189,7 @@ func TestRevertCommit_WithOptions(t *testing.T) {
 }
 
 func TestGetGPGSignature(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/repository/commits/b0b3a907f41409829b307a28b82fdbd552ee5a27/signature", func(w http.ResponseWriter, r *http.Request) {

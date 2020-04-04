@@ -56,7 +56,7 @@ func (v GroupCluster) String() string {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/group_clusters.html#list-group-clusters
-func (s *GroupClustersService) ListClusters(pid interface{}, options ...OptionFunc) ([]*GroupCluster, *Response, error) {
+func (s *GroupClustersService) ListClusters(pid interface{}, options ...RequestOptionFunc) ([]*GroupCluster, *Response, error) {
 	group, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -81,7 +81,7 @@ func (s *GroupClustersService) ListClusters(pid interface{}, options ...OptionFu
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/group_clusters.html#get-a-single-group-cluster
-func (s *GroupClustersService) GetCluster(pid interface{}, cluster int, options ...OptionFunc) (*GroupCluster, *Response, error) {
+func (s *GroupClustersService) GetCluster(pid interface{}, cluster int, options ...RequestOptionFunc) (*GroupCluster, *Response, error) {
 	group, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -129,7 +129,7 @@ type AddGroupPlatformKubernetesOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/group_clusters.html#add-existing-cluster-to-group
-func (s *GroupClustersService) AddCluster(pid interface{}, opt *AddGroupClusterOptions, options ...OptionFunc) (*GroupCluster, *Response, error) {
+func (s *GroupClustersService) AddCluster(pid interface{}, opt *AddGroupClusterOptions, options ...RequestOptionFunc) (*GroupCluster, *Response, error) {
 	group, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -173,7 +173,7 @@ type EditGroupPlatformKubernetesOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/group_clusters.html#edit-group-cluster
-func (s *GroupClustersService) EditCluster(pid interface{}, cluster int, opt *EditGroupClusterOptions, options ...OptionFunc) (*GroupCluster, *Response, error) {
+func (s *GroupClustersService) EditCluster(pid interface{}, cluster int, opt *EditGroupClusterOptions, options ...RequestOptionFunc) (*GroupCluster, *Response, error) {
 	group, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -198,7 +198,7 @@ func (s *GroupClustersService) EditCluster(pid interface{}, cluster int, opt *Ed
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/group_clusters.html#delete-group-cluster
-func (s *GroupClustersService) DeleteCluster(pid interface{}, cluster int, options ...OptionFunc) (*Response, error) {
+func (s *GroupClustersService) DeleteCluster(pid interface{}, cluster int, options ...RequestOptionFunc) (*Response, error) {
 	group, err := parseID(pid)
 	if err != nil {
 		return nil, err

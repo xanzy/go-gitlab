@@ -80,7 +80,7 @@ var (
 )
 
 func TestGetMergeRequest(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	path := "/api/v4/projects/namespace/name/merge_requests/123"
@@ -124,7 +124,7 @@ func TestGetMergeRequest(t *testing.T) {
 }
 
 func TestListProjectMergeRequests(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	path := "/api/v4/projects/278964/merge_requests"

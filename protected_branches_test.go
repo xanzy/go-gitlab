@@ -8,23 +8,26 @@ import (
 )
 
 func TestListProtectedBranches(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/protected_branches", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
-		fmt.Fprint(w, `[{"id":1,
-                              "name":"master",
-                              "push_access_levels":[{
-                                "access_level":40,
-                                "access_level_description":"Maintainers"
-                              }],
-                              "merge_access_levels":[{
-                                "access_level":40,
-                                "access_level_description":"Maintainers"
-                               }],
-                              "code_owner_approval_required":false
-                            }]`)
+		fmt.Fprint(w, `[
+	{
+		"id":1,
+		"name":"master",
+		"push_access_levels":[{
+			"access_level":40,
+			"access_level_description":"Maintainers"
+		}],
+		"merge_access_levels":[{
+			"access_level":40,
+			"access_level_description":"Maintainers"
+		}],
+		"code_owner_approval_required":false
+	}
+]`)
 	})
 	opt := &ListProtectedBranchesOptions{}
 	protectedBranches, _, err := client.ProtectedBranches.ListProtectedBranches("1", opt)
@@ -56,22 +59,25 @@ func TestListProtectedBranches(t *testing.T) {
 }
 
 func TestListProtectedBranchesWithoutCodeOwnerApproval(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/protected_branches", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
-		fmt.Fprint(w, `[{"id":1,
-                             "name":"master",
-                             "push_access_levels":[{
-                               "access_level":40,
-                               "access_level_description":"Maintainers"
-                             }],
-                             "merge_access_levels":[{
-                               "access_level":40,
-                               "access_level_description":"Maintainers"
-                             }]
-                           }]`)
+		fmt.Fprint(w, `[
+	{
+		"id":1,
+		"name":"master",
+		"push_access_levels":[{
+			"access_level":40,
+			"access_level_description":"Maintainers"
+		}],
+		"merge_access_levels":[{
+			"access_level":40,
+			"access_level_description":"Maintainers"
+		}]
+	}
+]`)
 	})
 	opt := &ListProtectedBranchesOptions{}
 	protectedBranches, _, err := client.ProtectedBranches.ListProtectedBranches("1", opt)
@@ -103,23 +109,25 @@ func TestListProtectedBranchesWithoutCodeOwnerApproval(t *testing.T) {
 }
 
 func TestProtectRepositoryBranches(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/protected_branches", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "POST")
-		fmt.Fprint(w, `{"id":1,
-                             "name":"master",
-                             "push_access_levels":[{
-                               "access_level":40,
-                               "access_level_description":"Maintainers"
-                             }],
-                             "merge_access_levels":[{
-                               "access_level":40,
-                               "access_level_description":"Maintainers"
-                             }],
-                             "code_owner_approval_required":true
-                            }`)
+		fmt.Fprint(w, `
+	{
+		"id":1,
+		"name":"master",
+		"push_access_levels":[{
+			"access_level":40,
+			"access_level_description":"Maintainers"
+		}],
+		"merge_access_levels":[{
+			"access_level":40,
+			"access_level_description":"Maintainers"
+		}],
+		"code_owner_approval_required":true
+	}`)
 	})
 	opt := &ProtectRepositoryBranchesOptions{
 		Name:                      String("master"),
@@ -154,7 +162,7 @@ func TestProtectRepositoryBranches(t *testing.T) {
 }
 
 func TestUpdateRepositoryBranches(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/protected_branches/master", func(w http.ResponseWriter, r *http.Request) {

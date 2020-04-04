@@ -7,8 +7,10 @@ import (
 )
 
 func languagesExample() {
-	git := gitlab.NewClient(nil, "yourtokengoeshere")
-	git.SetBaseURL("https://gitlab.com/api/v4")
+	git, err := gitlab.NewClient("yourtokengoeshere")
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	languages, _, err := git.Projects.GetProjectLanguages("2743054")
 	if err != nil {

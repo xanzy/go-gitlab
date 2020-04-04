@@ -8,7 +8,7 @@ import (
 )
 
 func TestListProjectPipelines(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/pipelines", func(w http.ResponseWriter, r *http.Request) {
@@ -29,7 +29,7 @@ func TestListProjectPipelines(t *testing.T) {
 }
 
 func TestGetPipeline(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/pipelines/5949167", func(w http.ResponseWriter, r *http.Request) {
@@ -49,7 +49,7 @@ func TestGetPipeline(t *testing.T) {
 }
 
 func TestGetPipelineVariables(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/pipelines/5949167/variables", func(w http.ResponseWriter, r *http.Request) {
@@ -69,7 +69,7 @@ func TestGetPipelineVariables(t *testing.T) {
 }
 
 func TestCreatePipeline(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/pipeline", func(w http.ResponseWriter, r *http.Request) {
@@ -91,7 +91,7 @@ func TestCreatePipeline(t *testing.T) {
 }
 
 func TestRetryPipelineBuild(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/pipelines/5949167/retry", func(w http.ResponseWriter, r *http.Request) {
@@ -111,7 +111,7 @@ func TestRetryPipelineBuild(t *testing.T) {
 }
 
 func TestCancelPipelineBuild(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/pipelines/5949167/cancel", func(w http.ResponseWriter, r *http.Request) {
@@ -131,7 +131,7 @@ func TestCancelPipelineBuild(t *testing.T) {
 }
 
 func TestDeletePipeline(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/pipelines/5949167", func(w http.ResponseWriter, r *http.Request) {
@@ -139,9 +139,7 @@ func TestDeletePipeline(t *testing.T) {
 	})
 
 	_, err := client.Pipelines.DeletePipeline("1", 5949167)
-
 	if err != nil {
 		t.Errorf("Pipelines.DeletePipeline returned error: %v", err)
 	}
-
 }

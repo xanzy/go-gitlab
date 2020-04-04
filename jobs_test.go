@@ -8,7 +8,7 @@ import (
 )
 
 func TestListPipelineJobs(t *testing.T) {
-	mux, server, client := setup()
+	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/pipelines/1/jobs", func(w http.ResponseWriter, r *http.Request) {
