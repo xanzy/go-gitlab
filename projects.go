@@ -69,7 +69,7 @@ type Project struct {
 	ImportStatus                              string            `json:"import_status"`
 	ImportError                               string            `json:"import_error"`
 	Permissions                               *Permissions      `json:"permissions"`
-	MarkedForDeletionAt                       *time.Time        `json:"marked_for_deletion_at"`
+	MarkedForDeletionAt                       *ISOTime          `json:"marked_for_deletion_at"`
 	Archived                                  bool              `json:"archived"`
 	AvatarURL                                 string            `json:"avatar_url"`
 	SharedRunnersEnabled                      bool              `json:"shared_runners_enabled"`
