@@ -43,4 +43,14 @@ func repositoryFileExample() {
 	}
 
 	log.Printf("File contains: %s", f.Content)
+
+	gfb := &gitlab.GetFileBlameOptions{
+		Ref: gitlab.String("master"),
+	}
+	fb, _, err := git.RepositoryFiles.GetFileBlame("myname/myproject", file.FilePath, gfb)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	log.Printf("Found %d blame ranges", len(fb))
 }
