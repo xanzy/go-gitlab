@@ -60,6 +60,16 @@ type IssueReferences struct {
 	Full     string `json:"full"`
 }
 
+// IssueCloser represents a closer of the issue.
+type IssueCloser struct {
+	ID        int    `json:"id"`
+	State     string `json:"state"`
+	WebURL    string `json:"web_url"`
+	Name      string `json:"name"`
+	AvatarURL string `json:"avatar_url"`
+	Username  string `json:"username"`
+}
+
 // IssueLinks represents links of the issue.
 type IssueLinks struct {
 	Self       string `json:"self"`
@@ -83,6 +93,7 @@ type Issue struct {
 	Assignee             *IssueAssignee   `json:"assignee"`
 	UpdatedAt            *time.Time       `json:"updated_at"`
 	ClosedAt             *time.Time       `json:"closed_at"`
+	ClosedBy             *IssueCloser     `json:"closed_by"`
 	Title                string           `json:"title"`
 	CreatedAt            *time.Time       `json:"created_at"`
 	Labels               Labels           `json:"labels"`
