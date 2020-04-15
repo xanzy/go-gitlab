@@ -526,6 +526,15 @@ func (s *ProjectsService) CreateProjectForUser(user int, opt *CreateProjectForUs
 	return p, resp, err
 }
 
+type AccessLevelOption string
+
+const (
+	DisabledAccessLevelOption AccessLevelOption = "disabled"
+	PrivateAccessLevelOption  AccessLevelOption = "private"
+	EnabledAccessLevelOption  AccessLevelOption = "enabled"
+	PublicAccessLevelOption   AccessLevelOption = "public"
+)
+
 // EditProjectOptions represents the available EditProject() options.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#edit-project
@@ -534,11 +543,6 @@ type EditProjectOptions struct {
 	Path                                      *string           `url:"path,omitempty" json:"path,omitempty"`
 	DefaultBranch                             *string           `url:"default_branch,omitempty" json:"default_branch,omitempty"`
 	Description                               *string           `url:"description,omitempty" json:"description,omitempty"`
-	IssuesEnabled                             *bool             `url:"issues_enabled,omitempty" json:"issues_enabled,omitempty"`
-	MergeRequestsEnabled                      *bool             `url:"merge_requests_enabled,omitempty" json:"merge_requests_enabled,omitempty"`
-	JobsEnabled                               *bool             `url:"jobs_enabled,omitempty" json:"jobs_enabled,omitempty"`
-	WikiEnabled                               *bool             `url:"wiki_enabled,omitempty" json:"wiki_enabled,omitempty"`
-	SnippetsEnabled                           *bool             `url:"snippets_enabled,omitempty" json:"snippets_enabled,omitempty"`
 	ResolveOutdatedDiffDiscussions            *bool             `url:"resolve_outdated_diff_discussions,omitempty" json:"resolve_outdated_diff_discussions,omitempty"`
 	ContainerRegistryEnabled                  *bool             `url:"container_registry_enabled,omitempty" json:"container_registry_enabled,omitempty"`
 	SharedRunnersEnabled                      *bool             `url:"shared_runners_enabled,omitempty" json:"shared_runners_enabled,omitempty"`
@@ -563,6 +567,29 @@ type EditProjectOptions struct {
 	OnlyMirrorProtectedBranches               *bool             `url:"only_mirror_protected_branches,omitempty" json:"only_mirror_protected_branches,omitempty"`
 	MirrorOverwritesDivergedBranches          *bool             `url:"mirror_overwrites_diverged_branches,omitempty" json:"mirror_overwrites_diverged_branches,omitempty"`
 	PackagesEnabled                           *bool             `url:"packages_enabled,omitempty" json:"packages_enabled,omitempty"`
+
+	IssuesAccessLevel               *AccessLevelOption `url:"issues_access_level,omitempty" json:"issues_access_level,omitempty"`
+	RepositoryAccessLevel           *AccessLevelOption `url:"repository_access_level,omitempty" json:"repository_access_level,omitempty"`
+	MergeRequestAccessLevel         *AccessLevelOption `url:"merge_request_access_level,omitempty" json:"merge_request_access_level,omitempty"`
+	ForkingAccessLevel              *AccessLevelOption `url:"forking_access_level,omitempty" json:"forking_access_level,omitempty"`
+	BuildsAccessLevel               *AccessLevelOption `url:"builds_access_level,omitempty" json:"builds_access_level,omitempty"`
+	WikiAccessLevel                 *AccessLevelOption `url:"wiki_access_level,omitempty" json:"wiki_access_level,omitempty"`
+	SnippetsAccessLevel             *AccessLevelOption `url:"snippets_access_level,omitempty" json:"snippets_access_level,omitempty"`
+	PagesAccessLevel                *AccessLevelOption `url:"pages_access_level,omitempty" json:"pages_access_level,omitempty"`
+	EmailsDisabled                  *bool              `url:"emails_disabled,omitempty" json:"emails_disabled,omitempty"`
+	BuildGitStrategy                *string            `url:"build_git_strategy,omitempty" json:"build_git_strategy,omitempty"`
+	BuildTimeout                    *int               `url:"build_timeout,omitempty" json:"build_timeout,omitempty"`
+	AutoCancelPendingPipelines      *string            `url:"auto_cancel_pending_pipelines,omitempty" json:"auto_cancel_pending_pipelines,omitempty"`
+	PrintingMergeRequestLinkEnabled *bool              `url:"printing_merge_request_link_enabled,omitempty" json:"printing_merge_request_link_enabled,omitempty"`
+	AutoDevopsEnabled               *bool              `url:"auto_devops_enabled,omitempty" json:"auto_devops_enabled,omitempty"`
+	AutoDevopsDeployStrategy        *string            `url:"auto_devops_deploy_strategy,omitempty" json:"auto_devops_deploy_strategy,omitempty"`
+
+	// Deprecated members
+	IssuesEnabled        *bool `url:"issues_enabled,omitempty" json:"issues_enabled,omitempty"`
+	MergeRequestsEnabled *bool `url:"merge_requests_enabled,omitempty" json:"merge_requests_enabled,omitempty"`
+	JobsEnabled          *bool `url:"jobs_enabled,omitempty" json:"jobs_enabled,omitempty"`
+	WikiEnabled          *bool `url:"wiki_enabled,omitempty" json:"wiki_enabled,omitempty"`
+	SnippetsEnabled      *bool `url:"snippets_enabled,omitempty" json:"snippets_enabled,omitempty"`
 }
 
 // EditProject updates an existing project.
