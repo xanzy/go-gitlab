@@ -59,6 +59,10 @@
     "description": "test",
     "milestone_id": null,
     "state": "closed",
-    "iid": 17
+    "iid": 17,
+    "time_estimate": 3600,
+    "total_time_spent": 600,
+    "human_time_estimate": "1h",
+    "human_total_time_spent": "10m"
   }
 }
