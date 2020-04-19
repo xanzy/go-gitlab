@@ -38,6 +38,7 @@ type Branch struct {
 	Protected          bool    `json:"protected"`
 	Merged             bool    `json:"merged"`
 	Default            bool    `json:"default"`
+	CanPush            bool    `json:"can_push"`
 	DevelopersCanPush  bool    `json:"developers_can_push"`
 	DevelopersCanMerge bool    `json:"developers_can_merge"`
 }
