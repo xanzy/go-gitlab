@@ -216,6 +216,7 @@ type ListProjectsOptions struct {
 	OrderBy                  *string           `url:"order_by,omitempty" json:"order_by,omitempty"`
 	Sort                     *string           `url:"sort,omitempty" json:"sort,omitempty"`
 	Search                   *string           `url:"search,omitempty" json:"search,omitempty"`
+	SearchNamespaces         *bool             `url:"search_namespaces,omitempty" json:"search_namespaces,omitempty"`
 	Simple                   *bool             `url:"simple,omitempty" json:"simple,omitempty"`
 	Owned                    *bool             `url:"owned,omitempty" json:"owned,omitempty"`
 	Membership               *bool             `url:"membership,omitempty" json:"membership,omitempty"`
