@@ -49,7 +49,8 @@ type License struct {
 		Email   string `json:"Email"`
 	} `json:"licensee"`
 	AddOns struct {
-		GitLabFileLocks int `json:"GitLabFileLocks"`
+		GitLabFileLocks   int `json:"GitLab_FileLocks"`
+		GitLabAuditorUser int `json:"GitLab_Auditor_User"`
 	} `json:"add_ons"`
 }
 
