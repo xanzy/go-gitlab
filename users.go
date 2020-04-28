@@ -829,6 +829,7 @@ type UserActivity struct {
 // GitLap API docs:
 // https://docs.gitlab.com/ce/api/users.html#get-user-activities-admin-only
 type GetUserActivitiesOptions struct {
+	ListOptions
 	From *ISOTime `url:"from,omitempty" json:"from,omitempty"`
 }
 
