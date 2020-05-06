@@ -492,7 +492,7 @@ func (c *Client) requestOAuthToken(ctx context.Context) error {
 			TokenURL: fmt.Sprintf("%s://%s/oauth/token", c.BaseURL().Scheme, c.BaseURL().Host),
 		},
 	}
-	ctx = context.WithValue(ctx, oauth2.HTTPClient, c.client)
+	ctx = context.WithValue(ctx, oauth2.HTTPClient, c.client.HTTPClient)
 	t, err := config.PasswordCredentialsToken(ctx, c.username, c.password)
 	if err != nil {
 		return err
