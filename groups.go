@@ -18,6 +18,7 @@ package gitlab
 
 import (
 	"fmt"
+	"time"
 )
 
 // GroupsService handles communication with the group related methods of
@@ -64,6 +65,7 @@ type Group struct {
 	SharedRunnersMinutesLimit      int                        `json:"shared_runners_minutes_limit"`
 	ExtraSharedRunnersMinutesLimit int                        `json:"extra_shared_runners_minutes_limit"`
 	MarkedForDeletionOn            *ISOTime                   `json:"marked_for_deletion_on"`
+	CreatedAt                      *time.Time                 `json:"created_at"`
 }
 
 type LDAPGroupLink struct {
