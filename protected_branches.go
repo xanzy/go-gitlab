@@ -36,10 +36,10 @@ type ProtectedBranchesService struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/protected_branches.html#protected-branches-api
 type BranchAccessDescription struct {
-	AccessLevel            *AccessLevelValue `json:"access_level,omitempty"`
-	AccessLevelDescription string            `json:"access_level_description"`
-	GroupId                *int              `json:"group_id,omitempty"`
-	UserId                 *int              `json:"user_id,omitempty"`
+	AccessLevel            AccessLevelValue `json:"access_level"`
+	UserID                 int              `json:"user_id,omitempty"`
+	GroupID                int              `json:"group_id,omitempty"`
+	AccessLevelDescription string           `json:"access_level_description"`
 }
 
 // ProtectedBranch represents a protected branch.
@@ -118,24 +118,23 @@ func (s *ProtectedBranchesService) GetProtectedBranch(pid interface{}, branch st
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/protected_branches.html#protect-repository-branches
 type ProtectRepositoryBranchesOptions struct {
-	Name                      *string                    `url:"name,omitempty" json:"name,omitempty"`
-	PushAccessLevel           *AccessLevelValue          `url:"push_access_level,omitempty" json:"push_access_level,omitempty"`
-	MergeAccessLevel          *AccessLevelValue          `url:"merge_access_level,omitempty" json:"merge_access_level,omitempty"`
-	UnprotectAccessLevel      *AccessLevelValue          `url:"unprotect_access_level,omitempty" json:"unprotect_access_level,omitempty"`
-	AllowedToMerge            *[]ProtectBranchPermission `url:"allowed_to_merge,omitempty" json:"allowed_to_merge,omitempty"`
-	AllowedToPush             *[]ProtectBranchPermission `url:"allowed_to_push,omitempty" json:"allowed_to_push,omitempty"`
-	AllowedToUnprotect        *[]ProtectBranchPermission `url:"allowed_to_unprotect,omitempty" json:"allowed_to_unprotect,omitempty"`
-	CodeOwnerApprovalRequired *bool                      `url:"code_owner_approval_required,omitempty" json:"code_owner_approval_required,omitempty"`
+	Name                      *string                           `url:"name,omitempty" json:"name,omitempty"`
+	PushAccessLevel           *AccessLevelValue                 `url:"push_access_level,omitempty" json:"push_access_level,omitempty"`
+	MergeAccessLevel          *AccessLevelValue                 `url:"merge_access_level,omitempty" json:"merge_access_level,omitempty"`
+	UnprotectAccessLevel      *AccessLevelValue                 `url:"unprotect_access_level,omitempty" json:"unprotect_access_level,omitempty"`
+	AllowedToPush             []*ProtectBranchPermissionOptions `url:"allowed_to_push,omitempty" json:"allowed_to_push,omitempty"`
+	AllowedToMerge            []*ProtectBranchPermissionOptions `url:"allowed_to_merge,omitempty" json:"allowed_to_merge,omitempty"`
+	AllowedToUnprotect        []*ProtectBranchPermissionOptions `url:"allowed_to_unprotect,omitempty" json:"allowed_to_unprotect,omitempty"`
+	CodeOwnerApprovalRequired *bool                             `url:"code_owner_approval_required,omitempty" json:"code_owner_approval_required,omitempty"`
 }
 
-// ProtectBranchPermission represents a user_id, group_id,
-// or access_level to grant access to.
+// ProtectBranchPermissionOptions represents a branch permission option.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/protected_branches.html#example-with-user--group-level-access-starter
-type ProtectBranchPermission struct {
-	UserId      *int              `url:"user_id,omitempty" json:"user_id,omitempty"`
-	GroupId     *int              `url:"group_id,omitempty" json:"group_id,omitempty"`
+// https://docs.gitlab.com/ce/api/protected_branches.html#protect-repository-branches
+type ProtectBranchPermissionOptions struct {
+	UserID      *int              `url:"user_id,omitempty" json:"user_id,omitempty"`
+	GroupID     *int              `url:"group_id,omitempty" json:"group_id,omitempty"`
 	AccessLevel *AccessLevelValue `url:"access_level,omitempty" json:"access_level,omitempty"`
 }
 
