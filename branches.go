@@ -41,6 +41,7 @@ type Branch struct {
 	CanPush            bool    `json:"can_push"`
 	DevelopersCanPush  bool    `json:"developers_can_push"`
 	DevelopersCanMerge bool    `json:"developers_can_merge"`
+	WebURL             string  `json:"web_url"`
 }
 
 func (b Branch) String() string {
