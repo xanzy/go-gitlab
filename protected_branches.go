@@ -37,8 +37,8 @@ type ProtectedBranchesService struct {
 // https://docs.gitlab.com/ce/api/protected_branches.html#protected-branches-api
 type BranchAccessDescription struct {
 	AccessLevel            AccessLevelValue `json:"access_level"`
-	UserID                 int              `json:"user_id,omitempty"`
-	GroupID                int              `json:"group_id,omitempty"`
+	UserID                 int              `json:"user_id"`
+	GroupID                int              `json:"group_id"`
 	AccessLevelDescription string           `json:"access_level_description"`
 }
 

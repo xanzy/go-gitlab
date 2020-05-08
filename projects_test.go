@@ -711,6 +711,12 @@ func TestGetProjectApprovalRules(t *testing.T) {
 							AccessLevelDescription: "Developers + Maintainers",
 						},
 					},
+					UnprotectAccessLevels: []*BranchAccessDescription{
+						{
+							AccessLevel:            40,
+							AccessLevelDescription: "Maintainers",
+						},
+					},
 					CodeOwnerApprovalRequired: false,
 				},
 			},
@@ -882,6 +888,12 @@ func TestCreateProjectApprovalRule(t *testing.T) {
 					{
 						AccessLevel:            30,
 						AccessLevelDescription: "Developers + Maintainers",
+					},
+				},
+				UnprotectAccessLevels: []*BranchAccessDescription{
+					{
+						AccessLevel:            40,
+						AccessLevelDescription: "Maintainers",
 					},
 				},
 				CodeOwnerApprovalRequired: false,
