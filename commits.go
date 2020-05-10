@@ -124,6 +124,7 @@ type CommitAction struct {
 	PreviousPath string     `url:"previous_path,omitempty" json:"previous_path,omitempty"`
 	Content      string     `url:"content,omitempty" json:"content,omitempty"`
 	Encoding     string     `url:"encoding,omitempty" json:"encoding,omitempty"`
+	LastCommitID string     `url:"last_commit_id,omitempty" json:"last_commit_id,omitempty"`
 }
 
 // CommitRef represents the reference of branches/tags in a commit.
