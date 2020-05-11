@@ -183,22 +183,25 @@ func (s *IssuesService) ListIssues(opt *ListIssuesOptions, options ...RequestOpt
 // GitLab API docs: https://docs.gitlab.com/ce/api/issues.html#list-group-issues
 type ListGroupIssuesOptions struct {
 	ListOptions
-	State           *string    `url:"state,omitempty" json:"state,omitempty"`
-	Labels          Labels     `url:"labels,comma,omitempty" json:"labels,omitempty"`
-	IIDs            []int      `url:"iids[],omitempty" json:"iids,omitempty"`
-	Milestone       *string    `url:"milestone,omitempty" json:"milestone,omitempty"`
-	Scope           *string    `url:"scope,omitempty" json:"scope,omitempty"`
-	AuthorID        *int       `url:"author_id,omitempty" json:"author_id,omitempty"`
-	AssigneeID      *int       `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
-	MyReactionEmoji *string    `url:"my_reaction_emoji,omitempty" json:"my_reaction_emoji,omitempty"`
-	OrderBy         *string    `url:"order_by,omitempty" json:"order_by,omitempty"`
-	Sort            *string    `url:"sort,omitempty" json:"sort,omitempty"`
-	Search          *string    `url:"search,omitempty" json:"search,omitempty"`
-	In              *string    `url:"in,omitempty" json:"in,omitempty"`
-	CreatedAfter    *time.Time `url:"created_after,omitempty" json:"created_after,omitempty"`
-	CreatedBefore   *time.Time `url:"created_before,omitempty" json:"created_before,omitempty"`
-	UpdatedAfter    *time.Time `url:"updated_after,omitempty" json:"updated_after,omitempty"`
-	UpdatedBefore   *time.Time `url:"updated_before,omitempty" json:"updated_before,omitempty"`
+	State            *string    `url:"state,omitempty" json:"state,omitempty"`
+	Labels           Labels     `url:"labels,comma,omitempty" json:"labels,omitempty"`
+	WithLabelDetails *bool      `url:"with_labels_details,omitempty" json:"with_labels_details,omitempty"`
+	IIDs             []int      `url:"iids[],omitempty" json:"iids,omitempty"`
+	Milestone        *string    `url:"milestone,omitempty" json:"milestone,omitempty"`
+	Scope            *string    `url:"scope,omitempty" json:"scope,omitempty"`
+	AuthorID         *int       `url:"author_id,omitempty" json:"author_id,omitempty"`
+	AuthorUsername   *string    `url:"author_username,omitempty" json:"author_username,omitempty"`
+	AssigneeID       *int       `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
+	AssigneeUsername *string    `url:"assignee_username,omitempty" json:"assignee_username,omitempty"`
+	MyReactionEmoji  *string    `url:"my_reaction_emoji,omitempty" json:"my_reaction_emoji,omitempty"`
+	OrderBy          *string    `url:"order_by,omitempty" json:"order_by,omitempty"`
+	Sort             *string    `url:"sort,omitempty" json:"sort,omitempty"`
+	Search           *string    `url:"search,omitempty" json:"search,omitempty"`
+	In               *string    `url:"in,omitempty" json:"in,omitempty"`
+	CreatedAfter     *time.Time `url:"created_after,omitempty" json:"created_after,omitempty"`
+	CreatedBefore    *time.Time `url:"created_before,omitempty" json:"created_before,omitempty"`
+	UpdatedAfter     *time.Time `url:"updated_after,omitempty" json:"updated_after,omitempty"`
+	UpdatedBefore    *time.Time `url:"updated_before,omitempty" json:"updated_before,omitempty"`
 }
 
 // ListGroupIssues gets a list of group issues. This function accepts
