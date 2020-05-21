@@ -97,7 +97,7 @@ type UpdateEpicIsssueAssignmentOptions struct {
 // UpdateEpicIssueAssignment moves an issue before or after another issue in an epic issue list
 //
 // Gitlab API Docs: https://docs.gitlab.com/ee/api/epic_issues.html#update-epic---issue-association
-func (s *EpicsService) UpdateEpicIssueAssignment(gid interface{}, epic int, epicIssue int, opt *UpdateEpicIsssueAssignmentOptions, options ...RequestOptionFunc) (*Issue, *Response, error) {
+func (s *EpicsService) UpdateEpicIssueAssignment(gid interface{}, epic int, epicIssue int, opt *UpdateEpicIsssueAssignmentOptions, options ...RequestOptionFunc) ([]*Issue, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
 		return nil, nil, err
@@ -110,7 +110,7 @@ func (s *EpicsService) UpdateEpicIssueAssignment(gid interface{}, epic int, epic
 		return nil, nil, err
 	}
 
-	var i *Issue
+	var i []*Issue
 
 	resp, err := s.client.Do(req, &i)
 	if err != nil {
