@@ -53,7 +53,7 @@ func (s *EpicsService) AssignEpicIssue(gid interface{}, epic int, issue int, opt
 
 	var a *EpicIssueAssignment
 
-	resp, err := s.client.Do(req, a)
+	resp, err := s.client.Do(req, &a)
 	if err != nil {
 		return nil, resp, err
 	}
@@ -79,7 +79,7 @@ func (s *EpicsService) RemoveEpicIssue(gid interface{}, epic int, epicIssue int,
 
 	var a *EpicIssueAssignment
 
-	resp, err := s.client.Do(req, a)
+	resp, err := s.client.Do(req, &a)
 	if err != nil {
 		return nil, resp, err
 	}
@@ -112,7 +112,7 @@ func (s *EpicsService) UpdateEpicIssueAssignment(gid interface{}, epic int, epic
 
 	var i *Issue
 
-	resp, err := s.client.Do(req, i)
+	resp, err := s.client.Do(req, &i)
 	if err != nil {
 		return nil, resp, err
 	}
