@@ -228,6 +228,12 @@ type ListProjectsOptions struct {
 	MinAccessLevel           *AccessLevelValue `url:"min_access_level,omitempty" json:"min_access_level,omitempty"`
 	WithCustomAttributes     *bool             `url:"with_custom_attributes,omitempty" json:"with_custom_attributes,omitempty"`
 	WithProgrammingLanguage  *string           `url:"with_programming_language,omitempty" json:"with_programming_language,omitempty"`
+	WikiChecksumFailed       *bool             `url:"wiki_checksum_failed,omitempty" json:"wiki_checksum_failed,omitempty"`
+	RepositoryChecksumFailed *bool             `url:"repository_checksum_failed,omitempty" json:"repository_checksum_failed,omitempty"`
+	IdAfter                  *int              `url:"id_after,omitempty" json:"id_after,omitempty"`
+	IdBefore                 *int              `url:"id_before,omitempty" json:"id_before,omitempty"`
+	LastActivityAfter        *ISOTime          `url:"last_activity_after,omitempty" json:"last_activity_after,omitempty"`
+	LastActivityBefore       *ISOTime          `url:"last_activity_before,omitempty" json:"last_activity_before,omitempty"`
 }
 
 // ListProjects gets a list of projects accessible by the authenticated user.
