@@ -373,6 +373,7 @@ type Client struct {
 	Deployments           *DeploymentsService
 	Discussions           *DiscussionsService
 	Environments          *EnvironmentsService
+	EpicIssues            *EpicIssuesService
 	Epics                 *EpicsService
 	Events                *EventsService
 	Features              *FeaturesService
@@ -548,6 +549,7 @@ func newClient(options ...ClientOptionFunc) (*Client, error) {
 	c.Discussions = &DiscussionsService{client: c}
 	c.Environments = &EnvironmentsService{client: c}
 	c.Epics = &EpicsService{client: c}
+	c.EpicIssues = &EpicIssuesService{client: c}
 	c.Events = &EventsService{client: c}
 	c.Features = &FeaturesService{client: c}
 	c.GitIgnoreTemplates = &GitIgnoreTemplatesService{client: c}

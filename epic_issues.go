@@ -2,11 +2,19 @@ package gitlab
 
 import "fmt"
 
+// EpicIssuesService handles communication with the epic issue related methods
+// of the GitLab API.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/epic_issues.html
+type EpicIssuesService struct {
+	client *Client
+}
+
 // ListEpicIssues get a list of epic issues.  This function accepts
 // pagination parameters page and per_page to return the list of project issues
 //
 // Gitlab API docs: https://docs.gitlab.com/ee/api/epic_issues.html#list-issues-for-an-epic
-func (s *EpicsService) ListEpicIssues(gid interface{}, epic int, opt *ListOptions, options ...RequestOptionFunc) ([]*Issue, *Response, error) {
+func (s *EpicIssuesService) ListEpicIssues(gid interface{}, epic int, opt *ListOptions, options ...RequestOptionFunc) ([]*Issue, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
 		return nil, nil, err
@@ -38,7 +46,7 @@ type EpicIssueAssignment struct {
 // AssignEpicIssue assigns an existing issue to an Epic
 //
 // Gitlab API Docs: https://docs.gitlab.com/ee/api/epic_issues.html#assign-an-issue-to-the-epic
-func (s *EpicsService) AssignEpicIssue(gid interface{}, epic int, issue int, options ...RequestOptionFunc) (*EpicIssueAssignment, *Response, error) {
+func (s *EpicIssuesService) AssignEpicIssue(gid interface{}, epic int, issue int, options ...RequestOptionFunc) (*EpicIssueAssignment, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
 		return nil, nil, err
@@ -64,7 +72,7 @@ func (s *EpicsService) AssignEpicIssue(gid interface{}, epic int, issue int, opt
 // RemoveEpicIssue removes an issue from an Epic
 //
 // Gitlab API Docs: https://docs.gitlab.com/ee/api/epic_issues.html#remove-an-issue-from-the-epic
-func (s *EpicsService) RemoveEpicIssue(gid interface{}, epic int, epicIssue int, options ...RequestOptionFunc) (*EpicIssueAssignment, *Response, error) {
+func (s *EpicIssuesService) RemoveEpicIssue(gid interface{}, epic int, epicIssue int, options ...RequestOptionFunc) (*EpicIssueAssignment, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
 		return nil, nil, err
@@ -97,7 +105,7 @@ type UpdateEpicIsssueAssignmentOptions struct {
 // UpdateEpicIssueAssignment moves an issue before or after another issue in an epic issue list
 //
 // Gitlab API Docs: https://docs.gitlab.com/ee/api/epic_issues.html#update-epic---issue-association
-func (s *EpicsService) UpdateEpicIssueAssignment(gid interface{}, epic int, epicIssue int, opt *UpdateEpicIsssueAssignmentOptions, options ...RequestOptionFunc) ([]*Issue, *Response, error) {
+func (s *EpicIssuesService) UpdateEpicIssueAssignment(gid interface{}, epic int, epicIssue int, opt *UpdateEpicIsssueAssignmentOptions, options ...RequestOptionFunc) ([]*Issue, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
 		return nil, nil, err
