@@ -10,8 +10,10 @@ type EpicIssuesService struct {
 	client *Client
 }
 
-// EpicIssueAssignment contains both the Epic and Issue objects returned from
-// Gitlab w/ the assignment ID
+// EpicIssueAssignment contains both the epic and issue objects returned from
+// Gitlab with the assignment ID.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/epic_issues.html
 type EpicIssueAssignment struct {
 	ID    int    `json:"id"`
 	Epic  *Epic  `json:"epic"`
@@ -34,16 +36,16 @@ func (s *EpicIssuesService) ListEpicIssues(gid interface{}, epic int, opt *ListO
 		return nil, nil, err
 	}
 
-	var issues []*Issue
-	resp, err := s.client.Do(req, &issues)
+	var is []*Issue
+	resp, err := s.client.Do(req, &is)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return issues, resp, err
+	return is, resp, err
 }
 
-// AssignEpicIssue assigns an existing issue to an Epic.
+// AssignEpicIssue assigns an existing issue to an epic.
 //
 // Gitlab API Docs:
 // https://docs.gitlab.com/ee/api/epic_issues.html#assign-an-issue-to-the-epic
@@ -59,8 +61,8 @@ func (s *EpicIssuesService) AssignEpicIssue(gid interface{}, epic, issue int, op
 		return nil, nil, err
 	}
 
-	var a *EpicIssueAssignment
-	resp, err := s.client.Do(req, &a)
+	a := new(EpicIssueAssignment)
+	resp, err := s.client.Do(req, a)
 	if err != nil {
 		return nil, resp, err
 	}
@@ -68,11 +70,11 @@ func (s *EpicIssuesService) AssignEpicIssue(gid interface{}, epic, issue int, op
 	return a, resp, err
 }
 
-// RemoveEpicIssue removes an issue from an Epic.
+// RemoveEpicIssue removes an issue from an epic.
 //
 // Gitlab API Docs:
 // https://docs.gitlab.com/ee/api/epic_issues.html#remove-an-issue-from-the-epic
-func (s *EpicIssuesService) RemoveEpicIssue(gid interface{}, epic int, epicIssue int, options ...RequestOptionFunc) (*EpicIssueAssignment, *Response, error) {
+func (s *EpicIssuesService) RemoveEpicIssue(gid interface{}, epic, epicIssue int, options ...RequestOptionFunc) (*EpicIssueAssignment, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
 		return nil, nil, err
@@ -84,8 +86,8 @@ func (s *EpicIssuesService) RemoveEpicIssue(gid interface{}, epic int, epicIssue
 		return nil, nil, err
 	}
 
-	var a *EpicIssueAssignment
-	resp, err := s.client.Do(req, &a)
+	a := new(EpicIssueAssignment)
+	resp, err := s.client.Do(req, a)
 	if err != nil {
 		return nil, resp, err
 	}
@@ -93,11 +95,15 @@ func (s *EpicIssuesService) RemoveEpicIssue(gid interface{}, epic int, epicIssue
 	return a, resp, err
 }
 
-// UpdateEpicIsssueAssignmentOptions describes options to move issues within an epic
+// UpdateEpicIsssueAssignmentOptions describes the UpdateEpicIssueAssignment()
+// options.
+//
+// Gitlab API Docs:
+// https://docs.gitlab.com/ee/api/epic_issues.html#update-epic---issue-association
 type UpdateEpicIsssueAssignmentOptions struct {
 	*ListOptions
-	MoveBeforeID *int `url:"omitempty" json:"move_before_id"`
-	MoveAfterID  *int `url:"omitempty" json:"move_after_id"`
+	MoveBeforeID *int `url:"move_before_id,omitempty" json:"move_before_id,omitempty"`
+	MoveAfterID  *int `url:"move_after_id,omitempty" json:"move_after_id,omitempty"`
 }
 
 // UpdateEpicIssueAssignment moves an issue before or after another issue in an
@@ -105,7 +111,7 @@ type UpdateEpicIsssueAssignmentOptions struct {
 //
 // Gitlab API Docs:
 // https://docs.gitlab.com/ee/api/epic_issues.html#update-epic---issue-association
-func (s *EpicIssuesService) UpdateEpicIssueAssignment(gid interface{}, epic int, epicIssue int, opt *UpdateEpicIsssueAssignmentOptions, options ...RequestOptionFunc) ([]*Issue, *Response, error) {
+func (s *EpicIssuesService) UpdateEpicIssueAssignment(gid interface{}, epic, epicIssue int, opt *UpdateEpicIsssueAssignmentOptions, options ...RequestOptionFunc) ([]*Issue, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
 		return nil, nil, err
@@ -117,11 +123,11 @@ func (s *EpicIssuesService) UpdateEpicIssueAssignment(gid interface{}, epic int,
 		return nil, nil, err
 	}
 
-	var issues []*Issue
-	resp, err := s.client.Do(req, &issues)
+	var is []*Issue
+	resp, err := s.client.Do(req, &is)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return issues, resp, err
+	return is, resp, err
 }
