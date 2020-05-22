@@ -103,7 +103,8 @@ type UpdateEpicIsssueAssignmentOptions struct {
 
 // UpdateEpicIssueAssignment moves an issue before or after another issue in an epic issue list
 //
-// Gitlab API Docs: https://docs.gitlab.com/ee/api/epic_issues.html#update-epic---issue-association
+// Gitlab API Docs:
+// https://docs.gitlab.com/ee/api/epic_issues.html#update-epic---issue-association
 func (s *EpicIssuesService) UpdateEpicIssueAssignment(gid interface{}, epic int, epicIssue int, opt *UpdateEpicIsssueAssignmentOptions, options ...RequestOptionFunc) ([]*Issue, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
