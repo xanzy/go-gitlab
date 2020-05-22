@@ -26,13 +26,13 @@ func (s *EpicIssuesService) ListEpicIssues(gid interface{}, epic int, opt *ListO
 		return nil, nil, err
 	}
 
-	var i []*Issue
-	resp, err := s.client.Do(req, &i)
+	var issues []*Issue
+	resp, err := s.client.Do(req, &issues)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return i, resp, err
+	return issues, resp, err
 }
 
 // EpicIssueAssignment contains both the Epic and Issue objects returned from Gitlab w/ the assignment ID
@@ -117,12 +117,12 @@ func (s *EpicIssuesService) UpdateEpicIssueAssignment(gid interface{}, epic int,
 		return nil, nil, err
 	}
 
-	var i []*Issue
+	var issues []*Issue
 
-	resp, err := s.client.Do(req, &i)
+	resp, err := s.client.Do(req, &issues)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return i, resp, err
+	return issues, resp, err
 }
