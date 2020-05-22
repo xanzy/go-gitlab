@@ -77,7 +77,6 @@ func (s *EpicIssuesService) RemoveEpicIssue(gid interface{}, epic int, epicIssue
 	if err != nil {
 		return nil, nil, err
 	}
-
 	u := fmt.Sprintf("groups/%s/epics/%d/issues/%d", pathEscape(group), epic, epicIssue)
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
