@@ -46,7 +46,7 @@ type EpicIssueAssignment struct {
 // AssignEpicIssue assigns an existing issue to an Epic
 //
 // Gitlab API Docs: https://docs.gitlab.com/ee/api/epic_issues.html#assign-an-issue-to-the-epic
-func (s *EpicIssuesService) AssignEpicIssue(gid interface{}, epic int, issue int, options ...RequestOptionFunc) (*EpicIssueAssignment, *Response, error) {
+func (s *EpicIssuesService) AssignEpicIssue(gid interface{}, epic, issue int, options ...RequestOptionFunc) (*EpicIssueAssignment, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
 		return nil, nil, err
