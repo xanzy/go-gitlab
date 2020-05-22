@@ -111,6 +111,7 @@ type Issue struct {
 	Links                *IssueLinks      `json:"_links"`
 	IssueLinkID          int              `json:"issue_link_id"`
 	MergeRequestCount    int              `json:"merge_requests_count"`
+	EpicIssueID          int              `json:"epic_issue_id"`
 	TaskCompletionStatus struct {
 		Count          int `json:"count"`
 		CompletedCount int `json:"completed_count"`
