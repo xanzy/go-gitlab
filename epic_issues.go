@@ -118,7 +118,6 @@ func (s *EpicIssuesService) UpdateEpicIssueAssignment(gid interface{}, epic int,
 	}
 
 	var issues []*Issue
-
 	resp, err := s.client.Do(req, &issues)
 	if err != nil {
 		return nil, resp, err
