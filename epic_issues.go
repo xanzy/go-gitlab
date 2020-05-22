@@ -10,6 +10,13 @@ type EpicIssuesService struct {
 	client *Client
 }
 
+// EpicIssueAssignment contains both the Epic and Issue objects returned from Gitlab w/ the assignment ID
+type EpicIssueAssignment struct {
+	ID    int    `json:"id"`
+	Epic  *Epic  `json:"epic"`
+	Issue *Issue `json:"issue"`
+}
+
 // ListEpicIssues get a list of epic issues.
 //
 // Gitlab API docs:
@@ -33,13 +40,6 @@ func (s *EpicIssuesService) ListEpicIssues(gid interface{}, epic int, opt *ListO
 	}
 
 	return issues, resp, err
-}
-
-// EpicIssueAssignment contains both the Epic and Issue objects returned from Gitlab w/ the assignment ID
-type EpicIssueAssignment struct {
-	ID    int    `json:"id"`
-	Epic  *Epic  `json:"epic"`
-	Issue *Issue `json:"issue"`
 }
 
 // AssignEpicIssue assigns an existing issue to an Epic
