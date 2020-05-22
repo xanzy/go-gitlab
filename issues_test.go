@@ -83,7 +83,27 @@ func TestListIssues(t *testing.T) {
 	mux.HandleFunc("/api/v4/issues", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
 		testURL(t, r, "/api/v4/issues?assignee_id=2&author_id=1")
-		fmt.Fprint(w, `[{"id":1, "description": "This is test project", "author" : {"id" : 1, "name": "snehal"}, "assignees":[{"id":1}]}]`)
+		fmt.Fprint(w, `
+			[
+				{
+					"id": 1,
+					"description": "This is test project",
+					"author": {
+						"id": 1,
+						"name": "snehal"
+					},
+					"assignees": [
+						{
+							"id": 1
+						}
+					],
+					"labels": [
+						"foo",
+						"bar"
+					]
+			  }
+			]`,
+		)
 	})
 
 	listProjectIssue := &ListIssuesOptions{
@@ -102,6 +122,7 @@ func TestListIssues(t *testing.T) {
 		Description: "This is test project",
 		Author:      &IssueAuthor{ID: 1, Name: "snehal"},
 		Assignees:   []*IssueAssignee{{ID: 1}},
+		Labels:      []string{"foo", "bar"},
 	}}
 
 	if !reflect.DeepEqual(want, issues) {
@@ -109,6 +130,77 @@ func TestListIssues(t *testing.T) {
 	}
 }
 
+func TestListIssuesWithLabelDetails(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/issues", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "GET")
+		testURL(t, r, "/api/v4/issues?assignee_id=2&author_id=1")
+		fmt.Fprint(w, `
+			[
+				{
+					"id": 1,
+					"description": "This is test project",
+					"author": {
+						"id": 1,
+						"name": "snehal"
+					},
+					"assignees": [
+						{
+							"id": 1
+						}
+					],
+					"labels": [
+						{
+							"id": 1,
+							"name": "foo",
+							"color": "green",
+							"description": "Issue",
+							"description_html": "Issue Label",
+							"text_color": "black"
+						},
+						{
+							"id": 2,
+							"name": "bar",
+							"color": "red",
+							"description": "Bug",
+							"description_html": "Bug Label",
+							"text_color": "black"
+						}
+			    ]
+			  }
+			]`,
+		)
+	})
+
+	listProjectIssue := &ListIssuesOptions{
+		AuthorID:   Int(01),
+		AssigneeID: Int(02),
+	}
+
+	issues, _, err := client.Issues.ListIssues(listProjectIssue)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	want := []*Issue{{
+		ID:          1,
+		Description: "This is test project",
+		Author:      &IssueAuthor{ID: 1, Name: "snehal"},
+		Assignees:   []*IssueAssignee{{ID: 1}},
+		Labels:      []string{"foo", "bar"},
+		LabelDetails: []*LabelDetails{
+			{ID: 1, Name: "foo", Color: "green", Description: "Issue", DescriptionHTML: "Issue Label", TextColor: "black"},
+			{ID: 2, Name: "bar", Color: "red", Description: "Bug", DescriptionHTML: "Bug Label", TextColor: "black"},
+		},
+	}}
+
+	if !reflect.DeepEqual(want, issues) {
+		t.Errorf("Issues.ListIssues returned %+v, want %+v", issues, want)
+	}
+}
 func TestListProjectIssues(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)

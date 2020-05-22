@@ -97,6 +97,7 @@ type Issue struct {
 	Title                string           `json:"title"`
 	CreatedAt            *time.Time       `json:"created_at"`
 	Labels               Labels           `json:"labels"`
+	LabelDetails         []*LabelDetails  `json:"label_details"`
 	Upvotes              int              `json:"upvotes"`
 	Downvotes            int              `json:"downvotes"`
 	DueDate              *ISOTime         `json:"due_date"`
@@ -121,6 +122,40 @@ func (i Issue) String() string {
 	return Stringify(i)
 }
 
+func (i *Issue) UnmarshalJSON(data []byte) error {
+	type alias Issue
+
+	raw := make(map[string]interface{})
+	err := json.Unmarshal(data, &raw)
+	if err != nil {
+		return err
+	}
+
+	labelDetails, ok := raw["labels"].([]interface{})
+	if ok && len(labelDetails) > 0 {
+		// We only want to change anything if we got label details.
+		if _, ok := labelDetails[0].(map[string]interface{}); !ok {
+			return json.Unmarshal(data, (*alias)(i))
+		}
+
+		labels := make([]interface{}, len(labelDetails))
+		for i, details := range labelDetails {
+			labels[i] = details.(map[string]interface{})["name"]
+		}
+
+		// Set the correct values
+		raw["labels"] = labels
+		raw["label_details"] = labelDetails
+
+		data, err = json.Marshal(raw)
+		if err != nil {
+			return err
+		}
+	}
+
+	return json.Unmarshal(data, (*alias)(i))
+}
+
 // Labels is a custom type with specific marshaling characteristics.
 type Labels []string
 
@@ -133,6 +168,16 @@ func (l *Labels) MarshalJSON() ([]byte, error) {
 func (l *Labels) EncodeValues(key string, v *url.Values) error {
 	v.Set(key, strings.Join(*l, ","))
 	return nil
+}
+
+// LabelDetails represents detailed label information.
+type LabelDetails struct {
+	ID              int    `json:"id"`
+	Name            string `json:"name"`
+	Color           string `json:"color"`
+	Description     string `json:"description"`
+	DescriptionHTML string `json:"description_html"`
+	TextColor       string `json:"text_color"`
 }
 
 // ListIssuesOptions represents the available ListIssues() options.
