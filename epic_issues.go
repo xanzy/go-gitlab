@@ -100,8 +100,8 @@ func (s *EpicIssuesService) RemoveEpicIssue(gid interface{}, epic int, epicIssue
 // UpdateEpicIsssueAssignmentOptions describes options to move issues within an epic
 type UpdateEpicIsssueAssignmentOptions struct {
 	*ListOptions
-	MoveBeforeID int `json:"move_before_id"`
-	MoveAfterID  int `json:"move_after_id"`
+	MoveBeforeID *int `url:"omitempty" json:"move_before_id"`
+	MoveAfterID  *int `url:"omitempty" json:"move_after_id"`
 }
 
 // UpdateEpicIssueAssignment moves an issue before or after another issue in an
