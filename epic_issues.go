@@ -19,8 +19,7 @@ func (s *EpicIssuesService) ListEpicIssues(gid interface{}, epic int, opt *ListO
 	if err != nil {
 		return nil, nil, err
 	}
-
-	u := fmt.Sprintf("groups/%s/epics/%d/issues", group, epic)
+	u := fmt.Sprintf("groups/%s/epics/%d/issues", pathEscape(group), epic)
 
 	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
@@ -104,13 +103,13 @@ type UpdateEpicIsssueAssignmentOptions struct {
 
 // UpdateEpicIssueAssignment moves an issue before or after another issue in an epic issue list
 //
-// Gitlab API Docs: https://docs.gitlab.com/ee/api/epic_issues.html#update-epic---issue-association
+// Gitlab API Docs:
+// https://docs.gitlab.com/ee/api/epic_issues.html#update-epic---issue-association
 func (s *EpicIssuesService) UpdateEpicIssueAssignment(gid interface{}, epic int, epicIssue int, opt *UpdateEpicIsssueAssignmentOptions, options ...RequestOptionFunc) ([]*Issue, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
 		return nil, nil, err
 	}
-
 	u := fmt.Sprintf("groups/%s/epics/%d/issues/%d", pathEscape(group), epic, epicIssue)
 
 	req, err := s.client.NewRequest("PUT", u, opt, options)
