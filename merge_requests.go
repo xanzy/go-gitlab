@@ -399,7 +399,7 @@ func (s *MergeRequestsService) GetMergeRequestChanges(pid interface{}, mergeRequ
 	return m, resp, err
 }
 
-// GetMergeRequestParticipants gets a list of merge request participants
+// GetMergeRequestParticipants gets a list of merge request participants.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_requests.html#get-single-mr-participants
