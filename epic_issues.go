@@ -110,7 +110,6 @@ func (s *EpicIssuesService) UpdateEpicIssueAssignment(gid interface{}, epic int,
 	if err != nil {
 		return nil, nil, err
 	}
-
 	u := fmt.Sprintf("groups/%s/epics/%d/issues/%d", pathEscape(group), epic, epicIssue)
 
 	req, err := s.client.NewRequest("PUT", u, opt, options)
