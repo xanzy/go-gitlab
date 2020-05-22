@@ -85,7 +85,6 @@ func (s *EpicIssuesService) RemoveEpicIssue(gid interface{}, epic int, epicIssue
 	}
 
 	var a *EpicIssueAssignment
-
 	resp, err := s.client.Do(req, &a)
 	if err != nil {
 		return nil, resp, err
