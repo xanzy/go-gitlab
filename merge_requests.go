@@ -415,13 +415,13 @@ func (s *MergeRequestsService) GetMergeRequestParticipants(pid interface{}, merg
 		return nil, nil, err
 	}
 
-	var p []*BasicUser
-	resp, err := s.client.Do(req, &p)
+	var ps []*BasicUser
+	resp, err := s.client.Do(req, &ps)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return p, resp, err
+	return ps, resp, err
 }
 
 // ListMergeRequestPipelines gets all pipelines for the provided merge request.
