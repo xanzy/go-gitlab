@@ -52,7 +52,6 @@ func (s *EpicIssuesService) AssignEpicIssue(gid interface{}, epic, issue int, op
 	if err != nil {
 		return nil, nil, err
 	}
-
 	u := fmt.Sprintf("groups/%s/epics/%d/issues/%d", pathEscape(group), epic, issue)
 
 	req, err := s.client.NewRequest("POST", u, nil, options)
@@ -61,7 +60,6 @@ func (s *EpicIssuesService) AssignEpicIssue(gid interface{}, epic, issue int, op
 	}
 
 	var a *EpicIssueAssignment
-
 	resp, err := s.client.Do(req, &a)
 	if err != nil {
 		return nil, resp, err
@@ -79,7 +77,6 @@ func (s *EpicIssuesService) RemoveEpicIssue(gid interface{}, epic int, epicIssue
 	if err != nil {
 		return nil, nil, err
 	}
-
 	u := fmt.Sprintf("groups/%s/epics/%d/issues/%d", pathEscape(group), epic, epicIssue)
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
@@ -88,7 +85,6 @@ func (s *EpicIssuesService) RemoveEpicIssue(gid interface{}, epic int, epicIssue
 	}
 
 	var a *EpicIssueAssignment
-
 	resp, err := s.client.Do(req, &a)
 	if err != nil {
 		return nil, resp, err
