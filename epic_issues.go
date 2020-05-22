@@ -13,7 +13,8 @@ type EpicIssuesService struct {
 // ListEpicIssues get a list of epic issues.  This function accepts
 // pagination parameters page and per_page to return the list of project issues
 //
-// Gitlab API docs: https://docs.gitlab.com/ee/api/epic_issues.html#list-issues-for-an-epic
+// Gitlab API docs:
+// https://docs.gitlab.com/ee/api/epic_issues.html#list-issues-for-an-epic
 func (s *EpicIssuesService) ListEpicIssues(gid interface{}, epic int, opt *ListOptions, options ...RequestOptionFunc) ([]*Issue, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
