@@ -60,7 +60,6 @@ func (s *EpicIssuesService) AssignEpicIssue(gid interface{}, epic, issue int, op
 	}
 
 	var a *EpicIssueAssignment
-
 	resp, err := s.client.Do(req, &a)
 	if err != nil {
 		return nil, resp, err
