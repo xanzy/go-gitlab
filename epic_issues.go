@@ -19,7 +19,6 @@ func (s *EpicIssuesService) ListEpicIssues(gid interface{}, epic int, opt *ListO
 	if err != nil {
 		return nil, nil, err
 	}
-
 	u := fmt.Sprintf("groups/%s/epics/%d/issues", group, epic)
 
 	req, err := s.client.NewRequest("GET", u, opt, options)
