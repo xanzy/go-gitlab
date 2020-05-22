@@ -10,8 +10,7 @@ type EpicIssuesService struct {
 	client *Client
 }
 
-// ListEpicIssues get a list of epic issues.  This function accepts
-// pagination parameters page and per_page to return the list of project issues
+// ListEpicIssues get a list of epic issues.
 //
 // Gitlab API docs:
 // https://docs.gitlab.com/ee/api/epic_issues.html#list-issues-for-an-epic
