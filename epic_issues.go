@@ -52,7 +52,6 @@ func (s *EpicIssuesService) AssignEpicIssue(gid interface{}, epic, issue int, op
 	if err != nil {
 		return nil, nil, err
 	}
-
 	u := fmt.Sprintf("groups/%s/epics/%d/issues/%d", pathEscape(group), epic, issue)
 
 	req, err := s.client.NewRequest("POST", u, nil, options)
