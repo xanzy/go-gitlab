@@ -91,6 +91,9 @@ type Client struct {
 	// Token used to make authenticated API calls.
 	token string
 
+	// Protects the token field from concurrent read/write accesses.
+	tokenLock sync.Mutex
+
 	// User agent used when communicating with the GitLab API.
 	UserAgent string
 
@@ -203,11 +206,6 @@ func NewBasicAuthClient(username, password string, options ...ClientOptionFunc) 
 	client.username = username
 	client.password = password
 
-	err = client.requestOAuthToken(context.Background())
-	if err != nil {
-		return nil, err
-	}
-
 	return client, nil
 }
 
@@ -224,18 +222,33 @@ func NewOAuthClient(token string, options ...ClientOptionFunc) (*Client, error) 
 }
 
 func (c *Client) requestOAuthToken(ctx context.Context) error {
+	token := c.token
+
+	c.tokenLock.Lock()
+	defer c.tokenLock.Unlock()
+
+	// Return early if the token has been updated
+	// while we were waiting for the lock.
+	if c.token != token {
+		return nil
+	}
+
 	config := &oauth2.Config{
 		Endpoint: oauth2.Endpoint{
 			AuthURL:  fmt.Sprintf("%s://%s/oauth/authorize", c.BaseURL().Scheme, c.BaseURL().Host),
 			TokenURL: fmt.Sprintf("%s://%s/oauth/token", c.BaseURL().Scheme, c.BaseURL().Host),
 		},
 	}
+
 	ctx = context.WithValue(ctx, oauth2.HTTPClient, c.client.HTTPClient)
 	t, err := config.PasswordCredentialsToken(ctx, c.username, c.password)
 	if err != nil {
 		return err
 	}
+
+	// Update token with the new access token.
 	c.token = t.AccessToken
+
 	return nil
 }
 
@@ -494,13 +507,6 @@ func (c *Client) NewRequest(method, path string, opt interface{}, options []Requ
 	reqHeaders := make(http.Header)
 	reqHeaders.Set("Accept", "application/json")
 
-	switch c.authType {
-	case basicAuth, oAuthToken:
-		reqHeaders.Set("Authorization", "Bearer "+c.token)
-	case privateToken:
-		reqHeaders.Set("PRIVATE-TOKEN", c.token)
-	}
-
 	if c.UserAgent != "" {
 		reqHeaders.Set("User-Agent", c.UserAgent)
 	}
@@ -616,6 +622,19 @@ func (c *Client) Do(req *retryablehttp.Request, v interface{}) (*Response, error
 	// Wait will block until the limiter can obtain a new token.
 	if err := c.limiter.Wait(req.Context()); err != nil {
 		return nil, err
+	}
+
+	if c.authType == basicAuth && c.token == "" {
+		if err := c.requestOAuthToken(req.Context()); err != nil {
+			return nil, err
+		}
+	}
+
+	switch c.authType {
+	case basicAuth, oAuthToken:
+		req.Header.Set("Authorization", "Bearer "+c.token)
+	case privateToken:
+		req.Header.Set("PRIVATE-TOKEN", c.token)
 	}
 
 	resp, err := c.client.Do(req)
