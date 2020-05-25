@@ -75,7 +75,7 @@ type Client struct {
 	// disableRetries is used to disable the default retry logic.
 	disableRetries bool
 
-	// configLimiter is used to make sure the limiter is configured exactly
+	// configureLimiterOnce is used to make sure the limiter is configured exactly
 	// once and block all other calls until the initial (one) call is done.
 	configureLimiterOnce sync.Once
 
@@ -92,7 +92,7 @@ type Client struct {
 	token string
 
 	// Protects the token field from concurrent read/write accesses.
-	tokenLock sync.Mutex
+	tokenLock sync.RWMutex
 
 	// User agent used when communicating with the GitLab API.
 	UserAgent string
@@ -221,14 +221,11 @@ func NewOAuthClient(token string, options ...ClientOptionFunc) (*Client, error) 
 	return client, nil
 }
 
-func (c *Client) requestOAuthToken(ctx context.Context) error {
-	token := c.token
-
+func (c *Client) requestOAuthToken(ctx context.Context, token string) error {
 	c.tokenLock.Lock()
 	defer c.tokenLock.Unlock()
 
-	// Return early if the token has been updated
-	// while we were waiting for the lock.
+	// Return early if the token was updated while waiting for the lock.
 	if c.token != token {
 		return nil
 	}
@@ -625,13 +622,19 @@ func (c *Client) Do(req *retryablehttp.Request, v interface{}) (*Response, error
 	}
 
 	if c.authType == basicAuth && c.token == "" {
-		if err := c.requestOAuthToken(req.Context()); err != nil {
+		if err := c.requestOAuthToken(req.Context(), ""); err != nil {
 			return nil, err
 		}
 	}
 
+	var basicAuthToken string
 	switch c.authType {
-	case basicAuth, oAuthToken:
+	case basicAuth:
+		c.tokenLock.RLock()
+		basicAuthToken = c.token
+		c.tokenLock.RUnlock()
+		req.Header.Set("Authorization", "Bearer "+basicAuthToken)
+	case oAuthToken:
 		req.Header.Set("Authorization", "Bearer "+c.token)
 	case privateToken:
 		req.Header.Set("PRIVATE-TOKEN", c.token)
@@ -644,7 +647,7 @@ func (c *Client) Do(req *retryablehttp.Request, v interface{}) (*Response, error
 	defer resp.Body.Close()
 
 	if resp.StatusCode == http.StatusUnauthorized && c.authType == basicAuth {
-		err = c.requestOAuthToken(req.Context())
+		err = c.requestOAuthToken(req.Context(), basicAuthToken)
 		if err != nil {
 			return nil, err
 		}
