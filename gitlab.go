@@ -589,7 +589,8 @@ func (c *Client) Do(req *retryablehttp.Request, v interface{}) (*Response, error
 	c.configureLimiterOnce.Do(func() { c.configureLimiter() })
 
 	// Wait will block until the limiter can obtain a new token.
-	if err := c.limiter.Wait(req.Context()); err != nil {
+	err := c.limiter.Wait(req.Context())
+	if err != nil {
 		return nil, err
 	}
 
@@ -602,7 +603,11 @@ func (c *Client) Do(req *retryablehttp.Request, v interface{}) (*Response, error
 		basicAuthToken = c.token
 		c.tokenLock.RUnlock()
 		if basicAuthToken == "" {
-			return c.authenticateAndDo(basicAuthToken, req, v)
+			// If we don't have a token yet, we first need to request one.
+			basicAuthToken, err = c.requestOAuthToken(req.Context(), basicAuthToken)
+			if err != nil {
+				return nil, err
+			}
 		}
 		req.Header.Set("Authorization", "Bearer "+basicAuthToken)
 	case oAuthToken:
@@ -618,9 +623,11 @@ func (c *Client) Do(req *retryablehttp.Request, v interface{}) (*Response, error
 	defer resp.Body.Close()
 
 	if resp.StatusCode == http.StatusUnauthorized && c.authType == basicAuth {
-		// If this happens, the token most likely expired and we need
-		// to authenticate again in order to get a new token.
-		return c.authenticateAndDo(basicAuthToken, req, v)
+		// The token most likely expired, so we need to request a new one and try again.
+		if _, err := c.requestOAuthToken(req.Context(), basicAuthToken); err != nil {
+			return nil, err
+		}
+		return c.Do(req, v)
 	}
 
 	response := newResponse(resp)
@@ -643,37 +650,30 @@ func (c *Client) Do(req *retryablehttp.Request, v interface{}) (*Response, error
 	return response, err
 }
 
-func (c *Client) authenticateAndDo(token string, req *retryablehttp.Request, v interface{}) (*Response, error) {
+func (c *Client) requestOAuthToken(ctx context.Context, token string) (string, error) {
 	c.tokenLock.Lock()
 	defer c.tokenLock.Unlock()
 
 	// Return early if the token was updated while waiting for the lock.
 	if c.token != token {
-		return c.Do(req, v)
+		return c.token, nil
 	}
 
-	token, err := c.requestOAuthToken(req.Context())
-	if err != nil {
-		return nil, err
-	}
-	c.token = token
-
-	return c.Do(req, v)
-}
-
-func (c *Client) requestOAuthToken(ctx context.Context) (string, error) {
 	config := &oauth2.Config{
 		Endpoint: oauth2.Endpoint{
 			AuthURL:  fmt.Sprintf("%s://%s/oauth/authorize", c.BaseURL().Scheme, c.BaseURL().Host),
 			TokenURL: fmt.Sprintf("%s://%s/oauth/token", c.BaseURL().Scheme, c.BaseURL().Host),
 		},
 	}
+
 	ctx = context.WithValue(ctx, oauth2.HTTPClient, c.client.HTTPClient)
 	t, err := config.PasswordCredentialsToken(ctx, c.username, c.password)
 	if err != nil {
 		return "", err
 	}
-	return t.AccessToken, nil
+	c.token = t.AccessToken
+
+	return c.token, nil
 }
 
 // Helper function to accept and format both the project ID or name as project
