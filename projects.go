@@ -569,7 +569,7 @@ type EditProjectOptions struct {
 	PagesAccessLevel                          *AccessControlValue `url:"pages_access_level,omitempty" json:"pages_access_level,omitempty"`
 	EmailsDisabled                            *bool               `url:"emails_disabled,omitempty" json:"emails_disabled,omitempty"`
 	ResolveOutdatedDiffDiscussions            *bool               `url:"resolve_outdated_diff_discussions,omitempty" json:"resolve_outdated_diff_discussions,omitempty"`
-	ContainerRegistryEnabled                  *bool               `url:"container_registry_enabled,omitempty" json:"eontainer_registry_enabled,omitempty"`
+	ContainerRegistryEnabled                  *bool               `url:"container_registry_enabled,omitempty" json:"container_registry_enabled,omitempty"`
 	SharedRunnersEnabled                      *bool               `url:"shared_runners_enabled,omitempty" json:"shared_runners_enabled,omitempty"`
 	Visibility                                *VisibilityValue    `url:"visibility,omitempty" json:"visibility,omitempty"`
 	ImportURL                                 *string             `url:"import_url,omitempty" json:"import_url,omitempty"`
