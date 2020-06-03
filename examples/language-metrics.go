@@ -14,8 +14,8 @@ var waitGroup sync.WaitGroup
 
 func main() {
 	git, err := gitlab.NewClient(
-		"token",
-		gitlab.WithBaseURL("url"),
+		"yourtokengoeshere",
+		gitlab.WithBaseURL("https://gitlab.company.com"),
 	)
 	if err != nil {
 		log.Fatal(err)
