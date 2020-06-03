@@ -12,7 +12,7 @@ import (
 
 var waitGroup sync.WaitGroup
 
-func main() {
+func languageMetricsExample() {
 	git, err := gitlab.NewClient(
 		"yourtokengoeshere",
 		gitlab.WithBaseURL("https://gitlab.company.com"),
