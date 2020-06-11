@@ -249,9 +249,9 @@ func (s *GroupMilestonesService) GetGroupMilestoneMergeRequests(gid interface{},
 }
 
 type BurndownChartEvent struct {
-	CreatedAt *ISOTime `json:"created_at"`
-	Weight    *int     `json:"weight"`
-	Action    *string  `json:"action"`
+	CreatedAt *time.Time `json:"created_at"`
+	Weight    *int       `json:"weight"`
+	Action    *string    `json:"action"`
 }
 
 // GetGroupMilestoneBurndownChartEventsOptions represents the available
@@ -266,7 +266,7 @@ type GetGroupMilestoneBurndownChartEventsOptions ListOptions
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/group_milestones.html#get-all-burndown-chart-events-for-a-single-milestone-starter
-func (s *GroupMilestonesService) GetGroupMilestoneBurndownChartEvents(gid interface{}, milestone int, opt *GetGroupMilestoneBurndownChartEventsOptions, options ...RequestOptionFunc) ([]*BurndownChartEvents, *Response, error) {
+func (s *GroupMilestonesService) GetGroupMilestoneBurndownChartEvents(gid interface{}, milestone int, opt *GetGroupMilestoneBurndownChartEventsOptions, options ...RequestOptionFunc) ([]*BurndownChartEvent, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
 		return nil, nil, err
