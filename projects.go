@@ -458,7 +458,7 @@ type CreateProjectOptions struct {
 	Description                               *string             `url:"description,omitempty" json:"description,omitempty"`
 	IssuesAccessLevel                         *AccessControlValue `url:"issues_access_level,omitempty" json:"issues_access_level,omitempty"`
 	RepositoryAccessLevel                     *AccessControlValue `url:"repository_access_level,omitempty" json:"repository_access_level,omitempty"`
-	MergeRequestAccessLevel                   *AccessControlValue `url:"merge_request_access_level,omitempty" json:"merge_request_access_level,omitempty"`
+	MergeRequestsAccessLevel                  *AccessControlValue `url:"merge_requests_access_level,omitempty" json:"merge_requests_access_level,omitempty"`
 	ForkingAccessLevel                        *AccessControlValue `url:"forking_access_level,omitempty" json:"forking_access_level,omitempty"`
 	BuildsAccessLevel                         *AccessControlValue `url:"builds_access_level,omitempty" json:"builds_access_level,omitempty"`
 	WikiAccessLevel                           *AccessControlValue `url:"wiki_access_level,omitempty" json:"wiki_access_level,omitempty"`
