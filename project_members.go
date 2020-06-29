@@ -14,6 +14,8 @@
 // limitations under the License.
 //
 
+// N.B Documentation does not support remove functionality, alternative is to disable an existing mirror.
+
 package gitlab
 
 import (
@@ -187,23 +189,4 @@ func (s *ProjectMembersService) EditProjectMember(pid interface{}, user int, opt
 	}
 
 	return pm, resp, err
-}
-
-// DeleteProjectMember removes a user from a project team.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ce/api/members.html#remove-a-member-from-a-group-or-project
-func (s *ProjectMembersService) DeleteProjectMember(pid interface{}, user int, options ...RequestOptionFunc) (*Response, error) {
-	project, err := parseID(pid)
-	if err != nil {
-		return nil, err
-	}
-	u := fmt.Sprintf("projects/%s/members/%d", pathEscape(project), user)
-
-	req, err := s.client.NewRequest("DELETE", u, nil, options)
-	if err != nil {
-		return nil, err
-	}
-
-	return s.client.Do(req, nil)
 }

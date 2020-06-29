@@ -44,28 +44,19 @@ type ProjectMirror struct {
 	URL                    string      `json:"url"`
 }
 
-// PostProjectMirrorOptions contains the properties requires to create
-// a new project mirror.
-type PostProjectMirrorOptions struct {
-	URL                   string `json:"url"`
-	Enabled               bool   `json:"enabled"`
-	OnlyProtectedBranches bool   `json:"only_protected_branches"`
-	KeepDivergentRefs     bool   `json:"keep_divergent_refs"`
-}
-
 // ListProjectMirror gets a list of mirrors configured on the project.
 // these are copies of the repositories to external version control repositories
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/remote_mirrors.html
-func (s *ProjectMirrorService) ListProjectMirror(pid interface{}) ([]*ProjectMirror, *Response, error) {
+// https://docs.gitlab.com/ce/api/remote_mirrors.html#list-a-projects-remote-mirrors
+func (s *ProjectMirrorService) ListProjectMirror(pid interface{}, options ...RequestOptionFunc) ([]*ProjectMirror, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/remote_mirrors", pathEscape(project))
 
-	req, err := s.client.NewRequest("GET", u, nil, nil)
+	req, err := s.client.NewRequest("GET", u, nil, options)
 
 	if err != nil {
 		return nil, nil, err
@@ -80,4 +71,92 @@ func (s *ProjectMirrorService) ListProjectMirror(pid interface{}) ([]*ProjectMir
 
 	return pm, resp, err
 
+}
+
+// AddProjectMirrorOptions contains the properties requires to create
+// a new project mirror.
+type AddProjectMirrorOptions struct {
+	URL                   string `json:"url"`
+	Enabled               bool   `json:"enabled"`
+	OnlyProtectedBranches bool   `json:"only_protected_branches"`
+	KeepDivergentRefs     bool   `json:"keep_divergent_refs"`
+}
+
+// AddProjectMirror creates a new mirror on the project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/remote_mirrors.html#create-a-remote-mirror
+func (s *ProjectMirrorService) AddProjectMirror(pid interface{}, opt *AddProjectMirrorOptions, options ...RequestOptionFunc) (*ProjectMirror, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/remote_mirrors", pathEscape(project))
+
+	req, err := s.client.NewRequest("POST", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	pm := new(ProjectMirror)
+	resp, err := s.client.Do(req, pm)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return pm, resp, err
+}
+
+// EditProjectMirrorOptions contains the properties requires to edit
+// an existing project mirror.
+type EditProjectMirrorOptions struct {
+	MirrorID              int    `json:"mirror_id"`
+	URL                   string `json:"url"`
+	Enabled               bool   `json:"enabled"`
+	OnlyProtectedBranches bool   `json:"only_protected_branches"`
+	KeepDivergentRefs     bool   `json:"keep_divergent_refs"`
+}
+
+// EditProjectMirror updates a project team member to a specified access level..
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/remote_mirrors.html#update-a-remote-mirrors-attributes
+func (s *ProjectMirrorService) EditProjectMirror(pid interface{}, mirror int, opt *EditProjectMirrorOptions, options ...RequestOptionFunc) (*ProjectMirror, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/remote_mirrors/%d", pathEscape(project), mirror)
+
+	req, err := s.client.NewRequest("PUT", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	pm := new(ProjectMirror)
+	resp, err := s.client.Do(req, pm)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return pm, resp, err
+}
+
+// DeleteProjectMirror removes a user from a project team.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/members.html#remove-a-member-from-a-group-or-project
+func (s *ProjectMembersService) DeleteProjectMirror(pid interface{}, user int, options ...RequestOptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/members/%d", pathEscape(project), user)
+
+	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
 }
