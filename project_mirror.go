@@ -24,27 +24,25 @@ import (
 // ProjectMirrorService handles communication with the project mirror
 // related methods of the GitLab API.
 //
-// GitLAb API docs:
-// https://docs.gitlab.com/ce/api/remote_mirrors.html
+// GitLAb API docs: https://docs.gitlab.com/ce/api/remote_mirrors.html
 type ProjectMirrorService struct {
 	client *Client
 }
 
 // ProjectMirror represents a project mirror configuration.
 //
-// GitLAb API docs:
-// https://docs.gitlab.com/ce/api/remote_mirrors.html
+// GitLAb API docs: https://docs.gitlab.com/ce/api/remote_mirrors.html
 type ProjectMirror struct {
-	Enabled                *bool      `url:"enabled" json:"enabled"`
-	ID                     *int       `url:"id" json:"id"`
-	LastError              *string    `url:"last_error" json:"last_error"`
-	LastSuccessfulUpdateAt *time.Time `url:"last_successful_update_at" json:"last_successful_update_at"`
-	LastUpdateAt           *time.Time `url:"last_update_at" json:"last_update_at"`
-	LastUpdateStartedAt    *time.Time `url:"last_update_started_at" json:"last_update_started_at"`
-	OnlyProtectedBranches  *bool      `url:"only_protected_branches" json:"only_protected_branches"`
-	KeepDivergentRefs      *bool      `url:"keep_divergent_refs" json:"keep_divergent_refs"`
-	UpdateStatus           *string    `url:"update_status" json:"update_status"`
-	URL                    *string    `url:"url" json:"url"`
+	Enabled                bool       `json:"enabled"`
+	ID                     int        `json:"id"`
+	LastError              string     `json:"last_error"`
+	LastSuccessfulUpdateAt *time.Time `json:"last_successful_update_at"`
+	LastUpdateAt           *time.Time `json:"last_update_at"`
+	LastUpdateStartedAt    *time.Time `json:"last_update_started_at"`
+	OnlyProtectedBranches  bool       `json:"only_protected_branches"`
+	KeepDivergentRefs      bool       `json:"keep_divergent_refs"`
+	UpdateStatus           string     `json:"update_status"`
+	URL                    string     `json:"url"`
 }
 
 // ListProjectMirror gets a list of mirrors configured on the project.
@@ -75,11 +73,14 @@ func (s *ProjectMirrorService) ListProjectMirror(pid interface{}, options ...Req
 
 // AddProjectMirrorOptions contains the properties requires to create
 // a new project mirror.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/remote_mirrors.html#create-a-remote-mirror
 type AddProjectMirrorOptions struct {
-	URL                   string `json:"url"`
-	Enabled               bool   `json:"enabled"`
-	OnlyProtectedBranches bool   `json:"only_protected_branches"`
-	KeepDivergentRefs     bool   `json:"keep_divergent_refs"`
+	URL                   *string `url:"url,omitempty" json:"url,omitempty"`
+	Enabled               *bool   `url:"enabled,omitempty" json:"enabled,omitempty"`
+	OnlyProtectedBranches *bool   `url:"only_protected_branches,omitempty" json:"only_protected_branches,omitempty"`
+	KeepDivergentRefs     *bool   `url:"keep_divergent_refs,omitempty" json:"keep_divergent_refs,omitempty"`
 }
 
 // AddProjectMirror creates a new mirror on the project.
@@ -109,11 +110,13 @@ func (s *ProjectMirrorService) AddProjectMirror(pid interface{}, opt *AddProject
 
 // EditProjectMirrorOptions contains the properties requires to edit
 // an existing project mirror.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/remote_mirrors.html#update-a-remote-mirrors-attributes
 type EditProjectMirrorOptions struct {
-	URL                   string `json:"url"`
-	Enabled               bool   `json:"enabled"`
-	OnlyProtectedBranches bool   `json:"only_protected_branches"`
-	KeepDivergentRefs     bool   `json:"keep_divergent_refs"`
+	Enabled               *bool `url:"enabled,omitempty" json:"enabled,omitempty"`
+	OnlyProtectedBranches *bool `url:"only_protected_branches,omitempty" json:"only_protected_branches,omitempty"`
+	KeepDivergentRefs     *bool `url:"keep_divergent_refs,omitempty" json:"keep_divergent_refs,omitempty"`
 }
 
 // EditProjectMirror updates a project team member to a specified access level..
