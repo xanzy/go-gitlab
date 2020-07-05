@@ -73,7 +73,11 @@ func (l Label) String() string {
 // ListLabelsOptions represents the available ListLabels() options.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/labels.html#list-labels
-type ListLabelsOptions ListOptions
+type ListLabelsOptions struct {
+	ListOptions
+	WithCounts            *bool `url:"with_counts,omitempty" json:"with_counts,omitempty"`
+	IncludeAncestorGroups *bool `url:"include_ancestor_groups,omitempty" json:"include_ancestor_groups,omitempty"`
+}
 
 // ListLabels gets all labels for given project.
 //
@@ -242,6 +246,29 @@ func (s *LabelsService) UnsubscribeFromLabel(pid interface{}, labelID interface{
 	u := fmt.Sprintf("projects/%s/labels/%s/unsubscribe", pathEscape(project), label)
 
 	req, err := s.client.NewRequest("POST", u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
+
+// PromoteLabel Promotes a project label to a group label.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/labels.html#promote-a-project-label-to-a-group-label
+func (s *LabelsService) PromoteLabel(pid interface{}, labelID interface{}, options ...RequestOptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	label, err := parseID(labelID)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/labels/%s/promote", pathEscape(project), label)
+
+	req, err := s.client.NewRequest("PUT", u, nil, options)
 	if err != nil {
 		return nil, err
 	}
