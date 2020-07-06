@@ -128,8 +128,10 @@ func TestListLabels(t *testing.T) {
 	})
 
 	o := &ListLabelsOptions{
-		Page:    1,
-		PerPage: 10,
+		ListOptions: ListOptions{
+			Page:    1,
+			PerPage: 10,
+		},
 	}
 	label, _, err := client.Labels.ListLabels("1", o)
 	if err != nil {
