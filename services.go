@@ -665,7 +665,18 @@ type MicrosoftTeamsService struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/services.html#microsoft-teams
 type MicrosoftTeamsServiceProperties struct {
-	WebHook string `json:"webhook"`
+	WebHook                   string    `json:"webhook"`
+	NotifyOnlyBrokenPipelines BoolValue `json:"notify_only_broken_pipelines"`
+	BranchesToBeNotified      string    `json:"branches_to_be_notified"`
+	IssuesEvents              BoolValue `json:"issues_events"`
+	ConfidentialIssuesEvents  BoolValue `json:"confidential_issues_events"`
+	MergeRequestsEvents       BoolValue `json:"merge_requests_events"`
+	TagPushEvents             BoolValue `json:"tag_push_events"`
+	NoteEvents                BoolValue `json:"note_events"`
+	ConfidentialNoteEvents    BoolValue `json:"confidential_note_events"`
+	PipelineEvents            BoolValue `json:"pipeline_events"`
+	WikiPageEvents            BoolValue `json:"wiki_page_events"`
+
 }
 
 // GetMicrosoftTeamsService gets MicrosoftTeams service settings for a project.
@@ -699,7 +710,16 @@ func (s *ServicesService) GetMicrosoftTeamsService(pid interface{}, options ...R
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/services.html#create-edit-microsoft-teams-service
 type SetMicrosoftTeamsServiceOptions struct {
-	WebHook *string `url:"webhook,omitempty" json:"webhook,omitempty"`
+	WebHook                   *string `url:"webhook,omitempty" json:"webhook,omitempty"`
+	NotifyOnlyBrokenPipelines *bool   `url:"notify_only_broken_pipelines" json:"notify_only_broken_pipelines"`
+	BranchesToBeNotified      *string `url:"branches_to_be_notified,omitempty" json:"branches_to_be_notified,omitempty"`
+	PushEvents                *bool   `url:"push_events,omitempty" json:"push_events,omitempty"`
+	IssuesEvents              *bool   `url:"issues_events,omitempty" json:"issues_events,omitempty"`
+	ConfidentialIssuesEvents  *bool   `url:"confidential_issues_events,omitempty" json:"confidential_issues_events,omitempty"`
+	MergeRequestsEvents       *bool   `url:"merge_requests_events,omitempty" json:"merge_requests_events,omitempty"`
+	ConfidentialNoteEvents    *bool   `url:"confidential_note_events,omitempty" json:"confidential_note_events,omitempty"`
+	PipelineEvents            *bool   `url:"pipeline_events,omitempty" json:"pipeline_events,omitempty"`
+	WikiPageEvents            *bool   `url:"wiki_page_events,omitempty" json:"wiki_page_events,omitempty"`
 }
 
 // SetMicrosoftTeamsService sets Microsoft Teams service for a project
