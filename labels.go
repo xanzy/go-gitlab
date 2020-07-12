@@ -103,6 +103,34 @@ func (s *LabelsService) ListLabels(pid interface{}, opt *ListLabelsOptions, opti
 	return l, resp, err
 }
 
+// GetLabel get a single label for a given project.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/labels.html#get-a-single-project-label
+func (s *LabelsService) GetLabel(pid interface{}, labelID interface{}, options ...RequestOptionFunc) (*Label, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	label, err := parseID(labelID)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/labels/%s", pathEscape(project), label)
+
+	req, err := s.client.NewRequest("GET", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var l *Label
+	resp, err := s.client.Do(req, &l)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return l, resp, err
+}
+
 // CreateLabelOptions represents the available CreateLabel() options.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/labels.html#create-a-new-label
