@@ -138,3 +138,23 @@ func TestListGroupLabels(t *testing.T) {
 		t.Errorf("GroupLabels.ListGroupLabels returned %+v, want %+v", label, want)
 	}
 }
+
+func TestGetGroupLabel(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/groups/1/labels/5", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "GET")
+		fmt.Fprint(w, `{  "id" : 5, "name" : "bug", "color" : "#d9534f", "description": "Bug reported by user", "open_issues_count": 1, "closed_issues_count": 0, "open_merge_requests_count": 1, "subscribed": true,"priority": null}`)
+	})
+
+	label, _, err := client.GroupLabels.GetGroupLabel("1", 5)
+	if err != nil {
+		t.Log(err)
+	}
+
+	want := &GroupLabel{ID: 5, Name: "bug", Color: "#d9534f", Description: "Bug reported by user", OpenIssuesCount: 1, ClosedIssuesCount: 0, OpenMergeRequestsCount: 1, Subscribed: true}
+	if !reflect.DeepEqual(want, label) {
+		t.Errorf("GroupLabels.GetGroupLabel returned %+v, want %+v", label, want)
+	}
+}
