@@ -89,6 +89,8 @@ type Project struct {
 	MirrorTriggerBuilds                       bool              `json:"mirror_trigger_builds"`
 	OnlyMirrorProtectedBranches               bool              `json:"only_mirror_protected_branches"`
 	MirrorOverwritesDivergedBranches          bool              `json:"mirror_overwrites_diverged_branches"`
+	ServiceDeskEnabled                        bool              `json:"service_desk_enabled"`
+	ServiceDeskAddress                        string            `json:"service_desk_address"`
 	SharedWithGroups                          []struct {
 		GroupID          int    `json:"group_id"`
 		GroupName        string `json:"group_name"`
@@ -495,6 +497,7 @@ type CreateProjectOptions struct {
 	UseCustomTemplate                         *bool               `url:"use_custom_template,omitempty" json:"use_custom_template,omitempty"`
 	GroupWithProjectTemplatesID               *int                `url:"group_with_project_templates_id,omitempty" json:"group_with_project_templates_id,omitempty"`
 	PackagesEnabled                           *bool               `url:"packages_enabled,omitempty" json:"packages_enabled,omitempty"`
+	ServiceDeskEnabled                        *bool               `url:"service_desk_enabled,omitempty" json:"service_desk_enabled,omitempty"`
 
 	// Deprecated members
 	IssuesEnabled        *bool `url:"issues_enabled,omitempty" json:"issues_enabled,omitempty"`
@@ -597,6 +600,7 @@ type EditProjectOptions struct {
 	OnlyMirrorProtectedBranches               *bool               `url:"only_mirror_protected_branches,omitempty" json:"only_mirror_protected_branches,omitempty"`
 	MirrorOverwritesDivergedBranches          *bool               `url:"mirror_overwrites_diverged_branches,omitempty" json:"mirror_overwrites_diverged_branches,omitempty"`
 	PackagesEnabled                           *bool               `url:"packages_enabled,omitempty" json:"packages_enabled,omitempty"`
+	ServiceDeskEnabled                        *bool               `url:"service_desk_enabled,omitempty" json:"service_desk_enabled,omitempty"`
 
 	// Deprecated members
 	IssuesEnabled        *bool `url:"issues_enabled,omitempty" json:"issues_enabled,omitempty"`
