@@ -48,9 +48,14 @@ type License struct {
 		Company string `json:"Company"`
 		Email   string `json:"Email"`
 	} `json:"licensee"`
+	// Add on codes that may occur in legacy licenses that don't have a plan yet.
+	// https://gitlab.com/gitlab-org/gitlab/-/blob/master/ee/app/models/license.rb
 	AddOns struct {
-		GitLabFileLocks   int `json:"GitLab_FileLocks"`
 		GitLabAuditorUser int `json:"GitLab_Auditor_User"`
+		GitLabDeployBoard int `json:"GitLab_DeployBoard"`
+		GitLabFileLocks   int `json:"GitLab_FileLocks"`
+		GitLabGeo         int `json:"GitLab_Geo"`
+		GitLabServiceDesk int `json:"GitLab_ServiceDesk"`
 	} `json:"add_ons"`
 }
 

@@ -213,6 +213,7 @@ func (s ProjectApprovalRule) String() string {
 type ListProjectsOptions struct {
 	ListOptions
 	Archived                 *bool             `url:"archived,omitempty" json:"archived,omitempty"`
+	Visibility               *VisibilityValue  `url:"visibility,omitempty" json:"visibility,omitempty"`
 	OrderBy                  *string           `url:"order_by,omitempty" json:"order_by,omitempty"`
 	Sort                     *string           `url:"sort,omitempty" json:"sort,omitempty"`
 	Search                   *string           `url:"search,omitempty" json:"search,omitempty"`
@@ -222,12 +223,17 @@ type ListProjectsOptions struct {
 	Membership               *bool             `url:"membership,omitempty" json:"membership,omitempty"`
 	Starred                  *bool             `url:"starred,omitempty" json:"starred,omitempty"`
 	Statistics               *bool             `url:"statistics,omitempty" json:"statistics,omitempty"`
-	Visibility               *VisibilityValue  `url:"visibility,omitempty" json:"visibility,omitempty"`
+	WithCustomAttributes     *bool             `url:"with_custom_attributes,omitempty" json:"with_custom_attributes,omitempty"`
 	WithIssuesEnabled        *bool             `url:"with_issues_enabled,omitempty" json:"with_issues_enabled,omitempty"`
 	WithMergeRequestsEnabled *bool             `url:"with_merge_requests_enabled,omitempty" json:"with_merge_requests_enabled,omitempty"`
-	MinAccessLevel           *AccessLevelValue `url:"min_access_level,omitempty" json:"min_access_level,omitempty"`
-	WithCustomAttributes     *bool             `url:"with_custom_attributes,omitempty" json:"with_custom_attributes,omitempty"`
 	WithProgrammingLanguage  *string           `url:"with_programming_language,omitempty" json:"with_programming_language,omitempty"`
+	WikiChecksumFailed       *bool             `url:"wiki_checksum_failed,omitempty" json:"wiki_checksum_failed,omitempty"`
+	RepositoryChecksumFailed *bool             `url:"repository_checksum_failed,omitempty" json:"repository_checksum_failed,omitempty"`
+	MinAccessLevel           *AccessLevelValue `url:"min_access_level,omitempty" json:"min_access_level,omitempty"`
+	IDAfter                  *int              `url:"id_after,omitempty" json:"id_after,omitempty"`
+	IDBefore                 *int              `url:"id_before,omitempty" json:"id_before,omitempty"`
+	LastActivityAfter        *time.Time        `url:"last_activity_after,omitempty" json:"last_activity_after,omitempty"`
+	LastActivityBefore       *time.Time        `url:"last_activity_before,omitempty" json:"last_activity_before,omitempty"`
 }
 
 // ListProjects gets a list of projects accessible by the authenticated user.
@@ -445,39 +451,57 @@ func (s *ProjectsService) GetProjectEvents(pid interface{}, opt *GetProjectEvent
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/projects.html#create-project
 type CreateProjectOptions struct {
-	Name                                      *string           `url:"name,omitempty" json:"name,omitempty"`
-	Path                                      *string           `url:"path,omitempty" json:"path,omitempty"`
-	DefaultBranch                             *string           `url:"default_branch,omitempty" json:"default_branch,omitempty"`
-	NamespaceID                               *int              `url:"namespace_id,omitempty" json:"namespace_id,omitempty"`
-	Description                               *string           `url:"description,omitempty" json:"description,omitempty"`
-	IssuesEnabled                             *bool             `url:"issues_enabled,omitempty" json:"issues_enabled,omitempty"`
-	MergeRequestsEnabled                      *bool             `url:"merge_requests_enabled,omitempty" json:"merge_requests_enabled,omitempty"`
-	JobsEnabled                               *bool             `url:"jobs_enabled,omitempty" json:"jobs_enabled,omitempty"`
-	WikiEnabled                               *bool             `url:"wiki_enabled,omitempty" json:"wiki_enabled,omitempty"`
-	SnippetsEnabled                           *bool             `url:"snippets_enabled,omitempty" json:"snippets_enabled,omitempty"`
-	ResolveOutdatedDiffDiscussions            *bool             `url:"resolve_outdated_diff_discussions,omitempty" json:"resolve_outdated_diff_discussions,omitempty"`
-	ContainerRegistryEnabled                  *bool             `url:"container_registry_enabled,omitempty" json:"container_registry_enabled,omitempty"`
-	SharedRunnersEnabled                      *bool             `url:"shared_runners_enabled,omitempty" json:"shared_runners_enabled,omitempty"`
-	Visibility                                *VisibilityValue  `url:"visibility,omitempty" json:"visibility,omitempty"`
-	ImportURL                                 *string           `url:"import_url,omitempty" json:"import_url,omitempty"`
-	PublicBuilds                              *bool             `url:"public_builds,omitempty" json:"public_builds,omitempty"`
-	OnlyAllowMergeIfPipelineSucceeds          *bool             `url:"only_allow_merge_if_pipeline_succeeds,omitempty" json:"only_allow_merge_if_pipeline_succeeds,omitempty"`
-	OnlyAllowMergeIfAllDiscussionsAreResolved *bool             `url:"only_allow_merge_if_all_discussions_are_resolved,omitempty" json:"only_allow_merge_if_all_discussions_are_resolved,omitempty"`
-	MergeMethod                               *MergeMethodValue `url:"merge_method,omitempty" json:"merge_method,omitempty"`
-	RemoveSourceBranchAfterMerge              *bool             `url:"remove_source_branch_after_merge,omitempty" json:"remove_source_branch_after_merge,omitempty"`
-	LFSEnabled                                *bool             `url:"lfs_enabled,omitempty" json:"lfs_enabled,omitempty"`
-	RequestAccessEnabled                      *bool             `url:"request_access_enabled,omitempty" json:"request_access_enabled,omitempty"`
-	TagList                                   *[]string         `url:"tag_list,omitempty" json:"tag_list,omitempty"`
-	PrintingMergeRequestLinkEnabled           *bool             `url:"printing_merge_request_link_enabled,omitempty" json:"printing_merge_request_link_enabled,omitempty"`
-	BuildCoverageRegex                        *string           `url:"build_coverage_regex,omitempty" json:"build_coverage_regex,omitempty"`
-	CIConfigPath                              *string           `url:"ci_config_path,omitempty" json:"ci_config_path,omitempty"`
-	ApprovalsBeforeMerge                      *int              `url:"approvals_before_merge,omitempty" json:"approvals_before_merge,omitempty"`
-	Mirror                                    *bool             `url:"mirror,omitempty" json:"mirror,omitempty"`
-	MirrorTriggerBuilds                       *bool             `url:"mirror_trigger_builds,omitempty" json:"mirror_trigger_builds,omitempty"`
-	InitializeWithReadme                      *bool             `url:"initialize_with_readme,omitempty" json:"initialize_with_readme,omitempty"`
-	TemplateName                              *string           `url:"template_name,omitempty" json:"template_name,omitempty"`
-	UseCustomTemplate                         *bool             `url:"use_custom_template,omitempty" json:"use_custom_template,omitempty"`
-	GroupWithProjectTemplatesID               *int              `url:"group_with_project_templates_id,omitempty" json:"group_with_project_templates_id,omitempty"`
+	Name                                      *string             `url:"name,omitempty" json:"name,omitempty"`
+	Path                                      *string             `url:"path,omitempty" json:"path,omitempty"`
+	NamespaceID                               *int                `url:"namespace_id,omitempty" json:"namespace_id,omitempty"`
+	DefaultBranch                             *string             `url:"default_branch,omitempty" json:"default_branch,omitempty"`
+	Description                               *string             `url:"description,omitempty" json:"description,omitempty"`
+	IssuesAccessLevel                         *AccessControlValue `url:"issues_access_level,omitempty" json:"issues_access_level,omitempty"`
+	RepositoryAccessLevel                     *AccessControlValue `url:"repository_access_level,omitempty" json:"repository_access_level,omitempty"`
+	MergeRequestsAccessLevel                  *AccessControlValue `url:"merge_requests_access_level,omitempty" json:"merge_requests_access_level,omitempty"`
+	ForkingAccessLevel                        *AccessControlValue `url:"forking_access_level,omitempty" json:"forking_access_level,omitempty"`
+	BuildsAccessLevel                         *AccessControlValue `url:"builds_access_level,omitempty" json:"builds_access_level,omitempty"`
+	WikiAccessLevel                           *AccessControlValue `url:"wiki_access_level,omitempty" json:"wiki_access_level,omitempty"`
+	SnippetsAccessLevel                       *AccessControlValue `url:"snippets_access_level,omitempty" json:"snippets_access_level,omitempty"`
+	PagesAccessLevel                          *AccessControlValue `url:"pages_access_level,omitempty" json:"pages_access_level,omitempty"`
+	EmailsDisabled                            *bool               `url:"emails_disabled,omitempty" json:"emails_disabled,omitempty"`
+	ResolveOutdatedDiffDiscussions            *bool               `url:"resolve_outdated_diff_discussions,omitempty" json:"resolve_outdated_diff_discussions,omitempty"`
+	ContainerRegistryEnabled                  *bool               `url:"container_registry_enabled,omitempty" json:"container_registry_enabled,omitempty"`
+	SharedRunnersEnabled                      *bool               `url:"shared_runners_enabled,omitempty" json:"shared_runners_enabled,omitempty"`
+	Visibility                                *VisibilityValue    `url:"visibility,omitempty" json:"visibility,omitempty"`
+	ImportURL                                 *string             `url:"import_url,omitempty" json:"import_url,omitempty"`
+	PublicBuilds                              *bool               `url:"public_builds,omitempty" json:"public_builds,omitempty"`
+	OnlyAllowMergeIfPipelineSucceeds          *bool               `url:"only_allow_merge_if_pipeline_succeeds,omitempty" json:"only_allow_merge_if_pipeline_succeeds,omitempty"`
+	OnlyAllowMergeIfAllDiscussionsAreResolved *bool               `url:"only_allow_merge_if_all_discussions_are_resolved,omitempty" json:"only_allow_merge_if_all_discussions_are_resolved,omitempty"`
+	MergeMethod                               *MergeMethodValue   `url:"merge_method,omitempty" json:"merge_method,omitempty"`
+	RemoveSourceBranchAfterMerge              *bool               `url:"remove_source_branch_after_merge,omitempty" json:"remove_source_branch_after_merge,omitempty"`
+	LFSEnabled                                *bool               `url:"lfs_enabled,omitempty" json:"lfs_enabled,omitempty"`
+	RequestAccessEnabled                      *bool               `url:"request_access_enabled,omitempty" json:"request_access_enabled,omitempty"`
+	TagList                                   *[]string           `url:"tag_list,omitempty" json:"tag_list,omitempty"`
+	PrintingMergeRequestLinkEnabled           *bool               `url:"printing_merge_request_link_enabled,omitempty" json:"printing_merge_request_link_enabled,omitempty"`
+	BuildGitStrategy                          *string             `url:"build_git_strategy,omitempty" json:"build_git_strategy,omitempty"`
+	BuildTimeout                              *int                `url:"build_timeout,omitempty" json:"build_timeout,omitempty"`
+	AutoCancelPendingPipelines                *string             `url:"auto_cancel_pending_pipelines,omitempty" json:"auto_cancel_pending_pipelines,omitempty"`
+	BuildCoverageRegex                        *string             `url:"build_coverage_regex,omitempty" json:"build_coverage_regex,omitempty"`
+	CIConfigPath                              *string             `url:"ci_config_path,omitempty" json:"ci_config_path,omitempty"`
+	AutoDevopsEnabled                         *bool               `url:"auto_devops_enabled,omitempty" json:"auto_devops_enabled,omitempty"`
+	AutoDevopsDeployStrategy                  *string             `url:"auto_devops_deploy_strategy,omitempty" json:"auto_devops_deploy_strategy,omitempty"`
+	ApprovalsBeforeMerge                      *int                `url:"approvals_before_merge,omitempty" json:"approvals_before_merge,omitempty"`
+	ExternalAuthorizationClassificationLabel  *string             `url:"external_authorization_classification_label,omitempty" json:"external_authorization_classification_label,omitempty"`
+	Mirror                                    *bool               `url:"mirror,omitempty" json:"mirror,omitempty"`
+	MirrorTriggerBuilds                       *bool               `url:"mirror_trigger_builds,omitempty" json:"mirror_trigger_builds,omitempty"`
+	InitializeWithReadme                      *bool               `url:"initialize_with_readme,omitempty" json:"initialize_with_readme,omitempty"`
+	TemplateName                              *string             `url:"template_name,omitempty" json:"template_name,omitempty"`
+	UseCustomTemplate                         *bool               `url:"use_custom_template,omitempty" json:"use_custom_template,omitempty"`
+	GroupWithProjectTemplatesID               *int                `url:"group_with_project_templates_id,omitempty" json:"group_with_project_templates_id,omitempty"`
+	PackagesEnabled                           *bool               `url:"packages_enabled,omitempty" json:"packages_enabled,omitempty"`
+
+	// Deprecated members
+	IssuesEnabled        *bool `url:"issues_enabled,omitempty" json:"issues_enabled,omitempty"`
+	MergeRequestsEnabled *bool `url:"merge_requests_enabled,omitempty" json:"merge_requests_enabled,omitempty"`
+	JobsEnabled          *bool `url:"jobs_enabled,omitempty" json:"jobs_enabled,omitempty"`
+	WikiEnabled          *bool `url:"wiki_enabled,omitempty" json:"wiki_enabled,omitempty"`
+	SnippetsEnabled      *bool `url:"snippets_enabled,omitempty" json:"snippets_enabled,omitempty"`
 }
 
 // CreateProject creates a new project owned by the authenticated user.
@@ -531,39 +555,55 @@ func (s *ProjectsService) CreateProjectForUser(user int, opt *CreateProjectForUs
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#edit-project
 type EditProjectOptions struct {
-	Name                                      *string           `url:"name,omitempty" json:"name,omitempty"`
-	Path                                      *string           `url:"path,omitempty" json:"path,omitempty"`
-	DefaultBranch                             *string           `url:"default_branch,omitempty" json:"default_branch,omitempty"`
-	Description                               *string           `url:"description,omitempty" json:"description,omitempty"`
-	IssuesEnabled                             *bool             `url:"issues_enabled,omitempty" json:"issues_enabled,omitempty"`
-	MergeRequestsEnabled                      *bool             `url:"merge_requests_enabled,omitempty" json:"merge_requests_enabled,omitempty"`
-	JobsEnabled                               *bool             `url:"jobs_enabled,omitempty" json:"jobs_enabled,omitempty"`
-	WikiEnabled                               *bool             `url:"wiki_enabled,omitempty" json:"wiki_enabled,omitempty"`
-	SnippetsEnabled                           *bool             `url:"snippets_enabled,omitempty" json:"snippets_enabled,omitempty"`
-	ResolveOutdatedDiffDiscussions            *bool             `url:"resolve_outdated_diff_discussions,omitempty" json:"resolve_outdated_diff_discussions,omitempty"`
-	ContainerRegistryEnabled                  *bool             `url:"container_registry_enabled,omitempty" json:"container_registry_enabled,omitempty"`
-	SharedRunnersEnabled                      *bool             `url:"shared_runners_enabled,omitempty" json:"shared_runners_enabled,omitempty"`
-	Visibility                                *VisibilityValue  `url:"visibility,omitempty" json:"visibility,omitempty"`
-	ImportURL                                 *string           `url:"import_url,omitempty" json:"import_url,omitempty"`
-	PublicBuilds                              *bool             `url:"public_builds,omitempty" json:"public_builds,omitempty"`
-	OnlyAllowMergeIfPipelineSucceeds          *bool             `url:"only_allow_merge_if_pipeline_succeeds,omitempty" json:"only_allow_merge_if_pipeline_succeeds,omitempty"`
-	OnlyAllowMergeIfAllDiscussionsAreResolved *bool             `url:"only_allow_merge_if_all_discussions_are_resolved,omitempty" json:"only_allow_merge_if_all_discussions_are_resolved,omitempty"`
-	MergeMethod                               *MergeMethodValue `url:"merge_method,omitempty" json:"merge_method,omitempty"`
-	RemoveSourceBranchAfterMerge              *bool             `url:"remove_source_branch_after_merge,omitempty" json:"remove_source_branch_after_merge,omitempty"`
-	LFSEnabled                                *bool             `url:"lfs_enabled,omitempty" json:"lfs_enabled,omitempty"`
-	RequestAccessEnabled                      *bool             `url:"request_access_enabled,omitempty" json:"request_access_enabled,omitempty"`
-	TagList                                   *[]string         `url:"tag_list,omitempty" json:"tag_list,omitempty"`
-	BuildCoverageRegex                        *string           `url:"build_coverage_regex,omitempty" json:"build_coverage_regex,omitempty"`
-	CIConfigPath                              *string           `url:"ci_config_path,omitempty" json:"ci_config_path,omitempty"`
-	CIDefaultGitDepth                         *int              `url:"ci_default_git_depth,omitempty" json:"ci_default_git_depth,omitempty"`
-	ApprovalsBeforeMerge                      *int              `url:"approvals_before_merge,omitempty" json:"approvals_before_merge,omitempty"`
-	ExternalAuthorizationClassificationLabel  *string           `url:"external_authorization_classification_label,omitempty" json:"external_authorization_classification_label,omitempty"`
-	Mirror                                    *bool             `url:"mirror,omitempty" json:"mirror,omitempty"`
-	MirrorTriggerBuilds                       *bool             `url:"mirror_trigger_builds,omitempty" json:"mirror_trigger_builds,omitempty"`
-	MirrorUserID                              *int              `url:"mirror_user_id,omitempty" json:"mirror_user_id,omitempty"`
-	OnlyMirrorProtectedBranches               *bool             `url:"only_mirror_protected_branches,omitempty" json:"only_mirror_protected_branches,omitempty"`
-	MirrorOverwritesDivergedBranches          *bool             `url:"mirror_overwrites_diverged_branches,omitempty" json:"mirror_overwrites_diverged_branches,omitempty"`
-	PackagesEnabled                           *bool             `url:"packages_enabled,omitempty" json:"packages_enabled,omitempty"`
+	Name                                      *string             `url:"name,omitempty" json:"name,omitempty"`
+	Path                                      *string             `url:"path,omitempty" json:"path,omitempty"`
+	DefaultBranch                             *string             `url:"default_branch,omitempty" json:"default_branch,omitempty"`
+	Description                               *string             `url:"description,omitempty" json:"description,omitempty"`
+	IssuesAccessLevel                         *AccessControlValue `url:"issues_access_level,omitempty" json:"issues_access_level,omitempty"`
+	RepositoryAccessLevel                     *AccessControlValue `url:"repository_access_level,omitempty" json:"repository_access_level,omitempty"`
+	MergeRequestsAccessLevel                  *AccessControlValue `url:"merge_requests_access_level,omitempty" json:"merge_requests_access_level,omitempty"`
+	ForkingAccessLevel                        *AccessControlValue `url:"forking_access_level,omitempty" json:"forking_access_level,omitempty"`
+	BuildsAccessLevel                         *AccessControlValue `url:"builds_access_level,omitempty" json:"builds_access_level,omitempty"`
+	WikiAccessLevel                           *AccessControlValue `url:"wiki_access_level,omitempty" json:"wiki_access_level,omitempty"`
+	SnippetsAccessLevel                       *AccessControlValue `url:"snippets_access_level,omitempty" json:"snippets_access_level,omitempty"`
+	PagesAccessLevel                          *AccessControlValue `url:"pages_access_level,omitempty" json:"pages_access_level,omitempty"`
+	EmailsDisabled                            *bool               `url:"emails_disabled,omitempty" json:"emails_disabled,omitempty"`
+	ResolveOutdatedDiffDiscussions            *bool               `url:"resolve_outdated_diff_discussions,omitempty" json:"resolve_outdated_diff_discussions,omitempty"`
+	ContainerRegistryEnabled                  *bool               `url:"container_registry_enabled,omitempty" json:"container_registry_enabled,omitempty"`
+	SharedRunnersEnabled                      *bool               `url:"shared_runners_enabled,omitempty" json:"shared_runners_enabled,omitempty"`
+	Visibility                                *VisibilityValue    `url:"visibility,omitempty" json:"visibility,omitempty"`
+	ImportURL                                 *string             `url:"import_url,omitempty" json:"import_url,omitempty"`
+	PublicBuilds                              *bool               `url:"public_builds,omitempty" json:"public_builds,omitempty"`
+	OnlyAllowMergeIfPipelineSucceeds          *bool               `url:"only_allow_merge_if_pipeline_succeeds,omitempty" json:"only_allow_merge_if_pipeline_succeeds,omitempty"`
+	OnlyAllowMergeIfAllDiscussionsAreResolved *bool               `url:"only_allow_merge_if_all_discussions_are_resolved,omitempty" json:"only_allow_merge_if_all_discussions_are_resolved,omitempty"`
+	MergeMethod                               *MergeMethodValue   `url:"merge_method,omitempty" json:"merge_method,omitempty"`
+	RemoveSourceBranchAfterMerge              *bool               `url:"remove_source_branch_after_merge,omitempty" json:"remove_source_branch_after_merge,omitempty"`
+	LFSEnabled                                *bool               `url:"lfs_enabled,omitempty" json:"lfs_enabled,omitempty"`
+	RequestAccessEnabled                      *bool               `url:"request_access_enabled,omitempty" json:"request_access_enabled,omitempty"`
+	TagList                                   *[]string           `url:"tag_list,omitempty" json:"tag_list,omitempty"`
+	BuildGitStrategy                          *string             `url:"build_git_strategy,omitempty" json:"build_git_strategy,omitempty"`
+	BuildTimeout                              *int                `url:"build_timeout,omitempty" json:"build_timeout,omitempty"`
+	AutoCancelPendingPipelines                *string             `url:"auto_cancel_pending_pipelines,omitempty" json:"auto_cancel_pending_pipelines,omitempty"`
+	BuildCoverageRegex                        *string             `url:"build_coverage_regex,omitempty" json:"build_coverage_regex,omitempty"`
+	CIConfigPath                              *string             `url:"ci_config_path,omitempty" json:"ci_config_path,omitempty"`
+	CIDefaultGitDepth                         *int                `url:"ci_default_git_depth,omitempty" json:"ci_default_git_depth,omitempty"`
+	AutoDevopsEnabled                         *bool               `url:"auto_devops_enabled,omitempty" json:"auto_devops_enabled,omitempty"`
+	AutoDevopsDeployStrategy                  *string             `url:"auto_devops_deploy_strategy,omitempty" json:"auto_devops_deploy_strategy,omitempty"`
+	ApprovalsBeforeMerge                      *int                `url:"approvals_before_merge,omitempty" json:"approvals_before_merge,omitempty"`
+	ExternalAuthorizationClassificationLabel  *string             `url:"external_authorization_classification_label,omitempty" json:"external_authorization_classification_label,omitempty"`
+	Mirror                                    *bool               `url:"mirror,omitempty" json:"mirror,omitempty"`
+	MirrorUserID                              *int                `url:"mirror_user_id,omitempty" json:"mirror_user_id,omitempty"`
+	MirrorTriggerBuilds                       *bool               `url:"mirror_trigger_builds,omitempty" json:"mirror_trigger_builds,omitempty"`
+	OnlyMirrorProtectedBranches               *bool               `url:"only_mirror_protected_branches,omitempty" json:"only_mirror_protected_branches,omitempty"`
+	MirrorOverwritesDivergedBranches          *bool               `url:"mirror_overwrites_diverged_branches,omitempty" json:"mirror_overwrites_diverged_branches,omitempty"`
+	PackagesEnabled                           *bool               `url:"packages_enabled,omitempty" json:"packages_enabled,omitempty"`
+
+	// Deprecated members
+	IssuesEnabled        *bool `url:"issues_enabled,omitempty" json:"issues_enabled,omitempty"`
+	MergeRequestsEnabled *bool `url:"merge_requests_enabled,omitempty" json:"merge_requests_enabled,omitempty"`
+	JobsEnabled          *bool `url:"jobs_enabled,omitempty" json:"jobs_enabled,omitempty"`
+	WikiEnabled          *bool `url:"wiki_enabled,omitempty" json:"wiki_enabled,omitempty"`
+	SnippetsEnabled      *bool `url:"snippets_enabled,omitempty" json:"snippets_enabled,omitempty"`
 }
 
 // EditProject updates an existing project.
@@ -817,6 +857,7 @@ type ProjectHook struct {
 	ConfidentialNoteEvents   bool       `json:"confidential_note_events"`
 	ProjectID                int        `json:"project_id"`
 	PushEvents               bool       `json:"push_events"`
+	PushEventsBranchFilter   string     `json:"push_events_branch_filter"`
 	IssuesEvents             bool       `json:"issues_events"`
 	ConfidentialIssuesEvents bool       `json:"confidential_issues_events"`
 	MergeRequestsEvents      bool       `json:"merge_requests_events"`
@@ -892,6 +933,7 @@ type AddProjectHookOptions struct {
 	URL                      *string `url:"url,omitempty" json:"url,omitempty"`
 	ConfidentialNoteEvents   *bool   `url:"confidential_note_events,omitempty" json:"confidential_note_events,omitempty"`
 	PushEvents               *bool   `url:"push_events,omitempty" json:"push_events,omitempty"`
+	PushEventsBranchFilter   *string `url:"push_events_branch_filter,omitempty" json:"push_events_branch_filter,omitempty"`
 	IssuesEvents             *bool   `url:"issues_events,omitempty" json:"issues_events,omitempty"`
 	ConfidentialIssuesEvents *bool   `url:"confidential_issues_events,omitempty" json:"confidential_issues_events,omitempty"`
 	MergeRequestsEvents      *bool   `url:"merge_requests_events,omitempty" json:"merge_requests_events,omitempty"`
@@ -937,6 +979,7 @@ type EditProjectHookOptions struct {
 	URL                      *string `url:"url,omitempty" json:"url,omitempty"`
 	ConfidentialNoteEvents   *bool   `url:"confidential_note_events,omitempty" json:"confidential_note_events,omitempty"`
 	PushEvents               *bool   `url:"push_events,omitempty" json:"push_events,omitempty"`
+	PushEventsBranchFilter   *string `url:"push_events_branch_filter,omitempty" json:"push_events_branch_filter,omitempty"`
 	IssuesEvents             *bool   `url:"issues_events,omitempty" json:"issues_events,omitempty"`
 	ConfidentialIssuesEvents *bool   `url:"confidential_issues_events,omitempty" json:"confidential_issues_events,omitempty"`
 	MergeRequestsEvents      *bool   `url:"merge_requests_events,omitempty" json:"merge_requests_events,omitempty"`

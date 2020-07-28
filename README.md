@@ -161,7 +161,7 @@ func main() {
 	s := &gitlab.CreateProjectSnippetOptions{
 		Title:           gitlab.String("Dummy Snippet"),
 		FileName:        gitlab.String("snippet.go"),
-		Code:            gitlab.String("package main...."),
+		Content:         gitlab.String("package main...."),
 		Visibility:      gitlab.Visibility(gitlab.PublicVisibility),
 	}
 	_, _, err = git.ProjectSnippets.CreateSnippet(project.ID, s)

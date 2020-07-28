@@ -87,6 +87,7 @@ type ListGroupsOptions struct {
 	SkipGroups           []int             `url:"skip_groups,omitempty" json:"skip_groups,omitempty"`
 	Sort                 *string           `url:"sort,omitempty" json:"sort,omitempty"`
 	Statistics           *bool             `url:"statistics,omitempty" json:"statistics,omitempty"`
+	TopLevelOnly         *bool             `url:"top_level_only,omitempty" json:"top_level_only,omitempty"`
 	WithCustomAttributes *bool             `url:"with_custom_attributes,omitempty" json:"with_custom_attributes,omitempty"`
 }
 

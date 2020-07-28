@@ -399,6 +399,31 @@ func (s *MergeRequestsService) GetMergeRequestChanges(pid interface{}, mergeRequ
 	return m, resp, err
 }
 
+// GetMergeRequestParticipants gets a list of merge request participants.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/merge_requests.html#get-single-mr-participants
+func (s *MergeRequestsService) GetMergeRequestParticipants(pid interface{}, mergeRequest int, options ...RequestOptionFunc) ([]*BasicUser, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/participants", pathEscape(project), mergeRequest)
+
+	req, err := s.client.NewRequest("GET", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var ps []*BasicUser
+	resp, err := s.client.Do(req, &ps)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return ps, resp, err
+}
+
 // ListMergeRequestPipelines gets all pipelines for the provided merge request.
 //
 // GitLab API docs:
