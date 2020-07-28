@@ -6,6 +6,47 @@ import (
 	"testing"
 )
 
+func TestGetUserByUsername(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	path := fmt.Sprintf("/%susers", apiVersionPath)
+	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "GET")
+		testQueryString(t, r, "username=bgates")
+		w.WriteHeader(http.StatusOK)
+		fmt.Fprint(w, `{"id":1, "name": "Bill Gates", "username": "bgates", "state": "active", "avatar_url": "https://secure.gravatar.com/avatar/b29821fc0264e7036286a9f7d86adfd6?s=80&d=identicon", "web_url": "https://gitlab.com/bgates"}`)
+	})
+
+	user, _, err := client.Users.GetUserByUsername("bgates")
+	if err != nil {
+		t.Fatalf("Users.GetUserByUsername returned error: %v", err)
+	}
+	if user == nil {
+		t.Fatal("Users.GetUserByUsername returned a nil user")
+	}
+}
+
+func TestGetUserByUsername_NotFound(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	path := fmt.Sprintf("/%susers", apiVersionPath)
+	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "GET")
+		testQueryString(t, r, "username=bgates")
+		w.WriteHeader(http.StatusNotFound)
+	})
+
+	user, _, err := client.Users.GetUserByUsername("bgates")
+	if err == nil {
+		t.Fatalf("Users.GetUserByUsername returned error: %v", err)
+	}
+	if user != nil {
+		t.Fatal("Users.GetUserByUsername returned a nil user")
+	}
+}
+
 func TestBlockUser(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)

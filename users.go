@@ -154,6 +154,27 @@ func (s *UsersService) GetUser(user int, options ...RequestOptionFunc) (*User, *
 	return usr, resp, err
 }
 
+// GetUser gets a single user by username.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/users.html#single-user
+func (s *UsersService) GetUserByUsername(username string, options ...RequestOptionFunc) (*User, *Response, error) {
+	opt := ListUsersOptions{
+		Username: &username,
+	}
+
+	req, err := s.client.NewRequest("GET", "users", opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+	usr := new(User)
+	resp, err := s.client.Do(req, usr)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return usr, resp, err
+}
+
 // CreateUserOptions represents the available CreateUser() options.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/users.html#user-creation

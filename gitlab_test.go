@@ -54,6 +54,12 @@ func testMethod(t *testing.T, r *http.Request, want string) {
 	}
 }
 
+func testQueryString(t *testing.T, r *http.Request, want string) {
+	if got := r.URL.RawQuery; got != want {
+		t.Errorf("Request querystring: %s, want %s", got, want)
+	}
+}
+
 func testBody(t *testing.T, r *http.Request, want string) {
 	buffer := new(bytes.Buffer)
 	_, err := buffer.ReadFrom(r.Body)
