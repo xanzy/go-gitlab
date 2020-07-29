@@ -430,7 +430,8 @@ type ListGroupsRunnersOptions struct {
 // group as well it’s ancestor groups. Shared runners are listed if at least one
 // shared runner is defined.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/runners.html#list-groups-runners
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/runners.html#list-groups-runners
 func (s *RunnersService) ListGroupsRunners(gid interface{}, opt *ListGroupsRunnersOptions, options ...RequestOptionFunc) ([]*Runner, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
