@@ -201,11 +201,11 @@ func (s *GroupMembersService) ShareWithGroup(gid interface{}, opt *ShareWithGrou
 	return g, resp, err
 }
 
-// RemoveShareWithGroup allows to unshare a group from a group.
+// DeleteShareWithGroup allows to unshare a group from a group.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/groups.html#delete-link-sharing-group-with-another-group
-func (s *GroupMembersService) RemoveShareWithGroup(gid interface{}, groupID int, options ...RequestOptionFunc) (*Response, error) {
+func (s *GroupMembersService) DeleteShareWithGroup(gid interface{}, groupID int, options ...RequestOptionFunc) (*Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
 		return nil, err
