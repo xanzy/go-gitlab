@@ -85,8 +85,8 @@ func (s *InstanceClustersService) ListClusters(options ...RequestOptionFunc) ([]
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/instance_clusters.html#get-a-single-instance-cluster
-func (s *InstanceClustersService) GetCluster(clusterID int, options ...RequestOptionFunc) (*InstanceCluster, *Response, error) {
-	u := fmt.Sprintf("admin/clusters/%d", clusterID)
+func (s *InstanceClustersService) GetCluster(cluster int, options ...RequestOptionFunc) (*InstanceCluster, *Response, error) {
+	u := fmt.Sprintf("admin/clusters/%d", cluster)
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
