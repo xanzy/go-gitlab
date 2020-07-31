@@ -112,12 +112,12 @@ type AddInstanceClusterOptions struct {
 	Enabled             *bool                                 `url:"enabled,omitempty" json:"enabled,omitempty"`
 	Managed             *bool                                 `url:"managed,omitempty" json:"managed,omitempty"`
 	EnvironmentScope    *string                               `url:"environment_scope,omitempty" json:"environment_scope,omitempty"`
-	PlatformKubernetes  *AddInstancePlatformKubernetesOptions `url:"platform_kubernetes_attributes,omitempty" json:"platform_kubernetes_attributes,omitempty"`
+	PlatformKubernetes  *PlatformKubernetesOptions `url:"platform_kubernetes_attributes,omitempty" json:"platform_kubernetes_attributes,omitempty"`
 	ManagementProjectID *string                               `url:"management_project_id,omitempty" json:"management_project_id,omitempty"`
 }
 
 // AddInstancePlatformKubernetesOptions represents the available PlatformKubernetes options for adding.
-type AddInstancePlatformKubernetesOptions struct {
+type PlatformKubernetesOptions struct {
 	APIURL            *string `url:"api_url,omitempty" json:"api_url,omitempty"`
 	Token             *string `url:"token,omitempty" json:"token,omitempty"`
 	CaCert            *string `url:"ca_cert,omitempty" json:"ca_cert,omitempty"`
@@ -155,15 +155,7 @@ type EditInstanceClusterOptions struct {
 	Domain              *string                                `url:"domain,omitempty" json:"domain,omitempty"`
 	EnvironmentScope    *string                                `url:"environment_scope,omitempty" json:"environment_scope,omitempty"`
 	ManagementProjectID *string                                `url:"management_project_id,omitempty" json:"management_project_id,omitempty"`
-	PlatformKubernetes  *EditInstancePlatformKubernetesOptions `url:"platform_kubernetes_attributes,omitempty" json:"platform_kubernetes_attributes,omitempty"`
-}
-
-// EditInstancePlatformKubernetesOptions represents the available PlatformKubernetes options for editing.
-type EditInstancePlatformKubernetesOptions struct {
-	APIURL    *string `url:"api_url,omitempty" json:"api_url,omitempty"`
-	Token     *string `url:"token,omitempty" json:"token,omitempty"`
-	CaCert    *string `url:"ca_cert,omitempty" json:"ca_cert,omitempty"`
-	Namespace *string `url:"namespace,omitempty" json:"namespace,omitempty"`
+	PlatformKubernetes  *PlatformKubernetesOptions `url:"platform_kubernetes_attributes,omitempty" json:"platform_kubernetes_attributes,omitempty"`
 }
 
 // EditCluster updates an existing instance cluster.
