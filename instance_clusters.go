@@ -167,9 +167,6 @@ type EditInstancePlatformKubernetesOptions struct {
 }
 
 // EditCluster updates an existing instance cluster.
-// Note: name, api_url, ca_cert and token can only be updated if the cluster
-// was added through the 'Add existing Kubernetes' cluster option or through the
-// 'Add existing instance' cluster endpoint.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/instance_clusters.html#edit-instance-cluster
