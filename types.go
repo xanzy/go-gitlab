@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"net/url"
+	"reflect"
 	"time"
 )
 
@@ -30,6 +31,30 @@ func AccessControl(v AccessControlValue) *AccessControlValue {
 	p := new(AccessControlValue)
 	*p = v
 	return p
+}
+
+func (s *AccessControlValue) compareAccessControl(v AccessControlValue) bool {
+	return reflect.DeepEqual(s, AccessControl(v))
+}
+
+// IsDisabledAccessControl return true if is DisabledAccessControl
+func (s *AccessControlValue) IsDisabledAccessControl() bool {
+	return s.compareAccessControl(DisabledAccessControl)
+}
+
+// IsEnabledAccessControl return true if is EnabledAccessControl
+func (s *AccessControlValue) IsEnabledAccessControl() bool {
+	return s.compareAccessControl(EnabledAccessControl)
+}
+
+// IsPrivateAccessControl return true if is PrivateAccessControl
+func (s *AccessControlValue) IsPrivateAccessControl() bool {
+	return s.compareAccessControl(PrivateAccessControl)
+}
+
+// IsPublicAccessControl return true if is DisabledAccessControl
+func (s *AccessControlValue) IsPublicAccessControl() bool {
+	return s.compareAccessControl(PublicAccessControl)
 }
 
 // AccessLevelValue represents a permission level within GitLab.
