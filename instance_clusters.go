@@ -51,15 +51,6 @@ func (v InstanceCluster) String() string {
 	return Stringify(v)
 }
 
-// PlatformKubernetes represents a GitLab Instance Cluster PlatformKubernetes.
-type InstanceClusterPlatformKubernetes struct {
-	APIURL            string `json:"api_url"`
-	Token             string `json:"token"`
-	CaCert            string `json:"ca_cert"`
-	Namespace         string `json:"namespace"`
-	AuthorizationType string `json:"authorization_type"`
-}
-
 // ListClusters gets a list of all instance clusters.
 //
 // GitLab API docs:
@@ -146,23 +137,11 @@ func (s *InstanceClustersService) AddCluster(opt *AddInstanceClusterOptions, opt
 	return ic, resp, err
 }
 
-// EditInstanceClusterOptions represents the available EditCluster() options.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ee/api/instance_clusters.html#edit-instance-cluster
-type EditInstanceClusterOptions struct {
-	Name                *string                                `url:"name,omitempty" json:"name,omitempty"`
-	Domain              *string                                `url:"domain,omitempty" json:"domain,omitempty"`
-	EnvironmentScope    *string                                `url:"environment_scope,omitempty" json:"environment_scope,omitempty"`
-	ManagementProjectID *string                                `url:"management_project_id,omitempty" json:"management_project_id,omitempty"`
-	PlatformKubernetes  *PlatformKubernetesOptions `url:"platform_kubernetes_attributes,omitempty" json:"platform_kubernetes_attributes,omitempty"`
-}
-
 // EditCluster updates an existing instance cluster.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/instance_clusters.html#edit-instance-cluster
-func (s *InstanceClustersService) EditCluster(cluster int, opt *EditInstanceClusterOptions, options ...RequestOptionFunc) (*InstanceCluster, *Response, error) {
+func (s *InstanceClustersService) EditCluster(cluster int, opt *EditClusterOptions, options ...RequestOptionFunc) (*InstanceCluster, *Response, error) {
 	u := fmt.Sprintf("admin/clusters/%d", cluster)
 
 	req, err := s.client.NewRequest("PUT", u, opt, options)
