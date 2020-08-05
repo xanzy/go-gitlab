@@ -99,6 +99,7 @@ type Project struct {
 	BuildsAccessLevel                         AccessControlValue `json:"builds_access_level"`
 	SnippetsAccessLevel                       AccessControlValue `json:"snippets_access_level"`
 	PagesAccessLevel                          AccessControlValue `json:"pages_access_level"`
+	AutocloseReferencedIssues                 bool               `json:"autoclose_referenced_issues"`
 	SharedWithGroups                          []struct {
 		GroupID          int    `json:"group_id"`
 		GroupName        string `json:"group_name"`
@@ -506,6 +507,7 @@ type CreateProjectOptions struct {
 	GroupWithProjectTemplatesID               *int                `url:"group_with_project_templates_id,omitempty" json:"group_with_project_templates_id,omitempty"`
 	PackagesEnabled                           *bool               `url:"packages_enabled,omitempty" json:"packages_enabled,omitempty"`
 	ServiceDeskEnabled                        *bool               `url:"service_desk_enabled,omitempty" json:"service_desk_enabled,omitempty"`
+	AutocloseReferencedIssues                 *bool               `url:"autoclose_referenced_issues,omitempty" json:"autoclose_referenced_issues,omitempty"`
 
 	// Deprecated members
 	IssuesEnabled        *bool `url:"issues_enabled,omitempty" json:"issues_enabled,omitempty"`
@@ -609,6 +611,7 @@ type EditProjectOptions struct {
 	MirrorOverwritesDivergedBranches          *bool               `url:"mirror_overwrites_diverged_branches,omitempty" json:"mirror_overwrites_diverged_branches,omitempty"`
 	PackagesEnabled                           *bool               `url:"packages_enabled,omitempty" json:"packages_enabled,omitempty"`
 	ServiceDeskEnabled                        *bool               `url:"service_desk_enabled,omitempty" json:"service_desk_enabled,omitempty"`
+	AutocloseReferencedIssues                 *bool               `url:"autoclose_referenced_issues,omitempty" json:"autoclose_referenced_issues,omitempty"`
 
 	// Deprecated members
 	IssuesEnabled        *bool `url:"issues_enabled,omitempty" json:"issues_enabled,omitempty"`
