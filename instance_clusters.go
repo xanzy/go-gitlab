@@ -93,16 +93,6 @@ func (s *InstanceClustersService) GetCluster(cluster int, options ...RequestOpti
 	return ic, resp, err
 }
 
-
-// AddInstancePlatformKubernetesOptions represents the available PlatformKubernetes options for adding.
-type PlatformKubernetesOptions struct {
-	APIURL            *string `url:"api_url,omitempty" json:"api_url,omitempty"`
-	Token             *string `url:"token,omitempty" json:"token,omitempty"`
-	CaCert            *string `url:"ca_cert,omitempty" json:"ca_cert,omitempty"`
-	Namespace         *string `url:"namespace,omitempty" json:"namespace,omitempty"`
-	AuthorizationType *string `url:"authorization_type,omitempty" json:"authorization_type,omitempty"`
-}
-
 // AddCluster adds an existing cluster to the instance.
 //
 // GitLab API docs:
