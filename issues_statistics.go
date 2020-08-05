@@ -21,30 +21,25 @@ import (
 	"time"
 )
 
-// IssuesStatisticsService handles communication with the issues statistics related methods
-// of the GitLab API.
+// IssuesStatisticsService handles communication with the issues statistics
+// related methods of the GitLab API.
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/issues_statistics.html
 type IssuesStatisticsService struct {
 	client *Client
 }
 
-// Counts represents a GitLab issues counts statistic.
-type Counts struct {
-	All    int `json:"all"`
-	Closed int `json:"closed"`
-	Opened int `json:"opened"`
-}
-
-// Statistics represents a GitLab issues statistic.
-type Statistics struct {
-	Counts Counts `json:"counts"`
-}
-
-// Statistics represents a GitLab issues statistic.
+// IssuesStatistics represents a GitLab issues statistic.
+//
 // GitLab API docs: https://docs.gitlab.com/ee/api/issues_statistics.html
 type IssuesStatistics struct {
-	Statistics Statistics `json:"statistics"`
+	Statistics struct {
+		Counts struct {
+			All    int `json:"all"`
+			Closed int `json:"closed"`
+			Opened int `json:"opened"`
+		} `json:"counts"`
+	} `json:"statistics"`
 }
 
 func (n IssuesStatistics) String() string {
@@ -74,9 +69,8 @@ type GetIssuesStatisticsOptions struct {
 	Confidential     *bool      `url:"confidential,omitempty" json:"confidential,omitempty"`
 }
 
-// GetIssuesStatistics
-// Gets issues count statistics on all issues the authenticated user has access to.
-// By default it returns only issues created by the current user. To get all issues, use parameter scope=all.
+// GetIssuesStatistics gets issues statistics on all issues the authenticated
+// user has access to.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/issues_statistics.html#get-issues-statistics
@@ -86,16 +80,17 @@ func (s *IssuesStatisticsService) GetIssuesStatistics(opt *GetIssuesStatisticsOp
 		return nil, nil, err
 	}
 
-	var n *IssuesStatistics
-	resp, err := s.client.Do(req, &n)
+	is := new(IssuesStatistics)
+	resp, err := s.client.Do(req, is)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return n, resp, err
+	return is, resp, err
 }
 
-// GetGroupIssuesStatisticsOptions represents the available GetGroupIssuesStatistics() options.
+// GetGroupIssuesStatisticsOptions represents the available GetGroupIssuesStatistics()
+// options.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/issues_statistics.html#get-group-issues-statistics
@@ -117,8 +112,7 @@ type GetGroupIssuesStatisticsOptions struct {
 	Confidential     *bool      `url:"confidential,omitempty" json:"confidential,omitempty"`
 }
 
-// GetGroupIssuesStatistics
-// Gets issues count statistics for given group.
+// GetGroupIssuesStatistics gets issues count statistics for given group.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/issues_statistics.html#get-group-issues-statistics
@@ -134,16 +128,17 @@ func (s *IssuesStatisticsService) GetGroupIssuesStatistics(gid interface{}, opt 
 		return nil, nil, err
 	}
 
-	var n *IssuesStatistics
-	resp, err := s.client.Do(req, &n)
+	is := new(IssuesStatistics)
+	resp, err := s.client.Do(req, is)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return n, resp, err
+	return is, resp, err
 }
 
-// GetProjectIssuesStatisticsOptions represents the available GetProjectIssuesStatistics() options.
+// GetProjectIssuesStatisticsOptions represents the available
+// GetProjectIssuesStatistics() options.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/issues_statistics.html#get-project-issues-statistics
@@ -165,8 +160,7 @@ type GetProjectIssuesStatisticsOptions struct {
 	Confidential     *bool      `url:"confidential,omitempty" json:"confidential,omitempty"`
 }
 
-// GetProjectIssuesStatistics
-// Gets issues count statistics for given project..
+// GetProjectIssuesStatistics gets issues count statistics for given project.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/issues_statistics.html#get-project-issues-statistics
@@ -182,11 +176,11 @@ func (s *IssuesStatisticsService) GetProjectIssuesStatistics(pid interface{}, op
 		return nil, nil, err
 	}
 
-	var n *IssuesStatistics
-	resp, err := s.client.Do(req, &n)
+	is := new(IssuesStatistics)
+	resp, err := s.client.Do(req, is)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return n, resp, err
+	return is, resp, err
 }
