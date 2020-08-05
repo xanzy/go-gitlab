@@ -129,6 +129,7 @@ type Client struct {
 	InstanceCluster       *InstanceClustersService
 	IssueLinks            *IssueLinksService
 	Issues                *IssuesService
+	IssuesStatistics      *IssuesStatisticsService
 	Jobs                  *JobsService
 	Keys                  *KeysService
 	Labels                *LabelsService
@@ -285,6 +286,7 @@ func newClient(options ...ClientOptionFunc) (*Client, error) {
 	c.InstanceCluster = &InstanceClustersService{client: c}
 	c.IssueLinks = &IssueLinksService{client: c}
 	c.Issues = &IssuesService{client: c, timeStats: timeStats}
+	c.IssuesStatistics = &IssuesStatisticsService{client: c}
 	c.Jobs = &JobsService{client: c}
 	c.Keys = &KeysService{client: c}
 	c.Labels = &LabelsService{client: c}
