@@ -347,7 +347,7 @@ type ListGroupsRunnersOptions struct {
 	TagList []string `url:"tag_list,comma,omitempty" json:"tag_list,omitempty"`
 }
 
-// ListGroupsRunners List all runners (specific and shared) available in the
+// ListGroupsRunners lists all runners (specific and shared) available in the
 // group as well it’s ancestor groups. Shared runners are listed if at least one
 // shared runner is defined.
 //
