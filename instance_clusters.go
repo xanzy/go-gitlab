@@ -93,19 +93,6 @@ func (s *InstanceClustersService) GetCluster(cluster int, options ...RequestOpti
 	return ic, resp, err
 }
 
-// AddInstanceClusterOptions represents the available AddCluster() options.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ee/api/instance_clusters.html#add-existing-cluster-to-instance
-type AddInstanceClusterOptions struct {
-	Name                *string                               `url:"name,omitempty" json:"name,omitempty"`
-	Domain              *string                               `url:"domain,omitempty" json:"domain,omitempty"`
-	Enabled             *bool                                 `url:"enabled,omitempty" json:"enabled,omitempty"`
-	Managed             *bool                                 `url:"managed,omitempty" json:"managed,omitempty"`
-	EnvironmentScope    *string                               `url:"environment_scope,omitempty" json:"environment_scope,omitempty"`
-	PlatformKubernetes  *PlatformKubernetesOptions `url:"platform_kubernetes_attributes,omitempty" json:"platform_kubernetes_attributes,omitempty"`
-	ManagementProjectID *string                               `url:"management_project_id,omitempty" json:"management_project_id,omitempty"`
-}
 
 // AddInstancePlatformKubernetesOptions represents the available PlatformKubernetes options for adding.
 type PlatformKubernetesOptions struct {
@@ -120,7 +107,7 @@ type PlatformKubernetesOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/instance_clusters.html#add-existing-instance-cluster
-func (s *InstanceClustersService) AddCluster(opt *AddInstanceClusterOptions, options ...RequestOptionFunc) (*InstanceCluster, *Response, error) {
+func (s *InstanceClustersService) AddCluster(opt *AddClusterOptions, options ...RequestOptionFunc) (*InstanceCluster, *Response, error) {
 	u := fmt.Sprintf("admin/clusters/add")
 
 	req, err := s.client.NewRequest("POST", u, opt, options)
