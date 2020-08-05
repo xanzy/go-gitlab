@@ -593,6 +593,10 @@ type MergeEvent struct {
 			Previous int `json:"previous"`
 			Current  int `json:"current"`
 		} `json:"source_project_id"`
+		StateID struct {
+			Previous int `json:"previous"`
+			Current  int `json:"current"`
+		} `json:"state_id"`
 		TargetBranch struct {
 			Previous string `json:"previous"`
 			Current  string `json:"current"`
