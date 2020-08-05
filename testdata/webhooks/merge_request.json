@@ -116,6 +116,12 @@
       "previous": "2017-09-15 16:50:55 UTC",
       "current": "2017-09-15 16:52:00 UTC"
     },
+    "changes": {
+      "state_id": {
+        "previous": 2,
+        "current": 1
+      }
+    },
     "labels": {
       "previous": [{
         "id": 206,
