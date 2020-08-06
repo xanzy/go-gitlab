@@ -676,7 +676,6 @@ type MicrosoftTeamsServiceProperties struct {
 	ConfidentialNoteEvents    BoolValue `json:"confidential_note_events"`
 	PipelineEvents            BoolValue `json:"pipeline_events"`
 	WikiPageEvents            BoolValue `json:"wiki_page_events"`
-
 }
 
 // GetMicrosoftTeamsService gets MicrosoftTeams service settings for a project.
