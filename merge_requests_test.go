@@ -1,6 +1,7 @@
 package gitlab
 
 import (
+	"fmt"
 	"net/http"
 	"testing"
 	"time"
@@ -158,4 +159,23 @@ func TestListProjectMergeRequests(t *testing.T) {
 		assert.Nil(t, mr.HeadPipeline)
 		assert.Equal(t, "", mr.DiffRefs.HeadSha)
 	}
+}
+
+func TestCreateMergeRequestPipeline(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/merge_requests/1/pipelines", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "POST")
+		fmt.Fprint(w, `{"id":1, "status":"pending"}`)
+	})
+
+	pipeline, _, err := client.MergeRequests.CreateMergeRequestPipeline(1, 1)
+
+	if err != nil {
+		t.Errorf("MergeRequests.CreateMergeRequestPipeline returned error: %v", err)
+	}
+
+	assert.Equal(t, 1, pipeline.ID)
+	assert.Equal(t, "pending", pipeline.Status)
 }
