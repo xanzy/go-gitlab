@@ -676,7 +676,6 @@ type MicrosoftTeamsServiceProperties struct {
 	ConfidentialNoteEvents    BoolValue `json:"confidential_note_events"`
 	PipelineEvents            BoolValue `json:"pipeline_events"`
 	WikiPageEvents            BoolValue `json:"wiki_page_events"`
-
 }
 
 // GetMicrosoftTeamsService gets MicrosoftTeams service settings for a project.
@@ -778,6 +777,7 @@ type PipelinesEmailProperties struct {
 	Recipients                string    `json:"recipients,omitempty"`
 	NotifyOnlyBrokenPipelines BoolValue `json:"notify_only_broken_pipelines,omitempty"`
 	NotifyOnlyDefaultBranch   BoolValue `json:"notify_only_default_branch,omitempty"`
+	BranchesToBeNotified      string    `json:"branches_to_be_notified,omitempty"`
 }
 
 // GetPipelinesEmailService gets Pipelines Email service settings for a project.
