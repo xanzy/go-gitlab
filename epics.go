@@ -65,7 +65,6 @@ type ListGroupEpicsOptions struct {
 	Milestone        *string    `url:"milestone,omitempty" json:"milestone,omitempty"`
 	Scope            *string    `url:"scope,omitempty" json:"scope,omitempty"`
 	AuthorID         *int       `url:"author_id,omitempty" json:"author_id,omitempty"`
-	AssigneeID       *int       `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
 	MyReactionEmoji  *string    `url:"my_reaction_emoji,omitempty" json:"my_reaction_emoji,omitempty"`
 	IIDs             []int      `url:"iids[],omitempty" json:"iids,omitempty"`
 	OrderBy          *string    `url:"order_by,omitempty" json:"order_by,omitempty"`
