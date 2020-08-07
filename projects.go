@@ -503,6 +503,7 @@ type CreateProjectOptions struct {
 	MirrorTriggerBuilds                       *bool               `url:"mirror_trigger_builds,omitempty" json:"mirror_trigger_builds,omitempty"`
 	InitializeWithReadme                      *bool               `url:"initialize_with_readme,omitempty" json:"initialize_with_readme,omitempty"`
 	TemplateName                              *string             `url:"template_name,omitempty" json:"template_name,omitempty"`
+	TemplateProjectID                         *int                `url:"template_project_id,omitempty" json:"template_project_id,omitempty"`
 	UseCustomTemplate                         *bool               `url:"use_custom_template,omitempty" json:"use_custom_template,omitempty"`
 	GroupWithProjectTemplatesID               *int                `url:"group_with_project_templates_id,omitempty" json:"group_with_project_templates_id,omitempty"`
 	PackagesEnabled                           *bool               `url:"packages_enabled,omitempty" json:"packages_enabled,omitempty"`
