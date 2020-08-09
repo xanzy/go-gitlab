@@ -162,6 +162,9 @@ type Labels []string
 
 // MarshalJSON implements the json.Marshaler interface.
 func (l *Labels) MarshalJSON() ([]byte, error) {
+	if *l == nil {
+		return []byte(`null`), nil
+	}
 	return json.Marshal(strings.Join(*l, ","))
 }
 
