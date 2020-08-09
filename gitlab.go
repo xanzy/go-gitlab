@@ -626,15 +626,16 @@ func (c *Client) Do(req *retryablehttp.Request, v interface{}) (*Response, error
 	if err != nil {
 		return nil, err
 	}
-	defer resp.Body.Close()
 
 	if resp.StatusCode == http.StatusUnauthorized && c.authType == basicAuth {
+		resp.Body.Close()
 		// The token most likely expired, so we need to request a new one and try again.
 		if _, err := c.requestOAuthToken(req.Context(), basicAuthToken); err != nil {
 			return nil, err
 		}
 		return c.Do(req, v)
 	}
+	defer resp.Body.Close()
 
 	response := newResponse(resp)
 
