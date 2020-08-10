@@ -47,3 +47,13 @@ func WithoutRetries() ClientOptionFunc {
 		return nil
 	}
 }
+
+// WithCustomLimiter injects a custom rate limiter to the client.
+func WithCustomLimiter(limiter RateLimiter) ClientOptionFunc {
+	return func(c *Client) error {
+		c.configureLimiterOnce.Do(func() {
+			c.limiter = limiter
+		})
+		return nil
+	}
+}
