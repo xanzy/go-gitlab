@@ -57,24 +57,22 @@ func (e Epic) String() string {
 // ListGroupEpicsOptions represents the available ListGroupEpics() options.
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/epics.html#list-epics-for-a-group
-type ListGroupEpicsOptions struct {
+type ListProjectIssuesOptions struct {
 	ListOptions
-	State            *string    `url:"state,omitempty" json:"state,omitempty"`
-	Labels           Labels     `url:"labels,comma,omitempty" json:"labels,omitempty"`
-	WithLabelDetails *bool      `url:"with_labels_details,omitempty" json:"with_labels_details,omitempty"`
-	Milestone        *string    `url:"milestone,omitempty" json:"milestone,omitempty"`
-	Scope            *string    `url:"scope,omitempty" json:"scope,omitempty"`
-	AuthorID         *int       `url:"author_id,omitempty" json:"author_id,omitempty"`
-	MyReactionEmoji  *string    `url:"my_reaction_emoji,omitempty" json:"my_reaction_emoji,omitempty"`
-	IIDs             []int      `url:"iids[],omitempty" json:"iids,omitempty"`
-	OrderBy          *string    `url:"order_by,omitempty" json:"order_by,omitempty"`
-	Sort             *string    `url:"sort,omitempty" json:"sort,omitempty"`
-	Search           *string    `url:"search,omitempty" json:"search,omitempty"`
-	CreatedAfter     *time.Time `url:"created_after,omitempty" json:"created_after,omitempty"`
-	CreatedBefore    *time.Time `url:"created_before,omitempty" json:"created_before,omitempty"`
-	UpdatedAfter     *time.Time `url:"updated_after,omitempty" json:"updated_after,omitempty"`
-	UpdatedBefore    *time.Time `url:"updated_before,omitempty" json:"updated_before,omitempty"`
-	Confidential     *bool      `url:"confidential,omitempty" json:"confidential,omitempty"`
+	AuthorID                *int       `url:"author_id,omitempty" json:"author_id,omitempty"`
+	Labels                  Labels     `url:"labels,comma,omitempty" json:"labels,omitempty"`
+	WithLabelDetails        *bool      `url:"with_labels_details,omitempty" json:"with_labels_details,omitempty"`
+	OrderBy                 *string    `url:"order_by,omitempty" json:"order_by,omitempty"`
+	Sort                    *string    `url:"sort,omitempty" json:"sort,omitempty"`
+	Search                  *string    `url:"search,omitempty" json:"search,omitempty"`
+	State                   *string    `url:"state,omitempty" json:"state,omitempty"`
+	CreatedAfter            *time.Time `url:"created_after,omitempty" json:"created_after,omitempty"`
+	CreatedBefore           *time.Time `url:"created_before,omitempty" json:"created_before,omitempty"`
+	UpdatedAfter            *time.Time `url:"updated_after,omitempty" json:"updated_after,omitempty"`
+	UpdatedBefore           *time.Time `url:"updated_before,omitempty" json:"updated_before,omitempty"`
+	IncludeAncestorGroups   *bool      `url:"include_ancestor_groups,omitempty" json:"include_ancestor_groups,omitempty"`
+	IncludeDescendantGroups *bool      `url:"include_descendant_groups,omitempty" json:"include_descendant_groups,omitempty"`
+	MyReactionEmoji         *string    `url:"my_reaction_emoji,omitempty" json:"my_reaction_emoji,omitempty"`
 }
 
 // ListGroupEpics gets a list of group epics. This function accepts pagination
