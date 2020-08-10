@@ -57,7 +57,7 @@ func (e Epic) String() string {
 // ListGroupEpicsOptions represents the available ListGroupEpics() options.
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/epics.html#list-epics-for-a-group
-type ListProjectIssuesOptions struct {
+type ListGroupEpicsOptions struct {
 	ListOptions
 	AuthorID                *int       `url:"author_id,omitempty" json:"author_id,omitempty"`
 	Labels                  Labels     `url:"labels,comma,omitempty" json:"labels,omitempty"`
