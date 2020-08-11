@@ -185,7 +185,7 @@ type ListOptions struct {
 	PerPage int `url:"per_page,omitempty" json:"per_page,omitempty"`
 }
 
-// RateLimiter specifies a dependency that can wait on a context.
+// RateLimiter describes the interface that all (custom) rate limiters must implement.
 type RateLimiter interface {
 	Wait(context.Context) error
 }
