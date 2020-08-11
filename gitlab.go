@@ -80,7 +80,7 @@ type Client struct {
 	configureLimiterOnce sync.Once
 
 	// Limiter is used to limit API calls and prevent 429 responses.
-	limiter *rate.Limiter
+	limiter RateLimiter
 
 	// Token type used to make authenticated API calls.
 	authType authType
@@ -183,6 +183,11 @@ type ListOptions struct {
 
 	// For paginated result sets, the number of results to include per page.
 	PerPage int `url:"per_page,omitempty" json:"per_page,omitempty"`
+}
+
+// RateLimiter describes the interface that all (custom) rate limiters must implement.
+type RateLimiter interface {
+	Wait(context.Context) error
 }
 
 // NewClient returns a new GitLab API client. To use API methods which require
