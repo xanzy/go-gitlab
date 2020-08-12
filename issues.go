@@ -17,6 +17,7 @@
 package gitlab
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"net/url"
@@ -166,6 +167,15 @@ func (l *Labels) MarshalJSON() ([]byte, error) {
 		return []byte(`null`), nil
 	}
 	return json.Marshal(strings.Join(*l, ","))
+}
+
+// UnmarshalJSON implements the json.Unmarshaler interface.
+func (l *Labels) UnmarshalJSON(data []byte) error {
+	type alias Labels
+	if !bytes.HasPrefix(data, []byte("[")) {
+		data = []byte(fmt.Sprintf("[%s]", string(data)))
+	}
+	return json.Unmarshal(data, (*alias)(l))
 }
 
 // EncodeValues implements the query.EncodeValues interface
