@@ -127,6 +127,7 @@ type Client struct {
 	GroupVariables        *GroupVariablesService
 	Groups                *GroupsService
 	InstanceCluster       *InstanceClustersService
+	InstanceVariables     *InstanceVariablesService
 	IssueLinks            *IssueLinksService
 	Issues                *IssuesService
 	IssuesStatistics      *IssuesStatisticsService
