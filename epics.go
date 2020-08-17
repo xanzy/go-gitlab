@@ -226,28 +226,6 @@ func (s *EpicsService) UpdateEpic(gid interface{}, epic int, opt *UpdateEpicOpti
 	return e, resp, err
 }
 
-func (s *EpicsService) GetEpicLinks(gid interface{}, epic int, options ...RequestOptionFunc) ([]*Epic, *Response, error) {
-	group, err := parseID(gid)
-	if err != nil {
-		return nil, nil, err
-	}
-	u := fmt.Sprintf("groups/%s/epics/%d/epics", pathEscape(group), epic)
-
-	req, err := s.client.NewRequest("GET", u, nil, options)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	var e []*Epic
-	resp, err := s.client.Do(req, &e)
-	if err != nil {
-		return nil, resp, err
-	}
-
-	return e, resp, err
-}
-
-
 // DeleteEpic deletes a single group epic.
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/epics.html#delete-epic
