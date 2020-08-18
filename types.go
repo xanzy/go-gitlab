@@ -402,14 +402,23 @@ func Time(v time.Time) *time.Time {
 // BoolValue is a boolean value with advanced json unmarshaling features.
 type BoolValue bool
 
-// UnmarshalJSON allows 1 and 0 to be considered as boolean values
-// Needed for https://gitlab.com/gitlab-org/gitlab-ce/issues/50122
+// UnmarshalJSON allows 1, 0, "true", and "false" to be considered as boolean values
+// Needed for:
+// https://gitlab.com/gitlab-org/gitlab-ce/issues/50122
+// https://gitlab.com/gitlab-org/gitlab/-/issues/233941
+// https://github.com/gitlabhq/terraform-provider-gitlab/issues/348
 func (t *BoolValue) UnmarshalJSON(b []byte) error {
 	switch string(b) {
 	case `"1"`:
 		*t = true
 		return nil
 	case `"0"`:
+		*t = false
+		return nil
+	case `"true"`:
+		*t = true
+		return nil
+	case `"false"`:
 		*t = false
 		return nil
 	default:
