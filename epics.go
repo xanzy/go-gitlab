@@ -31,7 +31,7 @@ type Epic struct {
 	IID                     int         `json:"iid"`
 	GroupID                 int         `json:"group_id"`
 	Author                  *EpicAuthor `json:"author"`
-        ParentID		int	    `json:"parent_id"`
+	ParentID                int         `json:"parent_id"`
 	Description             string      `json:"description"`
 	State                   string      `json:"state"`
 	WebURL                  string      `json:"web_url"`
@@ -50,6 +50,7 @@ type Epic struct {
 	DueDateIsFixed          bool        `json:"due_date_is_fixed"`
 	DueDateFixed            *ISOTime    `json:"due_date_fixed"`
 	DueDateFromMilestones   *ISOTime    `json:"due_date_from_milestones"`
+	URL                     string      `json:"url"`
 }
 
 func (e Epic) String() string {
