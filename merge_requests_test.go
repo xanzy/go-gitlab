@@ -2,7 +2,9 @@ package gitlab
 
 import (
 	"fmt"
+	"log"
 	"net/http"
+	"reflect"
 	"testing"
 	"time"
 
@@ -178,4 +180,29 @@ func TestCreateMergeRequestPipeline(t *testing.T) {
 
 	assert.Equal(t, 1, pipeline.ID)
 	assert.Equal(t, "pending", pipeline.Status)
+}
+
+func TestGetMergeRequestParticipants(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/merge_requests/5/participants", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "GET")
+		testURL(t, r, "/api/v4/projects/1/merge_requests/5/participants")
+
+		fmt.Fprint(w, `[{"id":1,"name":"User1","username":"User1","state":"active","avatar_url":"","web_url":"https://localhost/User1"},
+		{"id":2,"name":"User2","username":"User2","state":"active","avatar_url":"https://localhost/uploads/-/system/user/avatar/2/avatar.png","web_url":"https://localhost/User2"}]`)
+	})
+
+	mergeRequestParticipants, _, err := client.MergeRequests.GetMergeRequestParticipants("1", 5)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	want := []*BasicUser{{ID: 1, Name: "User1", Username: "User1", State: "active", AvatarURL: "", WebURL: "https://localhost/User1"},
+		{ID: 2, Name: "User2", Username: "User2", State: "active", AvatarURL: "https://localhost/uploads/-/system/user/avatar/2/avatar.png", WebURL: "https://localhost/User2"}}
+
+	if !reflect.DeepEqual(want, mergeRequestParticipants) {
+		t.Errorf("Issues.GetMergeRequestParticipants returned %+v, want %+v", mergeRequestParticipants, want)
+	}
 }
