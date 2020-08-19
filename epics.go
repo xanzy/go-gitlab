@@ -30,18 +30,12 @@ type Epic struct {
 	ID                      int         `json:"id"`
 	IID                     int         `json:"iid"`
 	GroupID                 int         `json:"group_id"`
-	Author                  *EpicAuthor `json:"author"`
 	ParentID                int         `json:"parent_id"`
+	Title                   string      `json:"title"`
 	Description             string      `json:"description"`
 	State                   string      `json:"state"`
 	WebURL                  string      `json:"web_url"`
-	Upvotes                 int         `json:"upvotes"`
-	Downvotes               int         `json:"downvotes"`
-	Labels                  []string    `json:"labels"`
-	Title                   string      `json:"title"`
-	UpdatedAt               *time.Time  `json:"updated_at"`
-	CreatedAt               *time.Time  `json:"created_at"`
-	UserNotesCount          int         `json:"user_notes_count"`
+	Author                  *EpicAuthor `json:"author"`
 	StartDate               *ISOTime    `json:"start_date"`
 	StartDateIsFixed        bool        `json:"start_date_is_fixed"`
 	StartDateFixed          *ISOTime    `json:"start_date_fixed"`
@@ -50,6 +44,12 @@ type Epic struct {
 	DueDateIsFixed          bool        `json:"due_date_is_fixed"`
 	DueDateFixed            *ISOTime    `json:"due_date_fixed"`
 	DueDateFromMilestones   *ISOTime    `json:"due_date_from_milestones"`
+	CreatedAt               *time.Time  `json:"created_at"`
+	UpdatedAt               *time.Time  `json:"updated_at"`
+	Labels                  []string    `json:"labels"`
+	Upvotes                 int         `json:"upvotes"`
+	Downvotes               int         `json:"downvotes"`
+	UserNotesCount          int         `json:"user_notes_count"`
 	URL                     string      `json:"url"`
 }
 
