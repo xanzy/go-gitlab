@@ -30,16 +30,12 @@ type Epic struct {
 	ID                      int         `json:"id"`
 	IID                     int         `json:"iid"`
 	GroupID                 int         `json:"group_id"`
-	Author                  *EpicAuthor `json:"author"`
+	ParentID                int         `json:"parent_id"`
+	Title                   string      `json:"title"`
 	Description             string      `json:"description"`
 	State                   string      `json:"state"`
-	Upvotes                 int         `json:"upvotes"`
-	Downvotes               int         `json:"downvotes"`
-	Labels                  []string    `json:"labels"`
-	Title                   string      `json:"title"`
-	UpdatedAt               *time.Time  `json:"updated_at"`
-	CreatedAt               *time.Time  `json:"created_at"`
-	UserNotesCount          int         `json:"user_notes_count"`
+	WebURL                  string      `json:"web_url"`
+	Author                  *EpicAuthor `json:"author"`
 	StartDate               *ISOTime    `json:"start_date"`
 	StartDateIsFixed        bool        `json:"start_date_is_fixed"`
 	StartDateFixed          *ISOTime    `json:"start_date_fixed"`
@@ -48,6 +44,13 @@ type Epic struct {
 	DueDateIsFixed          bool        `json:"due_date_is_fixed"`
 	DueDateFixed            *ISOTime    `json:"due_date_fixed"`
 	DueDateFromMilestones   *ISOTime    `json:"due_date_from_milestones"`
+	CreatedAt               *time.Time  `json:"created_at"`
+	UpdatedAt               *time.Time  `json:"updated_at"`
+	Labels                  []string    `json:"labels"`
+	Upvotes                 int         `json:"upvotes"`
+	Downvotes               int         `json:"downvotes"`
+	UserNotesCount          int         `json:"user_notes_count"`
+	URL                     string      `json:"url"`
 }
 
 func (e Epic) String() string {
@@ -117,6 +120,30 @@ func (s *EpicsService) GetEpic(gid interface{}, epic int, options ...RequestOpti
 
 	e := new(Epic)
 	resp, err := s.client.Do(req, e)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return e, resp, err
+}
+
+// GetEpicLinks gets all child epics of an epic.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/epic_links.html
+func (s *EpicsService) GetEpicLinks(gid interface{}, epic int, options ...RequestOptionFunc) ([]*Epic, *Response, error) {
+	group, err := parseID(gid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("groups/%s/epics/%d/epics", pathEscape(group), epic)
+
+	req, err := s.client.NewRequest("GET", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var e []*Epic
+	resp, err := s.client.Do(req, &e)
 	if err != nil {
 		return nil, resp, err
 	}
