@@ -401,8 +401,8 @@ type UpdateIssueOptions struct {
 	AssigneeIDs      []int      `url:"assignee_ids,omitempty" json:"assignee_ids,omitempty"`
 	MilestoneID      *int       `url:"milestone_id,omitempty" json:"milestone_id,omitempty"`
 	Labels           *Labels    `url:"labels,comma,omitempty" json:"labels,omitempty"`
-	AddLabels        Labels     `url:"labels,comma,omitempty" json:"add_labels,omitempty"`
-	RemoveLabels     Labels     `url:"labels,comma,omitempty" json:"remove_labels,omitempty"`
+	AddLabels        *Labels    `url:"add_labels,comma,omitempty" json:"add_labels,omitempty"`
+	RemoveLabels     *Labels    `url:"remove_labels,comma,omitempty" json:"remove_labels,omitempty"`
 	StateEvent       *string    `url:"state_event,omitempty" json:"state_event,omitempty"`
 	UpdatedAt        *time.Time `url:"updated_at,omitempty" json:"updated_at,omitempty"`
 	DueDate          *ISOTime   `url:"due_date,omitempty" json:"due_date,omitempty"`
