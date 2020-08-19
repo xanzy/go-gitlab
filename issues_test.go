@@ -561,7 +561,7 @@ func TestGetIssueParticipants(t *testing.T) {
 		{"id":2,"name":"User2","username":"User2","state":"active","avatar_url":"https://localhost/uploads/-/system/user/avatar/2/avatar.png","web_url":"https://localhost/User2"}]`)
 	})
 
-	issueParticipants, _, err := client.Issues.GetIssueParticipants("1", 5)
+	issueParticipants, _, err := client.Issues.GetParticipants("1", 5)
 	if err != nil {
 		log.Fatal(err)
 	}
