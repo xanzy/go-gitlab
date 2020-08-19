@@ -675,3 +675,28 @@ func (s *IssuesService) ResetSpentTime(pid interface{}, issue int, options ...Re
 func (s *IssuesService) GetTimeSpent(pid interface{}, issue int, options ...RequestOptionFunc) (*TimeStats, *Response, error) {
 	return s.timeStats.getTimeSpent(pid, "issues", issue, options...)
 }
+
+// GetParticipants gets a list of issue participants.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/issues.html#participants-on-issues
+func (s *IssuesService) GetParticipants(pid interface{}, issue int, options ...RequestOptionFunc) ([]*BasicUser, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/issues/%d/participants", pathEscape(project), issue)
+
+	req, err := s.client.NewRequest("GET", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var bu []*BasicUser
+	resp, err := s.client.Do(req, &bu)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return bu, resp, err
+}

@@ -548,3 +548,28 @@ func TestGetTimeSpent(t *testing.T) {
 		t.Errorf("Issues.GetTimeSpent returned %+v, want %+v", timeState, want)
 	}
 }
+
+func TestGetIssueParticipants(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/issues/5/participants", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "GET")
+		testURL(t, r, "/api/v4/projects/1/issues/5/participants")
+
+		fmt.Fprint(w, `[{"id":1,"name":"User1","username":"User1","state":"active","avatar_url":"","web_url":"https://localhost/User1"},
+		{"id":2,"name":"User2","username":"User2","state":"active","avatar_url":"https://localhost/uploads/-/system/user/avatar/2/avatar.png","web_url":"https://localhost/User2"}]`)
+	})
+
+	issueParticipants, _, err := client.Issues.GetParticipants("1", 5)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	want := []*BasicUser{{ID: 1, Name: "User1", Username: "User1", State: "active", AvatarURL: "", WebURL: "https://localhost/User1"},
+		{ID: 2, Name: "User2", Username: "User2", State: "active", AvatarURL: "https://localhost/uploads/-/system/user/avatar/2/avatar.png", WebURL: "https://localhost/User2"}}
+
+	if !reflect.DeepEqual(want, issueParticipants) {
+		t.Errorf("Issues.GetIssueParticipants returned %+v, want %+v", issueParticipants, want)
+	}
+}
