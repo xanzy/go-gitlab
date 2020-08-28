@@ -7,6 +7,25 @@ import (
 	"testing"
 )
 
+func TestListServices(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/services", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "GET")
+		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
+	})
+	want := []*Service{{ID: 1}, {ID: 2}}
+
+	services, _, err := client.Services.ListServices(1)
+	if err != nil {
+		t.Fatalf("Services.ListServices returns an error: %v", err)
+	}
+	if !reflect.DeepEqual(want, services) {
+		t.Errorf("Services.ListServices returned %+v, want %+v", services, want)
+	}
+}
+
 func TestGetDroneCIService(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)

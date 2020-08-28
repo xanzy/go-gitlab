@@ -54,6 +54,30 @@ type Service struct {
 	WikiPageEvents           bool       `json:"wiki_page_events"`
 }
 
+// ListServices gets a list of all active services.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/services.html#list-all-active-services
+func (s *ServicesService) ListServices(pid interface{}, options ...RequestOptionFunc) ([]*Service, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/services", pathEscape(project))
+
+	req, err := s.client.NewRequest("GET", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var svcs []*Service
+	resp, err := s.client.Do(req, &svcs)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return svcs, resp, err
+}
+
 // DroneCIService represents Drone CI service settings.
 //
 // GitLab API docs:
