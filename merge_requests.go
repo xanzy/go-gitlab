@@ -139,6 +139,7 @@ type ListMergeRequestsOptions struct {
 	Milestone       *string    `url:"milestone,omitempty" json:"milestone,omitempty"`
 	View            *string    `url:"view,omitempty" json:"view,omitempty"`
 	Labels          Labels     `url:"labels,comma,omitempty" json:"labels,omitempty"`
+	NotLabels       Labels     `url:"not[labels],comma,omitempty" json:"not[labels],omitempty"`
 	CreatedAfter    *time.Time `url:"created_after,omitempty" json:"created_after,omitempty"`
 	CreatedBefore   *time.Time `url:"created_before,omitempty" json:"created_before,omitempty"`
 	UpdatedAfter    *time.Time `url:"updated_after,omitempty" json:"updated_after,omitempty"`
@@ -189,6 +190,7 @@ type ListGroupMergeRequestsOptions struct {
 	Milestone       *string    `url:"milestone,omitempty" json:"milestone,omitempty"`
 	View            *string    `url:"view,omitempty" json:"view,omitempty"`
 	Labels          *Labels    `url:"labels,omitempty" json:"labels,omitempty"`
+	NotLabels       *Labels    `url:"not[labels],comma,omitempty" json:"not[labels],omitempty"`
 	CreatedAfter    *time.Time `url:"created_after,omitempty" json:"created_after,omitempty"`
 	CreatedBefore   *time.Time `url:"created_before,omitempty" json:"created_before,omitempty"`
 	UpdatedAfter    *time.Time `url:"updated_after,omitempty" json:"updated_after,omitempty"`
@@ -241,6 +243,7 @@ type ListProjectMergeRequestsOptions struct {
 	Milestone       *string    `url:"milestone,omitempty" json:"milestone,omitempty"`
 	View            *string    `url:"view,omitempty" json:"view,omitempty"`
 	Labels          Labels     `url:"labels,comma,omitempty" json:"labels,omitempty"`
+	NotLabels       Labels     `url:"not[labels],comma,omitempty" json:"not[labels],omitempty"`
 	CreatedAfter    *time.Time `url:"created_after,omitempty" json:"created_after,omitempty"`
 	CreatedBefore   *time.Time `url:"created_before,omitempty" json:"created_before,omitempty"`
 	UpdatedAfter    *time.Time `url:"updated_after,omitempty" json:"updated_after,omitempty"`
