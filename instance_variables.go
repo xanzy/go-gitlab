@@ -58,7 +58,7 @@ type ListInstanceVariablesOptions ListOptions
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/instance_level_ci_variables.html#list-all-instance-variables
 func (s *InstanceVariablesService) ListVariables(opt *ListInstanceVariablesOptions, options ...RequestOptionFunc) ([]*InstanceVariable, *Response, error) {
-	u := fmt.Sprintf("admin/ci/variables")
+	u := "admin/ci/variables"
 
 	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
@@ -113,7 +113,7 @@ type CreateInstanceVariableOptions struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/instance_level_ci_variables.html#create-instance-variable
 func (s *InstanceVariablesService) CreateVariable(opt *CreateInstanceVariableOptions, options ...RequestOptionFunc) (*InstanceVariable, *Response, error) {
-	u := fmt.Sprintf("admin/ci/variables")
+	u := "admin/ci/variables"
 
 	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
