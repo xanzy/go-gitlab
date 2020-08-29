@@ -674,8 +674,8 @@ func (c *Client) requestOAuthToken(ctx context.Context, token string) (string, e
 
 	config := &oauth2.Config{
 		Endpoint: oauth2.Endpoint{
-			AuthURL:  fmt.Sprintf("%s://%s/oauth/authorize", c.BaseURL().Scheme, c.BaseURL().Host),
-			TokenURL: fmt.Sprintf("%s://%s/oauth/token", c.BaseURL().Scheme, c.BaseURL().Host),
+			AuthURL:  strings.TrimSuffix(c.baseURL.String(), apiVersionPath) + "oauth/authorize",
+			TokenURL: strings.TrimSuffix(c.baseURL.String(), apiVersionPath) + "oauth/token",
 		},
 	}
 
