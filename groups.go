@@ -398,7 +398,7 @@ func (s *GroupsService) ListGroupLDAPLinks(gid interface{}, options ...RequestOp
 type AddGroupLDAPLinkOptions struct {
 	CN          *string `url:"cn,omitempty" json:"cn,omitempty"`
 	GroupAccess *int    `url:"group_access,omitempty" json:"group_access,omitempty"`
-	Provider    *string `url:"provider,omitempty" json:"provider,ommitempty"`
+	Provider    *string `url:"provider,omitempty" json:"provider,omitempty"`
 }
 
 // AddGroupLDAPLink creates a new group LDAP link. Available only for users who

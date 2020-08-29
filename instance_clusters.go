@@ -56,7 +56,7 @@ func (v InstanceCluster) String() string {
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/instance_clusters.html#list-instance-clusters
 func (s *InstanceClustersService) ListClusters(options ...RequestOptionFunc) ([]*InstanceCluster, *Response, error) {
-	u := fmt.Sprintf("admin/clusters")
+	u := "admin/clusters"
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
@@ -98,7 +98,7 @@ func (s *InstanceClustersService) GetCluster(cluster int, options ...RequestOpti
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/instance_clusters.html#add-existing-instance-cluster
 func (s *InstanceClustersService) AddCluster(opt *AddClusterOptions, options ...RequestOptionFunc) (*InstanceCluster, *Response, error) {
-	u := fmt.Sprintf("admin/clusters/add")
+	u := "admin/clusters/add"
 
 	req, err := s.client.NewRequest("POST", u, opt, options)
 	if err != nil {
