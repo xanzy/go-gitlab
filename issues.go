@@ -317,6 +317,7 @@ type ListProjectIssuesOptions struct {
 	NotAuthorID        []int      `url:"not[author_id],omitempty" json:"not[author_id],omitempty"`
 	AssigneeID         *int       `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
 	NotAssigneeID      []int      `url:"not[assignee_id],omitempty" json:"not[assignee_id],omitempty"`
+	AssigneeUsername   *string    `url:"assignee_username,omitempty" json:"assignee_username,omitempty"`
 	MyReactionEmoji    *string    `url:"my_reaction_emoji,omitempty" json:"my_reaction_emoji,omitempty"`
 	NotMyReactionEmoji []string   `url:"not[my_reaction_emoji],omitempty" json:"not[my_reaction_emoji],omitempty"`
 	OrderBy            *string    `url:"order_by,omitempty" json:"order_by,omitempty"`
