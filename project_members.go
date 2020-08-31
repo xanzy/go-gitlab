@@ -121,7 +121,7 @@ func (s *ProjectMembersService) GetProjectMember(pid interface{}, user int, opti
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/members.html#get-a-member-of-a-group-or-project-including-inherited-members
-func (s *ProjectMembersService) GetAllProjectMember(pid interface{}, user int, options ...RequestOptionFunc) (*ProjectMember, *Response, error) {
+func (s *ProjectMembersService) GetInheritedProjectMember(pid interface{}, user int, options ...RequestOptionFunc) (*ProjectMember, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
