@@ -56,9 +56,10 @@ func (m GroupMilestone) String() string {
 // https://docs.gitlab.com/ce/api/group_milestones.html#list-group-milestones
 type ListGroupMilestonesOptions struct {
 	ListOptions
-	IIDs   []int  `url:"iids,omitempty" json:"iids,omitempty"`
-	State  string `url:"state,omitempty" json:"state,omitempty"`
-	Search string `url:"search,omitempty" json:"search,omitempty"`
+	IIDs                    []int  `url:"iids,omitempty" json:"iids,omitempty"`
+	State                   string `url:"state,omitempty" json:"state,omitempty"`
+	Search                  string `url:"search,omitempty" json:"search,omitempty"`
+	IncludeParentMilestones bool   `url:"include_parent_milestones,omitempty" json:"include_parent_milestones,omitempty"
 }
 
 // ListGroupMilestones returns a list of group milestones.
