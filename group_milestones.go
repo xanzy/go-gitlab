@@ -59,7 +59,7 @@ type ListGroupMilestonesOptions struct {
 	IIDs                    []int  `url:"iids,omitempty" json:"iids,omitempty"`
 	State                   string `url:"state,omitempty" json:"state,omitempty"`
 	Search                  string `url:"search,omitempty" json:"search,omitempty"`
-	IncludeParentMilestones bool   `url:"include_parent_milestones,omitempty" json:"include_parent_milestones,omitempty"
+	IncludeParentMilestones bool   `url:"include_parent_milestones,omitempty" json:"include_parent_milestones,omitempty"`
 }
 
 // ListGroupMilestones returns a list of group milestones.
