@@ -188,7 +188,7 @@ type ListGroupMergeRequestsOptions struct {
 	Sort            *string    `url:"sort,omitempty" json:"sort,omitempty"`
 	Milestone       *string    `url:"milestone,omitempty" json:"milestone,omitempty"`
 	View            *string    `url:"view,omitempty" json:"view,omitempty"`
-	Labels          *Labels    `url:"labels,omitempty" json:"labels,omitempty"`
+	Labels          Labels     `url:"labels,omitempty" json:"labels,omitempty"`
 	CreatedAfter    *time.Time `url:"created_after,omitempty" json:"created_after,omitempty"`
 	CreatedBefore   *time.Time `url:"created_before,omitempty" json:"created_before,omitempty"`
 	UpdatedAfter    *time.Time `url:"updated_after,omitempty" json:"updated_after,omitempty"`
@@ -517,7 +517,7 @@ type CreateMergeRequestOptions struct {
 	Description        *string `url:"description,omitempty" json:"description,omitempty"`
 	SourceBranch       *string `url:"source_branch,omitempty" json:"source_branch,omitempty"`
 	TargetBranch       *string `url:"target_branch,omitempty" json:"target_branch,omitempty"`
-	Labels             *Labels `url:"labels,comma,omitempty" json:"labels,omitempty"`
+	Labels             Labels  `url:"labels,comma,omitempty" json:"labels,omitempty"`
 	AssigneeID         *int    `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
 	AssigneeIDs        []int   `url:"assignee_ids,omitempty" json:"assignee_ids,omitempty"`
 	TargetProjectID    *int    `url:"target_project_id,omitempty" json:"target_project_id,omitempty"`
@@ -563,7 +563,7 @@ type UpdateMergeRequestOptions struct {
 	TargetBranch       *string `url:"target_branch,omitempty" json:"target_branch,omitempty"`
 	AssigneeID         *int    `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
 	AssigneeIDs        []int   `url:"assignee_ids,omitempty" json:"assignee_ids,omitempty"`
-	Labels             *Labels `url:"labels,comma,omitempty" json:"labels,omitempty"`
+	Labels             Labels  `url:"labels,comma,omitempty" json:"labels,omitempty"`
 	MilestoneID        *int    `url:"milestone_id,omitempty" json:"milestone_id,omitempty"`
 	StateEvent         *string `url:"state_event,omitempty" json:"state_event,omitempty"`
 	RemoveSourceBranch *bool   `url:"remove_source_branch,omitempty" json:"remove_source_branch,omitempty"`
