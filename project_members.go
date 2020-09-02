@@ -117,7 +117,7 @@ func (s *ProjectMembersService) GetProjectMember(pid interface{}, user int, opti
 	return pm, resp, err
 }
 
-// GetAllProjectMember gets a project team member, including inherited
+// GetInheritedProjectMember gets a project team member, including inherited
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/members.html#get-a-member-of-a-group-or-project-including-inherited-members

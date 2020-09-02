@@ -41,10 +41,10 @@ type Milestone struct {
 	StartDate   *ISOTime   `json:"start_date"`
 	DueDate     *ISOTime   `json:"due_date"`
 	State       string     `json:"state"`
-	Expired     bool       `json:"expired"`
 	WebURL      string     `json:"web_url"`
 	UpdatedAt   *time.Time `json:"updated_at"`
 	CreatedAt   *time.Time `json:"created_at"`
+	Expired     *bool      `json:"expired"`
 }
 
 func (m Milestone) String() string {

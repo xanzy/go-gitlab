@@ -41,9 +41,9 @@ type GroupMilestone struct {
 	StartDate   *ISOTime   `json:"start_date"`
 	DueDate     *ISOTime   `json:"due_date"`
 	State       string     `json:"state"`
-	Expired     bool       `json:"expired"`
 	UpdatedAt   *time.Time `json:"updated_at"`
 	CreatedAt   *time.Time `json:"created_at"`
+	Expired     *bool      `json:"expired"`
 }
 
 func (m GroupMilestone) String() string {
@@ -57,10 +57,11 @@ func (m GroupMilestone) String() string {
 // https://docs.gitlab.com/ce/api/group_milestones.html#list-group-milestones
 type ListGroupMilestonesOptions struct {
 	ListOptions
-	IIDs                    []int  `url:"iids,omitempty" json:"iids,omitempty"`
-	State                   string `url:"state,omitempty" json:"state,omitempty"`
-	Search                  string `url:"search,omitempty" json:"search,omitempty"`
-	IncludeParentMilestones bool   `url:"include_parent_milestones,omitempty" json:"include_parent_milestones,omitempty"`
+	IIDs                    []int   `url:"iids,omitempty" json:"iids,omitempty"`
+	State                   *string `url:"state,omitempty" json:"state,omitempty"`
+	Title                   *string `url:"title,omitempty" json:"title,omitempty"`
+	Search                  *string `url:"search,omitempty" json:"search,omitempty"`
+	IncludeParentMilestones *bool   `url:"include_parent_milestones,omitempty" json:"include_parent_milestones,omitempty"`
 }
 
 // ListGroupMilestones returns a list of group milestones.
