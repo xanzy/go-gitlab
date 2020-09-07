@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"reflect"
+	"strconv"
 	"testing"
 	"time"
 
@@ -124,6 +125,34 @@ func TestGetMergeRequest(t *testing.T) {
 	mrUpdate := time.Date(2019, 8, 20, 9, 9, 56, 690000000, time.UTC)
 	require.Equal(t, mergeRequest.UpdatedAt, &mrUpdate)
 	require.Equal(t, mergeRequest.HasConflicts, true)
+}
+
+func TestGetListMergeRequestWithMergeStatusRecheck(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	path := "/api/v4/merge_requests"
+
+	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
+		if r.FormValue("with_merge_status_recheck") == "true" {
+			testMethod(t, r, "GET")
+			mustWriteHTTPResponse(t, w, "testdata/get_merge_requests.json")
+		}
+	})
+
+	wmsr, _ := strconv.ParseBool("true")
+
+	opts := ListMergeRequestsOptions{
+		WithMergeStatusRecheck: &wmsr,
+	}
+
+	mergeRequest, _, err := client.MergeRequests.ListMergeRequests(&opts, nil)
+
+	require.NoError(t, err)
+
+	for _, mr := range mergeRequest {
+		require.Equal(t, mr.ProjectID, 278964)
+	}
 }
 
 func TestListProjectMergeRequests(t *testing.T) {
