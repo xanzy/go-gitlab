@@ -171,7 +171,6 @@ func (s *MergeRequestsService) ListMergeRequests(opt *ListMergeRequestsOptions, 
 
 	var m []*MergeRequest
 	resp, err := s.client.Do(req, &m)
-
 	if err != nil {
 		return nil, resp, err
 	}
