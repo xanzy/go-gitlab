@@ -605,9 +605,7 @@ func (s *GroupsService) EditGroupPushRule(gid interface{}, opt *EditGroupPushRul
 	return gpr, resp, err
 }
 
-// DeleteGroupPushRule removes a push rule from a group. This is an
-// idempotent method and can be called multiple times. Either the push rule is
-// available or not.
+// DeleteGroupPushRule deletes the push rules of a group.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/groups.html#delete-group-push-rule-starter
