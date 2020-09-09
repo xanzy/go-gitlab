@@ -59,6 +59,7 @@ type User struct {
 	Email                     string             `json:"email"`
 	Name                      string             `json:"name"`
 	State                     string             `json:"state"`
+	WebURL                    string             `json:"web_url"`
 	CreatedAt                 *time.Time         `json:"created_at"`
 	Bio                       string             `json:"bio"`
 	Location                  string             `json:"location"`
@@ -87,7 +88,6 @@ type User struct {
 	PrivateProfile            bool               `json:"private_profile"`
 	SharedRunnersMinutesLimit int                `json:"shared_runners_minutes_limit"`
 	CustomAttributes          []*CustomAttribute `json:"custom_attributes"`
-	WebURL                    string             `json:"web_url"`
 }
 
 // UserIdentity represents a user identity.
