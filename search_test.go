@@ -27,6 +27,7 @@ func TestSearchService_Users(t *testing.T) {
 		Name:      "John Doe1",
 		State:     "active",
 		AvatarURL: "http://www.gravatar.com/avatar/c922747a93b40d1ea88262bf1aebee62?s=80&d=identicon",
+		WebURL:    "http://localhost/user1",
 	}}
 	require.Equal(t, want, users)
 }
@@ -51,6 +52,7 @@ func TestSearchService_UsersByGroup(t *testing.T) {
 		Name:      "John Doe1",
 		State:     "active",
 		AvatarURL: "http://www.gravatar.com/avatar/c922747a93b40d1ea88262bf1aebee62?s=80&d=identicon",
+		WebURL:    "http://localhost/user1",
 	}}
 	require.Equal(t, want, users)
 }
@@ -75,6 +77,7 @@ func TestSearchService_UsersByProject(t *testing.T) {
 		Name:      "John Doe1",
 		State:     "active",
 		AvatarURL: "http://www.gravatar.com/avatar/c922747a93b40d1ea88262bf1aebee62?s=80&d=identicon",
+		WebURL:    "http://localhost/user1",
 	}}
 	require.Equal(t, want, users)
 }
