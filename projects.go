@@ -89,6 +89,7 @@ type Project struct {
 	MirrorTriggerBuilds                       bool               `json:"mirror_trigger_builds"`
 	OnlyMirrorProtectedBranches               bool               `json:"only_mirror_protected_branches"`
 	MirrorOverwritesDivergedBranches          bool               `json:"mirror_overwrites_diverged_branches"`
+	PackagesEnabled                           bool               `json:"packages_enabled"`
 	ServiceDeskEnabled                        bool               `json:"service_desk_enabled"`
 	ServiceDeskAddress                        string             `json:"service_desk_address"`
 	IssuesAccessLevel                         AccessControlValue `json:"issues_access_level"`

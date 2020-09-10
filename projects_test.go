@@ -190,9 +190,9 @@ func TestGetProjectByID(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
-		fmt.Fprint(w, `{"id":1}`)
+		fmt.Fprint(w, `{"id":1, "packages_enabled": false}`)
 	})
-	want := &Project{ID: 1}
+	want := &Project{ID: 1, PackagesEnabled: false}
 
 	project, _, err := client.Projects.GetProject(1, nil)
 	if err != nil {
