@@ -178,7 +178,7 @@ type EditClusterOptions struct {
 	Name                *string                        `url:"name,omitempty" json:"name,omitempty"`
 	Domain              *string                        `url:"domain,omitempty" json:"domain,omitempty"`
 	EnvironmentScope    *string                        `url:"environment_scope,omitempty" json:"environment_scope,omitempty"`
-	Enabled							*bool													 `url:"enabled,omitempty" json:"enabled,omitempty"`
+	Enabled             *bool                          `url:"enabled,omitempty" json:"enabled,omitempty"`
 	ManagementProjectID *string                        `url:"management_project_id,omitempty" json:"management_project_id,omitempty"`
 	PlatformKubernetes  *EditPlatformKubernetesOptions `url:"platform_kubernetes_attributes,omitempty" json:"platform_kubernetes_attributes,omitempty"`
 }
