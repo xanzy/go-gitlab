@@ -495,7 +495,7 @@ type GroupPushRules struct {
 // GetGroupPushRules gets the push rules of a group.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/groups.html#get-group-push-rules-starter
+// https://docs.gitlab.com/ee/api/groups.html#get-group-push-rules
 func (s *GroupsService) GetGroupPushRules(gid interface{}, options ...RequestOptionFunc) (*GroupPushRules, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
@@ -521,7 +521,7 @@ func (s *GroupsService) GetGroupPushRules(gid interface{}, options ...RequestOpt
 // options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/groups.html#add-group-push-rule-starter
+// https://docs.gitlab.com/ee/api/groups.html#add-group-push-rule
 type AddGroupPushRuleOptions struct {
 	DenyDeleteTag              *bool   `url:"deny_delete_tag,omitempty" json:"deny_delete_tag,omitempty"`
 	MemberCheck                *bool   `url:"member_check,omitempty" json:"member_check,omitempty"`
@@ -539,7 +539,7 @@ type AddGroupPushRuleOptions struct {
 // AddGroupPushRule adds push rules to the specified group.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/groups.html#add-group-push-rule-starter
+// https://docs.gitlab.com/ee/api/groups.html#add-group-push-rule
 func (s *GroupsService) AddGroupPushRule(gid interface{}, opt *AddGroupPushRuleOptions, options ...RequestOptionFunc) (*GroupPushRules, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
@@ -565,7 +565,7 @@ func (s *GroupsService) AddGroupPushRule(gid interface{}, opt *AddGroupPushRuleO
 // options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/groups.html#edit-group-push-rule-starter
+// https://docs.gitlab.com/ee/api/groups.html#edit-group-push-rule
 type EditGroupPushRuleOptions struct {
 	DenyDeleteTag              *bool   `url:"deny_delete_tag,omitempty" json:"deny_delete_tag,omitempty"`
 	MemberCheck                *bool   `url:"member_check,omitempty" json:"member_check,omitempty"`
@@ -583,7 +583,7 @@ type EditGroupPushRuleOptions struct {
 // EditGroupPushRule edits a push rule for a specified group.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/groups.html#edit-group-push-rule-starter
+// https://docs.gitlab.com/ee/api/groups.html#edit-group-push-rule
 func (s *GroupsService) EditGroupPushRule(gid interface{}, opt *EditGroupPushRuleOptions, options ...RequestOptionFunc) (*GroupPushRules, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
@@ -608,7 +608,7 @@ func (s *GroupsService) EditGroupPushRule(gid interface{}, opt *EditGroupPushRul
 // DeleteGroupPushRule deletes the push rules of a group.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/groups.html#delete-group-push-rule-starter
+// https://docs.gitlab.com/ee/api/groups.html#delete-group-push-rule
 func (s *GroupsService) DeleteGroupPushRule(gid interface{}, options ...RequestOptionFunc) (*Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
