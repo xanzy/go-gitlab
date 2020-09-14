@@ -475,7 +475,7 @@ func (s *GroupsService) DeleteGroupLDAPLinkForProvider(gid interface{}, provider
 // GroupPushRules represents a group push rule.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/groups.html#get-group-push-rules-starter
+// https://docs.gitlab.com/ee/api/groups.html#get-group-push-rules
 type GroupPushRules struct {
 	ID                         int        `json:"id"`
 	CreatedAt                  *time.Time `json:"created_at"`
