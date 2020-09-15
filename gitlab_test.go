@@ -66,6 +66,12 @@ func testBody(t *testing.T, r *http.Request, want string) {
 	}
 }
 
+func testParams(t *testing.T, r *http.Request, want string) {
+	if got := r.URL.RawQuery; got != want {
+		t.Errorf("Request query: %s, want %s", got, want)
+	}
+}
+
 func mustWriteHTTPResponse(t *testing.T, w io.Writer, fixturePath string) {
 	f, err := os.Open(fixturePath)
 	if err != nil {

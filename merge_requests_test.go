@@ -134,9 +134,14 @@ func TestListProjectMergeRequests(t *testing.T) {
 
 	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
+		testParams(t, r, "with_labels_details=true&with_merge_status_recheck=true")
 		mustWriteHTTPResponse(t, w, "testdata/get_merge_requests.json")
 	})
-	opts := ListProjectMergeRequestsOptions{}
+
+	opts := ListProjectMergeRequestsOptions{
+		WithLabelsDetails:      Bool(true),
+		WithMergeStatusRecheck: Bool(true),
+	}
 
 	mergeRequests, _, err := client.MergeRequests.ListProjectMergeRequests(278964, &opts)
 
