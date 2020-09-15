@@ -5,7 +5,6 @@ import (
 	"log"
 	"net/http"
 	"reflect"
-	"strconv"
 	"testing"
 	"time"
 
@@ -127,34 +126,6 @@ func TestGetMergeRequest(t *testing.T) {
 	require.Equal(t, mergeRequest.HasConflicts, true)
 }
 
-func TestGetListMergeRequestWithMergeStatusRecheck(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
-
-	path := "/api/v4/merge_requests"
-
-	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
-		if r.FormValue("with_merge_status_recheck") == "true" {
-			testMethod(t, r, "GET")
-			mustWriteHTTPResponse(t, w, "testdata/get_merge_requests.json")
-		}
-	})
-
-	wmsr, _ := strconv.ParseBool("true")
-
-	opts := ListMergeRequestsOptions{
-		WithMergeStatusRecheck: &wmsr,
-	}
-
-	mergeRequest, _, err := client.MergeRequests.ListMergeRequests(&opts, nil)
-
-	require.NoError(t, err)
-
-	for _, mr := range mergeRequest {
-		require.Equal(t, mr.ProjectID, 278964)
-	}
-}
-
 func TestListProjectMergeRequests(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
@@ -163,9 +134,14 @@ func TestListProjectMergeRequests(t *testing.T) {
 
 	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
+		testParams(t, r, "with_labels_details=true&with_merge_status_recheck=true")
 		mustWriteHTTPResponse(t, w, "testdata/get_merge_requests.json")
 	})
-	opts := ListProjectMergeRequestsOptions{}
+
+	opts := ListProjectMergeRequestsOptions{
+		WithLabelsDetails:      Bool(true),
+		WithMergeStatusRecheck: Bool(true),
+	}
 
 	mergeRequests, _, err := client.MergeRequests.ListProjectMergeRequests(278964, &opts)
 
