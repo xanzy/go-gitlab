@@ -88,16 +88,19 @@ func TestSetCommitStatus(t *testing.T) {
 		testMethod(t, r, "POST")
 		body, err := ioutil.ReadAll(r.Body)
 		require.NoError(t, err)
+
 		var content SetCommitStatusOptions
 		err = json.Unmarshal(body, &content)
 		require.NoError(t, err)
+
 		assert.Equal(t, "ci/jenkins", *content.Name)
 		assert.Equal(t, 99.9, *content.Coverage)
 		fmt.Fprint(w, `{"id":1}`)
 	})
 
 	cov := 99.9
-	opt := &SetCommitStatusOptions{State: Running, Ref: String("master"), Name: String("ci/jenkins"), Context: String(""), TargetURL: String("http://abc"), Description: String("build"), Coverage: &cov}
+	opt := &SetCommitStatusOptions{State: Running, Ref: String("master"), Name: String("ci/jenkins"),
+		Context: String(""), TargetURL: String("http://abc"), Description: String("build"), Coverage: &cov}
 	status, _, err := client.Commits.SetCommitStatus("1", "b0b3a907f41409829b307a28b82fdbd552ee5a27", opt)
 
 	if err != nil {
