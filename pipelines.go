@@ -105,12 +105,12 @@ type PipelintTestReportTestSuites struct {
 
 //PipelineTestReportTestCases contains testcases test run in the pipeline
 type PipelineTestReportTestCases struct {
-	Status        string      `json:"status"`
-	Name          string      `json:"name"`
-	Classname     string      `json:"classname"`
-	ExecutionTime int         `json:"execution_time"`
-	SystemOutput  interface{} `json:"system_output"`
-	StackTrace    interface{} `json:"stack_trace"`
+	Status        string `json:"status"`
+	Name          string `json:"name"`
+	Classname     string `json:"classname"`
+	ExecutionTime int    `json:"execution_time"`
+	SystemOutput  string `json:"system_output"`
+	StackTrace    string `json:"stack_trace"`
 }
 
 func (p PipelineTestReport) String() string {
