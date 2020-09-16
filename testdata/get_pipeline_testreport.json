@@ -1,0 +1,29 @@
+{
+    "total_time": 1,
+    "total_count": 2,
+    "success_count": 3,
+    "failed_count": 4,
+    "skipped_count": 5,
+    "error_count": 6,
+    "test_suites": [
+        {
+            "name": "foo",
+            "total_time": 1,
+            "total_count": 2,
+            "success_count": 3,
+            "failed_count": 4,
+            "skipped_count": 5,
+            "error_count": 6,
+            "test_cases": [
+                {
+                    "status": "success",
+                    "name": "bar",
+                    "classname": "class_foo",
+                    "execution_time": 1,
+                    "system_output": null,
+                    "stack_trace": null
+                }
+            ]
+        }
+    ]
+}
