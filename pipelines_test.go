@@ -74,7 +74,7 @@ func TestGetPipelineTestReport(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/pipelines/123456/test_report", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
-		fmt.Fprint(w, `{"total_time": 1, "total_count": 2, "success_count": 3, "failed_count": 4, "skipped_count": 5, "error_count": 6, "test_suites": [{"name": "foo", "total_time": 1, "total_count": 2, "success_count": 3, "failed_count": 4, "skipped_count": 5, "error_count": 6,"test_cases": [ {"status": "success", "name": "bar", "classname": "class_foo", "execution_time": 1, "system_output": null, "stack_trace": null}]}]}`)
+		mustWriteHTTPResponse(t, w, "testdata/get_pipeline_testreport.json")
 	})
 
 	testreport, _, err := client.Pipelines.GetPipelineTestReport(1, 123456)
