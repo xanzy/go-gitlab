@@ -3,12 +3,13 @@ package gitlab
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/stretchr/testify/require"
 	"io/ioutil"
 	"net/http"
 	"reflect"
 	"testing"
 	"time"
+
+	"github.com/stretchr/testify/require"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -67,7 +68,12 @@ func TestGetCommitStatuses(t *testing.T) {
 		fmt.Fprint(w, `[{"id":1}]`)
 	})
 
-	opt := &GetCommitStatusesOptions{Ref: String("master"), Stage: String("test"), Name: String("ci/jenkins"), All: Bool(true)}
+	opt := &GetCommitStatusesOptions{
+		Ref:   String("master"),
+		Stage: String("test"),
+		Name:  String("ci/jenkins"),
+		All:   Bool(true),
+	}
 	statuses, _, err := client.Commits.GetCommitStatuses("1", "b0b3a907f41409829b307a28b82fdbd552ee5a27", opt)
 
 	if err != nil {
@@ -99,8 +105,15 @@ func TestSetCommitStatus(t *testing.T) {
 	})
 
 	cov := 99.9
-	opt := &SetCommitStatusOptions{State: Running, Ref: String("master"), Name: String("ci/jenkins"),
-		Context: String(""), TargetURL: String("http://abc"), Description: String("build"), Coverage: &cov}
+	opt := &SetCommitStatusOptions{
+		State:       Running,
+		Ref:         String("master"),
+		Name:        String("ci/jenkins"),
+		Context:     String(""),
+		TargetURL:   String("http://abc"),
+		Description: String("build"),
+		Coverage:    &cov,
+	}
 	status, _, err := client.Commits.SetCommitStatus("1", "b0b3a907f41409829b307a28b82fdbd552ee5a27", opt)
 
 	if err != nil {

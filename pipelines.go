@@ -61,7 +61,7 @@ type Pipeline struct {
 	DetailedStatus *DetailedStatus `json:"detailed_status"`
 }
 
-// DetailedStatus contains detailed information about the status of a pipeline
+// DetailedStatus contains detailed information about the status of a pipeline.
 type DetailedStatus struct {
 	Icon         string `json:"icon"`
 	Text         string `json:"text"`
@@ -80,31 +80,31 @@ func (p Pipeline) String() string {
 	return Stringify(p)
 }
 
-//PipelineTestReport contains detailed information about the results of test run in the pipeline
+// PipelineTestReport contains a detailed report of a test run.
 type PipelineTestReport struct {
-	TotalTime    int                            `json:"total_time"`
-	TotalCount   int                            `json:"total_count"`
-	SuccessCount int                            `json:"success_count"`
-	FailedCount  int                            `json:"failed_count"`
-	SkippedCount int                            `json:"skipped_count"`
-	ErrorCount   int                            `json:"error_count"`
-	TestSuites   []PipelintTestReportTestSuites `json:"test_suites"`
+	TotalTime    int                  `json:"total_time"`
+	TotalCount   int                  `json:"total_count"`
+	SuccessCount int                  `json:"success_count"`
+	FailedCount  int                  `json:"failed_count"`
+	SkippedCount int                  `json:"skipped_count"`
+	ErrorCount   int                  `json:"error_count"`
+	TestSuites   []PipelintTestSuites `json:"test_suites"`
 }
 
-//PipelintTestReportTestSuites contains test suites test run in the pipeline
-type PipelintTestReportTestSuites struct {
-	Name         string                        `json:"name"`
-	TotalTime    int                           `json:"total_time"`
-	TotalCount   int                           `json:"total_count"`
-	SuccessCount int                           `json:"success_count"`
-	FailedCount  int                           `json:"failed_count"`
-	SkippedCount int                           `json:"skipped_count"`
-	ErrorCount   int                           `json:"error_count"`
-	TestCases    []PipelineTestReportTestCases `json:"test_cases"`
+// PipelintTestSuites contains test suites results.
+type PipelintTestSuites struct {
+	Name         string              `json:"name"`
+	TotalTime    int                 `json:"total_time"`
+	TotalCount   int                 `json:"total_count"`
+	SuccessCount int                 `json:"success_count"`
+	FailedCount  int                 `json:"failed_count"`
+	SkippedCount int                 `json:"skipped_count"`
+	ErrorCount   int                 `json:"error_count"`
+	TestCases    []PipelineTestCases `json:"test_cases"`
 }
 
-//PipelineTestReportTestCases contains testcases test run in the pipeline
-type PipelineTestReportTestCases struct {
+// PipelineTestCases contains test cases details.
+type PipelineTestCases struct {
 	Status        string `json:"status"`
 	Name          string `json:"name"`
 	Classname     string `json:"classname"`
