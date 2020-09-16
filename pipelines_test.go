@@ -68,6 +68,49 @@ func TestGetPipelineVariables(t *testing.T) {
 	}
 }
 
+func TestGetPipelineTestReport(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/pipelines/123456/test_report", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "GET")
+		fmt.Fprint(w, `{"total_time": 1, "total_count": 2, "success_count": 3, "failed_count": 4, "skipped_count": 5, "error_count": 6, "test_suites": [{"name": "foo", "total_time": 1, "total_count": 2, "success_count": 3, "failed_count": 4, "skipped_count": 5, "error_count": 6,"test_cases": [ {"status": "success", "name": "bar", "classname": "class_foo", "execution_time": 1, "system_output": null, "stack_trace": null}]}]}`)
+	})
+
+	testreport, _, err := client.Pipelines.GetPipelineTestReport(1, 123456)
+	if err != nil {
+		t.Errorf("Pipelines.GetPipelineTestReport returned error: %v", err)
+	}
+
+	want := &PipelineTestReport{
+		TotalTime:    1,
+		TotalCount:   2,
+		SuccessCount: 3,
+		FailedCount:  4,
+		SkippedCount: 5,
+		ErrorCount:   6,
+		TestSuites: []PipelineTestSuites{{
+			Name:         "foo",
+			TotalTime:    1,
+			TotalCount:   2,
+			SuccessCount: 3,
+			FailedCount:  4,
+			SkippedCount: 5,
+			ErrorCount:   6,
+			TestCases: []PipelineTestCases{{
+				Status:        "success",
+				Name:          "bar",
+				Classname:     "class_foo",
+				ExecutionTime: 1,
+				SystemOutput:  "",
+				StackTrace:    "",
+			}},
+		}}}
+	if !reflect.DeepEqual(want, testreport) {
+		t.Errorf("Pipelines.GetPipelineTestReport returned %+v, want %+v", testreport, want)
+	}
+}
+
 func TestCreatePipeline(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)

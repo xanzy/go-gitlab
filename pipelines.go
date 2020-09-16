@@ -88,11 +88,11 @@ type PipelineTestReport struct {
 	FailedCount  int                  `json:"failed_count"`
 	SkippedCount int                  `json:"skipped_count"`
 	ErrorCount   int                  `json:"error_count"`
-	TestSuites   []PipelintTestSuites `json:"test_suites"`
+	TestSuites   []PipelineTestSuites `json:"test_suites"`
 }
 
-// PipelintTestSuites contains test suites results.
-type PipelintTestSuites struct {
+// PipelineTestSuites contains test suites results.
+type PipelineTestSuites struct {
 	Name         string              `json:"name"`
 	TotalTime    int                 `json:"total_time"`
 	TotalCount   int                 `json:"total_count"`
@@ -226,7 +226,7 @@ func (s *PipelinesService) GetPipelineVariables(pid interface{}, pipeline int, o
 // GetPipelineTestReport gets the test report of a single project pipeline.
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/pipelines.html#get-a-pipelines-test-report
-func (s *PipelinesService) GetPipelineTestReport(pid interface{}, pipeline int) ([]*PipelineTestReport, *Response, error) {
+func (s *PipelinesService) GetPipelineTestReport(pid interface{}, pipeline int) (*PipelineTestReport, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -238,8 +238,8 @@ func (s *PipelinesService) GetPipelineTestReport(pid interface{}, pipeline int) 
 		return nil, nil, err
 	}
 
-	var p []*PipelineTestReport
-	resp, err := s.client.Do(req, &p)
+	p := new(PipelineTestReport)
+	resp, err := s.client.Do(req, p)
 	if err != nil {
 		return nil, resp, err
 	}
