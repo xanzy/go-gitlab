@@ -869,12 +869,12 @@ type ProjectMember struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/freeze_periods.html#list-freeze-periods
 type ProjectFreezePeriod struct {
-	ID                       int        `json:"id"`
-	FreezeStart              string     `json:"freeze_start"`
-	FreezeEnd   			 string     `json:"freeze_end"`
-	CronTimezone             string     `json:"cron_timezone"`
-	CreatedAt                *time.Time `json:"created_at"`
-	UpdatedAt                *time.Time `json:"updated_at"`
+	ID           int        `json:"id"`
+	FreezeStart  string     `json:"freeze_start"`
+	FreezeEnd    string     `json:"freeze_end"`
+	CronTimezone string     `json:"cron_timezone"`
+	CreatedAt    *time.Time `json:"created_at"`
+	UpdatedAt    *time.Time `json:"updated_at"`
 }
 
 // ListProjectFreezePeriodsOptions represents the available ListProjectFreezePeriods() options.
@@ -937,9 +937,9 @@ func (s *ProjectsService) GetProjectFreezePeriod(pid interface{}, freeze_period 
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/freeze_periods.html#create-a-freeze-period
 type CreateProjectFreezePeriodOptions struct {
-	FreezeStart              *string     `json:"freeze_start"`
-	FreezeEnd   			 *string     `json:"freeze_end"`
-	CronTimezone             *string     `json:"cron_timezone,omitempty"`
+	FreezeStart  *string `json:"freeze_start"`
+	FreezeEnd    *string `json:"freeze_end"`
+	CronTimezone *string `json:"cron_timezone,omitempty"`
 }
 
 // CreateProjectFreezePeriod adds a freeze period to a specified project.
@@ -972,9 +972,9 @@ func (s *ProjectsService) CreateProjectFreezePeriod(pid interface{}, opt *Create
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/freeze_periods.html#update-a-freeze-period
 type UpdateProjectFreezePeriodOptions struct {
-	FreezeStart              *string     `json:"freeze_start,omitempty"`
-	FreezeEnd   			 *string     `json:"freeze_end,omitempty"`
-	CronTimezone             *string     `json:"cron_timezone,omitempty"`
+	FreezeStart  *string `json:"freeze_start,omitempty"`
+	FreezeEnd    *string `json:"freeze_end,omitempty"`
+	CronTimezone *string `json:"cron_timezone,omitempty"`
 }
 
 // UpdateProjectFreezePeriod edits a freeze period for a specified project.
@@ -1021,7 +1021,6 @@ func (s *ProjectsService) DeleteFreezePeriod(pid interface{}, freeze_period int,
 
 	return s.client.Do(req, nil)
 }
-
 
 // ProjectHook represents a project hook.
 //
