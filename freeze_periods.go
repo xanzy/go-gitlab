@@ -42,9 +42,11 @@ type FreezePeriod struct {
 	UpdatedAt    *time.Time `json:"updated_at"`
 }
 
-// ListFreezePeriodsOptions represents the available ListFreezePeriodsOptions() options.
+// ListFreezePeriodsOptions represents the available ListFreezePeriodsOptions()
+// options.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/freeze_periods.html#list-freeze-periods
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/freeze_periods.html#list-freeze-periods
 type ListFreezePeriodsOptions ListOptions
 
 // ListFreezePeriods gets a list of project project freeze periods.
@@ -63,13 +65,13 @@ func (s *FreezePeriodsService) ListFreezePeriods(pid interface{}, opt *ListFreez
 		return nil, nil, err
 	}
 
-	var pfp []*FreezePeriod
-	resp, err := s.client.Do(req, &pfp)
+	var fp []*FreezePeriod
+	resp, err := s.client.Do(req, &fp)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return pfp, resp, err
+	return fp, resp, err
 }
 
 // GetFreezePeriod gets a specific freeze period for a project.
@@ -88,23 +90,24 @@ func (s *FreezePeriodsService) GetFreezePeriod(pid interface{}, freezePeriod int
 		return nil, nil, err
 	}
 
-	pfp := new(FreezePeriod)
-	resp, err := s.client.Do(req, pfp)
+	fp := new(FreezePeriod)
+	resp, err := s.client.Do(req, fp)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return pfp, resp, err
+	return fp, resp, err
 }
 
-// CreateFreezePeriodOptions represents the available CreateFreezePeriodOptions() options.
+// CreateFreezePeriodOptions represents the available CreateFreezePeriodOptions()
+// options.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/freeze_periods.html#create-a-freeze-period
 type CreateFreezePeriodOptions struct {
-	FreezeStart  *string `json:"freeze_start"`
-	FreezeEnd    *string `json:"freeze_end"`
-	CronTimezone *string `json:"cron_timezone,omitempty"`
+	FreezeStart  *string `url:"freeze_start,omitempty" json:"freeze_start,omitempty"`
+	FreezeEnd    *string `url:"freeze_end,omitempty" json:"freeze_end,omitempty"`
+	CronTimezone *string `url:"cron_timezone,omitempty" json:"cron_timezone,omitempty"`
 }
 
 // CreateFreezePeriodOptions adds a freeze period to a specified project.
@@ -123,23 +126,24 @@ func (s *FreezePeriodsService) CreateFreezePeriodOptions(pid interface{}, opt *C
 		return nil, nil, err
 	}
 
-	pfp := new(FreezePeriod)
-	resp, err := s.client.Do(req, pfp)
+	fp := new(FreezePeriod)
+	resp, err := s.client.Do(req, fp)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return pfp, resp, err
+	return fp, resp, err
 }
 
-// UpdateFreezePeriodOptions represents the available UpdateFreezePeriodOptions() options.
+// UpdateFreezePeriodOptions represents the available UpdateFreezePeriodOptions()
+// options.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/freeze_periods.html#update-a-freeze-period
 type UpdateFreezePeriodOptions struct {
-	FreezeStart  *string `json:"freeze_start,omitempty"`
-	FreezeEnd    *string `json:"freeze_end,omitempty"`
-	CronTimezone *string `json:"cron_timezone,omitempty"`
+	FreezeStart  *string `url:"freeze_start,omitempty" json:"freeze_start,omitempty"`
+	FreezeEnd    *string `url:"freeze_end,omitempty" json:"freeze_end,omitempty"`
+	CronTimezone *string `url:"cron_timezone,omitempty" json:"cron_timezone,omitempty"`
 }
 
 // UpdateFreezePeriodOptions edits a freeze period for a specified project.
@@ -158,17 +162,18 @@ func (s *FreezePeriodsService) UpdateFreezePeriodOptions(pid interface{}, freeze
 		return nil, nil, err
 	}
 
-	pfp := new(FreezePeriod)
-	resp, err := s.client.Do(req, pfp)
+	fp := new(FreezePeriod)
+	resp, err := s.client.Do(req, fp)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return pfp, resp, err
+	return fp, resp, err
 }
 
-// DeleteFreezePeriod removes a freeze period from a project. This is an idempotent
-// method and can be called multiple times. Either the hook is available or not.
+// DeleteFreezePeriod removes a freeze period from a project. This is an
+// idempotent method and can be called multiple times. Either the hook is
+// available or not.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/freeze_periods.html#delete-a-freeze-period
