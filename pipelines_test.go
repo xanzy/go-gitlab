@@ -83,29 +83,64 @@ func TestGetPipelineTestReport(t *testing.T) {
 	}
 
 	want := &PipelineTestReport{
-		TotalTime:    1,
-		TotalCount:   2,
-		SuccessCount: 3,
-		FailedCount:  4,
-		SkippedCount: 5,
-		ErrorCount:   6,
-		TestSuites: []PipelineTestSuites{{
-			Name:         "foo",
-			TotalTime:    1,
-			TotalCount:   2,
-			SuccessCount: 3,
-			FailedCount:  4,
-			SkippedCount: 5,
-			ErrorCount:   6,
-			TestCases: []PipelineTestCases{{
-				Status:        "success",
-				Name:          "bar",
-				Classname:     "class_foo",
-				ExecutionTime: 1,
-				SystemOutput:  "",
-				StackTrace:    "",
-			}},
-		}}}
+		TotalTime:    61.502,
+		TotalCount:   9,
+		SuccessCount: 5,
+		FailedCount:  0,
+		SkippedCount: 0,
+		ErrorCount:   4,
+		TestSuites: []PipelineTestSuites{
+			{
+				Name:         "Failing",
+				TotalTime:    60.494,
+				TotalCount:   8,
+				SuccessCount: 4,
+				FailedCount:  0,
+				SkippedCount: 0,
+				ErrorCount:   4,
+				TestCases: []PipelineTestCases{
+					{
+						Status:        "error",
+						Name:          "Error testcase 1",
+						Classname:     "",
+						ExecutionTime: 19.987,
+					},
+
+					{
+						Status:        "error",
+						Name:          "Error testcase 2",
+						Classname:     "",
+						ExecutionTime: 19.984,
+					},
+					{
+						Status:        "error",
+						Name:          "Error testcase 3",
+						Classname:     "",
+						ExecutionTime: 0.0,
+					},
+					{
+						Status:        "success",
+						Name:          "Succes full testcase",
+						Classname:     "",
+						ExecutionTime: 19.7799999999999985,
+					}},
+			},
+			{
+				Name:         "Succes suite",
+				TotalTime:    1.008,
+				TotalCount:   1,
+				SuccessCount: 1,
+				FailedCount:  0,
+				SkippedCount: 0,
+				ErrorCount:   0,
+				TestCases: []PipelineTestCases{{
+					Status:        "success",
+					Name:          "Succesfull testcase",
+					Classname:     "",
+					ExecutionTime: 1.008,
+				}},
+			},
+		}}
 	if !reflect.DeepEqual(want, testreport) {
 		t.Errorf("Pipelines.GetPipelineTestReport returned %+v, want %+v", testreport, want)
 	}
