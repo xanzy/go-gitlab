@@ -201,6 +201,84 @@ func TestListIssuesWithLabelDetails(t *testing.T) {
 		t.Errorf("Issues.ListIssues returned %+v, want %+v", issues, want)
 	}
 }
+func TestListIssuesSearchInTitle(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/issues", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "GET")
+		testURL(t, r, "/api/v4/issues?in=title&search=Title")
+		fmt.Fprint(w, `
+			[
+				{
+					"id": 1,
+					"title": "A Test Issue Title",
+					"description": "This is the description for the issue"
+			  }
+			]`,
+		)
+	})
+
+	listProjectIssue := &ListIssuesOptions{
+		Search: String("Title"),
+		In:     String("title"),
+	}
+
+	issues, _, err := client.Issues.ListIssues(listProjectIssue)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	want := []*Issue{{
+		ID:          1,
+		Title:       "A Test Issue Title",
+		Description: "This is the description for the issue",
+	}}
+
+	if !reflect.DeepEqual(want, issues) {
+		t.Errorf("Issues.ListIssues returned %+v, want %+v", issues, want)
+	}
+}
+func TestListIssuesSearchInDescription(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/issues", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "GET")
+		testURL(t, r, "/api/v4/issues?in=description&search=description")
+		fmt.Fprint(w, `
+			[
+				{
+					"id": 1,
+					"title": "A Test Issue Title",
+					"description": "This is the description for the issue"
+			  }
+			]`,
+		)
+	})
+
+	listProjectIssue := &ListIssuesOptions{
+		Search: String("description"),
+		In:     String("description"),
+	}
+
+	issues, _, err := client.Issues.ListIssues(listProjectIssue)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	want := []*Issue{{
+		ID:          1,
+		Title:       "A Test Issue Title",
+		Description: "This is the description for the issue",
+	}}
+
+	if !reflect.DeepEqual(want, issues) {
+		t.Errorf("Issues.ListIssues returned %+v, want %+v", issues, want)
+	}
+}
 func TestListProjectIssues(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
