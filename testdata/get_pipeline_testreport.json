@@ -1,25 +1,84 @@
 {
-    "total_time": 1,
-    "total_count": 2,
-    "success_count": 3,
-    "failed_count": 4,
-    "skipped_count": 5,
-    "error_count": 6,
+    "total_time": 61.502,
+    "total_count": 9,
+    "success_count": 5,
+    "failed_count": 0,
+    "skipped_count": 0,
+    "error_count": 4,
     "test_suites": [
         {
-            "name": "foo",
-            "total_time": 1,
-            "total_count": 2,
-            "success_count": 3,
-            "failed_count": 4,
-            "skipped_count": 5,
-            "error_count": 6,
+            "name": "Failing",
+            "total_time": 60.494,
+            "total_count": 8,
+            "success_count": 4,
+            "failed_count": 0,
+            "skipped_count": 0,
+            "error_count": 4,
+            "suite_error": null,
+            "test_cases": [
+                {
+                    "status": "error",
+                    "name": "Error testcase 1",
+                    "classname": null,
+                    "execution_time": 19.987,
+                    "system_output": [
+                        {
+                            "message": "output message",
+                            "type": "pending"
+                        },
+                        {
+                            "message": "output message 2",
+                            "type": "skipped"
+                        }
+                    ],
+                    "stack_trace": null
+                },
+                {
+                    "status": "error",
+                    "name": "Error testcase 2",
+                    "classname": null,
+                    "execution_time": 19.984,
+                    "system_output": null,
+                    "stack_trace": null
+                },
+                {
+                    "status": "error",
+                    "name": "Error testcase 3",
+                    "classname": null,
+                    "execution_time": 0.0,
+                    "system_output":
+                        {
+                            "message": "Undefined message",
+                            "type": "undefined"
+                        }
+                    ,
+                    "stack_trace": null
+                },
+                {
+                    "status": "success",
+                    "name": "Succes full testcase",
+                    "classname": null,
+                    "execution_time": 19.7799999999999985,
+                    "system_output": null,
+                    "stack_trace": null
+                }
+            ]
+        },
+        {
+            "name": "Succes suite",
+            "total_time": 1.008,
+            "total_count": 1,
+            "success_count": 1,
+            "failed_count": 0,
+            "skipped_count": 0,
+            "error_count": 0,
+            "suite_error": null,
             "test_cases": [
                 {
                     "status": "success",
-                    "name": "bar",
-                    "classname": "class_foo",
-                    "execution_time": 1,
+                    "name": "Succesfull testcase",
+                    "classname": null,
+                    "execution_time": 1.008,
                     "system_output": null,
                     "stack_trace": null
                 }
