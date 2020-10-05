@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"net/http"
 	"testing"
+
+	"github.com/stretchr/testify/require"
 )
 
 func TestBlockUser(t *testing.T) {
@@ -233,4 +235,24 @@ func TestActivateUser_UserNotFound(t *testing.T) {
 	if err != ErrUserNotFound {
 		t.Errorf("Users.ActivateUser error.\nExpected: %+v\n\tGot: %+v", ErrUserNotFound, err)
 	}
+}
+
+func TestGetMemberships(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	path := fmt.Sprintf("/%susers/1/memberships", apiVersionPath)
+	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "GET")
+		mustWriteHTTPResponse(t, w, "testdata/get_user_memberships.json")
+	})
+
+	opt := new(GetUserMembershipOptions)
+
+	memberships, _, err := client.Users.GetUserMemberships(1, opt)
+
+	require.NoError(t, err)
+
+	want := []*UserMembership{{SourceID: 1, SourceName: "Project one", SourceType: "Project", AccessLevel: "20"}, {SourceID: 3, SourceName: "Group three", SourceType: "Namespace", AccessLevel: "20"}}
+	require.Equal(t, want, memberships)
 }
