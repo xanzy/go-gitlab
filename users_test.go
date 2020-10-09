@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestBlockUser(t *testing.T) {
@@ -250,8 +251,7 @@ func TestGetMemberships(t *testing.T) {
 	opt := new(GetUserMembershipOptions)
 
 	memberships, _, err := client.Users.GetUserMemberships(1, opt)
-
-	assert.NoError(t, err)
+	require.NoError(t, err)
 
 	want := []*UserMembership{{SourceID: 1, SourceName: "Project one", SourceType: "Project", AccessLevel: "20"}, {SourceID: 3, SourceName: "Group three", SourceType: "Namespace", AccessLevel: "20"}}
 	assert.Equal(t, want, memberships)
