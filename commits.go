@@ -122,7 +122,7 @@ type CommitAction struct {
 	Action          FileAction `url:"action" json:"action"`
 	FilePath        string     `url:"file_path" json:"file_path"`
 	PreviousPath    string     `url:"previous_path,omitempty" json:"previous_path,omitempty"`
-	Content         string     `url:"content,omitempty" json:"content,omitempty"`
+	Content         string     `url:"content,omitempty" json:"content"`
 	Encoding        string     `url:"encoding,omitempty" json:"encoding,omitempty"`
 	LastCommitID    string     `url:"last_commit_id,omitempty" json:"last_commit_id,omitempty"`
 	ExecuteFilemode bool       `url:"execute_filemode,omitempty" json:"execute_filemode,omitempty"`
