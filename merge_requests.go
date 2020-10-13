@@ -81,7 +81,7 @@ type MergeRequest struct {
 		RenamedFile bool   `json:"renamed_file"`
 		DeletedFile bool   `json:"deleted_file"`
 	} `json:"changes"`
-	User                      []struct {
+	User                      struct {
 		CanMerge bool `json:"can_merge"`
 	} `json:"user"`
 	TimeStats    *TimeStats    `json:"time_stats"`
