@@ -106,11 +106,12 @@ type Project struct {
 		GroupName        string `json:"group_name"`
 		GroupAccessLevel int    `json:"group_access_level"`
 	} `json:"shared_with_groups"`
-	Statistics        *ProjectStatistics `json:"statistics"`
-	Links             *Links             `json:"_links,omitempty"`
-	CIConfigPath      string             `json:"ci_config_path"`
-	CIDefaultGitDepth int                `json:"ci_default_git_depth"`
-	CustomAttributes  []*CustomAttribute `json:"custom_attributes"`
+	Statistics           *ProjectStatistics `json:"statistics"`
+	Links                *Links             `json:"_links,omitempty"`
+	CIConfigPath         string             `json:"ci_config_path"`
+	CIDefaultGitDepth    int                `json:"ci_default_git_depth"`
+	CustomAttributes     []*CustomAttribute `json:"custom_attributes"`
+	ComplianceFrameworks []string           `json:"compliance_frameworks"`
 }
 
 // Repository represents a repository.
