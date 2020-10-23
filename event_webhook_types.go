@@ -226,6 +226,12 @@ type JobEvent struct {
 		FinishedAt  string `json:"finished_at"`
 	} `json:"commit"`
 	Repository *Repository `json:"repository"`
+	Runner     struct {
+		ID          int    `json:"id"`
+		Active      bool   `json:"active"`
+		Shared      bool   `json:"is_shared"`
+		Description string `json:"description"`
+	} `json:"runner"`
 }
 
 // CommitCommentEvent represents a comment on a commit event.
