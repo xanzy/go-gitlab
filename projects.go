@@ -134,11 +134,13 @@ type Repository struct {
 
 // ProjectNamespace represents a project namespace.
 type ProjectNamespace struct {
-	ID       int    `json:"id"`
-	Name     string `json:"name"`
-	Path     string `json:"path"`
-	Kind     string `json:"kind"`
-	FullPath string `json:"full_path"`
+	ID        int    `json:"id"`
+	Name      string `json:"name"`
+	Path      string `json:"path"`
+	Kind      string `json:"kind"`
+	FullPath  string `json:"full_path"`
+	AvatarURL string `json:"avatar_url"`
+	WebURL    string `json:"web_url"`
 }
 
 // StorageStatistics represents a statistics record for a group or project.
