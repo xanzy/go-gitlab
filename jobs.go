@@ -76,6 +76,45 @@ type Job struct {
 	User   *User  `json:"user"`
 }
 
+// Bridge represents a pipeline bridge.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/jobs.html#list-pipeline-bridges
+type Bridge struct {
+	Commit       *Commit    `json:"commit"`
+	Coverage     float64    `json:"coverage"`
+	AllowFailure bool       `json:"allow_failure"`
+	CreatedAt    *time.Time `json:"created_at"`
+	StartedAt    *time.Time `json:"started_at"`
+	FinishedAt   *time.Time `json:"finished_at"`
+	Duration     float64    `json:"duration"`
+	ID           int        `json:"id"`
+	Name         string     `json:"name"`
+	Pipeline     struct {
+		ID        int        `json:"id"`
+		Ref       string     `json:"ref"`
+		Sha       string     `json:"sha"`
+		Status    string     `json:"status"`
+		CreatedAt *time.Time `json:"created_at"`
+		UpdateAt  *time.Time `json:"updated_at"`
+		WebURL    string     `json:"web_url"`
+	} `json:"pipeline"`
+	Ref                string `json:"ref"`
+	Stage              string `json:"stage"`
+	Status             string `json:"status"`
+	Tag                bool   `json:"tag"`
+	WebURL             string `json:"web_url"`
+	User               *User  `json:"user"`
+	DownstreamPipeline struct {
+		ID        int        `json:"id"`
+		Sha       string     `json:"sha"`
+		Ref       string     `json:"ref"`
+		Status    string     `json:"status"`
+		CreatedAt *time.Time `json:"created_at"`
+		UpdateAt  *time.Time `json:"updated_at"`
+		WebURL    string     `json:"web_url"`
+	} `json:"downstream_pipeline"`
+}
+
 // ListJobsOptions are options for two list apis
 type ListJobsOptions struct {
 	ListOptions
@@ -134,6 +173,32 @@ func (s *JobsService) ListPipelineJobs(pid interface{}, pipelineID int, opts *Li
 	}
 
 	return jobs, resp, err
+}
+
+// ListPipelineBridges gets a list of bridges for specific pipeline in a
+// project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/jobs.html#list-pipeline-jobs
+func (s *JobsService) ListPipelineBridges(pid interface{}, pipelineID int, opts *ListJobsOptions, options ...RequestOptionFunc) ([]*Bridge, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/pipelines/%d/bridges", pathEscape(project), pipelineID)
+
+	req, err := s.client.NewRequest("GET", u, opts, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var bridges []*Bridge
+	resp, err := s.client.Do(req, &bridges)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return bridges, resp, err
 }
 
 // GetJob gets a single job of a project.
