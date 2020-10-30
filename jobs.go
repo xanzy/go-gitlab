@@ -76,6 +76,9 @@ type Job struct {
 	User   *User  `json:"user"`
 }
 
+// Bridge represents a pipeline bridge.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/jobs.html#list-pipeline-bridges
 type Bridge struct {
 	Commit       *Commit    `json:"commit"`
 	Coverage     float64    `json:"coverage"`
