@@ -175,7 +175,7 @@ func (s *JobsService) ListPipelineJobs(pid interface{}, pipelineID int, opts *Li
 	return jobs, resp, err
 }
 
-// ListPipelinebridges gets a list of bridges for specific pipeline in a
+// ListPipelineBridges gets a list of bridges for specific pipeline in a
 // project.
 //
 // GitLab API docs:
