@@ -176,7 +176,7 @@ func (s *JobsService) ListPipelineJobs(pid interface{}, pipelineID int, opts *Li
 }
 
 // ListPipelinebridges gets a list of bridges for specific pipeline in a
-// project. If the pipeline ID is not found, it will respond with 404.
+// project.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/jobs.html#list-pipeline-jobs
