@@ -832,3 +832,43 @@ type BuildEvent struct {
 	} `json:"commit"`
 	Repository *Repository `json:"repository"`
 }
+
+// DeploymentEvent represents a deployment event
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/user/project/integrations/webhooks.html#deployment-events
+type DeploymentEvent struct {
+	ObjectKind    string `json:"object_kind"`
+	Status        string `json:"status"`
+	DeployableID  int    `json:"deployable_id"`
+	DeployableURL string `json:"deployable_url"`
+	Environment   string `json:"environment"`
+	Project       struct {
+		ID                int     `json:"id"`
+		Name              string  `json:"name"`
+		Description       string  `json:"description"`
+		WebURL            string  `json:"web_url"`
+		AvatarURL         *string `json:"avatar_url"`
+		GitSSHURL         string  `json:"git_ssh_url"`
+		GitHTTPURL        string  `json:"git_http_url"`
+		Namespace         string  `json:"namespace"`
+		VisibilityLevel   int     `json:"visibility_level"`
+		PathWithNamespace string  `json:"path_with_namespace"`
+		DefaultBranch     string  `json:"default_branch"`
+		CIConfigPath      string  `json:"ci_config_path"`
+		Homepage          string  `json:"homepage"`
+		URL               string  `json:"url"`
+		SSHURL            string  `json:"ssh_url"`
+		HTTPURL           string  `json:"http_url"`
+	} `json:"project"`
+	ShortSHA string `json:"short_sha"`
+	User     struct {
+		Name      string `json:"name"`
+		Username  string `json:"username"`
+		AvatarURL string `json:"avatar_url"`
+		Email     string `json:"email"`
+	} `json:"user"`
+	UserURL     string `json:"user_url"`
+	CommitURL   string `json:"commit_url"`
+	CommitTitle string `json:"commit_title"`
+}

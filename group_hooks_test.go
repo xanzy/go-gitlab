@@ -45,6 +45,7 @@ func TestListGroupHooks(t *testing.T) {
 		"job_events": true,
 		"pipeline_events": true,
 		"wiki_page_events": true,
+		"deployment_events": true,
 		"enable_ssl_verification": true,
 		"created_at": "2012-10-12T17:04:47Z"
 	}
@@ -70,6 +71,7 @@ func TestListGroupHooks(t *testing.T) {
 		JobEvents:                true,
 		PipelineEvents:           true,
 		WikiPageEvents:           true,
+		DeploymentEvents:         true,
 		EnableSSLVerification:    true,
 		CreatedAt:                &datePointer,
 	}}
@@ -99,6 +101,7 @@ func TestGetGroupHook(t *testing.T) {
 	"job_events": true,
 	"pipeline_events": true,
 	"wiki_page_events": true,
+	"deployment_events": true,
 	"enable_ssl_verification": true,
 	"created_at": "2012-10-12T17:04:47Z"
 }`)
@@ -123,6 +126,7 @@ func TestGetGroupHook(t *testing.T) {
 		JobEvents:                true,
 		PipelineEvents:           true,
 		WikiPageEvents:           true,
+		DeploymentEvents:         true,
 		EnableSSLVerification:    true,
 		CreatedAt:                &datePointer,
 	}
@@ -152,6 +156,7 @@ func TestAddGroupHook(t *testing.T) {
 	"job_events": true,
 	"pipeline_events": true,
 	"wiki_page_events": true,
+	"deployment_events": true,
 	"enable_ssl_verification": true,
 	"created_at": "2012-10-12T17:04:47Z"
 }`)
@@ -182,6 +187,7 @@ func TestAddGroupHook(t *testing.T) {
 		JobEvents:                true,
 		PipelineEvents:           true,
 		WikiPageEvents:           true,
+		DeploymentEvents:         true,
 		EnableSSLVerification:    true,
 		CreatedAt:                &datePointer,
 	}
@@ -211,6 +217,7 @@ func TestEditGroupHook(t *testing.T) {
 	"job_events": true,
 	"pipeline_events": true,
 	"wiki_page_events": true,
+	"deployment_events": true,
 	"enable_ssl_verification": true,
 	"created_at": "2012-10-12T17:04:47Z"
 }`)
@@ -241,6 +248,7 @@ func TestEditGroupHook(t *testing.T) {
 		JobEvents:                true,
 		PipelineEvents:           true,
 		WikiPageEvents:           true,
+		DeploymentEvents:         true,
 		EnableSSLVerification:    true,
 		CreatedAt:                &datePointer,
 	}
