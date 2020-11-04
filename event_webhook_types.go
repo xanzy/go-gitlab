@@ -205,7 +205,7 @@ type JobEvent struct {
 	BuildFinishedAt    string  `json:"build_finished_at"`
 	BuildDuration      float64 `json:"build_duration"`
 	BuildAllowFailure  bool    `json:"build_allow_failure"`
-	BuildFailureReason string  `json:"build_failure_readon"`
+	BuildFailureReason string  `json:"build_failure_reason"`
 	PipelineID         int     `json:"pipeline_id"`
 	ProjectID          int     `json:"project_id"`
 	ProjectName        string  `json:"project_name"`
