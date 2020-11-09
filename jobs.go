@@ -128,7 +128,7 @@ type ListJobsOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/jobs.html#list-project-jobs
-func (s *JobsService) ListProjectJobs(pid interface{}, opts *ListJobsOptions, options ...RequestOptionFunc) ([]Job, *Response, error) {
+func (s *JobsService) ListProjectJobs(pid interface{}, opts *ListJobsOptions, options ...RequestOptionFunc) ([]*Job, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -140,7 +140,7 @@ func (s *JobsService) ListProjectJobs(pid interface{}, opts *ListJobsOptions, op
 		return nil, nil, err
 	}
 
-	var jobs []Job
+	var jobs []*Job
 	resp, err := s.client.Do(req, &jobs)
 	if err != nil {
 		return nil, resp, err
