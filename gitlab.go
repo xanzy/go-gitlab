@@ -60,6 +60,7 @@ const (
 	basicAuth authType = iota
 	oAuthToken
 	privateToken
+	jobToken
 )
 
 // A Client manages communication with the GitLab API.
@@ -199,6 +200,18 @@ func NewClient(token string, options ...ClientOptionFunc) (*Client, error) {
 		return nil, err
 	}
 	client.authType = privateToken
+	client.token = token
+	return client, nil
+}
+
+// NewJobTokenClient returns a new GitLab API client. To use API methods which require
+// authentication, provide a valid job token.
+func NewJobTokenClient(token string, options ...ClientOptionFunc) (*Client, error) {
+	client, err := newClient(options...)
+	if err != nil {
+		return nil, err
+	}
+	client.authType = jobToken
 	client.token = token
 	return client, nil
 }
@@ -626,6 +639,8 @@ func (c *Client) Do(req *retryablehttp.Request, v interface{}) (*Response, error
 		req.Header.Set("Authorization", "Bearer "+c.token)
 	case privateToken:
 		req.Header.Set("PRIVATE-TOKEN", c.token)
+	case jobToken:
+		req.Header.Set("Job-Token", c.token)
 	}
 
 	resp, err := c.client.Do(req)
