@@ -249,6 +249,7 @@ type ListProjectsOptions struct {
 	IDBefore                 *int              `url:"id_before,omitempty" json:"id_before,omitempty"`
 	LastActivityAfter        *time.Time        `url:"last_activity_after,omitempty" json:"last_activity_after,omitempty"`
 	LastActivityBefore       *time.Time        `url:"last_activity_before,omitempty" json:"last_activity_before,omitempty"`
+	ProjectsPerPage          *int              `url:"per_page,omitempty" json:"per_page,omitempty"`
 }
 
 // ListProjects gets a list of projects accessible by the authenticated user.
