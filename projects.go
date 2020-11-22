@@ -101,6 +101,7 @@ type Project struct {
 	SnippetsAccessLevel                       AccessControlValue `json:"snippets_access_level"`
 	PagesAccessLevel                          AccessControlValue `json:"pages_access_level"`
 	AutocloseReferencedIssues                 bool               `json:"autoclose_referenced_issues"`
+	CIForwardDeploymentEnabled                bool               `json:"ci_forward_deployment_enabled"`
 	SharedWithGroups                          []struct {
 		GroupID          int    `json:"group_id"`
 		GroupName        string `json:"group_name"`
@@ -499,6 +500,7 @@ type CreateProjectOptions struct {
 	AutoCancelPendingPipelines                *string             `url:"auto_cancel_pending_pipelines,omitempty" json:"auto_cancel_pending_pipelines,omitempty"`
 	BuildCoverageRegex                        *string             `url:"build_coverage_regex,omitempty" json:"build_coverage_regex,omitempty"`
 	CIConfigPath                              *string             `url:"ci_config_path,omitempty" json:"ci_config_path,omitempty"`
+	CIForwardDeploymentEnabled                *bool               `url:"ci_forward_deployment_enabled,omitempty" json:"ci_forward_deployment_enabled,omitempty"`
 	AutoDevopsEnabled                         *bool               `url:"auto_devops_enabled,omitempty" json:"auto_devops_enabled,omitempty"`
 	AutoDevopsDeployStrategy                  *string             `url:"auto_devops_deploy_strategy,omitempty" json:"auto_devops_deploy_strategy,omitempty"`
 	ApprovalsBeforeMerge                      *int                `url:"approvals_before_merge,omitempty" json:"approvals_before_merge,omitempty"`
@@ -604,6 +606,7 @@ type EditProjectOptions struct {
 	AutoCancelPendingPipelines                *string             `url:"auto_cancel_pending_pipelines,omitempty" json:"auto_cancel_pending_pipelines,omitempty"`
 	BuildCoverageRegex                        *string             `url:"build_coverage_regex,omitempty" json:"build_coverage_regex,omitempty"`
 	CIConfigPath                              *string             `url:"ci_config_path,omitempty" json:"ci_config_path,omitempty"`
+	CIForwardDeploymentEnabled                *bool               `url:"ci_forward_deployment_enabled,omitempty" json:"ci_forward_deployment_enabled,omitempty"`
 	CIDefaultGitDepth                         *int                `url:"ci_default_git_depth,omitempty" json:"ci_default_git_depth,omitempty"`
 	AutoDevopsEnabled                         *bool               `url:"auto_devops_enabled,omitempty" json:"auto_devops_enabled,omitempty"`
 	AutoDevopsDeployStrategy                  *string             `url:"auto_devops_deploy_strategy,omitempty" json:"auto_devops_deploy_strategy,omitempty"`
