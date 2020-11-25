@@ -341,7 +341,7 @@ func (s *GroupsService) ListGroupProjects(gid interface{}, opt *ListGroupProject
 // https://docs.gitlab.com/ce/api/groups.html#list-a-groups-s-subgroups
 type ListSubgroupsOptions ListGroupsOptions
 
-// ListSubgroups gets a list of subgroups for a given project.
+// ListSubgroups gets a list of subgroups for a given group.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/groups.html#list-a-groups-s-subgroups
