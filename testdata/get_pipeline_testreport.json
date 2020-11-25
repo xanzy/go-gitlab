@@ -24,7 +24,11 @@
                     "execution_time": 19.987,
                     "system_output": "output message\n\noutput message 2",
                     "stack_trace": "java.lang.Exception: Stack trace\nat java.base/java.lang.Thread.dumpStack(Thread.java:1383)",
-                    "attachment_url": "http://foo.bar"
+                    "attachment_url": "http://foo.bar",
+                    "recent_failures": {
+                        "count": 10,
+                        "base_branch": "master"
+                    }
                 },
                 {
                     "status": "error",
@@ -34,7 +38,8 @@
                     "execution_time": 19.984,
                     "system_output": null,
                     "stack_trace": null,
-                    "attachment_url": null
+                    "attachment_url": null,
+                    "recent_failures": null
                 },
                 {
                     "status": "error",
