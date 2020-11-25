@@ -58,7 +58,7 @@ type ProjectLintOptions struct {
 	DryRun *bool `url:"dry_run,omitempty" json:"dry_run,omitempty"`
 }
 
-// Lint validates .gitlab-ci.yml content by project.
+// ProjectLint validates .gitlab-ci.yml content by project.
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/lint.html#validate-a-projects-ci-configuration
 func (s *ValidateService) ProjectLint(pid interface{}, opt *ProjectLintOptions, options ...RequestOptionFunc) (*ProjectLintResult, *Response, error) {
