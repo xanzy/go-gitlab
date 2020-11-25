@@ -75,6 +75,9 @@ type Group struct {
 	CreatedAt                      *time.Time       `json:"created_at"`
 }
 
+// LDAPGroupLink represents a GitLab LDAP group link.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/groups.html#ldap-group-links
 type LDAPGroupLink struct {
 	CN          string           `json:"cn"`
 	GroupAccess AccessLevelValue `json:"group_access"`
