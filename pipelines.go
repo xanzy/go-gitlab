@@ -108,7 +108,11 @@ type PipelineTestCases struct {
 	Status        string  `json:"status"`
 	Name          string  `json:"name"`
 	Classname     string  `json:"classname"`
+	File          string  `json:"file"`
 	ExecutionTime float64 `json:"execution_time"`
+	SystemOutput  string  `json:"system_output"`
+	StackTrace    string  `json:"stack_trace"`
+	AttachmentUrl string  `json:"attachment_url"`
 }
 
 func (p PipelineTestReport) String() string {
