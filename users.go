@@ -362,8 +362,9 @@ func (s *UsersService) GetSSHKey(key int, options ...RequestOptionFunc) (*SSHKey
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#add-ssh-key
 type AddSSHKeyOptions struct {
-	Title *string `url:"title,omitempty" json:"title,omitempty"`
-	Key   *string `url:"key,omitempty" json:"key,omitempty"`
+	Title     *string  `url:"title,omitempty" json:"title,omitempty"`
+	Key       *string  `url:"key,omitempty" json:"key,omitempty"`
+	ExpiresAt *ISOTime `url:"expires_at,omitempty" json:"expires_at,omitempty"`
 }
 
 // AddSSHKey creates a new key owned by the currently authenticated user.
