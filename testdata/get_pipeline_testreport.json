@@ -19,45 +19,36 @@
                 {
                     "status": "error",
                     "name": "Error testcase 1",
-                    "classname": null,
+                    "classname": "MyClassOne",
+                    "file": "/path/file.ext",
                     "execution_time": 19.987,
-                    "system_output": [
-                        {
-                            "message": "output message",
-                            "type": "pending"
-                        },
-                        {
-                            "message": "output message 2",
-                            "type": "skipped"
-                        }
-                    ],
-                    "stack_trace": null
+                    "system_output": "output message\n\noutput message 2",
+                    "stack_trace": "java.lang.Exception: Stack trace\nat java.base/java.lang.Thread.dumpStack(Thread.java:1383)",
+                    "attachment_url": "http://foo.bar"
                 },
                 {
                     "status": "error",
                     "name": "Error testcase 2",
-                    "classname": null,
+                    "classname": "MyClass",
+                    "file": null,
                     "execution_time": 19.984,
                     "system_output": null,
-                    "stack_trace": null
+                    "stack_trace": null,
+                    "attachment_url": null
                 },
                 {
                     "status": "error",
                     "name": "Error testcase 3",
-                    "classname": null,
+                    "classname": "MyClass",
+                    "file": null,
                     "execution_time": 0.0,
-                    "system_output":
-                        {
-                            "message": "Undefined message",
-                            "type": "undefined"
-                        }
-                    ,
-                    "stack_trace": null
+                    "system_output": "Undefined message"
                 },
                 {
                     "status": "success",
                     "name": "Succes full testcase",
-                    "classname": null,
+                    "classname": "MyClass",
+                    "file": null,
                     "execution_time": 19.7799999999999985,
                     "system_output": null,
                     "stack_trace": null
@@ -77,7 +68,8 @@
                 {
                     "status": "success",
                     "name": "Succesfull testcase",
-                    "classname": null,
+                    "classname": "MyClass",
+                    "file": null,
                     "execution_time": 1.008,
                     "system_output": null,
                     "stack_trace": null
