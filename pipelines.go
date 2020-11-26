@@ -112,7 +112,7 @@ type PipelineTestCases struct {
 	ExecutionTime  float64        `json:"execution_time"`
 	SystemOutput   string         `json:"system_output"`
 	StackTrace     string         `json:"stack_trace"`
-	AttachmentUrl  string         `json:"attachment_url"`
+	AttachmentURL  string         `json:"attachment_url"`
 	RecentFailures RecentFailures `json:"recent_failures"`
 }
 
