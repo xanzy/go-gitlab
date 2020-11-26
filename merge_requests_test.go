@@ -211,3 +211,19 @@ func TestGetMergeRequestParticipants(t *testing.T) {
 		t.Errorf("Issues.GetMergeRequestParticipants returned %+v, want %+v", mergeRequestParticipants, want)
 	}
 }
+
+func TestGetIssuesClosedOnMerge_Jira(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+	mux.HandleFunc("/api/v4/projects/1/merge_requests/1/closes_issues", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "GET")
+		fmt.Fprint(w, `[{"id":"PROJECT-123","title":"Title of this issue"}]`)
+	})
+
+	issues, _, err := client.MergeRequests.GetIssuesClosedOnMerge(1, 1, nil)
+
+	assert.NoError(t, err)
+	assert.Len(t, issues, 1)
+	assert.Equal(t, "PROJECT-123", issues[0].ID)
+	assert.Equal(t, "Title of this issue", issues[0].Title)
+}
