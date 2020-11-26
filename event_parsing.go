@@ -12,6 +12,7 @@ type EventType string
 // List of available event types.
 const (
 	EventTypeBuild         EventType = "Build Hook"
+	EventTypeDeployment    EventType = "Deployment Hook"
 	EventTypeIssue         EventType = "Issue Hook"
 	EventConfidentialIssue EventType = "Confidential Issue Hook"
 	EventTypeJob           EventType = "Job Hook"
@@ -23,7 +24,6 @@ const (
 	EventTypeSystemHook    EventType = "System Hook"
 	EventTypeTagPush       EventType = "Tag Push Hook"
 	EventTypeWikiPage      EventType = "Wiki Page Hook"
-	EventTypeDeployment    EventType = "Deployment Hook"
 )
 
 const (
@@ -184,6 +184,8 @@ func ParseWebhook(eventType EventType, payload []byte) (event interface{}, err e
 	switch eventType {
 	case EventTypeBuild:
 		event = &BuildEvent{}
+	case EventTypeDeployment:
+		event = &DeploymentEvent{}
 	case EventTypeIssue, EventConfidentialIssue:
 		event = &IssueEvent{}
 	case EventTypeJob:
@@ -198,8 +200,6 @@ func ParseWebhook(eventType EventType, payload []byte) (event interface{}, err e
 		event = &TagEvent{}
 	case EventTypeWikiPage:
 		event = &WikiPageEvent{}
-	case EventTypeDeployment:
-		event = &DeploymentEvent{}
 	case EventTypeNote, EventConfidentialNote:
 		note := &noteEvent{}
 		err := json.Unmarshal(payload, note)
