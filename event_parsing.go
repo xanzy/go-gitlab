@@ -23,6 +23,7 @@ const (
 	EventTypeSystemHook    EventType = "System Hook"
 	EventTypeTagPush       EventType = "Tag Push Hook"
 	EventTypeWikiPage      EventType = "Wiki Page Hook"
+	EventTypeDeployment    EventType = "Deployment Hook"
 )
 
 const (
@@ -197,6 +198,8 @@ func ParseWebhook(eventType EventType, payload []byte) (event interface{}, err e
 		event = &TagEvent{}
 	case EventTypeWikiPage:
 		event = &WikiPageEvent{}
+	case EventTypeDeployment:
+		event = &DeploymentEvent{}
 	case EventTypeNote, EventConfidentialNote:
 		note := &noteEvent{}
 		err := json.Unmarshal(payload, note)
