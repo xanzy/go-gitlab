@@ -192,23 +192,24 @@ type IssueEvent struct {
 // TODO: link to docs instead of src once they are published.
 // https://gitlab.com/gitlab-org/gitlab-ce/blob/master/lib/gitlab/data_builder/build.rb
 type JobEvent struct {
-	ObjectKind        string  `json:"object_kind"`
-	Ref               string  `json:"ref"`
-	Tag               bool    `json:"tag"`
-	BeforeSHA         string  `json:"before_sha"`
-	SHA               string  `json:"sha"`
-	BuildID           int     `json:"build_id"`
-	BuildName         string  `json:"build_name"`
-	BuildStage        string  `json:"build_stage"`
-	BuildStatus       string  `json:"build_status"`
-	BuildStartedAt    string  `json:"build_started_at"`
-	BuildFinishedAt   string  `json:"build_finished_at"`
-	BuildDuration     float64 `json:"build_duration"`
-	BuildAllowFailure bool    `json:"build_allow_failure"`
-	PipelineID        int     `json:"pipeline_id"`
-	ProjectID         int     `json:"project_id"`
-	ProjectName       string  `json:"project_name"`
-	User              struct {
+	ObjectKind         string  `json:"object_kind"`
+	Ref                string  `json:"ref"`
+	Tag                bool    `json:"tag"`
+	BeforeSHA          string  `json:"before_sha"`
+	SHA                string  `json:"sha"`
+	BuildID            int     `json:"build_id"`
+	BuildName          string  `json:"build_name"`
+	BuildStage         string  `json:"build_stage"`
+	BuildStatus        string  `json:"build_status"`
+	BuildStartedAt     string  `json:"build_started_at"`
+	BuildFinishedAt    string  `json:"build_finished_at"`
+	BuildDuration      float64 `json:"build_duration"`
+	BuildAllowFailure  bool    `json:"build_allow_failure"`
+	BuildFailureReason string  `json:"build_failure_reason"`
+	PipelineID         int     `json:"pipeline_id"`
+	ProjectID          int     `json:"project_id"`
+	ProjectName        string  `json:"project_name"`
+	User               struct {
 		ID    int    `json:"id"`
 		Name  string `json:"name"`
 		Email string `json:"email"`
@@ -226,6 +227,12 @@ type JobEvent struct {
 		FinishedAt  string `json:"finished_at"`
 	} `json:"commit"`
 	Repository *Repository `json:"repository"`
+	Runner     struct {
+		ID          int    `json:"id"`
+		Active      bool   `json:"active"`
+		Shared      bool   `json:"is_shared"`
+		Description string `json:"description"`
+	} `json:"runner"`
 }
 
 // CommitCommentEvent represents a comment on a commit event.
@@ -716,6 +723,7 @@ type PipelineEvent struct {
 		Tag        bool     `json:"tag"`
 		SHA        string   `json:"sha"`
 		BeforeSHA  string   `json:"before_sha"`
+		Source     string   `json:"source"`
 		Status     string   `json:"status"`
 		Stages     []string `json:"stages"`
 		CreatedAt  string   `json:"created_at"`
