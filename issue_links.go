@@ -34,6 +34,7 @@ type IssueLinksService struct {
 type IssueLink struct {
 	SourceIssue *Issue `json:"source_issue"`
 	TargetIssue *Issue `json:"target_issue"`
+	LinkType    string `json:"link_type"`
 }
 
 // ListIssueRelations gets a list of related issues of a given issue,
@@ -68,6 +69,7 @@ func (s *IssueLinksService) ListIssueRelations(pid interface{}, issueIID int, op
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/issue_links.html
 type CreateIssueLinkOptions struct {
+	LinkType        *string `json:"link_type"`
 	TargetProjectID *string `json:"target_project_id"`
 	TargetIssueIID  *string `json:"target_issue_iid"`
 }
