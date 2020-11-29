@@ -175,10 +175,18 @@ type IssueEvent struct {
 	} `json:"assignees"`
 	Labels  []Label `json:"labels"`
 	Changes struct {
+		Description struct {
+			Previous string `json:"previous"`
+			Current  string `json:"current"`
+		} `json:"description"`
 		Labels struct {
 			Previous []Label `json:"previous"`
 			Current  []Label `json:"current"`
 		} `json:"labels"`
+		Title struct {
+			Previous string `json:"previous"`
+			Current  string `json:"current"`
+		} `json:"title"`
 		UpdatedByID struct {
 			Previous int `json:"previous"`
 			Current  int `json:"current"`
