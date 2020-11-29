@@ -69,9 +69,9 @@ func (s *IssueLinksService) ListIssueRelations(pid interface{}, issueIID int, op
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/issue_links.html
 type CreateIssueLinkOptions struct {
-	LinkType        *string `json:"link_type"`
 	TargetProjectID *string `json:"target_project_id"`
 	TargetIssueIID  *string `json:"target_issue_iid"`
+	LinkType        *string `json:"link_type"`
 }
 
 // CreateIssueLink creates a two-way relation between two issues.
