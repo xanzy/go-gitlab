@@ -88,6 +88,7 @@ type User struct {
 	PrivateProfile            bool               `json:"private_profile"`
 	SharedRunnersMinutesLimit int                `json:"shared_runners_minutes_limit"`
 	CustomAttributes          []*CustomAttribute `json:"custom_attributes"`
+	Note                      string             `json:"note"`
 }
 
 // UserIdentity represents a user identity.
