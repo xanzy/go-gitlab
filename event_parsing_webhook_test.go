@@ -117,6 +117,10 @@ func TestParseIssueHook(t *testing.T) {
 	assert.Equal(t, 1, event.Changes.UpdatedByID.Current)
 	assert.Equal(t, 1, len(event.Changes.Labels.Previous))
 	assert.Equal(t, 1, len(event.Changes.Labels.Current))
+	assert.Equal(t, "", event.Changes.Description.Previous)
+	assert.Equal(t, "New description", event.Changes.Description.Current)
+	assert.Equal(t, "", event.Changes.Title.Previous)
+	assert.Equal(t, "New title", event.Changes.Title.Current)
 }
 
 func TestParseCommitCommentHook(t *testing.T) {
