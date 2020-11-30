@@ -83,6 +83,7 @@ type User struct {
 	LastSignInAt              *time.Time         `json:"last_sign_in_at"`
 	ConfirmedAt               *time.Time         `json:"confirmed_at"`
 	TwoFactorEnabled          bool               `json:"two_factor_enabled"`
+	Note                      string             `json:"note"`
 	Identities                []*UserIdentity    `json:"identities"`
 	External                  bool               `json:"external"`
 	PrivateProfile            bool               `json:"private_profile"`
