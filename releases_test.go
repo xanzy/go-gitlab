@@ -66,7 +66,7 @@ const exampleReleaseListRsp = `[
                 "external": true
               }
             ]
-            }
+          }
         },
         {
           "tag_name": "v0.1",
