@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"strings"
 	"testing"
+	"time"
 )
 
 const exampleReleaseListRsp = `[
@@ -65,7 +66,7 @@ const exampleReleaseListRsp = `[
                 "external": true
               }
             ]
-          }
+            }
         },
         {
           "tag_name": "v0.1",
@@ -214,6 +215,14 @@ func TestReleasesService_CreateRelease(t *testing.T) {
 				t.Errorf("expected request body not to have assets, got %s",
 					string(b))
 			}
+			if strings.Contains(string(b), "milestones") {
+				t.Errorf("expected request body not to have milestones, got %s",
+					string(b))
+			}
+			if strings.Contains(string(b), "released_at") {
+				t.Errorf("expected request body not to have released_at, got %s",
+					string(b))
+			}
 			fmt.Fprint(w, exampleReleaseRsp)
 		})
 
@@ -251,6 +260,14 @@ func TestReleasesService_CreateReleaseWithAsset(t *testing.T) {
 				t.Errorf("expected request body to have assets, got %s",
 					string(b))
 			}
+			if strings.Contains(string(b), "milestones") {
+				t.Errorf("expected request body not to have milestones, got %s",
+					string(b))
+			}
+			if strings.Contains(string(b), "released_at") {
+				t.Errorf("expected request body not to have released_at, got %s",
+					string(b))
+			}
 			fmt.Fprint(w, exampleReleaseRsp)
 		})
 
@@ -274,6 +291,98 @@ func TestReleasesService_CreateReleaseWithAsset(t *testing.T) {
 	}
 }
 
+func TestReleasesService_CreateReleaseWithMilestones(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/releases",
+		func(w http.ResponseWriter, r *http.Request) {
+			testMethod(t, r, "POST")
+			b, err := ioutil.ReadAll(r.Body)
+			if err != nil {
+				t.Fatalf("unable to read request body")
+			}
+			if !strings.Contains(string(b), "v0.1") {
+				t.Errorf("expected request body to contain v0.1, got %s",
+					string(b))
+			}
+			if strings.Contains(string(b), "assets") {
+				t.Errorf("expected request body not to have assets, got %s",
+					string(b))
+			}
+			if !strings.Contains(string(b), "milestones") {
+				t.Errorf("expected request body to have milestones, got %s",
+					string(b))
+			}
+			if strings.Contains(string(b), "released_at") {
+				t.Errorf("expected request body not to have released_at, got %s",
+					string(b))
+			}
+			fmt.Fprint(w, exampleReleaseRsp)
+		})
+
+	opts := &CreateReleaseOptions{
+		Name:        String("name"),
+		TagName:     String("v0.1"),
+		Description: String("Description"),
+		Milestones:  &[]string{"v0.1", "v0.1.0"},
+	}
+
+	release, _, err := client.Releases.CreateRelease(1, opts)
+	if err != nil {
+		t.Error(err)
+	}
+	if release.TagName != "v0.1" {
+		t.Errorf("expected tag v0.1, got %s", release.TagName)
+	}
+}
+
+func TestReleasesService_CreateReleaseWithReleasedAt(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/releases",
+		func(w http.ResponseWriter, r *http.Request) {
+			testMethod(t, r, "POST")
+			b, err := ioutil.ReadAll(r.Body)
+			if err != nil {
+				t.Fatalf("unable to read request body")
+			}
+			if !strings.Contains(string(b), "v0.1") {
+				t.Errorf("expected request body to contain v0.1, got %s",
+					string(b))
+			}
+			if strings.Contains(string(b), "assets") {
+				t.Errorf("expected request body not to have assets, got %s",
+					string(b))
+			}
+			if strings.Contains(string(b), "milestones") {
+				t.Errorf("expected request body not to have milestones, got %s",
+					string(b))
+			}
+			if !strings.Contains(string(b), "released_at") {
+				t.Errorf("expected request body to have released_at, got %s",
+					string(b))
+			}
+			fmt.Fprint(w, exampleReleaseRsp)
+		})
+
+	opts := &CreateReleaseOptions{
+		Name:        String("name"),
+		TagName:     String("v0.1"),
+		Description: String("Description"),
+		ReleasedAt:  &time.Time{},
+	}
+
+	release, _, err := client.Releases.CreateRelease(1, opts)
+	if err != nil {
+		t.Error(err)
+	}
+	if release.TagName != "v0.1" {
+		t.Errorf("expected tag v0.1, got %s", release.TagName)
+	}
+}
+
 func TestReleasesService_UpdateRelease(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
@@ -281,12 +390,100 @@ func TestReleasesService_UpdateRelease(t *testing.T) {
 	mux.HandleFunc("/api/v4/projects/1/releases/v0.1",
 		func(w http.ResponseWriter, r *http.Request) {
 			testMethod(t, r, "PUT")
+			b, err := ioutil.ReadAll(r.Body)
+			if err != nil {
+				t.Fatalf("unable to read request body")
+			}
+			if strings.Contains(string(b), "milestones") {
+				t.Errorf("expected request body not to have milestones, got %s",
+					string(b))
+			}
+			if strings.Contains(string(b), "released_at") {
+				t.Errorf("expected request body not to have released_at, got %s",
+					string(b))
+			}
 			fmt.Fprint(w, exampleReleaseRsp)
 		})
 
 	opts := &UpdateReleaseOptions{
 		Name:        String("name"),
 		Description: String("Description"),
+	}
+
+	release, _, err := client.Releases.UpdateRelease(1, "v0.1", opts)
+	if err != nil {
+		t.Error(err)
+	}
+	if release.TagName != "v0.1" {
+		t.Errorf("expected tag v0.1, got %s", release.TagName)
+	}
+
+}
+
+func TestReleasesService_UpdateReleaseWithMilestones(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/releases/v0.1",
+		func(w http.ResponseWriter, r *http.Request) {
+			testMethod(t, r, "PUT")
+			b, err := ioutil.ReadAll(r.Body)
+			if err != nil {
+				t.Fatalf("unable to read request body")
+			}
+			if !strings.Contains(string(b), "milestones") {
+				t.Errorf("expected request body to have milestones, got %s",
+					string(b))
+			}
+			if strings.Contains(string(b), "released_at") {
+				t.Errorf("expected request body not to have released_at, got %s",
+					string(b))
+			}
+			fmt.Fprint(w, exampleReleaseRsp)
+		})
+
+	opts := &UpdateReleaseOptions{
+		Name:        String("name"),
+		Description: String("Description"),
+		Milestones:  &[]string{"v0.1", "v0.1.0"},
+	}
+
+	release, _, err := client.Releases.UpdateRelease(1, "v0.1", opts)
+	if err != nil {
+		t.Error(err)
+	}
+	if release.TagName != "v0.1" {
+		t.Errorf("expected tag v0.1, got %s", release.TagName)
+	}
+
+}
+
+func TestReleasesService_UpdateReleaseWithReleasedAt(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/releases/v0.1",
+		func(w http.ResponseWriter, r *http.Request) {
+			testMethod(t, r, "PUT")
+			b, err := ioutil.ReadAll(r.Body)
+			if err != nil {
+				t.Fatalf("unable to read request body")
+			}
+			if strings.Contains(string(b), "milestones") {
+				t.Errorf("expected request body not to have milestones, got %s",
+					string(b))
+			}
+			if !strings.Contains(string(b), "released_at") {
+				t.Errorf("expected request body to have released_at, got %s",
+					string(b))
+			}
+			fmt.Fprint(w, exampleReleaseRsp)
+		})
+
+	opts := &UpdateReleaseOptions{
+		Name:        String("name"),
+		Description: String("Description"),
+		ReleasedAt:  &time.Time{},
 	}
 
 	release, _, err := client.Releases.UpdateRelease(1, "v0.1", opts)
