@@ -290,6 +290,7 @@ func newClient(options ...ClientOptionFunc) (*Client, error) {
 	c.GroupVariables = &GroupVariablesService{client: c}
 	c.Groups = &GroupsService{client: c}
 	c.InstanceCluster = &InstanceClustersService{client: c}
+	c.InstanceVariables = &InstanceVariablesService{client: c}
 	c.IssueLinks = &IssueLinksService{client: c}
 	c.Issues = &IssuesService{client: c, timeStats: timeStats}
 	c.IssuesStatistics = &IssuesStatisticsService{client: c}
