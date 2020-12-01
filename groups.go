@@ -99,6 +99,9 @@ type ListGroupsOptions struct {
 	Statistics           *bool             `url:"statistics,omitempty" json:"statistics,omitempty"`
 	TopLevelOnly         *bool             `url:"top_level_only,omitempty" json:"top_level_only,omitempty"`
 	WithCustomAttributes *bool             `url:"with_custom_attributes,omitempty" json:"with_custom_attributes,omitempty"`
+        PerPage              *int             `url:"per_page,omitempty" json:"per_page,omitempty"`
+	Page                 *int             `url:"page,omitempty" json:"page,omitempty"`
+
 }
 
 // ListGroups gets a list of groups (as user: my groups, as admin: all groups).
@@ -308,6 +311,9 @@ type ListGroupProjectsOptions struct {
 	WithShared               *bool            `url:"with_shared,omitempty" json:"with_shared,omitempty"`
 	IncludeSubgroups         *bool            `url:"include_subgroups,omitempty" json:"include_subgroups,omitempty"`
 	WithCustomAttributes     *bool            `url:"with_custom_attributes,omitempty" json:"with_custom_attributes,omitempty"`
+	PerPage                  *int             `url:"per_page,omitempty" json:"per_page,omitempty"`
+	Page                     *int             `url:"page,omitempty" json:"page,omitempty"`
+
 }
 
 // ListGroupProjects get a list of group projects
