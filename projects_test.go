@@ -8,6 +8,7 @@ import (
 	"reflect"
 	"strings"
 	"testing"
+	"time"
 )
 
 func TestListProjects(t *testing.T) {
@@ -190,9 +191,30 @@ func TestGetProjectByID(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
-		fmt.Fprint(w, `{"id":1, "packages_enabled": false}`)
+		fmt.Fprint(w, `{
+			"id": 1,
+			"container_registry_enabled": true,
+			"container_expiration_policy": {
+			  "cadence": "7d",
+			  "enabled": false,
+			  "keep_n": null,
+			  "older_than": null,
+			  "name_regex_delete": null,
+			  "name_regex_keep": null,
+			  "next_run_at": "2020-01-07T21:42:58.658Z"
+			},
+			"packages_enabled": false
+		  }`)
 	})
-	want := &Project{ID: 1, PackagesEnabled: false}
+	want := &Project{
+		ID:                       1,
+		ContainerRegistryEnabled: true,
+		ContainerExpirationPolicy: &ProjectContainerExpirationPolicy{
+			Cadence:   "7d",
+			NextRunAt: time.Date(2020, 01, 07, 21, 42, 58, 658000000, time.UTC),
+		},
+		PackagesEnabled: false,
+	}
 
 	project, _, err := client.Projects.GetProject(1, nil)
 	if err != nil {
@@ -200,6 +222,7 @@ func TestGetProjectByID(t *testing.T) {
 	}
 
 	if !reflect.DeepEqual(want, project) {
+
 		t.Errorf("Projects.GetProject returned %+v, want %+v", project, want)
 	}
 }
