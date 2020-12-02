@@ -325,7 +325,7 @@ func TestReleasesService_CreateReleaseWithMilestones(t *testing.T) {
 		Name:        String("name"),
 		TagName:     String("v0.1"),
 		Description: String("Description"),
-		Milestones:  &[]string{"v0.1", "v0.1.0"},
+		Milestones:  []string{"v0.1", "v0.1.0"},
 	}
 
 	release, _, err := client.Releases.CreateRelease(1, opts)
@@ -445,7 +445,7 @@ func TestReleasesService_UpdateReleaseWithMilestones(t *testing.T) {
 	opts := &UpdateReleaseOptions{
 		Name:        String("name"),
 		Description: String("Description"),
-		Milestones:  &[]string{"v0.1", "v0.1.0"},
+		Milestones:  []string{"v0.1", "v0.1.0"},
 	}
 
 	release, _, err := client.Releases.UpdateRelease(1, "v0.1", opts)
