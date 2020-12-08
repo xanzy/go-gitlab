@@ -1212,8 +1212,10 @@ type ProjectPushRules struct {
 	AuthorEmailRegex           string     `json:"author_email_regex"`
 	FileNameRegex              string     `json:"file_name_regex"`
 	MaxFileSize                int        `json:"max_file_size"`
-	CommitCommitterCheck       bool       `json:"commit_committer_check"`
-	RejectUnsignedCommits      bool       `json:"reject_unsigned_commits"`
+
+	// Only available in GitLab Silver/Premium and above.
+	CommitCommitterCheck  *bool `json:"commit_committer_check,omitempty"`
+	RejectUnsignedCommits *bool `json:"reject_unsigned_commits,omitempty"`
 }
 
 // GetProjectPushRules gets the push rules of a project.
