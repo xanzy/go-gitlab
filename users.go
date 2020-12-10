@@ -88,6 +88,7 @@ type User struct {
 	External                  bool               `json:"external"`
 	PrivateProfile            bool               `json:"private_profile"`
 	SharedRunnersMinutesLimit int                `json:"shared_runners_minutes_limit"`
+	UsingLicenseSeat          bool               `json:"using_license_seat"`
 	CustomAttributes          []*CustomAttribute `json:"custom_attributes"`
 }
 
