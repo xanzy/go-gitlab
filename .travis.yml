@@ -1,27 +1,21 @@
 language: go
+
 arch:
-    - amd64
-    - ppc64le
+  - amd64
+  - ppc64le
 
 go:
   - 1.13.x
   - 1.14.x
+  - 1.x
   - master
 
-stages:
-  - lint
-  - test
-
-jobs:
-  include:
-    - stage: lint
-      script:
-        - go get golang.org/x/lint/golint
-        - golint -set_exit_status
-        - go vet -v
-    - stage: test
-      script:
-        - go test -v
+before_script:
+  - go get golang.org/x/lint/golint
+  - golint -set_exit_status
+  - go vet -v
+script:
+  - go test -v
 
 matrix:
   allow_failures:

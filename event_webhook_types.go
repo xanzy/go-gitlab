@@ -175,10 +175,18 @@ type IssueEvent struct {
 	} `json:"assignees"`
 	Labels  []Label `json:"labels"`
 	Changes struct {
+		Description struct {
+			Previous string `json:"previous"`
+			Current  string `json:"current"`
+		} `json:"description"`
 		Labels struct {
 			Previous []Label `json:"previous"`
 			Current  []Label `json:"current"`
 		} `json:"labels"`
+		Title struct {
+			Previous string `json:"previous"`
+			Current  string `json:"current"`
+		} `json:"title"`
 		UpdatedByID struct {
 			Previous int `json:"previous"`
 			Current  int `json:"current"`
@@ -192,23 +200,24 @@ type IssueEvent struct {
 // TODO: link to docs instead of src once they are published.
 // https://gitlab.com/gitlab-org/gitlab-ce/blob/master/lib/gitlab/data_builder/build.rb
 type JobEvent struct {
-	ObjectKind        string  `json:"object_kind"`
-	Ref               string  `json:"ref"`
-	Tag               bool    `json:"tag"`
-	BeforeSHA         string  `json:"before_sha"`
-	SHA               string  `json:"sha"`
-	BuildID           int     `json:"build_id"`
-	BuildName         string  `json:"build_name"`
-	BuildStage        string  `json:"build_stage"`
-	BuildStatus       string  `json:"build_status"`
-	BuildStartedAt    string  `json:"build_started_at"`
-	BuildFinishedAt   string  `json:"build_finished_at"`
-	BuildDuration     float64 `json:"build_duration"`
-	BuildAllowFailure bool    `json:"build_allow_failure"`
-	PipelineID        int     `json:"pipeline_id"`
-	ProjectID         int     `json:"project_id"`
-	ProjectName       string  `json:"project_name"`
-	User              struct {
+	ObjectKind         string  `json:"object_kind"`
+	Ref                string  `json:"ref"`
+	Tag                bool    `json:"tag"`
+	BeforeSHA          string  `json:"before_sha"`
+	SHA                string  `json:"sha"`
+	BuildID            int     `json:"build_id"`
+	BuildName          string  `json:"build_name"`
+	BuildStage         string  `json:"build_stage"`
+	BuildStatus        string  `json:"build_status"`
+	BuildStartedAt     string  `json:"build_started_at"`
+	BuildFinishedAt    string  `json:"build_finished_at"`
+	BuildDuration      float64 `json:"build_duration"`
+	BuildAllowFailure  bool    `json:"build_allow_failure"`
+	BuildFailureReason string  `json:"build_failure_reason"`
+	PipelineID         int     `json:"pipeline_id"`
+	ProjectID          int     `json:"project_id"`
+	ProjectName        string  `json:"project_name"`
+	User               struct {
 		ID    int    `json:"id"`
 		Name  string `json:"name"`
 		Email string `json:"email"`
@@ -226,6 +235,12 @@ type JobEvent struct {
 		FinishedAt  string `json:"finished_at"`
 	} `json:"commit"`
 	Repository *Repository `json:"repository"`
+	Runner     struct {
+		ID          int    `json:"id"`
+		Active      bool   `json:"active"`
+		Shared      bool   `json:"is_shared"`
+		Description string `json:"description"`
+	} `json:"runner"`
 }
 
 // CommitCommentEvent represents a comment on a commit event.
@@ -716,6 +731,7 @@ type PipelineEvent struct {
 		Tag        bool     `json:"tag"`
 		SHA        string   `json:"sha"`
 		BeforeSHA  string   `json:"before_sha"`
+		Source     string   `json:"source"`
 		Status     string   `json:"status"`
 		Stages     []string `json:"stages"`
 		CreatedAt  string   `json:"created_at"`
@@ -831,4 +847,44 @@ type BuildEvent struct {
 		FinishedAt  string `json:"finished_at"`
 	} `json:"commit"`
 	Repository *Repository `json:"repository"`
+}
+
+// DeploymentEvent represents a deployment event
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/user/project/integrations/webhooks.html#deployment-events
+type DeploymentEvent struct {
+	ObjectKind    string `json:"object_kind"`
+	Status        string `json:"status"`
+	DeployableID  int    `json:"deployable_id"`
+	DeployableURL string `json:"deployable_url"`
+	Environment   string `json:"environment"`
+	Project       struct {
+		ID                int     `json:"id"`
+		Name              string  `json:"name"`
+		Description       string  `json:"description"`
+		WebURL            string  `json:"web_url"`
+		AvatarURL         *string `json:"avatar_url"`
+		GitSSHURL         string  `json:"git_ssh_url"`
+		GitHTTPURL        string  `json:"git_http_url"`
+		Namespace         string  `json:"namespace"`
+		VisibilityLevel   int     `json:"visibility_level"`
+		PathWithNamespace string  `json:"path_with_namespace"`
+		DefaultBranch     string  `json:"default_branch"`
+		CIConfigPath      string  `json:"ci_config_path"`
+		Homepage          string  `json:"homepage"`
+		URL               string  `json:"url"`
+		SSHURL            string  `json:"ssh_url"`
+		HTTPURL           string  `json:"http_url"`
+	} `json:"project"`
+	ShortSHA string `json:"short_sha"`
+	User     struct {
+		Name      string `json:"name"`
+		Username  string `json:"username"`
+		AvatarURL string `json:"avatar_url"`
+		Email     string `json:"email"`
+	} `json:"user"`
+	UserURL     string `json:"user_url"`
+	CommitURL   string `json:"commit_url"`
+	CommitTitle string `json:"commit_title"`
 }

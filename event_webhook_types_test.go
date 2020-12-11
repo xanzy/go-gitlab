@@ -189,3 +189,30 @@ func TestMergeEventUnmarshalFromGroup(t *testing.T) {
 		t.Errorf("Commit Username is %s, want %s", name, "Test User")
 	}
 }
+
+func TestDeploymentEventUnmarshal(t *testing.T) {
+	jsonObject := loadFixture("testdata/webhooks/deployment.json")
+
+	var event *DeploymentEvent
+	err := json.Unmarshal(jsonObject, &event)
+
+	if err != nil {
+		t.Errorf("Deployment Event can not unmarshaled: %v\n ", err.Error())
+	}
+
+	if event == nil {
+		t.Errorf("Deployment Event is null")
+	}
+
+	if event.Project.ID != 30 {
+		t.Errorf("Project.ID is %v, want %v", event.Project.ID, 30)
+	}
+
+	if event.User.Name == "" {
+		t.Errorf("Username is %s, want %s", event.User.Name, "Administrator")
+	}
+
+	if event.CommitTitle != "Add new file" {
+		t.Errorf("CommitTitle is %s, want %s", event.CommitTitle, "Add new file")
+	}
+}
