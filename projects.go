@@ -77,6 +77,7 @@ type Project struct {
 	StarCount                                 int                `json:"star_count"`
 	RunnersToken                              string             `json:"runners_token"`
 	PublicBuilds                              bool               `json:"public_builds"`
+	AllowMergeOnSkippedPipeline               bool               `json:"allow_merge_on_skipped_pipeline"`
 	OnlyAllowMergeIfPipelineSucceeds          bool               `json:"only_allow_merge_if_pipeline_succeeds"`
 	OnlyAllowMergeIfAllDiscussionsAreResolved bool               `json:"only_allow_merge_if_all_discussions_are_resolved"`
 	RemoveSourceBranchAfterMerge              bool               `json:"remove_source_branch_after_merge"`
@@ -487,6 +488,7 @@ type CreateProjectOptions struct {
 	Visibility                                *VisibilityValue    `url:"visibility,omitempty" json:"visibility,omitempty"`
 	ImportURL                                 *string             `url:"import_url,omitempty" json:"import_url,omitempty"`
 	PublicBuilds                              *bool               `url:"public_builds,omitempty" json:"public_builds,omitempty"`
+	AllowMergeOnSkippedPipeline               *bool               `url:"allow_merge_on_skipped_pipeline,omitempty" json:"allow_merge_on_skipped_pipeline,omitempty"`
 	OnlyAllowMergeIfPipelineSucceeds          *bool               `url:"only_allow_merge_if_pipeline_succeeds,omitempty" json:"only_allow_merge_if_pipeline_succeeds,omitempty"`
 	OnlyAllowMergeIfAllDiscussionsAreResolved *bool               `url:"only_allow_merge_if_all_discussions_are_resolved,omitempty" json:"only_allow_merge_if_all_discussions_are_resolved,omitempty"`
 	MergeMethod                               *MergeMethodValue   `url:"merge_method,omitempty" json:"merge_method,omitempty"`
@@ -594,6 +596,7 @@ type EditProjectOptions struct {
 	Visibility                                *VisibilityValue    `url:"visibility,omitempty" json:"visibility,omitempty"`
 	ImportURL                                 *string             `url:"import_url,omitempty" json:"import_url,omitempty"`
 	PublicBuilds                              *bool               `url:"public_builds,omitempty" json:"public_builds,omitempty"`
+	AllowMergeOnSkippedPipeline               *bool               `url:"allow_merge_on_skipped_pipeline,omitempty" json:"allow_merge_on_skipped_pipeline,omitempty"`
 	OnlyAllowMergeIfPipelineSucceeds          *bool               `url:"only_allow_merge_if_pipeline_succeeds,omitempty" json:"only_allow_merge_if_pipeline_succeeds,omitempty"`
 	OnlyAllowMergeIfAllDiscussionsAreResolved *bool               `url:"only_allow_merge_if_all_discussions_are_resolved,omitempty" json:"only_allow_merge_if_all_discussions_are_resolved,omitempty"`
 	MergeMethod                               *MergeMethodValue   `url:"merge_method,omitempty" json:"merge_method,omitempty"`
