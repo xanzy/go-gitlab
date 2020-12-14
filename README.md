@@ -3,11 +3,11 @@
 A GitLab API client enabling Go programs to interact with GitLab in a simple and uniform way
 
 [![Build Status](https://travis-ci.org/xanzy/go-gitlab.svg?branch=master)](https://travis-ci.org/xanzy/go-gitlab)
-[![GitHub license](https://img.shields.io/github/license/xanzy/go-gitlab.svg)](https://github.com/xanzy/go-gitlab/blob/master/LICENSE)
-[![Sourcegraph](https://sourcegraph.com/github.com/xanzy/go-gitlab/-/badge.svg)](https://sourcegraph.com/github.com/xanzy/go-gitlab?badge)
-[![GoDoc](https://godoc.org/github.com/xanzy/go-gitlab?status.svg)](https://godoc.org/github.com/xanzy/go-gitlab)
-[![Go Report Card](https://goreportcard.com/badge/github.com/xanzy/go-gitlab)](https://goreportcard.com/report/github.com/xanzy/go-gitlab)
-[![GitHub issues](https://img.shields.io/github/issues/xanzy/go-gitlab.svg)](https://github.com/xanzy/go-gitlab/issues)
+[![GitHub license](https://img.shields.io/github/license/xanzy/go-gitlab.svg)](https://github.com/Fourcast/go-gitlab/blob/master/LICENSE)
+[![Sourcegraph](https://sourcegraph.com/github.com/Fourcast/go-gitlab/-/badge.svg)](https://sourcegraph.com/github.com/Fourcast/go-gitlab?badge)
+[![GoDoc](https://godoc.org/github.com/Fourcast/go-gitlab?status.svg)](https://godoc.org/github.com/Fourcast/go-gitlab)
+[![Go Report Card](https://goreportcard.com/badge/github.com/Fourcast/go-gitlab)](https://goreportcard.com/report/github.com/Fourcast/go-gitlab)
+[![GitHub issues](https://img.shields.io/github/issues/xanzy/go-gitlab.svg)](https://github.com/Fourcast/go-gitlab/issues)
 
 ## NOTE
 
@@ -90,7 +90,7 @@ to add new and/or missing endpoints. Currently the following services are suppor
 ## Usage
 
 ```go
-import "github.com/xanzy/go-gitlab"
+import "github.com/Fourcast/go-gitlab"
 ```
 
 Construct a new GitLab client, then use the various services on the client to
@@ -127,7 +127,7 @@ projects, _, err := git.Projects.ListProjects(opt)
 
 ### Examples
 
-The [examples](https://github.com/xanzy/go-gitlab/tree/master/examples) directory
+The [examples](https://github.com/Fourcast/go-gitlab/tree/master/examples) directory
 contains a couple for clear examples, of which one is partially listed here as well:
 
 ```go
@@ -136,7 +136,7 @@ package main
 import (
 	"log"
 
-	"github.com/xanzy/go-gitlab"
+	"github.com/Fourcast/go-gitlab"
 )
 
 func main() {
@@ -172,7 +172,7 @@ func main() {
 }
 ```
 
-For complete usage of go-gitlab, see the full [package docs](https://godoc.org/github.com/xanzy/go-gitlab).
+For complete usage of go-gitlab, see the full [package docs](https://godoc.org/github.com/Fourcast/go-gitlab).
 
 ## ToDo
 
@@ -180,7 +180,7 @@ For complete usage of go-gitlab, see the full [package docs](https://godoc.org/g
 
 ## Issues
 
-- If you have an issue: report it on the [issue tracker](https://github.com/xanzy/go-gitlab/issues)
+- If you have an issue: report it on the [issue tracker](https://github.com/Fourcast/go-gitlab/issues)
 
 ## Author
 
