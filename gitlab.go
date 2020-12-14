@@ -60,6 +60,7 @@ const (
 	basicAuth authType = iota
 	oAuthToken
 	privateToken
+	multiple
 )
 
 // A Client manages communication with the GitLab API.
@@ -90,6 +91,11 @@ type Client struct {
 
 	// Token used to make authenticated API calls.
 	token string
+
+	// When authType is multiple and oauthToken is not empty, set the "Authorization: bearer" header during requests
+	oauthToken string
+	// When authType is multiple and privateToken is not empty, set the "PRIVATE-TOKEN:" header during requests
+	privateToken string
 
 	// Protects the token field from concurrent read/write accesses.
 	tokenLock sync.RWMutex
@@ -227,6 +233,19 @@ func NewOAuthClient(token string, options ...ClientOptionFunc) (*Client, error) 
 	}
 	client.authType = oAuthToken
 	client.token = token
+	return client, nil
+}
+
+// NewMultipleAuthClient returns a new GitLab API client. To use API methods which
+// require authentication, provide a valid oauth token and private token.
+func NewMultipleAuthClient(oauthToken, privateToken string, options ...ClientOptionFunc) (*Client, error) {
+	client, err := newClient(options...)
+	if err != nil {
+		return nil, err
+	}
+	client.authType = multiple
+	client.oauthToken = oauthToken
+	client.privateToken = privateToken
 	return client, nil
 }
 
@@ -626,6 +645,9 @@ func (c *Client) Do(req *retryablehttp.Request, v interface{}) (*Response, error
 		req.Header.Set("Authorization", "Bearer "+c.token)
 	case privateToken:
 		req.Header.Set("PRIVATE-TOKEN", c.token)
+	case multiple:
+		req.Header.Set("PRIVATE-TOKEN", c.privateToken)
+		req.Header.Set("Authorization", "Bearer "+c.oauthToken)
 	}
 
 	resp, err := c.client.Do(req)
