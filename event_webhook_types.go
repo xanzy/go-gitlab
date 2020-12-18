@@ -329,21 +329,30 @@ type MergeCommentEvent struct {
 		Visibility        VisibilityValue `json:"visibility"`
 	} `json:"project"`
 	ObjectAttributes struct {
-		ID           int    `json:"id"`
-		DiscussionID string `json:"discussion_id"`
-		Note         string `json:"note"`
-		NoteableType string `json:"noteable_type"`
-		AuthorID     int    `json:"author_id"`
-		CreatedAt    string `json:"created_at"`
-		UpdatedAt    string `json:"updated_at"`
-		ProjectID    int    `json:"project_id"`
-		Attachment   string `json:"attachment"`
-		LineCode     string `json:"line_code"`
-		CommitID     string `json:"commit_id"`
-		NoteableID   int    `json:"noteable_id"`
-		System       bool   `json:"system"`
-		StDiff       *Diff  `json:"st_diff"`
-		URL          string `json:"url"`
+		Attachment       string        `json:"attachment"`
+		AuthorID         int           `json:"author_id"`
+		ChangePosition   *NotePosition `json:"change_position"`
+		CommitID         string        `json:"commit_id"`
+		CreatedAt        string        `json:"created_at"`
+		DiscussionID     string        `json:"discussion_id"`
+		ID               int           `json:"id"`
+		LineCode         string        `json:"line_code"`
+		Note             string        `json:"note"`
+		NoteableID       int           `json:"noteable_id"`
+		NoteableType     string        `json:"noteable_type"`
+		OriginalPosition *NotePosition `json:"original_position"`
+		Position         *NotePosition `json:"position"`
+		ProjectID        int           `json:"project_id"`
+		ResolvedAt       string        `json:"resolved_at"`
+		ResolvedByID     string        `json:"resolved_by_id"`
+		ResolvedByPush   string        `json:"resolved_by_push"`
+		StDiff           *Diff         `json:"st_diff"`
+		System           bool          `json:"system"`
+		Type             string        `json:"type"`
+		UpdatedAt        string        `json:"updated_at"`
+		UpdatedByID      string        `json:"updated_by_id"`
+		Description      string        `json:"description"`
+		URL              string        `json:"url"`
 	} `json:"object_attributes"`
 	Repository   *Repository `json:"repository"`
 	MergeRequest struct {
