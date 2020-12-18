@@ -69,6 +69,7 @@ type RunnerDetails struct {
 	Token          string   `json:"token"`
 	Revision       string   `json:"revision"`
 	TagList        []string `json:"tag_list"`
+	RunUntagged    bool     `json:"run_untagged"`
 	Version        string   `json:"version"`
 	Locked         bool     `json:"locked"`
 	AccessLevel    string   `json:"access_level"`

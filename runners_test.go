@@ -80,6 +80,7 @@ const exampleDetailRsp = `{
 	"active": true,
 	"architecture": null,
 	"description": "test-1-20150125-test",
+	"run_untagged": true,
 	"id": 6,
 	"is_shared": false,
 	"contacted_at": "2016-01-25T16:39:48.066Z",
@@ -170,6 +171,7 @@ func expectedParsedDetails() *RunnerDetails {
 		Status:      "online",
 		Token:       "205086a8e3b9a2b818ffac9b89d102",
 		TagList:     []string{"ruby", "mysql"},
+		RunUntagged: true,
 		AccessLevel: "ref_protected",
 		Projects: []struct {
 			ID                int    `json:"id"`
