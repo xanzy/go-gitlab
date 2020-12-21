@@ -419,12 +419,25 @@ type DeleteRegisteredRunnerOptions struct {
 	Token *string `url:"token" json:"token"`
 }
 
-// DeleteRegisteredRunner registers a new Runner for the instance.
+// DeleteRegisteredRunner deletes a Runner by Token.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/runners.html#delete-a-registered-runner
+// https://docs.gitlab.com/ce/api/runners.html#delete-a-runner-by-authentication-token
 func (s *RunnersService) DeleteRegisteredRunner(opt *DeleteRegisteredRunnerOptions, options ...RequestOptionFunc) (*Response, error) {
 	req, err := s.client.NewRequest("DELETE", "runners", opt, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
+
+// DeleteRegisteredRunnerByID deletes a Runner by ID.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/runners.html#delete-a-runner-by-id
+func (s *RunnersService) DeleteRegisteredRunnerByID(rid int, options ...RequestOptionFunc) (*Response, error) {
+	req, err := s.client.NewRequest("DELETE", fmt.Sprintf("runners/%d", rid), nil, options)
 	if err != nil {
 		return nil, err
 	}

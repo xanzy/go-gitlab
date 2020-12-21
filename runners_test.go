@@ -248,6 +248,28 @@ func TestDeleteRegisteredRunner(t *testing.T) {
 	}
 }
 
+func TestDeleteRegisteredRunnerByID(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/runners/11111", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "DELETE")
+		w.WriteHeader(http.StatusNoContent)
+	})
+
+	rid := 11111
+
+	resp, err := client.Runners.DeleteRegisteredRunnerByID(rid, nil)
+	if err != nil {
+		t.Fatalf("Runners.DeleteRegisteredRunnerByID returns an error: %v", err)
+	}
+
+	want := 204
+	if !reflect.DeepEqual(want, resp.StatusCode) {
+		t.Errorf("Runners.DeleteRegisteredRunnerByID returned returned status code  %+v, want %+v", resp.StatusCode, want)
+	}
+}
+
 func TestVerifyRegisteredRunner(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
