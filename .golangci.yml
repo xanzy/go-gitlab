@@ -15,6 +15,9 @@ output:
 
 # all available settings of specific linters
 linters-settings:
+  govet:
+    # report about shadowed variables
+    check-shadowing: true
   misspell:
     locale: US
     ignore-words:
@@ -35,6 +38,7 @@ linters:
     - goconst
     - golint
     - gosimple
+    - govet
     - ineffassign
     - megacheck
     - misspell
