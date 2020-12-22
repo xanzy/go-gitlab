@@ -34,11 +34,11 @@ func TestGetBranch(t *testing.T) {
 		CanPush:            true,
 		Commit: &Commit{
 			AuthorEmail:    "john@example.com",
-			AuthorName:     "John Smith",
+			AuthorName:     exampleEventUserName,
 			AuthoredDate:   &authoredDate,
 			CommittedDate:  &committedDate,
 			CommitterEmail: "john@example.com",
-			CommitterName:  "John Smith",
+			CommitterName:  exampleEventUserName,
 			ID:             "7b5c3cc8be40ee161ae89a06bba6229da1032a0c",
 			ShortID:        "7b5c3cc",
 			Title:          "add projects API",

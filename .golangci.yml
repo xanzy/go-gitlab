@@ -32,6 +32,7 @@ linters:
     - deadcode
     - dogsled
     - exportloopref
+    - goconst
     - golint
     - gosimple
     - ineffassign

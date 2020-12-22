@@ -5,6 +5,8 @@ import (
 	"testing"
 )
 
+const exampleProjectName = "example-project"
+
 func TestPushEventUnmarshal(t *testing.T) {
 	jsonObject := loadFixture("testdata/webhooks/push.json")
 	var event *PushEvent
@@ -22,8 +24,8 @@ func TestPushEventUnmarshal(t *testing.T) {
 		t.Errorf("ProjectID is %v, want %v", event.ProjectID, 15)
 	}
 
-	if event.UserName != "John Smith" {
-		t.Errorf("Username is %s, want %s", event.UserName, "John Smith")
+	if event.UserName != exampleEventUserName {
+		t.Errorf("Username is %s, want %s", event.UserName, exampleEventUserName)
 	}
 
 	if event.Commits[0] == nil || event.Commits[0].Timestamp == nil {
@@ -153,24 +155,24 @@ func TestMergeEventUnmarshalFromGroup(t *testing.T) {
 		t.Errorf("User.Username is %v, want %v", event.User.Username, "root")
 	}
 
-	if event.Project.Name != "example-project" {
-		t.Errorf("Project.Name is %v, want %v", event.Project.Name, "example-project")
+	if event.Project.Name != exampleProjectName {
+		t.Errorf("Project.Name is %v, want %v", event.Project.Name, exampleProjectName)
 	}
 
 	if event.ObjectAttributes.ID != 15917 {
 		t.Errorf("ObjectAttributes.ID is %v, want %v", event.ObjectAttributes.ID, 15917)
 	}
 
-	if event.ObjectAttributes.Source.Name != "example-project" {
-		t.Errorf("ObjectAttributes.Source.Name is %v, want %v", event.ObjectAttributes.Source.Name, "example-project")
+	if event.ObjectAttributes.Source.Name != exampleProjectName {
+		t.Errorf("ObjectAttributes.Source.Name is %v, want %v", event.ObjectAttributes.Source.Name, exampleProjectName)
 	}
 
 	if event.ObjectAttributes.LastCommit.Author.Email != "test.user@mail.com" {
 		t.Errorf("ObjectAttributes.LastCommit.Author.Email is %v, want %v", event.ObjectAttributes.LastCommit.Author.Email, "test.user@mail.com")
 	}
 
-	if event.Repository.Name != "example-project" {
-		t.Errorf("Repository.Name is %v, want %v", event.Repository.Name, "example-project")
+	if event.Repository.Name != exampleProjectName {
+		t.Errorf("Repository.Name is %v, want %v", event.Repository.Name, exampleProjectName)
 	}
 
 	if event.Assignee.Username != "root" {

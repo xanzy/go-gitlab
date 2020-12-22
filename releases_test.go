@@ -9,6 +9,8 @@ import (
 	"time"
 )
 
+const exampleTagName = "v0.1"
+
 const exampleReleaseListRsp = `[
         {
           "tag_name": "v0.2",
@@ -187,12 +189,12 @@ func TestReleasesService_GetRelease(t *testing.T) {
 			fmt.Fprint(w, exampleReleaseRsp)
 		})
 
-	release, _, err := client.Releases.GetRelease(1, "v0.1")
+	release, _, err := client.Releases.GetRelease(1, exampleTagName)
 	if err != nil {
 		t.Error(err)
 	}
-	if release.TagName != "v0.1" {
-		t.Errorf("expected tag v0.1, got %s", release.TagName)
+	if release.TagName != exampleTagName {
+		t.Errorf("expected tag %s, got %s", exampleTagName, release.TagName)
 	}
 }
 
@@ -207,9 +209,9 @@ func TestReleasesService_CreateRelease(t *testing.T) {
 			if err != nil {
 				t.Fatalf("unable to read request body")
 			}
-			if !strings.Contains(string(b), "v0.1") {
-				t.Errorf("expected request body to contain v0.1, got %s",
-					string(b))
+			if !strings.Contains(string(b), exampleTagName) {
+				t.Errorf("expected request body to contain %s, got %s",
+					exampleTagName, string(b))
 			}
 			if strings.Contains(string(b), "assets") {
 				t.Errorf("expected request body not to have assets, got %s",
@@ -228,7 +230,7 @@ func TestReleasesService_CreateRelease(t *testing.T) {
 
 	opts := &CreateReleaseOptions{
 		Name:        String("name"),
-		TagName:     String("v0.1"),
+		TagName:     String(exampleTagName),
 		Description: String("Description"),
 	}
 
@@ -236,8 +238,8 @@ func TestReleasesService_CreateRelease(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	if release.TagName != "v0.1" {
-		t.Errorf("expected tag v0.1, got %s", release.TagName)
+	if release.TagName != exampleTagName {
+		t.Errorf("expected tag %s, got %s", exampleTagName, release.TagName)
 	}
 }
 
@@ -252,9 +254,9 @@ func TestReleasesService_CreateReleaseWithAsset(t *testing.T) {
 			if err != nil {
 				t.Fatalf("unable to read request body")
 			}
-			if !strings.Contains(string(b), "v0.1") {
-				t.Errorf("expected request body to contain v0.1, got %s",
-					string(b))
+			if !strings.Contains(string(b), exampleTagName) {
+				t.Errorf("expected request body to contain %s, got %s",
+					exampleTagName, string(b))
 			}
 			if !strings.Contains(string(b), "assets") {
 				t.Errorf("expected request body to have assets, got %s",
@@ -273,7 +275,7 @@ func TestReleasesService_CreateReleaseWithAsset(t *testing.T) {
 
 	opts := &CreateReleaseOptions{
 		Name:        String("name"),
-		TagName:     String("v0.1"),
+		TagName:     String(exampleTagName),
 		Description: String("Description"),
 		Assets: &ReleaseAssets{
 			Links: []*ReleaseAssetLink{
@@ -286,8 +288,8 @@ func TestReleasesService_CreateReleaseWithAsset(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	if release.TagName != "v0.1" {
-		t.Errorf("expected tag v0.1, got %s", release.TagName)
+	if release.TagName != exampleTagName {
+		t.Errorf("expected tag %s, got %s", exampleTagName, release.TagName)
 	}
 }
 
@@ -302,9 +304,9 @@ func TestReleasesService_CreateReleaseWithMilestones(t *testing.T) {
 			if err != nil {
 				t.Fatalf("unable to read request body")
 			}
-			if !strings.Contains(string(b), "v0.1") {
-				t.Errorf("expected request body to contain v0.1, got %s",
-					string(b))
+			if !strings.Contains(string(b), exampleTagName) {
+				t.Errorf("expected request body to contain %s, got %s",
+					exampleTagName, string(b))
 			}
 			if strings.Contains(string(b), "assets") {
 				t.Errorf("expected request body not to have assets, got %s",
@@ -323,17 +325,17 @@ func TestReleasesService_CreateReleaseWithMilestones(t *testing.T) {
 
 	opts := &CreateReleaseOptions{
 		Name:        String("name"),
-		TagName:     String("v0.1"),
+		TagName:     String(exampleTagName),
 		Description: String("Description"),
-		Milestones:  []string{"v0.1", "v0.1.0"},
+		Milestones:  []string{exampleTagName, "v0.1.0"},
 	}
 
 	release, _, err := client.Releases.CreateRelease(1, opts)
 	if err != nil {
 		t.Error(err)
 	}
-	if release.TagName != "v0.1" {
-		t.Errorf("expected tag v0.1, got %s", release.TagName)
+	if release.TagName != exampleTagName {
+		t.Errorf("expected tag %s, got %s", exampleTagName, release.TagName)
 	}
 }
 
@@ -348,9 +350,9 @@ func TestReleasesService_CreateReleaseWithReleasedAt(t *testing.T) {
 			if err != nil {
 				t.Fatalf("unable to read request body")
 			}
-			if !strings.Contains(string(b), "v0.1") {
-				t.Errorf("expected request body to contain v0.1, got %s",
-					string(b))
+			if !strings.Contains(string(b), exampleTagName) {
+				t.Errorf("expected request body to contain %s, got %s",
+					exampleTagName, string(b))
 			}
 			if strings.Contains(string(b), "assets") {
 				t.Errorf("expected request body not to have assets, got %s",
@@ -369,7 +371,7 @@ func TestReleasesService_CreateReleaseWithReleasedAt(t *testing.T) {
 
 	opts := &CreateReleaseOptions{
 		Name:        String("name"),
-		TagName:     String("v0.1"),
+		TagName:     String(exampleTagName),
 		Description: String("Description"),
 		ReleasedAt:  &time.Time{},
 	}
@@ -378,8 +380,8 @@ func TestReleasesService_CreateReleaseWithReleasedAt(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	if release.TagName != "v0.1" {
-		t.Errorf("expected tag v0.1, got %s", release.TagName)
+	if release.TagName != exampleTagName {
+		t.Errorf("expected tag %s, got %s", exampleTagName, release.TagName)
 	}
 }
 
@@ -410,12 +412,12 @@ func TestReleasesService_UpdateRelease(t *testing.T) {
 		Description: String("Description"),
 	}
 
-	release, _, err := client.Releases.UpdateRelease(1, "v0.1", opts)
+	release, _, err := client.Releases.UpdateRelease(1, exampleTagName, opts)
 	if err != nil {
 		t.Error(err)
 	}
-	if release.TagName != "v0.1" {
-		t.Errorf("expected tag v0.1, got %s", release.TagName)
+	if release.TagName != exampleTagName {
+		t.Errorf("expected tag %s, got %s", exampleTagName, release.TagName)
 	}
 }
 
@@ -444,15 +446,15 @@ func TestReleasesService_UpdateReleaseWithMilestones(t *testing.T) {
 	opts := &UpdateReleaseOptions{
 		Name:        String("name"),
 		Description: String("Description"),
-		Milestones:  []string{"v0.1", "v0.1.0"},
+		Milestones:  []string{exampleTagName, "v0.1.0"},
 	}
 
-	release, _, err := client.Releases.UpdateRelease(1, "v0.1", opts)
+	release, _, err := client.Releases.UpdateRelease(1, exampleTagName, opts)
 	if err != nil {
 		t.Error(err)
 	}
-	if release.TagName != "v0.1" {
-		t.Errorf("expected tag v0.1, got %s", release.TagName)
+	if release.TagName != exampleTagName {
+		t.Errorf("expected tag %s, got %s", exampleTagName, release.TagName)
 	}
 }
 
@@ -484,12 +486,12 @@ func TestReleasesService_UpdateReleaseWithReleasedAt(t *testing.T) {
 		ReleasedAt:  &time.Time{},
 	}
 
-	release, _, err := client.Releases.UpdateRelease(1, "v0.1", opts)
+	release, _, err := client.Releases.UpdateRelease(1, exampleTagName, opts)
 	if err != nil {
 		t.Error(err)
 	}
-	if release.TagName != "v0.1" {
-		t.Errorf("expected tag v0.1, got %s", release.TagName)
+	if release.TagName != exampleTagName {
+		t.Errorf("expected tag %s, got %s", exampleTagName, release.TagName)
 	}
 }
 
@@ -503,11 +505,11 @@ func TestReleasesService_DeleteRelease(t *testing.T) {
 			fmt.Fprint(w, exampleReleaseRsp)
 		})
 
-	release, _, err := client.Releases.DeleteRelease(1, "v0.1")
+	release, _, err := client.Releases.DeleteRelease(1, exampleTagName)
 	if err != nil {
 		t.Error(err)
 	}
-	if release.TagName != "v0.1" {
-		t.Errorf("expected tag v0.1, got %s", release.TagName)
+	if release.TagName != exampleTagName {
+		t.Errorf("expected tag %s, got %s", exampleTagName, release.TagName)
 	}
 }

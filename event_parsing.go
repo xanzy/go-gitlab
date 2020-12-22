@@ -141,7 +141,7 @@ func ParseSystemhook(payload []byte) (event interface{}, err error) {
 		event = &UserTeamSystemEvent{}
 	default:
 		switch e.ObjectKind {
-		case "merge_request":
+		case string(MergeRequestEventTargetType):
 			event = &MergeEvent{}
 		default:
 			return nil, fmt.Errorf("unexpected system hook type %s", e.EventName)
@@ -207,7 +207,7 @@ func ParseWebhook(eventType EventType, payload []byte) (event interface{}, err e
 			return nil, err
 		}
 
-		if note.ObjectKind != "note" {
+		if note.ObjectKind != string(NoteEventTargetType) {
 			return nil, fmt.Errorf("unexpected object kind %s", note.ObjectKind)
 		}
 

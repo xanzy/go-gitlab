@@ -6,6 +6,8 @@ import (
 	"testing"
 )
 
+const exampleReleaseName = "awesome-v0.2.dmg"
+
 const exampleReleaseLinkList = `[
         {
           "id": 2,
@@ -32,7 +34,7 @@ func TestReleaseLinksService_ListReleaseLinks(t *testing.T) {
 		})
 
 	releaseLinks, _, err := client.ReleaseLinks.ListReleaseLinks(
-		1, "v0.1", &ListReleaseLinksOptions{},
+		1, exampleTagName, &ListReleaseLinksOptions{},
 	)
 	if err != nil {
 		t.Error(err)
@@ -64,16 +66,16 @@ func TestReleaseLinksService_CreateReleaseLink(t *testing.T) {
 		})
 
 	releaseLink, _, err := client.ReleaseLinks.CreateReleaseLink(
-		1, "v0.1",
+		1, exampleTagName,
 		&CreateReleaseLinkOptions{
-			Name: String("awesome-v0.2.dmg"),
+			Name: String(exampleReleaseName),
 			URL:  String("http://192.168.10.15:3000"),
 		})
 	if err != nil {
 		t.Error(err)
 	}
-	if releaseLink.Name != "awesome-v0.2.dmg" {
-		t.Errorf("release link name, expected '%s', got '%s'", "awesome-v0.2.dmg",
+	if releaseLink.Name != exampleReleaseName {
+		t.Errorf("release link name, expected '%s', got '%s'", exampleReleaseName,
 			releaseLink.Name)
 	}
 }
@@ -88,12 +90,12 @@ func TestReleaseLinksService_GetReleaseLink(t *testing.T) {
 			fmt.Fprint(w, exampleReleaseLink)
 		})
 
-	releaseLink, _, err := client.ReleaseLinks.GetReleaseLink(1, "v0.1", 1)
+	releaseLink, _, err := client.ReleaseLinks.GetReleaseLink(1, exampleTagName, 1)
 	if err != nil {
 		t.Error(err)
 	}
-	if releaseLink.Name != "awesome-v0.2.dmg" {
-		t.Errorf("release link name, expected '%s', got '%s'", "awesome-v0.2.dmg",
+	if releaseLink.Name != exampleReleaseName {
+		t.Errorf("release link name, expected '%s', got '%s'", exampleReleaseName,
 			releaseLink.Name)
 	}
 }
@@ -109,15 +111,15 @@ func TestReleaseLinksService_UpdateReleaseLink(t *testing.T) {
 		})
 
 	releaseLink, _, err := client.ReleaseLinks.UpdateReleaseLink(
-		1, "v0.1", 1,
+		1, exampleTagName, 1,
 		&UpdateReleaseLinkOptions{
-			Name: String("awesome-v0.2.dmg"),
+			Name: String(exampleReleaseName),
 		})
 	if err != nil {
 		t.Error(err)
 	}
-	if releaseLink.Name != "awesome-v0.2.dmg" {
-		t.Errorf("release link name, expected '%s', got '%s'", "awesome-v0.2.dmg",
+	if releaseLink.Name != exampleReleaseName {
+		t.Errorf("release link name, expected '%s', got '%s'", exampleReleaseName,
 			releaseLink.Name)
 	}
 }
@@ -132,12 +134,12 @@ func TestReleaseLinksService_DeleteReleaseLink(t *testing.T) {
 			fmt.Fprint(w, exampleReleaseLink)
 		})
 
-	releaseLink, _, err := client.ReleaseLinks.DeleteReleaseLink(1, "v0.1", 1)
+	releaseLink, _, err := client.ReleaseLinks.DeleteReleaseLink(1, exampleTagName, 1)
 	if err != nil {
 		t.Error(err)
 	}
-	if releaseLink.Name != "awesome-v0.2.dmg" {
-		t.Errorf("release link name, expected '%s', got '%s'", "awesome-v0.2.dmg",
+	if releaseLink.Name != exampleReleaseName {
+		t.Errorf("release link name, expected '%s', got '%s'", exampleReleaseName,
 			releaseLink.Name)
 	}
 }

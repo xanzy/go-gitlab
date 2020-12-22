@@ -58,7 +58,7 @@ func TestGetKeyWithUser(t *testing.T) {
 			ID:               25,
 			Username:         "john_smith",
 			Email:            "john@example.com",
-			Name:             "John Smith",
+			Name:             exampleEventUserName,
 			State:            "active",
 			Bio:              "",
 			Location:         "",
