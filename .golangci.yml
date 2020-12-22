@@ -15,6 +15,10 @@ output:
 
 # all available settings of specific linters
 linters-settings:
+  misspell:
+    locale: US
+    ignore-words:
+    - noteable
   unused:
     # treat code as a program (not a library) and report unused exported identifiers; default is false.
     # XXX: if you enable this setting, unused will report a lot of false-positives in text editors:
@@ -32,6 +36,7 @@ linters:
     - gosimple
     - ineffassign
     - megacheck
+    - misspell
     - nakedret
     - nolintlint
     - structcheck

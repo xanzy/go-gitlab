@@ -428,7 +428,7 @@ func (c *Client) configureLimiter() error {
 	if v := resp.Header.Get(headerRateLimit); v != "" {
 		if rateLimit, _ := strconv.ParseFloat(v, 64); rateLimit > 0 {
 			// The rate limit is based on requests per minute, so for our limiter to
-			// work correctly we devide the limit by 60 to get the limit per second.
+			// work correctly we divide the limit by 60 to get the limit per second.
 			rateLimit /= 60
 			// Configure the limit and burst using a split of 2/3 for the limit and
 			// 1/3 for the burst. This enables clients to burst 1/3 of the allowed
