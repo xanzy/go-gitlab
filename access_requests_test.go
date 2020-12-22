@@ -58,6 +58,7 @@ func TestListProjectAccessRequests(t *testing.T) {
 
 	requests, resp, err := client.AccessRequests.ListProjectAccessRequests(1, nil)
 	assert.NoError(t, err)
+	assert.NotNil(t, resp)
 	assert.Equal(t, expected, requests)
 	assert.NotNil(t, resp)
 
@@ -125,6 +126,7 @@ func TestListGroupAccessRequests(t *testing.T) {
 
 	requests, resp, err := client.AccessRequests.ListGroupAccessRequests(1, nil)
 	assert.NoError(t, err)
+	assert.NotNil(t, resp)
 	assert.Equal(t, expected, requests)
 	assert.NotNil(t, resp)
 
@@ -172,6 +174,7 @@ func TestRequestProjectAccess(t *testing.T) {
 
 	accessRequest, resp, err := client.AccessRequests.RequestProjectAccess(1, nil)
 	assert.NoError(t, err)
+	assert.NotNil(t, resp)
 	assert.Equal(t, expected, accessRequest)
 	assert.NotNil(t, resp)
 
@@ -219,6 +222,7 @@ func TestRequestGroupAccess(t *testing.T) {
 
 	accessRequest, resp, err := client.AccessRequests.RequestGroupAccess(1, nil)
 	assert.NoError(t, err)
+	assert.NotNil(t, resp)
 	assert.Equal(t, expected, accessRequest)
 	assert.NotNil(t, resp)
 
@@ -279,6 +283,7 @@ func TestApproveProjectAccessRequest(t *testing.T) {
 
 	request, resp, err := client.AccessRequests.ApproveProjectAccessRequest(1, 10, opt)
 	assert.NoError(t, err)
+	assert.NotNil(t, resp)
 	assert.Equal(t, expected, request)
 	assert.NotNil(t, resp)
 
@@ -339,6 +344,7 @@ func TestApproveGroupAccessRequest(t *testing.T) {
 
 	request, resp, err := client.AccessRequests.ApproveGroupAccessRequest(1, 10, opt)
 	assert.NoError(t, err)
+	assert.NotNil(t, resp)
 	assert.Equal(t, expected, request)
 	assert.NotNil(t, resp)
 

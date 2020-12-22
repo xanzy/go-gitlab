@@ -39,6 +39,7 @@ linters:
     - misspell
     - nakedret
     - nolintlint
+    - staticcheck
     - structcheck
     - typecheck
     - unconvert
@@ -47,7 +48,6 @@ linters:
     - whitespace
   disable:
     - errcheck
-    - staticcheck
   disable-all: false
   fast: false
 
