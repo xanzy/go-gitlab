@@ -114,5 +114,4 @@ func TestRemoveGroupBadge(t *testing.T) {
 	if got != want {
 		t.Errorf("GroupsBadges.DeleteGroupBadge returned %d, want %d", got, want)
 	}
-
 }

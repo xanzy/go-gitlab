@@ -417,7 +417,6 @@ func TestReleasesService_UpdateRelease(t *testing.T) {
 	if release.TagName != "v0.1" {
 		t.Errorf("expected tag v0.1, got %s", release.TagName)
 	}
-
 }
 
 func TestReleasesService_UpdateReleaseWithMilestones(t *testing.T) {
@@ -455,7 +454,6 @@ func TestReleasesService_UpdateReleaseWithMilestones(t *testing.T) {
 	if release.TagName != "v0.1" {
 		t.Errorf("expected tag v0.1, got %s", release.TagName)
 	}
-
 }
 
 func TestReleasesService_UpdateReleaseWithReleasedAt(t *testing.T) {
@@ -493,7 +491,6 @@ func TestReleasesService_UpdateReleaseWithReleasedAt(t *testing.T) {
 	if release.TagName != "v0.1" {
 		t.Errorf("expected tag v0.1, got %s", release.TagName)
 	}
-
 }
 
 func TestReleasesService_DeleteRelease(t *testing.T) {
@@ -513,5 +510,4 @@ func TestReleasesService_DeleteRelease(t *testing.T) {
 	if release.TagName != "v0.1" {
 		t.Errorf("expected tag v0.1, got %s", release.TagName)
 	}
-
 }

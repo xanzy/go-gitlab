@@ -39,6 +39,7 @@ linters:
     - unconvert
     - unused
     - varcheck
+    - whitespace
   disable:
     - errcheck
     - staticcheck
