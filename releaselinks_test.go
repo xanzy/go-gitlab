@@ -8,21 +8,6 @@ import (
 
 const exampleReleaseName = "awesome-v0.2.dmg"
 
-const exampleReleaseLinkList = `[
-        {
-          "id": 2,
-          "name": "awesome-v0.2.msi",
-          "url": "http://192.168.10.15:3000/msi",
-          "external": true
-        },
-        {
-          "id": 1,
-          "name": "awesome-v0.2.dmg",
-          "url": "http://192.168.10.15:3000",
-          "external": true
-        }
-]`
-
 func TestReleaseLinksService_ListReleaseLinks(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
@@ -47,13 +32,6 @@ func TestReleaseLinksService_ListReleaseLinks(t *testing.T) {
 			releaseLinks[0].Name)
 	}
 }
-
-const exampleReleaseLink = `{
-        "id":1,
-        "name":"awesome-v0.2.dmg",
-        "url":"http://192.168.10.15:3000",
-        "external":true
- }`
 
 func TestReleaseLinksService_CreateReleaseLink(t *testing.T) {
 	mux, server, client := setup(t)

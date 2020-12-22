@@ -7,8 +7,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-const exampleEventUserName = "John Smith"
-
 func TestWebhookEventType(t *testing.T) {
 	req, err := http.NewRequest(http.MethodGet, "https://gitlab.com", nil)
 	if err != nil {

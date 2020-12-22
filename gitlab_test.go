@@ -16,6 +16,14 @@ import (
 	retryablehttp "github.com/hashicorp/go-retryablehttp"
 )
 
+const (
+	// Parsing Webhook
+	exampleEventUserName = "John Smith"
+
+	// Releases
+	exampleTagName = "v0.1"
+)
+
 // setup sets up a test HTTP server along with a gitlab.Client that is
 // configured to talk to that test server.  Tests should register handlers on
 // mux which provide mock responses for the API method being tested.
