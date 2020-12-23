@@ -104,7 +104,7 @@ type Bridge struct {
 	Tag                bool   `json:"tag"`
 	WebURL             string `json:"web_url"`
 	User               *User  `json:"user"`
-	DownstreamPipeline struct {
+	DownstreamPipeline *struct {
 		ID        int        `json:"id"`
 		Sha       string     `json:"sha"`
 		Ref       string     `json:"ref"`
