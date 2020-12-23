@@ -381,14 +381,27 @@ func (s *RunnersService) ListGroupsRunners(gid interface{}, opt *ListGroupsRunne
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/runners.html#register-a-new-runner
 type RegisterNewRunnerOptions struct {
-	Token          *string  `url:"token" json:"token"`
-	Description    *string  `url:"description,omitempty" json:"description,omitempty"`
-	Info           *string  `url:"info,omitempty" json:"info,omitempty"`
-	Active         *bool    `url:"active,omitempty" json:"active,omitempty"`
-	Locked         *bool    `url:"locked,omitempty" json:"locked,omitempty"`
-	RunUntagged    *bool    `url:"run_untagged,omitempty" json:"run_untagged,omitempty"`
-	TagList        []string `url:"tag_list[],omitempty" json:"tag_list,omitempty"`
-	MaximumTimeout *int     `url:"maximum_timeout,omitempty" json:"maximum_timeout,omitempty"`
+	Token          *string                       `url:"token" json:"token"`
+	Description    *string                       `url:"description,omitempty" json:"description,omitempty"`
+	Info           *RegisterNewRunnerInfoOptions `url:"info,omitempty" json:"info,omitempty"`
+	Active         *bool                         `url:"active,omitempty" json:"active,omitempty"`
+	Locked         *bool                         `url:"locked,omitempty" json:"locked,omitempty"`
+	RunUntagged    *bool                         `url:"run_untagged,omitempty" json:"run_untagged,omitempty"`
+	TagList        []string                      `url:"tag_list[],omitempty" json:"tag_list,omitempty"`
+	MaximumTimeout *int                          `url:"maximum_timeout,omitempty" json:"maximum_timeout,omitempty"`
+}
+
+// RegisterNewRunnerInfoOptions represents the info hashmap parameter in
+// RegisterNewRunnerOptions.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/runners.html#register-a-new-runner
+type RegisterNewRunnerInfoOptions struct {
+	Name         *string `url:"name,omitempty" json:"name,omitempty"`
+	Version      *string `url:"version,omitempty" json:"version,omitempty"`
+	Revision     *string `url:"revision,omitempty" json:"revision,omitempty"`
+	Platform     *string `url:"platform,omitempty" json:"platform,omitempty"`
+	Architecture *string `url:"architecture,omitempty" json:"architecture,omitempty"`
 }
 
 // RegisterNewRunner registers a new Runner for the instance.
