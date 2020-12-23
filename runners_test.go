@@ -17,6 +17,7 @@
 package gitlab
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"reflect"
@@ -216,6 +217,79 @@ func TestRegisterNewRunner(t *testing.T) {
 	}
 
 	want := expectedParsedNewRunner()
+	if !reflect.DeepEqual(want, runner) {
+		t.Errorf("Runners.RegisterNewRunner returned %+v, want %+v", runner, want)
+	}
+
+	wantCode := 201
+	if !reflect.DeepEqual(wantCode, resp.StatusCode) {
+		t.Errorf("Runners.DeleteRegisteredRunner returned status code %+v, want %+v", resp.StatusCode, wantCode)
+	}
+}
+
+// Similar to TestRegisterNewRunner but sends info struct and some extra other
+// fields too.
+func TestRegisterNewRunnerInfo(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	Token := "6337ff461c94fd3fa32ba3b1ff4125"
+	Description := "some_description"
+	Name := "some_name"
+	Version := "13.7.0"
+	Revision := "943fc252"
+	Platform := "linux"
+	Architecture := "amd64"
+	Info := RegisterNewRunnerInfoOptions{
+		&Name,
+		&Version,
+		&Revision,
+		&Platform,
+		&Architecture,
+	}
+	Active := true
+	Locked := true
+	RunUntagged := false
+	TagList := []string{"tag1", "tag2"}
+	MaximumTimeout := 45
+	opt := RegisterNewRunnerOptions{
+		&Token,
+		&Description,
+		&Info,
+		&Active,
+		&Locked,
+		&RunUntagged,
+		TagList,
+		&MaximumTimeout,
+	}
+
+	want := &Runner{
+		ID:          53,
+		Description: Description,
+		Active:      Active,
+		IsShared:    false,
+		IPAddress:   "1.2.3.4",
+		Name:        Name,
+		Online:      true,
+		Status:      "online",
+		Token:       "1111122222333333444444",
+	}
+
+	mux.HandleFunc("/api/v4/runners", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, "POST")
+		w.WriteHeader(http.StatusCreated)
+		j, err := json.Marshal(want)
+		if err != nil {
+			t.Fatalf("Failed to convert expected reply to JSON: %v", err)
+		}
+		fmt.Fprint(w, string(j))
+	})
+
+	runner, resp, err := client.Runners.RegisterNewRunner(&opt, nil)
+	if err != nil {
+		t.Fatalf("Runners.RegisterNewRunner returns an error: %v", err)
+	}
+
 	if !reflect.DeepEqual(want, runner) {
 		t.Errorf("Runners.RegisterNewRunner returned %+v, want %+v", runner, want)
 	}
