@@ -98,21 +98,13 @@ type Bridge struct {
 		UpdateAt  *time.Time `json:"updated_at"`
 		WebURL    string     `json:"web_url"`
 	} `json:"pipeline"`
-	Ref                string `json:"ref"`
-	Stage              string `json:"stage"`
-	Status             string `json:"status"`
-	Tag                bool   `json:"tag"`
-	WebURL             string `json:"web_url"`
-	User               *User  `json:"user"`
-	DownstreamPipeline *struct {
-		ID        int        `json:"id"`
-		Sha       string     `json:"sha"`
-		Ref       string     `json:"ref"`
-		Status    string     `json:"status"`
-		CreatedAt *time.Time `json:"created_at"`
-		UpdateAt  *time.Time `json:"updated_at"`
-		WebURL    string     `json:"web_url"`
-	} `json:"downstream_pipeline"`
+	Ref                string        `json:"ref"`
+	Stage              string        `json:"stage"`
+	Status             string        `json:"status"`
+	Tag                bool          `json:"tag"`
+	WebURL             string        `json:"web_url"`
+	User               *User         `json:"user"`
+	DownstreamPipeline *PipelineInfo `json:"downstream_pipeline"`
 }
 
 // ListJobsOptions are options for two list apis
