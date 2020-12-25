@@ -81,3 +81,35 @@ func (s *ValidateService) ProjectLint(pid interface{}, opt *ProjectLintOptions, 
 
 	return l, resp, nil
 }
+
+// ProjectNamespaceLint represents the available ProjectNamespaceLint() options.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/lint.html#validate-a-ci-yaml-configuration-with-a-namespace
+type ProjectNamespaceLintOptions struct {
+	Content *string `url:"content,omitempty" json:"content,omitempty"`
+	DryRun  *bool   `url:"dry_run,omitempty" json:"dry_run,omitempty"`
+}
+
+// ProjectNamespaceLint validates .gitlab-ci.yml content by project.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/lint.html#validate-a-ci-yaml-configuration-with-a-namespace
+func (s *ValidateService) ProjectNamespaceLint(pid interface{}, opt *ProjectNamespaceLintOptions, options ...RequestOptionFunc) (*ProjectLintResult, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/ci/lint", pathEscape(project))
+
+	req, err := s.client.NewRequest("POST", u, &opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	l := new(ProjectLintResult)
+	resp, err := s.client.Do(req, l)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return l, resp, nil
+}
