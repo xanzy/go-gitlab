@@ -82,7 +82,7 @@ func (s *ValidateService) ProjectLint(pid interface{}, opt *ProjectLintOptions, 
 	return l, resp, nil
 }
 
-// ProjectNamespaceLint represents the available ProjectNamespaceLint() options.
+// ProjectNamespaceLintOptions represents the available ProjectNamespaceLint() options.
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/lint.html#validate-a-ci-yaml-configuration-with-a-namespace
 type ProjectNamespaceLintOptions struct {
