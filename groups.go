@@ -656,3 +656,28 @@ func (s *GroupsService) DeleteGroupPushRule(gid interface{}, options ...RequestO
 
 	return s.client.Do(req, nil)
 }
+
+// RestoreGroup restores a previously deleted group
+//
+// GitLap API docs:
+// https://docs.gitlab.com/ee/api/groups.html#restore-group-marked-for-deletion
+func (s *GroupsService) RestoreGroup(gid interface{}, options ...RequestOptionFunc) (*Group, *Response, error) {
+	group, err := parseID(gid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("groups/%s/restore", pathEscape(group))
+
+	req, err := s.client.NewRequest("POST", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	g := new(Group)
+	resp, err := s.client.Do(req, g)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return g, resp, nil
+}

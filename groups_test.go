@@ -282,3 +282,22 @@ func TestAddGroupLDAPLink(t *testing.T) {
 		t.Errorf("Groups.AddGroupLDAPLink returned %+v, want %+v", link, want)
 	}
 }
+
+func TestRestoreGroup(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+	mux.HandleFunc("/api/v4/groups/1/restore",
+		func(w http.ResponseWriter, r *http.Request) {
+			testMethod(t, r, "POST")
+			fmt.Fprint(w, `{"id": 1, "name": "g"}`)
+		})
+
+	group,_, err := client.Groups.RestoreGroup(1)
+	if err != nil {
+		t.Errorf("Groups.RestoreGroup returned error: %v", err)
+	}
+	want := &Group{ID: 1, Name: "g"}
+	if !reflect.DeepEqual(want, group) {
+		t.Errorf("Groups.RestoreGroup returned %+v, want %+v", group, want)
+	}
+}
