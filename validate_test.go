@@ -132,3 +132,74 @@ func TestValidateProject(t *testing.T) {
 		})
 	}
 }
+
+func TestValidateProjectNamespace(t *testing.T) {
+	testCases := []struct {
+		description string
+		request     *ProjectNamespaceLintOptions
+		response    string
+		want        *ProjectLintResult
+	}{
+		{
+			description: "valid",
+			request: &ProjectNamespaceLintOptions{
+				Content: String("{'build': {'script': 'echo build'}}"),
+				DryRun:  Bool(false),
+			},
+			response: `{
+				"valid": true,
+				"errors": [],
+				"warnings": [],
+				"merged_yaml": 	"---\n:build:\n  :script:\n  - echo build"
+			}`,
+			want: &ProjectLintResult{
+				Valid:      true,
+				Warnings:   []string{},
+				Errors:     []string{},
+				MergedYaml: "---\n:build:\n  :script:\n  - echo build",
+			},
+		},
+		{
+			description: "invalid",
+			request: &ProjectNamespaceLintOptions{
+				Content: String("{'build': {'script': 'echo build', 'bad_key': 'value'}}"),
+				DryRun:  Bool(false),
+			},
+			response: `{
+				"valid": false,
+				"errors": ["jobs:build config contains unknown keys: bad_key"],
+				"warnings": [],
+				"merged_yaml": 	"---\n:build:\n  :script:\n  - echo build\n  :bad_key: value"
+			}`,
+			want: &ProjectLintResult{
+				Valid:      false,
+				Warnings:   []string{},
+				Errors:     []string{"jobs:build config contains unknown keys: bad_key"},
+				MergedYaml: "---\n:build:\n  :script:\n  - echo build\n  :bad_key: value",
+			},
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.description, func(t *testing.T) {
+			mux, server, client := setup(t)
+			defer teardown(server)
+
+			mux.HandleFunc("/api/v4/projects/1/ci/lint", func(w http.ResponseWriter, r *http.Request) {
+				testMethod(t, r, "POST")
+				fmt.Fprint(w, tc.response)
+			})
+
+			got, _, err := client.Validate.ProjectNamespaceLint(1, tc.request)
+
+			if err != nil {
+				t.Errorf("Validate returned error: %v", err)
+			}
+
+			want := tc.want
+			if !reflect.DeepEqual(got, want) {
+				t.Errorf("Validate returned \ngot:\n%v\nwant:\n%v", Stringify(got), Stringify(want))
+			}
+		})
+	}
+}
