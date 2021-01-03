@@ -161,11 +161,12 @@ func TestRequestWithContext(t *testing.T) {
 		t.Fatalf("Failed to create client: %v", err)
 	}
 
-	ctx := context.WithValue(context.Background(), interface{}("myKey"), interface{}("myValue"))
+	ctx, cancel := context.WithCancel(context.Background())
 	req, err := c.NewRequest("GET", "test", nil, []RequestOptionFunc{WithContext(ctx)})
 	if err != nil {
 		t.Fatalf("Failed to create request: %v", err)
 	}
+	defer cancel()
 
 	if req.Context() != ctx {
 		t.Fatal("Context was not set correctly")
