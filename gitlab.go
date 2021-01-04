@@ -117,6 +117,7 @@ type Client struct {
 	Epics                 *EpicsService
 	Events                *EventsService
 	Features              *FeaturesService
+	FreezePeriod          *FreezePeriodsService
 	GitIgnoreTemplates    *GitIgnoreTemplatesService
 	GroupBadges           *GroupBadgesService
 	GroupCluster          *GroupClustersService
