@@ -253,6 +253,6 @@ func TestGetMemberships(t *testing.T) {
 	memberships, _, err := client.Users.GetUserMemberships(1, opt)
 	require.NoError(t, err)
 
-	want := []*UserMembership{{SourceID: 1, SourceName: "Project one", SourceType: "Project", AccessLevel: "20"}, {SourceID: 3, SourceName: "Group three", SourceType: "Namespace", AccessLevel: "20"}}
+	want := []*UserMembership{{SourceID: 1, SourceName: "Project one", SourceType: "Project", AccessLevel: 20}, {SourceID: 3, SourceName: "Group three", SourceType: "Namespace", AccessLevel: 20}}
 	assert.Equal(t, want, memberships)
 }
