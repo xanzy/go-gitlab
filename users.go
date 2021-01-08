@@ -942,10 +942,10 @@ func (s *UsersService) SetUserStatus(opt *UserStatusOptions, options ...RequestO
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/users.html#user-memberships-admin-only
 type UserMembership struct {
-	SourceID    int    `json:"source_id"`
-	SourceName  string `json:"source_name"`
-	SourceType  string `json:"source_type"`
-	AccessLevel string `json:"access_level"`
+	SourceID    int              `json:"source_id"`
+	SourceName  string           `json:"source_name"`
+	SourceType  string           `json:"source_type"`
+	AccessLevel AccessLevelValue `json:"access_level"`
 }
 
 // GetUserMembershipOptions represents the options available to query user memberships.

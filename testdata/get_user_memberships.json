@@ -3,12 +3,12 @@
     "source_id": 1,
     "source_name": "Project one",
     "source_type": "Project",
-    "access_level": "20"
+    "access_level": 20
   },
   {
     "source_id": 3,
     "source_name": "Group three",
     "source_type": "Namespace",
-    "access_level": "20"
+    "access_level": 20
   }
 ]
