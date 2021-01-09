@@ -27,7 +27,7 @@ func setup(t *testing.T) (*http.ServeMux, *httptest.Server, *Client) {
 	server := httptest.NewServer(mux)
 
 	// client is the Gitlab client being tested.
-	client, err := NewClient("", WithBaseURL(server.URL))
+	client, err := NewClient(PrivateTokenAuth(""), WithBaseURL(server.URL))
 	if err != nil {
 		server.Close()
 		t.Fatalf("Failed to create client: %v", err)
@@ -88,7 +88,7 @@ func errorOption(*retryablehttp.Request) error {
 }
 
 func TestNewClient(t *testing.T) {
-	c, err := NewClient("")
+	c, err := NewClient(PrivateTokenAuth(""))
 	if err != nil {
 		t.Fatalf("Failed to create client: %v", err)
 	}
@@ -104,7 +104,7 @@ func TestNewClient(t *testing.T) {
 }
 
 func TestCheckResponse(t *testing.T) {
-	c, err := NewClient("")
+	c, err := NewClient(PrivateTokenAuth(""))
 	if err != nil {
 		t.Fatalf("Failed to create client: %v", err)
 	}
@@ -156,7 +156,7 @@ func TestCheckResponse(t *testing.T) {
 }
 
 func TestRequestWithContext(t *testing.T) {
-	c, err := NewClient("")
+	c, err := NewClient(PrivateTokenAuth(""))
 	if err != nil {
 		t.Fatalf("Failed to create client: %v", err)
 	}

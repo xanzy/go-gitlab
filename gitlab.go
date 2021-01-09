@@ -58,6 +58,8 @@ type authType int
 // GitLab API docs: https://docs.gitlab.com/ce/api/
 const (
 	basicAuth authType = iota
+	deployToken
+	jobToken
 	oAuthToken
 	privateToken
 )
@@ -193,45 +195,8 @@ type RateLimiter interface {
 }
 
 // NewClient returns a new GitLab API client. To use API methods which require
-// authentication, provide a valid private or personal token.
-func NewClient(token string, options ...ClientOptionFunc) (*Client, error) {
-	client, err := newClient(options...)
-	if err != nil {
-		return nil, err
-	}
-	client.authType = privateToken
-	client.token = token
-	return client, nil
-}
-
-// NewBasicAuthClient returns a new GitLab API client. To use API methods which
-// require authentication, provide a valid username and password.
-func NewBasicAuthClient(username, password string, options ...ClientOptionFunc) (*Client, error) {
-	client, err := newClient(options...)
-	if err != nil {
-		return nil, err
-	}
-
-	client.authType = basicAuth
-	client.username = username
-	client.password = password
-
-	return client, nil
-}
-
-// NewOAuthClient returns a new GitLab API client. To use API methods which
-// require authentication, provide a valid oauth token.
-func NewOAuthClient(token string, options ...ClientOptionFunc) (*Client, error) {
-	client, err := newClient(options...)
-	if err != nil {
-		return nil, err
-	}
-	client.authType = oAuthToken
-	client.token = token
-	return client, nil
-}
-
-func newClient(options ...ClientOptionFunc) (*Client, error) {
+// authentication, provide a valid authentication option.
+func NewClient(authMethod AuthMethodFunc, options ...ClientOptionFunc) (*Client, error) {
 	c := &Client{UserAgent: userAgent}
 
 	// Configure the HTTP client.
@@ -247,6 +212,11 @@ func newClient(options ...ClientOptionFunc) (*Client, error) {
 
 	// Set the default base URL.
 	c.setBaseURL(defaultBaseURL)
+
+	// Configure the authentication method.
+	if err := authMethod(c); err != nil {
+		return nil, err
+	}
 
 	// Apply any given client options.
 	for _, fn := range options {
@@ -625,6 +595,10 @@ func (c *Client) Do(req *retryablehttp.Request, v interface{}) (*Response, error
 			}
 		}
 		req.Header.Set("Authorization", "Bearer "+basicAuthToken)
+	case deployToken:
+		req.Header.Set("DEPLOY-TOKEN", c.token)
+	case jobToken:
+		req.Header.Set("JOB-TOKEN", c.token)
 	case oAuthToken:
 		req.Header.Set("Authorization", "Bearer "+c.token)
 	case privateToken:
