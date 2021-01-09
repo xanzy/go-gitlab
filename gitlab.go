@@ -507,9 +507,9 @@ func (c *Client) NewRequest(method, path string, opt interface{}, options []Requ
 			}
 		}
 	case opt != nil:
-		q, errValues := query.Values(opt)
-		if errValues != nil {
-			return nil, errValues
+		q, err := query.Values(opt)
+		if err != nil {
+			return nil, err
 		}
 		u.RawQuery = q.Encode()
 	}
@@ -612,7 +612,6 @@ func (c *Client) Do(req *retryablehttp.Request, v interface{}) (*Response, error
 	// Set the correct authentication header. If using basic auth, then check
 	// if we already have a token and if not first authenticate and get one.
 	var basicAuthToken string
-	var errRequest error
 	switch c.authType {
 	case basicAuth:
 		c.tokenLock.RLock()
@@ -620,9 +619,9 @@ func (c *Client) Do(req *retryablehttp.Request, v interface{}) (*Response, error
 		c.tokenLock.RUnlock()
 		if basicAuthToken == "" {
 			// If we don't have a token yet, we first need to request one.
-			basicAuthToken, errRequest = c.requestOAuthToken(req.Context(), basicAuthToken)
-			if errRequest != nil {
-				return nil, errRequest
+			basicAuthToken, err = c.requestOAuthToken(req.Context(), basicAuthToken)
+			if err != nil {
+				return nil, err
 			}
 		}
 		req.Header.Set("Authorization", "Bearer "+basicAuthToken)
@@ -640,8 +639,8 @@ func (c *Client) Do(req *retryablehttp.Request, v interface{}) (*Response, error
 	if resp.StatusCode == http.StatusUnauthorized && c.authType == basicAuth {
 		resp.Body.Close()
 		// The token most likely expired, so we need to request a new one and try again.
-		if _, errRequest := c.requestOAuthToken(req.Context(), basicAuthToken); errRequest != nil {
-			return nil, errRequest
+		if _, err := c.requestOAuthToken(req.Context(), basicAuthToken); err != nil {
+			return nil, err
 		}
 		return c.Do(req, v)
 	}

@@ -77,15 +77,13 @@ func TestRemoveRunner(t *testing.T) {
 	}
 }
 
-
-
 func TestUpdateRunnersDetails(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/runners/6", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "PUT")
-		fmt.Fprint(w, exampleDetailRsp)
+		fmt.Fprint(w, exampleDetailResponse)
 	})
 
 	opt := &UpdateRunnerDetailsOptions{}
@@ -107,7 +105,7 @@ func TestGetRunnerDetails(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/runners/6", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
-		fmt.Fprint(w, exampleDetailRsp)
+		fmt.Fprint(w, exampleDetailResponse)
 	})
 
 	details, _, err := client.Runners.GetRunnerDetails(6, nil)

@@ -5,8 +5,6 @@ import (
 	"testing"
 )
 
-const exampleProjectName = "example-project"
-
 func TestPushEventUnmarshal(t *testing.T) {
 	jsonObject := loadFixture("testdata/webhooks/push.json")
 	var event *PushEvent

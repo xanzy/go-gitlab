@@ -6,8 +6,6 @@ import (
 	"testing"
 )
 
-const exampleReleaseName = "awesome-v0.2.dmg"
-
 func TestReleaseLinksService_ListReleaseLinks(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)

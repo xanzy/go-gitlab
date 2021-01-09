@@ -16,7 +16,7 @@ func TestReleasesService_ListReleases(t *testing.T) {
 	mux.HandleFunc("/api/v4/projects/1/releases",
 		func(w http.ResponseWriter, r *http.Request) {
 			testMethod(t, r, "GET")
-			fmt.Fprint(w, exampleReleaseListRsp)
+			fmt.Fprint(w, exampleReleaseListResponse)
 		})
 
 	opt := &ListReleasesOptions{}
@@ -36,7 +36,7 @@ func TestReleasesService_GetRelease(t *testing.T) {
 	mux.HandleFunc("/api/v4/projects/1/releases/v0.1",
 		func(w http.ResponseWriter, r *http.Request) {
 			testMethod(t, r, "GET")
-			fmt.Fprint(w, exampleReleaseRsp)
+			fmt.Fprint(w, exampleReleaseResponse)
 		})
 
 	release, _, err := client.Releases.GetRelease(1, exampleTagName)
@@ -75,7 +75,7 @@ func TestReleasesService_CreateRelease(t *testing.T) {
 				t.Errorf("expected request body not to have released_at, got %s",
 					string(b))
 			}
-			fmt.Fprint(w, exampleReleaseRsp)
+			fmt.Fprint(w, exampleReleaseResponse)
 		})
 
 	opts := &CreateReleaseOptions{
@@ -120,7 +120,7 @@ func TestReleasesService_CreateReleaseWithAsset(t *testing.T) {
 				t.Errorf("expected request body not to have released_at, got %s",
 					string(b))
 			}
-			fmt.Fprint(w, exampleReleaseRsp)
+			fmt.Fprint(w, exampleReleaseResponse)
 		})
 
 	opts := &CreateReleaseOptions{
@@ -170,7 +170,7 @@ func TestReleasesService_CreateReleaseWithMilestones(t *testing.T) {
 				t.Errorf("expected request body not to have released_at, got %s",
 					string(b))
 			}
-			fmt.Fprint(w, exampleReleaseRsp)
+			fmt.Fprint(w, exampleReleaseResponse)
 		})
 
 	opts := &CreateReleaseOptions{
@@ -216,7 +216,7 @@ func TestReleasesService_CreateReleaseWithReleasedAt(t *testing.T) {
 				t.Errorf("expected request body to have released_at, got %s",
 					string(b))
 			}
-			fmt.Fprint(w, exampleReleaseRsp)
+			fmt.Fprint(w, exampleReleaseResponse)
 		})
 
 	opts := &CreateReleaseOptions{
@@ -254,7 +254,7 @@ func TestReleasesService_UpdateRelease(t *testing.T) {
 				t.Errorf("expected request body not to have released_at, got %s",
 					string(b))
 			}
-			fmt.Fprint(w, exampleReleaseRsp)
+			fmt.Fprint(w, exampleReleaseResponse)
 		})
 
 	opts := &UpdateReleaseOptions{
@@ -290,7 +290,7 @@ func TestReleasesService_UpdateReleaseWithMilestones(t *testing.T) {
 				t.Errorf("expected request body not to have released_at, got %s",
 					string(b))
 			}
-			fmt.Fprint(w, exampleReleaseRsp)
+			fmt.Fprint(w, exampleReleaseResponse)
 		})
 
 	opts := &UpdateReleaseOptions{
@@ -327,7 +327,7 @@ func TestReleasesService_UpdateReleaseWithReleasedAt(t *testing.T) {
 				t.Errorf("expected request body to have released_at, got %s",
 					string(b))
 			}
-			fmt.Fprint(w, exampleReleaseRsp)
+			fmt.Fprint(w, exampleReleaseResponse)
 		})
 
 	opts := &UpdateReleaseOptions{
@@ -352,7 +352,7 @@ func TestReleasesService_DeleteRelease(t *testing.T) {
 	mux.HandleFunc("/api/v4/projects/1/releases/v0.1",
 		func(w http.ResponseWriter, r *http.Request) {
 			testMethod(t, r, "DELETE")
-			fmt.Fprint(w, exampleReleaseRsp)
+			fmt.Fprint(w, exampleReleaseResponse)
 		})
 
 	release, _, err := client.Releases.DeleteRelease(1, exampleTagName)
