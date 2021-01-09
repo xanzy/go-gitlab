@@ -231,8 +231,7 @@ func (s *JobsService) GetJobArtifacts(pid interface{}, jobID int, options ...Req
 		return nil, resp, err
 	}
 
-	artifactsReader := bytes.NewReader(artifactsBuf.Bytes())
-	return artifactsReader, resp, err
+	return bytes.NewReader(artifactsBuf.Bytes()), resp, err
 }
 
 // DownloadArtifactsFileOptions represents the available DownloadArtifactsFile()
@@ -267,8 +266,7 @@ func (s *JobsService) DownloadArtifactsFile(pid interface{}, refName string, opt
 		return nil, resp, err
 	}
 
-	artifactsReader := bytes.NewReader(artifactsBuf.Bytes())
-	return artifactsReader, resp, err
+	return bytes.NewReader(artifactsBuf.Bytes()), resp, err
 }
 
 // DownloadSingleArtifactsFile download a file from the artifacts from the
@@ -302,8 +300,7 @@ func (s *JobsService) DownloadSingleArtifactsFile(pid interface{}, jobID int, ar
 		return nil, resp, err
 	}
 
-	artifactReader := bytes.NewReader(artifactBuf.Bytes())
-	return artifactReader, resp, err
+	return bytes.NewReader(artifactBuf.Bytes()), resp, err
 }
 
 // GetTraceFile gets a trace of a specific job of a project
@@ -328,8 +325,7 @@ func (s *JobsService) GetTraceFile(pid interface{}, jobID int, options ...Reques
 		return nil, resp, err
 	}
 
-	traceReader := bytes.NewReader(traceBuf.Bytes())
-	return traceReader, resp, err
+	return bytes.NewReader(traceBuf.Bytes()), resp, err
 }
 
 // CancelJob cancels a single job of a project.
