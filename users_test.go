@@ -1,6 +1,7 @@
 package gitlab
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 	"testing"
@@ -36,7 +37,7 @@ func TestBlockUser_UserNotFound(t *testing.T) {
 	})
 
 	err := client.Users.BlockUser(1)
-	if err != ErrUserNotFound {
+	if !errors.Is(err, ErrUserNotFound) {
 		t.Errorf("Users.BlockUser error.\nExpected: %+v\nGot: %+v", ErrUserNotFound, err)
 	}
 }
@@ -52,7 +53,7 @@ func TestBlockUser_BlockPrevented(t *testing.T) {
 	})
 
 	err := client.Users.BlockUser(1)
-	if err != ErrUserBlockPrevented {
+	if !errors.Is(err, ErrUserBlockPrevented) {
 		t.Errorf("Users.BlockUser error.\nExpected: %+v\nGot: %+v", ErrUserBlockPrevented, err)
 	}
 }
@@ -103,7 +104,7 @@ func TestUnblockUser_UserNotFound(t *testing.T) {
 	})
 
 	err := client.Users.UnblockUser(1)
-	if err != ErrUserNotFound {
+	if !errors.Is(err, ErrUserNotFound) {
 		t.Errorf("Users.UnblockUser error.\nExpected: %v\nGot: %v", ErrUserNotFound, err)
 	}
 }
@@ -119,7 +120,7 @@ func TestUnblockUser_UnblockPrevented(t *testing.T) {
 	})
 
 	err := client.Users.UnblockUser(1)
-	if err != ErrUserUnblockPrevented {
+	if !errors.Is(err, ErrUserUnblockPrevented) {
 		t.Errorf("Users.UnblockUser error.\nExpected: %v\nGot: %v", ErrUserUnblockPrevented, err)
 	}
 }
@@ -169,7 +170,7 @@ func TestDeactivateUser_UserNotFound(t *testing.T) {
 	})
 
 	err := client.Users.DeactivateUser(1)
-	if err != ErrUserNotFound {
+	if !errors.Is(err, ErrUserNotFound) {
 		t.Errorf("Users.DeactivateUser error.\nExpected: %+v\n\tGot: %+v", ErrUserNotFound, err)
 	}
 }
@@ -185,7 +186,7 @@ func TestDeactivateUser_DeactivatePrevented(t *testing.T) {
 	})
 
 	err := client.Users.DeactivateUser(1)
-	if err != ErrUserDeactivatePrevented {
+	if !errors.Is(err, ErrUserDeactivatePrevented) {
 		t.Errorf("Users.DeactivateUser error.\nExpected: %+v\n\tGot: %+v", ErrUserDeactivatePrevented, err)
 	}
 }
@@ -217,7 +218,7 @@ func TestActivateUser_ActivatePrevented(t *testing.T) {
 	})
 
 	err := client.Users.ActivateUser(1)
-	if err != ErrUserActivatePrevented {
+	if !errors.Is(err, ErrUserActivatePrevented) {
 		t.Errorf("Users.ActivateUser error.\nExpected: %+v\n\tGot: %+v", ErrUserActivatePrevented, err)
 	}
 }
@@ -233,7 +234,7 @@ func TestActivateUser_UserNotFound(t *testing.T) {
 	})
 
 	err := client.Users.ActivateUser(1)
-	if err != ErrUserNotFound {
+	if !errors.Is(err, ErrUserNotFound) {
 		t.Errorf("Users.ActivateUser error.\nExpected: %+v\n\tGot: %+v", ErrUserNotFound, err)
 	}
 }
