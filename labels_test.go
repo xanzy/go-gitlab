@@ -136,7 +136,6 @@ func TestListLabels(t *testing.T) {
 	label, _, err := client.Labels.ListLabels("1", o)
 	if err != nil {
 		t.Log(err.Error() == "invalid ID type 1.1, the ID must be an int or a string")
-
 	}
 	want := []*Label{{ID: 5, Name: "bug", Color: "#d9534f", Description: "Bug reported by user", OpenIssuesCount: 1, ClosedIssuesCount: 0, OpenMergeRequestsCount: 1, Subscribed: true}}
 	if !reflect.DeepEqual(want, label) {
@@ -156,7 +155,6 @@ func TestGetLabel(t *testing.T) {
 	label, _, err := client.Labels.GetLabel("1", 5)
 	if err != nil {
 		t.Log(err)
-
 	}
 	want := &Label{ID: 5, Name: "bug", Color: "#d9534f", Description: "Bug reported by user", OpenIssuesCount: 1, ClosedIssuesCount: 0, OpenMergeRequestsCount: 1, Subscribed: true}
 	if !reflect.DeepEqual(want, label) {

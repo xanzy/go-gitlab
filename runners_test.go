@@ -77,46 +77,13 @@ func TestRemoveRunner(t *testing.T) {
 	}
 }
 
-const exampleDetailRsp = `{
-	"active": true,
-	"architecture": null,
-	"description": "test-1-20150125-test",
-	"run_untagged": true,
-	"id": 6,
-	"is_shared": false,
-	"contacted_at": "2016-01-25T16:39:48.066Z",
-	"name": null,
-	"online": true,
-	"status": "online",
-	"platform": null,
-	"projects": [
-		{
-			"id": 1,
-			"name": "GitLab Community Edition",
-			"name_with_namespace": "GitLab.org / GitLab Community Edition",
-			"path": "gitlab-ce",
-			"path_with_namespace": "gitlab-org/gitlab-ce"
-		}
-	],
-	"token": "205086a8e3b9a2b818ffac9b89d102",
-	"revision": null,
-	"tag_list": [
-		"ruby",
-		"mysql"
-	],
-	"version": null,
-	"access_level": "ref_protected",
-	"maximum_timeout": 3600,
-	"locked": false
-}`
-
 func TestUpdateRunnersDetails(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/runners/6", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "PUT")
-		fmt.Fprint(w, exampleDetailRsp)
+		fmt.Fprint(w, exampleDetailResponse)
 	})
 
 	opt := &UpdateRunnerDetailsOptions{}
@@ -138,7 +105,7 @@ func TestGetRunnerDetails(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/runners/6", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
-		fmt.Fprint(w, exampleDetailRsp)
+		fmt.Fprint(w, exampleDetailResponse)
 	})
 
 	details, _, err := client.Runners.GetRunnerDetails(6, nil)
@@ -193,11 +160,6 @@ func expectedParsedNewRunner() *Runner {
 		Token: "6337ff461c94fd3fa32ba3b1ff4125",
 	}
 }
-
-const exampleRegisterNewRunner = `{
-	"id": 12345,
-	"token": "6337ff461c94fd3fa32ba3b1ff4125"
-}`
 
 func TestRegisterNewRunner(t *testing.T) {
 	mux, server, client := setup(t)

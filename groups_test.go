@@ -94,7 +94,6 @@ func TestTransferGroup(t *testing.T) {
 	if !reflect.DeepEqual(group, want) {
 		t.Errorf("Groups.TransferGroup returned %+v, want %+v", group, want)
 	}
-
 }
 
 func TestDeleteGroup(t *testing.T) {

@@ -58,23 +58,23 @@ func TestListProjectAccessRequests(t *testing.T) {
 
 	requests, resp, err := client.AccessRequests.ListProjectAccessRequests(1, nil)
 	assert.NoError(t, err)
-	assert.Equal(t, expected, requests)
 	assert.NotNil(t, resp)
+	assert.Equal(t, expected, requests)
 
 	requests, resp, err = client.AccessRequests.ListProjectAccessRequests(1.5, nil)
 	assert.EqualError(t, err, "invalid ID type 1.5, the ID must be an int or a string")
-	assert.Nil(t, requests)
 	assert.Nil(t, resp)
+	assert.Nil(t, requests)
 
 	requests, resp, err = client.AccessRequests.ListProjectAccessRequests(2, nil)
 	assert.Error(t, err)
-	assert.Nil(t, requests)
 	assert.Equal(t, http.StatusNotFound, resp.StatusCode)
+	assert.Nil(t, requests)
 
 	requests, resp, err = client.AccessRequests.ListProjectAccessRequests(1, nil, errorOption)
 	assert.EqualError(t, err, "RequestOptionFunc returns an error")
-	assert.Nil(t, requests)
 	assert.Nil(t, resp)
+	assert.Nil(t, requests)
 }
 
 func TestListGroupAccessRequests(t *testing.T) {
@@ -125,23 +125,23 @@ func TestListGroupAccessRequests(t *testing.T) {
 
 	requests, resp, err := client.AccessRequests.ListGroupAccessRequests(1, nil)
 	assert.NoError(t, err)
-	assert.Equal(t, expected, requests)
 	assert.NotNil(t, resp)
+	assert.Equal(t, expected, requests)
 
 	requests, resp, err = client.AccessRequests.ListGroupAccessRequests(1.5, nil)
 	assert.EqualError(t, err, "invalid ID type 1.5, the ID must be an int or a string")
-	assert.Nil(t, requests)
 	assert.Nil(t, resp)
+	assert.Nil(t, requests)
 
 	requests, resp, err = client.AccessRequests.ListGroupAccessRequests(2, nil)
 	assert.Error(t, err)
-	assert.Nil(t, requests)
 	assert.Equal(t, http.StatusNotFound, resp.StatusCode)
+	assert.Nil(t, requests)
 
 	requests, resp, err = client.AccessRequests.ListGroupAccessRequests(1, nil, errorOption)
 	assert.EqualError(t, err, "RequestOptionFunc returns an error")
-	assert.Nil(t, requests)
 	assert.Nil(t, resp)
+	assert.Nil(t, requests)
 }
 
 func TestRequestProjectAccess(t *testing.T) {
@@ -172,23 +172,23 @@ func TestRequestProjectAccess(t *testing.T) {
 
 	accessRequest, resp, err := client.AccessRequests.RequestProjectAccess(1, nil)
 	assert.NoError(t, err)
-	assert.Equal(t, expected, accessRequest)
 	assert.NotNil(t, resp)
+	assert.Equal(t, expected, accessRequest)
 
 	accessRequest, resp, err = client.AccessRequests.RequestProjectAccess(1.5, nil)
 	assert.EqualError(t, err, "invalid ID type 1.5, the ID must be an int or a string")
-	assert.Nil(t, accessRequest)
 	assert.Nil(t, resp)
+	assert.Nil(t, accessRequest)
 
 	accessRequest, resp, err = client.AccessRequests.RequestProjectAccess(2, nil)
 	assert.Error(t, err)
-	assert.Nil(t, accessRequest)
 	assert.Equal(t, http.StatusNotFound, resp.StatusCode)
+	assert.Nil(t, accessRequest)
 
 	accessRequest, resp, err = client.AccessRequests.RequestProjectAccess(1, nil, errorOption)
 	assert.EqualError(t, err, "RequestOptionFunc returns an error")
-	assert.Nil(t, accessRequest)
 	assert.Nil(t, resp)
+	assert.Nil(t, accessRequest)
 }
 
 func TestRequestGroupAccess(t *testing.T) {
@@ -219,23 +219,23 @@ func TestRequestGroupAccess(t *testing.T) {
 
 	accessRequest, resp, err := client.AccessRequests.RequestGroupAccess(1, nil)
 	assert.NoError(t, err)
-	assert.Equal(t, expected, accessRequest)
 	assert.NotNil(t, resp)
+	assert.Equal(t, expected, accessRequest)
 
 	accessRequest, resp, err = client.AccessRequests.RequestGroupAccess(1.5, nil)
 	assert.EqualError(t, err, "invalid ID type 1.5, the ID must be an int or a string")
-	assert.Nil(t, accessRequest)
 	assert.Nil(t, resp)
+	assert.Nil(t, accessRequest)
 
 	accessRequest, resp, err = client.AccessRequests.RequestGroupAccess(2, nil)
 	assert.Error(t, err)
-	assert.Nil(t, accessRequest)
 	assert.Equal(t, http.StatusNotFound, resp.StatusCode)
+	assert.Nil(t, accessRequest)
 
 	accessRequest, resp, err = client.AccessRequests.RequestGroupAccess(1, nil, errorOption)
 	assert.EqualError(t, err, "RequestOptionFunc returns an error")
-	assert.Nil(t, accessRequest)
 	assert.Nil(t, resp)
+	assert.Nil(t, accessRequest)
 }
 
 func TestApproveProjectAccessRequest(t *testing.T) {
@@ -279,23 +279,23 @@ func TestApproveProjectAccessRequest(t *testing.T) {
 
 	request, resp, err := client.AccessRequests.ApproveProjectAccessRequest(1, 10, opt)
 	assert.NoError(t, err)
-	assert.Equal(t, expected, request)
 	assert.NotNil(t, resp)
+	assert.Equal(t, expected, request)
 
 	request, resp, err = client.AccessRequests.ApproveProjectAccessRequest(1.5, 10, opt)
 	assert.EqualError(t, err, "invalid ID type 1.5, the ID must be an int or a string")
-	assert.Nil(t, request)
 	assert.Nil(t, resp)
+	assert.Nil(t, request)
 
 	request, resp, err = client.AccessRequests.ApproveProjectAccessRequest(2, 10, opt)
 	assert.Error(t, err)
-	assert.Nil(t, request)
 	assert.Equal(t, http.StatusNotFound, resp.StatusCode)
+	assert.Nil(t, request)
 
 	request, resp, err = client.AccessRequests.ApproveProjectAccessRequest(1, 10, opt, errorOption)
 	assert.EqualError(t, err, "RequestOptionFunc returns an error")
-	assert.Nil(t, request)
 	assert.Nil(t, resp)
+	assert.Nil(t, request)
 }
 
 func TestApproveGroupAccessRequest(t *testing.T) {
@@ -339,23 +339,23 @@ func TestApproveGroupAccessRequest(t *testing.T) {
 
 	request, resp, err := client.AccessRequests.ApproveGroupAccessRequest(1, 10, opt)
 	assert.NoError(t, err)
-	assert.Equal(t, expected, request)
 	assert.NotNil(t, resp)
+	assert.Equal(t, expected, request)
 
 	request, resp, err = client.AccessRequests.ApproveGroupAccessRequest(1.5, 10, opt)
 	assert.EqualError(t, err, "invalid ID type 1.5, the ID must be an int or a string")
-	assert.Nil(t, request)
 	assert.Nil(t, resp)
+	assert.Nil(t, request)
 
 	request, resp, err = client.AccessRequests.ApproveGroupAccessRequest(2, 10, opt)
 	assert.Error(t, err)
-	assert.Nil(t, request)
 	assert.Equal(t, http.StatusNotFound, resp.StatusCode)
+	assert.Nil(t, request)
 
 	request, resp, err = client.AccessRequests.ApproveGroupAccessRequest(1, 10, opt, errorOption)
 	assert.EqualError(t, err, "RequestOptionFunc returns an error")
-	assert.Nil(t, request)
 	assert.Nil(t, resp)
+	assert.Nil(t, request)
 }
 
 func TestDenyProjectAccessRequest(t *testing.T) {

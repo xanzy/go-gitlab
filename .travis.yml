@@ -10,11 +10,11 @@ go:
   - 1.x
   - master
 
-before_script:
-  - go get golang.org/x/lint/golint
-  - golint -set_exit_status
-  - go vet -v
+before_install:
+  - curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/v1.35.0/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.35.0
+
 script:
+  - golangci-lint run
   - go test -v
 
 matrix:

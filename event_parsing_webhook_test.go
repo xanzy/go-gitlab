@@ -41,8 +41,8 @@ func TestParsePushHook(t *testing.T) {
 		t.Errorf("ProjectID is %v, want %v", event.ProjectID, 15)
 	}
 
-	if event.UserName != "John Smith" {
-		t.Errorf("Username is %s, want %s", event.UserName, "John Smith")
+	if event.UserName != exampleEventUserName {
+		t.Errorf("Username is %s, want %s", event.UserName, exampleEventUserName)
 	}
 
 	if event.Commits[0] == nil || event.Commits[0].Timestamp == nil {
@@ -75,8 +75,8 @@ func TestParseTagHook(t *testing.T) {
 		t.Errorf("ProjectID is %v, want %v", event.ProjectID, 1)
 	}
 
-	if event.UserName != "John Smith" {
-		t.Errorf("Username is %s, want %s", event.UserName, "John Smith")
+	if event.UserName != exampleEventUserName {
+		t.Errorf("Username is %s, want %s", event.UserName, exampleEventUserName)
 	}
 
 	if event.Ref != "refs/tags/v1.0.0" {
@@ -136,8 +136,8 @@ func TestParseCommitCommentHook(t *testing.T) {
 		t.Errorf("Expected CommitCommentEvent, but parsing produced %T", parsedEvent)
 	}
 
-	if event.ObjectKind != "note" {
-		t.Errorf("ObjectKind is %v, want %v", event.ObjectKind, "note")
+	if event.ObjectKind != string(NoteEventTargetType) {
+		t.Errorf("ObjectKind is %v, want %v", event.ObjectKind, NoteEventTargetType)
 	}
 
 	if event.ProjectID != 5 {
@@ -166,7 +166,7 @@ func TestParseMergeRequestCommentHook(t *testing.T) {
 		t.Errorf("Expected MergeCommentEvent, but parsing produced %T", parsedEvent)
 	}
 
-	if event.ObjectKind != "note" {
+	if event.ObjectKind != string(NoteEventTargetType) {
 		t.Errorf("ObjectKind is %v, want %v", event.ObjectKind, "note")
 	}
 
@@ -196,8 +196,8 @@ func TestParseIssueCommentHook(t *testing.T) {
 		t.Errorf("Expected IssueCommentEvent, but parsing produced %T", parsedEvent)
 	}
 
-	if event.ObjectKind != "note" {
-		t.Errorf("ObjectKind is %v, want %v", event.ObjectKind, "note")
+	if event.ObjectKind != string(NoteEventTargetType) {
+		t.Errorf("ObjectKind is %v, want %v", event.ObjectKind, NoteEventTargetType)
 	}
 
 	if event.ProjectID != 5 {
@@ -226,8 +226,8 @@ func TestParseSnippetCommentHook(t *testing.T) {
 		t.Errorf("Expected SnippetCommentEvent, but parsing produced %T", parsedEvent)
 	}
 
-	if event.ObjectKind != "note" {
-		t.Errorf("ObjectKind is %v, want %v", event.ObjectKind, "note")
+	if event.ObjectKind != string(NoteEventTargetType) {
+		t.Errorf("ObjectKind is %v, want %v", event.ObjectKind, NoteEventTargetType)
 	}
 
 	if event.ProjectID != 5 {
