@@ -19,7 +19,6 @@ package gitlab
 import (
 	"bytes"
 	"fmt"
-	"io"
 	"time"
 )
 
@@ -214,7 +213,7 @@ func (s *JobsService) GetJob(pid interface{}, jobID int, options ...RequestOptio
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/job_artifacts.html#get-job-artifacts
-func (s *JobsService) GetJobArtifacts(pid interface{}, jobID int, options ...RequestOptionFunc) (io.Reader, *Response, error) {
+func (s *JobsService) GetJobArtifacts(pid interface{}, jobID int, options ...RequestOptionFunc) (*bytes.Reader, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -232,7 +231,7 @@ func (s *JobsService) GetJobArtifacts(pid interface{}, jobID int, options ...Req
 		return nil, resp, err
 	}
 
-	return artifactsBuf, resp, err
+	return bytes.NewReader(artifactsBuf.Bytes()), resp, err
 }
 
 // DownloadArtifactsFileOptions represents the available DownloadArtifactsFile()
@@ -249,7 +248,7 @@ type DownloadArtifactsFileOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/job_artifacts.html#download-the-artifacts-archive
-func (s *JobsService) DownloadArtifactsFile(pid interface{}, refName string, opt *DownloadArtifactsFileOptions, options ...RequestOptionFunc) (io.Reader, *Response, error) {
+func (s *JobsService) DownloadArtifactsFile(pid interface{}, refName string, opt *DownloadArtifactsFileOptions, options ...RequestOptionFunc) (*bytes.Reader, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -267,7 +266,7 @@ func (s *JobsService) DownloadArtifactsFile(pid interface{}, refName string, opt
 		return nil, resp, err
 	}
 
-	return artifactsBuf, resp, err
+	return bytes.NewReader(artifactsBuf.Bytes()), resp, err
 }
 
 // DownloadSingleArtifactsFile download a file from the artifacts from the
@@ -277,7 +276,7 @@ func (s *JobsService) DownloadArtifactsFile(pid interface{}, refName string, opt
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/job_artifacts.html#download-a-single-artifact-file-by-job-id
-func (s *JobsService) DownloadSingleArtifactsFile(pid interface{}, jobID int, artifactPath string, options ...RequestOptionFunc) (io.Reader, *Response, error) {
+func (s *JobsService) DownloadSingleArtifactsFile(pid interface{}, jobID int, artifactPath string, options ...RequestOptionFunc) (*bytes.Reader, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -301,14 +300,14 @@ func (s *JobsService) DownloadSingleArtifactsFile(pid interface{}, jobID int, ar
 		return nil, resp, err
 	}
 
-	return artifactBuf, resp, err
+	return bytes.NewReader(artifactBuf.Bytes()), resp, err
 }
 
 // GetTraceFile gets a trace of a specific job of a project
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/jobs.html#get-a-trace-file
-func (s *JobsService) GetTraceFile(pid interface{}, jobID int, options ...RequestOptionFunc) (io.Reader, *Response, error) {
+func (s *JobsService) GetTraceFile(pid interface{}, jobID int, options ...RequestOptionFunc) (*bytes.Reader, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -326,7 +325,7 @@ func (s *JobsService) GetTraceFile(pid interface{}, jobID int, options ...Reques
 		return nil, resp, err
 	}
 
-	return traceBuf, resp, err
+	return bytes.NewReader(traceBuf.Bytes()), resp, err
 }
 
 // CancelJob cancels a single job of a project.
