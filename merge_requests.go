@@ -48,6 +48,7 @@ type MergeRequest struct {
 	Author                    *BasicUser   `json:"author"`
 	Assignee                  *BasicUser   `json:"assignee"`
 	Assignees                 []*BasicUser `json:"assignees"`
+	Reviewers                 []*BasicUser `json:"reviewers"`
 	SourceProjectID           int          `json:"source_project_id"`
 	TargetProjectID           int          `json:"target_project_id"`
 	Labels                    Labels       `json:"labels"`

@@ -114,6 +114,7 @@ func TestGetMergeRequest(t *testing.T) {
 	require.Equal(t, mergeRequest.Author, &ajk)
 	require.Equal(t, mergeRequest.Assignee, &tk)
 	require.Equal(t, mergeRequest.Assignees, []*BasicUser{&tk})
+	require.Equal(t, mergeRequest.Reviewers, []*BasicUser{&tk})
 	require.Equal(t, mergeRequest.Labels, labels)
 	require.Equal(t, mergeRequest.Squash, true)
 	require.Equal(t, mergeRequest.UserNotesCount, 245)
