@@ -42,6 +42,16 @@
       "web_url": "https://gitlab.com/tkuah"
     }
   ],
+  "reviewers": [
+    {
+      "id": 2535118,
+      "name": "Thong Kuah",
+      "username": "tkuah",
+      "state": "active",
+      "avatar_url": "https://secure.gravatar.com/avatar/f7b51bdd49a4914d29504d7ff4c3f7b9?s=80&d=identicon",
+      "web_url": "https://gitlab.com/tkuah"
+    }
+  ],
   "source_project_id": 278964,
   "target_project_id": 278964,
   "labels": [
