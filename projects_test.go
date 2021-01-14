@@ -222,7 +222,6 @@ func TestGetProjectByID(t *testing.T) {
 	}
 
 	if !reflect.DeepEqual(want, project) {
-
 		t.Errorf("Projects.GetProject returned %+v, want %+v", project, want)
 	}
 }
