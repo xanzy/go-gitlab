@@ -206,12 +206,14 @@ func TestGetProjectByID(t *testing.T) {
 			"packages_enabled": false
 		  }`)
 	})
+
+	wantTimestamp := time.Date(2020, 01, 07, 21, 42, 58, 658000000, time.UTC)
 	want := &Project{
 		ID:                       1,
 		ContainerRegistryEnabled: true,
-		ContainerExpirationPolicy: &ProjectContainerExpirationPolicy{
+		ContainerExpirationPolicy: &ContainerExpirationPolicy{
 			Cadence:   "7d",
-			NextRunAt: time.Date(2020, 01, 07, 21, 42, 58, 658000000, time.UTC),
+			NextRunAt: &wantTimestamp,
 		},
 		PackagesEnabled: false,
 	}
