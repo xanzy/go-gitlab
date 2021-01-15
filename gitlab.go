@@ -121,6 +121,7 @@ type Client struct {
 	GitIgnoreTemplates    *GitIgnoreTemplatesService
 	GroupBadges           *GroupBadgesService
 	GroupCluster          *GroupClustersService
+	GroupInvites          *GroupInviteService
 	GroupIssueBoards      *GroupIssueBoardsService
 	GroupLabels           *GroupLabelsService
 	GroupMembers          *GroupMembersService
@@ -150,6 +151,7 @@ type Client struct {
 	ProjectBadges         *ProjectBadgesService
 	ProjectCluster        *ProjectClustersService
 	ProjectImportExport   *ProjectImportExportService
+	ProjectInvites        *ProjectInvitesService
 	ProjectMembers        *ProjectMembersService
 	ProjectMirrors        *ProjectMirrorService
 	ProjectSnippets       *ProjectSnippetsService
@@ -285,6 +287,7 @@ func newClient(options ...ClientOptionFunc) (*Client, error) {
 	c.GitIgnoreTemplates = &GitIgnoreTemplatesService{client: c}
 	c.GroupBadges = &GroupBadgesService{client: c}
 	c.GroupCluster = &GroupClustersService{client: c}
+	c.GroupInvites = &GroupInviteService{client: c}
 	c.GroupIssueBoards = &GroupIssueBoardsService{client: c}
 	c.GroupLabels = &GroupLabelsService{client: c}
 	c.GroupMembers = &GroupMembersService{client: c}
@@ -314,6 +317,7 @@ func newClient(options ...ClientOptionFunc) (*Client, error) {
 	c.ProjectBadges = &ProjectBadgesService{client: c}
 	c.ProjectCluster = &ProjectClustersService{client: c}
 	c.ProjectImportExport = &ProjectImportExportService{client: c}
+	c.ProjectInvites = &ProjectInvitesService{client: c}
 	c.ProjectMembers = &ProjectMembersService{client: c}
 	c.ProjectMirrors = &ProjectMirrorService{client: c}
 	c.ProjectSnippets = &ProjectSnippetsService{client: c}

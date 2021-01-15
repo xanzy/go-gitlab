@@ -44,6 +44,7 @@ to add new and/or missing endpoints. Currently the following services are suppor
 - [x] Group Milestones
 - [x] Group-Level Variables
 - [x] Groups
+- [x] Groups Invites
 - [x] Instance Clusters
 - [x] Issue Boards
 - [x] Issues
@@ -68,6 +69,7 @@ to add new and/or missing endpoints. Currently the following services are suppor
 - [x] Project Members
 - [x] Project Milestones
 - [x] Project Snippets
+- [x] Project Invites  
 - [x] Project-Level Variables
 - [x] Projects (including setting Webhooks)
 - [x] Protected Branches
