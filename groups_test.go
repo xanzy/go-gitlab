@@ -291,7 +291,7 @@ func TestRestoreGroup(t *testing.T) {
 			fmt.Fprint(w, `{"id": 1, "name": "g"}`)
 		})
 
-	group,_, err := client.Groups.RestoreGroup(1)
+	group, _, err := client.Groups.RestoreGroup(1)
 	if err != nil {
 		t.Errorf("Groups.RestoreGroup returned error: %v", err)
 	}
