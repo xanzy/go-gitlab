@@ -25,7 +25,7 @@ func TestListProjectPendingInvites(t *testing.T) {
         t.Errorf("ProjectInvites.ListPendingInvitations returned error: %v", err)
     }
 
-    want := []*PendingInvitations{{Id: 1}, {Id: 2}}
+    want := []*PendingInvitations{{ID: 1}, {ID: 2}}
     if !reflect.DeepEqual(want, projects) {
         t.Errorf("ProjectInvites.ListPendingInvitations returned %+v, want %+v", projects, want)
     }

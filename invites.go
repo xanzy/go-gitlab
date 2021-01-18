@@ -8,7 +8,7 @@ type ListPendingInvitationsOptions struct {
 }
 
 type PendingInvitations struct {
-    Id            int    `json:"id"`
+    ID            int    `json:"id"`
     InviteEmail   string `json:"invite_email"`
     CreatedAt     string `json:"created_at"`
     AccessLevel   int    `json:"access_level"`
@@ -23,7 +23,7 @@ type InvitationsResponse struct {
 }
 
 type InvitesOptions struct {
-    Id          string     `url:"id,omitempty" json:"id,omitempty"`
+    ID          string     `url:"id,omitempty" json:"id,omitempty"`
     Email       string     `url:"email,omitempty" json:"email,omitempty"`
     AccessLevel string     `url:"access_level,omitempty" json:"access_level,omitempty"`
     ExpiresAt   *time.Time `url:"expires_at,omitempty" json:"expires_at,omitempty"`
