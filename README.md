@@ -45,6 +45,7 @@ to add new and/or missing endpoints. Currently the following services are suppor
 - [x] Group-Level Variables
 - [x] Groups
 - [x] Instance Clusters
+- [x] Invites
 - [x] Issue Boards
 - [x] Issues
 - [x] Jobs
