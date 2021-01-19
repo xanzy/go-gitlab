@@ -49,7 +49,7 @@ func TestGroupInvites(t *testing.T) {
 		t.Errorf("Invites.GroupInvites returned error: %v", err)
 	}
 
-	want := &InvitationsResult{Status: "success"}
+	want := &InvitesResult{Status: "success"}
 	if !reflect.DeepEqual(want, projects) {
 		t.Errorf("Invites.GroupInvites returned %+v, want %+v", projects, want)
 	}
@@ -73,7 +73,7 @@ func TestGroupInvitesError(t *testing.T) {
 		t.Errorf("Invites.GroupInvites returned error: %v", err)
 	}
 
-	want := &InvitationsResult{Status: "error", Message: map[string]string{"example@member.org": "Already invited"}}
+	want := &InvitesResult{Status: "error", Message: map[string]string{"example@member.org": "Already invited"}}
 	if !reflect.DeepEqual(want, projects) {
 		t.Errorf("Invites.GroupInvites returned %+v, want %+v", projects, want)
 	}
@@ -121,7 +121,7 @@ func TestProjectInvites(t *testing.T) {
 		t.Errorf("Invites.ProjectInvites returned error: %v", err)
 	}
 
-	want := &InvitationsResult{Status: "success"}
+	want := &InvitesResult{Status: "success"}
 	if !reflect.DeepEqual(want, projects) {
 		t.Errorf("Invites.ProjectInvites returned %+v, want %+v", projects, want)
 	}
@@ -145,7 +145,7 @@ func TestProjectInvitesError(t *testing.T) {
 		t.Errorf("Invites.ProjectInvites returned error: %v", err)
 	}
 
-	want := &InvitationsResult{Status: "error", Message: map[string]string{"example@member.org": "Already invited"}}
+	want := &InvitesResult{Status: "error", Message: map[string]string{"example@member.org": "Already invited"}}
 	if !reflect.DeepEqual(want, projects) {
 		t.Errorf("Invites.ProjectInvites returned %+v, want %+v", projects, want)
 	}

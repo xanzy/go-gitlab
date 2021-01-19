@@ -118,7 +118,7 @@ type InvitesOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/invitations.html#invite-by-email-to-group-or-project
-type InvitationsResult struct {
+type InvitesResult struct {
 	Status  string            `json:"status"`
 	Message map[string]string `json:"message,omitempty"`
 }
@@ -127,7 +127,7 @@ type InvitationsResult struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/invitations.html#invite-by-email-to-group-or-project
-func (s *InvitesService) GroupInvites(gid interface{}, opt *InvitesOptions, options ...RequestOptionFunc) (*InvitationsResult, *Response, error) {
+func (s *InvitesService) GroupInvites(gid interface{}, opt *InvitesOptions, options ...RequestOptionFunc) (*InvitesResult, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
 		return nil, nil, err
@@ -139,7 +139,7 @@ func (s *InvitesService) GroupInvites(gid interface{}, opt *InvitesOptions, opti
 		return nil, nil, err
 	}
 
-	ir := new(InvitationsResult)
+	ir := new(InvitesResult)
 	resp, err := s.client.Do(req, ir)
 	if err != nil {
 		return nil, resp, err
@@ -152,7 +152,7 @@ func (s *InvitesService) GroupInvites(gid interface{}, opt *InvitesOptions, opti
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/invitations.html#invite-by-email-to-group-or-project
-func (s *InvitesService) ProjectInvites(pid interface{}, opt *InvitesOptions, options ...RequestOptionFunc) (*InvitationsResult, *Response, error) {
+func (s *InvitesService) ProjectInvites(pid interface{}, opt *InvitesOptions, options ...RequestOptionFunc) (*InvitesResult, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -164,7 +164,7 @@ func (s *InvitesService) ProjectInvites(pid interface{}, opt *InvitesOptions, op
 		return nil, nil, err
 	}
 
-	ir := new(InvitationsResult)
+	ir := new(InvitesResult)
 	resp, err := s.client.Do(req, ir)
 	if err != nil {
 		return nil, resp, err
