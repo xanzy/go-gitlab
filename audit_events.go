@@ -19,10 +19,18 @@ type AuditEvent struct {
 }
 
 // AuditEvent represents the details portion of an audit event for a group or project
+// The exact fields that are returned for an audit event depend on the action being recorded
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/audit_events.html
 type AuditEventDetails struct {
+	With          string `json:"with"`
+	Add           string `json:"add"`
+	As            string `json:"as"`
+	Change        string `json:"change"`
+	From          string `json:"from"`
+	To            string `json:"to"`
+	Remove        string `json:"remove"`
 	CustomMessage string `json:"custom_message"`
 	AuthorName    string `json:"author_name"`
 	TargetID      int    `json:"target_id"`
@@ -78,7 +86,7 @@ func (s *AuditEventsService) ListProjectAuditEvents(pid interface{}, opt *ListAu
 	return aes, resp, err
 }
 
-// GetProjectAuditEvent gets a specific group audit event
+// GetProjectAuditEvent gets a specific project audit event
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/audit_events.html
@@ -94,6 +102,63 @@ func (s *AuditEventsService) GetProjectAuditEvent(pid interface{}, aid interface
 	}
 
 	u := fmt.Sprintf("projects/%s/audit_events/%s", pathEscape(project), pathEscape(auditEventID))
+
+	req, err := s.client.NewRequest("GET", u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	a := new(AuditEvent)
+	resp, err := s.client.Do(req, a)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return a, resp, err
+}
+
+// ListGroupAuditEvents gets a list of audit events for the specified group
+// viewable by the authenticated user.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/audit_events.html
+func (s *AuditEventsService) ListGroupAuditEvents(gid interface{}, opt *ListAuditEventsOptions, options ...RequestOptionFunc) ([]*AuditEvent, *Response, error) {
+	group, err := parseID(gid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("groups/%s/audit_events", pathEscape(group))
+
+	req, err := s.client.NewRequest("GET", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var aes []*AuditEvent
+	resp, err := s.client.Do(req, &aes)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return aes, resp, err
+}
+
+// GetGroupAuditEvent gets a specific group audit event
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/audit_events.html
+func (s *AuditEventsService) GetGroupAuditEvent(gid interface{}, aid interface{}, options ...RequestOptionFunc) (*AuditEvent, *Response, error) {
+	group, err := parseID(gid)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	auditEventID, err := parseID(aid)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	u := fmt.Sprintf("groups/%s/audit_events/%s", pathEscape(group), pathEscape(auditEventID))
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
