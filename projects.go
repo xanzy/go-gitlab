@@ -71,6 +71,7 @@ type Project struct {
 	ImportError                               string                     `json:"import_error"`
 	Permissions                               *Permissions               `json:"permissions"`
 	MarkedForDeletionAt                       *ISOTime                   `json:"marked_for_deletion_at"`
+	EmptyRepo                                 bool                       `json:"empty_repo"`
 	Archived                                  bool                       `json:"archived"`
 	AvatarURL                                 string                     `json:"avatar_url"`
 	SharedRunnersEnabled                      bool                       `json:"shared_runners_enabled"`
