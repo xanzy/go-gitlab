@@ -1,7 +1,9 @@
 package gitlab
 
 import (
+	"encoding/json"
 	"fmt"
+	"strconv"
 	"time"
 )
 
@@ -24,20 +26,41 @@ type AuditEvent struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/audit_events.html
 type AuditEventDetails struct {
-	With          string `json:"with"`
-	Add           string `json:"add"`
-	As            string `json:"as"`
-	Change        string `json:"change"`
-	From          string `json:"from"`
-	To            string `json:"to"`
-	Remove        string `json:"remove"`
-	CustomMessage string `json:"custom_message"`
-	AuthorName    string `json:"author_name"`
-	TargetID      int    `json:"target_id"`
-	TargetType    string `json:"target_type"`
-	TargetDetails string `json:"target_details"`
-	IPAddress     string `json:"ip_address"`
-	EntityPath    string `json:"entity_path"`
+	With          string      `json:"with"`
+	Add           string      `json:"add"`
+	As            string      `json:"as"`
+	Change        string      `json:"change"`
+	From          string      `json:"from"`
+	To            string      `json:"to"`
+	Remove        string      `json:"remove"`
+	CustomMessage string      `json:"custom_message"`
+	AuthorName    string      `json:"author_name"`
+	TargetID      TargetID    `json:"target_id"` // Sometimes this is an int and sometimes is a string with project path
+	TargetType    string      `json:"target_type"`
+	TargetDetails string      `json:"target_details"`
+	IPAddress     string      `json:"ip_address"`
+	EntityPath    string      `json:"entity_path"`
+}
+
+// TargetID is a custom type so we can handle unmarshalling this since it is sometimes a string and sometimes an int
+type TargetID string
+
+// UnmarshalJSON Unmarshals the TargetID to a string, even if its an int in the json
+// TargetID is a mixed return value in the GitLab API
+func (t *TargetID) UnmarshalJSON(data []byte) error {
+	var i interface{}
+	if err := json.Unmarshal(data, &i); err != nil {
+		return err
+	}
+
+	switch v := i.(type) {
+	case float64:
+		*t = TargetID(strconv.FormatFloat(v, 'f', -1, 64))
+	case string:
+		*t = TargetID(v)
+	}
+
+	return nil
 }
 
 // AuditEventsService handles communication with the project/group
