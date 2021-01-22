@@ -67,11 +67,11 @@ func (s PackageFile) String() string {
 // https://docs.gitlab.com/ee/api/packages.html#within-a-project
 type ListProjectPackagesOptions struct {
 	ListOptions
-	OrderBy            string `json:"order_by,omitempty"`
-	Sort               string `json:"sort,omitempty"`
-	Type               string `json:"package_type,omitempty"`
-	Name               string `json:"package_name,omitempty"`
-	IncludeVersionless bool   `json:"include_versionless,omitempty"`
+	OrderBy            string `url:"order_by,omitempty" json:"order_by,omitempty"`
+	Sort               string `url:"sort,omitempty" json:"sort,omitempty"`
+	Type               string `url:"package_type,omitempty" json:"package_type,omitempty"`
+	Name               string `url:"package_name,omitempty" json:"package_name,omitempty"`
+	IncludeVersionless bool   `url:"include_versionless,omitempty" json:"include_versionless,omitempty"`
 }
 
 // ListProjectPackages gets a list of packages in a project.
