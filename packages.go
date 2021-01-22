@@ -49,7 +49,7 @@ func (s Package) String() string {
 // GitLab API docs: https://docs.gitlab.com/ee/api/packages.html
 type PackageFile struct {
 	ID        int        `json:"id"`
-	PackageId int        `json:"package_id"`
+	PackageID int        `json:"package_id"`
 	CreatedAt *time.Time `json:"created_at"`
 	FileName  string     `json:"file_name"`
 	Size      int        `json:"size"`
