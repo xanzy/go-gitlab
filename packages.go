@@ -103,12 +103,12 @@ func (s *PackagesService) ListProjectPackages(pid interface{}, opt *ListProjectP
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/packages.html#delete-a-project-package
-func (s *PackagesService) DeleteProjectPackage(pid interface{}, packageId int, options ...RequestOptionFunc) (*Response, error) {
+func (s *PackagesService) DeleteProjectPackage(pid interface{}, packageID int, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/packages/%d", pathEscape(project), packageId)
+	u := fmt.Sprintf("projects/%s/packages/%d", pathEscape(project), packageID)
 
 	req, err := s.client.NewRequest("DELETE", u, nil, options)
 	if err != nil {
@@ -129,14 +129,14 @@ type ListPackageFilesOptions ListOptions
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/packages.html#list-package-files
-func (s *PackagesService) ListPackageFiles(pid interface{}, packageId int, opt *ListPackageFilesOptions, options ...RequestOptionFunc) ([]*PackageFile, *Response, error) {
+func (s *PackagesService) ListPackageFiles(pid interface{}, packageID int, opt *ListPackageFilesOptions, options ...RequestOptionFunc) ([]*PackageFile, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/packages/%d/package_files",
 		pathEscape(project),
-		packageId,
+		packageID,
 	)
 
 	req, err := s.client.NewRequest("GET", u, opt, options)
