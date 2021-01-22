@@ -104,6 +104,7 @@ type MergeRequest struct {
 	} `json:"task_completion_status"`
 	HasConflicts                bool `json:"has_conflicts"`
 	BlockingDiscussionsResolved bool `json:"blocking_discussions_resolved"`
+	Overflow                    bool `json:"overflow"`
 }
 
 func (m MergeRequest) String() string {
@@ -387,19 +388,28 @@ func (s *MergeRequestsService) GetMergeRequestCommits(pid interface{}, mergeRequ
 	return c, resp, err
 }
 
+// GetMergeRequestChangesOptions represents the available GetMergeRequestChanges()
+// options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/merge_requests.html#get-single-mr-changes
+type GetMergeRequestChangesOptions struct {
+	AccessRawDiffs *bool `url:"access_raw_diffs,omitempty" json:"access_raw_diffs,omitempty"`
+}
+
 // GetMergeRequestChanges shows information about the merge request including
 // its files and changes.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/merge_requests.html#get-single-mr-changes
-func (s *MergeRequestsService) GetMergeRequestChanges(pid interface{}, mergeRequest int, options ...RequestOptionFunc) (*MergeRequest, *Response, error) {
+func (s *MergeRequestsService) GetMergeRequestChanges(pid interface{}, mergeRequest int, opt *GetMergeRequestChangesOptions, options ...RequestOptionFunc) (*MergeRequest, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/merge_requests/%d/changes", pathEscape(project), mergeRequest)
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
