@@ -105,6 +105,7 @@ type MergeRequest struct {
 	HasConflicts                bool `json:"has_conflicts"`
 	BlockingDiscussionsResolved bool `json:"blocking_discussions_resolved"`
 	Overflow                    bool `json:"overflow"`
+	AllowCollaboration          bool `json:"allow_collaboration"`
 }
 
 func (m MergeRequest) String() string {
