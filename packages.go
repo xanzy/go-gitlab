@@ -134,7 +134,8 @@ func (s *PackagesService) ListPackageFiles(pid interface{}, packageID int, opt *
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/packages/%d/package_files",
+	u := fmt.Sprintf(
+		"projects/%s/packages/%d/package_files",
 		pathEscape(project),
 		packageID,
 	)
