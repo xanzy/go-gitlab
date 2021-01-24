@@ -69,7 +69,7 @@ type ListProjectPackagesOptions struct {
 	ListOptions
 	OrderBy            string `url:"order_by,omitempty" json:"order_by,omitempty"`
 	Sort               string `url:"sort,omitempty" json:"sort,omitempty"`
-	Type               string `url:"package_type,omitempty" json:"package_type,omitempty"`
+	PackageType               string `url:"package_type,omitempty" json:"package_type,omitempty"`
 	Name               string `url:"package_name,omitempty" json:"package_name,omitempty"`
 	IncludeVersionless bool   `url:"include_versionless,omitempty" json:"include_versionless,omitempty"`
 }
