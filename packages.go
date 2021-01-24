@@ -36,7 +36,7 @@ type Package struct {
 	ID        int        `json:"id"`
 	Name      string     `json:"name"`
 	Version   string     `json:"version"`
-	Type      string     `json:"package_type"`
+	PackageType      string     `json:"package_type"`
 	CreatedAt *time.Time `json:"created_at"`
 }
 
