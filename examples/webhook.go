@@ -42,26 +42,39 @@ func (hook webhook) ServeHTTP(writer http.ResponseWriter, request *http.Request)
 	event, err := hook.parse(request)
 	if err != nil {
 		writer.WriteHeader(500)
-		_, _ = writer.Write([]byte(fmt.Sprintf("could parse the webhook event: %v", err)))
+
+		_, writeErr := writer.Write([]byte(fmt.Sprintf("could parse the webhook event: %v", err)))
+		if writeErr != nil {
+			log.Fatalf("could not write HTTP response: %v", err)
+		}
+
 		return
 	}
 
 	writer.WriteHeader(204)
-	_, _ = writer.Write([]byte("no content"))
 
 	hook.handle(event)
 }
 
 func (hook webhook) handle(event interface{}) {
-	str, _ := json.Marshal(event)
+	str, err := json.Marshal(event)
+	if err != nil {
+		log.Fatalf("could not marshal json event for logging: %v", err)
+		return
+	}
+
 	fmt.Println(string(str))
 }
 
 // parse verifies and parses the events specified in the r and returns the parsed event or an error
 func (hook webhook) parse(r *http.Request) (interface{}, error) {
 	defer func() {
-		_, _ = io.Copy(ioutil.Discard, r.Body)
-		_ = r.Body.Close()
+		if _, err := io.Copy(ioutil.Discard, r.Body); err != nil {
+			log.Fatalf("could discard request body: %v", err)
+		}
+		if err := r.Body.Close(); err != nil {
+			log.Fatalf("could not close request body: %v", err)
+		}
 	}()
 
 	if r.Method != http.MethodPost {
