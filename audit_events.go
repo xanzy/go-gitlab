@@ -1,9 +1,7 @@
 package gitlab
 
 import (
-	"encoding/json"
 	"fmt"
-	"strconv"
 	"time"
 )
 
@@ -35,32 +33,11 @@ type AuditEventDetails struct {
 	Remove        string      `json:"remove"`
 	CustomMessage string      `json:"custom_message"`
 	AuthorName    string      `json:"author_name"`
-	TargetID      TargetID    `json:"target_id"` // Sometimes this is an int and sometimes is a string with project path
+	TargetID      interface{} `json:"target_id"` // Sometimes this is a number and sometimes is a string with project path
 	TargetType    string      `json:"target_type"`
 	TargetDetails string      `json:"target_details"`
 	IPAddress     string      `json:"ip_address"`
 	EntityPath    string      `json:"entity_path"`
-}
-
-// TargetID is a custom type so we can handle unmarshalling this since it is sometimes a string and sometimes an int
-type TargetID string
-
-// UnmarshalJSON Unmarshals the TargetID to a string, even if its an int in the json
-// TargetID is a mixed return value in the GitLab API
-func (t *TargetID) UnmarshalJSON(data []byte) error {
-	var i interface{}
-	if err := json.Unmarshal(data, &i); err != nil {
-		return err
-	}
-
-	switch v := i.(type) {
-	case float64:
-		*t = TargetID(strconv.FormatFloat(v, 'f', -1, 64))
-	case string:
-		*t = TargetID(v)
-	}
-
-	return nil
 }
 
 // AuditEventsService handles communication with the project/group
@@ -113,31 +90,26 @@ func (s *AuditEventsService) ListProjectAuditEvents(pid interface{}, opt *ListAu
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/audit_events.html
-func (s *AuditEventsService) GetProjectAuditEvent(pid interface{}, aid interface{}, options ...RequestOptionFunc) (*AuditEvent, *Response, error) {
+func (s *AuditEventsService) GetProjectAuditEvent(pid interface{}, event int, options ...RequestOptionFunc) (*AuditEvent, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	auditEventID, err := parseID(aid)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	u := fmt.Sprintf("projects/%s/audit_events/%s", pathEscape(project), pathEscape(auditEventID))
+	u := fmt.Sprintf("projects/%s/audit_events/%d", pathEscape(project), event)
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	a := new(AuditEvent)
-	resp, err := s.client.Do(req, a)
+	ae := new(AuditEvent)
+	resp, err := s.client.Do(req, ae)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return a, resp, err
+	return ae, resp, err
 }
 
 // ListGroupAuditEvents gets a list of audit events for the specified group
@@ -170,29 +142,24 @@ func (s *AuditEventsService) ListGroupAuditEvents(gid interface{}, opt *ListAudi
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/audit_events.html
-func (s *AuditEventsService) GetGroupAuditEvent(gid interface{}, aid interface{}, options ...RequestOptionFunc) (*AuditEvent, *Response, error) {
+func (s *AuditEventsService) GetGroupAuditEvent(gid interface{}, event int, options ...RequestOptionFunc) (*AuditEvent, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	auditEventID, err := parseID(aid)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	u := fmt.Sprintf("groups/%s/audit_events/%s", pathEscape(group), pathEscape(auditEventID))
+	u := fmt.Sprintf("groups/%s/audit_events/%d", pathEscape(group), event)
 
 	req, err := s.client.NewRequest("GET", u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	a := new(AuditEvent)
-	resp, err := s.client.Do(req, a)
+	ae := new(AuditEvent)
+	resp, err := s.client.Do(req, ae)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return a, resp, err
+	return ae, resp, err
 }
