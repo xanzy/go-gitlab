@@ -70,6 +70,7 @@ type MergeRequest struct {
 	ChangesCount              string       `json:"changes_count"`
 	ShouldRemoveSourceBranch  bool         `json:"should_remove_source_branch"`
 	ForceRemoveSourceBranch   bool         `json:"force_remove_source_branch"`
+	AllowCollaboration        bool         `json:"allow_collaboration"`
 	WebURL                    string       `json:"web_url"`
 	DiscussionLocked          bool         `json:"discussion_locked"`
 	Changes                   []struct {
