@@ -103,6 +103,7 @@ type Project struct {
 	BuildsAccessLevel                         AccessControlValue         `json:"builds_access_level"`
 	SnippetsAccessLevel                       AccessControlValue         `json:"snippets_access_level"`
 	PagesAccessLevel                          AccessControlValue         `json:"pages_access_level"`
+	OperationsAccessLevel                     AccessControlValue         `json:"operations_access_level"`
 	AutocloseReferencedIssues                 bool                       `json:"autoclose_referenced_issues"`
 	CIForwardDeploymentEnabled                bool                       `json:"ci_forward_deployment_enabled"`
 	SharedWithGroups                          []struct {
