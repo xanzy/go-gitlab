@@ -156,6 +156,8 @@ type ListMergeRequestsOptions struct {
 	Scope                  *string    `url:"scope,omitempty" json:"scope,omitempty"`
 	AuthorID               *int       `url:"author_id,omitempty" json:"author_id,omitempty"`
 	AssigneeID             *int       `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
+	ReviewerID             *int       `url:"reviewer_id,omitempty" json:"reviewer_id,omitempty"`
+	ReviewerUsername       *string    `url:"reviewer_username,omitempty" json:"reviewer_username,omitempty"`
 	MyReactionEmoji        *string    `url:"my_reaction_emoji,omitempty" json:"my_reaction_emoji,omitempty"`
 	SourceBranch           *string    `url:"source_branch,omitempty" json:"source_branch,omitempty"`
 	TargetBranch           *string    `url:"target_branch,omitempty" json:"target_branch,omitempty"`
@@ -209,6 +211,8 @@ type ListGroupMergeRequestsOptions struct {
 	Scope                  *string    `url:"scope,omitempty" json:"scope,omitempty"`
 	AuthorID               *int       `url:"author_id,omitempty" json:"author_id,omitempty"`
 	AssigneeID             *int       `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
+	ReviewerID             *int       `url:"reviewer_id,omitempty" json:"reviewer_id,omitempty"`
+	ReviewerUsername       *string    `url:"reviewer_username,omitempty" json:"reviewer_username,omitempty"`
 	MyReactionEmoji        *string    `url:"my_reaction_emoji,omitempty" json:"my_reaction_emoji,omitempty"`
 	SourceBranch           *string    `url:"source_branch,omitempty" json:"source_branch,omitempty"`
 	TargetBranch           *string    `url:"target_branch,omitempty" json:"target_branch,omitempty"`
@@ -264,6 +268,8 @@ type ListProjectMergeRequestsOptions struct {
 	Scope                  *string    `url:"scope,omitempty" json:"scope,omitempty"`
 	AuthorID               *int       `url:"author_id,omitempty" json:"author_id,omitempty"`
 	AssigneeID             *int       `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
+	ReviewerID             *int       `url:"reviewer_id,omitempty" json:"reviewer_id,omitempty"`
+	ReviewerUsername       *string    `url:"reviewer_username,omitempty" json:"reviewer_username,omitempty"`
 	MyReactionEmoji        *string    `url:"my_reaction_emoji,omitempty" json:"my_reaction_emoji,omitempty"`
 	SourceBranch           *string    `url:"source_branch,omitempty" json:"source_branch,omitempty"`
 	TargetBranch           *string    `url:"target_branch,omitempty" json:"target_branch,omitempty"`
@@ -545,6 +551,7 @@ type CreateMergeRequestOptions struct {
 	Labels             Labels  `url:"labels,comma,omitempty" json:"labels,omitempty"`
 	AssigneeID         *int    `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
 	AssigneeIDs        []int   `url:"assignee_ids,omitempty" json:"assignee_ids,omitempty"`
+	ReviewerIDs        []int   `url:"reviewer_ids,omitempty" json:"reviewer_ids,omitempty"`
 	TargetProjectID    *int    `url:"target_project_id,omitempty" json:"target_project_id,omitempty"`
 	MilestoneID        *int    `url:"milestone_id,omitempty" json:"milestone_id,omitempty"`
 	RemoveSourceBranch *bool   `url:"remove_source_branch,omitempty" json:"remove_source_branch,omitempty"`
@@ -588,6 +595,7 @@ type UpdateMergeRequestOptions struct {
 	TargetBranch       *string `url:"target_branch,omitempty" json:"target_branch,omitempty"`
 	AssigneeID         *int    `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
 	AssigneeIDs        []int   `url:"assignee_ids,omitempty" json:"assignee_ids,omitempty"`
+	ReviewerIDs        []int   `url:"reviewer_ids,omitempty" json:"reviewer_ids,omitempty"`
 	Labels             Labels  `url:"labels,comma,omitempty" json:"labels,omitempty"`
 	AddLabels          Labels  `url:"add_labels,comma,omitempty" json:"add_labels,omitempty"`
 	RemoveLabels       Labels  `url:"remove_labels,comma,omitempty" json:"remove_labels,omitempty"`
