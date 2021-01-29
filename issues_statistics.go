@@ -97,7 +97,7 @@ func (s *IssuesStatisticsService) GetIssuesStatistics(opt *GetIssuesStatisticsOp
 type GetGroupIssuesStatisticsOptions struct {
 	Labels           Labels     `url:"labels,omitempty" json:"labels,omitempty"`
 	IIDs             []int      `url:"iids,omitempty" json:"iids,omitempty"`
-	Milestone        *Milestone `url:"milestone,omitempty" json:"milestone,omitempty"`
+	Milestone        *string    `url:"milestone,omitempty" json:"milestone,omitempty"`
 	Scope            *string    `url:"scope,omitempty" json:"scope,omitempty"`
 	AuthorID         *int       `url:"author_id,omitempty" json:"author_id,omitempty"`
 	AuthorUsername   *string    `url:"author_username,omitempty" json:"author_username,omitempty"`
