@@ -48,7 +48,7 @@ func (s Package) String() string {
 // PackageLinks holds links for itself and deleting.
 type PackageLinks struct {
 	WebPath       string `json:"web_path"`
-	DeleteApiPath string `json:"delete_api_path"`
+	DeleteAPIPath string `json:"delete_api_path"`
 }
 
 func (s PackageLinks) String() string {
