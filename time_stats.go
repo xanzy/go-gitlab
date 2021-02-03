@@ -60,7 +60,7 @@ func (s *timeStatsService) setTimeEstimate(pid interface{}, entity string, issue
 	}
 	u := fmt.Sprintf("projects/%s/%s/%d/time_estimate", pathEscape(project), entity, issue)
 
-	req, err := s.client.NewRequest("POST", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -84,7 +84,7 @@ func (s *timeStatsService) resetTimeEstimate(pid interface{}, entity string, iss
 	}
 	u := fmt.Sprintf("projects/%s/%s/%d/reset_time_estimate", pathEscape(project), entity, issue)
 
-	req, err := s.client.NewRequest("POST", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -115,7 +115,7 @@ func (s *timeStatsService) addSpentTime(pid interface{}, entity string, issue in
 	}
 	u := fmt.Sprintf("projects/%s/%s/%d/add_spent_time", pathEscape(project), entity, issue)
 
-	req, err := s.client.NewRequest("POST", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -139,7 +139,7 @@ func (s *timeStatsService) resetSpentTime(pid interface{}, entity string, issue 
 	}
 	u := fmt.Sprintf("projects/%s/%s/%d/reset_spent_time", pathEscape(project), entity, issue)
 
-	req, err := s.client.NewRequest("POST", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -163,7 +163,7 @@ func (s *timeStatsService) getTimeSpent(pid interface{}, entity string, issue in
 	}
 	u := fmt.Sprintf("projects/%s/%s/%d/time_stats", pathEscape(project), entity, issue)
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}

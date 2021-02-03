@@ -105,7 +105,7 @@ func (s *EpicsService) ListGroupEpics(gid interface{}, opt *ListGroupEpicsOption
 	}
 	u := fmt.Sprintf("groups/%s/epics", pathEscape(group))
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -129,7 +129,7 @@ func (s *EpicsService) GetEpic(gid interface{}, epic int, options ...RequestOpti
 	}
 	u := fmt.Sprintf("groups/%s/epics/%d", pathEscape(group), epic)
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -153,7 +153,7 @@ func (s *EpicsService) GetEpicLinks(gid interface{}, epic int, options ...Reques
 	}
 	u := fmt.Sprintf("groups/%s/epics/%d/epics", pathEscape(group), epic)
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -190,7 +190,7 @@ func (s *EpicsService) CreateEpic(gid interface{}, opt *CreateEpicOptions, optio
 	}
 	u := fmt.Sprintf("groups/%s/epics", pathEscape(group))
 
-	req, err := s.client.NewRequest("POST", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -229,7 +229,7 @@ func (s *EpicsService) UpdateEpic(gid interface{}, epic int, opt *UpdateEpicOpti
 	}
 	u := fmt.Sprintf("groups/%s/epics/%d", pathEscape(group), epic)
 
-	req, err := s.client.NewRequest("PUT", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -253,7 +253,7 @@ func (s *EpicsService) DeleteEpic(gid interface{}, epic int, options ...RequestO
 	}
 	u := fmt.Sprintf("groups/%s/epics/%d", pathEscape(group), epic)
 
-	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
 		return nil, err
 	}

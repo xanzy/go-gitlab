@@ -97,7 +97,7 @@ func (s *AwardEmojiService) listAwardEmoji(pid interface{}, resource string, res
 		resourceID,
 	)
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -147,7 +147,7 @@ func (s *AwardEmojiService) getAwardEmoji(pid interface{}, resource string, reso
 		awardID,
 	)
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -205,7 +205,7 @@ func (s *AwardEmojiService) createAwardEmoji(pid interface{}, resource string, r
 		resourceID,
 	)
 
-	req, err := s.client.NewRequest("POST", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -255,7 +255,7 @@ func (s *AwardEmojiService) deleteAwardEmoji(pid interface{}, resource string, r
 	u := fmt.Sprintf("projects/%s/%s/%d/award_emoji/%d", pathEscape(project), resource,
 		resourceID, awardID)
 
-	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
 		return nil, err
 	}
@@ -297,7 +297,7 @@ func (s *AwardEmojiService) listAwardEmojiOnNote(pid interface{}, resources stri
 	u := fmt.Sprintf("projects/%s/%s/%d/notes/%d/award_emoji", pathEscape(project), resources,
 		ressourceID, noteID)
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -350,7 +350,7 @@ func (s *AwardEmojiService) getSingleNoteAwardEmoji(pid interface{}, ressource s
 		awardID,
 	)
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -405,7 +405,7 @@ func (s *AwardEmojiService) createAwardEmojiOnNote(pid interface{}, resource str
 		noteID,
 	)
 
-	req, err := s.client.NewRequest("POST", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -458,7 +458,7 @@ func (s *AwardEmojiService) deleteAwardEmojiOnNote(pid interface{}, resource str
 		awardID,
 	)
 
-	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
 		return nil, err
 	}

@@ -62,7 +62,7 @@ func (s *CustomAttributesService) ListCustomProjectAttributes(project int, optio
 
 func (s *CustomAttributesService) listCustomAttributes(resource string, id int, options ...RequestOptionFunc) ([]*CustomAttribute, *Response, error) {
 	u := fmt.Sprintf("%s/%d/custom_attributes", resource, id)
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -101,7 +101,7 @@ func (s *CustomAttributesService) GetCustomProjectAttribute(project int, key str
 
 func (s *CustomAttributesService) getCustomAttribute(resource string, id int, key string, options ...RequestOptionFunc) (*CustomAttribute, *Response, error) {
 	u := fmt.Sprintf("%s/%d/custom_attributes/%s", resource, id, key)
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -140,7 +140,7 @@ func (s *CustomAttributesService) SetCustomProjectAttribute(project int, c Custo
 
 func (s *CustomAttributesService) setCustomAttribute(resource string, id int, c CustomAttribute, options ...RequestOptionFunc) (*CustomAttribute, *Response, error) {
 	u := fmt.Sprintf("%s/%d/custom_attributes/%s", resource, id, c.Key)
-	req, err := s.client.NewRequest("PUT", u, c, options)
+	req, err := s.client.NewRequest(http.MethodPut, u, c, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -179,7 +179,7 @@ func (s *CustomAttributesService) DeleteCustomProjectAttribute(project int, key 
 
 func (s *CustomAttributesService) deleteCustomAttribute(resource string, id int, key string, options ...RequestOptionFunc) (*Response, error) {
 	u := fmt.Sprintf("%s/%d/custom_attributes/%s", resource, id, key)
-	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
 		return nil, err
 	}

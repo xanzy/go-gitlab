@@ -97,7 +97,7 @@ func (s *PackagesService) ListProjectPackages(pid interface{}, opt *ListProjectP
 	}
 	u := fmt.Sprintf("projects/%s/packages", pathEscape(project))
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -133,7 +133,7 @@ func (s *PackagesService) ListPackageFiles(pid interface{}, pkg int, opt *ListPa
 		pkg,
 	)
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -158,7 +158,7 @@ func (s *PackagesService) DeleteProjectPackage(pid interface{}, pkg int, options
 	}
 	u := fmt.Sprintf("projects/%s/packages/%d", pathEscape(project), pkg)
 
-	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
 		return nil, err
 	}

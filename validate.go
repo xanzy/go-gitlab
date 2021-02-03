@@ -54,7 +54,7 @@ func (s *ValidateService) Lint(content string, options ...RequestOptionFunc) (*L
 	}
 	opts.Content = content
 
-	req, err := s.client.NewRequest("POST", "ci/lint", &opts, options)
+	req, err := s.client.NewRequest(http.MethodPost, "ci/lint", &opts, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -88,7 +88,7 @@ func (s *ValidateService) ProjectNamespaceLint(pid interface{}, opt *ProjectName
 	}
 	u := fmt.Sprintf("projects/%s/ci/lint", pathEscape(project))
 
-	req, err := s.client.NewRequest("POST", u, &opt, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, &opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -121,7 +121,7 @@ func (s *ValidateService) ProjectLint(pid interface{}, opt *ProjectLintOptions, 
 	}
 	u := fmt.Sprintf("projects/%s/ci/lint", pathEscape(project))
 
-	req, err := s.client.NewRequest("GET", u, &opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, &opt, options)
 	if err != nil {
 		return nil, nil, err
 	}

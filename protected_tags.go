@@ -65,7 +65,7 @@ func (s *ProtectedTagsService) ListProtectedTags(pid interface{}, opt *ListProte
 	}
 	u := fmt.Sprintf("projects/%s/protected_tags", pathEscape(project))
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -90,7 +90,7 @@ func (s *ProtectedTagsService) GetProtectedTag(pid interface{}, tag string, opti
 	}
 	u := fmt.Sprintf("projects/%s/protected_tags/%s", pathEscape(project), pathEscape(tag))
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -126,7 +126,7 @@ func (s *ProtectedTagsService) ProtectRepositoryTags(pid interface{}, opt *Prote
 	}
 	u := fmt.Sprintf("projects/%s/protected_tags", pathEscape(project))
 
-	req, err := s.client.NewRequest("POST", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -152,7 +152,7 @@ func (s *ProtectedTagsService) UnprotectRepositoryTags(pid interface{}, tag stri
 	}
 	u := fmt.Sprintf("projects/%s/protected_tags/%s", pathEscape(project), pathEscape(tag))
 
-	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
 		return nil, err
 	}

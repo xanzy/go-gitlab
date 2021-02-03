@@ -120,7 +120,7 @@ func (s *NotesService) ListIssueNotes(pid interface{}, issue int, opt *ListIssue
 	}
 	u := fmt.Sprintf("projects/%s/issues/%d/notes", pathEscape(project), issue)
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -145,7 +145,7 @@ func (s *NotesService) GetIssueNote(pid interface{}, issue, note int, options ..
 	}
 	u := fmt.Sprintf("projects/%s/issues/%d/notes/%d", pathEscape(project), issue, note)
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -180,7 +180,7 @@ func (s *NotesService) CreateIssueNote(pid interface{}, issue int, opt *CreateIs
 	}
 	u := fmt.Sprintf("projects/%s/issues/%d/notes", pathEscape(project), issue)
 
-	req, err := s.client.NewRequest("POST", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -214,7 +214,7 @@ func (s *NotesService) UpdateIssueNote(pid interface{}, issue, note int, opt *Up
 	}
 	u := fmt.Sprintf("projects/%s/issues/%d/notes/%d", pathEscape(project), issue, note)
 
-	req, err := s.client.NewRequest("PUT", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -239,7 +239,7 @@ func (s *NotesService) DeleteIssueNote(pid interface{}, issue, note int, options
 	}
 	u := fmt.Sprintf("projects/%s/issues/%d/notes/%d", pathEscape(project), issue, note)
 
-	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
 		return nil, err
 	}
@@ -269,7 +269,7 @@ func (s *NotesService) ListSnippetNotes(pid interface{}, snippet int, opt *ListS
 	}
 	u := fmt.Sprintf("projects/%s/snippets/%d/notes", pathEscape(project), snippet)
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -294,7 +294,7 @@ func (s *NotesService) GetSnippetNote(pid interface{}, snippet, note int, option
 	}
 	u := fmt.Sprintf("projects/%s/snippets/%d/notes/%d", pathEscape(project), snippet, note)
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -329,7 +329,7 @@ func (s *NotesService) CreateSnippetNote(pid interface{}, snippet int, opt *Crea
 	}
 	u := fmt.Sprintf("projects/%s/snippets/%d/notes", pathEscape(project), snippet)
 
-	req, err := s.client.NewRequest("POST", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -363,7 +363,7 @@ func (s *NotesService) UpdateSnippetNote(pid interface{}, snippet, note int, opt
 	}
 	u := fmt.Sprintf("projects/%s/snippets/%d/notes/%d", pathEscape(project), snippet, note)
 
-	req, err := s.client.NewRequest("PUT", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -388,7 +388,7 @@ func (s *NotesService) DeleteSnippetNote(pid interface{}, snippet, note int, opt
 	}
 	u := fmt.Sprintf("projects/%s/snippets/%d/notes/%d", pathEscape(project), snippet, note)
 
-	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
 		return nil, err
 	}
@@ -418,7 +418,7 @@ func (s *NotesService) ListMergeRequestNotes(pid interface{}, mergeRequest int, 
 	}
 	u := fmt.Sprintf("projects/%s/merge_requests/%d/notes", pathEscape(project), mergeRequest)
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -443,7 +443,7 @@ func (s *NotesService) GetMergeRequestNote(pid interface{}, mergeRequest, note i
 	}
 	u := fmt.Sprintf("projects/%s/merge_requests/%d/notes/%d", pathEscape(project), mergeRequest, note)
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -477,7 +477,7 @@ func (s *NotesService) CreateMergeRequestNote(pid interface{}, mergeRequest int,
 	}
 	u := fmt.Sprintf("projects/%s/merge_requests/%d/notes", pathEscape(project), mergeRequest)
 
-	req, err := s.client.NewRequest("POST", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -511,7 +511,7 @@ func (s *NotesService) UpdateMergeRequestNote(pid interface{}, mergeRequest, not
 	}
 	u := fmt.Sprintf(
 		"projects/%s/merge_requests/%d/notes/%d", pathEscape(project), mergeRequest, note)
-	req, err := s.client.NewRequest("PUT", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -537,7 +537,7 @@ func (s *NotesService) DeleteMergeRequestNote(pid interface{}, mergeRequest, not
 	u := fmt.Sprintf(
 		"projects/%s/merge_requests/%d/notes/%d", pathEscape(project), mergeRequest, note)
 
-	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
 		return nil, err
 	}
@@ -566,7 +566,7 @@ func (s *NotesService) ListEpicNotes(gid interface{}, epic int, opt *ListEpicNot
 	}
 	u := fmt.Sprintf("groups/%s/epics/%d/notes", pathEscape(group), epic)
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -591,7 +591,7 @@ func (s *NotesService) GetEpicNote(gid interface{}, epic, note int, options ...R
 	}
 	u := fmt.Sprintf("groups/%s/epics/%d/notes/%d", pathEscape(group), epic, note)
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -624,7 +624,7 @@ func (s *NotesService) CreateEpicNote(gid interface{}, epic int, opt *CreateEpic
 	}
 	u := fmt.Sprintf("groups/%s/epics/%d/notes", pathEscape(group), epic)
 
-	req, err := s.client.NewRequest("POST", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -656,7 +656,7 @@ func (s *NotesService) UpdateEpicNote(gid interface{}, epic, note int, opt *Upda
 	}
 	u := fmt.Sprintf("groups/%s/epics/%d/notes/%d", pathEscape(group), epic, note)
 
-	req, err := s.client.NewRequest("PUT", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -680,7 +680,7 @@ func (s *NotesService) DeleteEpicNote(gid interface{}, epic, note int, options .
 	}
 	u := fmt.Sprintf("groups/%s/epics/%d/notes/%d", pathEscape(group), epic, note)
 
-	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
 		return nil, err
 	}

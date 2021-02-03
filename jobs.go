@@ -118,7 +118,7 @@ func (s *JobsService) ListProjectJobs(pid interface{}, opts *ListJobsOptions, op
 	}
 	u := fmt.Sprintf("projects/%s/jobs", pathEscape(project))
 
-	req, err := s.client.NewRequest("GET", u, opts, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opts, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -144,7 +144,7 @@ func (s *JobsService) ListPipelineJobs(pid interface{}, pipelineID int, opts *Li
 	}
 	u := fmt.Sprintf("projects/%s/pipelines/%d/jobs", pathEscape(project), pipelineID)
 
-	req, err := s.client.NewRequest("GET", u, opts, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opts, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -170,7 +170,7 @@ func (s *JobsService) ListPipelineBridges(pid interface{}, pipelineID int, opts 
 	}
 	u := fmt.Sprintf("projects/%s/pipelines/%d/bridges", pathEscape(project), pipelineID)
 
-	req, err := s.client.NewRequest("GET", u, opts, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opts, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -195,7 +195,7 @@ func (s *JobsService) GetJob(pid interface{}, jobID int, options ...RequestOptio
 	}
 	u := fmt.Sprintf("projects/%s/jobs/%d", pathEscape(project), jobID)
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -220,7 +220,7 @@ func (s *JobsService) GetJobArtifacts(pid interface{}, jobID int, options ...Req
 	}
 	u := fmt.Sprintf("projects/%s/jobs/%d/artifacts", pathEscape(project), jobID)
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -255,7 +255,7 @@ func (s *JobsService) DownloadArtifactsFile(pid interface{}, refName string, opt
 	}
 	u := fmt.Sprintf("projects/%s/jobs/artifacts/%s/download", pathEscape(project), refName)
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -289,7 +289,7 @@ func (s *JobsService) DownloadSingleArtifactsFile(pid interface{}, jobID int, ar
 		artifactPath,
 	)
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -314,7 +314,7 @@ func (s *JobsService) GetTraceFile(pid interface{}, jobID int, options ...Reques
 	}
 	u := fmt.Sprintf("projects/%s/jobs/%d/trace", pathEscape(project), jobID)
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -339,7 +339,7 @@ func (s *JobsService) CancelJob(pid interface{}, jobID int, options ...RequestOp
 	}
 	u := fmt.Sprintf("projects/%s/jobs/%d/cancel", pathEscape(project), jobID)
 
-	req, err := s.client.NewRequest("POST", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -364,7 +364,7 @@ func (s *JobsService) RetryJob(pid interface{}, jobID int, options ...RequestOpt
 	}
 	u := fmt.Sprintf("projects/%s/jobs/%d/retry", pathEscape(project), jobID)
 
-	req, err := s.client.NewRequest("POST", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -390,7 +390,7 @@ func (s *JobsService) EraseJob(pid interface{}, jobID int, options ...RequestOpt
 	}
 	u := fmt.Sprintf("projects/%s/jobs/%d/erase", pathEscape(project), jobID)
 
-	req, err := s.client.NewRequest("POST", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -416,7 +416,7 @@ func (s *JobsService) KeepArtifacts(pid interface{}, jobID int, options ...Reque
 	}
 	u := fmt.Sprintf("projects/%s/jobs/%d/artifacts/keep", pathEscape(project), jobID)
 
-	req, err := s.client.NewRequest("POST", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -441,7 +441,7 @@ func (s *JobsService) PlayJob(pid interface{}, jobID int, options ...RequestOpti
 	}
 	u := fmt.Sprintf("projects/%s/jobs/%d/play", pathEscape(project), jobID)
 
-	req, err := s.client.NewRequest("POST", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -466,7 +466,7 @@ func (s *JobsService) DeleteArtifacts(pid interface{}, jobID int, options ...Req
 	}
 	u := fmt.Sprintf("projects/%s/jobs/%d/artifacts", pathEscape(project), jobID)
 
-	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}

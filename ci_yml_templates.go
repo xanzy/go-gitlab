@@ -49,7 +49,7 @@ type ListCIYMLTemplatesOptions ListOptions
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/templates/gitlab_ci_ymls.html#list-gitlab-ci-yml-templates
 func (s *CIYMLTemplatesService) ListAllTemplates(opt *ListCIYMLTemplatesOptions, options ...RequestOptionFunc) ([]*CIYMLTemplate, *Response, error) {
-	req, err := s.client.NewRequest("GET", "templates/gitlab_ci_ymls", opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, "templates/gitlab_ci_ymls", opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -70,7 +70,7 @@ func (s *CIYMLTemplatesService) ListAllTemplates(opt *ListCIYMLTemplatesOptions,
 func (s *CIYMLTemplatesService) GetTemplate(key string, options ...RequestOptionFunc) (*CIYMLTemplate, *Response, error) {
 	u := fmt.Sprintf("templates/gitlab_ci_ymls/%s", pathEscape(key))
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}

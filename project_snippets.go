@@ -44,7 +44,7 @@ func (s *ProjectSnippetsService) ListSnippets(pid interface{}, opt *ListProjectS
 	}
 	u := fmt.Sprintf("projects/%s/snippets", pathEscape(project))
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -69,7 +69,7 @@ func (s *ProjectSnippetsService) GetSnippet(pid interface{}, snippet int, option
 	}
 	u := fmt.Sprintf("projects/%s/snippets/%d", pathEscape(project), snippet)
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -107,7 +107,7 @@ func (s *ProjectSnippetsService) CreateSnippet(pid interface{}, opt *CreateProje
 	}
 	u := fmt.Sprintf("projects/%s/snippets", pathEscape(project))
 
-	req, err := s.client.NewRequest("POST", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -145,7 +145,7 @@ func (s *ProjectSnippetsService) UpdateSnippet(pid interface{}, snippet int, opt
 	}
 	u := fmt.Sprintf("projects/%s/snippets/%d", pathEscape(project), snippet)
 
-	req, err := s.client.NewRequest("PUT", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -172,7 +172,7 @@ func (s *ProjectSnippetsService) DeleteSnippet(pid interface{}, snippet int, opt
 	}
 	u := fmt.Sprintf("projects/%s/snippets/%d", pathEscape(project), snippet)
 
-	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
 		return nil, err
 	}
@@ -191,7 +191,7 @@ func (s *ProjectSnippetsService) SnippetContent(pid interface{}, snippet int, op
 	}
 	u := fmt.Sprintf("projects/%s/snippets/%d/raw", pathEscape(project), snippet)
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}

@@ -80,7 +80,7 @@ func (s *ContainerRegistryService) ListRegistryRepositories(pid interface{}, opt
 	}
 	u := fmt.Sprintf("projects/%s/registry/repositories", pathEscape(project))
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -105,7 +105,7 @@ func (s *ContainerRegistryService) DeleteRegistryRepository(pid interface{}, rep
 	}
 	u := fmt.Sprintf("projects/%s/registry/repositories/%d", pathEscape(project), repository)
 
-	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
 		return nil, err
 	}
@@ -134,7 +134,7 @@ func (s *ContainerRegistryService) ListRegistryRepositoryTags(pid interface{}, r
 		repository,
 	)
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -163,7 +163,7 @@ func (s *ContainerRegistryService) GetRegistryRepositoryTagDetail(pid interface{
 		tagName,
 	)
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -192,7 +192,7 @@ func (s *ContainerRegistryService) DeleteRegistryRepositoryTag(pid interface{}, 
 		tagName,
 	)
 
-	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
 		return nil, err
 	}
@@ -230,7 +230,7 @@ func (s *ContainerRegistryService) DeleteRegistryRepositoryTags(pid interface{},
 		repository,
 	)
 
-	req, err := s.client.NewRequest("DELETE", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodDelete, u, opt, options)
 	if err != nil {
 		return nil, err
 	}

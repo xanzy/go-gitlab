@@ -18,6 +18,7 @@ package gitlab
 
 import (
 	"fmt"
+	"net/http"
 	"net/url"
 )
 
@@ -73,7 +74,7 @@ func (s *ProtectedBranchesService) ListProtectedBranches(pid interface{}, opt *L
 	}
 	u := fmt.Sprintf("projects/%s/protected_branches", pathEscape(project))
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -98,7 +99,7 @@ func (s *ProtectedBranchesService) GetProtectedBranch(pid interface{}, branch st
 	}
 	u := fmt.Sprintf("projects/%s/protected_branches/%s", pathEscape(project), url.PathEscape(branch))
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -150,7 +151,7 @@ func (s *ProtectedBranchesService) ProtectRepositoryBranches(pid interface{}, op
 	}
 	u := fmt.Sprintf("projects/%s/protected_branches", pathEscape(project))
 
-	req, err := s.client.NewRequest("POST", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -176,7 +177,7 @@ func (s *ProtectedBranchesService) UnprotectRepositoryBranches(pid interface{}, 
 	}
 	u := fmt.Sprintf("projects/%s/protected_branches/%s", pathEscape(project), url.PathEscape(branch))
 
-	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
 		return nil, err
 	}
@@ -204,7 +205,7 @@ func (s *ProtectedBranchesService) RequireCodeOwnerApprovals(pid interface{}, br
 	}
 	u := fmt.Sprintf("projects/%s/protected_branches/%s", pathEscape(project), url.PathEscape(branch))
 
-	req, err := s.client.NewRequest("PATCH", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPatch, u, opt, options)
 	if err != nil {
 		return nil, err
 	}

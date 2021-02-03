@@ -62,7 +62,7 @@ func (s *AccessRequestsService) ListProjectAccessRequests(pid interface{}, opt *
 	}
 	u := fmt.Sprintf("projects/%s/access_requests", pathEscape(project))
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -88,7 +88,7 @@ func (s *AccessRequestsService) ListGroupAccessRequests(gid interface{}, opt *Li
 	}
 	u := fmt.Sprintf("groups/%s/access_requests", pathEscape(group))
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -114,7 +114,7 @@ func (s *AccessRequestsService) RequestProjectAccess(pid interface{}, options ..
 	}
 	u := fmt.Sprintf("projects/%s/access_requests", pathEscape(project))
 
-	req, err := s.client.NewRequest("POST", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -140,7 +140,7 @@ func (s *AccessRequestsService) RequestGroupAccess(gid interface{}, options ...R
 	}
 	u := fmt.Sprintf("groups/%s/access_requests", pathEscape(group))
 
-	req, err := s.client.NewRequest("POST", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -174,7 +174,7 @@ func (s *AccessRequestsService) ApproveProjectAccessRequest(pid interface{}, use
 	}
 	u := fmt.Sprintf("projects/%s/access_requests/%d/approve", pathEscape(project), user)
 
-	req, err := s.client.NewRequest("PUT", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -199,7 +199,7 @@ func (s *AccessRequestsService) ApproveGroupAccessRequest(gid interface{}, user 
 	}
 	u := fmt.Sprintf("groups/%s/access_requests/%d/approve", pathEscape(group), user)
 
-	req, err := s.client.NewRequest("PUT", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -224,7 +224,7 @@ func (s *AccessRequestsService) DenyProjectAccessRequest(pid interface{}, user i
 	}
 	u := fmt.Sprintf("projects/%s/access_requests/%d", pathEscape(project), user)
 
-	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
 		return nil, err
 	}
@@ -243,7 +243,7 @@ func (s *AccessRequestsService) DenyGroupAccessRequest(gid interface{}, user int
 	}
 	u := fmt.Sprintf("groups/%s/access_requests/%d", pathEscape(group), user)
 
-	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
 		return nil, err
 	}

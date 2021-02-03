@@ -128,7 +128,7 @@ type ListUsersOptions struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/users.html#list-users
 func (s *UsersService) ListUsers(opt *ListUsersOptions, options ...RequestOptionFunc) ([]*User, *Response, error) {
-	req, err := s.client.NewRequest("GET", "users", opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, "users", opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -148,7 +148,7 @@ func (s *UsersService) ListUsers(opt *ListUsersOptions, options ...RequestOption
 func (s *UsersService) GetUser(user int, options ...RequestOptionFunc) (*User, *Response, error) {
 	u := fmt.Sprintf("users/%d", user)
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -193,7 +193,7 @@ type CreateUserOptions struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/users.html#user-creation
 func (s *UsersService) CreateUser(opt *CreateUserOptions, options ...RequestOptionFunc) (*User, *Response, error) {
-	req, err := s.client.NewRequest("POST", "users", opt, options)
+	req, err := s.client.NewRequest(http.MethodPost, "users", opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -239,7 +239,7 @@ type ModifyUserOptions struct {
 func (s *UsersService) ModifyUser(user int, opt *ModifyUserOptions, options ...RequestOptionFunc) (*User, *Response, error) {
 	u := fmt.Sprintf("users/%d", user)
 
-	req, err := s.client.NewRequest("PUT", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -263,7 +263,7 @@ func (s *UsersService) ModifyUser(user int, opt *ModifyUserOptions, options ...R
 func (s *UsersService) DeleteUser(user int, options ...RequestOptionFunc) (*Response, error) {
 	u := fmt.Sprintf("users/%d", user)
 
-	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
 		return nil, err
 	}
@@ -275,7 +275,7 @@ func (s *UsersService) DeleteUser(user int, options ...RequestOptionFunc) (*Resp
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/users.html#current-user
 func (s *UsersService) CurrentUser(options ...RequestOptionFunc) (*User, *Response, error) {
-	req, err := s.client.NewRequest("GET", "user", nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, "user", nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -303,7 +303,7 @@ type SSHKey struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/users.html#list-ssh-keys
 func (s *UsersService) ListSSHKeys(options ...RequestOptionFunc) ([]*SSHKey, *Response, error) {
-	req, err := s.client.NewRequest("GET", "user/keys", nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, "user/keys", nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -331,7 +331,7 @@ type ListSSHKeysForUserOptions ListOptions
 func (s *UsersService) ListSSHKeysForUser(user int, opt *ListSSHKeysForUserOptions, options ...RequestOptionFunc) ([]*SSHKey, *Response, error) {
 	u := fmt.Sprintf("users/%d/keys", user)
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -351,7 +351,7 @@ func (s *UsersService) ListSSHKeysForUser(user int, opt *ListSSHKeysForUserOptio
 func (s *UsersService) GetSSHKey(key int, options ...RequestOptionFunc) (*SSHKey, *Response, error) {
 	u := fmt.Sprintf("user/keys/%d", key)
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -378,7 +378,7 @@ type AddSSHKeyOptions struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/users.html#add-ssh-key
 func (s *UsersService) AddSSHKey(opt *AddSSHKeyOptions, options ...RequestOptionFunc) (*SSHKey, *Response, error) {
-	req, err := s.client.NewRequest("POST", "user/keys", opt, options)
+	req, err := s.client.NewRequest(http.MethodPost, "user/keys", opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -399,7 +399,7 @@ func (s *UsersService) AddSSHKey(opt *AddSSHKeyOptions, options ...RequestOption
 func (s *UsersService) AddSSHKeyForUser(user int, opt *AddSSHKeyOptions, options ...RequestOptionFunc) (*SSHKey, *Response, error) {
 	u := fmt.Sprintf("users/%d/keys", user)
 
-	req, err := s.client.NewRequest("POST", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -422,7 +422,7 @@ func (s *UsersService) AddSSHKeyForUser(user int, opt *AddSSHKeyOptions, options
 func (s *UsersService) DeleteSSHKey(key int, options ...RequestOptionFunc) (*Response, error) {
 	u := fmt.Sprintf("user/keys/%d", key)
 
-	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
 		return nil, err
 	}
@@ -438,7 +438,7 @@ func (s *UsersService) DeleteSSHKey(key int, options ...RequestOptionFunc) (*Res
 func (s *UsersService) DeleteSSHKeyForUser(user, key int, options ...RequestOptionFunc) (*Response, error) {
 	u := fmt.Sprintf("users/%d/keys/%d", user, key)
 
-	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
 		return nil, err
 	}
@@ -452,7 +452,7 @@ func (s *UsersService) DeleteSSHKeyForUser(user, key int, options ...RequestOpti
 func (s *UsersService) BlockUser(user int, options ...RequestOptionFunc) error {
 	u := fmt.Sprintf("users/%d/block", user)
 
-	req, err := s.client.NewRequest("POST", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, nil, options)
 	if err != nil {
 		return err
 	}
@@ -480,7 +480,7 @@ func (s *UsersService) BlockUser(user int, options ...RequestOptionFunc) error {
 func (s *UsersService) UnblockUser(user int, options ...RequestOptionFunc) error {
 	u := fmt.Sprintf("users/%d/unblock", user)
 
-	req, err := s.client.NewRequest("POST", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, nil, options)
 	if err != nil {
 		return err
 	}
@@ -508,7 +508,7 @@ func (s *UsersService) UnblockUser(user int, options ...RequestOptionFunc) error
 func (s *UsersService) DeactivateUser(user int, options ...RequestOptionFunc) error {
 	u := fmt.Sprintf("users/%d/deactivate", user)
 
-	req, err := s.client.NewRequest("POST", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, nil, options)
 	if err != nil {
 		return err
 	}
@@ -536,7 +536,7 @@ func (s *UsersService) DeactivateUser(user int, options ...RequestOptionFunc) er
 func (s *UsersService) ActivateUser(user int, options ...RequestOptionFunc) error {
 	u := fmt.Sprintf("users/%d/activate", user)
 
-	req, err := s.client.NewRequest("POST", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, nil, options)
 	if err != nil {
 		return err
 	}
@@ -570,7 +570,7 @@ type Email struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/users.html#list-emails
 func (s *UsersService) ListEmails(options ...RequestOptionFunc) ([]*Email, *Response, error) {
-	req, err := s.client.NewRequest("GET", "user/emails", nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, "user/emails", nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -598,7 +598,7 @@ type ListEmailsForUserOptions ListOptions
 func (s *UsersService) ListEmailsForUser(user int, opt *ListEmailsForUserOptions, options ...RequestOptionFunc) ([]*Email, *Response, error) {
 	u := fmt.Sprintf("users/%d/emails", user)
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -618,7 +618,7 @@ func (s *UsersService) ListEmailsForUser(user int, opt *ListEmailsForUserOptions
 func (s *UsersService) GetEmail(email int, options ...RequestOptionFunc) (*Email, *Response, error) {
 	u := fmt.Sprintf("user/emails/%d", email)
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -643,7 +643,7 @@ type AddEmailOptions struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/users.html#add-email
 func (s *UsersService) AddEmail(opt *AddEmailOptions, options ...RequestOptionFunc) (*Email, *Response, error) {
-	req, err := s.client.NewRequest("POST", "user/emails", opt, options)
+	req, err := s.client.NewRequest(http.MethodPost, "user/emails", opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -664,7 +664,7 @@ func (s *UsersService) AddEmail(opt *AddEmailOptions, options ...RequestOptionFu
 func (s *UsersService) AddEmailForUser(user int, opt *AddEmailOptions, options ...RequestOptionFunc) (*Email, *Response, error) {
 	u := fmt.Sprintf("users/%d/emails", user)
 
-	req, err := s.client.NewRequest("POST", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -687,7 +687,7 @@ func (s *UsersService) AddEmailForUser(user int, opt *AddEmailOptions, options .
 func (s *UsersService) DeleteEmail(email int, options ...RequestOptionFunc) (*Response, error) {
 	u := fmt.Sprintf("user/emails/%d", email)
 
-	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
 		return nil, err
 	}
@@ -703,7 +703,7 @@ func (s *UsersService) DeleteEmail(email int, options ...RequestOptionFunc) (*Re
 func (s *UsersService) DeleteEmailForUser(user, email int, options ...RequestOptionFunc) (*Response, error) {
 	u := fmt.Sprintf("users/%d/emails/%d", user, email)
 
-	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
 		return nil, err
 	}
@@ -743,7 +743,7 @@ type GetAllImpersonationTokensOptions struct {
 func (s *UsersService) GetAllImpersonationTokens(user int, opt *GetAllImpersonationTokensOptions, options ...RequestOptionFunc) ([]*ImpersonationToken, *Response, error) {
 	u := fmt.Sprintf("users/%d/impersonation_tokens", user)
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -764,7 +764,7 @@ func (s *UsersService) GetAllImpersonationTokens(user int, opt *GetAllImpersonat
 func (s *UsersService) GetImpersonationToken(user, token int, options ...RequestOptionFunc) (*ImpersonationToken, *Response, error) {
 	u := fmt.Sprintf("users/%d/impersonation_tokens/%d", user, token)
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -796,7 +796,7 @@ type CreateImpersonationTokenOptions struct {
 func (s *UsersService) CreateImpersonationToken(user int, opt *CreateImpersonationTokenOptions, options ...RequestOptionFunc) (*ImpersonationToken, *Response, error) {
 	u := fmt.Sprintf("users/%d/impersonation_tokens", user)
 
-	req, err := s.client.NewRequest("POST", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -817,7 +817,7 @@ func (s *UsersService) CreateImpersonationToken(user int, opt *CreateImpersonati
 func (s *UsersService) RevokeImpersonationToken(user, token int, options ...RequestOptionFunc) (*Response, error) {
 	u := fmt.Sprintf("users/%d/impersonation_tokens/%d", user, token)
 
-	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
 		return nil, err
 	}
@@ -848,7 +848,7 @@ type GetUserActivitiesOptions struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/users.html#get-user-activities-admin-only
 func (s *UsersService) GetUserActivities(opt *GetUserActivitiesOptions, options ...RequestOptionFunc) ([]*UserActivity, *Response, error) {
-	req, err := s.client.NewRequest("GET", "user/activities", opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, "user/activities", opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -877,7 +877,7 @@ type UserStatus struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/users.html#user-status
 func (s *UsersService) CurrentUserStatus(options ...RequestOptionFunc) (*UserStatus, *Response, error) {
-	req, err := s.client.NewRequest("GET", "user/status", nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, "user/status", nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -898,7 +898,7 @@ func (s *UsersService) CurrentUserStatus(options ...RequestOptionFunc) (*UserSta
 func (s *UsersService) GetUserStatus(user int, options ...RequestOptionFunc) (*UserStatus, *Response, error) {
 	u := fmt.Sprintf("users/%d/status", user)
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -926,7 +926,7 @@ type UserStatusOptions struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/users.html#set-user-status
 func (s *UsersService) SetUserStatus(opt *UserStatusOptions, options ...RequestOptionFunc) (*UserStatus, *Response, error) {
-	req, err := s.client.NewRequest("PUT", "user/status", opt, options)
+	req, err := s.client.NewRequest(http.MethodPut, "user/status", opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -967,7 +967,7 @@ type GetUserMembershipOptions struct {
 func (s *UsersService) GetUserMemberships(user int, opt *GetUserMembershipOptions, options ...RequestOptionFunc) ([]*UserMembership, *Response, error) {
 	u := fmt.Sprintf("users/%d/memberships", user)
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}

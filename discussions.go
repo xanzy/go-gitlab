@@ -61,7 +61,7 @@ func (s *DiscussionsService) ListIssueDiscussions(pid interface{}, issue int, op
 	}
 	u := fmt.Sprintf("projects/%s/issues/%d/discussions", pathEscape(project), issue)
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -90,7 +90,7 @@ func (s *DiscussionsService) GetIssueDiscussion(pid interface{}, issue int, disc
 		discussion,
 	)
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -125,7 +125,7 @@ func (s *DiscussionsService) CreateIssueDiscussion(pid interface{}, issue int, o
 	}
 	u := fmt.Sprintf("projects/%s/issues/%d/discussions", pathEscape(project), issue)
 
-	req, err := s.client.NewRequest("POST", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -164,7 +164,7 @@ func (s *DiscussionsService) AddIssueDiscussionNote(pid interface{}, issue int, 
 		discussion,
 	)
 
-	req, err := s.client.NewRequest("POST", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -204,7 +204,7 @@ func (s *DiscussionsService) UpdateIssueDiscussionNote(pid interface{}, issue in
 		note,
 	)
 
-	req, err := s.client.NewRequest("PUT", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -234,7 +234,7 @@ func (s *DiscussionsService) DeleteIssueDiscussionNote(pid interface{}, issue in
 		note,
 	)
 
-	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
 		return nil, err
 	}
@@ -261,7 +261,7 @@ func (s *DiscussionsService) ListSnippetDiscussions(pid interface{}, snippet int
 	}
 	u := fmt.Sprintf("projects/%s/snippets/%d/discussions", pathEscape(project), snippet)
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -290,7 +290,7 @@ func (s *DiscussionsService) GetSnippetDiscussion(pid interface{}, snippet int, 
 		discussion,
 	)
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -326,7 +326,7 @@ func (s *DiscussionsService) CreateSnippetDiscussion(pid interface{}, snippet in
 	}
 	u := fmt.Sprintf("projects/%s/snippets/%d/discussions", pathEscape(project), snippet)
 
-	req, err := s.client.NewRequest("POST", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -366,7 +366,7 @@ func (s *DiscussionsService) AddSnippetDiscussionNote(pid interface{}, snippet i
 		discussion,
 	)
 
-	req, err := s.client.NewRequest("POST", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -406,7 +406,7 @@ func (s *DiscussionsService) UpdateSnippetDiscussionNote(pid interface{}, snippe
 		note,
 	)
 
-	req, err := s.client.NewRequest("PUT", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -436,7 +436,7 @@ func (s *DiscussionsService) DeleteSnippetDiscussionNote(pid interface{}, snippe
 		note,
 	)
 
-	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
 		return nil, err
 	}
@@ -466,7 +466,7 @@ func (s *DiscussionsService) ListGroupEpicDiscussions(gid interface{}, epic int,
 		epic,
 	)
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -495,7 +495,7 @@ func (s *DiscussionsService) GetEpicDiscussion(gid interface{}, epic int, discus
 		discussion,
 	)
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -534,7 +534,7 @@ func (s *DiscussionsService) CreateEpicDiscussion(gid interface{}, epic int, opt
 		epic,
 	)
 
-	req, err := s.client.NewRequest("POST", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -573,7 +573,7 @@ func (s *DiscussionsService) AddEpicDiscussionNote(gid interface{}, epic int, di
 		discussion,
 	)
 
-	req, err := s.client.NewRequest("POST", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -613,7 +613,7 @@ func (s *DiscussionsService) UpdateEpicDiscussionNote(gid interface{}, epic int,
 		note,
 	)
 
-	req, err := s.client.NewRequest("PUT", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -643,7 +643,7 @@ func (s *DiscussionsService) DeleteEpicDiscussionNote(gid interface{}, epic int,
 		note,
 	)
 
-	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
 		return nil, err
 	}
@@ -673,7 +673,7 @@ func (s *DiscussionsService) ListMergeRequestDiscussions(pid interface{}, mergeR
 		mergeRequest,
 	)
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -703,7 +703,7 @@ func (s *DiscussionsService) GetMergeRequestDiscussion(pid interface{}, mergeReq
 		discussion,
 	)
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -743,7 +743,7 @@ func (s *DiscussionsService) CreateMergeRequestDiscussion(pid interface{}, merge
 		mergeRequest,
 	)
 
-	req, err := s.client.NewRequest("POST", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -782,7 +782,7 @@ func (s *DiscussionsService) ResolveMergeRequestDiscussion(pid interface{}, merg
 		discussion,
 	)
 
-	req, err := s.client.NewRequest("PUT", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -822,7 +822,7 @@ func (s *DiscussionsService) AddMergeRequestDiscussionNote(pid interface{}, merg
 		discussion,
 	)
 
-	req, err := s.client.NewRequest("POST", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -864,7 +864,7 @@ func (s *DiscussionsService) UpdateMergeRequestDiscussionNote(pid interface{}, m
 		note,
 	)
 
-	req, err := s.client.NewRequest("PUT", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -895,7 +895,7 @@ func (s *DiscussionsService) DeleteMergeRequestDiscussionNote(pid interface{}, m
 		note,
 	)
 
-	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
 		return nil, err
 	}
@@ -925,7 +925,7 @@ func (s *DiscussionsService) ListCommitDiscussions(pid interface{}, commit strin
 		commit,
 	)
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -955,7 +955,7 @@ func (s *DiscussionsService) GetCommitDiscussion(pid interface{}, commit string,
 		discussion,
 	)
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -994,7 +994,7 @@ func (s *DiscussionsService) CreateCommitDiscussion(pid interface{}, commit stri
 		commit,
 	)
 
-	req, err := s.client.NewRequest("POST", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1033,7 +1033,7 @@ func (s *DiscussionsService) AddCommitDiscussionNote(pid interface{}, commit str
 		discussion,
 	)
 
-	req, err := s.client.NewRequest("POST", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1073,7 +1073,7 @@ func (s *DiscussionsService) UpdateCommitDiscussionNote(pid interface{}, commit 
 		note,
 	)
 
-	req, err := s.client.NewRequest("PUT", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1103,7 +1103,7 @@ func (s *DiscussionsService) DeleteCommitDiscussionNote(pid interface{}, commit 
 		note,
 	)
 
-	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
 		return nil, err
 	}

@@ -67,7 +67,7 @@ func (s *GroupBadgesService) ListGroupBadges(gid interface{}, opt *ListGroupBadg
 	}
 	u := fmt.Sprintf("groups/%s/badges", pathEscape(group))
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -92,7 +92,7 @@ func (s *GroupBadgesService) GetGroupBadge(gid interface{}, badge int, options .
 	}
 	u := fmt.Sprintf("groups/%s/badges/%d", pathEscape(group), badge)
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -126,7 +126,7 @@ func (s *GroupBadgesService) AddGroupBadge(gid interface{}, opt *AddGroupBadgeOp
 	}
 	u := fmt.Sprintf("groups/%s/badges", pathEscape(group))
 
-	req, err := s.client.NewRequest("POST", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -160,7 +160,7 @@ func (s *GroupBadgesService) EditGroupBadge(gid interface{}, badge int, opt *Edi
 	}
 	u := fmt.Sprintf("groups/%s/badges/%d", pathEscape(group), badge)
 
-	req, err := s.client.NewRequest("PUT", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -185,7 +185,7 @@ func (s *GroupBadgesService) DeleteGroupBadge(gid interface{}, badge int, option
 	}
 	u := fmt.Sprintf("groups/%s/badges/%d", pathEscape(group), badge)
 
-	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
 		return nil, err
 	}
@@ -214,7 +214,7 @@ func (s *GroupBadgesService) PreviewGroupBadge(gid interface{}, opt *GroupBadgeP
 	}
 	u := fmt.Sprintf("groups/%s/badges/render", pathEscape(group))
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}

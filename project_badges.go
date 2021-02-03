@@ -60,7 +60,7 @@ func (s *ProjectBadgesService) ListProjectBadges(pid interface{}, opt *ListProje
 	}
 	u := fmt.Sprintf("projects/%s/badges", pathEscape(project))
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -85,7 +85,7 @@ func (s *ProjectBadgesService) GetProjectBadge(pid interface{}, badge int, optio
 	}
 	u := fmt.Sprintf("projects/%s/badges/%d", pathEscape(project), badge)
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -119,7 +119,7 @@ func (s *ProjectBadgesService) AddProjectBadge(pid interface{}, opt *AddProjectB
 	}
 	u := fmt.Sprintf("projects/%s/badges", pathEscape(project))
 
-	req, err := s.client.NewRequest("POST", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -153,7 +153,7 @@ func (s *ProjectBadgesService) EditProjectBadge(pid interface{}, badge int, opt 
 	}
 	u := fmt.Sprintf("projects/%s/badges/%d", pathEscape(project), badge)
 
-	req, err := s.client.NewRequest("PUT", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -179,7 +179,7 @@ func (s *ProjectBadgesService) DeleteProjectBadge(pid interface{}, badge int, op
 	}
 	u := fmt.Sprintf("projects/%s/badges/%d", pathEscape(project), badge)
 
-	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
 		return nil, err
 	}
@@ -208,7 +208,7 @@ func (s *ProjectBadgesService) PreviewProjectBadge(pid interface{}, opt *Project
 	}
 	u := fmt.Sprintf("projects/%s/badges/render", pathEscape(project))
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}

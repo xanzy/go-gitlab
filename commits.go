@@ -90,7 +90,7 @@ func (s *CommitsService) ListCommits(pid interface{}, opt *ListCommitsOptions, o
 	}
 	u := fmt.Sprintf("projects/%s/repository/commits", pathEscape(project))
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -133,7 +133,7 @@ func (s *CommitsService) GetCommitRefs(pid interface{}, sha string, opt *GetComm
 	}
 	u := fmt.Sprintf("projects/%s/repository/commits/%s/refs", pathEscape(project), url.PathEscape(sha))
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -161,7 +161,7 @@ func (s *CommitsService) GetCommit(pid interface{}, sha string, options ...Reque
 	}
 	u := fmt.Sprintf("projects/%s/repository/commits/%s", pathEscape(project), url.PathEscape(sha))
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -215,7 +215,7 @@ func (s *CommitsService) CreateCommit(pid interface{}, opt *CreateCommitOptions,
 	}
 	u := fmt.Sprintf("projects/%s/repository/commits", pathEscape(project))
 
-	req, err := s.client.NewRequest("POST", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -264,7 +264,7 @@ func (s *CommitsService) GetCommitDiff(pid interface{}, sha string, opt *GetComm
 	}
 	u := fmt.Sprintf("projects/%s/repository/commits/%s/diff", pathEscape(project), url.PathEscape(sha))
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -321,7 +321,7 @@ func (s *CommitsService) GetCommitComments(pid interface{}, sha string, opt *Get
 	}
 	u := fmt.Sprintf("projects/%s/repository/commits/%s/comments", pathEscape(project), url.PathEscape(sha))
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -360,7 +360,7 @@ func (s *CommitsService) PostCommitComment(pid interface{}, sha string, opt *Pos
 	}
 	u := fmt.Sprintf("projects/%s/repository/commits/%s/comments", pathEscape(project), url.PathEscape(sha))
 
-	req, err := s.client.NewRequest("POST", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -413,7 +413,7 @@ func (s *CommitsService) GetCommitStatuses(pid interface{}, sha string, opt *Get
 	}
 	u := fmt.Sprintf("projects/%s/repository/commits/%s/statuses", pathEscape(project), url.PathEscape(sha))
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -451,7 +451,7 @@ func (s *CommitsService) SetCommitStatus(pid interface{}, sha string, opt *SetCo
 	}
 	u := fmt.Sprintf("projects/%s/statuses/%s", pathEscape(project), url.PathEscape(sha))
 
-	req, err := s.client.NewRequest("POST", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -476,7 +476,7 @@ func (s *CommitsService) GetMergeRequestsByCommit(pid interface{}, sha string, o
 	}
 	u := fmt.Sprintf("projects/%s/repository/commits/%s/merge_requests", pathEscape(project), url.PathEscape(sha))
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -507,7 +507,7 @@ func (s *CommitsService) CherryPickCommit(pid interface{}, sha string, opt *Cher
 	}
 	u := fmt.Sprintf("projects/%s/repository/commits/%s/cherry_pick", pathEscape(project), url.PathEscape(sha))
 
-	req, err := s.client.NewRequest("POST", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -538,7 +538,7 @@ func (s *CommitsService) RevertCommit(pid interface{}, sha string, opt *RevertCo
 	}
 	u := fmt.Sprintf("projects/%s/repository/commits/%s/revert", pathEscape(project), url.PathEscape(sha))
 
-	req, err := s.client.NewRequest("POST", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -575,7 +575,7 @@ func (s *CommitsService) GetGPGSiganature(pid interface{}, sha string, options .
 	}
 	u := fmt.Sprintf("projects/%s/repository/commits/%s/signature", pathEscape(project), url.PathEscape(sha))
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}

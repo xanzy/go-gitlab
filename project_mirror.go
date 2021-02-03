@@ -56,7 +56,7 @@ func (s *ProjectMirrorService) ListProjectMirror(pid interface{}, options ...Req
 	}
 	u := fmt.Sprintf("projects/%s/remote_mirrors", pathEscape(project))
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -93,7 +93,7 @@ func (s *ProjectMirrorService) AddProjectMirror(pid interface{}, opt *AddProject
 	}
 	u := fmt.Sprintf("projects/%s/remote_mirrors", pathEscape(project))
 
-	req, err := s.client.NewRequest("POST", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -129,7 +129,7 @@ func (s *ProjectMirrorService) EditProjectMirror(pid interface{}, mirror int, op
 	}
 	u := fmt.Sprintf("projects/%s/remote_mirrors/%d", pathEscape(project), mirror)
 
-	req, err := s.client.NewRequest("PUT", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}

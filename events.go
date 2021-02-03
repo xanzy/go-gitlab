@@ -90,7 +90,7 @@ func (s *UsersService) ListUserContributionEvents(uid interface{}, opt *ListCont
 	}
 	u := fmt.Sprintf("users/%s/events", user)
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -108,7 +108,7 @@ func (s *UsersService) ListUserContributionEvents(uid interface{}, opt *ListCont
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/events.html#list-currently-authenticated-user-39-s-events
 func (s *EventsService) ListCurrentUserContributionEvents(opt *ListContributionEventsOptions, options ...RequestOptionFunc) ([]*ContributionEvent, *Response, error) {
-	req, err := s.client.NewRequest("GET", "events", opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, "events", opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -132,7 +132,7 @@ func (s *EventsService) ListProjectVisibleEvents(pid interface{}, opt *ListContr
 	}
 	u := fmt.Sprintf("projects/%s/events", pathEscape(project))
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}

@@ -63,7 +63,7 @@ func (s *GroupClustersService) ListClusters(pid interface{}, options ...RequestO
 	}
 	u := fmt.Sprintf("groups/%s/clusters", pathEscape(group))
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -88,7 +88,7 @@ func (s *GroupClustersService) GetCluster(pid interface{}, cluster int, options 
 	}
 	u := fmt.Sprintf("groups/%s/clusters/%d", pathEscape(group), cluster)
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -136,7 +136,7 @@ func (s *GroupClustersService) AddCluster(pid interface{}, opt *AddGroupClusterO
 	}
 	u := fmt.Sprintf("groups/%s/clusters/user", pathEscape(group))
 
-	req, err := s.client.NewRequest("POST", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -180,7 +180,7 @@ func (s *GroupClustersService) EditCluster(pid interface{}, cluster int, opt *Ed
 	}
 	u := fmt.Sprintf("groups/%s/clusters/%d", pathEscape(group), cluster)
 
-	req, err := s.client.NewRequest("PUT", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -205,7 +205,7 @@ func (s *GroupClustersService) DeleteCluster(pid interface{}, cluster int, optio
 	}
 	u := fmt.Sprintf("groups/%s/clusters/%d", pathEscape(group), cluster)
 
-	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
 		return nil, err
 	}

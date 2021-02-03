@@ -60,7 +60,7 @@ type ListInstanceVariablesOptions ListOptions
 func (s *InstanceVariablesService) ListVariables(opt *ListInstanceVariablesOptions, options ...RequestOptionFunc) ([]*InstanceVariable, *Response, error) {
 	u := "admin/ci/variables"
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -81,7 +81,7 @@ func (s *InstanceVariablesService) ListVariables(opt *ListInstanceVariablesOptio
 func (s *InstanceVariablesService) GetVariable(key string, options ...RequestOptionFunc) (*InstanceVariable, *Response, error) {
 	u := fmt.Sprintf("admin/ci/variables/%s", url.PathEscape(key))
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -115,7 +115,7 @@ type CreateInstanceVariableOptions struct {
 func (s *InstanceVariablesService) CreateVariable(opt *CreateInstanceVariableOptions, options ...RequestOptionFunc) (*InstanceVariable, *Response, error) {
 	u := "admin/ci/variables"
 
-	req, err := s.client.NewRequest("POST", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -149,7 +149,7 @@ type UpdateInstanceVariableOptions struct {
 func (s *InstanceVariablesService) UpdateVariable(key string, opt *UpdateInstanceVariableOptions, options ...RequestOptionFunc) (*InstanceVariable, *Response, error) {
 	u := fmt.Sprintf("admin/ci/variables/%s", url.PathEscape(key))
 
-	req, err := s.client.NewRequest("PUT", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -170,7 +170,7 @@ func (s *InstanceVariablesService) UpdateVariable(key string, opt *UpdateInstanc
 func (s *InstanceVariablesService) RemoveVariable(key string, options ...RequestOptionFunc) (*Response, error) {
 	u := fmt.Sprintf("admin/ci/variables/%s", url.PathEscape(key))
 
-	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
 		return nil, err
 	}

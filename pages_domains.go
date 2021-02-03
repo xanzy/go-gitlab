@@ -63,7 +63,7 @@ func (s *PagesDomainsService) ListPagesDomains(pid interface{}, opt *ListPagesDo
 	}
 	u := fmt.Sprintf("projects/%s/pages/domains", pathEscape(project))
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -82,7 +82,7 @@ func (s *PagesDomainsService) ListPagesDomains(pid interface{}, opt *ListPagesDo
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/pages_domains.html#list-all-pages-domains
 func (s *PagesDomainsService) ListAllPagesDomains(options ...RequestOptionFunc) ([]*PagesDomain, *Response, error) {
-	req, err := s.client.NewRequest("GET", "pages/domains", nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, "pages/domains", nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -107,7 +107,7 @@ func (s *PagesDomainsService) GetPagesDomain(pid interface{}, domain string, opt
 	}
 	u := fmt.Sprintf("projects/%s/pages/domains/%s", pathEscape(project), domain)
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -143,7 +143,7 @@ func (s *PagesDomainsService) CreatePagesDomain(pid interface{}, opt *CreatePage
 	}
 	u := fmt.Sprintf("projects/%s/pages/domains", pathEscape(project))
 
-	req, err := s.client.NewRequest("POST", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -178,7 +178,7 @@ func (s *PagesDomainsService) UpdatePagesDomain(pid interface{}, domain string, 
 	}
 	u := fmt.Sprintf("projects/%s/pages/domains/%s", pathEscape(project), domain)
 
-	req, err := s.client.NewRequest("PUT", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -203,7 +203,7 @@ func (s *PagesDomainsService) DeletePagesDomain(pid interface{}, domain string, 
 	}
 	u := fmt.Sprintf("projects/%s/pages/domains/%s", pathEscape(project), domain)
 
-	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
 		return nil, err
 	}
