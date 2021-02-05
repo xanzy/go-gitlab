@@ -164,7 +164,7 @@ type BillableGroupMember struct {
 	LastActivityOn string `json:"last_activity_on"`
 }
 
-// ListBillableGroupMembersOptions represents the available ListBillableGroupMember() options.
+// ListBillableGroupMembersOptions represents the available ListBillableGroupMembers() options.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/members.html#list-all-billable-members-of-a-group
@@ -174,12 +174,12 @@ type ListBillableGroupMembersOptions struct {
 	Sort   *string `url:"sort,omitempty" json:"sort,omitempty"`
 }
 
-// ListBillableGroupMember Gets a list of group members that count as billable.
+// ListBillableGroupMembers Gets a list of group members that count as billable.
 // The list includes members in the subgroup or subproject.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/members.html#list-all-billable-members-of-a-group
-func (s *GroupsService) ListBillableGroupMember(gid interface{}, opt *ListGroupMembersOptions, options ...RequestOptionFunc) ([]*BillableGroupMember, *Response, error) {
+func (s *GroupsService) ListBillableGroupMembers(gid interface{}, opt *ListGroupMembersOptions, options ...RequestOptionFunc) ([]*BillableGroupMember, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
 		return nil, nil, err
