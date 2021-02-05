@@ -179,7 +179,7 @@ type ListBillableGroupMembersOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/members.html#list-all-billable-members-of-a-group
-func (s *GroupsService) ListBillableGroupMembers(gid interface{}, opt *ListGroupMembersOptions, options ...RequestOptionFunc) ([]*BillableGroupMember, *Response, error) {
+func (s *GroupsService) ListBillableGroupMembers(gid interface{}, opt *ListBillableGroupMembersOptions, options ...RequestOptionFunc) ([]*BillableGroupMember, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
 		return nil, nil, err
