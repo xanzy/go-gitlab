@@ -19,6 +19,7 @@ package gitlab
 import (
 	"bytes"
 	"fmt"
+	"net/http"
 )
 
 // ProjectSnippetsService handles communication with the project snippets

@@ -16,7 +16,10 @@
 
 package gitlab
 
-import "fmt"
+import (
+	"fmt"
+	"net/http"
+)
 
 // ValidateService handles communication with the validation related methods of
 // the GitLab API.

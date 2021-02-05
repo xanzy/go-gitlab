@@ -28,7 +28,7 @@ func TestListProtectedBranches(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/protected_branches", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		fmt.Fprint(w, `[
 	{
 		"id":1,
@@ -79,7 +79,7 @@ func TestListProtectedBranchesWithoutCodeOwnerApproval(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/protected_branches", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		fmt.Fprint(w, `[
 	{
 		"id":1,
@@ -129,7 +129,7 @@ func TestProtectRepositoryBranches(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/protected_branches", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "POST")
+		testMethod(t, r, http.MethodPost)
 		fmt.Fprint(w, `
 	{
 		"id":1,
@@ -182,7 +182,7 @@ func TestUpdateRepositoryBranches(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/protected_branches/master", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "PATCH")
+		testMethod(t, r, http.MethodPatch)
 		codeApprovalQueryParam := r.URL.Query().Get("code_owner_approval_required")
 		if codeApprovalQueryParam != "true" {
 			t.Errorf("query param code_owner_approval_required should be true but was %s", codeApprovalQueryParam)

@@ -29,7 +29,7 @@ func TestListAllDeployTokens(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/deploy_tokens", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		fmt.Fprint(w, `
 [
 	{
@@ -76,7 +76,7 @@ func TestListProjectDeployTokens(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/deploy_tokens", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		fmt.Fprint(w, `
 [
   {
@@ -123,7 +123,7 @@ func TestCreateProjectDeployToken(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/5/deploy_tokens", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "POST")
+		testMethod(t, r, http.MethodPost)
 		fmt.Fprint(w, `
 {
 	"id": 1,
@@ -173,7 +173,7 @@ func TestDeleteProjectDeployToken(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/5/deploy_tokens/13", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "DELETE")
+		testMethod(t, r, http.MethodDelete)
 		w.WriteHeader(http.StatusAccepted)
 	})
 
@@ -195,7 +195,7 @@ func TestListGroupDeployTokens(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/groups/1/deploy_tokens", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		fmt.Fprint(w, `
 [
   {
@@ -242,7 +242,7 @@ func TestCreateGroupDeployToken(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/groups/5/deploy_tokens", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "POST")
+		testMethod(t, r, http.MethodPost)
 		fmt.Fprint(w, `
 {
 	"id": 1,
@@ -292,7 +292,7 @@ func TestDeleteGroupDeployToken(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/groups/5/deploy_tokens/13", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "DELETE")
+		testMethod(t, r, http.MethodDelete)
 		w.WriteHeader(http.StatusAccepted)
 	})
 

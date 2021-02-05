@@ -31,7 +31,7 @@ func TestGetIssue(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/issues/5", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		fmt.Fprint(w, `{"id":1, "description": "This is test project", "author" : {"id" : 1, "name": "snehal"}, "assignees":[{"id":1}],"merge_requests_count": 1}`)
 	})
 
@@ -58,7 +58,7 @@ func TestDeleteIssue(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/issues/5", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "DELETE")
+		testMethod(t, r, http.MethodDelete)
 		fmt.Fprint(w, `{"id":1, "description": "This is test project", "author" : {"id" : 1, "name": "snehal"}, "assignees":[{"id":1}]}`)
 	})
 
@@ -73,7 +73,7 @@ func TestMoveIssue(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/issues/11/move", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "POST")
+		testMethod(t, r, http.MethodPost)
 		mustWriteHTTPResponse(t, w, "testdata/issue_move.json")
 	})
 
@@ -97,7 +97,7 @@ func TestListIssues(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/issues", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		testURL(t, r, "/api/v4/issues?assignee_id=2&author_id=1")
 		fmt.Fprint(w, `
 			[
@@ -151,7 +151,7 @@ func TestListIssuesWithLabelDetails(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/issues", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		testURL(t, r, "/api/v4/issues?assignee_id=2&author_id=1")
 		fmt.Fprint(w, `
 			[
@@ -222,7 +222,7 @@ func TestListIssuesSearchInTitle(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/issues", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		testURL(t, r, "/api/v4/issues?in=title&search=Title")
 		fmt.Fprint(w, `
 			[
@@ -261,7 +261,7 @@ func TestListIssuesSearchInDescription(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/issues", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		testURL(t, r, "/api/v4/issues?in=description&search=description")
 		fmt.Fprint(w, `
 			[
@@ -300,7 +300,7 @@ func TestListProjectIssues(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/issues", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		testURL(t, r, "/api/v4/projects/1/issues?assignee_id=2&author_id=1")
 		fmt.Fprint(w, `[{"id":1, "description": "This is test project", "author" : {"id" : 1, "name": "snehal"}, "assignees":[{"id":1}]}]`)
 	})
@@ -331,7 +331,7 @@ func TestListGroupIssues(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/groups/1/issues", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		testURL(t, r, "/api/v4/groups/1/issues?assignee_id=2&author_id=1&state=Open")
 		fmt.Fprint(w, `[{"id":1, "description": "This is test project", "author" : {"id" : 1, "name": "snehal"}, "assignees":[{"id":1}]}]`)
 	})
@@ -364,7 +364,7 @@ func TestCreateIssue(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/issues", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "POST")
+		testMethod(t, r, http.MethodPost)
 		fmt.Fprint(w, `{"id":1, "title" : "Title of issue", "description": "This is description of an issue", "author" : {"id" : 1, "name": "snehal"}, "assignees":[{"id":1}]}`)
 	})
 
@@ -397,7 +397,7 @@ func TestUpdateIssue(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/issues/5", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "PUT")
+		testMethod(t, r, http.MethodPut)
 		fmt.Fprint(w, `{"id":1, "title" : "Title of issue", "description": "This is description of an issue", "author" : {"id" : 1, "name": "snehal"}, "assignees":[{"id":1}]}`)
 	})
 
@@ -429,7 +429,7 @@ func TestSubscribeToIssue(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/issues/5/subscribe", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "POST")
+		testMethod(t, r, http.MethodPost)
 		fmt.Fprint(w, `{"id":1, "title" : "Title of issue", "description": "This is description of an issue", "author" : {"id" : 1, "name": "snehal"}, "assignees":[{"id":1}]}`)
 	})
 
@@ -457,7 +457,7 @@ func TestUnsubscribeFromIssue(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/issues/5/unsubscribe", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "POST")
+		testMethod(t, r, http.MethodPost)
 		fmt.Fprint(w, `{"id":1, "title" : "Title of issue", "description": "This is description of an issue", "author" : {"id" : 1, "name": "snehal"}, "assignees":[{"id":1}]}`)
 	})
 
@@ -484,7 +484,7 @@ func TestListMergeRequestsClosingIssue(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/issues/5/closed_by", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		testURL(t, r, "/api/v4/projects/1/issues/5/closed_by?page=1&per_page=10")
 
 		fmt.Fprint(w, `[{"id":1, "title" : "test merge one"},{"id":2, "title" : "test merge two"}]`)
@@ -511,7 +511,7 @@ func TestListMergeRequestsRelatedToIssue(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/issues/5/related_merge_requests", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		testURL(t, r, "/api/v4/projects/1/issues/5/related_merge_requests?page=1&per_page=10")
 
 		fmt.Fprint(w, `[{"id":1, "title" : "test merge one"},{"id":2, "title" : "test merge two"}]`)
@@ -538,7 +538,7 @@ func TestSetTimeEstimate(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/issues/5/time_estimate", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "POST")
+		testMethod(t, r, http.MethodPost)
 		fmt.Fprint(w, `{"human_time_estimate": "3h 30m", "human_total_time_spent": null, "time_estimate": 12600, "total_time_spent": 0}`)
 	})
 
@@ -562,7 +562,7 @@ func TestResetTimeEstimate(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/issues/5/reset_time_estimate", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "POST")
+		testMethod(t, r, http.MethodPost)
 		fmt.Fprint(w, `{"human_time_estimate": null, "human_total_time_spent": null, "time_estimate": 0, "total_time_spent": 0}`)
 	})
 
@@ -582,7 +582,7 @@ func TestAddSpentTime(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/issues/5/add_spent_time", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "POST")
+		testMethod(t, r, http.MethodPost)
 		testURL(t, r, "/api/v4/projects/1/issues/5/add_spent_time")
 		fmt.Fprint(w, `{"human_time_estimate": null, "human_total_time_spent": "1h", "time_estimate": 0, "total_time_spent": 3600}`)
 	})
@@ -606,7 +606,7 @@ func TestResetSpentTime(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/issues/5/reset_spent_time", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "POST")
+		testMethod(t, r, http.MethodPost)
 		testURL(t, r, "/api/v4/projects/1/issues/5/reset_spent_time")
 		fmt.Fprint(w, `{"human_time_estimate": null, "human_total_time_spent": "", "time_estimate": 0, "total_time_spent": 0}`)
 	})
@@ -627,7 +627,7 @@ func TestGetTimeSpent(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/issues/5/time_stats", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		testURL(t, r, "/api/v4/projects/1/issues/5/time_stats")
 		fmt.Fprint(w, `{"human_time_estimate": "2h", "human_total_time_spent": "1h", "time_estimate": 7200, "total_time_spent": 3600}`)
 	})
@@ -648,7 +648,7 @@ func TestGetIssueParticipants(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/issues/5/participants", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		testURL(t, r, "/api/v4/projects/1/issues/5/participants")
 
 		fmt.Fprint(w, `[{"id":1,"name":"User1","username":"User1","state":"active","avatar_url":"","web_url":"https://localhost/User1"},

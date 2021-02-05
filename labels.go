@@ -19,6 +19,7 @@ package gitlab
 import (
 	"encoding/json"
 	"fmt"
+	"net/http"
 )
 
 // LabelsService handles communication with the label related methods of the

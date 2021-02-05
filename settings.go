@@ -16,7 +16,10 @@
 
 package gitlab
 
-import "time"
+import (
+	"net/http"
+	"time"
+)
 
 // SettingsService handles communication with the application SettingsService
 // related methods of the GitLab API.

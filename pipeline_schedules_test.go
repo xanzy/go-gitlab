@@ -27,7 +27,7 @@ func TestRunPipelineSchedule(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/pipeline_schedules/1/play", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "POST")
+		testMethod(t, r, http.MethodPost)
 		w.WriteHeader(http.StatusCreated)
 		fmt.Fprint(w, `{"message": "201 Created"}`)
 	})

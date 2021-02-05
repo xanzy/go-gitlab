@@ -29,7 +29,7 @@ func TestListGroupVariabless(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/groups/1/variables",
 		func(w http.ResponseWriter, r *http.Request) {
-			testMethod(t, r, "GET")
+			testMethod(t, r, http.MethodGet)
 			fmt.Fprint(w, `[{"key": "TEST_VARIABLE_1","value": "test1","protected": false,"masked": true}]`)
 		})
 
@@ -58,7 +58,7 @@ func TestGetGroupVariable(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/groups/1/variables/TEST_VARIABLE_1",
 		func(w http.ResponseWriter, r *http.Request) {
-			testMethod(t, r, "GET")
+			testMethod(t, r, http.MethodGet)
 			fmt.Fprint(w, `{"key": "TEST_VARIABLE_1","value": "test1","protected": false,"masked": true}`)
 		})
 
@@ -80,7 +80,7 @@ func TestCreateGroupVariable(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/groups/1/variables",
 		func(w http.ResponseWriter, r *http.Request) {
-			testMethod(t, r, "POST")
+			testMethod(t, r, http.MethodPost)
 			fmt.Fprint(w, `{"key": "TEST_VARIABLE_1","value": "test1","protected": false,"masked": true}`)
 		})
 
@@ -108,7 +108,7 @@ func TestDeleteGroupVariable(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/groups/1/variables/TEST_VARIABLE_1",
 		func(w http.ResponseWriter, r *http.Request) {
-			testMethod(t, r, "DELETE")
+			testMethod(t, r, http.MethodDelete)
 			w.WriteHeader(http.StatusAccepted)
 		})
 
@@ -130,7 +130,7 @@ func TestUpdateGroupVariable(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/groups/1/variables/TEST_VARIABLE_1",
 		func(w http.ResponseWriter, r *http.Request) {
-			testMethod(t, r, "PUT")
+			testMethod(t, r, http.MethodPut)
 			fmt.Fprint(w, `{"key": "TEST_VARIABLE_1","value": "test1","protected": false,"masked": true}`)
 		})
 

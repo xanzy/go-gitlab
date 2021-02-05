@@ -29,7 +29,7 @@ func TestGetVersion(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/version",
 		func(w http.ResponseWriter, r *http.Request) {
-			testMethod(t, r, "GET")
+			testMethod(t, r, http.MethodGet)
 			fmt.Fprint(w, `{"version":"11.3.4-ee", "revision":"14d3a1d"}`)
 		})
 

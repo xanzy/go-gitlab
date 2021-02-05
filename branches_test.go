@@ -29,7 +29,7 @@ func TestGetBranch(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/repository/branches/master", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		mustWriteHTTPResponse(t, w, "testdata/get_branch.json")
 	})
 

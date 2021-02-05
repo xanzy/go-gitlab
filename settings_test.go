@@ -28,7 +28,7 @@ func TestGetSettings(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/application/settings", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		fmt.Fprint(w, `{"id":1,    "default_projects_limit" : 100000}`)
 	})
 
@@ -48,7 +48,7 @@ func TestUpdateSettings(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/application/settings", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "PUT")
+		testMethod(t, r, http.MethodPut)
 		fmt.Fprint(w, `{"default_projects_limit" : 100}`)
 	})
 

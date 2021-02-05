@@ -29,7 +29,7 @@ func TestGetKeyWithUser(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/keys/1",
 		func(w http.ResponseWriter, r *http.Request) {
-			testMethod(t, r, "GET")
+			testMethod(t, r, http.MethodGet)
 			fmt.Fprint(w, `{
 			  "id": 1,
 			  "title": "Sample key 25",

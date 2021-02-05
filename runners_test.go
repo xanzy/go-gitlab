@@ -30,7 +30,7 @@ func TestDisableRunner(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/runners/2", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "DELETE")
+		testMethod(t, r, http.MethodDelete)
 		w.WriteHeader(http.StatusNoContent)
 	})
 
@@ -45,7 +45,7 @@ func TestListRunnersJobs(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/runners/1/jobs", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
 	})
 
@@ -67,7 +67,7 @@ func TestRemoveRunner(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/runners/1", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "DELETE")
+		testMethod(t, r, http.MethodDelete)
 		w.WriteHeader(http.StatusNoContent)
 	})
 
@@ -82,7 +82,7 @@ func TestUpdateRunnersDetails(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/runners/6", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "PUT")
+		testMethod(t, r, http.MethodPut)
 		fmt.Fprint(w, exampleDetailResponse)
 	})
 
@@ -104,7 +104,7 @@ func TestGetRunnerDetails(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/runners/6", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		fmt.Fprint(w, exampleDetailResponse)
 	})
 
@@ -166,7 +166,7 @@ func TestRegisterNewRunner(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/runners", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "POST")
+		testMethod(t, r, http.MethodPost)
 		w.WriteHeader(http.StatusCreated)
 		fmt.Fprint(w, exampleRegisterNewRunner)
 	})
@@ -238,7 +238,7 @@ func TestRegisterNewRunnerInfo(t *testing.T) {
 	}
 
 	mux.HandleFunc("/api/v4/runners", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "POST")
+		testMethod(t, r, http.MethodPost)
 		w.WriteHeader(http.StatusCreated)
 		j, err := json.Marshal(want)
 		if err != nil {
@@ -267,7 +267,7 @@ func TestDeleteRegisteredRunner(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/runners", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "DELETE")
+		testMethod(t, r, http.MethodDelete)
 		w.WriteHeader(http.StatusNoContent)
 	})
 
@@ -289,7 +289,7 @@ func TestDeleteRegisteredRunnerByID(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/runners/11111", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "DELETE")
+		testMethod(t, r, http.MethodDelete)
 		w.WriteHeader(http.StatusNoContent)
 	})
 
@@ -311,7 +311,7 @@ func TestVerifyRegisteredRunner(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/runners/verify", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "POST")
+		testMethod(t, r, http.MethodPost)
 		w.WriteHeader(http.StatusOK)
 	})
 

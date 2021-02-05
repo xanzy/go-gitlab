@@ -19,6 +19,7 @@ package gitlab
 import (
 	"errors"
 	"fmt"
+	"net/http"
 )
 
 // NotificationSettingsService handles communication with the notification settings

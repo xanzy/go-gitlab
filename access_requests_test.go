@@ -31,7 +31,7 @@ func TestListProjectAccessRequests(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/access_requests", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		fmt.Fprintf(w, `[
 			{
 			  "id": 1,
@@ -98,7 +98,7 @@ func TestListGroupAccessRequests(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/groups/1/access_requests", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		fmt.Fprintf(w, `[
 			{
 			  "id": 1,
@@ -165,7 +165,7 @@ func TestRequestProjectAccess(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/access_requests", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "POST")
+		testMethod(t, r, http.MethodPost)
 		fmt.Fprintf(w, `{
 				"id": 1,
 				"username": "raymond_smith",
@@ -212,7 +212,7 @@ func TestRequestGroupAccess(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/groups/1/access_requests", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "POST")
+		testMethod(t, r, http.MethodPost)
 		fmt.Fprintf(w, `{
 				"id": 1,
 				"username": "raymond_smith",
@@ -259,7 +259,7 @@ func TestApproveProjectAccessRequest(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/access_requests/10/approve", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "PUT")
+		testMethod(t, r, http.MethodPut)
 
 		var opt ApproveAccessRequestOptions
 		err := json.NewDecoder(r.Body).Decode(&opt)
@@ -319,7 +319,7 @@ func TestApproveGroupAccessRequest(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/groups/1/access_requests/10/approve", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "PUT")
+		testMethod(t, r, http.MethodPut)
 
 		var opt ApproveAccessRequestOptions
 		err := json.NewDecoder(r.Body).Decode(&opt)
@@ -379,7 +379,7 @@ func TestDenyProjectAccessRequest(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/access_requests/10", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "DELETE")
+		testMethod(t, r, http.MethodDelete)
 	})
 
 	resp, err := client.AccessRequests.DenyProjectAccessRequest(1, 10)
@@ -404,7 +404,7 @@ func TestDenyGroupAccessRequest(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/groups/1/access_requests/10", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "DELETE")
+		testMethod(t, r, http.MethodDelete)
 	})
 
 	resp, err := client.AccessRequests.DenyGroupAccessRequest(1, 10)

@@ -16,6 +16,8 @@
 
 package gitlab
 
+import "net/http"
+
 // VersionService handles communication with the GitLab server instance to
 // retrieve its version information via the GitLab API.
 //

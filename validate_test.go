@@ -68,7 +68,7 @@ func TestValidate(t *testing.T) {
 			defer teardown(server)
 
 			mux.HandleFunc("/api/v4/ci/lint", func(w http.ResponseWriter, r *http.Request) {
-				testMethod(t, r, "POST")
+				testMethod(t, r, http.MethodPost)
 				fmt.Fprint(w, tc.response)
 			})
 
@@ -130,7 +130,7 @@ func TestValidateProject(t *testing.T) {
 			defer teardown(server)
 
 			mux.HandleFunc("/api/v4/projects/1/ci/lint", func(w http.ResponseWriter, r *http.Request) {
-				testMethod(t, r, "GET")
+				testMethod(t, r, http.MethodGet)
 				fmt.Fprint(w, tc.response)
 			})
 
@@ -202,7 +202,7 @@ func TestValidateProjectNamespace(t *testing.T) {
 			defer teardown(server)
 
 			mux.HandleFunc("/api/v4/projects/1/ci/lint", func(w http.ResponseWriter, r *http.Request) {
-				testMethod(t, r, "POST")
+				testMethod(t, r, http.MethodPost)
 				fmt.Fprint(w, tc.response)
 			})
 

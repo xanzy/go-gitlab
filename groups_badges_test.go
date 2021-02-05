@@ -29,7 +29,7 @@ func TestListGroupBadges(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/groups/1/badges",
 		func(w http.ResponseWriter, r *http.Request) {
-			testMethod(t, r, "GET")
+			testMethod(t, r, http.MethodGet)
 			fmt.Fprint(w, `[{"id":1, "kind":"group"},{"id":2, "kind":"group"}]`)
 		})
 
@@ -50,7 +50,7 @@ func TestGetGroupBadge(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/groups/1/badges/2",
 		func(w http.ResponseWriter, r *http.Request) {
-			testMethod(t, r, "GET")
+			testMethod(t, r, http.MethodGet)
 			fmt.Fprint(w, `{"id":2, "kind":"group"}`)
 		})
 
@@ -71,7 +71,7 @@ func TestAddGroupBadge(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/groups/1/badges",
 		func(w http.ResponseWriter, r *http.Request) {
-			testMethod(t, r, "POST")
+			testMethod(t, r, http.MethodPost)
 			fmt.Fprint(w, `{"id":3, "link_url":"LINK", "image_url":"IMAGE", "kind":"group"}`)
 		})
 
@@ -93,7 +93,7 @@ func TestEditGroupBadge(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/groups/1/badges/2",
 		func(w http.ResponseWriter, r *http.Request) {
-			testMethod(t, r, "PUT")
+			testMethod(t, r, http.MethodPut)
 			fmt.Fprint(w, `{"id":2, "link_url":"NEW_LINK", "image_url":"NEW_IMAGE", "kind":"group"}`)
 		})
 
@@ -115,7 +115,7 @@ func TestRemoveGroupBadge(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/groups/1/badges/2",
 		func(w http.ResponseWriter, r *http.Request) {
-			testMethod(t, r, "DELETE")
+			testMethod(t, r, http.MethodDelete)
 			w.WriteHeader(http.StatusAccepted)
 		},
 	)

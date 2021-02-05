@@ -19,6 +19,7 @@ package gitlab
 import (
 	"errors"
 	"fmt"
+	"net/http"
 	"time"
 )
 

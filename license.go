@@ -16,7 +16,10 @@
 
 package gitlab
 
-import "time"
+import (
+	"net/http"
+	"time"
+)
 
 // LicenseService handles communication with the license
 // related methods of the GitLab API.

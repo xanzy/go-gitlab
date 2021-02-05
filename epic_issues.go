@@ -16,7 +16,10 @@
 
 package gitlab
 
-import "fmt"
+import (
+	"fmt"
+	"net/http"
+)
 
 // EpicIssuesService handles communication with the epic issue related methods
 // of the GitLab API.

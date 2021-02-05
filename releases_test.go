@@ -31,7 +31,7 @@ func TestReleasesService_ListReleases(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/releases",
 		func(w http.ResponseWriter, r *http.Request) {
-			testMethod(t, r, "GET")
+			testMethod(t, r, http.MethodGet)
 			fmt.Fprint(w, exampleReleaseListResponse)
 		})
 
@@ -51,7 +51,7 @@ func TestReleasesService_GetRelease(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/releases/v0.1",
 		func(w http.ResponseWriter, r *http.Request) {
-			testMethod(t, r, "GET")
+			testMethod(t, r, http.MethodGet)
 			fmt.Fprint(w, exampleReleaseResponse)
 		})
 
@@ -70,7 +70,7 @@ func TestReleasesService_CreateRelease(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/releases",
 		func(w http.ResponseWriter, r *http.Request) {
-			testMethod(t, r, "POST")
+			testMethod(t, r, http.MethodPost)
 			b, err := ioutil.ReadAll(r.Body)
 			if err != nil {
 				t.Fatalf("unable to read request body")
@@ -115,7 +115,7 @@ func TestReleasesService_CreateReleaseWithAsset(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/releases",
 		func(w http.ResponseWriter, r *http.Request) {
-			testMethod(t, r, "POST")
+			testMethod(t, r, http.MethodPost)
 			b, err := ioutil.ReadAll(r.Body)
 			if err != nil {
 				t.Fatalf("unable to read request body")
@@ -165,7 +165,7 @@ func TestReleasesService_CreateReleaseWithMilestones(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/releases",
 		func(w http.ResponseWriter, r *http.Request) {
-			testMethod(t, r, "POST")
+			testMethod(t, r, http.MethodPost)
 			b, err := ioutil.ReadAll(r.Body)
 			if err != nil {
 				t.Fatalf("unable to read request body")
@@ -211,7 +211,7 @@ func TestReleasesService_CreateReleaseWithReleasedAt(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/releases",
 		func(w http.ResponseWriter, r *http.Request) {
-			testMethod(t, r, "POST")
+			testMethod(t, r, http.MethodPost)
 			b, err := ioutil.ReadAll(r.Body)
 			if err != nil {
 				t.Fatalf("unable to read request body")
@@ -257,7 +257,7 @@ func TestReleasesService_UpdateRelease(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/releases/v0.1",
 		func(w http.ResponseWriter, r *http.Request) {
-			testMethod(t, r, "PUT")
+			testMethod(t, r, http.MethodPut)
 			b, err := ioutil.ReadAll(r.Body)
 			if err != nil {
 				t.Fatalf("unable to read request body")
@@ -293,7 +293,7 @@ func TestReleasesService_UpdateReleaseWithMilestones(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/releases/v0.1",
 		func(w http.ResponseWriter, r *http.Request) {
-			testMethod(t, r, "PUT")
+			testMethod(t, r, http.MethodPut)
 			b, err := ioutil.ReadAll(r.Body)
 			if err != nil {
 				t.Fatalf("unable to read request body")
@@ -330,7 +330,7 @@ func TestReleasesService_UpdateReleaseWithReleasedAt(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/releases/v0.1",
 		func(w http.ResponseWriter, r *http.Request) {
-			testMethod(t, r, "PUT")
+			testMethod(t, r, http.MethodPut)
 			b, err := ioutil.ReadAll(r.Body)
 			if err != nil {
 				t.Fatalf("unable to read request body")
@@ -367,7 +367,7 @@ func TestReleasesService_DeleteRelease(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/releases/v0.1",
 		func(w http.ResponseWriter, r *http.Request) {
-			testMethod(t, r, "DELETE")
+			testMethod(t, r, http.MethodDelete)
 			fmt.Fprint(w, exampleReleaseResponse)
 		})
 

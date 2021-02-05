@@ -16,7 +16,10 @@
 
 package gitlab
 
-import "time"
+import (
+	"net/http"
+	"time"
+)
 
 // SidekiqService handles communication with the sidekiq service
 //

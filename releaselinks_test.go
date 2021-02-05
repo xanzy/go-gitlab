@@ -28,7 +28,7 @@ func TestReleaseLinksService_ListReleaseLinks(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/releases/v0.1/assets/links",
 		func(w http.ResponseWriter, r *http.Request) {
-			testMethod(t, r, "GET")
+			testMethod(t, r, http.MethodGet)
 			fmt.Fprint(w, exampleReleaseLinkList)
 		})
 
@@ -53,7 +53,7 @@ func TestReleaseLinksService_CreateReleaseLink(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/releases/v0.1/assets/links",
 		func(w http.ResponseWriter, r *http.Request) {
-			testMethod(t, r, "POST")
+			testMethod(t, r, http.MethodPost)
 			fmt.Fprint(w, exampleReleaseLink)
 		})
 
@@ -78,7 +78,7 @@ func TestReleaseLinksService_GetReleaseLink(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/releases/v0.1/assets/links/1",
 		func(w http.ResponseWriter, r *http.Request) {
-			testMethod(t, r, "GET")
+			testMethod(t, r, http.MethodGet)
 			fmt.Fprint(w, exampleReleaseLink)
 		})
 
@@ -98,7 +98,7 @@ func TestReleaseLinksService_UpdateReleaseLink(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/releases/v0.1/assets/links/1",
 		func(w http.ResponseWriter, r *http.Request) {
-			testMethod(t, r, "PUT")
+			testMethod(t, r, http.MethodPut)
 			fmt.Fprint(w, exampleReleaseLink)
 		})
 
@@ -122,7 +122,7 @@ func TestReleaseLinksService_DeleteReleaseLink(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/releases/v0.1/assets/links/1",
 		func(w http.ResponseWriter, r *http.Request) {
-			testMethod(t, r, "DELETE")
+			testMethod(t, r, http.MethodDelete)
 			fmt.Fprint(w, exampleReleaseLink)
 		})
 

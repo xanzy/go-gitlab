@@ -105,7 +105,7 @@ func TestGetMergeRequest(t *testing.T) {
 	path := "/api/v4/projects/namespace/name/merge_requests/123"
 
 	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		mustWriteHTTPResponse(t, w, "testdata/get_merge_request.json")
 	})
 
@@ -150,7 +150,7 @@ func TestListProjectMergeRequests(t *testing.T) {
 	path := "/api/v4/projects/278964/merge_requests"
 
 	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		testParams(t, r, "with_labels_details=true&with_merge_status_recheck=true")
 		mustWriteHTTPResponse(t, w, "testdata/get_merge_requests.json")
 	})
@@ -190,7 +190,7 @@ func TestCreateMergeRequestPipeline(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/merge_requests/1/pipelines", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "POST")
+		testMethod(t, r, http.MethodPost)
 		fmt.Fprint(w, `{"id":1, "status":"pending"}`)
 	})
 
@@ -209,7 +209,7 @@ func TestGetMergeRequestParticipants(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/merge_requests/5/participants", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		testURL(t, r, "/api/v4/projects/1/merge_requests/5/participants")
 
 		fmt.Fprint(w, `[{"id":1,"name":"User1","username":"User1","state":"active","avatar_url":"","web_url":"https://localhost/User1"},

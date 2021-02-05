@@ -28,7 +28,7 @@ func TestListTodos(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/todos", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		mustWriteHTTPResponse(t, w, "testdata/list_todos.json")
 	})
 
@@ -46,7 +46,7 @@ func TestMarkAllTodosAsDone(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/todos/mark_as_done", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "POST")
+		testMethod(t, r, http.MethodPost)
 		w.WriteHeader(http.StatusNoContent)
 	})
 
@@ -59,7 +59,7 @@ func TestMarkTodoAsDone(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/todos/1/mark_as_done", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "POST")
+		testMethod(t, r, http.MethodPost)
 	})
 
 	_, err := client.Todos.MarkTodoAsDone(1)

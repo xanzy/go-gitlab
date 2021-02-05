@@ -28,7 +28,7 @@ func TestGetApprovalState(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/merge_requests/1/approval_state", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		fmt.Fprint(w, `{
 			"approval_rules_overwritten": true,
 			"rules": [
@@ -182,7 +182,7 @@ func TestGetApprovalRules(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/merge_requests/1/approval_rules", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		fmt.Fprint(w, `[
 			{
 				"id": 1,
@@ -308,7 +308,7 @@ func TestCreateApprovalRules(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/merge_requests/1/approval_rules", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "POST")
+		testMethod(t, r, http.MethodPost)
 		fmt.Fprint(w, `{
 			"id": 1,
 			"name": "security",
