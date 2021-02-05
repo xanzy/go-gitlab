@@ -151,6 +151,55 @@ func (s *GroupMembersService) GetGroupMember(gid interface{}, user int, options 
 	return gm, resp, err
 }
 
+// BillableGroupMember represents a GitLab billable group member.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/members.html#list-all-billable-members-of-a-group
+type BillableGroupMember struct {
+	ID             int    `json:"id"`
+	Username       string `json:"username"`
+	Name           string `json:"name"`
+	State          string `json:"state"`
+	AvatarURL      string `json:"avatar_url"`
+	WebURL         string `json:"web_url"`
+	LastActivityOn string `json:"last_activity_on"`
+}
+
+// ListBillableGroupMembersOptions represents the available ListBillableGroupMember() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/members.html#list-all-billable-members-of-a-group
+type ListBillableGroupMembersOptions struct {
+	ListOptions
+	Search *string `url:"search,omitempty" json:"search,omitempty"`
+	Sort   *string `url:"sort,omitempty" json:"sort,omitempty"`
+}
+
+// ListBillableGroupMember Gets a list of group members that count as billable.
+// The list includes members in the subgroup or subproject.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/members.html#list-all-billable-members-of-a-group
+func (s *GroupsService) ListBillableGroupMember(gid interface{}, opt *ListGroupMembersOptions, options ...RequestOptionFunc) ([]*BillableGroupMember, *Response, error) {
+	group, err := parseID(gid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("groups/%s/billable_members", pathEscape(group))
+
+	req, err := s.client.NewRequest("GET", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var bgm []*BillableGroupMember
+	resp, err := s.client.Do(req, &bgm)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return bgm, resp, err
+}
+
 // AddGroupMember adds a user to the list of group members.
 //
 // GitLab API docs:
