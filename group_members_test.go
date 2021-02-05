@@ -38,7 +38,12 @@ func TestListBillableGroupMembers(t *testing.T) {
 		t.Errorf("Groups.ListBillableGroupMembers returned error: %v", err)
 	}
 
-	want := []*BillableGroupMember{{ID: 1, Username: "ray", Name: "Raymond", State: "active", AvatarURL: "https://foo.bar/mypic", WebURL: "http://192.168.1.8:3000/root", LastActivityOn: "2021-01-27"}}
+	testTime := ISOTime{}
+	err = testTime.UnmarshalJSON([]byte(`"2021-01-27"`))
+	if err != nil {
+		t.Errorf("Could not unmarshal date string to ISOTime: %v", err)
+	}
+	want := []*BillableGroupMember{{ID: 1, Username: "ray", Name: "Raymond", State: "active", AvatarURL: "https://foo.bar/mypic", WebURL: "http://192.168.1.8:3000/root", LastActivityOn: testTime}}
 	if !reflect.DeepEqual(want, billableMembers) {
 		t.Errorf("Groups.ListBillableGroupMembers returned %+v, want %+v", billableMembers, want)
 	}
