@@ -18,6 +18,7 @@ package gitlab
 
 import (
 	"fmt"
+	"net/http"
 )
 
 // GroupMembersService handles communication with the group members
@@ -161,6 +162,7 @@ type BillableGroupMember struct {
 	State          string  `json:"state"`
 	AvatarURL      string  `json:"avatar_url"`
 	WebURL         string  `json:"web_url"`
+	Email          string  `json:"email"`
 	LastActivityOn ISOTime `json:"last_activity_on"`
 }
 
@@ -186,7 +188,7 @@ func (s *GroupsService) ListBillableGroupMembers(gid interface{}, opt *ListBilla
 	}
 	u := fmt.Sprintf("groups/%s/billable_members", pathEscape(group))
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
