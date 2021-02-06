@@ -29,7 +29,7 @@ func TestListBillableGroupMembers(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/groups/1/billable_members",
 		func(w http.ResponseWriter, r *http.Request) {
-			testMethod(t, r, "GET")
+			testMethod(t, r, http.MethodGet)
 			fmt.Fprint(w, `[{"id":1,"username":"ray","name":"Raymond","state":"active","avatar_url":"https://foo.bar/mypic","web_url":"http://192.168.1.8:3000/root","last_activity_on":"2021-01-27"}]`)
 		})
 
