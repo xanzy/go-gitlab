@@ -29,7 +29,7 @@ func TestGetEpic(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/groups/7/epics/8", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		fmt.Fprint(w, `{"id":8, "title": "Incredible idea", "description": "This is a test epic", "author" : {"id" : 26, "name": "jramsay"}}`)
 	})
 
@@ -55,7 +55,7 @@ func TestDeleteEpic(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/groups/7/epics/8", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "DELETE")
+		testMethod(t, r, http.MethodDelete)
 	})
 
 	_, err := client.Epics.DeleteEpic("7", 8)
@@ -69,7 +69,7 @@ func TestListGroupEpics(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/groups/7/epics", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		testURL(t, r, "/api/v4/groups/7/epics?author_id=26&state=opened")
 		fmt.Fprint(w, `[{"id":8, "title": "Incredible idea", "description": "This is a test epic", "author" : {"id" : 26, "name": "jramsay"}}]`)
 	})
@@ -101,7 +101,7 @@ func TestCreateEpic(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/groups/7/epics", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "POST")
+		testMethod(t, r, http.MethodPost)
 		fmt.Fprint(w, `{"id":8, "title": "Incredible idea", "description": "This is a test epic", "author" : {"id" : 26, "name": "jramsay"}}`)
 	})
 
@@ -132,7 +132,7 @@ func TestUpdateEpic(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/groups/7/epics/8", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "PUT")
+		testMethod(t, r, http.MethodPut)
 		fmt.Fprint(w, `{"id":8, "title": "Incredible idea", "description": "This is a test epic", "author" : {"id" : 26, "name": "jramsay"}}`)
 	})
 

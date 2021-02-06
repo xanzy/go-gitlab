@@ -17,6 +17,7 @@ package gitlab
 
 import (
 	"fmt"
+	"net/http"
 	"net/url"
 )
 
@@ -74,7 +75,7 @@ func (s *WikisService) ListWikis(pid interface{}, opt *ListWikisOptions, options
 	}
 	u := fmt.Sprintf("projects/%s/wikis", pathEscape(project))
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -99,7 +100,7 @@ func (s *WikisService) GetWikiPage(pid interface{}, slug string, options ...Requ
 	}
 	u := fmt.Sprintf("projects/%s/wikis/%s", pathEscape(project), url.PathEscape(slug))
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -135,7 +136,7 @@ func (s *WikisService) CreateWikiPage(pid interface{}, opt *CreateWikiPageOption
 	}
 	u := fmt.Sprintf("projects/%s/wikis", pathEscape(project))
 
-	req, err := s.client.NewRequest("POST", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -171,7 +172,7 @@ func (s *WikisService) EditWikiPage(pid interface{}, slug string, opt *EditWikiP
 	}
 	u := fmt.Sprintf("projects/%s/wikis/%s", pathEscape(project), url.PathEscape(slug))
 
-	req, err := s.client.NewRequest("PUT", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -196,7 +197,7 @@ func (s *WikisService) DeleteWikiPage(pid interface{}, slug string, options ...R
 	}
 	u := fmt.Sprintf("projects/%s/wikis/%s", pathEscape(project), url.PathEscape(slug))
 
-	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
 		return nil, err
 	}

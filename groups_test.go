@@ -13,7 +13,7 @@ func TestListGroups(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/groups",
 		func(w http.ResponseWriter, r *http.Request) {
-			testMethod(t, r, "GET")
+			testMethod(t, r, http.MethodGet)
 			fmt.Fprint(w, `[{"id":1},{"id":2}]`)
 		})
 
@@ -34,7 +34,7 @@ func TestGetGroup(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/groups/g",
 		func(w http.ResponseWriter, r *http.Request) {
-			testMethod(t, r, "GET")
+			testMethod(t, r, http.MethodGet)
 			fmt.Fprint(w, `{"id": 1, "name": "g"}`)
 		})
 
@@ -55,7 +55,7 @@ func TestCreateGroup(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/groups",
 		func(w http.ResponseWriter, r *http.Request) {
-			testMethod(t, r, "POST")
+			testMethod(t, r, http.MethodPost)
 			fmt.Fprint(w, `{"id": 1, "name": "g", "path": "g"}`)
 		})
 
@@ -81,7 +81,7 @@ func TestTransferGroup(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/groups/1/projects/2",
 		func(w http.ResponseWriter, r *http.Request) {
-			testMethod(t, r, "POST")
+			testMethod(t, r, http.MethodPost)
 			fmt.Fprintf(w, `{"id": 1}`)
 		})
 
@@ -102,7 +102,7 @@ func TestDeleteGroup(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/groups/1",
 		func(w http.ResponseWriter, r *http.Request) {
-			testMethod(t, r, "DELETE")
+			testMethod(t, r, http.MethodDelete)
 			w.WriteHeader(http.StatusAccepted)
 		})
 
@@ -124,7 +124,7 @@ func TestSearchGroup(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/groups",
 		func(w http.ResponseWriter, r *http.Request) {
-			testMethod(t, r, "GET")
+			testMethod(t, r, http.MethodGet)
 			fmt.Fprint(w, `[{"id": 1, "name": "Foobar Group"}]`)
 		})
 
@@ -145,7 +145,7 @@ func TestUpdateGroup(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/groups/1",
 		func(w http.ResponseWriter, r *http.Request) {
-			testMethod(t, r, "PUT")
+			testMethod(t, r, http.MethodPut)
 			fmt.Fprint(w, `{"id": 1}`)
 		})
 
@@ -166,7 +166,7 @@ func TestListGroupProjects(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/groups/22/projects",
 		func(w http.ResponseWriter, r *http.Request) {
-			testMethod(t, r, "GET")
+			testMethod(t, r, http.MethodGet)
 			fmt.Fprint(w, `[{"id":1},{"id":2}]`)
 		})
 
@@ -188,7 +188,7 @@ func TestListSubgroups(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/groups/1/subgroups",
 		func(w http.ResponseWriter, r *http.Request) {
-			testMethod(t, r, "GET")
+			testMethod(t, r, http.MethodGet)
 			fmt.Fprint(w, `[{"id": 1}, {"id": 2}]`)
 		})
 
@@ -209,7 +209,7 @@ func TestListGroupLDAPLinks(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/groups/1/ldap_group_links",
 		func(w http.ResponseWriter, r *http.Request) {
-			testMethod(t, r, "GET")
+			testMethod(t, r, http.MethodGet)
 			fmt.Fprint(w, `[
 	{
 		"cn":"gitlab_group_example_30",
@@ -252,7 +252,7 @@ func TestAddGroupLDAPLink(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/groups/1/ldap_group_links",
 		func(w http.ResponseWriter, r *http.Request) {
-			testMethod(t, r, "POST")
+			testMethod(t, r, http.MethodPost)
 			fmt.Fprint(w, `
 {
 	"cn":"gitlab_group_example_30",
@@ -287,7 +287,7 @@ func TestRestoreGroup(t *testing.T) {
 	defer teardown(server)
 	mux.HandleFunc("/api/v4/groups/1/restore",
 		func(w http.ResponseWriter, r *http.Request) {
-			testMethod(t, r, "POST")
+			testMethod(t, r, http.MethodPost)
 			fmt.Fprint(w, `{"id": 1, "name": "g"}`)
 		})
 

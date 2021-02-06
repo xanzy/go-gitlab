@@ -19,6 +19,7 @@ package gitlab
 import (
 	"errors"
 	"fmt"
+	"net/http"
 )
 
 // NotificationSettingsService handles communication with the notification settings
@@ -69,7 +70,7 @@ func (ns NotificationSettings) String() string {
 func (s *NotificationSettingsService) GetGlobalSettings(options ...RequestOptionFunc) (*NotificationSettings, *Response, error) {
 	u := "notification_settings"
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -114,7 +115,7 @@ func (s *NotificationSettingsService) UpdateGlobalSettings(opt *NotificationSett
 
 	u := "notification_settings"
 
-	req, err := s.client.NewRequest("PUT", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -139,7 +140,7 @@ func (s *NotificationSettingsService) GetSettingsForGroup(gid interface{}, optio
 	}
 	u := fmt.Sprintf("groups/%s/notification_settings", pathEscape(group))
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -164,7 +165,7 @@ func (s *NotificationSettingsService) GetSettingsForProject(pid interface{}, opt
 	}
 	u := fmt.Sprintf("projects/%s/notification_settings", pathEscape(project))
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -189,7 +190,7 @@ func (s *NotificationSettingsService) UpdateSettingsForGroup(gid interface{}, op
 	}
 	u := fmt.Sprintf("groups/%s/notification_settings", pathEscape(group))
 
-	req, err := s.client.NewRequest("PUT", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -214,7 +215,7 @@ func (s *NotificationSettingsService) UpdateSettingsForProject(pid interface{}, 
 	}
 	u := fmt.Sprintf("projects/%s/notification_settings", pathEscape(project))
 
-	req, err := s.client.NewRequest("PUT", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}

@@ -28,7 +28,7 @@ func TestListClusters(t *testing.T) {
 	pid := 1234
 
 	mux.HandleFunc("/api/v4/projects/1234/clusters", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		response := `[
   {
     "id":18,
@@ -85,7 +85,7 @@ func TestGetCluster(t *testing.T) {
 	pid := 1234
 
 	mux.HandleFunc("/api/v4/projects/1234/clusters/1", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		response := `{
   "id":18,
   "name":"cluster-1",
@@ -165,7 +165,7 @@ func TestAddCluster(t *testing.T) {
 	pid := 1234
 
 	mux.HandleFunc("/api/v4/projects/1234/clusters/user", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "POST")
+		testMethod(t, r, http.MethodPost)
 		response := `{
   "id":24,
   "name":"cluster-5",
@@ -241,7 +241,7 @@ func TestEditCluster(t *testing.T) {
 	pid := 1234
 
 	mux.HandleFunc("/api/v4/projects/1234/clusters/1", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "PUT")
+		testMethod(t, r, http.MethodPut)
 		response := `{
   "id":24,
   "name":"new-cluster-name",
@@ -316,7 +316,7 @@ func TestDeleteCluster(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1234/clusters/1", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "DELETE")
+		testMethod(t, r, http.MethodDelete)
 		w.WriteHeader(http.StatusAccepted)
 	})
 

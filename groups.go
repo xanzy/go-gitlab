@@ -18,6 +18,7 @@ package gitlab
 
 import (
 	"fmt"
+	"net/http"
 	"time"
 )
 
@@ -106,7 +107,7 @@ type ListGroupsOptions struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/groups.html#list-project-groups
 func (s *GroupsService) ListGroups(opt *ListGroupsOptions, options ...RequestOptionFunc) ([]*Group, *Response, error) {
-	req, err := s.client.NewRequest("GET", "groups", opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, "groups", opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -130,7 +131,7 @@ func (s *GroupsService) GetGroup(gid interface{}, options ...RequestOptionFunc) 
 	}
 	u := fmt.Sprintf("groups/%s", pathEscape(group))
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -173,7 +174,7 @@ type CreateGroupOptions struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/groups.html#new-group
 func (s *GroupsService) CreateGroup(opt *CreateGroupOptions, options ...RequestOptionFunc) (*Group, *Response, error) {
-	req, err := s.client.NewRequest("POST", "groups", opt, options)
+	req, err := s.client.NewRequest(http.MethodPost, "groups", opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -203,7 +204,7 @@ func (s *GroupsService) TransferGroup(gid interface{}, pid interface{}, options 
 	}
 	u := fmt.Sprintf("groups/%s/projects/%s", pathEscape(group), pathEscape(project))
 
-	req, err := s.client.NewRequest("POST", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -234,7 +235,7 @@ func (s *GroupsService) UpdateGroup(gid interface{}, opt *UpdateGroupOptions, op
 	}
 	u := fmt.Sprintf("groups/%s", pathEscape(group))
 
-	req, err := s.client.NewRequest("PUT", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -258,7 +259,7 @@ func (s *GroupsService) DeleteGroup(gid interface{}, options ...RequestOptionFun
 	}
 	u := fmt.Sprintf("groups/%s", pathEscape(group))
 
-	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
 		return nil, err
 	}
@@ -277,7 +278,7 @@ func (s *GroupsService) RestoreGroup(gid interface{}, options ...RequestOptionFu
 	}
 	u := fmt.Sprintf("groups/%s/restore", pathEscape(group))
 
-	req, err := s.client.NewRequest("POST", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -300,7 +301,7 @@ func (s *GroupsService) SearchGroup(query string, options ...RequestOptionFunc) 
 	}
 	q.Search = query
 
-	req, err := s.client.NewRequest("GET", "groups", &q, options)
+	req, err := s.client.NewRequest(http.MethodGet, "groups", &q, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -346,7 +347,7 @@ func (s *GroupsService) ListGroupProjects(gid interface{}, opt *ListGroupProject
 	}
 	u := fmt.Sprintf("groups/%s/projects", pathEscape(group))
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -377,7 +378,7 @@ func (s *GroupsService) ListSubgroups(gid interface{}, opt *ListSubgroupsOptions
 	}
 	u := fmt.Sprintf("groups/%s/subgroups", pathEscape(group))
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -409,7 +410,7 @@ func (s *GroupsService) ListDescendantGroups(gid interface{}, opt *ListDescendan
 	}
 	u := fmt.Sprintf("groups/%s/descendant_groups", pathEscape(group))
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -435,7 +436,7 @@ func (s *GroupsService) ListGroupLDAPLinks(gid interface{}, options ...RequestOp
 	}
 	u := fmt.Sprintf("groups/%s/ldap_group_links", pathEscape(group))
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -471,7 +472,7 @@ func (s *GroupsService) AddGroupLDAPLink(gid interface{}, opt *AddGroupLDAPLinkO
 	}
 	u := fmt.Sprintf("groups/%s/ldap_group_links", pathEscape(group))
 
-	req, err := s.client.NewRequest("POST", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -497,7 +498,7 @@ func (s *GroupsService) DeleteGroupLDAPLink(gid interface{}, cn string, options 
 	}
 	u := fmt.Sprintf("groups/%s/ldap_group_links/%s", pathEscape(group), pathEscape(cn))
 
-	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
 		return nil, err
 	}
@@ -522,7 +523,7 @@ func (s *GroupsService) DeleteGroupLDAPLinkForProvider(gid interface{}, provider
 		pathEscape(cn),
 	)
 
-	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
 		return nil, err
 	}
@@ -561,7 +562,7 @@ func (s *GroupsService) GetGroupPushRules(gid interface{}, options ...RequestOpt
 	}
 	u := fmt.Sprintf("groups/%s/push_rule", pathEscape(group))
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -605,7 +606,7 @@ func (s *GroupsService) AddGroupPushRule(gid interface{}, opt *AddGroupPushRuleO
 	}
 	u := fmt.Sprintf("groups/%s/push_rule", pathEscape(group))
 
-	req, err := s.client.NewRequest("POST", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -649,7 +650,7 @@ func (s *GroupsService) EditGroupPushRule(gid interface{}, opt *EditGroupPushRul
 	}
 	u := fmt.Sprintf("groups/%s/push_rule", pathEscape(group))
 
-	req, err := s.client.NewRequest("PUT", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -674,7 +675,7 @@ func (s *GroupsService) DeleteGroupPushRule(gid interface{}, options ...RequestO
 	}
 	u := fmt.Sprintf("groups/%s/push_rule", pathEscape(group))
 
-	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
 		return nil, err
 	}

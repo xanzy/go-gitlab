@@ -32,7 +32,7 @@ func TestBlockUser(t *testing.T) {
 
 	path := fmt.Sprintf("/%susers/1/block", apiVersionPath)
 	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "POST")
+		testMethod(t, r, http.MethodPost)
 		w.WriteHeader(http.StatusCreated)
 	})
 
@@ -48,7 +48,7 @@ func TestBlockUser_UserNotFound(t *testing.T) {
 
 	path := fmt.Sprintf("/%susers/1/block", apiVersionPath)
 	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "POST")
+		testMethod(t, r, http.MethodPost)
 		w.WriteHeader(http.StatusNotFound)
 	})
 
@@ -64,7 +64,7 @@ func TestBlockUser_BlockPrevented(t *testing.T) {
 
 	path := fmt.Sprintf("/%susers/1/block", apiVersionPath)
 	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "POST")
+		testMethod(t, r, http.MethodPost)
 		w.WriteHeader(http.StatusForbidden)
 	})
 
@@ -80,7 +80,7 @@ func TestBlockUser_UnknownError(t *testing.T) {
 
 	path := fmt.Sprintf("/%susers/1/block", apiVersionPath)
 	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "POST")
+		testMethod(t, r, http.MethodPost)
 		w.WriteHeader(http.StatusTeapot)
 	})
 
@@ -99,7 +99,7 @@ func TestUnblockUser(t *testing.T) {
 
 	path := fmt.Sprintf("/%susers/1/unblock", apiVersionPath)
 	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "POST")
+		testMethod(t, r, http.MethodPost)
 		w.WriteHeader(http.StatusCreated)
 	})
 
@@ -115,7 +115,7 @@ func TestUnblockUser_UserNotFound(t *testing.T) {
 
 	path := fmt.Sprintf("/%susers/1/unblock", apiVersionPath)
 	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "POST")
+		testMethod(t, r, http.MethodPost)
 		w.WriteHeader(http.StatusNotFound)
 	})
 
@@ -131,7 +131,7 @@ func TestUnblockUser_UnblockPrevented(t *testing.T) {
 
 	path := fmt.Sprintf("/%susers/1/unblock", apiVersionPath)
 	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "POST")
+		testMethod(t, r, http.MethodPost)
 		w.WriteHeader(http.StatusForbidden)
 	})
 
@@ -147,7 +147,7 @@ func TestUnblockUser_UnknownError(t *testing.T) {
 
 	path := fmt.Sprintf("/%susers/1/unblock", apiVersionPath)
 	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "POST")
+		testMethod(t, r, http.MethodPost)
 		w.WriteHeader(http.StatusTeapot)
 	})
 
@@ -165,7 +165,7 @@ func TestDeactivateUser(t *testing.T) {
 
 	path := fmt.Sprintf("/%susers/1/deactivate", apiVersionPath)
 	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "POST")
+		testMethod(t, r, http.MethodPost)
 		w.WriteHeader(http.StatusCreated)
 	})
 
@@ -181,7 +181,7 @@ func TestDeactivateUser_UserNotFound(t *testing.T) {
 
 	path := fmt.Sprintf("/%susers/1/deactivate", apiVersionPath)
 	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "POST")
+		testMethod(t, r, http.MethodPost)
 		w.WriteHeader(http.StatusNotFound)
 	})
 
@@ -197,7 +197,7 @@ func TestDeactivateUser_DeactivatePrevented(t *testing.T) {
 
 	path := fmt.Sprintf("/%susers/1/deactivate", apiVersionPath)
 	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "POST")
+		testMethod(t, r, http.MethodPost)
 		w.WriteHeader(http.StatusForbidden)
 	})
 
@@ -213,7 +213,7 @@ func TestActivateUser(t *testing.T) {
 
 	path := fmt.Sprintf("/%susers/1/activate", apiVersionPath)
 	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "POST")
+		testMethod(t, r, http.MethodPost)
 		w.WriteHeader(http.StatusCreated)
 	})
 
@@ -229,7 +229,7 @@ func TestActivateUser_ActivatePrevented(t *testing.T) {
 
 	path := fmt.Sprintf("/%susers/1/activate", apiVersionPath)
 	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "POST")
+		testMethod(t, r, http.MethodPost)
 		w.WriteHeader(http.StatusForbidden)
 	})
 
@@ -245,7 +245,7 @@ func TestActivateUser_UserNotFound(t *testing.T) {
 
 	path := fmt.Sprintf("/%susers/1/activate", apiVersionPath)
 	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "POST")
+		testMethod(t, r, http.MethodPost)
 		w.WriteHeader(http.StatusNotFound)
 	})
 
@@ -261,7 +261,7 @@ func TestGetMemberships(t *testing.T) {
 
 	path := fmt.Sprintf("/%susers/1/memberships", apiVersionPath)
 	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		mustWriteHTTPResponse(t, w, "testdata/get_user_memberships.json")
 	})
 

@@ -29,7 +29,7 @@ func TestListProtectedTags(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/protected_tags", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		fmt.Fprint(w, `[{"name":"1.0.0", "create_access_levels": [{"access_level": 40, "access_level_description": "Maintainers"}]},{"name":"*-release", "create_access_levels": [{"access_level": 30, "access_level_description": "Developers + Maintainers"}]}]`)
 	})
 
@@ -67,7 +67,7 @@ func TestGetProtectedTag(t *testing.T) {
 	tagName := "my-awesome-tag"
 
 	mux.HandleFunc(fmt.Sprintf("/api/v4/projects/1/protected_tags/%s", tagName), func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		fmt.Fprint(w, `{"name":"my-awesome-tag", "create_access_levels": [{"access_level": 30, "access_level_description": "Developers + Maintainers"}]}`)
 	})
 
@@ -92,7 +92,7 @@ func TestProtectRepositoryTags(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/protected_tags", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "POST")
+		testMethod(t, r, http.MethodPost)
 		fmt.Fprint(w, `{"name":"my-awesome-tag", "create_access_levels": [{"access_level": 30, "access_level_description": "Developers + Maintainers"}]}`)
 	})
 
@@ -118,7 +118,7 @@ func TestUnprotectRepositoryTags(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/protected_tags/my-awesome-tag", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "DELETE")
+		testMethod(t, r, http.MethodDelete)
 	})
 
 	resp, err := client.ProtectedTags.UnprotectRepositoryTags(1, "my-awesome-tag")

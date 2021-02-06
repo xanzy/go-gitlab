@@ -22,6 +22,7 @@ import (
 	"io"
 	"io/ioutil"
 	"mime/multipart"
+	"net/http"
 	"os"
 	"time"
 )
@@ -271,7 +272,7 @@ type ListProjectsOptions struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#list-projects
 func (s *ProjectsService) ListProjects(opt *ListProjectsOptions, options ...RequestOptionFunc) ([]*Project, *Response, error) {
-	req, err := s.client.NewRequest("GET", "projects", opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, "projects", opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -296,7 +297,7 @@ func (s *ProjectsService) ListUserProjects(uid interface{}, opt *ListProjectsOpt
 	}
 	u := fmt.Sprintf("users/%s/projects", user)
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -339,7 +340,7 @@ func (s *ProjectsService) ListProjectsUsers(pid interface{}, opt *ListProjectUse
 	}
 	u := fmt.Sprintf("projects/%s/users", pathEscape(project))
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -368,7 +369,7 @@ func (s *ProjectsService) GetProjectLanguages(pid interface{}, options ...Reques
 	}
 	u := fmt.Sprintf("projects/%s/languages", pathEscape(project))
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -403,7 +404,7 @@ func (s *ProjectsService) GetProject(pid interface{}, opt *GetProjectOptions, op
 	}
 	u := fmt.Sprintf("projects/%s", pathEscape(project))
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -464,7 +465,7 @@ func (s *ProjectsService) GetProjectEvents(pid interface{}, opt *GetProjectEvent
 	}
 	u := fmt.Sprintf("projects/%s/events", pathEscape(project))
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -569,7 +570,7 @@ func (s *ProjectsService) CreateProject(opt *CreateProjectOptions, options ...Re
 			opt.ContainerExpirationPolicyAttributes.NameRegexDelete
 	}
 
-	req, err := s.client.NewRequest("POST", "projects", opt, options)
+	req, err := s.client.NewRequest(http.MethodPost, "projects", opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -604,7 +605,7 @@ func (s *ProjectsService) CreateProjectForUser(user int, opt *CreateProjectForUs
 	}
 
 	u := fmt.Sprintf("projects/user/%d", user)
-	req, err := s.client.NewRequest("POST", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -696,7 +697,7 @@ func (s *ProjectsService) EditProject(pid interface{}, opt *EditProjectOptions, 
 	}
 	u := fmt.Sprintf("projects/%s", pathEscape(project))
 
-	req, err := s.client.NewRequest("PUT", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -730,7 +731,7 @@ func (s *ProjectsService) ForkProject(pid interface{}, opt *ForkProjectOptions, 
 	}
 	u := fmt.Sprintf("projects/%s/fork", pathEscape(project))
 
-	req, err := s.client.NewRequest("POST", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -755,7 +756,7 @@ func (s *ProjectsService) StarProject(pid interface{}, options ...RequestOptionF
 	}
 	u := fmt.Sprintf("projects/%s/star", pathEscape(project))
 
-	req, err := s.client.NewRequest("POST", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -780,7 +781,7 @@ func (s *ProjectsService) UnstarProject(pid interface{}, options ...RequestOptio
 	}
 	u := fmt.Sprintf("projects/%s/unstar", pathEscape(project))
 
-	req, err := s.client.NewRequest("POST", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -806,7 +807,7 @@ func (s *ProjectsService) ArchiveProject(pid interface{}, options ...RequestOpti
 	}
 	u := fmt.Sprintf("projects/%s/archive", pathEscape(project))
 
-	req, err := s.client.NewRequest("POST", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -832,7 +833,7 @@ func (s *ProjectsService) UnarchiveProject(pid interface{}, options ...RequestOp
 	}
 	u := fmt.Sprintf("projects/%s/unarchive", pathEscape(project))
 
-	req, err := s.client.NewRequest("POST", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -857,7 +858,7 @@ func (s *ProjectsService) DeleteProject(pid interface{}, options ...RequestOptio
 	}
 	u := fmt.Sprintf("projects/%s", pathEscape(project))
 
-	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
 		return nil, err
 	}
@@ -884,7 +885,7 @@ func (s *ProjectsService) ShareProjectWithGroup(pid interface{}, opt *ShareWithG
 	}
 	u := fmt.Sprintf("projects/%s/share", pathEscape(project))
 
-	req, err := s.client.NewRequest("POST", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
 		return nil, err
 	}
@@ -902,7 +903,7 @@ func (s *ProjectsService) DeleteSharedProjectFromGroup(pid interface{}, groupID 
 	}
 	u := fmt.Sprintf("projects/%s/share/%d", pathEscape(project), groupID)
 
-	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
 		return nil, err
 	}
@@ -967,7 +968,7 @@ func (s *ProjectsService) ListProjectHooks(pid interface{}, opt *ListProjectHook
 	}
 	u := fmt.Sprintf("projects/%s/hooks", pathEscape(project))
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -992,7 +993,7 @@ func (s *ProjectsService) GetProjectHook(pid interface{}, hook int, options ...R
 	}
 	u := fmt.Sprintf("projects/%s/hooks/%d", pathEscape(project), hook)
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1039,7 +1040,7 @@ func (s *ProjectsService) AddProjectHook(pid interface{}, opt *AddProjectHookOpt
 	}
 	u := fmt.Sprintf("projects/%s/hooks", pathEscape(project))
 
-	req, err := s.client.NewRequest("POST", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1086,7 +1087,7 @@ func (s *ProjectsService) EditProjectHook(pid interface{}, hook int, opt *EditPr
 	}
 	u := fmt.Sprintf("projects/%s/hooks/%d", pathEscape(project), hook)
 
-	req, err := s.client.NewRequest("PUT", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1112,7 +1113,7 @@ func (s *ProjectsService) DeleteProjectHook(pid interface{}, hook int, options .
 	}
 	u := fmt.Sprintf("projects/%s/hooks/%d", pathEscape(project), hook)
 
-	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
 		return nil, err
 	}
@@ -1140,7 +1141,7 @@ type ProjectForkRelation struct {
 func (s *ProjectsService) CreateProjectForkRelation(pid int, fork int, options ...RequestOptionFunc) (*ProjectForkRelation, *Response, error) {
 	u := fmt.Sprintf("projects/%d/fork/%d", pid, fork)
 
-	req, err := s.client.NewRequest("POST", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1161,7 +1162,7 @@ func (s *ProjectsService) CreateProjectForkRelation(pid int, fork int, options .
 func (s *ProjectsService) DeleteProjectForkRelation(pid int, options ...RequestOptionFunc) (*Response, error) {
 	u := fmt.Sprintf("projects/%d/fork", pid)
 
-	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
 		return nil, err
 	}
@@ -1216,7 +1217,7 @@ func (s *ProjectsService) UploadFile(pid interface{}, file string, options ...Re
 	req.Body = ioutil.NopCloser(b)
 	req.ContentLength = int64(b.Len())
 	req.Header.Set("Content-Type", w.FormDataContentType())
-	req.Method = "POST"
+	req.Method = http.MethodPost
 
 	uf := &ProjectFile{}
 	resp, err := s.client.Do(req, uf)
@@ -1238,7 +1239,7 @@ func (s *ProjectsService) ListProjectForks(pid interface{}, opt *ListProjectsOpt
 	}
 	u := fmt.Sprintf("projects/%s/forks", pathEscape(project))
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1284,7 +1285,7 @@ func (s *ProjectsService) GetProjectPushRules(pid interface{}, options ...Reques
 	}
 	u := fmt.Sprintf("projects/%s/push_rule", pathEscape(project))
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1328,7 +1329,7 @@ func (s *ProjectsService) AddProjectPushRule(pid interface{}, opt *AddProjectPus
 	}
 	u := fmt.Sprintf("projects/%s/push_rule", pathEscape(project))
 
-	req, err := s.client.NewRequest("POST", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1372,7 +1373,7 @@ func (s *ProjectsService) EditProjectPushRule(pid interface{}, opt *EditProjectP
 	}
 	u := fmt.Sprintf("projects/%s/push_rule", pathEscape(project))
 
-	req, err := s.client.NewRequest("PUT", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1399,7 +1400,7 @@ func (s *ProjectsService) DeleteProjectPushRule(pid interface{}, options ...Requ
 	}
 	u := fmt.Sprintf("projects/%s/push_rule", pathEscape(project))
 
-	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
 		return nil, err
 	}
@@ -1432,7 +1433,7 @@ func (s *ProjectsService) GetApprovalConfiguration(pid interface{}, options ...R
 	}
 	u := fmt.Sprintf("projects/%s/approvals", pathEscape(project))
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1470,7 +1471,7 @@ func (s *ProjectsService) ChangeApprovalConfiguration(pid interface{}, opt *Chan
 	}
 	u := fmt.Sprintf("projects/%s/approvals", pathEscape(project))
 
-	req, err := s.client.NewRequest("POST", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1495,7 +1496,7 @@ func (s *ProjectsService) GetProjectApprovalRules(pid interface{}, options ...Re
 	}
 	u := fmt.Sprintf("projects/%s/approval_rules", pathEscape(project))
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1533,7 +1534,7 @@ func (s *ProjectsService) CreateProjectApprovalRule(pid interface{}, opt *Create
 	}
 	u := fmt.Sprintf("projects/%s/approval_rules", pathEscape(project))
 
-	req, err := s.client.NewRequest("POST", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1571,7 +1572,7 @@ func (s *ProjectsService) UpdateProjectApprovalRule(pid interface{}, approvalRul
 	}
 	u := fmt.Sprintf("projects/%s/approval_rules/%d", pathEscape(project), approvalRule)
 
-	req, err := s.client.NewRequest("PUT", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1596,7 +1597,7 @@ func (s *ProjectsService) DeleteProjectApprovalRule(pid interface{}, approvalRul
 	}
 	u := fmt.Sprintf("projects/%s/approval_rules/%d", pathEscape(project), approvalRule)
 
-	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
 		return nil, err
 	}
@@ -1625,7 +1626,7 @@ func (s *ProjectsService) ChangeAllowedApprovers(pid interface{}, opt *ChangeAll
 	}
 	u := fmt.Sprintf("projects/%s/approvers", pathEscape(project))
 
-	req, err := s.client.NewRequest("PUT", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1650,7 +1651,7 @@ func (s *ProjectsService) StartMirroringProject(pid interface{}, options ...Requ
 	}
 	u := fmt.Sprintf("projects/%s/mirror/pull", pathEscape(project))
 
-	req, err := s.client.NewRequest("POST", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, nil, options)
 	if err != nil {
 		return nil, err
 	}
@@ -1680,7 +1681,7 @@ func (s *ProjectsService) TransferProject(pid interface{}, opt *TransferProjectO
 	}
 	u := fmt.Sprintf("projects/%s/transfer", pathEscape(project))
 
-	req, err := s.client.NewRequest("PUT", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}

@@ -28,7 +28,7 @@ func TestListFeatureFlags(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/features", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		fmt.Fprint(w, `
 		[
 			{
@@ -70,7 +70,7 @@ func TestSetFeatureFlag(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/features/new_library", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "POST")
+		testMethod(t, r, http.MethodPost)
 		fmt.Fprint(w, `
 		{
 			"name": "new_library",

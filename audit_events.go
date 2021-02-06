@@ -2,6 +2,7 @@ package gitlab
 
 import (
 	"fmt"
+	"net/http"
 	"time"
 )
 
@@ -68,7 +69,7 @@ func (s *AuditEventsService) ListGroupAuditEvents(gid interface{}, opt *ListAudi
 	}
 	u := fmt.Sprintf("groups/%s/audit_events", pathEscape(group))
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -92,7 +93,7 @@ func (s *AuditEventsService) GetGroupAuditEvent(gid interface{}, event int, opti
 	}
 	u := fmt.Sprintf("groups/%s/audit_events/%d", pathEscape(group), event)
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -117,7 +118,7 @@ func (s *AuditEventsService) ListProjectAuditEvents(pid interface{}, opt *ListAu
 	}
 	u := fmt.Sprintf("projects/%s/audit_events", pathEscape(project))
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -142,7 +143,7 @@ func (s *AuditEventsService) GetProjectAuditEvent(pid interface{}, event int, op
 	}
 	u := fmt.Sprintf("projects/%s/audit_events/%d", pathEscape(project), event)
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}

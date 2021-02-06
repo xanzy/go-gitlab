@@ -29,7 +29,7 @@ func TestCreateApplication(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/applications",
 		func(w http.ResponseWriter, r *http.Request) {
-			testMethod(t, r, "POST")
+			testMethod(t, r, http.MethodPost)
 			fmt.Fprint(w, `
 {
 	"id":1,
@@ -61,7 +61,7 @@ func TestListApplications(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/applications",
 		func(w http.ResponseWriter, r *http.Request) {
-			testMethod(t, r, "GET")
+			testMethod(t, r, http.MethodGet)
 			fmt.Fprint(w, `[
 	{"id":1},
 	{"id":2}
@@ -89,7 +89,7 @@ func TestDeleteApplication(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/applications/4",
 		func(w http.ResponseWriter, r *http.Request) {
-			testMethod(t, r, "DELETE")
+			testMethod(t, r, http.MethodDelete)
 			w.WriteHeader(http.StatusAccepted)
 		},
 	)

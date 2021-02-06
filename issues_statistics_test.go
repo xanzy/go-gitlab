@@ -29,7 +29,7 @@ func TestGetIssuesStatistics(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/issues_statistics", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		testURL(t, r, "/api/v4/issues_statistics?assignee_id=1&author_id=1")
 		fmt.Fprint(w, `{"statistics": {"counts": {"all": 20,"closed": 5,"opened": 15}}}`)
 	})
@@ -72,7 +72,7 @@ func TestGetGroupIssuesStatistics(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/groups/1/issues_statistics", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		testURL(t, r, "/api/v4/groups/1/issues_statistics?assignee_id=1&author_id=1")
 		fmt.Fprint(w, `{"statistics": {"counts": {"all": 20,"closed": 5,"opened": 15}}}`)
 	})
@@ -115,7 +115,7 @@ func TestGetProjectIssuesStatistics(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/issues_statistics", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		testURL(t, r, "/api/v4/projects/1/issues_statistics?assignee_id=1&author_id=1")
 		fmt.Fprint(w, `{"statistics": {"counts": {"all": 20,"closed": 5,"opened": 15}}}`)
 	})

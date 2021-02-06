@@ -18,6 +18,7 @@ package gitlab
 
 import (
 	"fmt"
+	"net/http"
 )
 
 // GroupLabelsService handles communication with the label related methods of the
@@ -53,7 +54,7 @@ func (s *GroupLabelsService) ListGroupLabels(gid interface{}, opt *ListGroupLabe
 	}
 	u := fmt.Sprintf("groups/%s/labels", pathEscape(group))
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -82,7 +83,7 @@ func (s *GroupLabelsService) GetGroupLabel(gid interface{}, labelID interface{},
 	}
 	u := fmt.Sprintf("groups/%s/labels/%s", pathEscape(group), label)
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -114,7 +115,7 @@ func (s *GroupLabelsService) CreateGroupLabel(gid interface{}, opt *CreateGroupL
 	}
 	u := fmt.Sprintf("groups/%s/labels", pathEscape(group))
 
-	req, err := s.client.NewRequest("POST", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -144,7 +145,7 @@ func (s *GroupLabelsService) DeleteGroupLabel(gid interface{}, opt *DeleteGroupL
 	}
 	u := fmt.Sprintf("groups/%s/labels", pathEscape(group))
 
-	req, err := s.client.NewRequest("DELETE", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodDelete, u, opt, options)
 	if err != nil {
 		return nil, err
 	}
@@ -170,7 +171,7 @@ func (s *GroupLabelsService) UpdateGroupLabel(gid interface{}, opt *UpdateGroupL
 	}
 	u := fmt.Sprintf("groups/%s/labels", pathEscape(group))
 
-	req, err := s.client.NewRequest("PUT", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -201,7 +202,7 @@ func (s *GroupLabelsService) SubscribeToGroupLabel(gid interface{}, labelID inte
 	}
 	u := fmt.Sprintf("groups/%s/labels/%s/subscribe", pathEscape(group), label)
 
-	req, err := s.client.NewRequest("POST", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -232,7 +233,7 @@ func (s *GroupLabelsService) UnsubscribeFromGroupLabel(gid interface{}, labelID 
 	}
 	u := fmt.Sprintf("groups/%s/labels/%s/unsubscribe", pathEscape(group), label)
 
-	req, err := s.client.NewRequest("POST", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, nil, options)
 	if err != nil {
 		return nil, err
 	}

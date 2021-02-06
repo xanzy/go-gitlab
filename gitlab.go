@@ -419,7 +419,7 @@ func (c *Client) configureLimiter() error {
 	}()
 
 	// Create a new request.
-	req, err := http.NewRequest("GET", c.baseURL.String(), nil)
+	req, err := http.NewRequest(http.MethodGet, c.baseURL.String(), nil)
 	if err != nil {
 		return err
 	}
@@ -503,7 +503,7 @@ func (c *Client) NewRequest(method, path string, opt interface{}, options []Requ
 
 	var body interface{}
 	switch {
-	case method == "POST" || method == "PUT":
+	case method == http.MethodPost || method == http.MethodPut:
 		reqHeaders.Set("Content-Type", "application/json")
 
 		if opt != nil {

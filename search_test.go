@@ -28,7 +28,7 @@ func TestSearchService_Users(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/search", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		mustWriteHTTPResponse(t, w, "testdata/search_users.json")
 	})
 
@@ -53,7 +53,7 @@ func TestSearchService_UsersByGroup(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/groups/3/-/search", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		mustWriteHTTPResponse(t, w, "testdata/search_users.json")
 	})
 
@@ -78,7 +78,7 @@ func TestSearchService_UsersByProject(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/6/-/search", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		mustWriteHTTPResponse(t, w, "testdata/search_users.json")
 	})
 

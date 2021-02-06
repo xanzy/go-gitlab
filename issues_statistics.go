@@ -18,6 +18,7 @@ package gitlab
 
 import (
 	"fmt"
+	"net/http"
 	"time"
 )
 
@@ -75,7 +76,7 @@ type GetIssuesStatisticsOptions struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/issues_statistics.html#get-issues-statistics
 func (s *IssuesStatisticsService) GetIssuesStatistics(opt *GetIssuesStatisticsOptions, options ...RequestOptionFunc) (*IssuesStatistics, *Response, error) {
-	req, err := s.client.NewRequest("GET", "issues_statistics", opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, "issues_statistics", opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -123,7 +124,7 @@ func (s *IssuesStatisticsService) GetGroupIssuesStatistics(gid interface{}, opt 
 	}
 	u := fmt.Sprintf("groups/%s/issues_statistics", pathEscape(group))
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -171,7 +172,7 @@ func (s *IssuesStatisticsService) GetProjectIssuesStatistics(pid interface{}, op
 	}
 	u := fmt.Sprintf("projects/%s/issues_statistics", pathEscape(project))
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}

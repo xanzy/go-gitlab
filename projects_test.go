@@ -32,7 +32,7 @@ func TestListProjects(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
 	})
 
@@ -62,7 +62,7 @@ func TestListUserProjects(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/users/1/projects", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
 	})
 
@@ -93,7 +93,7 @@ func TestListProjectsUsersByID(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/", func(w http.ResponseWriter, r *http.Request) {
 		testURL(t, r, "/api/v4/projects/1/users?page=2&per_page=3&search=query")
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
 	})
 
@@ -119,7 +119,7 @@ func TestListProjectsUsersByName(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/", func(w http.ResponseWriter, r *http.Request) {
 		testURL(t, r, "/api/v4/projects/namespace%2Fname/users?page=2&per_page=3&search=query")
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
 	})
 
@@ -144,7 +144,7 @@ func TestListOwnedProjects(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
 	})
 
@@ -175,7 +175,7 @@ func TestListStarredProjects(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
 	})
 
@@ -206,7 +206,7 @@ func TestGetProjectByID(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		fmt.Fprint(w, `{
 			"id": 1,
 			"container_registry_enabled": true,
@@ -250,7 +250,7 @@ func TestGetProjectByName(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/", func(w http.ResponseWriter, r *http.Request) {
 		testURL(t, r, "/api/v4/projects/namespace%2Fname")
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		fmt.Fprint(w, `{"id":1}`)
 	})
 	want := &Project{ID: 1}
@@ -270,7 +270,7 @@ func TestGetProjectWithOptions(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		fmt.Fprint(w, `{
 			"id":1,
 			"statistics": {
@@ -306,7 +306,7 @@ func TestCreateProject(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "POST")
+		testMethod(t, r, http.MethodPost)
 		fmt.Fprint(w, `{"id":1}`)
 	})
 
@@ -371,7 +371,7 @@ func TestListProjectForks(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/", func(w http.ResponseWriter, r *http.Request) {
 		testURL(t, r, "/api/v4/projects/namespace%2Fname/forks?archived=true&order_by=name&page=2&per_page=3&search=query&simple=true&sort=asc&visibility=public")
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
 	})
 
@@ -400,7 +400,7 @@ func TestShareProjectWithGroup(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/share", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "POST")
+		testMethod(t, r, http.MethodPost)
 	})
 
 	opt := &ShareWithGroupOptions{
@@ -419,7 +419,7 @@ func TestDeleteSharedProjectFromGroup(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/share/2", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "DELETE")
+		testMethod(t, r, http.MethodDelete)
 	})
 
 	_, err := client.Projects.DeleteSharedProjectFromGroup(1, 2)
@@ -433,7 +433,7 @@ func TestGetApprovalConfiguration(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/approvals", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		fmt.Fprint(w, `{
 			"approvers": [],
 			"approver_groups": [],
@@ -470,7 +470,7 @@ func TestChangeApprovalConfiguration(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/approvals", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "POST")
+		testMethod(t, r, http.MethodPost)
 		testBody(t, r, `{"approvals_before_merge":3}`)
 		fmt.Fprint(w, `{
 			"approvers": [],
@@ -512,7 +512,7 @@ func TestChangeAllowedApprovers(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/approvers", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "PUT")
+		testMethod(t, r, http.MethodPut)
 		testBody(t, r, `{"approver_ids":[1],"approver_group_ids":[2]}`)
 		fmt.Fprint(w, `{
 			"approvers": [{"user":{"id":1}}],
@@ -573,7 +573,7 @@ func TestForkProject(t *testing.T) {
 	path := "myrepopath"
 
 	mux.HandleFunc("/api/v4/projects/1/fork", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "POST")
+		testMethod(t, r, http.MethodPost)
 		testBody(t, r, fmt.Sprintf(`{"namespace":"%s","name":"%s","path":"%s"}`, namespace, name, path))
 		fmt.Fprint(w, `{"id":2}`)
 	})
@@ -598,7 +598,7 @@ func TestGetProjectApprovalRules(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/approval_rules", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		fmt.Fprint(w, `[
 			{
 				"id": 1,
@@ -773,7 +773,7 @@ func TestCreateProjectApprovalRule(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/approval_rules", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "POST")
+		testMethod(t, r, http.MethodPost)
 		fmt.Fprint(w, `{
 			"id": 1,
 			"name": "security",

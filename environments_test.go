@@ -32,7 +32,7 @@ func TestListEnvironments(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/environments", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		testURL(t, r, "/api/v4/projects/1/environments?page=1&per_page=10")
 		fmt.Fprint(w, `[{"id": 1,"name": "review/fix-foo", "slug": "review-fix-foo-dfjre3", "external_url": "https://review-fix-foo-dfjre3.example.gitlab.com"}]`)
 	})
@@ -53,7 +53,7 @@ func TestGetEnvironment(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/environments/5949167", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		fmt.Fprint(w, `{"id":1,"name":"test/test"}`)
 	})
 
@@ -73,7 +73,7 @@ func TestCreateEnvironment(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/environments", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "POST")
+		testMethod(t, r, http.MethodPost)
 		testURL(t, r, "/api/v4/projects/1/environments")
 		fmt.Fprint(w, `{"id": 1,"name": "deploy", "slug": "deploy", "external_url": "https://deploy.example.gitlab.com"}`)
 	})
@@ -94,7 +94,7 @@ func TestEditEnvironment(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/environments/1", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "PUT")
+		testMethod(t, r, http.MethodPut)
 		testURL(t, r, "/api/v4/projects/1/environments/1")
 		fmt.Fprint(w, `{"id": 1,"name": "staging", "slug": "staging", "external_url": "https://staging.example.gitlab.com"}`)
 	})
@@ -115,7 +115,7 @@ func TestDeleteEnvironment(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/environments/1", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "DELETE")
+		testMethod(t, r, http.MethodDelete)
 		testURL(t, r, "/api/v4/projects/1/environments/1")
 	})
 	_, err := client.Environments.DeleteEnvironment(1, 1)
@@ -129,7 +129,7 @@ func TestStopEnvironment(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1/environments/1/stop", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "POST")
+		testMethod(t, r, http.MethodPost)
 		testURL(t, r, "/api/v4/projects/1/environments/1/stop")
 	})
 	_, err := client.Environments.StopEnvironment(1, 1)

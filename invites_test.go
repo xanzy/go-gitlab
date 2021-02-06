@@ -12,7 +12,7 @@ func TestListGroupPendingInvites(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/groups/test/invitations", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
 	})
 
@@ -36,7 +36,7 @@ func TestGroupInvites(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/groups/test/invitations", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "POST")
+		testMethod(t, r, http.MethodPost)
 		fmt.Fprint(w, `{"status": "success"}`)
 	})
 
@@ -60,7 +60,7 @@ func TestGroupInvitesError(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/groups/test/invitations", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "POST")
+		testMethod(t, r, http.MethodPost)
 		fmt.Fprint(w, `{"status": "error","message": {"example@member.org": "Already invited"}}`)
 	})
 
@@ -84,7 +84,7 @@ func TestListProjectPendingInvites(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/test/invitations", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "GET")
+		testMethod(t, r, http.MethodGet)
 		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
 	})
 
@@ -108,7 +108,7 @@ func TestProjectInvites(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/test/invitations", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "POST")
+		testMethod(t, r, http.MethodPost)
 		fmt.Fprint(w, `{"status": "success"}`)
 	})
 
@@ -132,7 +132,7 @@ func TestProjectInvitesError(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/test/invitations", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, "POST")
+		testMethod(t, r, http.MethodPost)
 		fmt.Fprint(w, `{"status": "error","message": {"example@member.org": "Already invited"}}`)
 	})
 
