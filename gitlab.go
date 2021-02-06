@@ -408,7 +408,7 @@ func rateLimitBackoff(min, max time.Duration, attemptNum int, resp *http.Respons
 }
 
 // configureLimiter configures the rate limiter.
-func (c *Client) configureLimiter() error {
+func (c *Client) configureLimiter(ctx context.Context) error {
 	// Set default values for when rate limiting is disabled.
 	limit := rate.Inf
 	burst := 0
@@ -419,7 +419,7 @@ func (c *Client) configureLimiter() error {
 	}()
 
 	// Create a new request.
-	req, err := http.NewRequest(http.MethodGet, c.baseURL.String(), nil)
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, c.baseURL.String(), nil)
 	if err != nil {
 		return err
 	}
@@ -607,7 +607,7 @@ func (r *Response) populatePageValues() {
 func (c *Client) Do(req *retryablehttp.Request, v interface{}) (*Response, error) {
 	// If not yet configured, try to configure the rate limiter. Fail
 	// silently as the limiter will be disabled in case of an error.
-	c.configureLimiterOnce.Do(func() { c.configureLimiter() })
+	c.configureLimiterOnce.Do(func() { c.configureLimiter(req.Context()) })
 
 	// Wait will block until the limiter can obtain a new token.
 	err := c.limiter.Wait(req.Context())
