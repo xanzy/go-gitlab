@@ -42,6 +42,7 @@ to add new and/or missing endpoints. Currently the following services are suppor
 - [x] Group Issue Boards
 - [x] Group Members
 - [x] Group Milestones
+- [x] Group Wikis
 - [x] Group-Level Variables
 - [x] Groups
 - [x] Instance Clusters
