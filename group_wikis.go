@@ -17,20 +17,8 @@ package gitlab
 
 import (
 	"fmt"
+	"net/http"
 	"net/url"
-)
-
-// GroupWikiFormat represents the available wiki formats.
-//
-// GitLab API docs: https://docs.gitlab.com/13.8/ee/api/group_wikis.html
-type GroupWikiFormat string
-
-// The available wiki formats.
-const (
-	GroupWikiFormatMarkdown GroupWikiFormat = "markdown"
-	GroupWikiFormatRDoc     GroupWikiFormat = "rdoc"
-	GroupWikiFormatASCIIDoc GroupWikiFormat = "asciidoc"
-	GroupWikiFormatOrg      GroupWikiFormat = "org"
 )
 
 // GroupWikisService handles communication with the group wikis related methods of
@@ -46,7 +34,7 @@ type GroupWikisService struct {
 // GitLab API docs: https://docs.gitlab.com/ee/api/group_wikis.html
 type GroupWiki struct {
 	Content string          `json:"content"`
-	Format  GroupWikiFormat `json:"format"`
+	Format  WikiFormatValue `json:"format"`
 	Slug    string          `json:"slug"`
 	Title   string          `json:"title"`
 }
@@ -75,18 +63,18 @@ func (s *GroupWikisService) ListGroupWikis(gid interface{}, opt *ListGroupWikisO
 	}
 	u := fmt.Sprintf("groups/%s/wikis", pathEscape(group))
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	var w []*GroupWiki
-	resp, err := s.client.Do(req, &w)
+	var gws []*GroupWiki
+	resp, err := s.client.Do(req, &gws)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return w, resp, err
+	return gws, resp, err
 }
 
 // GetGroupWikiPage gets a wiki page for a given group.
@@ -100,18 +88,18 @@ func (s *GroupWikisService) GetGroupWikiPage(gid interface{}, slug string, optio
 	}
 	u := fmt.Sprintf("groups/%s/wikis/%s", pathEscape(group), url.PathEscape(slug))
 
-	req, err := s.client.NewRequest("GET", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	var w *GroupWiki
-	resp, err := s.client.Do(req, &w)
+	gw := new(GroupWiki)
+	resp, err := s.client.Do(req, gw)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return w, resp, err
+	return gw, resp, err
 }
 
 // CreateGroupWikiPageOptions represents options to CreateGroupWikiPage.
@@ -119,9 +107,9 @@ func (s *GroupWikisService) GetGroupWikiPage(gid interface{}, slug string, optio
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/group_wikis.html#create-a-new-wiki-page
 type CreateGroupWikiPageOptions struct {
-	Content *string `url:"content" json:"content"`
-	Title   *string `url:"title" json:"title"`
-	Format  *string `url:"format,omitempty" json:"format,omitempty"`
+	Content *string          `url:"content,omitempty" json:"content,omitempty"`
+	Title   *string          `url:"title,omitempty" json:"title,omitempty"`
+	Format  *WikiFormatValue `url:"format,omitempty" json:"format,omitempty"`
 }
 
 // CreateGroupWikiPage creates a new wiki page for the given group with
@@ -136,7 +124,7 @@ func (s *GroupWikisService) CreateGroupWikiPage(gid interface{}, opt *CreateGrou
 	}
 	u := fmt.Sprintf("groups/%s/wikis", pathEscape(group))
 
-	req, err := s.client.NewRequest("POST", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -155,9 +143,9 @@ func (s *GroupWikisService) CreateGroupWikiPage(gid interface{}, opt *CreateGrou
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/group_wikis.html#edit-an-existing-wiki-page
 type EditGroupWikiPageOptions struct {
-	Content *string `url:"content" json:"content"`
-	Title   *string `url:"title" json:"title"`
-	Format  *string `url:"format,omitempty" json:"format,omitempty"`
+	Content *string          `url:"content,omitempty" json:"content,omitempty"`
+	Title   *string          `url:"title,omitempty" json:"title,omitempty"`
+	Format  *WikiFormatValue `url:"format,omitempty" json:"format,omitempty"`
 }
 
 // EditGroupWikiPage Updates an existing wiki page. At least one parameter is
@@ -172,7 +160,7 @@ func (s *GroupWikisService) EditGroupWikiPage(gid interface{}, slug string, opt 
 	}
 	u := fmt.Sprintf("groups/%s/wikis/%s", pathEscape(group), url.PathEscape(slug))
 
-	req, err := s.client.NewRequest("PUT", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -197,7 +185,7 @@ func (s *GroupWikisService) DeleteGroupWikiPage(gid interface{}, slug string, op
 	}
 	u := fmt.Sprintf("groups/%s/wikis/%s", pathEscape(group), url.PathEscape(slug))
 
-	req, err := s.client.NewRequest("DELETE", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
 		return nil, err
 	}

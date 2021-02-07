@@ -338,6 +338,27 @@ func VariableType(v VariableTypeValue) *VariableTypeValue {
 	return p
 }
 
+// WikiFormat represents the available wiki formats.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/wikis.html
+type WikiFormatValue string
+
+// The available wiki formats.
+const (
+	WikiFormatMarkdown WikiFormatValue = "markdown"
+	WikiFormatRDoc     WikiFormatValue = "rdoc"
+	WikiFormatASCIIDoc WikiFormatValue = "asciidoc"
+	WikiFormatOrg      WikiFormatValue = "org"
+)
+
+// WikiFormat is a helper routine that allocates a new WikiFormatValue
+// to store v and returns a pointer to it.
+func WikiFormat(v WikiFormatValue) *WikiFormatValue {
+	p := new(WikiFormatValue)
+	*p = v
+	return p
+}
+
 // MergeMethodValue represents a project merge type within GitLab.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#project-merge-method
