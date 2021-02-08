@@ -232,7 +232,7 @@ type ModifyUserOptions struct {
 	SkipReconfirmation *bool   `url:"skip_reconfirmation,omitempty" json:"skip_reconfirmation,omitempty"`
 	External           *bool   `url:"external,omitempty" json:"external,omitempty"`
 	PrivateProfile     *bool   `url:"private_profile,omitempty" json:"private_profile,omitempty"`
-	Note               *string `url:"note" json:"note,omitempty"`
+	Note               *string `url:"note,omitempty" json:"note,omitempty"`
 }
 
 // ModifyUser modifies an existing user. Only administrators can change attributes
