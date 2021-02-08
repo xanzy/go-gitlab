@@ -321,19 +321,21 @@ func (s *GroupsService) SearchGroup(query string, options ...RequestOptionFunc) 
 // https://docs.gitlab.com/ce/api/groups.html#list-a-group-39-s-projects
 type ListGroupProjectsOptions struct {
 	ListOptions
-	Archived                 *bool            `url:"archived,omitempty" json:"archived,omitempty"`
-	Visibility               *VisibilityValue `url:"visibility,omitempty" json:"visibility,omitempty"`
-	OrderBy                  *string          `url:"order_by,omitempty" json:"order_by,omitempty"`
-	Sort                     *string          `url:"sort,omitempty" json:"sort,omitempty"`
-	Search                   *string          `url:"search,omitempty" json:"search,omitempty"`
-	Simple                   *bool            `url:"simple,omitempty" json:"simple,omitempty"`
-	Owned                    *bool            `url:"owned,omitempty" json:"owned,omitempty"`
-	Starred                  *bool            `url:"starred,omitempty" json:"starred,omitempty"`
-	WithIssuesEnabled        *bool            `url:"with_issues_enabled,omitempty" json:"with_issues_enabled,omitempty"`
-	WithMergeRequestsEnabled *bool            `url:"with_merge_requests_enabled,omitempty" json:"with_merge_requests_enabled,omitempty"`
-	WithShared               *bool            `url:"with_shared,omitempty" json:"with_shared,omitempty"`
-	IncludeSubgroups         *bool            `url:"include_subgroups,omitempty" json:"include_subgroups,omitempty"`
-	WithCustomAttributes     *bool            `url:"with_custom_attributes,omitempty" json:"with_custom_attributes,omitempty"`
+	Archived                 *bool             `url:"archived,omitempty" json:"archived,omitempty"`
+	Visibility               *VisibilityValue  `url:"visibility,omitempty" json:"visibility,omitempty"`
+	OrderBy                  *string           `url:"order_by,omitempty" json:"order_by,omitempty"`
+	Sort                     *string           `url:"sort,omitempty" json:"sort,omitempty"`
+	Search                   *string           `url:"search,omitempty" json:"search,omitempty"`
+	Simple                   *bool             `url:"simple,omitempty" json:"simple,omitempty"`
+	Owned                    *bool             `url:"owned,omitempty" json:"owned,omitempty"`
+	Starred                  *bool             `url:"starred,omitempty" json:"starred,omitempty"`
+	WithIssuesEnabled        *bool             `url:"with_issues_enabled,omitempty" json:"with_issues_enabled,omitempty"`
+	WithMergeRequestsEnabled *bool             `url:"with_merge_requests_enabled,omitempty" json:"with_merge_requests_enabled,omitempty"`
+	WithShared               *bool             `url:"with_shared,omitempty" json:"with_shared,omitempty"`
+	IncludeSubgroups         *bool             `url:"include_subgroups,omitempty" json:"include_subgroups,omitempty"`
+	MinAccessLevel           *AccessLevelValue `url:"min_access_level,omitempty" json:"min_access_level,omitempty"`
+	WithCustomAttributes     *bool             `url:"with_custom_attributes,omitempty" json:"with_custom_attributes,omitempty"`
+	WithSecurityReports      *bool             `url:"with_security_reports,omitempty" json:"with_security_reports,omitempty"`
 }
 
 // ListGroupProjects get a list of group projects
