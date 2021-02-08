@@ -531,6 +531,57 @@ func (s *GroupsService) DeleteGroupLDAPLinkForProvider(gid interface{}, provider
 	return s.client.Do(req, nil)
 }
 
+// GroupShareWithGroupOptions represents options to share group with groups
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/groups.html#share-groups-with-groups
+type GroupShareWithGroupOptions struct {
+	GroupID     *int              `url:"group_id" json:"group_id"`
+	GroupAccess *AccessLevelValue `url:"group_access" json:"group_access"`
+	ExpiresAt   *string           `url:"expires_at" json:"expires_at"`
+}
+
+// ShareGroupWithGroup allows to share a group with a group.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/groups.html#create-a-link-to-share-a-group-with-another-group
+func (s *GroupsService) ShareGroupWithGroup(gid interface{}, opt *GroupShareWithGroupOptions, options ...RequestOptionFunc) (*Group, *Response, error) {
+	group, err := parseID(gid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("groups/%s/share", pathEscape(group))
+
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	g := new(Group)
+	resp, err := s.client.Do(req, g)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return g, resp, err
+}
+
+// DeleteSharedGroupFromGroup allows to unshare a group from a group.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/groups.html#delete-link-sharing-group-with-another-group
+func (s *GroupsService) DeleteSharedGroupFromGroup(gid interface{}, groupID int, options ...RequestOptionFunc) (*Response, error) {
+	group, err := parseID(gid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("groups/%s/share/%d", pathEscape(group), groupID)
+
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
+
 // GroupPushRules represents a group push rule.
 //
 // GitLab API docs:
