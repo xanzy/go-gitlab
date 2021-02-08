@@ -188,6 +188,7 @@ type CreateUserOptions struct {
 	SkipConfirmation    *bool   `url:"skip_confirmation,omitempty" json:"skip_confirmation,omitempty"`
 	External            *bool   `url:"external,omitempty" json:"external,omitempty"`
 	PrivateProfile      *bool   `url:"private_profile,omitempty" json:"private_profile,omitempty"`
+	Note                *string `url:"note" json:"note,omitempty"`
 }
 
 // CreateUser creates a new user. Note only administrators can create new users.
@@ -231,6 +232,7 @@ type ModifyUserOptions struct {
 	SkipReconfirmation *bool   `url:"skip_reconfirmation,omitempty" json:"skip_reconfirmation,omitempty"`
 	External           *bool   `url:"external,omitempty" json:"external,omitempty"`
 	PrivateProfile     *bool   `url:"private_profile,omitempty" json:"private_profile,omitempty"`
+	Note               *string `url:"note" json:"note,omitempty"`
 }
 
 // ModifyUser modifies an existing user. Only administrators can change attributes
