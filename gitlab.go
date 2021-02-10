@@ -160,6 +160,7 @@ type Client struct {
 	ProjectVariables      *ProjectVariablesService
 	Projects              *ProjectsService
 	ProtectedBranches     *ProtectedBranchesService
+	ProtectedEnvironments *ProtectedEnvironmentsService
 	ProtectedTags         *ProtectedTagsService
 	ReleaseLinks          *ReleaseLinksService
 	Releases              *ReleasesService
@@ -328,6 +329,7 @@ func newClient(options ...ClientOptionFunc) (*Client, error) {
 	c.ProjectVariables = &ProjectVariablesService{client: c}
 	c.Projects = &ProjectsService{client: c}
 	c.ProtectedBranches = &ProtectedBranchesService{client: c}
+	c.ProtectedEnvironments = &ProtectedEnvironmentsService{client: c}
 	c.ProtectedTags = &ProtectedTagsService{client: c}
 	c.ReleaseLinks = &ReleaseLinksService{client: c}
 	c.Releases = &ReleasesService{client: c}
