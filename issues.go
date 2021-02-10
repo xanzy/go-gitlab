@@ -329,6 +329,7 @@ type ListProjectIssuesOptions struct {
 	In                 *string    `url:"in,omitempty" json:"in,omitempty"`
 	CreatedAfter       *time.Time `url:"created_after,omitempty" json:"created_after,omitempty"`
 	CreatedBefore      *time.Time `url:"created_before,omitempty" json:"created_before,omitempty"`
+	DueDate            *string    `url:"due_date,omitempty" json:"due_date,omitempty"`
 	UpdatedAfter       *time.Time `url:"updated_after,omitempty" json:"updated_after,omitempty"`
 	UpdatedBefore      *time.Time `url:"updated_before,omitempty" json:"updated_before,omitempty"`
 	Confidential       *bool      `url:"confidential,omitempty" json:"confidential,omitempty"`
