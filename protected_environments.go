@@ -123,8 +123,8 @@ func (s *ProtectedEnvironmentsService) GetProtectedEnvironment(pid interface{}, 
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/protected_environments.html#protect-repository-environments
 type ProtectRepositoryEnvironmentsOptions struct {
-	Name               *string                  `url:"name" json:"name"`
-	DeployAccessLevels *EnvironmentAccessOption `url:"deploy_access_levels,omitempty" json:"deploy_access_levels,omitempty"`
+	Name               *string                    `url:"name" json:"name"`
+	DeployAccessLevels []*EnvironmentAccessOption `url:"deploy_access_levels,omitempty" json:"deploy_access_levels,omitempty"`
 }
 
 // ProtectRepositoryEnvironments protects a single repository environment or several project
