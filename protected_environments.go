@@ -50,6 +50,16 @@ type EnvironmentAccessDescription struct {
 	GroupID                *int             `json:"group_id"`
 }
 
+// EnvironmentAccessOption represents the options for an access decription for a protected environment.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/protected_environments.html#protect-repository-environments
+type EnvironmentAccessOption struct {
+	AccessLevel *AccessLevelValue `json:"access_level,omitempty"`
+	UserID      *int              `json:"user_id,omitempty"`
+	GroupID     *int              `json:"group_id,omitempty"`
+}
+
 // ListProtectedEnvironmentsOptions represents the available ListProtectedEnvironments()
 // options.
 //
@@ -113,8 +123,8 @@ func (s *ProtectedEnvironmentsService) GetProtectedEnvironment(pid interface{}, 
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/protected_environments.html#protect-repository-environments
 type ProtectRepositoryEnvironmentsOptions struct {
-	Name              *string           `url:"name" json:"name"`
-	DeployAccessLevel *AccessLevelValue `url:"deploy_access_level,omitempty" json:"deploy_access_level,omitempty"`
+	Name               *string                  `url:"name" json:"name"`
+	DeployAccessLevels *EnvironmentAccessOption `url:"deploy_access_levels,omitempty" json:"deploy_access_levels,omitempty"`
 }
 
 // ProtectRepositoryEnvironments protects a single repository environment or several project
