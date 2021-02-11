@@ -541,7 +541,7 @@ type ShareGroupWithGroupOptions struct {
 	ExpiresAt   *ISOTime          `url:"expires_at,omitempty" json:"expires_at,omitempty"`
 }
 
-// ShareGroupWithGroup allows to share a group with a group.
+// ShareGroupWithGroup shares a group with another group.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/groups.html#create-a-link-to-share-a-group-with-another-group
