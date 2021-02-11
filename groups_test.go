@@ -310,7 +310,7 @@ func TestShareGroupWithGroup(t *testing.T) {
 			fmt.Fprint(w, `{"id": 1, "name": "g"}`)
 		})
 
-	group, _, err := client.Groups.ShareGroupWithGroup(1, &GroupShareWithGroupOptions{
+	group, _, err := client.Groups.ShareGroupWithGroup(1, &ShareGroupWithGroupOptions{
 		GroupID:     Int(1),
 		GroupAccess: AccessLevel(DeveloperPermissions),
 	})
@@ -323,7 +323,7 @@ func TestShareGroupWithGroup(t *testing.T) {
 	}
 }
 
-func TestDeleteSharedGroupFromGroup(t *testing.T) {
+func TestUnshareGroupFromGroup(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
 	mux.HandleFunc("/api/v4/groups/1/share/2",
@@ -332,11 +332,11 @@ func TestDeleteSharedGroupFromGroup(t *testing.T) {
 			w.WriteHeader(204)
 		})
 
-	r, err := client.Groups.DeleteSharedGroupFromGroup(1, 2)
+	r, err := client.Groups.UnshareGroupFromGroup(1, 2)
 	if err != nil {
-		t.Errorf("Groups.DeleteSharedGroupFromGroup returned error: %v", err)
+		t.Errorf("Groups.UnshareGroupFromGroup returned error: %v", err)
 	}
 	if r.StatusCode != 204 {
-		t.Errorf("Groups.DeleteSharedGroupFromGroup returned status code %d", r.StatusCode)
+		t.Errorf("Groups.UnshareGroupFromGroup returned status code %d", r.StatusCode)
 	}
 }
