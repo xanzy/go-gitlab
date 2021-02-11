@@ -121,18 +121,26 @@ func DeploymentStatus(v DeploymentStatusValue) *DeploymentStatusValue {
 	return p
 }
 
-// FileAction represents the available actions that can be performed on a file.
+// FileActionValue represents the available actions that can be performed on a file.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/commits.html#create-a-commit-with-multiple-files-and-actions
-type FileAction string
+type FileActionValue string
 
 // The available file actions.
 const (
-	FileCreate FileAction = "create"
-	FileDelete FileAction = "delete"
-	FileMove   FileAction = "move"
-	FileUpdate FileAction = "update"
+	FileCreate FileActionValue = "create"
+	FileDelete FileActionValue = "delete"
+	FileMove   FileActionValue = "move"
+	FileUpdate FileActionValue = "update"
 )
+
+// FileAction is a helper routine that allocates a new FileActionValue value
+// to store v and returns a pointer to it.
+func FileAction(v FileActionValue) *FileActionValue {
+	p := new(FileActionValue)
+	*p = v
+	return p
+}
 
 // ISOTime represents an ISO 8601 formatted date
 type ISOTime time.Time

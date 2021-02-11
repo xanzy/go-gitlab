@@ -197,13 +197,13 @@ type CreateCommitOptions struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/commits.html#create-a-commit-with-multiple-files-and-actions
 type CommitActionOptions struct {
-	Action          *FileAction `url:"action,omitempty" json:"action,omitempty"`
-	FilePath        *string     `url:"file_path,omitempty" json:"file_path,omitempty"`
-	PreviousPath    *string     `url:"previous_path,omitempty" json:"previous_path,omitempty"`
-	Content         *string     `url:"content,omitempty" json:"content,omitempty"`
-	Encoding        *string     `url:"encoding,omitempty" json:"encoding,omitempty"`
-	LastCommitID    *string     `url:"last_commit_id,omitempty" json:"last_commit_id,omitempty"`
-	ExecuteFilemode *bool       `url:"execute_filemode,omitempty" json:"execute_filemode,omitempty"`
+	Action          *FileActionValue `url:"action,omitempty" json:"action,omitempty"`
+	FilePath        *string          `url:"file_path,omitempty" json:"file_path,omitempty"`
+	PreviousPath    *string          `url:"previous_path,omitempty" json:"previous_path,omitempty"`
+	Content         *string          `url:"content,omitempty" json:"content,omitempty"`
+	Encoding        *string          `url:"encoding,omitempty" json:"encoding,omitempty"`
+	LastCommitID    *string          `url:"last_commit_id,omitempty" json:"last_commit_id,omitempty"`
+	ExecuteFilemode *bool            `url:"execute_filemode,omitempty" json:"execute_filemode,omitempty"`
 }
 
 // CreateCommit creates a commit with multiple files and actions.
