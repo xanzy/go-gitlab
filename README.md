@@ -73,6 +73,7 @@ to add new and/or missing endpoints. Currently the following services are suppor
 - [x] Project-Level Variables
 - [x] Projects (including setting Webhooks)
 - [x] Protected Branches
+- [x] Protected Environments
 - [x] Protected Tags
 - [x] Repositories
 - [x] Repository Files
