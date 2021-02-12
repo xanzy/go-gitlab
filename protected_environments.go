@@ -21,8 +21,8 @@ import (
 	"net/http"
 )
 
-// ProtectedEnvironmentsService handles communication with the protected environment methods
-// of the GitLab API.
+// ProtectedEnvironmentsService handles communication with the protected
+// environment methods of the GitLab API.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/protected_environments.html
@@ -39,29 +39,20 @@ type ProtectedEnvironment struct {
 	DeployAccessLevels []*EnvironmentAccessDescription `json:"deploy_access_levels"`
 }
 
-// EnvironmentAccessDescription represents the access decription for a protected environment.
+// EnvironmentAccessDescription represents the access decription for a protected
+// environment.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/protected_environments.html
 type EnvironmentAccessDescription struct {
 	AccessLevel            AccessLevelValue `json:"access_level"`
 	AccessLevelDescription string           `json:"access_level_description"`
-	UserID                 *int             `json:"user_id"`
-	GroupID                *int             `json:"group_id"`
+	UserID                 int              `json:"user_id"`
+	GroupID                int              `json:"group_id"`
 }
 
-// EnvironmentAccessOption represents the options for an access decription for a protected environment.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ee/api/protected_environments.html#protect-repository-environments
-type EnvironmentAccessOption struct {
-	AccessLevel *AccessLevelValue `json:"access_level,omitempty"`
-	UserID      *int              `json:"user_id,omitempty"`
-	GroupID     *int              `json:"group_id,omitempty"`
-}
-
-// ListProtectedEnvironmentsOptions represents the available ListProtectedEnvironments()
-// options.
+// ListProtectedEnvironmentsOptions represents the available
+// ListProtectedEnvironments() options.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/protected_environments.html#list-protected-environments
@@ -83,13 +74,13 @@ func (s *ProtectedEnvironmentsService) ListProtectedEnvironments(pid interface{}
 		return nil, nil, err
 	}
 
-	var pts []*ProtectedEnvironment
-	resp, err := s.client.Do(req, &pts)
+	var pes []*ProtectedEnvironment
+	resp, err := s.client.Do(req, &pes)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return pts, resp, err
+	return pes, resp, err
 }
 
 // GetProtectedEnvironment returns a single protected environment or wildcard protected environment.
@@ -108,23 +99,34 @@ func (s *ProtectedEnvironmentsService) GetProtectedEnvironment(pid interface{}, 
 		return nil, nil, err
 	}
 
-	pt := new(ProtectedEnvironment)
-	resp, err := s.client.Do(req, pt)
+	pe := new(ProtectedEnvironment)
+	resp, err := s.client.Do(req, pe)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return pt, resp, err
+	return pe, resp, err
 }
 
-// ProtectRepositoryEnvironmentsOptions represents the available ProtectRepositoryEnvironments()
-// options.
+// ProtectRepositoryEnvironmentsOptions represents the available
+// ProtectRepositoryEnvironments() options.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/protected_environments.html#protect-repository-environments
 type ProtectRepositoryEnvironmentsOptions struct {
-	Name               *string                    `url:"name" json:"name"`
-	DeployAccessLevels []*EnvironmentAccessOption `url:"deploy_access_levels,omitempty" json:"deploy_access_levels,omitempty"`
+	Name               *string                     `url:"name,omitempty" json:"name,omitempty"`
+	DeployAccessLevels []*EnvironmentAccessOptions `url:"deploy_access_levels,omitempty" json:"deploy_access_levels,omitempty"`
+}
+
+// EnvironmentAccessOptions represents the options for an access decription for
+// a protected environment.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/protected_environments.html#protect-repository-environments
+type EnvironmentAccessOptions struct {
+	AccessLevel *AccessLevelValue `url:"access_level,omitempty" json:"access_level,omitempty"`
+	UserID      *int              `url:"user_id,omitempty" json:"user_id,omitempty"`
+	GroupID     *int              `url:"group_id,omitempty" json:"group_id,omitempty"`
 }
 
 // ProtectRepositoryEnvironments protects a single repository environment or several project
@@ -144,13 +146,13 @@ func (s *ProtectedEnvironmentsService) ProtectRepositoryEnvironments(pid interfa
 		return nil, nil, err
 	}
 
-	pt := new(ProtectedEnvironment)
-	resp, err := s.client.Do(req, pt)
+	pe := new(ProtectedEnvironment)
+	resp, err := s.client.Do(req, pe)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return pt, resp, err
+	return pe, resp, err
 }
 
 // UnprotectEnvironment unprotects the given protected environment or wildcard

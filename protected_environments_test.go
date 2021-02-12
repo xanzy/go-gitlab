@@ -106,7 +106,7 @@ func TestProtectRepositoryEnvironments(t *testing.T) {
 		},
 	}
 
-	opt := &ProtectRepositoryEnvironmentsOptions{Name: String("my-awesome-environment"), DeployAccessLevels: []*EnvironmentAccessOption{&EnvironmentAccessOption{AccessLevel: AccessLevel(30)}}}
+	opt := &ProtectRepositoryEnvironmentsOptions{Name: String("my-awesome-environment"), DeployAccessLevels: []*EnvironmentAccessOptions{{AccessLevel: AccessLevel(30)}}}
 	environment, _, err := client.ProtectedEnvironments.ProtectRepositoryEnvironments(1, opt)
 
 	assert.NoError(t, err, "failed to get response")
