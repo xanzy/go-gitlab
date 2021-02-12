@@ -191,6 +191,10 @@ type IssueEvent struct {
 			Previous int `json:"previous"`
 			Current  int `json:"current"`
 		} `json:"updated_by_id"`
+		TotalTimeSpent struct {
+			Previous int `json:"previous"`
+			Current  int `json:"current"`
+		} `json:"total_time_spent"`
 	} `json:"changes"`
 }
 

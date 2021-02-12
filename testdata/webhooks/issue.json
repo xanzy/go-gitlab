@@ -110,6 +110,10 @@
     "title": {
       "previous": null,
       "current": "New title"
+    },
+    "total_time_spent": {
+      "previous": 8100,
+      "current": 9900
     }
   }
 }
