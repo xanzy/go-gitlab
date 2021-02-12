@@ -346,7 +346,7 @@ func VariableType(v VariableTypeValue) *VariableTypeValue {
 	return p
 }
 
-// WikiFormat represents the available wiki formats.
+// WikiFormatValue represents the available wiki formats.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/wikis.html
 type WikiFormatValue string
