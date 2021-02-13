@@ -1,0 +1,31 @@
+name: Lint and Test package
+
+on:
+  pull_request:
+  push:
+    branches: [master]
+
+jobs:
+  lint_and_test:
+    name: Lint and Test - ${{ matrix.go-version }}
+    strategy:
+      matrix:
+        go-version: [1.14.x, 1.15.x, 1.x]
+        platform: [ubuntu-latest]
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - name: Install Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: ${{ matrix.go-version }}
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Lint package
+        uses: golangci/golangci-lint-action@v2
+        with:
+          version: v1.35
+
+      - name: Test package
+        run: go test -v ./...
