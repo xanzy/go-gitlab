@@ -1,4 +1,4 @@
-name: Lint and Test package
+name: Lint and Test
 
 on:
   pull_request:
