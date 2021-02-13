@@ -132,6 +132,7 @@ const (
 	FileDelete FileActionValue = "delete"
 	FileMove   FileActionValue = "move"
 	FileUpdate FileActionValue = "update"
+	FileChmod  FileActionValue = "chmod"
 )
 
 // FileAction is a helper routine that allocates a new FileActionValue value
