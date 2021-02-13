@@ -232,3 +232,23 @@ func TestDeploymentEventUnmarshal(t *testing.T) {
 		t.Errorf("CommitTitle is %s, want %s", event.CommitTitle, "Add new file")
 	}
 }
+
+func TestIssueEventUnmarshal(t *testing.T) {
+	jsonObject := loadFixture("testdata/webhooks/issue.json")
+
+	var event *IssueEvent
+	err := json.Unmarshal(jsonObject, &event)
+
+	if err != nil {
+		t.Errorf("Deployment Event can not unmarshaled: %v\n ", err.Error())
+	}
+	if event.Project.ID != 1 {
+		t.Errorf("Project.ID is %v, want %v", event.Project.ID, 1)
+	}
+	if event.Changes.TotalTimeSpent.Previous != 8100 {
+		t.Errorf("Changes.TotalTimeSpent.Previous is %v , want %v", event.Changes.TotalTimeSpent.Previous, 8100)
+	}
+	if event.Changes.TotalTimeSpent.Current != 9900 {
+		t.Errorf("Changes.TotalTimeSpent.Current is %v , want %v", event.Changes.TotalTimeSpent.Current, 8100)
+	}
+}
