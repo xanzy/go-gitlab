@@ -32,22 +32,14 @@ type ResourceStateEventsService struct {
 
 // StateEvent represents a resource state event.
 //
-// GitLab API docs:
-// https://docs.gitlab.com/ee/api/resource_state_events.html#get-single-issue-state-event
+// GitLab API docs: https://docs.gitlab.com/ee/api/resource_state_events.html
 type StateEvent struct {
-	ID           int        `json:"id"`
-	CreatedAt    *time.Time `json:"created_at"`
-	ResourceType string     `json:"resource_type"`
-	ResourceID   int        `json:"resource_id"`
-	State        string     `json:"state"`
-	User         struct {
-		ID        int    `json:"id"`
-		Name      string `json:"name"`
-		Username  string `json:"username"`
-		State     string `json:"state"`
-		AvatarURL string `json:"avatar_url"`
-		WebURL    string `json:"web_url"`
-	} `json:"user"`
+	ID           int            `json:"id"`
+	User         *BasicUser     `json:"user"`
+	CreatedAt    *time.Time     `json:"created_at"`
+	ResourceType string         `json:"resource_type"`
+	ResourceID   int            `json:"resource_id"`
+	State        EventTypeValue `json:"state"`
 }
 
 // ListStateEventsOptions represents the options for all resource state events
@@ -59,8 +51,8 @@ type ListStateEventsOptions struct {
 	ListOptions
 }
 
-// ListIssueStateEvents retrieves resource state events for the
-// specified project and issue.
+// ListIssueStateEvents retrieves resource state events for the specified
+// project and issue.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/resource_state_events.html#list-project-issue-state-events
@@ -76,13 +68,13 @@ func (s *ResourceStateEventsService) ListIssueStateEvents(pid interface{}, issue
 		return nil, nil, err
 	}
 
-	var ss []*StateEvent
-	resp, err := s.client.Do(req, &ss)
+	var ses []*StateEvent
+	resp, err := s.client.Do(req, &ses)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return ss, resp, err
+	return ses, resp, err
 }
 
 // GetIssueStateEvent gets a single issue-state-event.
@@ -101,13 +93,13 @@ func (s *ResourceStateEventsService) GetIssueStateEvent(pid interface{}, issue i
 		return nil, nil, err
 	}
 
-	e := new(StateEvent)
-	resp, err := s.client.Do(req, e)
+	se := new(StateEvent)
+	resp, err := s.client.Do(req, se)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return e, resp, err
+	return se, resp, err
 }
 
 // ListMergeStateEvents retrieves resource state events for the specified
@@ -127,13 +119,13 @@ func (s *ResourceStateEventsService) ListMergeStateEvents(pid interface{}, reque
 		return nil, nil, err
 	}
 
-	var ss []*StateEvent
-	resp, err := s.client.Do(req, &ss)
+	var ses []*StateEvent
+	resp, err := s.client.Do(req, &ses)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return ss, resp, err
+	return ses, resp, err
 }
 
 // GetMergeRequestStateEvent gets a single merge request state event.
@@ -152,11 +144,11 @@ func (s *ResourceStateEventsService) GetMergeRequestStateEvent(pid interface{}, 
 		return nil, nil, err
 	}
 
-	e := new(StateEvent)
-	resp, err := s.client.Do(req, e)
+	se := new(StateEvent)
+	resp, err := s.client.Do(req, se)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return e, resp, err
+	return se, resp, err
 }
