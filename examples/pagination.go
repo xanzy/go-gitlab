@@ -20,7 +20,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/therox/go-gitlab"
+	"github.com/xanzy/go-gitlab"
 )
 
 func pagination() {

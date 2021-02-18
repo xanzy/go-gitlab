@@ -20,7 +20,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/therox/go-gitlab"
+	"github.com/xanzy/go-gitlab"
 )
 
 func pipelineExample() {
