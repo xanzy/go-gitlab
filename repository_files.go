@@ -112,7 +112,7 @@ func (s *RepositoryFilesService) GetFileMetaData(pid interface{}, fileName strin
 	u := fmt.Sprintf(
 		"projects/%s/repository/files/%s",
 		pathEscape(project),
-		url.PathEscape(fileName),
+		pathEscape(fileName),
 	)
 
 	req, err := s.client.NewRequest(http.MethodHead, u, opt, options)
