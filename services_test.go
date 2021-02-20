@@ -246,6 +246,59 @@ func TestDeleteSlackService(t *testing.T) {
 	}
 }
 
+func TestGetMattermostService(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/services/mattermost", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		fmt.Fprint(w, `{"id":1}`)
+	})
+	want := &MattermostService{Service: Service{ID: 1}}
+
+	service, _, err := client.Services.GetMattermostService(1)
+	if err != nil {
+		t.Fatalf("Services.GetMattermostService returns an error: %v", err)
+	}
+	if !reflect.DeepEqual(want, service) {
+		t.Errorf("Services.GetMattermostService returned %+v, want %+v", service, want)
+	}
+}
+
+func TestSetMattermostService(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/services/mattermost", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPut)
+	})
+
+	opt := &SetMattermostServiceOptions{
+		WebHook:  String("webhook_uri"),
+		Username: String("username"),
+		Channel:  String("#development"),
+	}
+
+	_, err := client.Services.SetMattermostService(1, opt)
+	if err != nil {
+		t.Fatalf("Services.SetMasttermostService returns an error: %v", err)
+	}
+}
+
+func TestDeleteMattermostService(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/services/mattermost", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodDelete)
+	})
+
+	_, err := client.Services.DeleteMattermostService(1)
+	if err != nil {
+		t.Fatalf("Services.DeleteMattermostService returns an error: %v", err)
+	}
+}
+
 func TestGetPipelinesEmailService(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
