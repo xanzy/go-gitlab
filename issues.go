@@ -98,6 +98,7 @@ type Issue struct {
 	ClosedBy             *IssueCloser     `json:"closed_by"`
 	Title                string           `json:"title"`
 	CreatedAt            *time.Time       `json:"created_at"`
+	MovedToID            int              `json:"moved_to_id"`
 	Labels               Labels           `json:"labels"`
 	LabelDetails         []*LabelDetails  `json:"label_details"`
 	Upvotes              int              `json:"upvotes"`

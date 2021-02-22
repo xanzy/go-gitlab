@@ -86,10 +86,38 @@ func TestMoveIssue(t *testing.T) {
 		ID:        92,
 		IID:       11,
 		ProjectID: 5,
+		MovedToID: 0,
 	}
 
 	assert.Equal(t, want.IID, issue.IID)
 	assert.Equal(t, want.ProjectID, issue.ProjectID)
+
+	mux.HandleFunc("/api/v4/projects/1/issues/11", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		fmt.Fprint(w, `
+		{
+				"id": 1,
+				"iid": 11,
+				"project_id": 1,
+				"moved_to_id": 92
+		}`,
+		)
+	})
+	movedIssue, _, err := client.Issues.GetIssue("1", 11)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	wantedMovedIssue := &Issue{
+		ID:        1,
+		IID:       11,
+		ProjectID: 1,
+		MovedToID: 92,
+	}
+
+	if !reflect.DeepEqual(wantedMovedIssue, movedIssue) {
+		t.Errorf("Issues.GetIssue returned %+v, want %+v", issue, want)
+	}
 }
 
 func TestListIssues(t *testing.T) {
@@ -217,6 +245,7 @@ func TestListIssuesWithLabelDetails(t *testing.T) {
 		t.Errorf("Issues.ListIssues returned %+v, want %+v", issues, want)
 	}
 }
+
 func TestListIssuesSearchInTitle(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
