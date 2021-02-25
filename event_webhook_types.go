@@ -940,6 +940,13 @@ type ReleaseEvent struct {
 	Action string `json:"action"`
 	Assets struct {
 		Count int `json:"count"`
+		Links []struct {
+			ID       int    `json:"id"`
+			External bool   `json:"external"`
+			LinkType string `json:"link_type"`
+			Name     string `json:"name"`
+			URL      string `json:"url"`
+		} `json:"links"`
 		Sources []struct {
 			Format string `json:"format"`
 			URL    string `json:"url"`

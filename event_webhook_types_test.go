@@ -259,6 +259,18 @@ func TestReleaseEventUnmarshal(t *testing.T) {
 		t.Errorf("Asset sources length is %d, want %d", len(event.Assets.Sources), 4)
 	}
 
+	if event.Assets.Sources[0].Format != "zip" {
+		t.Errorf("First asset source format is %s, want %s", event.Assets.Sources[0].Format, "zip")
+	}
+
+	if len(event.Assets.Links) != 1 {
+		t.Errorf("Asset links length is %d, want %d", len(event.Assets.Links), 1)
+	}
+
+	if event.Assets.Links[0].Name != "Changelog" {
+		t.Errorf("First asset link name is %s, want %s", event.Assets.Links[0].Name, "Changelog")
+	}
+
 	if event.Commit.Author.Name != "User" {
 		t.Errorf("Commit author name is %s, want %s", event.Commit.Author.Name, "User")
 	}

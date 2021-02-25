@@ -28,7 +28,15 @@
   "action": "create",
   "assets": {
 	"count": 4,
-	"links": [],
+	"links": [
+	  {
+		"id": 1,
+		"external": true,
+		"link_type": "other",
+		"name": "Changelog",
+		"url": "https://example.net/changelog"
+	  }
+	],
 	"sources": [
 	  {
 		"format": "zip",
