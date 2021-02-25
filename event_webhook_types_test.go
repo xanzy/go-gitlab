@@ -233,6 +233,37 @@ func TestDeploymentEventUnmarshal(t *testing.T) {
 	}
 }
 
+func TestReleaseEventUnmarshal(t *testing.T) {
+	jsonObject := loadFixture("testdata/webhooks/release.json")
+
+	var event *ReleaseEvent
+	err := json.Unmarshal(jsonObject, &event)
+
+	if err != nil {
+		t.Errorf("Release Event can not unmarshaled: %v\n ", err.Error())
+	}
+
+	if event == nil {
+		t.Errorf("Release Event is null")
+	}
+
+	if event.Project.ID != 327622 {
+		t.Errorf("Project.ID is %v, want %v", event.Project.ID, 327622)
+	}
+
+	if event.Commit.Title != "Merge branch 'example-branch' into 'master'" {
+		t.Errorf("Commit title is %s, want %s", event.Commit.Title, "Merge branch 'example-branch' into 'master'")
+	}
+
+	if len(event.Assets.Sources) != 4 {
+		t.Errorf("Asset sources length is %d, want %d", len(event.Assets.Sources), 4)
+	}
+
+	if event.Commit.Author.Name != "User" {
+		t.Errorf("Commit author name is %s, want %s", event.Commit.Author.Name, "User")
+	}
+}
+
 func TestIssueEventUnmarshal(t *testing.T) {
 	jsonObject := loadFixture("testdata/webhooks/issue.json")
 

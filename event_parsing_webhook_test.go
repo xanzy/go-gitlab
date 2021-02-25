@@ -324,6 +324,28 @@ func TestParseWikiPageHook(t *testing.T) {
 	}
 }
 
+func TestParseReleaseHook(t *testing.T) {
+	raw := loadFixture("testdata/webhooks/release.json")
+
+	parsedEvent, err := ParseWebhook("Release Hook", raw)
+	if err != nil {
+		t.Errorf("Error parsing release hook: %s", err)
+	}
+
+	event, ok := parsedEvent.(*ReleaseEvent)
+	if !ok {
+		t.Errorf("Expected ReleaseEvent, but parsing produced %T", parsedEvent)
+	}
+
+	if event.ObjectKind != "release" {
+		t.Errorf("ObjectKind is %v, want %v", event.ObjectKind, "release")
+	}
+
+	if event.Project.Name != "Project Name" {
+		t.Errorf("Project name is %v, want %v", event.Project.Name, "Project Name")
+	}
+}
+
 func TestParsePipelineHook(t *testing.T) {
 	raw := loadFixture("testdata/webhooks/pipeline.json")
 

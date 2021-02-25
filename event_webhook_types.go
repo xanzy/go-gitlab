@@ -905,3 +905,55 @@ type DeploymentEvent struct {
 	CommitURL   string `json:"commit_url"`
 	CommitTitle string `json:"commit_title"`
 }
+
+// ReleaseEvent represents a release event
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/user/project/integrations/webhooks.html#release-events
+type ReleaseEvent struct {
+	ID          int    `json:"id"`
+	CreatedAt   string `json:"created_at"` // Should be *time.Time (see Gitlab issue #21468)
+	Description string `json:"description"`
+	Name        string `json:"name"`
+	Tag         string `json:"tag"`
+	ReleasedAt  string `json:"released_at"` // Should be *time.Time (see Gitlab issue #21468)
+	ObjectKind  string `json:"object_kind"`
+	Project     struct {
+		ID                int     `json:"id"`
+		Name              string  `json:"name"`
+		Description       string  `json:"description"`
+		WebURL            string  `json:"web_url"`
+		AvatarURL         *string `json:"avatar_url"`
+		GitSSHURL         string  `json:"git_ssh_url"`
+		GitHTTPURL        string  `json:"git_http_url"`
+		Namespace         string  `json:"namespace"`
+		VisibilityLevel   int     `json:"visibility_level"`
+		PathWithNamespace string  `json:"path_with_namespace"`
+		DefaultBranch     string  `json:"default_branch"`
+		CIConfigPath      string  `json:"ci_config_path"`
+		Homepage          string  `json:"homepage"`
+		URL               string  `json:"url"`
+		SSHURL            string  `json:"ssh_url"`
+		HTTPURL           string  `json:"http_url"`
+	} `json:"project"`
+	URL    string `json:"url"`
+	Action string `json:"action"`
+	Assets struct {
+		Count int `json:"count"`
+		Sources []struct {
+			Format string `json:"format"`
+			URL    string `json:"url"`
+		} `json:"sources"`
+	} `json:"assets"`
+	Commit struct {
+		ID        string `json:"id"`
+		Message   string `json:"message"`
+		Title     string `json:"title"`
+		Timestamp string `json:"timestamp"` // Should be *time.Time (see Gitlab issue #21468)
+		URL       string `json:"url"`
+		Author    struct {
+			Name  string `json:"name"`
+			Email string `json:"email"`
+		} `json:"author"`
+	} `json:"commit"`
+}

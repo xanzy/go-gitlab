@@ -1,0 +1,62 @@
+{
+  "id": 8273642,
+  "created_at": "2021-02-25 21:23:34 UTC",
+  "description": "Release!",
+  "name": "1.0.0",
+  "released_at": "2021-02-25 21:23:34 UTC",
+  "tag": "1.0.0",
+  "object_kind": "release",
+  "project": {
+	"id": 327622,
+	"name": "Project Name",
+	"description": "",
+	"web_url": "http://example.com/exm-namespace/example-project",
+	"avatar_url": "https://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=80&d=identicon",
+	"git_ssh_url": "git@gitlab.com:exm-namespace/example-project.git",
+	"git_http_url": "http://example.com/exm-namespace/example-project.git",
+	"namespace": "exm-namespace",
+	"visibility_level": 0,
+	"path_with_namespace": "exm-namespace/example-project",
+	"default_branch": "master",
+	"ci_config_path": "",
+	"homepage": "http://example.com/exm-namespace/example-project",
+	"url": "git@gitlab.com:exm-namespace/example-project.git",
+	"ssh_url": "git@gitlab.com:exm-namespace/example-project.git",
+	"http_url": "http://example.com/exm-namespace/example-project.git"
+  },
+  "url": "http://example.com/exm-namespace/example-project/-/releases/1.0.0",
+  "action": "create",
+  "assets": {
+	"count": 4,
+	"links": [],
+	"sources": [
+	  {
+		"format": "zip",
+		"url": "http://example.com/exm-namespace/example-project/-/archive/1.0.0/example-project-1.0.0.zip"
+	  },
+	  {
+		"format": "tar.gz",
+		"url": "http://example.com/exm-namespace/example-project/-/archive/1.0.0/example-project-1.0.0.tar.gz"
+	  },
+	  {
+		"format": "tar.bz2",
+		"url": "http://example.com/exm-namespace/example-project/-/archive/1.0.0/example-project-1.0.0.tar.bz2"
+	  },
+	  {
+		"format": "tar",
+		"url": "http://example.com/exm-namespace/example-project/-/archive/1.0.0/example-project-1.0.0.tar"
+	  }
+	]
+  },
+  "commit": {
+	"id": "2626dbdb936782b5c54816b1c6d45b1279303c6d",
+	"message": "Merge branch 'example-branch' into 'master'\n\nCheck in this test",
+	"title": "Merge branch 'example-branch' into 'master'",
+	"timestamp": "2021-02-25T21:21:58+00:00",
+	"url": "http://example.com/exm-namespace/example-project/-/commit/2626dbdb936782b5c54816b1c6d45b1279303c6d",
+	"author": {
+	  "name": "User",
+	  "email": "user@gitlab.com"
+	}
+  }
+}
