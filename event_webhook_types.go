@@ -348,8 +348,8 @@ type MergeCommentEvent struct {
 		Position         *NotePosition `json:"position"`
 		ProjectID        int           `json:"project_id"`
 		ResolvedAt       string        `json:"resolved_at"`
-		ResolvedByID     string        `json:"resolved_by_id"`
-		ResolvedByPush   string        `json:"resolved_by_push"`
+		ResolvedByID     int           `json:"resolved_by_id"`
+		ResolvedByPush   bool          `json:"resolved_by_push"`
 		StDiff           *Diff         `json:"st_diff"`
 		System           bool          `json:"system"`
 		Type             string        `json:"type"`
