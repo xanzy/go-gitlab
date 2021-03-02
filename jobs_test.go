@@ -21,6 +21,8 @@ import (
 	"net/http"
 	"reflect"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestListPipelineJobs(t *testing.T) {
@@ -41,4 +43,139 @@ func TestListPipelineJobs(t *testing.T) {
 	if !reflect.DeepEqual(want, jobs) {
 		t.Errorf("Jobs.ListPipelineJobs returned %+v, want %+v", jobs, want)
 	}
+}
+
+func TestJobsService_ListProjectJobs(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/jobs", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		fmt.Fprint(w, `[
+  {
+    "commit": {
+      "author_email": "admin@example.com",
+      "author_name": "Administrator",
+      "id": "0ff3ae198f8601a285adcf5c0fff204ee6fba5fd",
+      "short_id": "0ff3ae19",
+      "title": "Test the CI integration."
+    },
+    "allow_failure": false,
+    "tag_list": [
+      "docker runner",
+      "ubuntu18"
+    ],
+    "id": 7,
+    "name": "teaspoon",
+    "pipeline": {
+      "id": 6,
+      "ref": "master",
+      "sha": "0ff3ae198f8601a285adcf5c0fff204ee6fba5fd",
+      "status": "pending"
+    },
+    "ref": "master",
+    "stage": "test",
+    "status": "failed",
+    "tag": false,
+    "web_url": "https://example.com/foo/bar/-/jobs/7"
+  },
+  {
+    "commit": {
+      "author_email": "admin@example.com",
+      "author_name": "Administrator",
+      "id": "0ff3ae198f8601a285adcf5c0fff204ee6fba5fd",
+      "message": "Test the CI integration.",
+      "short_id": "0ff3ae19",
+      "title": "Test the CI integration."
+    },
+    "allow_failure": false,
+    "duration": 0.192,
+    "tag_list": [
+      "docker runner",
+      "win10-2004"
+    ],
+    "id": 6,
+    "name": "rspec:other",
+    "pipeline": {
+      "id": 6,
+      "ref": "master",
+      "sha": "0ff3ae198f8601a285adcf5c0fff204ee6fba5fd",
+      "status": "pending"
+    },
+    "ref": "master",
+    "runner": null,
+    "stage": "test",
+    "status": "failed",
+    "tag": false,
+    "web_url": "https://example.com/foo/bar/-/jobs/6"
+  }
+]`)
+	})
+
+	jobs, _, err := client.Jobs.ListProjectJobs(1, nil, nil)
+	if err != nil {
+		t.Errorf("Jobs.ListProjectJobs returned error: %v", err)
+	}
+
+	want := []*Job{{
+		Commit: &Commit{
+			ID:          "0ff3ae198f8601a285adcf5c0fff204ee6fba5fd",
+			ShortID:     "0ff3ae19",
+			Title:       "Test the CI integration.",
+			AuthorName:  "Administrator",
+			AuthorEmail: "admin@example.com",
+		},
+		AllowFailure: false,
+		ID:           7,
+		Name:         "teaspoon",
+		TagList:      []string{"docker runner", "ubuntu18"},
+		Pipeline: struct {
+			ID     int    `json:"id"`
+			Ref    string `json:"ref"`
+			Sha    string `json:"sha"`
+			Status string `json:"status"`
+		}{
+			ID:     6,
+			Ref:    "master",
+			Sha:    "0ff3ae198f8601a285adcf5c0fff204ee6fba5fd",
+			Status: "pending",
+		},
+		Ref:    "master",
+		Stage:  "test",
+		Status: "failed",
+		Tag:    false,
+		WebURL: "https://example.com/foo/bar/-/jobs/7",
+	},
+		{
+			Commit: &Commit{
+				ID:          "0ff3ae198f8601a285adcf5c0fff204ee6fba5fd",
+				ShortID:     "0ff3ae19",
+				Title:       "Test the CI integration.",
+				AuthorName:  "Administrator",
+				AuthorEmail: "admin@example.com",
+				Message:     "Test the CI integration.",
+			},
+			AllowFailure: false,
+			Duration:     0.192,
+			ID:           6,
+			Name:         "rspec:other",
+			TagList:      []string{"docker runner", "win10-2004"},
+			Pipeline: struct {
+				ID     int    `json:"id"`
+				Ref    string `json:"ref"`
+				Sha    string `json:"sha"`
+				Status string `json:"status"`
+			}{
+				ID:     6,
+				Ref:    "master",
+				Sha:    "0ff3ae198f8601a285adcf5c0fff204ee6fba5fd",
+				Status: "pending",
+			},
+			Ref:    "master",
+			Stage:  "test",
+			Status: "failed",
+			Tag:    false,
+			WebURL: "https://example.com/foo/bar/-/jobs/6",
+		}}
+	assert.Equal(t, want, jobs)
 }
