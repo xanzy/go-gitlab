@@ -714,7 +714,7 @@ func (s *UsersService) DeleteEmailForUser(user, email int, options ...RequestOpt
 	return s.client.Do(req, nil)
 }
 
-// PersonalAccessToken represents an impersonation token.
+// PersonalAccessToken represents a personal access token.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/users.html#create-a-personal-access-token
