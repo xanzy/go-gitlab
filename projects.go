@@ -118,6 +118,7 @@ type Project struct {
 	CIDefaultGitDepth    int                `json:"ci_default_git_depth"`
 	CustomAttributes     []*CustomAttribute `json:"custom_attributes"`
 	ComplianceFrameworks []string           `json:"compliance_frameworks"`
+	BuildCoverageRegex   string             `json:"build_coverage_regex"`
 }
 
 // ContainerExpirationPolicy represents the container expiration policy.

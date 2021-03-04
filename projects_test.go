@@ -219,7 +219,8 @@ func TestGetProjectByID(t *testing.T) {
 			  "name_regex_keep": null,
 			  "next_run_at": "2020-01-07T21:42:58.658Z"
 			},
-			"packages_enabled": false
+			"packages_enabled": false,
+			"build_coverage_regex": "Total.*([0-9]{1,3})%"
 		  }`)
 	})
 
@@ -231,7 +232,8 @@ func TestGetProjectByID(t *testing.T) {
 			Cadence:   "7d",
 			NextRunAt: &wantTimestamp,
 		},
-		PackagesEnabled: false,
+		PackagesEnabled:    false,
+		BuildCoverageRegex: `Total.*([0-9]{1,3})%`,
 	}
 
 	project, _, err := client.Projects.GetProject(1, nil)
