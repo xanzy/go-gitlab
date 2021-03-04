@@ -729,6 +729,38 @@ type PersonalAccessToken struct {
 	ExpiresAt *ISOTime   `json:"expires_at"`
 }
 
+// CreatePersonalAccessTokenOptions represents the available
+// CreatePersonalAccessToken() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/users.html#create-a-personal-access-token
+type CreatePersonalAccessTokenOptions struct {
+	Name      *string    `url:"name,omitempty" json:"name,omitempty"`
+	Scopes    *[]string  `url:"scopes,omitempty" json:"scopes,omitempty"`
+	ExpiresAt *time.Time `url:"expires_at,omitempty" json:"expires_at,omitempty"`
+}
+
+// CreatePersonalAccessToken creates a personal access token.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/users.html#create-a-personal-access-token
+func (s *UsersService) CreatePersonalAccessToken(user int, opt *CreatePersonalAccessTokenOptions, options ...RequestOptionFunc) (*PersonalAccessToken, *Response, error) {
+	u := fmt.Sprintf("users/%d/personal_access_tokens", user)
+
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	t := new(PersonalAccessToken)
+	resp, err := s.client.Do(req, &t)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return t, resp, err
+}
+
 // ImpersonationToken represents an impersonation token.
 //
 // GitLab API docs:
@@ -788,38 +820,6 @@ func (s *UsersService) GetImpersonationToken(user, token int, options ...Request
 	}
 
 	t := new(ImpersonationToken)
-	resp, err := s.client.Do(req, &t)
-	if err != nil {
-		return nil, resp, err
-	}
-
-	return t, resp, err
-}
-
-// CreatePersonalAccessTokenOptions represents the available
-// CreatePersonalAccessToken() options.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ee/api/users.html#create-a-personal-access-token
-type CreatePersonalAccessTokenOptions struct {
-	Name      *string    `url:"name,omitempty" json:"name,omitempty"`
-	Scopes    *[]string  `url:"scopes,omitempty" json:"scopes,omitempty"`
-	ExpiresAt *time.Time `url:"expires_at,omitempty" json:"expires_at,omitempty"`
-}
-
-// CreatePersonalAccessToken creates an impersonation token.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ee/api/users.html#create-a-personal-access-token
-func (s *UsersService) CreatePersonalAccessToken(user int, opt *CreatePersonalAccessTokenOptions, options ...RequestOptionFunc) (*PersonalAccessToken, *Response, error) {
-	u := fmt.Sprintf("users/%d/personal_access_tokens", user)
-
-	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	t := new(PersonalAccessToken)
 	resp, err := s.client.Do(req, &t)
 	if err != nil {
 		return nil, resp, err
