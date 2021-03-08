@@ -897,7 +897,7 @@ type SlackService struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/services.html#slack
 type SlackServiceProperties struct {
-	WebHook                   string    `json:"web_hook"`
+	WebHook                   string    `json:"webhook"`
 	Username                  string    `json:"username"`
 	Channel                   string    `json:"channel"`
 	NotifyOnlyBrokenPipelines BoolValue `json:"notify_only_broken_pipelines"`
