@@ -535,6 +535,7 @@ type CreateProjectOptions struct {
 	PackagesEnabled                           *bool                                `url:"packages_enabled,omitempty" json:"packages_enabled,omitempty"`
 	ServiceDeskEnabled                        *bool                                `url:"service_desk_enabled,omitempty" json:"service_desk_enabled,omitempty"`
 	AutocloseReferencedIssues                 *bool                                `url:"autoclose_referenced_issues,omitempty" json:"autoclose_referenced_issues,omitempty"`
+	SuggestionCommitMessage			  *string			       `url:"suggestion_commit_message,omitempty" json:"suggestion_commit_message,omitempty"`
 
 	// Deprecated members
 	IssuesEnabled        *bool `url:"issues_enabled,omitempty" json:"issues_enabled,omitempty"`
@@ -672,6 +673,7 @@ type EditProjectOptions struct {
 	PackagesEnabled                           *bool                                `url:"packages_enabled,omitempty" json:"packages_enabled,omitempty"`
 	ServiceDeskEnabled                        *bool                                `url:"service_desk_enabled,omitempty" json:"service_desk_enabled,omitempty"`
 	AutocloseReferencedIssues                 *bool                                `url:"autoclose_referenced_issues,omitempty" json:"autoclose_referenced_issues,omitempty"`
+	SuggestionCommitMessage			  *string			       `url:"suggestion_commit_message,omitempty" json:"suggestion_commit_message,omitempty"`
 
 	// Deprecated members
 	IssuesEnabled        *bool `url:"issues_enabled,omitempty" json:"issues_enabled,omitempty"`
