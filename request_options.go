@@ -18,6 +18,8 @@ package gitlab
 
 import (
 	"context"
+	"io"
+	"net/http"
 
 	retryablehttp "github.com/hashicorp/go-retryablehttp"
 )
@@ -41,6 +43,14 @@ func WithSudo(uid interface{}) RequestOptionFunc {
 func WithContext(ctx context.Context) RequestOptionFunc {
 	return func(req *retryablehttp.Request) error {
 		*req = *req.WithContext(ctx)
+		return nil
+	}
+}
+
+func WithUploadFile(content io.ReadCloser) RequestOptionFunc {
+	return func(req *retryablehttp.Request) error {
+		req.Body = content
+		req.Method = http.MethodPut
 		return nil
 	}
 }
