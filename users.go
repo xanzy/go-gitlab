@@ -851,7 +851,7 @@ type PersonalAccessToken struct {
 // https://docs.gitlab.com/ee/api/users.html#create-a-personal-access-token
 type CreatePersonalAccessTokenOptions struct {
 	Name      *string    `url:"name,omitempty" json:"name,omitempty"`
-	ExpiresAt *time.Time `url:"expires_at,omitempty" json:"expires_at,omitempty"`
+	ExpiresAt *ISOTime  `url:"expires_at,omitempty" json:"expires_at,omitempty"`
 	Scopes    *[]string  `url:"scopes,omitempty" json:"scopes,omitempty"`
 }
 
