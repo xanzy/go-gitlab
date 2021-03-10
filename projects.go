@@ -106,7 +106,7 @@ type Project struct {
 	PagesAccessLevel                          AccessControlValue         `json:"pages_access_level"`
 	OperationsAccessLevel                     AccessControlValue         `json:"operations_access_level"`
 	AutocloseReferencedIssues                 bool                       `json:"autoclose_referenced_issues"`
-	SuggestionCommitMessage                   string                     `url:"suggestion_commit_message,omitempty" json:"suggestion_commit_message,omitempty"`
+	SuggestionCommitMessage                   string                     `json:"suggestion_commit_message"`
 	CIForwardDeploymentEnabled                bool                       `json:"ci_forward_deployment_enabled"`
 	SharedWithGroups                          []struct {
 		GroupID          int    `json:"group_id"`
