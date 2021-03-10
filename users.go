@@ -852,7 +852,7 @@ type PersonalAccessToken struct {
 type CreatePersonalAccessTokenOptions struct {
 	Name      *string    `url:"name,omitempty" json:"name,omitempty"`
 	ExpiresAt *ISOTime  `url:"expires_at,omitempty" json:"expires_at,omitempty"`
-	Scopes    *[]string  `url:"scopes,omitempty" json:"scopes,omitempty"`
+	Scopes    []string   `url:"scopes,omitempty" json:"scopes,omitempty"`
 }
 
 // CreatePersonalAccessToken creates a personal access token.
