@@ -24,7 +24,6 @@ import (
 	"time"
 )
 
-
 func TestListProjectAccessTokens(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
@@ -65,16 +64,16 @@ func TestListProjectAccessTokens(t *testing.T) {
 	]`)
 	})
 
-	projectAccessTokens, _, err := client.ProjectAccessTokens.ListProjectAccessTokens(1, &ListProjectAccessTokensOptions{Page: 1,	PerPage: 20,} )
+	projectAccessTokens, _, err := client.ProjectAccessTokens.ListProjectAccessTokens(1, &ListProjectAccessTokensOptions{Page: 1, PerPage: 20})
 	if err != nil {
 		t.Errorf("ProjectAccessTokens.ListProjectAccessTokens returned error: %v", err)
 	}
 
-	time1, err := time.Parse(time.RFC3339,"2021-03-09T21:11:47.271Z")
+	time1, err := time.Parse(time.RFC3339, "2021-03-09T21:11:47.271Z")
 	if err != nil {
 		t.Errorf("ProjectAccessTokens.ListProjectAccessTokens returned error: %v", err)
 	}
-	time2, err :=time.Parse(time.RFC3339,"2021-03-09T21:11:47.340Z")
+	time2, err := time.Parse(time.RFC3339, "2021-03-09T21:11:47.340Z")
 	if err != nil {
 		t.Errorf("ProjectAccessTokens.ListProjectAccessTokens returned error: %v", err)
 	}
@@ -101,13 +100,11 @@ func TestListProjectAccessTokens(t *testing.T) {
 			Revoked:   false,
 		},
 	}
-	
+
 	if !reflect.DeepEqual(want, projectAccessTokens) {
 		t.Errorf("ProjectAccessTokens.ListProjectAccessTokens returned %+v, want %+v", projectAccessTokens, want)
 	}
 }
-
-
 
 func TestCreateProjectAccessToken(t *testing.T) {
 	mux, server, client := setup(t)
@@ -135,12 +132,12 @@ func TestCreateProjectAccessToken(t *testing.T) {
 		`)
 	})
 
-	projectAccessToken, _, err := client.ProjectAccessTokens.CreateProjectAccessToken(1,nil)
+	projectAccessToken, _, err := client.ProjectAccessTokens.CreateProjectAccessToken(1, nil)
 	if err != nil {
 		t.Errorf("ProjectAccessTokens.CreateProjectAccessToken returned error: %v", err)
 	}
 
-	time1, err := time.Parse(time.RFC3339,"2021-03-09T21:11:47.271Z")
+	time1, err := time.Parse(time.RFC3339, "2021-03-09T21:11:47.271Z")
 	if err != nil {
 		t.Errorf("ProjectAccessTokens.CreateProjectAccessToken returned error: %v", err)
 	}
@@ -155,13 +152,11 @@ func TestCreateProjectAccessToken(t *testing.T) {
 		Revoked:   false,
 		Token:     "2UsevZE1x1ZdFZW4MNzH",
 	}
-	
+
 	if !reflect.DeepEqual(want, projectAccessToken) {
 		t.Errorf("ProjectAccessTokens.CreateProjectAccessToken returned %+v, want %+v", projectAccessToken, want)
 	}
 }
-
-
 
 func TestDeleteProjectAccessToken(t *testing.T) {
 	mux, server, client := setup(t)
