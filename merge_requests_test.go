@@ -224,6 +224,6 @@ func TestGetIssuesClosedOnMerge_Jira(t *testing.T) {
 
 	assert.NoError(t, err)
 	assert.Len(t, issues, 1)
-	assert.Equal(t, "PROJECT-123", issues[0].ID)
+	assert.Equal(t, "PROJECT-123", issues[0].ExternalID)
 	assert.Equal(t, "Title of this issue", issues[0].Title)
 }

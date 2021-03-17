@@ -21,6 +21,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/url"
+	"reflect"
 	"strings"
 	"time"
 )
@@ -83,8 +84,9 @@ type IssueLinks struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/issues.html
 type Issue struct {
-	ID                   interface{}      `json:"id"`
+	ID                   int              `json:"id"`
 	IID                  int              `json:"iid"`
+	ExternalID           string           `json:"external_id"`
 	State                string           `json:"state"`
 	Description          string           `json:"description"`
 	Author               *IssueAuthor     `json:"author"`
@@ -135,8 +137,13 @@ func (i *Issue) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	labelDetails, haveLabelDetails := raw["labels"].([]interface{})
-	if haveLabelDetails && len(labelDetails) > 0 {
+	if reflect.TypeOf(raw["id"]).Kind() == reflect.String {
+		raw["external_id"] = raw["id"]
+		delete(raw, "id")
+	}
+
+	labelDetails, ok := raw["labels"].([]interface{})
+	if ok && len(labelDetails) > 0 {
 		// We only want to change anything if we got label details.
 		if _, ok := labelDetails[0].(map[string]interface{}); ok {
 			labels := make([]interface{}, len(labelDetails))
@@ -147,28 +154,15 @@ func (i *Issue) UnmarshalJSON(data []byte) error {
 			// Set the correct values
 			raw["labels"] = labels
 			raw["label_details"] = labelDetails
-
-			data, err = json.Marshal(raw)
-			if err != nil {
-				return err
-			}
 		}
 	}
 
-	err = json.Unmarshal(data, (*alias)(i))
+	data, err = json.Marshal(raw)
 	if err != nil {
 		return err
 	}
 
-	// Default type for an interface number is float64, we prefer int here.
-	switch t := i.ID.(type) {
-	case float64:
-		i.ID = int(t)
-	default:
-		println(t)
-	}
-
-	return nil
+	return json.Unmarshal(data, (*alias)(i))
 }
 
 // Labels is a custom type with specific marshaling characteristics.
