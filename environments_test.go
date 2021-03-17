@@ -33,11 +33,11 @@ func TestListEnvironments(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/environments", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
-		testURL(t, r, "/api/v4/projects/1/environments?page=1&per_page=10")
+		testURL(t, r, "/api/v4/projects/1/environments?name=review%2Ffix-foo&page=1&per_page=10")
 		fmt.Fprint(w, `[{"id": 1,"name": "review/fix-foo", "slug": "review-fix-foo-dfjre3", "external_url": "https://review-fix-foo-dfjre3.example.gitlab.com"}]`)
 	})
 
-	envs, _, err := client.Environments.ListEnvironments(1, &ListEnvironmentsOptions{Page: 1, PerPage: 10})
+	envs, _, err := client.Environments.ListEnvironments(1, &ListEnvironmentsOptions{Name: String("review/fix-foo"), ListOptions: ListOptions{Page: 1, PerPage: 10}})
 	if err != nil {
 		log.Fatal(err)
 	}
