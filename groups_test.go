@@ -263,7 +263,7 @@ func TestAddGroupLDAPLink(t *testing.T) {
 
 	opt := &AddGroupLDAPLinkOptions{
 		CN:          String("gitlab_group_example_30"),
-		GroupAccess: Int(30),
+		GroupAccess: AccessLevel(30),
 		Provider:    String("example_ldap_provider"),
 	}
 
@@ -299,7 +299,7 @@ func TestAddGroupLDAPLinkFilter(t *testing.T) {
 
 	opt := &AddGroupLDAPLinkOptions{
 		Filter:      String("(memberOf=example_group_dn)"),
-		GroupAccess: Int(30),
+		GroupAccess: AccessLevel(30),
 		Provider:    String("example_ldap_provider"),
 	}
 
