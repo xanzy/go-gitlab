@@ -469,10 +469,9 @@ type AddGroupLDAPLinkOptions struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/groups.html#delete-ldap-group-link-with-cn-or-filter
 type DeleteGroupLDAPLinkWithCNOrFilterOptions struct {
-	CN          *string `url:"cn,omitempty" json:"cn,omitempty"`
-	Filter      *string `url:"filter,omitempty" json:"filter,omitempty"`
-	GroupAccess *int    `url:"group_access,omitempty" json:"group_access,omitempty"`
-	Provider    *string `url:"provider,omitempty" json:"provider,omitempty"`
+	CN       *string `url:"cn,omitempty" json:"cn,omitempty"`
+	Filter   *string `url:"filter,omitempty" json:"filter,omitempty"`
+	Provider *string `url:"provider,omitempty" json:"provider,omitempty"`
 }
 
 // AddGroupLDAPLink creates a new group LDAP link. Available only for users who
