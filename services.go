@@ -1249,7 +1249,7 @@ type PrometheusService struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/services.html#prometheus
 type PrometheusServiceProperties struct {
-	ApiURL                      string `json:"api_url"`
+	APIURL                      string `json:"api_url"`
 	GoogleIAPAudienceClientID   string `json:"google_iap_audience_client_id"`
 	GoogleIAPServiceAccountJSON string `json:"google_iap_service_account_json"`
 }
@@ -1285,7 +1285,7 @@ func (s *ServicesService) GetPrometheusService(pid interface{}, options ...Reque
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/services.html#createedit-prometheus-service
 type SetPrometheusServiceOptions struct {
-	ApiURL                      *string `url:"api_url,omitempty" json:"api_url,omitempty"`
+	APIURL                      *string `url:"api_url,omitempty" json:"api_url,omitempty"`
 	GoogleIAPAudienceClientID   *string `url:"google_iap_audience_client_id,omitempty" json:"google_iap_audience_client_id,omitempty"`
 	GoogleIAPServiceAccountJSON *string `url:"google_iap_service_account_json,omitempty" json:"google_iap_service_account_json,omitempty"`
 }
