@@ -1234,3 +1234,96 @@ func (s *ServicesService) DeleteCustomIssueTrackerService(pid interface{}, optio
 
 	return s.client.Do(req, nil)
 }
+
+// PrometheusService represents Prometheus service settings.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/services.html#prometheus
+type PrometheusService struct {
+	Service
+	Properties *PrometheusServiceProperties `json:"properties"`
+}
+
+// PrometheusServiceProperties represents Prometheus specific properties.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/services.html#prometheus
+type PrometheusServiceProperties struct {
+	ApiURL                      string `json:"api_url"`
+	GoogleIAPAudienceClientID   string `json:"google_iap_audience_client_id"`
+	GoogleIAPServiceAccountJSON string `json:"google_iap_service_account_json"`
+}
+
+// GetPrometheusService gets Prometheus service settings for a project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/services.html#get-prometheus-service-settings
+func (s *ServicesService) GetPrometheusService(pid interface{}, options ...RequestOptionFunc) (*PrometheusService, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/services/prometheus", pathEscape(project))
+
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	svc := new(PrometheusService)
+	resp, err := s.client.Do(req, svc)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return svc, resp, err
+}
+
+// SetPrometheusServiceOptions represents the available SetPrometheusService()
+// options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/services.html#createedit-prometheus-service
+type SetPrometheusServiceOptions struct {
+	ApiURL                      *string `url:"api_url,omitempty" json:"api_url,omitempty"`
+	GoogleIAPAudienceClientID   *string `url:"google_iap_audience_client_id,omitempty" json:"google_iap_audience_client_id,omitempty"`
+	GoogleIAPServiceAccountJSON *string `url:"google_iap_service_account_json,omitempty" json:"google_iap_service_account_json,omitempty"`
+}
+
+// SetPrometheusService sets Prometheus service for a project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/services.html#createedit-prometheus-service
+func (s *ServicesService) SetPrometheusService(pid interface{}, opt *SetPrometheusServiceOptions, options ...RequestOptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/services/prometheus", pathEscape(project))
+
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
+
+// DeletePrometheusService deletes Prometheus service settings for a project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/services.html#delete-prometheus-service
+func (s *ServicesService) DeletePrometheusService(pid interface{}, options ...RequestOptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/services/prometheus", pathEscape(project))
+
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}

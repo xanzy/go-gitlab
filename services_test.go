@@ -91,6 +91,55 @@ func TestDeleteDroneCIService(t *testing.T) {
 	}
 }
 
+func TestGetPrometheusService(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/services/prometheus", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		fmt.Fprint(w, `{"id":1}`)
+	})
+	want := &PrometheusService{Service: Service{ID: 1}}
+
+	service, _, err := client.Services.GetPrometheusService(1)
+	if err != nil {
+		t.Fatalf("Services.GetPrometheusService returns an error: %v", err)
+	}
+	if !reflect.DeepEqual(want, service) {
+		t.Errorf("Services.GetPrometheusService returned %+v, want %+v", service, want)
+	}
+}
+
+func TestSetPrometheusService(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/services/prometheus", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPut)
+	})
+
+	opt := &SetPrometheusServiceOptions{String("t"), String("u"), String("a")}
+
+	_, err := client.Services.SetPrometheusService(1, opt)
+	if err != nil {
+		t.Fatalf("Services.SetDroneCIService returns an error: %v", err)
+	}
+}
+
+func TestDeletePrometheusService(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/services/prometheus", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodDelete)
+	})
+
+	_, err := client.Services.DeletePrometheusService(1)
+	if err != nil {
+		t.Fatalf("Services.DeletePrometheusService returns an error: %v", err)
+	}
+}
+
 func TestGetJiraService(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
