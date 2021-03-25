@@ -74,7 +74,7 @@ func TestIssueEventUnmarshal(t *testing.T) {
 	err := json.Unmarshal(jsonObject, &event)
 
 	if err != nil {
-		t.Errorf("Deployment Event can not unmarshaled: %v\n ", err.Error())
+		t.Errorf("Issue Event can not unmarshaled: %v\n ", err.Error())
 	}
 	if event.Project.ID != 1 {
 		t.Errorf("Project.ID is %v, want %v", event.Project.ID, 1)
