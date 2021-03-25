@@ -133,9 +133,10 @@ func TestParseIssueCommentHook(t *testing.T) {
 		t.Errorf("NoteableType is %v, want %v", event.ObjectAttributes.NoteableType, "Issue")
 	}
 
-	if event.Issue.Title != "test" {
-		t.Errorf("Issue title is %v, want %v", event.Issue.Title, "test")
+	if event.Issue.Title != "test_issue" {
+		t.Errorf("Issue title is %v, want %v", event.Issue.Title, "test_issue")
 	}
+	assert.Equal(t, 2, len(event.Issue.Labels))
 }
 
 func TestParseIssueHook(t *testing.T) {
