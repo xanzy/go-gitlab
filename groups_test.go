@@ -263,7 +263,7 @@ func TestAddGroupLDAPLink(t *testing.T) {
 
 	opt := &AddGroupLDAPLinkOptions{
 		CN:          String("gitlab_group_example_30"),
-		GroupAccess: Int(30),
+		GroupAccess: AccessLevel(30),
 		Provider:    String("example_ldap_provider"),
 	}
 
@@ -274,6 +274,42 @@ func TestAddGroupLDAPLink(t *testing.T) {
 
 	want := &LDAPGroupLink{
 		CN:          "gitlab_group_example_30",
+		GroupAccess: 30,
+		Provider:    "example_ldap_provider",
+	}
+	if !reflect.DeepEqual(want, link) {
+		t.Errorf("Groups.AddGroupLDAPLink returned %+v, want %+v", link, want)
+	}
+}
+
+func TestAddGroupLDAPLinkFilter(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/groups/1/ldap_group_links",
+		func(w http.ResponseWriter, r *http.Request) {
+			testMethod(t, r, http.MethodPost)
+			fmt.Fprint(w, `
+{
+	"filter":"(memberOf=example_group_dn)",
+	"group_access":30,
+	"provider":"example_ldap_provider"
+}`)
+		})
+
+	opt := &AddGroupLDAPLinkOptions{
+		Filter:      String("(memberOf=example_group_dn)"),
+		GroupAccess: AccessLevel(30),
+		Provider:    String("example_ldap_provider"),
+	}
+
+	link, _, err := client.Groups.AddGroupLDAPLink(1, opt)
+	if err != nil {
+		t.Errorf("Groups.AddGroupLDAPLink returned error: %v", err)
+	}
+
+	want := &LDAPGroupLink{
+		Filter:      "(memberOf=example_group_dn)",
 		GroupAccess: 30,
 		Provider:    "example_ldap_provider",
 	}
