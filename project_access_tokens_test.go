@@ -17,7 +17,6 @@
 package gitlab
 
 import (
-	"fmt"
 	"net/http"
 	"reflect"
 	"testing"
@@ -30,38 +29,7 @@ func TestListProjectAccessTokens(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/access_tokens", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
-		fmt.Fprint(w, `[
-  {
-    "id": 1876,
-    "name": "token 10",
-    "revoked": false,
-    "created_at": "2021-03-09T21:11:47.271Z",
-    "scopes": [
-      "api",
-      "read_api",
-      "read_repository",
-      "write_repository"
-    ],
-    "user_id": 2453,
-    "active": true,
-    "expires_at": null
-  },
-  {
-    "id": 1877,
-    "name": "token 8",
-    "revoked": false,
-    "created_at": "2021-03-09T21:11:47.340Z",
-    "scopes": [
-      "api",
-      "read_api",
-      "read_repository",
-      "write_repository"
-    ],
-    "user_id": 2456,
-    "active": true,
-    "expires_at": null
-  }
-	]`)
+		mustWriteHTTPResponse(t, w, "testdata/list_project_access_tokens.json")
 	})
 
 	projectAccessTokens, _, err := client.ProjectAccessTokens.ListProjectAccessTokens(1, &ListProjectAccessTokensOptions{Page: 1, PerPage: 20})
@@ -84,7 +52,6 @@ func TestListProjectAccessTokens(t *testing.T) {
 			UserID:    2453,
 			Name:      "token 10",
 			Scopes:    []string{"api", "read_api", "read_repository", "write_repository"},
-			ExpiresAt: nil,
 			CreatedAt: &time1,
 			Active:    true,
 			Revoked:   false,
@@ -94,7 +61,6 @@ func TestListProjectAccessTokens(t *testing.T) {
 			UserID:    2456,
 			Name:      "token 8",
 			Scopes:    []string{"api", "read_api", "read_repository", "write_repository"},
-			ExpiresAt: nil,
 			CreatedAt: &time2,
 			Active:    true,
 			Revoked:   false,
@@ -112,24 +78,7 @@ func TestCreateProjectAccessToken(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/access_tokens", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
-		fmt.Fprint(w, `
-		{
-			"id": 1876,
-			"name": "token 10",
-			"revoked": false,
-			"created_at": "2021-03-09T21:11:47.271Z",
-			"scopes": [
-			  "api",
-			  "read_api",
-			  "read_repository",
-			  "write_repository"
-			],
-			"user_id": 2453,
-			"active": true,
-			"expires_at": null,
-			"token": "2UsevZE1x1ZdFZW4MNzH"
-		  }
-		`)
+		mustWriteHTTPResponse(t, w, "testdata/create_project_access_token.json")
 	})
 
 	projectAccessToken, _, err := client.ProjectAccessTokens.CreateProjectAccessToken(1, nil)

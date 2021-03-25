@@ -25,23 +25,21 @@ import (
 // ProjectAccessTokensService handles communication with the
 // project access tokens related methods of the GitLab API.
 //
-// GitLab API docs:
-// https://docs.gitlab.com/ee/api/resource_access_tokens.html
+// GitLab API docs: https://docs.gitlab.com/ee/api/resource_access_tokens.html
 type ProjectAccessTokensService struct {
 	client *Client
 }
 
 // ProjectAccessToken represents a GitLab Project Access Token.
 //
-// GitLab API docs:
-// https://docs.gitlab.com/ee/api/resource_access_tokens.html
+// GitLab API docs: https://docs.gitlab.com/ee/api/resource_access_tokens.html
 type ProjectAccessToken struct {
 	ID        int        `json:"id"`
 	UserID    int        `json:"user_id"`
 	Name      string     `json:"name"`
 	Scopes    []string   `json:"scopes"`
-	ExpiresAt *ISOTime   `json:"expires_at"`
 	CreatedAt *time.Time `json:"created_at"`
+	ExpiresAt *ISOTime   `json:"expires_at"`
 	Active    bool       `json:"active"`
 	Revoked   bool       `json:"revoked"`
 	Token     string     `json:"token"`
@@ -51,14 +49,15 @@ func (v ProjectAccessToken) String() string {
 	return Stringify(v)
 }
 
-// ListProjectAccessTokensOptions represents the available options for listing variables
-// in a project.
+// ListProjectAccessTokensOptions represents the available options for
+// listing variables in a project.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/resource_access_tokens.html#list-project-access-tokens
 type ListProjectAccessTokensOptions ListOptions
 
-// ListProjectAccessTokens gets a list of all Project Access Tokens in a project.
+// ListProjectAccessTokens gets a list of all Project Access Tokens in a
+// project.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/resource_access_tokens.html#list-project-access-tokens
@@ -74,25 +73,24 @@ func (s *ProjectAccessTokensService) ListProjectAccessTokens(pid interface{}, op
 		return nil, nil, err
 	}
 
-	var tokens []*ProjectAccessToken
-	resp, err := s.client.Do(req, &tokens)
+	var pats []*ProjectAccessToken
+	resp, err := s.client.Do(req, &pats)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return tokens, resp, err
+	return pats, resp, err
 }
 
 // CreateProjectAccessTokenOptions represents the available CreateVariable()
 // options.
-// Supported scopes
-//{"api", "read_api", "read_repository" ,"write_repository"}
+//
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/resource_access_tokens.html#create-a-project-access-token
 type CreateProjectAccessTokenOptions struct {
-	Name      *string    `url:"name,omitempty" json:"name,omitempty"`
-	Scopes    []string   `url:"scopes,omitempty" json:"scopes,omitempty"`
-	ExpiresAt *time.Time `url:"expires_at,omitempty" json:"expires_at,omitempty"`
+	Name      *string  `url:"name,omitempty" json:"name,omitempty"`
+	Scopes    []string `url:"scopes,omitempty" json:"scopes,omitempty"`
+	ExpiresAt *ISOTime `url:"expires_at,omitempty" json:"expires_at,omitempty"`
 }
 
 // CreateProjectAccessToken creates a new Project Access Token.
@@ -111,13 +109,13 @@ func (s *ProjectAccessTokensService) CreateProjectAccessToken(pid interface{}, o
 		return nil, nil, err
 	}
 
-	token := new(ProjectAccessToken)
-	resp, err := s.client.Do(req, token)
+	pat := new(ProjectAccessToken)
+	resp, err := s.client.Do(req, pat)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return token, resp, err
+	return pat, resp, err
 }
 
 // RemoveProjectAccessToken deletes a Project Access Token.
