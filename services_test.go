@@ -42,6 +42,73 @@ func TestListServices(t *testing.T) {
 	}
 }
 
+func TestCustomIssueTrackerService(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/services/custom-issue-tracker", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		fmt.Fprint(w, `{"id": 1, "title": "5", "push_events": true, "properties": {"new_issue_url":"1", "issues_url": "2", "project_url": "3"}}`)
+	})
+	want := &CustomIssueTrackerService{
+		Service: Service{
+			ID:         1,
+			Title:      "5",
+			PushEvents: true,
+		},
+		Properties: &CustomIssueTrackerServiceProperties{
+			NewIssueURL: "1",
+			IssuesURL:   "2",
+			ProjectURL:  "3",
+		},
+	}
+
+	service, _, err := client.Services.GetCustomIssueTrackerService(1)
+	if err != nil {
+		t.Fatalf("Services.GetCustomIssueTrackerService returns an error: %v", err)
+	}
+	if !reflect.DeepEqual(want, service) {
+		t.Errorf("Services.GetCustomIssueTrackerService returned %+v, want %+v", service, want)
+	}
+}
+
+func TestSetCustomIssueTrackerService(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/services/custom-issue-tracker", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPut)
+	})
+
+	opt := &SetCustomIssueTrackerServiceOptions{
+		NewIssueURL: String("1"),
+		IssuesURL:   String("2"),
+		ProjectURL:  String("3"),
+		Description: String("4"),
+		Title:       String("5"),
+		PushEvents:  Bool(true),
+	}
+
+	_, err := client.Services.SetCustomIssueTrackerService(1, opt)
+	if err != nil {
+		t.Fatalf("Services.SetCustomIssueTrackerService returns an error: %v", err)
+	}
+}
+
+func TestDeleteCustomIssueTrackerService(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/services/custom-issue-tracker", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodDelete)
+	})
+
+	_, err := client.Services.DeleteCustomIssueTrackerService(1)
+	if err != nil {
+		t.Fatalf("Services.DeleteCustomIssueTrackerService returns an error: %v", err)
+	}
+}
+
 func TestGetDroneCIService(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
@@ -193,59 +260,6 @@ func TestDeleteJiraService(t *testing.T) {
 	}
 }
 
-func TestGetSlackService(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
-
-	mux.HandleFunc("/api/v4/projects/1/services/slack", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, http.MethodGet)
-		fmt.Fprint(w, `{"id":1}`)
-	})
-	want := &SlackService{Service: Service{ID: 1}}
-
-	service, _, err := client.Services.GetSlackService(1)
-	if err != nil {
-		t.Fatalf("Services.GetSlackService returns an error: %v", err)
-	}
-	if !reflect.DeepEqual(want, service) {
-		t.Errorf("Services.GetSlackService returned %+v, want %+v", service, want)
-	}
-}
-
-func TestSetSlackService(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
-
-	mux.HandleFunc("/api/v4/projects/1/services/slack", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, http.MethodPut)
-	})
-
-	opt := &SetSlackServiceOptions{
-		WebHook:  String("webhook_uri"),
-		Username: String("username"),
-		Channel:  String("#development"),
-	}
-
-	_, err := client.Services.SetSlackService(1, opt)
-	if err != nil {
-		t.Fatalf("Services.SetSlackService returns an error: %v", err)
-	}
-}
-
-func TestDeleteSlackService(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
-
-	mux.HandleFunc("/api/v4/projects/1/services/slack", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, http.MethodDelete)
-	})
-
-	_, err := client.Services.DeleteSlackService(1)
-	if err != nil {
-		t.Fatalf("Services.DeleteSlackService returns an error: %v", err)
-	}
-}
-
 func TestGetMattermostService(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
@@ -355,69 +369,104 @@ func TestDeletePipelinesEmailService(t *testing.T) {
 	}
 }
 
-func TestCustomIssueTrackerService(t *testing.T) {
+func TestGetPrometheusService(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
 
-	mux.HandleFunc("/api/v4/projects/1/services/custom-issue-tracker", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v4/projects/1/services/prometheus", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
-		fmt.Fprint(w, `{"id": 1, "title": "5", "push_events": true, "properties": {"new_issue_url":"1", "issues_url": "2", "project_url": "3"}}`)
+		fmt.Fprint(w, `{"id":1}`)
 	})
-	want := &CustomIssueTrackerService{
-		Service: Service{
-			ID:         1,
-			Title:      "5",
-			PushEvents: true,
-		},
-		Properties: &CustomIssueTrackerServiceProperties{
-			NewIssueURL: "1",
-			IssuesURL:   "2",
-			ProjectURL:  "3",
-		},
-	}
+	want := &PrometheusService{Service: Service{ID: 1}}
 
-	service, _, err := client.Services.GetCustomIssueTrackerService(1)
+	service, _, err := client.Services.GetPrometheusService(1)
 	if err != nil {
-		t.Fatalf("Services.GetCustomIssueTrackerService returns an error: %v", err)
+		t.Fatalf("Services.GetPrometheusService returns an error: %v", err)
 	}
 	if !reflect.DeepEqual(want, service) {
-		t.Errorf("Services.GetCustomIssueTrackerService returned %+v, want %+v", service, want)
+		t.Errorf("Services.GetPrometheusService returned %+v, want %+v", service, want)
 	}
 }
 
-func TestSetCustomIssueTrackerService(t *testing.T) {
+func TestSetPrometheusService(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
 
-	mux.HandleFunc("/api/v4/projects/1/services/custom-issue-tracker", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v4/projects/1/services/prometheus", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
 	})
 
-	opt := &SetCustomIssueTrackerServiceOptions{
-		NewIssueURL: String("1"),
-		IssuesURL:   String("2"),
-		ProjectURL:  String("3"),
-		Description: String("4"),
-		Title:       String("5"),
-		PushEvents:  Bool(true),
-	}
+	opt := &SetPrometheusServiceOptions{String("t"), String("u"), String("a")}
 
-	_, err := client.Services.SetCustomIssueTrackerService(1, opt)
+	_, err := client.Services.SetPrometheusService(1, opt)
 	if err != nil {
-		t.Fatalf("Services.SetCustomIssueTrackerService returns an error: %v", err)
+		t.Fatalf("Services.SetDroneCIService returns an error: %v", err)
 	}
 }
 
-func TestDeleteCustomIssueTrackerService(t *testing.T) {
+func TestDeletePrometheusService(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
 
-	mux.HandleFunc("/api/v4/projects/1/services/custom-issue-tracker", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v4/projects/1/services/prometheus", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)
 	})
 
-	_, err := client.Services.DeleteCustomIssueTrackerService(1)
+	_, err := client.Services.DeletePrometheusService(1)
 	if err != nil {
-		t.Fatalf("Services.DeleteCustomIssueTrackerService returns an error: %v", err)
+		t.Fatalf("Services.DeletePrometheusService returns an error: %v", err)
+	}
+}
+
+func TestGetSlackService(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/services/slack", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		fmt.Fprint(w, `{"id":1}`)
+	})
+	want := &SlackService{Service: Service{ID: 1}}
+
+	service, _, err := client.Services.GetSlackService(1)
+	if err != nil {
+		t.Fatalf("Services.GetSlackService returns an error: %v", err)
+	}
+	if !reflect.DeepEqual(want, service) {
+		t.Errorf("Services.GetSlackService returned %+v, want %+v", service, want)
+	}
+}
+
+func TestSetSlackService(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/services/slack", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPut)
+	})
+
+	opt := &SetSlackServiceOptions{
+		WebHook:  String("webhook_uri"),
+		Username: String("username"),
+		Channel:  String("#development"),
+	}
+
+	_, err := client.Services.SetSlackService(1, opt)
+	if err != nil {
+		t.Fatalf("Services.SetSlackService returns an error: %v", err)
+	}
+}
+
+func TestDeleteSlackService(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/services/slack", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodDelete)
+	})
+
+	_, err := client.Services.DeleteSlackService(1)
+	if err != nil {
+		t.Fatalf("Services.DeleteSlackService returns an error: %v", err)
 	}
 }

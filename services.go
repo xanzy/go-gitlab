@@ -80,6 +80,102 @@ func (s *ServicesService) ListServices(pid interface{}, options ...RequestOption
 	return svcs, resp, err
 }
 
+// CustomIssueTrackerService represents Custom Issue Tracker service settings.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/services.html#custom-issue-tracker
+type CustomIssueTrackerService struct {
+	Service
+	Properties *CustomIssueTrackerServiceProperties `json:"properties"`
+}
+
+// CustomIssueTrackerServiceProperties represents Custom Issue Tracker specific properties.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/services.html#custom-issue-tracker
+type CustomIssueTrackerServiceProperties struct {
+	ProjectURL  string `json:"project_url,omitempty"`
+	IssuesURL   string `json:"issues_url,omitempty"`
+	NewIssueURL string `json:"new_issue_url,omitempty"`
+}
+
+// GetCustomIssueTrackerService gets Custom Issue Tracker service settings for a project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/services.html#get-custom-issue-tracker-service-settings
+func (s *ServicesService) GetCustomIssueTrackerService(pid interface{}, options ...RequestOptionFunc) (*CustomIssueTrackerService, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/services/custom-issue-tracker", pathEscape(project))
+
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	svc := new(CustomIssueTrackerService)
+	resp, err := s.client.Do(req, svc)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return svc, resp, err
+}
+
+// SetCustomIssueTrackerServiceOptions represents the available SetCustomIssueTrackerService()
+// options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/services.html#createedit-custom-issue-tracker-service
+type SetCustomIssueTrackerServiceOptions struct {
+	NewIssueURL *string `url:"new_issue_url,omitempty" json:"new_issue_url,omitempty"`
+	IssuesURL   *string `url:"issues_url,omitempty" json:"issues_url,omitempty"`
+	ProjectURL  *string `url:"project_url,omitempty" json:"project_url,omitempty"`
+	Description *string `url:"description,omitempty" json:"description,omitempty"`
+	Title       *string `url:"title,omitempty" json:"title,omitempty"`
+	PushEvents  *bool   `url:"push_events,omitempty" json:"push_events,omitempty"`
+}
+
+// SetCustomIssueTrackerService sets Custom Issue Tracker service for a project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/services.html#createedit-custom-issue-tracker-service
+func (s *ServicesService) SetCustomIssueTrackerService(pid interface{}, opt *SetCustomIssueTrackerServiceOptions, options ...RequestOptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/services/custom-issue-tracker", pathEscape(project))
+
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
+
+// DeleteCustomIssueTrackerService deletes Custom Issue Tracker service settings for a project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/services.html#delete-custom-issue-tracker-service
+func (s *ServicesService) DeleteCustomIssueTrackerService(pid interface{}, options ...RequestOptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/services/custom-issue-tracker", pathEscape(project))
+
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
+
 // DroneCIService represents Drone CI service settings.
 //
 // GitLab API docs:
@@ -677,6 +773,130 @@ func (s *ServicesService) DeleteJiraService(pid interface{}, options ...RequestO
 	return s.client.Do(req, nil)
 }
 
+// MattermostService represents Mattermost service settings.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/services.html#mattermost-notifications
+type MattermostService struct {
+	Service
+	Properties *MattermostServiceProperties `json:"properties"`
+}
+
+// MattermostServiceProperties represents Mattermost specific properties.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/services.html#mattermost-notifications
+type MattermostServiceProperties struct {
+	WebHook                   string    `json:"webhook"`
+	Username                  string    `json:"username"`
+	Channel                   string    `json:"channel"`
+	NotifyOnlyBrokenPipelines BoolValue `json:"notify_only_broken_pipelines"`
+	BranchesToBeNotified      string    `json:"branches_to_be_notified"`
+	ConfidentialIssueChannel  string    `json:"confidential_issue_channel"`
+	ConfidentialNoteChannel   string    `json:"confidential_note_channel"`
+	IssueChannel              string    `json:"issue_channel"`
+	MergeRequestChannel       string    `json:"merge_request_channel"`
+	NoteChannel               string    `json:"note_channel"`
+	TagPushChannel            string    `json:"tag_push_channel"`
+	PipelineChannel           string    `json:"pipeline_channel"`
+	PushChannel               string    `json:"push_channel"`
+	WikiPageChannel           string    `json:"wiki_page_channel"`
+}
+
+// GetMattermostService gets Mattermost service settings for a project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/services.html#get-slack-service-settings
+func (s *ServicesService) GetMattermostService(pid interface{}, options ...RequestOptionFunc) (*MattermostService, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/services/mattermost", pathEscape(project))
+
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	svc := new(MattermostService)
+	resp, err := s.client.Do(req, svc)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return svc, resp, err
+}
+
+// SetMattermostServiceOptions represents the available SetMattermostService()
+// options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/services.html#createedit-mattermost-notifications-service
+type SetMattermostServiceOptions struct {
+	WebHook                   *string `url:"webhook,omitempty" json:"webhook,omitempty"`
+	Username                  *string `url:"username,omitempty" json:"username,omitempty"`
+	Channel                   *string `url:"channel,omitempty" json:"channel,omitempty"`
+	NotifyOnlyBrokenPipelines *bool   `url:"notify_only_broken_pipelines,omitempty" json:"notify_only_broken_pipelines,omitempty"`
+	BranchesToBeNotified      *string `url:"branches_to_be_notified,omitempty" json:"branches_to_be_notified,omitempty"`
+	ConfidentialIssueChannel  *string `url:"confidential_issue_channel,omitempty" json:"confidential_issue_channel,omitempty"`
+	ConfidentialIssuesEvents  *bool   `url:"confidential_issues_events,omitempty" json:"confidential_issues_events,omitempty"`
+	ConfidentialNoteChannel   *string `json:"confidential_note_channel,omitempty"`
+	ConfidentialNoteEvents    *bool   `url:"confidential_note_events,omitempty" json:"confidential_note_events,omitempty"`
+	IssueChannel              *string `url:"issue_channel,omitempty" json:"issue_channel,omitempty"`
+	IssuesEvents              *bool   `url:"issues_events,omitempty" json:"issues_events,omitempty"`
+	MergeRequestChannel       *string `url:"merge_request_channel,omitempty" json:"merge_request_channel,omitempty"`
+	MergeRequestsEvents       *bool   `url:"merge_requests_events,omitempty" json:"merge_requests_events,omitempty"`
+	TagPushChannel            *string `url:"tag_push_channel,omitempty" json:"tag_push_channel,omitempty"`
+	TagPushEvents             *bool   `url:"tag_push_events,omitempty" json:"tag_push_events,omitempty"`
+	NoteChannel               *string `url:"note_channel,omitempty" json:"note_channel,omitempty"`
+	NoteEvents                *bool   `url:"note_events,omitempty" json:"note_events,omitempty"`
+	PipelineChannel           *string `url:"pipeline_channel,omitempty" json:"pipeline_channel,omitempty"`
+	PipelineEvents            *bool   `url:"pipeline_events,omitempty" json:"pipeline_events,omitempty"`
+	PushChannel               *string `url:"push_channel,omitempty" json:"push_channel,omitempty"`
+	PushEvents                *bool   `url:"push_events,omitempty" json:"push_events,omitempty"`
+	WikiPageChannel           *string `url:"wiki_page_channel,omitempty" json:"wiki_page_channel,omitempty"`
+	WikiPageEvents            *bool   `url:"wiki_page_events,omitempty" json:"wiki_page_events,omitempty"`
+}
+
+// SetMattermostService sets Mattermost service for a project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/services.html#createedit-mattermost-notifications-service
+func (s *ServicesService) SetMattermostService(pid interface{}, opt *SetMattermostServiceOptions, options ...RequestOptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/services/mattermost", pathEscape(project))
+
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
+
+// DeleteMattermostService deletes Mattermost service for project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/services.html#delete-mattermost-notifications-service
+func (s *ServicesService) DeleteMattermostService(pid interface{}, options ...RequestOptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/services/mattermost", pathEscape(project))
+
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
+
 // MicrosoftTeamsService represents Microsoft Teams service settings.
 //
 // GitLab API docs:
@@ -883,6 +1103,99 @@ func (s *ServicesService) DeletePipelinesEmailService(pid interface{}, options .
 	return s.client.Do(req, nil)
 }
 
+// PrometheusService represents Prometheus service settings.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/services.html#prometheus
+type PrometheusService struct {
+	Service
+	Properties *PrometheusServiceProperties `json:"properties"`
+}
+
+// PrometheusServiceProperties represents Prometheus specific properties.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/services.html#prometheus
+type PrometheusServiceProperties struct {
+	APIURL                      string `json:"api_url"`
+	GoogleIAPAudienceClientID   string `json:"google_iap_audience_client_id"`
+	GoogleIAPServiceAccountJSON string `json:"google_iap_service_account_json"`
+}
+
+// GetPrometheusService gets Prometheus service settings for a project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/services.html#get-prometheus-service-settings
+func (s *ServicesService) GetPrometheusService(pid interface{}, options ...RequestOptionFunc) (*PrometheusService, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/services/prometheus", pathEscape(project))
+
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	svc := new(PrometheusService)
+	resp, err := s.client.Do(req, svc)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return svc, resp, err
+}
+
+// SetPrometheusServiceOptions represents the available SetPrometheusService()
+// options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/services.html#createedit-prometheus-service
+type SetPrometheusServiceOptions struct {
+	APIURL                      *string `url:"api_url,omitempty" json:"api_url,omitempty"`
+	GoogleIAPAudienceClientID   *string `url:"google_iap_audience_client_id,omitempty" json:"google_iap_audience_client_id,omitempty"`
+	GoogleIAPServiceAccountJSON *string `url:"google_iap_service_account_json,omitempty" json:"google_iap_service_account_json,omitempty"`
+}
+
+// SetPrometheusService sets Prometheus service for a project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/services.html#createedit-prometheus-service
+func (s *ServicesService) SetPrometheusService(pid interface{}, opt *SetPrometheusServiceOptions, options ...RequestOptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/services/prometheus", pathEscape(project))
+
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
+
+// DeletePrometheusService deletes Prometheus service settings for a project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/services.html#delete-prometheus-service
+func (s *ServicesService) DeletePrometheusService(pid interface{}, options ...RequestOptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/services/prometheus", pathEscape(project))
+
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
+
 // SlackService represents Slack service settings.
 //
 // GitLab API docs:
@@ -1006,226 +1319,6 @@ func (s *ServicesService) DeleteSlackService(pid interface{}, options ...Request
 		return nil, err
 	}
 	u := fmt.Sprintf("projects/%s/services/slack", pathEscape(project))
-
-	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
-	if err != nil {
-		return nil, err
-	}
-
-	return s.client.Do(req, nil)
-}
-
-// MattermostService represents Mattermost service settings.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ce/api/services.html#mattermost-notifications
-type MattermostService struct {
-	Service
-	Properties *MattermostServiceProperties `json:"properties"`
-}
-
-// MattermostServiceProperties represents Mattermost specific properties.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ce/api/services.html#mattermost-notifications
-type MattermostServiceProperties struct {
-	WebHook                   string    `json:"webhook"`
-	Username                  string    `json:"username"`
-	Channel                   string    `json:"channel"`
-	NotifyOnlyBrokenPipelines BoolValue `json:"notify_only_broken_pipelines"`
-	BranchesToBeNotified      string    `json:"branches_to_be_notified"`
-	ConfidentialIssueChannel  string    `json:"confidential_issue_channel"`
-	ConfidentialNoteChannel   string    `json:"confidential_note_channel"`
-	IssueChannel              string    `json:"issue_channel"`
-	MergeRequestChannel       string    `json:"merge_request_channel"`
-	NoteChannel               string    `json:"note_channel"`
-	TagPushChannel            string    `json:"tag_push_channel"`
-	PipelineChannel           string    `json:"pipeline_channel"`
-	PushChannel               string    `json:"push_channel"`
-	WikiPageChannel           string    `json:"wiki_page_channel"`
-}
-
-// GetMattermostService gets Mattermost service settings for a project.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ce/api/services.html#get-slack-service-settings
-func (s *ServicesService) GetMattermostService(pid interface{}, options ...RequestOptionFunc) (*MattermostService, *Response, error) {
-	project, err := parseID(pid)
-	if err != nil {
-		return nil, nil, err
-	}
-	u := fmt.Sprintf("projects/%s/services/mattermost", pathEscape(project))
-
-	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	svc := new(MattermostService)
-	resp, err := s.client.Do(req, svc)
-	if err != nil {
-		return nil, resp, err
-	}
-
-	return svc, resp, err
-}
-
-// SetMattermostServiceOptions represents the available SetMattermostService()
-// options.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ce/api/services.html#createedit-mattermost-notifications-service
-type SetMattermostServiceOptions struct {
-	WebHook                   *string `url:"webhook,omitempty" json:"webhook,omitempty"`
-	Username                  *string `url:"username,omitempty" json:"username,omitempty"`
-	Channel                   *string `url:"channel,omitempty" json:"channel,omitempty"`
-	NotifyOnlyBrokenPipelines *bool   `url:"notify_only_broken_pipelines,omitempty" json:"notify_only_broken_pipelines,omitempty"`
-	BranchesToBeNotified      *string `url:"branches_to_be_notified,omitempty" json:"branches_to_be_notified,omitempty"`
-	ConfidentialIssueChannel  *string `url:"confidential_issue_channel,omitempty" json:"confidential_issue_channel,omitempty"`
-	ConfidentialIssuesEvents  *bool   `url:"confidential_issues_events,omitempty" json:"confidential_issues_events,omitempty"`
-	ConfidentialNoteChannel   *string `json:"confidential_note_channel,omitempty"`
-	ConfidentialNoteEvents    *bool   `url:"confidential_note_events,omitempty" json:"confidential_note_events,omitempty"`
-	IssueChannel              *string `url:"issue_channel,omitempty" json:"issue_channel,omitempty"`
-	IssuesEvents              *bool   `url:"issues_events,omitempty" json:"issues_events,omitempty"`
-	MergeRequestChannel       *string `url:"merge_request_channel,omitempty" json:"merge_request_channel,omitempty"`
-	MergeRequestsEvents       *bool   `url:"merge_requests_events,omitempty" json:"merge_requests_events,omitempty"`
-	TagPushChannel            *string `url:"tag_push_channel,omitempty" json:"tag_push_channel,omitempty"`
-	TagPushEvents             *bool   `url:"tag_push_events,omitempty" json:"tag_push_events,omitempty"`
-	NoteChannel               *string `url:"note_channel,omitempty" json:"note_channel,omitempty"`
-	NoteEvents                *bool   `url:"note_events,omitempty" json:"note_events,omitempty"`
-	PipelineChannel           *string `url:"pipeline_channel,omitempty" json:"pipeline_channel,omitempty"`
-	PipelineEvents            *bool   `url:"pipeline_events,omitempty" json:"pipeline_events,omitempty"`
-	PushChannel               *string `url:"push_channel,omitempty" json:"push_channel,omitempty"`
-	PushEvents                *bool   `url:"push_events,omitempty" json:"push_events,omitempty"`
-	WikiPageChannel           *string `url:"wiki_page_channel,omitempty" json:"wiki_page_channel,omitempty"`
-	WikiPageEvents            *bool   `url:"wiki_page_events,omitempty" json:"wiki_page_events,omitempty"`
-}
-
-// SetMattermostService sets Mattermost service for a project.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ce/api/services.html#createedit-mattermost-notifications-service
-func (s *ServicesService) SetMattermostService(pid interface{}, opt *SetMattermostServiceOptions, options ...RequestOptionFunc) (*Response, error) {
-	project, err := parseID(pid)
-	if err != nil {
-		return nil, err
-	}
-	u := fmt.Sprintf("projects/%s/services/mattermost", pathEscape(project))
-
-	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
-	if err != nil {
-		return nil, err
-	}
-
-	return s.client.Do(req, nil)
-}
-
-// DeleteMattermostService deletes Mattermost service for project.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ce/api/services.html#delete-mattermost-notifications-service
-func (s *ServicesService) DeleteMattermostService(pid interface{}, options ...RequestOptionFunc) (*Response, error) {
-	project, err := parseID(pid)
-	if err != nil {
-		return nil, err
-	}
-	u := fmt.Sprintf("projects/%s/services/mattermost", pathEscape(project))
-
-	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
-	if err != nil {
-		return nil, err
-	}
-
-	return s.client.Do(req, nil)
-}
-
-// CustomIssueTrackerService represents Custom Issue Tracker service settings.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ce/api/services.html#custom-issue-tracker
-type CustomIssueTrackerService struct {
-	Service
-	Properties *CustomIssueTrackerServiceProperties `json:"properties"`
-}
-
-// CustomIssueTrackerServiceProperties represents Custom Issue Tracker specific properties.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ce/api/services.html#custom-issue-tracker
-type CustomIssueTrackerServiceProperties struct {
-	ProjectURL  string `json:"project_url,omitempty"`
-	IssuesURL   string `json:"issues_url,omitempty"`
-	NewIssueURL string `json:"new_issue_url,omitempty"`
-}
-
-// GetCustomIssueTrackerService gets Custom Issue Tracker service settings for a project.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ce/api/services.html#get-custom-issue-tracker-service-settings
-func (s *ServicesService) GetCustomIssueTrackerService(pid interface{}, options ...RequestOptionFunc) (*CustomIssueTrackerService, *Response, error) {
-	project, err := parseID(pid)
-	if err != nil {
-		return nil, nil, err
-	}
-	u := fmt.Sprintf("projects/%s/services/custom-issue-tracker", pathEscape(project))
-
-	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	svc := new(CustomIssueTrackerService)
-	resp, err := s.client.Do(req, svc)
-	if err != nil {
-		return nil, resp, err
-	}
-
-	return svc, resp, err
-}
-
-// SetCustomIssueTrackerServiceOptions represents the available SetCustomIssueTrackerService()
-// options.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ce/api/services.html#createedit-custom-issue-tracker-service
-type SetCustomIssueTrackerServiceOptions struct {
-	NewIssueURL *string `url:"new_issue_url,omitempty" json:"new_issue_url,omitempty"`
-	IssuesURL   *string `url:"issues_url,omitempty" json:"issues_url,omitempty"`
-	ProjectURL  *string `url:"project_url,omitempty" json:"project_url,omitempty"`
-	Description *string `url:"description,omitempty" json:"description,omitempty"`
-	Title       *string `url:"title,omitempty" json:"title,omitempty"`
-	PushEvents  *bool   `url:"push_events,omitempty" json:"push_events,omitempty"`
-}
-
-// SetCustomIssueTrackerService sets Custom Issue Tracker service for a project.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ce/api/services.html#createedit-custom-issue-tracker-service
-func (s *ServicesService) SetCustomIssueTrackerService(pid interface{}, opt *SetCustomIssueTrackerServiceOptions, options ...RequestOptionFunc) (*Response, error) {
-	project, err := parseID(pid)
-	if err != nil {
-		return nil, err
-	}
-	u := fmt.Sprintf("projects/%s/services/custom-issue-tracker", pathEscape(project))
-
-	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
-	if err != nil {
-		return nil, err
-	}
-
-	return s.client.Do(req, nil)
-}
-
-// DeleteCustomIssueTrackerService deletes Custom Issue Tracker service settings for a project.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ce/api/services.html#delete-custom-issue-tracker-service
-func (s *ServicesService) DeleteCustomIssueTrackerService(pid interface{}, options ...RequestOptionFunc) (*Response, error) {
-	project, err := parseID(pid)
-	if err != nil {
-		return nil, err
-	}
-	u := fmt.Sprintf("projects/%s/services/custom-issue-tracker", pathEscape(project))
 
 	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
