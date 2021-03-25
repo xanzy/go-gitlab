@@ -36,67 +36,105 @@ func TestWebhookEventType(t *testing.T) {
 	}
 }
 
-func TestParsePushHook(t *testing.T) {
-	raw := loadFixture("testdata/webhooks/push.json")
+func TestParseBuildHook(t *testing.T) {
+	raw := loadFixture("testdata/webhooks/build.json")
 
-	parsedEvent, err := ParseWebhook("Push Hook", raw)
+	parsedEvent, err := ParseWebhook("Build Hook", raw)
 	if err != nil {
-		t.Errorf("Error parsing push hook: %s", err)
+		t.Errorf("Error parsing build hook: %s", err)
 	}
 
-	event, ok := parsedEvent.(*PushEvent)
+	event, ok := parsedEvent.(*BuildEvent)
 	if !ok {
-		t.Errorf("Expected PushEvent, but parsing produced %T", parsedEvent)
+		t.Errorf("Expected BuildEvent, but parsing produced %T", parsedEvent)
 	}
 
-	if event.ObjectKind != "push" {
-		t.Errorf("ObjectKind is %v, want %v", event.ObjectKind, "push")
+	if event.ObjectKind != "build" {
+		t.Errorf("ObjectKind is %v, want %v", event.ObjectKind, "build")
 	}
 
-	if event.ProjectID != 15 {
-		t.Errorf("ProjectID is %v, want %v", event.ProjectID, 15)
+	if event.BuildID != 1977 {
+		t.Errorf("BuildID is %v, want %v", event.BuildID, 1977)
 	}
 
-	if event.UserName != exampleEventUserName {
-		t.Errorf("Username is %s, want %s", event.UserName, exampleEventUserName)
+	if event.BuildAllowFailure {
+		t.Errorf("BuildAllowFailure is %v, want %v", event.BuildAllowFailure, false)
 	}
 
-	if event.Commits[0] == nil || event.Commits[0].Timestamp == nil {
-		t.Errorf("Commit Timestamp isn't nil")
-	}
-
-	if event.Commits[0] == nil || event.Commits[0].Author.Name != "Jordi Mallach" {
-		t.Errorf("Commit Username is %s, want %s", event.UserName, "Jordi Mallach")
+	if event.Commit.SHA != "2293ada6b400935a1378653304eaf6221e0fdb8f" {
+		t.Errorf("Commit SHA is %v, want %v", event.Commit.SHA, "2293ada6b400935a1378653304eaf6221e0fdb8f")
 	}
 }
 
-func TestParseTagHook(t *testing.T) {
-	raw := loadFixture("testdata/webhooks/tag_push.json")
+func TestParseCommitCommentHook(t *testing.T) {
+	raw := loadFixture("testdata/webhooks/note_commit.json")
 
-	parsedEvent, err := ParseWebhook("Tag Push Hook", raw)
+	parsedEvent, err := ParseWebhook("Note Hook", raw)
 	if err != nil {
-		t.Errorf("Error parsing tag hook: %s", err)
+		t.Errorf("Error parsing note hook: %s", err)
 	}
 
-	event, ok := parsedEvent.(*TagEvent)
+	event, ok := parsedEvent.(*CommitCommentEvent)
 	if !ok {
-		t.Errorf("Expected TagEvent, but parsing produced %T", parsedEvent)
+		t.Errorf("Expected CommitCommentEvent, but parsing produced %T", parsedEvent)
 	}
 
-	if event.ObjectKind != "tag_push" {
-		t.Errorf("ObjectKind is %v, want %v", event.ObjectKind, "tag_push")
+	if event.ObjectKind != string(NoteEventTargetType) {
+		t.Errorf("ObjectKind is %v, want %v", event.ObjectKind, NoteEventTargetType)
 	}
 
-	if event.ProjectID != 1 {
-		t.Errorf("ProjectID is %v, want %v", event.ProjectID, 1)
+	if event.ProjectID != 5 {
+		t.Errorf("ProjectID is %v, want %v", event.ProjectID, 5)
 	}
 
-	if event.UserName != exampleEventUserName {
-		t.Errorf("Username is %s, want %s", event.UserName, exampleEventUserName)
+	if event.ObjectAttributes.NoteableType != "Commit" {
+		t.Errorf("NoteableType is %v, want %v", event.ObjectAttributes.NoteableType, "Commit")
 	}
 
-	if event.Ref != "refs/tags/v1.0.0" {
-		t.Errorf("Ref is %s, want %s", event.Ref, "refs/tags/v1.0.0")
+	if event.Commit.ID != "cfe32cf61b73a0d5e9f13e774abde7ff789b1660" {
+		t.Errorf("CommitID is %v, want %v", event.Commit.ID, "cfe32cf61b73a0d5e9f13e774abde7ff789b1660")
+	}
+}
+
+func TestParseHookWebHook(t *testing.T) {
+	parsedEvent1, err := ParseHook("Merge Request Hook", loadFixture("testdata/webhooks/merge_request.json"))
+	if err != nil {
+		t.Errorf("Error parsing build hook: %s", err)
+	}
+	parsedEvent2, err := ParseWebhook("Merge Request Hook", loadFixture("testdata/webhooks/merge_request.json"))
+	if err != nil {
+		t.Errorf("Error parsing build hook: %s", err)
+	}
+	assert.Equal(t, parsedEvent1, parsedEvent2)
+}
+
+func TestParseIssueCommentHook(t *testing.T) {
+	raw := loadFixture("testdata/webhooks/note_issue.json")
+
+	parsedEvent, err := ParseWebhook("Note Hook", raw)
+	if err != nil {
+		t.Errorf("Error parsing note hook: %s", err)
+	}
+
+	event, ok := parsedEvent.(*IssueCommentEvent)
+	if !ok {
+		t.Errorf("Expected IssueCommentEvent, but parsing produced %T", parsedEvent)
+	}
+
+	if event.ObjectKind != string(NoteEventTargetType) {
+		t.Errorf("ObjectKind is %v, want %v", event.ObjectKind, NoteEventTargetType)
+	}
+
+	if event.ProjectID != 5 {
+		t.Errorf("ProjectID is %v, want %v", event.ProjectID, 5)
+	}
+
+	if event.ObjectAttributes.NoteableType != "Issue" {
+		t.Errorf("NoteableType is %v, want %v", event.ObjectAttributes.NoteableType, "Issue")
+	}
+
+	if event.Issue.Title != "test" {
+		t.Errorf("Issue title is %v, want %v", event.Issue.Title, "test")
 	}
 }
 
@@ -139,36 +177,6 @@ func TestParseIssueHook(t *testing.T) {
 	assert.Equal(t, "New title", event.Changes.Title.Current)
 }
 
-func TestParseCommitCommentHook(t *testing.T) {
-	raw := loadFixture("testdata/webhooks/note_commit.json")
-
-	parsedEvent, err := ParseWebhook("Note Hook", raw)
-	if err != nil {
-		t.Errorf("Error parsing note hook: %s", err)
-	}
-
-	event, ok := parsedEvent.(*CommitCommentEvent)
-	if !ok {
-		t.Errorf("Expected CommitCommentEvent, but parsing produced %T", parsedEvent)
-	}
-
-	if event.ObjectKind != string(NoteEventTargetType) {
-		t.Errorf("ObjectKind is %v, want %v", event.ObjectKind, NoteEventTargetType)
-	}
-
-	if event.ProjectID != 5 {
-		t.Errorf("ProjectID is %v, want %v", event.ProjectID, 5)
-	}
-
-	if event.ObjectAttributes.NoteableType != "Commit" {
-		t.Errorf("NoteableType is %v, want %v", event.ObjectAttributes.NoteableType, "Commit")
-	}
-
-	if event.Commit.ID != "cfe32cf61b73a0d5e9f13e774abde7ff789b1660" {
-		t.Errorf("CommitID is %v, want %v", event.Commit.ID, "cfe32cf61b73a0d5e9f13e774abde7ff789b1660")
-	}
-}
-
 func TestParseMergeRequestCommentHook(t *testing.T) {
 	raw := loadFixture("testdata/webhooks/note_merge_request.json")
 
@@ -196,66 +204,6 @@ func TestParseMergeRequestCommentHook(t *testing.T) {
 
 	if event.MergeRequest.ID != 7 {
 		t.Errorf("MergeRequest ID is %v, want %v", event.MergeRequest.ID, 7)
-	}
-}
-
-func TestParseIssueCommentHook(t *testing.T) {
-	raw := loadFixture("testdata/webhooks/note_issue.json")
-
-	parsedEvent, err := ParseWebhook("Note Hook", raw)
-	if err != nil {
-		t.Errorf("Error parsing note hook: %s", err)
-	}
-
-	event, ok := parsedEvent.(*IssueCommentEvent)
-	if !ok {
-		t.Errorf("Expected IssueCommentEvent, but parsing produced %T", parsedEvent)
-	}
-
-	if event.ObjectKind != string(NoteEventTargetType) {
-		t.Errorf("ObjectKind is %v, want %v", event.ObjectKind, NoteEventTargetType)
-	}
-
-	if event.ProjectID != 5 {
-		t.Errorf("ProjectID is %v, want %v", event.ProjectID, 5)
-	}
-
-	if event.ObjectAttributes.NoteableType != "Issue" {
-		t.Errorf("NoteableType is %v, want %v", event.ObjectAttributes.NoteableType, "Issue")
-	}
-
-	if event.Issue.Title != "test" {
-		t.Errorf("Issue title is %v, want %v", event.Issue.Title, "test")
-	}
-}
-
-func TestParseSnippetCommentHook(t *testing.T) {
-	raw := loadFixture("testdata/webhooks/note_snippet.json")
-
-	parsedEvent, err := ParseWebhook("Note Hook", raw)
-	if err != nil {
-		t.Errorf("Error parsing note hook: %s", err)
-	}
-
-	event, ok := parsedEvent.(*SnippetCommentEvent)
-	if !ok {
-		t.Errorf("Expected SnippetCommentEvent, but parsing produced %T", parsedEvent)
-	}
-
-	if event.ObjectKind != string(NoteEventTargetType) {
-		t.Errorf("ObjectKind is %v, want %v", event.ObjectKind, NoteEventTargetType)
-	}
-
-	if event.ProjectID != 5 {
-		t.Errorf("ProjectID is %v, want %v", event.ProjectID, 5)
-	}
-
-	if event.ObjectAttributes.NoteableType != "Snippet" {
-		t.Errorf("NoteableType is %v, want %v", event.ObjectAttributes.NoteableType, "Snippet")
-	}
-
-	if event.Snippet.Title != "test" {
-		t.Errorf("Snippet title is %v, want %v", event.Snippet.Title, "test")
 	}
 }
 
@@ -294,58 +242,6 @@ func TestParseMergeRequestHook(t *testing.T) {
 	assert.Equal(t, 1, len(event.Changes.Labels.Current))
 }
 
-func TestParseWikiPageHook(t *testing.T) {
-	raw := loadFixture("testdata/webhooks/wiki_page.json")
-
-	parsedEvent, err := ParseWebhook("Wiki Page Hook", raw)
-	if err != nil {
-		t.Errorf("Error parsing wiki page hook: %s", err)
-	}
-
-	event, ok := parsedEvent.(*WikiPageEvent)
-	if !ok {
-		t.Errorf("Expected WikiPageEvent, but parsing produced %T", parsedEvent)
-	}
-
-	if event.ObjectKind != "wiki_page" {
-		t.Errorf("ObjectKind is %v, want %v", event.ObjectKind, "wiki_page")
-	}
-
-	if event.Project.Name != "awesome-project" {
-		t.Errorf("Project name is %v, want %v", event.Project.Name, "awesome-project")
-	}
-
-	if event.Wiki.WebURL != "http://example.com/root/awesome-project/wikis/home" {
-		t.Errorf("Wiki web URL is %v, want %v", event.Wiki.WebURL, "http://example.com/root/awesome-project/wikis/home")
-	}
-
-	if event.ObjectAttributes.Message != "adding an awesome page to the wiki" {
-		t.Errorf("Message is %v, want %v", event.ObjectAttributes.Message, "adding an awesome page to the wiki")
-	}
-}
-
-func TestParseReleaseHook(t *testing.T) {
-	raw := loadFixture("testdata/webhooks/release.json")
-
-	parsedEvent, err := ParseWebhook("Release Hook", raw)
-	if err != nil {
-		t.Errorf("Error parsing release hook: %s", err)
-	}
-
-	event, ok := parsedEvent.(*ReleaseEvent)
-	if !ok {
-		t.Errorf("Expected ReleaseEvent, but parsing produced %T", parsedEvent)
-	}
-
-	if event.ObjectKind != "release" {
-		t.Errorf("ObjectKind is %v, want %v", event.ObjectKind, "release")
-	}
-
-	if event.Project.Name != "Project Name" {
-		t.Errorf("Project name is %v, want %v", event.Project.Name, "Project Name")
-	}
-}
-
 func TestParsePipelineHook(t *testing.T) {
 	raw := loadFixture("testdata/webhooks/pipeline.json")
 
@@ -376,44 +272,148 @@ func TestParsePipelineHook(t *testing.T) {
 	}
 }
 
-func TestParseBuildHook(t *testing.T) {
-	raw := loadFixture("testdata/webhooks/build.json")
+func TestParsePushHook(t *testing.T) {
+	raw := loadFixture("testdata/webhooks/push.json")
 
-	parsedEvent, err := ParseWebhook("Build Hook", raw)
+	parsedEvent, err := ParseWebhook("Push Hook", raw)
 	if err != nil {
-		t.Errorf("Error parsing build hook: %s", err)
+		t.Errorf("Error parsing push hook: %s", err)
 	}
 
-	event, ok := parsedEvent.(*BuildEvent)
+	event, ok := parsedEvent.(*PushEvent)
 	if !ok {
-		t.Errorf("Expected BuildEvent, but parsing produced %T", parsedEvent)
+		t.Errorf("Expected PushEvent, but parsing produced %T", parsedEvent)
 	}
 
-	if event.ObjectKind != "build" {
-		t.Errorf("ObjectKind is %v, want %v", event.ObjectKind, "build")
+	if event.ObjectKind != "push" {
+		t.Errorf("ObjectKind is %v, want %v", event.ObjectKind, "push")
 	}
 
-	if event.BuildID != 1977 {
-		t.Errorf("BuildID is %v, want %v", event.BuildID, 1977)
+	if event.ProjectID != 15 {
+		t.Errorf("ProjectID is %v, want %v", event.ProjectID, 15)
 	}
 
-	if event.BuildAllowFailure {
-		t.Errorf("BuildAllowFailure is %v, want %v", event.BuildAllowFailure, false)
+	if event.UserName != exampleEventUserName {
+		t.Errorf("Username is %s, want %s", event.UserName, exampleEventUserName)
 	}
 
-	if event.Commit.SHA != "2293ada6b400935a1378653304eaf6221e0fdb8f" {
-		t.Errorf("Commit SHA is %v, want %v", event.Commit.SHA, "2293ada6b400935a1378653304eaf6221e0fdb8f")
+	if event.Commits[0] == nil || event.Commits[0].Timestamp == nil {
+		t.Errorf("Commit Timestamp isn't nil")
+	}
+
+	if event.Commits[0] == nil || event.Commits[0].Author.Name != "Jordi Mallach" {
+		t.Errorf("Commit Username is %s, want %s", event.UserName, "Jordi Mallach")
 	}
 }
 
-func TestParseHookWebHook(t *testing.T) {
-	parsedEvent1, err := ParseHook("Merge Request Hook", loadFixture("testdata/webhooks/merge_request.json"))
+func TestParseReleaseHook(t *testing.T) {
+	raw := loadFixture("testdata/webhooks/release.json")
+
+	parsedEvent, err := ParseWebhook("Release Hook", raw)
 	if err != nil {
-		t.Errorf("Error parsing build hook: %s", err)
+		t.Errorf("Error parsing release hook: %s", err)
 	}
-	parsedEvent2, err := ParseWebhook("Merge Request Hook", loadFixture("testdata/webhooks/merge_request.json"))
+
+	event, ok := parsedEvent.(*ReleaseEvent)
+	if !ok {
+		t.Errorf("Expected ReleaseEvent, but parsing produced %T", parsedEvent)
+	}
+
+	if event.ObjectKind != "release" {
+		t.Errorf("ObjectKind is %v, want %v", event.ObjectKind, "release")
+	}
+
+	if event.Project.Name != "Project Name" {
+		t.Errorf("Project name is %v, want %v", event.Project.Name, "Project Name")
+	}
+}
+
+func TestParseSnippetCommentHook(t *testing.T) {
+	raw := loadFixture("testdata/webhooks/note_snippet.json")
+
+	parsedEvent, err := ParseWebhook("Note Hook", raw)
 	if err != nil {
-		t.Errorf("Error parsing build hook: %s", err)
+		t.Errorf("Error parsing note hook: %s", err)
 	}
-	assert.Equal(t, parsedEvent1, parsedEvent2)
+
+	event, ok := parsedEvent.(*SnippetCommentEvent)
+	if !ok {
+		t.Errorf("Expected SnippetCommentEvent, but parsing produced %T", parsedEvent)
+	}
+
+	if event.ObjectKind != string(NoteEventTargetType) {
+		t.Errorf("ObjectKind is %v, want %v", event.ObjectKind, NoteEventTargetType)
+	}
+
+	if event.ProjectID != 5 {
+		t.Errorf("ProjectID is %v, want %v", event.ProjectID, 5)
+	}
+
+	if event.ObjectAttributes.NoteableType != "Snippet" {
+		t.Errorf("NoteableType is %v, want %v", event.ObjectAttributes.NoteableType, "Snippet")
+	}
+
+	if event.Snippet.Title != "test" {
+		t.Errorf("Snippet title is %v, want %v", event.Snippet.Title, "test")
+	}
+}
+
+func TestParseTagHook(t *testing.T) {
+	raw := loadFixture("testdata/webhooks/tag_push.json")
+
+	parsedEvent, err := ParseWebhook("Tag Push Hook", raw)
+	if err != nil {
+		t.Errorf("Error parsing tag hook: %s", err)
+	}
+
+	event, ok := parsedEvent.(*TagEvent)
+	if !ok {
+		t.Errorf("Expected TagEvent, but parsing produced %T", parsedEvent)
+	}
+
+	if event.ObjectKind != "tag_push" {
+		t.Errorf("ObjectKind is %v, want %v", event.ObjectKind, "tag_push")
+	}
+
+	if event.ProjectID != 1 {
+		t.Errorf("ProjectID is %v, want %v", event.ProjectID, 1)
+	}
+
+	if event.UserName != exampleEventUserName {
+		t.Errorf("Username is %s, want %s", event.UserName, exampleEventUserName)
+	}
+
+	if event.Ref != "refs/tags/v1.0.0" {
+		t.Errorf("Ref is %s, want %s", event.Ref, "refs/tags/v1.0.0")
+	}
+}
+
+func TestParseWikiPageHook(t *testing.T) {
+	raw := loadFixture("testdata/webhooks/wiki_page.json")
+
+	parsedEvent, err := ParseWebhook("Wiki Page Hook", raw)
+	if err != nil {
+		t.Errorf("Error parsing wiki page hook: %s", err)
+	}
+
+	event, ok := parsedEvent.(*WikiPageEvent)
+	if !ok {
+		t.Errorf("Expected WikiPageEvent, but parsing produced %T", parsedEvent)
+	}
+
+	if event.ObjectKind != "wiki_page" {
+		t.Errorf("ObjectKind is %v, want %v", event.ObjectKind, "wiki_page")
+	}
+
+	if event.Project.Name != "awesome-project" {
+		t.Errorf("Project name is %v, want %v", event.Project.Name, "awesome-project")
+	}
+
+	if event.Wiki.WebURL != "http://example.com/root/awesome-project/wikis/home" {
+		t.Errorf("Wiki web URL is %v, want %v", event.Wiki.WebURL, "http://example.com/root/awesome-project/wikis/home")
+	}
+
+	if event.ObjectAttributes.Message != "adding an awesome page to the wiki" {
+		t.Errorf("Message is %v, want %v", event.ObjectAttributes.Message, "adding an awesome page to the wiki")
+	}
 }
