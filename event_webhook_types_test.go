@@ -21,33 +21,69 @@ import (
 	"testing"
 )
 
-func TestPushEventUnmarshal(t *testing.T) {
-	jsonObject := loadFixture("testdata/webhooks/push.json")
-	var event *PushEvent
+func TestBuildEventUnmarshal(t *testing.T) {
+	jsonObject := loadFixture("testdata/webhooks/build.json")
+
+	var event *BuildEvent
 	err := json.Unmarshal(jsonObject, &event)
 
 	if err != nil {
-		t.Errorf("Push Event can not unmarshaled: %v\n ", err.Error())
+		t.Errorf("Build Event can not unmarshaled: %v\n ", err.Error())
 	}
 
 	if event == nil {
-		t.Errorf("Push Event is null")
+		t.Errorf("Build Event is null")
 	}
 
-	if event.ProjectID != 15 {
-		t.Errorf("ProjectID is %v, want %v", event.ProjectID, 15)
+	if event.BuildID != 1977 {
+		t.Errorf("BuildID is %v, want %v", event.BuildID, 1977)
+	}
+}
+
+func TestDeploymentEventUnmarshal(t *testing.T) {
+	jsonObject := loadFixture("testdata/webhooks/deployment.json")
+
+	var event *DeploymentEvent
+	err := json.Unmarshal(jsonObject, &event)
+
+	if err != nil {
+		t.Errorf("Deployment Event can not unmarshaled: %v\n ", err.Error())
 	}
 
-	if event.UserName != exampleEventUserName {
-		t.Errorf("Username is %s, want %s", event.UserName, exampleEventUserName)
+	if event == nil {
+		t.Errorf("Deployment Event is null")
 	}
 
-	if event.Commits[0] == nil || event.Commits[0].Timestamp == nil {
-		t.Errorf("Commit Timestamp isn't nil")
+	if event.Project.ID != 30 {
+		t.Errorf("Project.ID is %v, want %v", event.Project.ID, 30)
 	}
 
-	if event.Commits[0] == nil || event.Commits[0].Author.Name != "Jordi Mallach" {
-		t.Errorf("Commit Username is %s, want %s", event.UserName, "Jordi Mallach")
+	if event.User.Name == "" {
+		t.Errorf("Username is %s, want %s", event.User.Name, "Administrator")
+	}
+
+	if event.CommitTitle != "Add new file" {
+		t.Errorf("CommitTitle is %s, want %s", event.CommitTitle, "Add new file")
+	}
+}
+
+func TestIssueEventUnmarshal(t *testing.T) {
+	jsonObject := loadFixture("testdata/webhooks/issue.json")
+
+	var event *IssueEvent
+	err := json.Unmarshal(jsonObject, &event)
+
+	if err != nil {
+		t.Errorf("Deployment Event can not unmarshaled: %v\n ", err.Error())
+	}
+	if event.Project.ID != 1 {
+		t.Errorf("Project.ID is %v, want %v", event.Project.ID, 1)
+	}
+	if event.Changes.TotalTimeSpent.Previous != 8100 {
+		t.Errorf("Changes.TotalTimeSpent.Previous is %v , want %v", event.Changes.TotalTimeSpent.Previous, 8100)
+	}
+	if event.Changes.TotalTimeSpent.Current != 9900 {
+		t.Errorf("Changes.TotalTimeSpent.Current is %v , want %v", event.Changes.TotalTimeSpent.Current, 8100)
 	}
 }
 
@@ -94,56 +130,6 @@ func TestMergeEventUnmarshal(t *testing.T) {
 
 	if name := event.ObjectAttributes.LastCommit.Author.Name; name != "GitLab dev user" {
 		t.Errorf("Commit Username is %s, want %s", name, "GitLab dev user")
-	}
-}
-
-func TestPipelineEventUnmarshal(t *testing.T) {
-	jsonObject := loadFixture("testdata/webhooks/pipeline.json")
-
-	var event *PipelineEvent
-	err := json.Unmarshal(jsonObject, &event)
-
-	if err != nil {
-		t.Errorf("Pipeline Event can not unmarshaled: %v\n ", err.Error())
-	}
-
-	if event == nil {
-		t.Errorf("Pipeline Event is null")
-	}
-
-	if event.ObjectAttributes.ID != 31 {
-		t.Errorf("ObjectAttributes is %v, want %v", event.ObjectAttributes.ID, 1977)
-	}
-
-	if event.User.Name == "" {
-		t.Errorf("Username is %s, want %s", event.User.Name, "Administrator")
-	}
-
-	if event.Commit.Timestamp == nil {
-		t.Errorf("Timestamp isn't nil")
-	}
-
-	if name := event.Commit.Author.Name; name != "User" {
-		t.Errorf("Commit Username is %s, want %s", name, "User")
-	}
-}
-
-func TestBuildEventUnmarshal(t *testing.T) {
-	jsonObject := loadFixture("testdata/webhooks/build.json")
-
-	var event *BuildEvent
-	err := json.Unmarshal(jsonObject, &event)
-
-	if err != nil {
-		t.Errorf("Build Event can not unmarshaled: %v\n ", err.Error())
-	}
-
-	if event == nil {
-		t.Errorf("Build Event is null")
-	}
-
-	if event.BuildID != 1977 {
-		t.Errorf("BuildID is %v, want %v", event.BuildID, 1977)
 	}
 }
 
@@ -206,49 +192,106 @@ func TestMergeEventUnmarshalFromGroup(t *testing.T) {
 	}
 }
 
-func TestDeploymentEventUnmarshal(t *testing.T) {
-	jsonObject := loadFixture("testdata/webhooks/deployment.json")
+func TestPipelineEventUnmarshal(t *testing.T) {
+	jsonObject := loadFixture("testdata/webhooks/pipeline.json")
 
-	var event *DeploymentEvent
+	var event *PipelineEvent
 	err := json.Unmarshal(jsonObject, &event)
 
 	if err != nil {
-		t.Errorf("Deployment Event can not unmarshaled: %v\n ", err.Error())
+		t.Errorf("Pipeline Event can not unmarshaled: %v\n ", err.Error())
 	}
 
 	if event == nil {
-		t.Errorf("Deployment Event is null")
+		t.Errorf("Pipeline Event is null")
 	}
 
-	if event.Project.ID != 30 {
-		t.Errorf("Project.ID is %v, want %v", event.Project.ID, 30)
+	if event.ObjectAttributes.ID != 31 {
+		t.Errorf("ObjectAttributes is %v, want %v", event.ObjectAttributes.ID, 1977)
 	}
 
 	if event.User.Name == "" {
 		t.Errorf("Username is %s, want %s", event.User.Name, "Administrator")
 	}
 
-	if event.CommitTitle != "Add new file" {
-		t.Errorf("CommitTitle is %s, want %s", event.CommitTitle, "Add new file")
+	if event.Commit.Timestamp == nil {
+		t.Errorf("Timestamp isn't nil")
+	}
+
+	if name := event.Commit.Author.Name; name != "User" {
+		t.Errorf("Commit Username is %s, want %s", name, "User")
 	}
 }
 
-func TestIssueEventUnmarshal(t *testing.T) {
-	jsonObject := loadFixture("testdata/webhooks/issue.json")
-
-	var event *IssueEvent
+func TestPushEventUnmarshal(t *testing.T) {
+	jsonObject := loadFixture("testdata/webhooks/push.json")
+	var event *PushEvent
 	err := json.Unmarshal(jsonObject, &event)
 
 	if err != nil {
-		t.Errorf("Deployment Event can not unmarshaled: %v\n ", err.Error())
+		t.Errorf("Push Event can not unmarshaled: %v\n ", err.Error())
 	}
-	if event.Project.ID != 1 {
-		t.Errorf("Project.ID is %v, want %v", event.Project.ID, 1)
+
+	if event == nil {
+		t.Errorf("Push Event is null")
 	}
-	if event.Changes.TotalTimeSpent.Previous != 8100 {
-		t.Errorf("Changes.TotalTimeSpent.Previous is %v , want %v", event.Changes.TotalTimeSpent.Previous, 8100)
+
+	if event.ProjectID != 15 {
+		t.Errorf("ProjectID is %v, want %v", event.ProjectID, 15)
 	}
-	if event.Changes.TotalTimeSpent.Current != 9900 {
-		t.Errorf("Changes.TotalTimeSpent.Current is %v , want %v", event.Changes.TotalTimeSpent.Current, 8100)
+
+	if event.UserName != exampleEventUserName {
+		t.Errorf("Username is %s, want %s", event.UserName, exampleEventUserName)
+	}
+
+	if event.Commits[0] == nil || event.Commits[0].Timestamp == nil {
+		t.Errorf("Commit Timestamp isn't nil")
+	}
+
+	if event.Commits[0] == nil || event.Commits[0].Author.Name != "Jordi Mallach" {
+		t.Errorf("Commit Username is %s, want %s", event.UserName, "Jordi Mallach")
+	}
+}
+
+func TestReleaseEventUnmarshal(t *testing.T) {
+	jsonObject := loadFixture("testdata/webhooks/release.json")
+
+	var event *ReleaseEvent
+	err := json.Unmarshal(jsonObject, &event)
+
+	if err != nil {
+		t.Errorf("Release Event can not unmarshaled: %v\n ", err.Error())
+	}
+
+	if event == nil {
+		t.Errorf("Release Event is null")
+	}
+
+	if event.Project.ID != 327622 {
+		t.Errorf("Project.ID is %v, want %v", event.Project.ID, 327622)
+	}
+
+	if event.Commit.Title != "Merge branch 'example-branch' into 'master'" {
+		t.Errorf("Commit title is %s, want %s", event.Commit.Title, "Merge branch 'example-branch' into 'master'")
+	}
+
+	if len(event.Assets.Sources) != 4 {
+		t.Errorf("Asset sources length is %d, want %d", len(event.Assets.Sources), 4)
+	}
+
+	if event.Assets.Sources[0].Format != "zip" {
+		t.Errorf("First asset source format is %s, want %s", event.Assets.Sources[0].Format, "zip")
+	}
+
+	if len(event.Assets.Links) != 1 {
+		t.Errorf("Asset links length is %d, want %d", len(event.Assets.Links), 1)
+	}
+
+	if event.Assets.Links[0].Name != "Changelog" {
+		t.Errorf("First asset link name is %s, want %s", event.Assets.Links[0].Name, "Changelog")
+	}
+
+	if event.Commit.Author.Name != "User" {
+		t.Errorf("Commit author name is %s, want %s", event.Commit.Author.Name, "User")
 	}
 }

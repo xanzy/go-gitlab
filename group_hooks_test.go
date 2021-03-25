@@ -46,6 +46,7 @@ func TestListGroupHooks(t *testing.T) {
 		"pipeline_events": true,
 		"wiki_page_events": true,
 		"deployment_events": true,
+		"releases_events": true,
 		"enable_ssl_verification": true,
 		"created_at": "2012-10-12T17:04:47Z"
 	}
@@ -72,6 +73,7 @@ func TestListGroupHooks(t *testing.T) {
 		PipelineEvents:           true,
 		WikiPageEvents:           true,
 		DeploymentEvents:         true,
+		ReleasesEvents:           true,
 		EnableSSLVerification:    true,
 		CreatedAt:                &datePointer,
 	}}
@@ -102,6 +104,7 @@ func TestGetGroupHook(t *testing.T) {
 	"pipeline_events": true,
 	"wiki_page_events": true,
 	"deployment_events": true,
+	"releases_events": true,
 	"enable_ssl_verification": true,
 	"created_at": "2012-10-12T17:04:47Z"
 }`)
@@ -127,6 +130,7 @@ func TestGetGroupHook(t *testing.T) {
 		PipelineEvents:           true,
 		WikiPageEvents:           true,
 		DeploymentEvents:         true,
+		ReleasesEvents:           true,
 		EnableSSLVerification:    true,
 		CreatedAt:                &datePointer,
 	}
@@ -157,6 +161,7 @@ func TestAddGroupHook(t *testing.T) {
 	"pipeline_events": true,
 	"wiki_page_events": true,
 	"deployment_events": true,
+	"releases_events": true,
 	"enable_ssl_verification": true,
 	"created_at": "2012-10-12T17:04:47Z"
 }`)
@@ -188,6 +193,7 @@ func TestAddGroupHook(t *testing.T) {
 		PipelineEvents:           true,
 		WikiPageEvents:           true,
 		DeploymentEvents:         true,
+		ReleasesEvents:           true,
 		EnableSSLVerification:    true,
 		CreatedAt:                &datePointer,
 	}
@@ -218,6 +224,7 @@ func TestEditGroupHook(t *testing.T) {
 	"pipeline_events": true,
 	"wiki_page_events": true,
 	"deployment_events": true,
+	"releases_events": true,
 	"enable_ssl_verification": true,
 	"created_at": "2012-10-12T17:04:47Z"
 }`)
@@ -249,6 +256,7 @@ func TestEditGroupHook(t *testing.T) {
 		PipelineEvents:           true,
 		WikiPageEvents:           true,
 		DeploymentEvents:         true,
+		ReleasesEvents:           true,
 		EnableSSLVerification:    true,
 		CreatedAt:                &datePointer,
 	}
