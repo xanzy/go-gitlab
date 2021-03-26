@@ -67,26 +67,6 @@ func TestDeploymentEventUnmarshal(t *testing.T) {
 	}
 }
 
-func TestIssueEventUnmarshal(t *testing.T) {
-	jsonObject := loadFixture("testdata/webhooks/issue.json")
-
-	var event *IssueEvent
-	err := json.Unmarshal(jsonObject, &event)
-
-	if err != nil {
-		t.Errorf("Issue Event can not unmarshaled: %v\n ", err.Error())
-	}
-	if event.Project.ID != 1 {
-		t.Errorf("Project.ID is %v, want %v", event.Project.ID, 1)
-	}
-	if event.Changes.TotalTimeSpent.Previous != 8100 {
-		t.Errorf("Changes.TotalTimeSpent.Previous is %v , want %v", event.Changes.TotalTimeSpent.Previous, 8100)
-	}
-	if event.Changes.TotalTimeSpent.Current != 9900 {
-		t.Errorf("Changes.TotalTimeSpent.Current is %v , want %v", event.Changes.TotalTimeSpent.Current, 8100)
-	}
-}
-
 func TestIssueCommentEventUnmarshal(t *testing.T) {
 	jsonObject := loadFixture("testdata/webhooks/note_issue.json")
 
@@ -115,6 +95,26 @@ func TestIssueCommentEventUnmarshal(t *testing.T) {
 
 	if len(event.Issue.Labels) == 0 || event.Issue.Labels[0].ID != 25 {
 		t.Errorf("Label id is null")
+	}
+}
+
+func TestIssueEventUnmarshal(t *testing.T) {
+	jsonObject := loadFixture("testdata/webhooks/issue.json")
+
+	var event *IssueEvent
+	err := json.Unmarshal(jsonObject, &event)
+
+	if err != nil {
+		t.Errorf("Issue Event can not unmarshaled: %v\n ", err.Error())
+	}
+	if event.Project.ID != 1 {
+		t.Errorf("Project.ID is %v, want %v", event.Project.ID, 1)
+	}
+	if event.Changes.TotalTimeSpent.Previous != 8100 {
+		t.Errorf("Changes.TotalTimeSpent.Previous is %v , want %v", event.Changes.TotalTimeSpent.Previous, 8100)
+	}
+	if event.Changes.TotalTimeSpent.Current != 9900 {
+		t.Errorf("Changes.TotalTimeSpent.Current is %v , want %v", event.Changes.TotalTimeSpent.Current, 8100)
 	}
 }
 
