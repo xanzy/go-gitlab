@@ -213,6 +213,7 @@ type IssueCommentEvent struct {
 		Description         string   `json:"description"`
 		State               string   `json:"state"`
 		Title               string   `json:"title"`
+		Labels              []Label  `json:"labels"`
 		LastEditedAt        string   `json:"last_edit_at"`
 		LastEditedByID      int      `json:"last_edited_by_id"`
 		UpdatedAt           string   `json:"updated_at"`

@@ -458,10 +458,10 @@ func (s *GroupsService) ListGroupLDAPLinks(gid interface{}, options ...RequestOp
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/groups.html#add-ldap-group-link-starter
 type AddGroupLDAPLinkOptions struct {
-	CN          *string `url:"cn,omitempty" json:"cn,omitempty"`
-	Filter      *string `url:"filter,omitempty" json:"filter,omitempty"`
-	GroupAccess *AccessLevelValue    `url:"group_access,omitempty" json:"group_access,omitempty"`
-	Provider    *string `url:"provider,omitempty" json:"provider,omitempty"`
+	CN          *string           `url:"cn,omitempty" json:"cn,omitempty"`
+	Filter      *string           `url:"filter,omitempty" json:"filter,omitempty"`
+	GroupAccess *AccessLevelValue `url:"group_access,omitempty" json:"group_access,omitempty"`
+	Provider    *string           `url:"provider,omitempty" json:"provider,omitempty"`
 }
 
 // DeleteGroupLDAPLinkWithCNOrFilterOptions represents the available DeleteGroupLDAPLinkWithCNOrFilter() options.

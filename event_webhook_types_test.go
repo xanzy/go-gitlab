@@ -67,6 +67,37 @@ func TestDeploymentEventUnmarshal(t *testing.T) {
 	}
 }
 
+func TestIssueCommentEventUnmarshal(t *testing.T) {
+	jsonObject := loadFixture("testdata/webhooks/note_issue.json")
+
+	var event *IssueCommentEvent
+	err := json.Unmarshal(jsonObject, &event)
+
+	if err != nil {
+		t.Errorf("Issue Comment Event can not unmarshaled: %v\n ", err.Error())
+	}
+
+	if event.ObjectKind != string(NoteEventTargetType) {
+		t.Errorf("ObjectKind is %v, want %v", event.ObjectKind, NoteEventTargetType)
+	}
+
+	if event.ProjectID != 5 {
+		t.Errorf("ProjectID is %v, want %v", event.ProjectID, 5)
+	}
+
+	if event.ObjectAttributes.NoteableType != "Issue" {
+		t.Errorf("NoteableType is %v, want %v", event.ObjectAttributes.NoteableType, "Issue")
+	}
+
+	if event.Issue.Title != "test_issue" {
+		t.Errorf("Issue title is %v, want %v", event.Issue.Title, "test_issue")
+	}
+
+	if len(event.Issue.Labels) == 0 || event.Issue.Labels[0].ID != 25 {
+		t.Errorf("Label id is null")
+	}
+}
+
 func TestIssueEventUnmarshal(t *testing.T) {
 	jsonObject := loadFixture("testdata/webhooks/issue.json")
 
@@ -74,7 +105,7 @@ func TestIssueEventUnmarshal(t *testing.T) {
 	err := json.Unmarshal(jsonObject, &event)
 
 	if err != nil {
-		t.Errorf("Deployment Event can not unmarshaled: %v\n ", err.Error())
+		t.Errorf("Issue Event can not unmarshaled: %v\n ", err.Error())
 	}
 	if event.Project.ID != 1 {
 		t.Errorf("Project.ID is %v, want %v", event.Project.ID, 1)
