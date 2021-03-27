@@ -24,6 +24,7 @@ import (
 	"mime/multipart"
 	"net/http"
 	"os"
+	"path/filepath"
 	"time"
 )
 
@@ -1205,7 +1206,8 @@ func (s *ProjectsService) UploadFile(pid interface{}, file string, options ...Re
 	b := &bytes.Buffer{}
 	w := multipart.NewWriter(b)
 
-	fw, err := w.CreateFormFile("file", file)
+	_, filename := filepath.Split(file)
+	fw, err := w.CreateFormFile("file", filename)
 	if err != nil {
 		return nil, nil, err
 	}
