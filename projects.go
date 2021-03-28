@@ -20,7 +20,6 @@ import (
 	"bytes"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"mime/multipart"
 	"net/http"
 	"os"
@@ -1218,15 +1217,18 @@ func (s *ProjectsService) UploadFile(pid interface{}, file string, options ...Re
 	}
 	w.Close()
 
-	req, err := s.client.NewRequest("", u, nil, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	req.Body = ioutil.NopCloser(b)
-	req.ContentLength = int64(b.Len())
+	// Set the buffer as the request body.
+	if err = req.SetBody(b); err != nil {
+		return nil, nil, err
+	}
+
+	// Overwrite the default content type.
 	req.Header.Set("Content-Type", w.FormDataContentType())
-	req.Method = http.MethodPost
 
 	uf := &ProjectFile{}
 	resp, err := s.client.Do(req, uf)
