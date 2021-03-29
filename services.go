@@ -596,10 +596,13 @@ func (s *ServicesService) GetJenkinsCIService(pid interface{}, options ...Reques
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/services.html#jenkins-ci
 type SetJenkinsCIServiceOptions struct {
-	URL         *string `url:"jenkins_url,omitempty" json:"jenkins_url,omitempty"`
-	ProjectName *string `url:"project_name,omitempty" json:"project_name,omitempty"`
-	Username    *string `url:"username,omitempty" json:"username,omitempty"`
-	Password    *string `url:"password,omitempty" json:"password,omitempty"`
+	URL                 *string `url:"jenkins_url,omitempty" json:"jenkins_url,omitempty"`
+	ProjectName         *string `url:"project_name,omitempty" json:"project_name,omitempty"`
+	Username            *string `url:"username,omitempty" json:"username,omitempty"`
+	Password            *string `url:"password,omitempty" json:"password,omitempty"`
+	PushEvents          *bool   `url:"push_events,omitempty" json:"push_events,omitempty"`
+	MergeRequestsEvents *bool   `url:"merge_requests_events,omitempty" json:"merge_requests_events,omitempty"`
+	TagPushEvents       *bool   `url:"tag_push_events,omitempty" json:"tag_push_events,omitempty"`
 }
 
 // SetJenkinsCIService sets Jenkins service for a project
