@@ -75,6 +75,8 @@ type Project struct {
 	EmptyRepo                                 bool                       `json:"empty_repo"`
 	Archived                                  bool                       `json:"archived"`
 	AvatarURL                                 string                     `json:"avatar_url"`
+	LicenseURL                                string                     `json:"license_url"`
+	License                                   *ProjectLicense            `json:"license"`
 	SharedRunnersEnabled                      bool                       `json:"shared_runners_enabled"`
 	ForksCount                                int                        `json:"forks_count"`
 	StarCount                                 int                        `json:"star_count"`
@@ -161,6 +163,16 @@ type ProjectNamespace struct {
 	AvatarURL string `json:"avatar_url"`
 	WebURL    string `json:"web_url"`
 }
+
+// ProjectLicense represent the license for a project.
+type ProjectLicense struct {
+	Key       string `json:"key"`
+	Name      string `json:"name"`
+	Nickname  string `json:"nickname"`
+	HTMLURL   string `json:"html_url"`
+	SourceURL string `json:"source_url"`
+}
+
 
 // StorageStatistics represents a statistics record for a group or project.
 type StorageStatistics struct {
