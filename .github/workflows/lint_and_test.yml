@@ -10,7 +10,7 @@ jobs:
     name: Lint and Test - ${{ matrix.go-version }}
     strategy:
       matrix:
-        go-version: [1.14.x, 1.15.x, 1.x]
+        go-version: [1.13.x, 1.14.x, 1.15.x, 1.16.x, 1.x]
         platform: [ubuntu-latest]
     runs-on: ${{ matrix.platform }}
     steps:
@@ -25,7 +25,7 @@ jobs:
       - name: Lint package
         uses: golangci/golangci-lint-action@v2
         with:
-          version: v1.35
+          version: v1.39.0
 
       - name: Test package
         run: go test -v ./...

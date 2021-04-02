@@ -17,8 +17,12 @@
 package gitlab
 
 import (
+	"bytes"
 	"fmt"
+	"io"
+	"mime/multipart"
 	"net/http"
+	"os"
 	"time"
 )
 
@@ -769,4 +773,163 @@ func (s *GroupsService) DeleteGroupPushRule(gid interface{}, options ...RequestO
 	}
 
 	return s.client.Do(req, nil)
+}
+
+// ImportExportGroupStatus represent Group Export / Import return status
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/group_import_export.html
+type ImportExportGroupStatus struct {
+	Message *string `json:"message,omitempty"`
+}
+
+// GroupExportRequest gets all details of a group.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/group_import_export.html
+func (s *GroupsService) GroupExportRequest(gid interface{}, options ...RequestOptionFunc) (*ImportExportGroupStatus, *Response, error) {
+	group, err := parseID(gid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("groups/%s/export", pathEscape(group))
+
+	req, err := s.client.NewRequest(http.MethodPost, u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	status := new(ImportExportGroupStatus)
+	resp, err := s.client.Do(req, status)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return status, resp, err
+}
+
+// GroupExportDownload gets all details of a group.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/group_import_export.html
+func (s *GroupsService) GroupExportDownload(gid interface{}, options ...RequestOptionFunc) ([]byte, *Response, error) {
+	group, err := parseID(gid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("groups/%s/export/download", pathEscape(group))
+
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var b bytes.Buffer
+	resp, err := s.client.Do(req, &b)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return b.Bytes(), resp, err
+}
+
+// GroupImportOptions represents parameters for GroupImport.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/group_import_export.html
+type GroupImportOptions struct {
+	Name     *string `url:"name,omitempty" json:"name,omitempty"`
+	File     *string `url:"file,omitempty" json:"file,omitempty"`
+	Path     *string `url:"path,omitempty" json:"path,omitempty"`
+	ParentID *string `url:"parent_id,omitempty" json:"parent_id,omitempty"`
+}
+
+// GroupImport gets all details of a group.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/group_import_export.html
+func (s *GroupsService) GroupImport(opt *GroupImportOptions, options ...RequestOptionFunc) (*ImportExportGroupStatus, *Response, error) {
+	// Open the file
+	file, err := os.Open(*opt.File)
+	if err != nil {
+		fmt.Println(err)
+	}
+	// Close the file later
+	defer file.Close()
+
+	// Buffer to store our request body as bytes
+	var requestBody bytes.Buffer
+
+	// Create a multipart writer
+	multiPartWriter := multipart.NewWriter(&requestBody)
+
+	// Initialize the file field
+	fileWriter, err := multiPartWriter.CreateFormFile("file", "grpup..tar.gz")
+	if err != nil {
+		fmt.Println(err)
+		return nil, nil, err
+	}
+
+	// Copy the actual file content to the field field's writer
+	_, err = io.Copy(fileWriter, file)
+	if err != nil {
+		fmt.Println(err)
+		return nil, nil, err
+	}
+
+	// Populate other fields
+	fw, err := multiPartWriter.CreateFormField("name")
+	if err != nil {
+		fmt.Println(err)
+		return nil, nil, err
+	}
+
+	_, err = fw.Write([]byte(*opt.Name))
+	if err != nil {
+		fmt.Println(err)
+		return nil, nil, err
+	}
+
+	fw, err = multiPartWriter.CreateFormField("path")
+	if err != nil {
+		fmt.Println(err)
+		return nil, nil, err
+	}
+
+	_, err = fw.Write([]byte(*opt.Path))
+	if err != nil {
+		fmt.Println(err)
+		return nil, nil, err
+	}
+
+	fw, err = multiPartWriter.CreateFormField("parent_id")
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	_, err = fw.Write([]byte(*opt.ParentID))
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	// We completed adding the file and the fields, let's close the multipart writer
+	// So it writes the ending boundary
+	multiPartWriter.Close()
+
+	req, err := s.client.NewRequest(http.MethodPost, "groups/import", nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	// Set the buffer as the request body.
+	if err = req.SetBody(&requestBody); err != nil {
+		return nil, nil, err
+	}
+
+	// We need to set the content type from the writer, it includes necessary boundary as well
+	req.Header.Set("Content-Type", multiPartWriter.FormDataContentType())
+
+	// Do the request
+	var status = new(ImportExportGroupStatus)
+	resp, err := s.client.Do(req, status)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return status, resp, err
 }
