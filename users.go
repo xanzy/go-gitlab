@@ -838,7 +838,6 @@ type PersonalAccessToken struct {
 	Revoked   bool       `json:"revoked"`
 	CreatedAt *time.Time `json:"created_at"`
 	Scopes    []string   `json:"scopes"`
-	UserID    string     `json:"user_id"`
 	Active    bool       `json:"active"`
 	ExpiresAt *ISOTime   `json:"expires_at"`
 	Token     string     `json:"token"`
