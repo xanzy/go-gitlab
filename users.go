@@ -147,8 +147,6 @@ func (s *UsersService) ListUsers(opt *ListUsersOptions, options ...RequestOption
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/users.html#single-user
 type GetUsersOptions struct {
-
-	// The options below are only available for admins.
 	WithCustomAttributes *bool `url:"with_custom_attributes,omitempty" json:"with_custom_attributes,omitempty"`
 }
 
