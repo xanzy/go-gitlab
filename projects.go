@@ -115,13 +115,15 @@ type Project struct {
 		GroupName        string `json:"group_name"`
 		GroupAccessLevel int    `json:"group_access_level"`
 	} `json:"shared_with_groups"`
-	Statistics           *ProjectStatistics `json:"statistics"`
-	Links                *Links             `json:"_links,omitempty"`
-	CIConfigPath         string             `json:"ci_config_path"`
-	CIDefaultGitDepth    int                `json:"ci_default_git_depth"`
-	CustomAttributes     []*CustomAttribute `json:"custom_attributes"`
-	ComplianceFrameworks []string           `json:"compliance_frameworks"`
-	BuildCoverageRegex   string             `json:"build_coverage_regex"`
+	Statistics            *ProjectStatistics `json:"statistics"`
+	Links                 *Links             `json:"_links,omitempty"`
+	CIConfigPath          string             `json:"ci_config_path"`
+	CIDefaultGitDepth     int                `json:"ci_default_git_depth"`
+	CustomAttributes      []*CustomAttribute `json:"custom_attributes"`
+	ComplianceFrameworks  []string           `json:"compliance_frameworks"`
+	BuildCoverageRegex    string             `json:"build_coverage_regex"`
+	IssuesTemplate        string             `json:"issues_template"`
+	MergeRequestsTemplate string             `json:"merge_requests_template"`
 }
 
 // ContainerExpirationPolicy represents the container expiration policy.
@@ -549,6 +551,8 @@ type CreateProjectOptions struct {
 	ServiceDeskEnabled                        *bool                                `url:"service_desk_enabled,omitempty" json:"service_desk_enabled,omitempty"`
 	AutocloseReferencedIssues                 *bool                                `url:"autoclose_referenced_issues,omitempty" json:"autoclose_referenced_issues,omitempty"`
 	SuggestionCommitMessage                   *string                              `url:"suggestion_commit_message,omitempty" json:"suggestion_commit_message,omitempty"`
+	IssuesTemplate                            *string                              `url:"issues_template,omitempty" json:"issues_template,omitempty"`
+	MergeRequestsTemplate                     *string                              `url:"merge_requests_template,omitempty" json:"merge_requests_template,omitempty"`
 
 	// Deprecated members
 	IssuesEnabled        *bool `url:"issues_enabled,omitempty" json:"issues_enabled,omitempty"`
@@ -687,6 +691,8 @@ type EditProjectOptions struct {
 	ServiceDeskEnabled                        *bool                                `url:"service_desk_enabled,omitempty" json:"service_desk_enabled,omitempty"`
 	AutocloseReferencedIssues                 *bool                                `url:"autoclose_referenced_issues,omitempty" json:"autoclose_referenced_issues,omitempty"`
 	SuggestionCommitMessage                   *string                              `url:"suggestion_commit_message,omitempty" json:"suggestion_commit_message,omitempty"`
+	IssuesTemplate                            *string                              `url:"issues_template,omitempty" json:"issues_template,omitempty"`
+	MergeRequestsTemplate                     *string                              `url:"merge_requests_template,omitempty" json:"merge_requests_template,omitempty"`
 
 	// Deprecated members
 	IssuesEnabled        *bool `url:"issues_enabled,omitempty" json:"issues_enabled,omitempty"`
