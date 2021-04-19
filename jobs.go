@@ -186,31 +186,6 @@ func (s *JobsService) ListPipelineBridges(pid interface{}, pipelineID int, opts 
 	return bridges, resp, err
 }
 
-// GetJob gets a single job of a project.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ce/api/jobs.html#get-a-single-job
-func (s *JobsService) GetJob(pid interface{}, jobID int, options ...RequestOptionFunc) (*Job, *Response, error) {
-	project, err := parseID(pid)
-	if err != nil {
-		return nil, nil, err
-	}
-	u := fmt.Sprintf("projects/%s/jobs/%d", pathEscape(project), jobID)
-
-	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	job := new(Job)
-	resp, err := s.client.Do(req, job)
-	if err != nil {
-		return nil, resp, err
-	}
-
-	return job, resp, err
-}
-
 // GetJobTokensJobOptions represents the available GetJobTokensJob() options.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/jobs.html#get-job-tokens-job
@@ -225,6 +200,31 @@ func (s *JobsService) GetJobTokensJob(opts *GetJobTokensJobOptions, options ...R
 	u := "job"
 
 	req, err := s.client.NewRequest(http.MethodGet, u, opts, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	job := new(Job)
+	resp, err := s.client.Do(req, job)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return job, resp, err
+}
+
+// GetJob gets a single job of a project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/jobs.html#get-a-single-job
+func (s *JobsService) GetJob(pid interface{}, jobID int, options ...RequestOptionFunc) (*Job, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/jobs/%d", pathEscape(project), jobID)
+
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
