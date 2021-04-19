@@ -211,6 +211,33 @@ func (s *JobsService) GetJob(pid interface{}, jobID int, options ...RequestOptio
 	return job, resp, err
 }
 
+// GetJobTokenJobOptions are options for getting the job token's job
+type GetJobTokenJobOptions struct {
+	JobToken *string `url:"job_token,omitempty" json:"job_token,omitempty"`
+}
+
+// GetJobTokenJob gets the job of a job token. If not specified, assumes the
+// client is configured with a job token.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/jobs.html#get-job-tokens-job
+func (s *JobsService) GetJobTokenJob(opts *GetJobTokenJobOptions, options ...RequestOptionFunc) (*Job, *Response, error) {
+	u := "job"
+
+	req, err := s.client.NewRequest(http.MethodGet, u, opts, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	job := new(Job)
+	resp, err := s.client.Do(req, job)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return job, resp, err
+}
+
 // GetJobArtifacts get jobs artifacts of a project
 //
 // GitLab API docs:
