@@ -197,9 +197,7 @@ type GetJobTokensJobOptions struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/jobs.html#get-job-tokens-job
 func (s *JobsService) GetJobTokensJob(opts *GetJobTokensJobOptions, options ...RequestOptionFunc) (*Job, *Response, error) {
-	u := "job"
-
-	req, err := s.client.NewRequest(http.MethodGet, u, opts, options)
+	req, err := s.client.NewRequest(http.MethodGet, "job", opts, options)
 	if err != nil {
 		return nil, nil, err
 	}
