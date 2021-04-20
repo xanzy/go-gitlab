@@ -103,7 +103,7 @@ func (s *ReleaseLinksService) GetReleaseLink(pid interface{}, tagName string, li
 type CreateReleaseLinkOptions struct {
 	Name     *string `url:"name" json:"name"`
 	URL      *string `url:"url" json:"url"`
-	FilePath *string `url:"file_path,omitempty" json:"file_path,omitempty"`
+	FilePath *string `url:"filepath,omitempty" json:"filepath,omitempty"`
 	LinkType *string `url:"link_type,omitempty" json:"link_type,omitempty"`
 }
 
@@ -139,7 +139,7 @@ func (s *ReleaseLinksService) CreateReleaseLink(pid interface{}, tagName string,
 type UpdateReleaseLinkOptions struct {
 	Name     *string `url:"name,omitempty" json:"name,omitempty"`
 	URL      *string `url:"url,omitempty" json:"url,omitempty"`
-	FilePath *string `url:"file_path,omitempty" json:"file_path,omitempty"`
+	FilePath *string `url:"filepath,omitempty" json:"filepath,omitempty"`
 	LinkType *string `url:"link_type,omitempty" json:"link_type,omitempty"`
 }
 
