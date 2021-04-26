@@ -2,10 +2,7 @@ package gitlab
 
 import (
 	"fmt"
-	"io/ioutil"
-	"log"
 	"net/http"
-	"os"
 	"reflect"
 	"testing"
 )
@@ -377,91 +374,5 @@ func TestUnshareGroupFromGroup(t *testing.T) {
 	}
 	if r.StatusCode != 204 {
 		t.Errorf("Groups.UnshareGroupFromGroup returned status code %d", r.StatusCode)
-	}
-}
-
-func TestGroupExportRequest(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
-
-	mux.HandleFunc("/api/v4/groups/1/export",
-		func(w http.ResponseWriter, r *http.Request) {
-			testMethod(t, r, http.MethodPost)
-			fmt.Fprint(w, `{"message": "202 Accepted"}`)
-		})
-
-	status, _, err := client.Groups.GroupExportRequest(1)
-	if err != nil {
-		t.Errorf("Groups.GroupExportRequest returned error: %v", err)
-	}
-
-	want := &ImportExportGroupStatus{Message: String("202 Accepted")}
-	if !reflect.DeepEqual(want, status) {
-		t.Errorf("Groups.GroupExportRequest returned %+v, want %+v", status, want)
-	}
-}
-
-func TestGroupExportDownload(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
-	content := []byte("fake content")
-
-	mux.HandleFunc("/api/v4/groups/1/export/download",
-		func(w http.ResponseWriter, r *http.Request) {
-			testMethod(t, r, http.MethodGet)
-			w.Write(content)
-		})
-
-	data, _, err := client.Groups.GroupExportDownload(1)
-	if err != nil {
-		t.Errorf("Groups.GroupExportDownload returned error: %v", err)
-	}
-
-	want := []byte("fake content")
-	if !reflect.DeepEqual(want, data) {
-		t.Errorf("Groups.GroupExportDownload returned %+v, want %+v", data, want)
-	}
-}
-
-func TestGroupImport(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
-
-	content := []byte("temporary file's content")
-	tmpfile, err := ioutil.TempFile("", "example.*.tar.gz")
-	if err != nil {
-		tmpfile.Close()
-		log.Fatal(err)
-	}
-	if _, err := tmpfile.Write(content); err != nil {
-		tmpfile.Close()
-		log.Fatal(err)
-	}
-	if err := tmpfile.Close(); err != nil {
-		log.Fatal(err)
-	}
-	defer os.Remove(tmpfile.Name()) // clean up
-
-	mux.HandleFunc("/api/v4/groups/import",
-		func(w http.ResponseWriter, r *http.Request) {
-			testMethod(t, r, http.MethodPost)
-			fmt.Fprint(w, `{"message": "202 Accepted"}`)
-		})
-
-	opt := GroupImportOptions{
-		Name:     String("test"),
-		Path:     String("path"),
-		ParentID: String("1"),
-		File:     String(tmpfile.Name()),
-	}
-
-	r, _, err := client.Groups.GroupImport(&opt)
-	if err != nil {
-		t.Errorf("Groups.GroupExportImport returned error: %v", err)
-	}
-
-	want := &ImportExportGroupStatus{Message: String("202 Accepted")}
-	if !reflect.DeepEqual(want, r) {
-		t.Errorf("Groups.GroupExportDownload returned %+v, want %+v", r, want)
 	}
 }
