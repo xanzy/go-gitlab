@@ -122,6 +122,7 @@ type Client struct {
 	GitIgnoreTemplates    *GitIgnoreTemplatesService
 	GroupBadges           *GroupBadgesService
 	GroupCluster          *GroupClustersService
+	GroupImportExport     *GroupImportExportService
 	GroupIssueBoards      *GroupIssueBoardsService
 	GroupLabels           *GroupLabelsService
 	GroupMembers          *GroupMembersService
@@ -293,6 +294,7 @@ func newClient(options ...ClientOptionFunc) (*Client, error) {
 	c.GitIgnoreTemplates = &GitIgnoreTemplatesService{client: c}
 	c.GroupBadges = &GroupBadgesService{client: c}
 	c.GroupCluster = &GroupClustersService{client: c}
+	c.GroupImportExport = &GroupImportExportService{client: c}
 	c.GroupIssueBoards = &GroupIssueBoardsService{client: c}
 	c.GroupLabels = &GroupLabelsService{client: c}
 	c.GroupMembers = &GroupMembersService{client: c}
