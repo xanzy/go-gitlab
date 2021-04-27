@@ -488,3 +488,24 @@ func (t *BoolValue) UnmarshalJSON(b []byte) error {
 		return err
 	}
 }
+
+// ReleaseLinkTypeValue represents a release link type.
+type ReleaseLinkTypeValue string
+
+// List of available release link types
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/releases/links.html#create-a-link
+const (
+	OtherReleaseLinkType   ReleaseLinkTypeValue = "other"
+	RunbookReleaseLinkType ReleaseLinkTypeValue = "runbook"
+	ImageReleaseLinkType   ReleaseLinkTypeValue = "image"
+	PackageReleaseLinkType ReleaseLinkTypeValue = "package"
+)
+
+// ReleaseLinkType is a helper routine that allocates a new ReleaseLinkType value
+// to store v and returns a pointer to it.
+func ReleaseLinkType(v ReleaseLinkTypeValue) *ReleaseLinkTypeValue {
+	p := new(ReleaseLinkTypeValue)
+	*p = v
+	return p
+}

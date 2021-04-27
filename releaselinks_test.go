@@ -51,9 +51,9 @@ func TestReleaseLinksService_ListReleaseLinks(t *testing.T) {
 			ID:             1,
 			Name:           "awesome-v0.2.dmg",
 			URL:            "http://192.168.10.15:3000",
-			External:       false,
 			DirectAssetURL: "http://192.168.10.15:3000/namespace/example/-/releases/v0.1/downloads/awesome-v0.2.dmg",
-			LinkType:       "other",
+			External:       false,
+			LinkType:       OtherReleaseLinkType,
 		},
 	}
 	assert.Equal(t, expectedReleaseLinks, releaseLinks)
@@ -90,7 +90,7 @@ func TestReleaseLinksService_CreateReleaseLink(t *testing.T) {
 				Name:     String("release-notes.md"),
 				URL:      String("http://192.168.10.15:3000"),
 				FilePath: String("docs/release-notes.md"),
-				LinkType: String("other"),
+				LinkType: ReleaseLinkType(OtherReleaseLinkType),
 			},
 			response: `{
 				"id":1,
@@ -105,8 +105,8 @@ func TestReleaseLinksService_CreateReleaseLink(t *testing.T) {
 				Name:           "release-notes.md",
 				URL:            "http://192.168.10.15:3000",
 				DirectAssetURL: "http://192.168.10.15:3000/namespace/example/-/releases/v0.1/downloads/docs/release-notes.md",
-				LinkType:       "other",
 				External:       false,
+				LinkType:       OtherReleaseLinkType,
 			},
 		},
 	}
@@ -164,7 +164,7 @@ func TestReleaseLinksService_UpdateReleaseLink(t *testing.T) {
 		&UpdateReleaseLinkOptions{
 			Name:     String(exampleReleaseName),
 			FilePath: String("http://192.168.10.15:3000/namespace/example/-/releases/v0.1/downloads/awesome-v0.2.dmg"),
-			LinkType: String("other"),
+			LinkType: ReleaseLinkType(OtherReleaseLinkType),
 		})
 
 	require.NoError(t, err)
@@ -172,9 +172,9 @@ func TestReleaseLinksService_UpdateReleaseLink(t *testing.T) {
 		ID:             1,
 		Name:           "awesome-v0.2.dmg",
 		URL:            "http://192.168.10.15:3000",
-		External:       true,
 		DirectAssetURL: "http://192.168.10.15:3000/namespace/example/-/releases/v0.1/downloads/awesome-v0.2.dmg",
-		LinkType:       "other",
+		External:       true,
+		LinkType:       OtherReleaseLinkType,
 	}
 	assert.Equal(t, expectedRelease, releaseLink)
 }

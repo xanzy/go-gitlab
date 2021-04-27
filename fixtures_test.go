@@ -68,8 +68,8 @@ const (
 		"id":1,
 		"name":"awesome-v0.2.dmg",
 		"url":"http://192.168.10.15:3000",
-		"external":true,
 		"direct_asset_url": "http://192.168.10.15:3000/namespace/example/-/releases/v0.1/downloads/awesome-v0.2.dmg",
+		"external":true,
 		"link_type": "other"
 	}`
 
@@ -86,8 +86,8 @@ const (
 			"name": "awesome-v0.2.dmg",
 			"url": "http://192.168.10.15:3000",
 			"direct_asset_url": "http://192.168.10.15:3000/namespace/example/-/releases/v0.1/downloads/awesome-v0.2.dmg",
-			"link_type": "other",
-			"external": false
+			"external": false,
+			"link_type": "other"
 		}
 	]`
 
