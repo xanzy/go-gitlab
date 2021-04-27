@@ -101,8 +101,8 @@ func (s *ReleaseLinksService) GetReleaseLink(pid interface{}, tagName string, li
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/releases/links.html#create-a-link
 type CreateReleaseLinkOptions struct {
-	Name     *string               `url:"name" json:"name"`
-	URL      *string               `url:"url" json:"url"`
+	Name     *string               `url:"name,omitempty" json:"name,omitempty"`
+	URL      *string               `url:"url,omitempty" json:"url,omitempty"`
 	FilePath *string               `url:"filepath,omitempty" json:"filepath,omitempty"`
 	LinkType *ReleaseLinkTypeValue `url:"link_type,omitempty" json:"link_type,omitempty"`
 }
