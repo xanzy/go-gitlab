@@ -158,6 +158,7 @@
   "user": {
     "can_merge": false
   },
+  "first_contribution": true,
   "approvals_before_merge": 1,
   "has_conflicts": true
 }
