@@ -41,6 +41,7 @@ type ProtectedBranch struct {
 	PushAccessLevels          []*BranchAccessDescription `json:"push_access_levels"`
 	MergeAccessLevels         []*BranchAccessDescription `json:"merge_access_levels"`
 	UnprotectAccessLevels     []*BranchAccessDescription `json:"unprotect_access_levels"`
+	AllowForcePush            bool                       `json:"allow_force_push"`
 	CodeOwnerApprovalRequired bool                       `json:"code_owner_approval_required"`
 }
 
@@ -126,6 +127,7 @@ type ProtectRepositoryBranchesOptions struct {
 	AllowedToPush             []*BranchPermissionOptions `url:"allowed_to_push,omitempty" json:"allowed_to_push,omitempty"`
 	AllowedToMerge            []*BranchPermissionOptions `url:"allowed_to_merge,omitempty" json:"allowed_to_merge,omitempty"`
 	AllowedToUnprotect        []*BranchPermissionOptions `url:"allowed_to_unprotect,omitempty" json:"allowed_to_unprotect,omitempty"`
+	AllowForcePush            *bool                      `url:"allow_force_push,omitempty" json:"allow_force_push,omitempty"`
 	CodeOwnerApprovalRequired *bool                      `url:"code_owner_approval_required,omitempty" json:"code_owner_approval_required,omitempty"`
 }
 
