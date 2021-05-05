@@ -470,3 +470,57 @@ func TestDeleteSlackService(t *testing.T) {
 		t.Fatalf("Services.DeleteSlackService returns an error: %v", err)
 	}
 }
+
+func TestGetYouTrackService(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/services/youtrack", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		fmt.Fprint(w, `{"id":1}`)
+	})
+	want := &YouTrackService{Service: Service{ID: 1}}
+
+	service, _, err := client.Services.GetYouTrackService(1)
+	if err != nil {
+		t.Fatalf("Services.GetYouTrackService returns an error: %v", err)
+	}
+	if !reflect.DeepEqual(want, service) {
+		t.Errorf("Services.GetYouTrackService returned %+v, want %+v", service, want)
+	}
+}
+
+func TestSetYouTrackService(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/services/youtrack", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPut)
+	})
+
+	opt := &SetYouTrackServiceOptions{
+		IssuesURL:   String("https://example.org/youtrack/issue/:id"),
+		ProjectURL:  String("https://example.org/youtrack/projects/1"),
+		Description: String("description"),
+		PushEvents:  Bool(true),
+	}
+
+	_, err := client.Services.SetYouTrackService(1, opt)
+	if err != nil {
+		t.Fatalf("Services.SetYouTrackService returns an error: %v", err)
+	}
+}
+
+func TestDeleteYouTrackService(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/services/youtrack", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodDelete)
+	})
+
+	_, err := client.Services.DeleteYouTrackService(1)
+	if err != nil {
+		t.Fatalf("Services.DeleteYouTrackService returns an error: %v", err)
+	}
+}
