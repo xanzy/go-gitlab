@@ -40,6 +40,7 @@ type Release struct {
 	Description     string     `json:"description,omitempty"`
 	DescriptionHTML string     `json:"description_html,omitempty"`
 	CreatedAt       *time.Time `json:"created_at,omitempty"`
+	ReleasedAt      *time.Time `json:"released_at,omitempty"`
 	Author          struct {
 		ID        int    `json:"id"`
 		Name      string `json:"name"`
