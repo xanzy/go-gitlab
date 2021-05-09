@@ -426,6 +426,17 @@ const (
 	UserEventTargetType         EventTargetTypeValue = "user"
 )
 
+// GenericPackageStateValue represents a state type value for a generic package
+type GenericPackageStateValue string
+
+// List of available generic package states
+//
+// GitLab docs: https://docs.gitlab.com/ee/user/packages/generic_packages/index.html#publish-a-package-file
+const (
+	DefaultGenericPackageState GenericPackageStateValue = "default"
+	HiddenGenericPackageState  GenericPackageStateValue = "hidden"
+)
+
 // Bool is a helper routine that allocates a new bool value
 // to store v and returns a pointer to it.
 func Bool(v bool) *bool {
