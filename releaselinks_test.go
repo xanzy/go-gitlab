@@ -20,6 +20,9 @@ import (
 	"fmt"
 	"net/http"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestReleaseLinksService_ListReleaseLinks(t *testing.T) {
@@ -35,40 +38,94 @@ func TestReleaseLinksService_ListReleaseLinks(t *testing.T) {
 	releaseLinks, _, err := client.ReleaseLinks.ListReleaseLinks(
 		1, exampleTagName, &ListReleaseLinksOptions{},
 	)
-	if err != nil {
-		t.Error(err)
+
+	require.NoError(t, err)
+	expectedReleaseLinks := []*ReleaseLink{
+		{
+			ID:       2,
+			Name:     "awesome-v0.2.msi",
+			URL:      "http://192.168.10.15:3000/msi",
+			External: true,
+		},
+		{
+			ID:             1,
+			Name:           "awesome-v0.2.dmg",
+			URL:            "http://192.168.10.15:3000",
+			DirectAssetURL: "http://192.168.10.15:3000/namespace/example/-/releases/v0.1/downloads/awesome-v0.2.dmg",
+			External:       false,
+			LinkType:       OtherLinkType,
+		},
 	}
-	if len(releaseLinks) != 2 {
-		t.Error("expected 2 links")
-	}
-	if releaseLinks[0].Name != "awesome-v0.2.msi" {
-		t.Errorf("release link name, expected '%s', got '%s'", "awesome-v0.2.msi",
-			releaseLinks[0].Name)
-	}
+	assert.Equal(t, expectedReleaseLinks, releaseLinks)
 }
 
 func TestReleaseLinksService_CreateReleaseLink(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
-
-	mux.HandleFunc("/api/v4/projects/1/releases/v0.1/assets/links",
-		func(w http.ResponseWriter, r *http.Request) {
-			testMethod(t, r, http.MethodPost)
-			fmt.Fprint(w, exampleReleaseLink)
-		})
-
-	releaseLink, _, err := client.ReleaseLinks.CreateReleaseLink(
-		1, exampleTagName,
-		&CreateReleaseLinkOptions{
-			Name: String(exampleReleaseName),
-			URL:  String("http://192.168.10.15:3000"),
-		})
-	if err != nil {
-		t.Error(err)
+	testCases := []struct {
+		description string
+		options     *CreateReleaseLinkOptions
+		response    string
+		want        *ReleaseLink
+	}{
+		{
+			description: "Mandatory Attributes",
+			options: &CreateReleaseLinkOptions{
+				Name: String("awesome-v0.2.dmg"),
+				URL:  String("http://192.168.10.15:3000")},
+			response: `{
+				"id":1,
+				"name":"awesome-v0.2.dmg",
+				"url":"http://192.168.10.15:3000",
+				"external":true
+			}`,
+			want: &ReleaseLink{
+				ID:       1,
+				Name:     "awesome-v0.2.dmg",
+				URL:      "http://192.168.10.15:3000",
+				External: true,
+			},
+		},
+		{
+			description: "Optional Attributes",
+			options: &CreateReleaseLinkOptions{
+				Name:     String("release-notes.md"),
+				URL:      String("http://192.168.10.15:3000"),
+				FilePath: String("docs/release-notes.md"),
+				LinkType: LinkType(OtherLinkType),
+			},
+			response: `{
+				"id":1,
+				"name":"release-notes.md",
+				"url":"http://192.168.10.15:3000",
+				"direct_asset_url": "http://192.168.10.15:3000/namespace/example/-/releases/v0.1/downloads/docs/release-notes.md",
+				"external": false,
+				"link_type": "other"
+			}`,
+			want: &ReleaseLink{
+				ID:             1,
+				Name:           "release-notes.md",
+				URL:            "http://192.168.10.15:3000",
+				DirectAssetURL: "http://192.168.10.15:3000/namespace/example/-/releases/v0.1/downloads/docs/release-notes.md",
+				External:       false,
+				LinkType:       OtherLinkType,
+			},
+		},
 	}
-	if releaseLink.Name != exampleReleaseName {
-		t.Errorf("release link name, expected '%s', got '%s'", exampleReleaseName,
-			releaseLink.Name)
+	for _, tc := range testCases {
+		t.Run(tc.description, func(t *testing.T) {
+			mux, server, client := setup(t)
+			defer teardown(server)
+
+			mux.HandleFunc("/api/v4/projects/1/releases/v0.1/assets/links",
+				func(w http.ResponseWriter, r *http.Request) {
+					testMethod(t, r, http.MethodPost)
+					fmt.Fprint(w, tc.response)
+				})
+
+			releaseLink, _, err := client.ReleaseLinks.CreateReleaseLink(1, exampleTagName, tc.options)
+
+			require.NoError(t, err)
+			assert.Equal(t, tc.want, releaseLink)
+		})
 	}
 }
 
@@ -105,15 +162,21 @@ func TestReleaseLinksService_UpdateReleaseLink(t *testing.T) {
 	releaseLink, _, err := client.ReleaseLinks.UpdateReleaseLink(
 		1, exampleTagName, 1,
 		&UpdateReleaseLinkOptions{
-			Name: String(exampleReleaseName),
+			Name:     String(exampleReleaseName),
+			FilePath: String("http://192.168.10.15:3000/namespace/example/-/releases/v0.1/downloads/awesome-v0.2.dmg"),
+			LinkType: LinkType(OtherLinkType),
 		})
-	if err != nil {
-		t.Error(err)
+
+	require.NoError(t, err)
+	expectedRelease := &ReleaseLink{
+		ID:             1,
+		Name:           "awesome-v0.2.dmg",
+		URL:            "http://192.168.10.15:3000",
+		DirectAssetURL: "http://192.168.10.15:3000/namespace/example/-/releases/v0.1/downloads/awesome-v0.2.dmg",
+		External:       true,
+		LinkType:       OtherLinkType,
 	}
-	if releaseLink.Name != exampleReleaseName {
-		t.Errorf("release link name, expected '%s', got '%s'", exampleReleaseName,
-			releaseLink.Name)
-	}
+	assert.Equal(t, expectedRelease, releaseLink)
 }
 
 func TestReleaseLinksService_DeleteReleaseLink(t *testing.T) {
