@@ -249,6 +249,25 @@ func LinkType(v LinkTypeValue) *LinkTypeValue {
 	return p
 }
 
+// LicenseApprovalStatusValue describe the approval statuses of a license.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/managed_licenses.html
+type LicenseApprovalStatusValue string
+
+// List of available license approval statuses.
+const (
+	LicenseApproved    LicenseApprovalStatusValue = "approved"
+	LicenseBlacklisted LicenseApprovalStatusValue = "blacklisted"
+)
+
+// LicenseApprovalStatus is a helper routine that allocates a new license
+// approval status value to store v and returns a pointer to it.
+func LicenseApprovalStatus(v LicenseApprovalStatusValue) *LicenseApprovalStatusValue {
+	p := new(LicenseApprovalStatusValue)
+	*p = v
+	return p
+}
+
 // MergeMethodValue represents a project merge type within GitLab.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#project-merge-method
