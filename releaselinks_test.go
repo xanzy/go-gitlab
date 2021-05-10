@@ -53,7 +53,7 @@ func TestReleaseLinksService_ListReleaseLinks(t *testing.T) {
 			URL:            "http://192.168.10.15:3000",
 			DirectAssetURL: "http://192.168.10.15:3000/namespace/example/-/releases/v0.1/downloads/awesome-v0.2.dmg",
 			External:       false,
-			LinkType:       OtherReleaseLinkType,
+			LinkType:       OtherLinkType,
 		},
 	}
 	assert.Equal(t, expectedReleaseLinks, releaseLinks)
@@ -90,7 +90,7 @@ func TestReleaseLinksService_CreateReleaseLink(t *testing.T) {
 				Name:     String("release-notes.md"),
 				URL:      String("http://192.168.10.15:3000"),
 				FilePath: String("docs/release-notes.md"),
-				LinkType: ReleaseLinkType(OtherReleaseLinkType),
+				LinkType: LinkType(OtherLinkType),
 			},
 			response: `{
 				"id":1,
@@ -106,7 +106,7 @@ func TestReleaseLinksService_CreateReleaseLink(t *testing.T) {
 				URL:            "http://192.168.10.15:3000",
 				DirectAssetURL: "http://192.168.10.15:3000/namespace/example/-/releases/v0.1/downloads/docs/release-notes.md",
 				External:       false,
-				LinkType:       OtherReleaseLinkType,
+				LinkType:       OtherLinkType,
 			},
 		},
 	}
@@ -164,7 +164,7 @@ func TestReleaseLinksService_UpdateReleaseLink(t *testing.T) {
 		&UpdateReleaseLinkOptions{
 			Name:     String(exampleReleaseName),
 			FilePath: String("http://192.168.10.15:3000/namespace/example/-/releases/v0.1/downloads/awesome-v0.2.dmg"),
-			LinkType: ReleaseLinkType(OtherReleaseLinkType),
+			LinkType: LinkType(OtherLinkType),
 		})
 
 	require.NoError(t, err)
@@ -174,7 +174,7 @@ func TestReleaseLinksService_UpdateReleaseLink(t *testing.T) {
 		URL:            "http://192.168.10.15:3000",
 		DirectAssetURL: "http://192.168.10.15:3000/namespace/example/-/releases/v0.1/downloads/awesome-v0.2.dmg",
 		External:       true,
-		LinkType:       OtherReleaseLinkType,
+		LinkType:       OtherLinkType,
 	}
 	assert.Equal(t, expectedRelease, releaseLink)
 }
