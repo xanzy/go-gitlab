@@ -21,42 +21,28 @@ import (
 	"net/http"
 )
 
-// ProjectManagedLicensesService handles communication with the managed
-// licenses methods of the GitLab API.
+// ManagedLicensesService handles communication with the managed licenses
+// methods of the GitLab API.
 //
-// GitLab API docs:
-// https://docs.gitlab.com/ee/api/managed_licenses.html
-type ProjectManagedLicensesService struct {
+// GitLab API docs: https://docs.gitlab.com/ee/api/managed_licenses.html
+type ManagedLicensesService struct {
 	client *Client
 }
 
-// ManagedLicenseApprovalStatus describe the approval statuses of a license.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ee/api/managed_licenses.html
-type ManagedLicenseApprovalStatus string
-
-// Values of ManagedLicenseApprovalStatus.
-const (
-	ManagedLicenseApproved    ManagedLicenseApprovalStatus = "approved"
-	ManagedLicenseBlacklisted ManagedLicenseApprovalStatus = "blacklisted"
-)
-
 // ManagedLicense represents a managed license.
 //
-// GitLab API docs:
-// https://docs.gitlab.com/ee/api/managed_licenses.html
+// GitLab API docs: https://docs.gitlab.com/ee/api/managed_licenses.html
 type ManagedLicense struct {
-	ID             int                          `json:"id"`
-	Name           string                       `json:"name"`
-	ApprovalStatus ManagedLicenseApprovalStatus `json:"approval_status"`
+	ID             int                        `json:"id"`
+	Name           string                     `json:"name"`
+	ApprovalStatus LicenseApprovalStatusValue `json:"approval_status"`
 }
 
 // ListManagedLicenses returns a list of managed licenses from a project.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/managed_licenses.html#list-managed-licenses
-func (s *ProjectManagedLicensesService) ListManagedLicenses(pid interface{}, options ...RequestOptionFunc) ([]*ManagedLicense, *Response, error) {
+func (s *ManagedLicensesService) ListManagedLicenses(pid interface{}, options ...RequestOptionFunc) ([]*ManagedLicense, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -77,16 +63,16 @@ func (s *ProjectManagedLicensesService) ListManagedLicenses(pid interface{}, opt
 	return mls, resp, err
 }
 
-// GetManagedLicense returns a single managed license for a project.
+// GetManagedLicense returns an existing managed license.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/managed_licenses.html#show-an-existing-managed-license
-func (s *ProjectManagedLicensesService) GetManagedLicense(pid, lid interface{}, options ...RequestOptionFunc) (*ManagedLicense, *Response, error) {
+func (s *ManagedLicensesService) GetManagedLicense(pid, mlid interface{}, options ...RequestOptionFunc) (*ManagedLicense, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
-	license, err := parseID(lid)
+	license, err := parseID(mlid)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -106,20 +92,20 @@ func (s *ProjectManagedLicensesService) GetManagedLicense(pid, lid interface{}, 
 	return ml, resp, err
 }
 
-// AddManagedLicenseOptions represents the available options to add a managed license.
+// AddManagedLicenseOptions represents the available AddManagedLicense() options.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/managed_licenses.html#create-a-new-managed-license
 type AddManagedLicenseOptions struct {
-	Name           string                       `json:"name"`
-	ApprovalStatus ManagedLicenseApprovalStatus `json:"approval_status"`
+	Name           *string                     `url:"name,omitempty" json:"name,omitempty"`
+	ApprovalStatus *LicenseApprovalStatusValue `url:"approval_status,omitempty" json:"approval_status,omitempty"`
 }
 
 // AddManagedLicense adds a managed license to a project.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/managed_licenses.html#create-a-new-managed-license
-func (s *ProjectManagedLicensesService) AddManagedLicense(pid interface{}, opt *AddManagedLicenseOptions, options ...RequestOptionFunc) (*ManagedLicense, *Response, error) {
+func (s *ManagedLicensesService) AddManagedLicense(pid interface{}, opt *AddManagedLicenseOptions, options ...RequestOptionFunc) (*ManagedLicense, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -140,16 +126,16 @@ func (s *ProjectManagedLicensesService) AddManagedLicense(pid interface{}, opt *
 	return ml, resp, err
 }
 
-// RemoveManagedLicense removes a managed license from a project.
+// DeleteManagedLicense deletes a managed license with a given ID.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/managed_licenses.html#delete-a-managed-license
-func (s *ProjectManagedLicensesService) RemoveManagedLicense(pid, lid interface{}, options ...RequestOptionFunc) (*Response, error) {
+func (s *ManagedLicensesService) DeleteManagedLicense(pid, mlid interface{}, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, err
 	}
-	license, err := parseID(lid)
+	license, err := parseID(mlid)
 	if err != nil {
 		return nil, err
 	}
@@ -163,24 +149,25 @@ func (s *ProjectManagedLicensesService) RemoveManagedLicense(pid, lid interface{
 	return s.client.Do(req, nil)
 }
 
-// EditManagedLicenceOptions represents the available options to edit a managed license.
+// EditManagedLicenceOptions represents the available EditManagedLicense() options.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/managed_licenses.html#edit-an-existing-managed-license
 type EditManagedLicenceOptions struct {
-	ApprovalStatus ManagedLicenseApprovalStatus `url:"approval_status"`
+	ApprovalStatus *LicenseApprovalStatusValue `url:"approval_status,omitempty" json:"approval_status,omitempty"`
 }
 
-// EditManagedLicense updates an existing managed license in a project.
+// EditManagedLicense updates an existing managed license with a new approval
+// status.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/managed_licenses.html#edit-an-existing-managed-license
-func (s *ProjectManagedLicensesService) EditManagedLicense(pid, lid interface{}, opt *EditManagedLicenceOptions, options ...RequestOptionFunc) (*ManagedLicense, *Response, error) {
+func (s *ManagedLicensesService) EditManagedLicense(pid, mlid interface{}, opt *EditManagedLicenceOptions, options ...RequestOptionFunc) (*ManagedLicense, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
-	license, err := parseID(lid)
+	license, err := parseID(mlid)
 	if err != nil {
 		return nil, nil, err
 	}

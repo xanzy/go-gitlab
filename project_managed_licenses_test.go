@@ -22,7 +22,7 @@ import (
 	"testing"
 )
 
-func TestListProjectManagedLicenses(t *testing.T) {
+func TestListManagedLicenses(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
 
@@ -31,30 +31,30 @@ func TestListProjectManagedLicenses(t *testing.T) {
 		mustWriteHTTPResponse(t, w, "testdata/list_project_managed_licenses.json")
 	})
 
-	licenses, _, err := client.ProjectManagedLicenses.ListManagedLicenses(1)
+	licenses, _, err := client.ManagedLicenses.ListManagedLicenses(1)
 	if err != nil {
-		t.Errorf("ProjectManagedLicenses.ListManagedLicenses returned error: %v", err)
+		t.Errorf("ManagedLicenses.ListManagedLicenses returned error: %v", err)
 	}
 
 	want := []*ManagedLicense{
 		{
 			ID:             1,
 			Name:           "MIT",
-			ApprovalStatus: ManagedLicenseApproved,
+			ApprovalStatus: LicenseApproved,
 		},
 		{
 			ID:             3,
 			Name:           "ISC",
-			ApprovalStatus: ManagedLicenseBlacklisted,
+			ApprovalStatus: LicenseBlacklisted,
 		},
 	}
 
 	if !reflect.DeepEqual(want, licenses) {
-		t.Errorf("ProjectManagedLicenses.ListManagedLicenses returned %+v, want %+v", licenses, want)
+		t.Errorf("ManagedLicenses.ListManagedLicenses returned %+v, want %+v", licenses, want)
 	}
 }
 
-func TestGetProjectManagedLicenses(t *testing.T) {
+func TestGetManagedLicenses(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
 
@@ -63,23 +63,23 @@ func TestGetProjectManagedLicenses(t *testing.T) {
 		mustWriteHTTPResponse(t, w, "testdata/get_project_managed_license.json")
 	})
 
-	license, _, err := client.ProjectManagedLicenses.GetManagedLicense(1, 3)
+	license, _, err := client.ManagedLicenses.GetManagedLicense(1, 3)
 	if err != nil {
-		t.Errorf("ProjectManagedLicenses.GetManagedLicense returned error: %v", err)
+		t.Errorf("ManagedLicenses.GetManagedLicense returned error: %v", err)
 	}
 
 	want := &ManagedLicense{
 		ID:             3,
 		Name:           "ISC",
-		ApprovalStatus: ManagedLicenseBlacklisted,
+		ApprovalStatus: LicenseBlacklisted,
 	}
 
 	if !reflect.DeepEqual(want, license) {
-		t.Errorf("ProjectManagedLicenses.GetManagedLicense returned %+v, want %+v", license, want)
+		t.Errorf("ManagedLicenses.GetManagedLicense returned %+v, want %+v", license, want)
 	}
 }
 
-func TestAddProjectManagedLicenses(t *testing.T) {
+func TestAddManagedLicenses(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
 
@@ -90,26 +90,26 @@ func TestAddProjectManagedLicenses(t *testing.T) {
 	})
 
 	ops := AddManagedLicenseOptions{
-		Name:           "MIT",
-		ApprovalStatus: ManagedLicenseApproved,
+		Name:           String("MIT"),
+		ApprovalStatus: LicenseApprovalStatus(LicenseApproved),
 	}
-	license, _, err := client.ProjectManagedLicenses.AddManagedLicense(1, &ops)
+	license, _, err := client.ManagedLicenses.AddManagedLicense(1, &ops)
 	if err != nil {
-		t.Errorf("ProjectManagedLicenses.AddManagedLicense returned error: %v", err)
+		t.Errorf("ManagedLicenses.AddManagedLicense returned error: %v", err)
 	}
 
 	want := &ManagedLicense{
 		ID:             123,
 		Name:           "MIT",
-		ApprovalStatus: ManagedLicenseApproved,
+		ApprovalStatus: LicenseApproved,
 	}
 
 	if !reflect.DeepEqual(want, license) {
-		t.Errorf("ProjectManagedLicenses.AddManagedLicense returned %+v, want %+v", license, want)
+		t.Errorf("ManagedLicenses.AddManagedLicense returned %+v, want %+v", license, want)
 	}
 }
 
-func TestRemoveProjectManagedLicenses(t *testing.T) {
+func TestDeleteManagedLicenses(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
 
@@ -117,13 +117,13 @@ func TestRemoveProjectManagedLicenses(t *testing.T) {
 		testMethod(t, r, http.MethodDelete)
 	})
 
-	_, err := client.ProjectManagedLicenses.RemoveManagedLicense(1, 3)
+	_, err := client.ManagedLicenses.DeleteManagedLicense(1, 3)
 	if err != nil {
-		t.Errorf("ProjectManagedLicenses.RemoveManagedLicense returned error: %v", err)
+		t.Errorf("ManagedLicenses.RemoveManagedLicense returned error: %v", err)
 	}
 }
 
-func TestEditProjectManagedLicenses(t *testing.T) {
+func TestEditManagedLicenses(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
 
@@ -137,20 +137,20 @@ func TestEditProjectManagedLicenses(t *testing.T) {
 	})
 
 	ops := EditManagedLicenceOptions{
-		ApprovalStatus: ManagedLicenseBlacklisted,
+		ApprovalStatus: LicenseApprovalStatus(LicenseBlacklisted),
 	}
-	license, _, err := client.ProjectManagedLicenses.EditManagedLicense(1, 3, &ops)
+	license, _, err := client.ManagedLicenses.EditManagedLicense(1, 3, &ops)
 	if err != nil {
-		t.Errorf("ProjectManagedLicenses.EditManagedLicense returned error: %v", err)
+		t.Errorf("ManagedLicenses.EditManagedLicense returned error: %v", err)
 	}
 
 	want := &ManagedLicense{
 		ID:             3,
 		Name:           "CUSTOM",
-		ApprovalStatus: ManagedLicenseBlacklisted,
+		ApprovalStatus: LicenseBlacklisted,
 	}
 
 	if !reflect.DeepEqual(want, license) {
-		t.Errorf("ProjectManagedLicenses.EditManagedLicense returned %+v, want %+v", license, want)
+		t.Errorf("ManagedLicenses.EditManagedLicense returned %+v, want %+v", license, want)
 	}
 }
