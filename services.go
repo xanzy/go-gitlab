@@ -1330,3 +1330,98 @@ func (s *ServicesService) DeleteSlackService(pid interface{}, options ...Request
 
 	return s.client.Do(req, nil)
 }
+
+// YouTrackService represents YouTrack service settings.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/services.html#youtrack
+type YouTrackService struct {
+	Service
+	Properties *YouTrackServiceProperties `json:"properties"`
+}
+
+// YouTrackServiceProperties represents YouTrack specific properties.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/services.html#youtrack
+type YouTrackServiceProperties struct {
+	IssuesURL   string `json:"issues_url"`
+	ProjectURL  string `json:"project_url"`
+	Description string `json:"description"`
+	PushEvents  bool   `json:"push_events"`
+}
+
+// GetYouTrackService gets YouTrack service settings for a project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/services.html#get-youtrack-service-settings
+func (s *ServicesService) GetYouTrackService(pid interface{}, options ...RequestOptionFunc) (*YouTrackService, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/services/youtrack", pathEscape(project))
+
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	svc := new(YouTrackService)
+	resp, err := s.client.Do(req, svc)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return svc, resp, err
+}
+
+// SetYouTrackServiceOptions represents the available SetYouTrackService()
+// options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/services.html#createedit-youtrack-service
+type SetYouTrackServiceOptions struct {
+	IssuesURL   *string `url:"issues_url,omitempty" json:"issues_url,omitempty"`
+	ProjectURL  *string `url:"project_url,omitempty" json:"project_url,omitempty"`
+	Description *string `url:"description,omitempty" json:"description,omitempty"`
+	PushEvents  *bool   `url:"push_events,omitempty" json:"push_events,omitempty"`
+}
+
+// SetYouTrackService sets YouTrack service for a project
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/services.html#createedit-youtrack-service
+func (s *ServicesService) SetYouTrackService(pid interface{}, opt *SetYouTrackServiceOptions, options ...RequestOptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/services/youtrack", pathEscape(project))
+
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
+
+// DeleteYouTrackService deletes YouTrack service settings for a project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/services.html#delete-youtrack-service
+func (s *ServicesService) DeleteYouTrackService(pid interface{}, options ...RequestOptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/services/youtrack", pathEscape(project))
+
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
