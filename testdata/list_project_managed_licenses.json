@@ -1,0 +1,12 @@
+[
+  {
+    "id": 1,
+    "name": "MIT",
+    "approval_status": "approved"
+  },
+  {
+    "id": 3,
+    "name": "ISC",
+    "approval_status": "blacklisted"
+  }
+]
