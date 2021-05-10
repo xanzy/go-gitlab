@@ -103,7 +103,8 @@ type Bridge struct {
 // ListJobsOptions are options for two list apis
 type ListJobsOptions struct {
 	ListOptions
-	Scope []BuildStateValue `url:"scope[],omitempty" json:"scope,omitempty"`
+	Scope          []BuildStateValue `url:"scope[],omitempty" json:"scope,omitempty"`
+	IncludeRetried bool              `url:"include_retried,omitempty" json:"include_retried,omitempty"`
 }
 
 // ListProjectJobs gets a list of jobs in a project.
