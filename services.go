@@ -1345,8 +1345,10 @@ type YouTrackService struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/services.html#youtrack
 type YouTrackServiceProperties struct {
-	IssuesURL  string `json:"issues_url,omitempty"`
-	ProjectURL string `json:"project_url,omitempty"`
+	IssuesURL   string `json:"issues_url"`
+	ProjectURL  string `json:"project_url"`
+	Description string `json:"description"`
+	PushEvents  bool   `json:"push_events"`
 }
 
 // GetYouTrackService gets YouTrack service settings for a project.
