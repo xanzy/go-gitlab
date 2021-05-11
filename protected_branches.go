@@ -187,34 +187,6 @@ func (s *ProtectedBranchesService) UnprotectRepositoryBranches(pid interface{}, 
 	return s.client.Do(req, nil)
 }
 
-// AllowForcePushOptions represents the available
-// AllowForcePush() options.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ee/api/protected_branches.html#allow_force_push # FIXME: not documented yet but this is what is done by the UI
-type AllowForcePushOptions struct {
-	AllowForcePush *bool `url:"allow_force_push,omitempty" json:"allow_force_push,omitempty"`
-}
-
-// AllowForcePush updates the allow force push option.
-//
-// Gitlab API docs:
-// https://docs.gitlab.com/ee/api/protected_branches.html#allow_force_push # FIXME: not documented yet but this is what is done by the UI
-func (s *ProtectedBranchesService) AllowForcePush(pid interface{}, branch string, opt *AllowForcePushOptions, options ...RequestOptionFunc) (*Response, error) {
-	project, err := parseID(pid)
-	if err != nil {
-		return nil, err
-	}
-	u := fmt.Sprintf("projects/%s/protected_branches/%s", pathEscape(project), url.PathEscape(branch))
-
-	req, err := s.client.NewRequest(http.MethodPatch, u, opt, options)
-	if err != nil {
-		return nil, err
-	}
-
-	return s.client.Do(req, nil)
-}
-
 // RequireCodeOwnerApprovalsOptions represents the available
 // RequireCodeOwnerApprovals() options.
 //
