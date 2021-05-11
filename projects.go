@@ -175,7 +175,6 @@ type ProjectLicense struct {
 	SourceURL string `json:"source_url"`
 }
 
-
 // StorageStatistics represents a statistics record for a group or project.
 type StorageStatistics struct {
 	StorageSize      int64 `json:"storage_size"`
@@ -362,6 +361,53 @@ func (s *ProjectsService) ListProjectsUsers(pid interface{}, opt *ListProjectUse
 	}
 
 	var p []*ProjectUser
+	resp, err := s.client.Do(req, &p)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return p, resp, err
+}
+
+// ProjectGroup represents a GitLab project group.
+type ProjectGroup struct {
+	ID        int    `json:"id"`
+	Name      string `json:"name"`
+	AvatarURL string `json:"avatar_url"`
+	WebURL    string `json:"web_url"`
+	FullName  string `json:"full_name"`
+	FullPath  string `json:"full_path"`
+}
+
+// ListProjectGroupOptions represents the available ListProjectsGroups() options.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#list-a-projects-groups
+type ListProjectGroupOptions struct {
+	ListOptions
+	Search               *string           `url:"search,omitempty" json:"search,omitempty"`
+	SharedMinAccessLevel *AccessLevelValue `url:"shared_min_access_level,omitempty" json:"shared_min_access_level,omitempty"`
+	SharedVisiableOnly   *bool             `url:"shared_visible_only,omitempty" json:"shared_visible_only,omitempty"`
+	SkipGroups           []int             `url:"skip_groups,omitempty" json:"skip_groups,omitempty"`
+	WithShared           *bool             `url:"with_shared,omitempty" json:"with_shared,omitempty"`
+}
+
+// ListProjectsGroups gets a list of groups for the given project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/projects.html#list-a-projects-groups
+func (s *ProjectsService) ListProjectsGroups(pid interface{}, opt *ListProjectGroupOptions, options ...RequestOptionFunc) ([]*ProjectGroup, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/groups", pathEscape(project))
+
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var p []*ProjectGroup
 	resp, err := s.client.Do(req, &p)
 	if err != nil {
 		return nil, resp, err
