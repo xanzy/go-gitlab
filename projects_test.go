@@ -139,6 +139,58 @@ func TestListProjectsUsersByName(t *testing.T) {
 	}
 }
 
+func TestListProjectsGroupsByID(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/", func(w http.ResponseWriter, r *http.Request) {
+		testURL(t, r, "/api/v4/projects/1/groups?page=2&per_page=3&search=query")
+		testMethod(t, r, http.MethodGet)
+		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
+	})
+
+	opt := &ListProjectGroupOptions{
+		ListOptions: ListOptions{2, 3},
+		Search:      String("query"),
+	}
+
+	groups, _, err := client.Projects.ListProjectsGroups(1, opt)
+	if err != nil {
+		t.Errorf("Projects.ListProjectsGroups returned error: %v", err)
+	}
+
+	want := []*ProjectGroup{{ID: 1}, {ID: 2}}
+	if !reflect.DeepEqual(want, groups) {
+		t.Errorf("Projects.ListProjectsGroups returned %+v, want %+v", groups, want)
+	}
+}
+
+func TestListProjectsGroupsByName(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/", func(w http.ResponseWriter, r *http.Request) {
+		testURL(t, r, "/api/v4/projects/namespace%2Fname/groups?page=2&per_page=3&search=query")
+		testMethod(t, r, http.MethodGet)
+		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
+	})
+
+	opt := &ListProjectGroupOptions{
+		ListOptions: ListOptions{2, 3},
+		Search:      String("query"),
+	}
+
+	groups, _, err := client.Projects.ListProjectsGroups("namespace/name", opt)
+	if err != nil {
+		t.Errorf("Projects.ListProjectsGroups returned error: %v", err)
+	}
+
+	want := []*ProjectGroup{{ID: 1}, {ID: 2}}
+	if !reflect.DeepEqual(want, groups) {
+		t.Errorf("Projects.ListProjectsGroups returned %+v, want %+v", groups, want)
+	}
+}
+
 func TestListOwnedProjects(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)

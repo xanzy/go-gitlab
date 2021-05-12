@@ -137,6 +137,73 @@ type ContainerExpirationPolicy struct {
 	NextRunAt       *time.Time `json:"next_run_at"`
 }
 
+// ForkParent represents the parent project when this is a fork.
+type ForkParent struct {
+	HTTPURLToRepo     string `json:"http_url_to_repo"`
+	ID                int    `json:"id"`
+	Name              string `json:"name"`
+	NameWithNamespace string `json:"name_with_namespace"`
+	Path              string `json:"path"`
+	PathWithNamespace string `json:"path_with_namespace"`
+	WebURL            string `json:"web_url"`
+}
+
+// GroupAccess represents group access.
+type GroupAccess struct {
+	AccessLevel       AccessLevelValue       `json:"access_level"`
+	NotificationLevel NotificationLevelValue `json:"notification_level"`
+}
+
+// Links represents a project web links for self, issues, merge_requests,
+// repo_branches, labels, events, members.
+type Links struct {
+	Self          string `json:"self"`
+	Issues        string `json:"issues"`
+	MergeRequests string `json:"merge_requests"`
+	RepoBranches  string `json:"repo_branches"`
+	Labels        string `json:"labels"`
+	Events        string `json:"events"`
+	Members       string `json:"members"`
+}
+
+// Permissions represents permissions.
+type Permissions struct {
+	ProjectAccess *ProjectAccess `json:"project_access"`
+	GroupAccess   *GroupAccess   `json:"group_access"`
+}
+
+// ProjectAccess represents project access.
+type ProjectAccess struct {
+	AccessLevel       AccessLevelValue       `json:"access_level"`
+	NotificationLevel NotificationLevelValue `json:"notification_level"`
+}
+
+// ProjectLicense represent the license for a project.
+type ProjectLicense struct {
+	Key       string `json:"key"`
+	Name      string `json:"name"`
+	Nickname  string `json:"nickname"`
+	HTMLURL   string `json:"html_url"`
+	SourceURL string `json:"source_url"`
+}
+
+// ProjectNamespace represents a project namespace.
+type ProjectNamespace struct {
+	ID        int    `json:"id"`
+	Name      string `json:"name"`
+	Path      string `json:"path"`
+	Kind      string `json:"kind"`
+	FullPath  string `json:"full_path"`
+	AvatarURL string `json:"avatar_url"`
+	WebURL    string `json:"web_url"`
+}
+
+// ProjectStatistics represents a statistics record for a project.
+type ProjectStatistics struct {
+	StorageStatistics
+	CommitCount int `json:"commit_count"`
+}
+
 // Repository represents a repository.
 type Repository struct {
 	Name              string          `json:"name"`
@@ -155,80 +222,12 @@ type Repository struct {
 	HTTPURL           string          `json:"http_url"`
 }
 
-// ProjectNamespace represents a project namespace.
-type ProjectNamespace struct {
-	ID        int    `json:"id"`
-	Name      string `json:"name"`
-	Path      string `json:"path"`
-	Kind      string `json:"kind"`
-	FullPath  string `json:"full_path"`
-	AvatarURL string `json:"avatar_url"`
-	WebURL    string `json:"web_url"`
-}
-
-// ProjectLicense represent the license for a project.
-type ProjectLicense struct {
-	Key       string `json:"key"`
-	Name      string `json:"name"`
-	Nickname  string `json:"nickname"`
-	HTMLURL   string `json:"html_url"`
-	SourceURL string `json:"source_url"`
-}
-
-
 // StorageStatistics represents a statistics record for a group or project.
 type StorageStatistics struct {
 	StorageSize      int64 `json:"storage_size"`
 	RepositorySize   int64 `json:"repository_size"`
 	LfsObjectsSize   int64 `json:"lfs_objects_size"`
 	JobArtifactsSize int64 `json:"job_artifacts_size"`
-}
-
-// ProjectStatistics represents a statistics record for a project.
-type ProjectStatistics struct {
-	StorageStatistics
-	CommitCount int `json:"commit_count"`
-}
-
-// Permissions represents permissions.
-type Permissions struct {
-	ProjectAccess *ProjectAccess `json:"project_access"`
-	GroupAccess   *GroupAccess   `json:"group_access"`
-}
-
-// ProjectAccess represents project access.
-type ProjectAccess struct {
-	AccessLevel       AccessLevelValue       `json:"access_level"`
-	NotificationLevel NotificationLevelValue `json:"notification_level"`
-}
-
-// GroupAccess represents group access.
-type GroupAccess struct {
-	AccessLevel       AccessLevelValue       `json:"access_level"`
-	NotificationLevel NotificationLevelValue `json:"notification_level"`
-}
-
-// ForkParent represents the parent project when this is a fork.
-type ForkParent struct {
-	HTTPURLToRepo     string `json:"http_url_to_repo"`
-	ID                int    `json:"id"`
-	Name              string `json:"name"`
-	NameWithNamespace string `json:"name_with_namespace"`
-	Path              string `json:"path"`
-	PathWithNamespace string `json:"path_with_namespace"`
-	WebURL            string `json:"web_url"`
-}
-
-// Links represents a project web links for self, issues, merge_requests,
-// repo_branches, labels, events, members.
-type Links struct {
-	Self          string `json:"self"`
-	Issues        string `json:"issues"`
-	MergeRequests string `json:"merge_requests"`
-	RepoBranches  string `json:"repo_branches"`
-	Labels        string `json:"labels"`
-	Events        string `json:"events"`
-	Members       string `json:"members"`
 }
 
 func (s Project) String() string {
@@ -362,6 +361,53 @@ func (s *ProjectsService) ListProjectsUsers(pid interface{}, opt *ListProjectUse
 	}
 
 	var p []*ProjectUser
+	resp, err := s.client.Do(req, &p)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return p, resp, err
+}
+
+// ProjectGroup represents a GitLab project group.
+type ProjectGroup struct {
+	ID        int    `json:"id"`
+	Name      string `json:"name"`
+	AvatarURL string `json:"avatar_url"`
+	WebURL    string `json:"web_url"`
+	FullName  string `json:"full_name"`
+	FullPath  string `json:"full_path"`
+}
+
+// ListProjectGroupOptions represents the available ListProjectsGroups() options.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#list-a-projects-groups
+type ListProjectGroupOptions struct {
+	ListOptions
+	Search               *string           `url:"search,omitempty" json:"search,omitempty"`
+	SkipGroups           []int             `url:"skip_groups,omitempty" json:"skip_groups,omitempty"`
+	WithShared           *bool             `url:"with_shared,omitempty" json:"with_shared,omitempty"`
+	SharedMinAccessLevel *AccessLevelValue `url:"shared_min_access_level,omitempty" json:"shared_min_access_level,omitempty"`
+	SharedVisiableOnly   *bool             `url:"shared_visible_only,omitempty" json:"shared_visible_only,omitempty"`
+}
+
+// ListProjectsGroups gets a list of groups for the given project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/projects.html#list-a-projects-groups
+func (s *ProjectsService) ListProjectsGroups(pid interface{}, opt *ListProjectGroupOptions, options ...RequestOptionFunc) ([]*ProjectGroup, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/groups", pathEscape(project))
+
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var p []*ProjectGroup
 	resp, err := s.client.Do(req, &p)
 	if err != nil {
 		return nil, resp, err
