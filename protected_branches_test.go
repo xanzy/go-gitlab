@@ -66,6 +66,7 @@ func TestListProtectedBranches(t *testing.T) {
 					AccessLevelDescription: "Maintainers",
 				},
 			},
+			AllowForcePush:            false,
 			CodeOwnerApprovalRequired: false,
 		},
 	}
@@ -116,6 +117,7 @@ func TestListProtectedBranchesWithoutCodeOwnerApproval(t *testing.T) {
 					AccessLevelDescription: "Maintainers",
 				},
 			},
+			AllowForcePush:            false,
 			CodeOwnerApprovalRequired: false,
 		},
 	}
@@ -142,6 +144,7 @@ func TestProtectRepositoryBranches(t *testing.T) {
 			"access_level":40,
 			"access_level_description":"Maintainers"
 		}],
+		"allow_force_push":true,
 		"code_owner_approval_required":true
 	}`)
 	})
@@ -149,6 +152,7 @@ func TestProtectRepositoryBranches(t *testing.T) {
 		Name:                      String("master"),
 		PushAccessLevel:           AccessLevel(MaintainerPermissions),
 		MergeAccessLevel:          AccessLevel(MaintainerPermissions),
+		AllowForcePush:            Bool(true),
 		CodeOwnerApprovalRequired: Bool(true),
 	}
 	projects, _, err := client.ProtectedBranches.ProtectRepositoryBranches("1", opt)
@@ -170,6 +174,7 @@ func TestProtectRepositoryBranches(t *testing.T) {
 				AccessLevelDescription: "Maintainers",
 			},
 		},
+		AllowForcePush:            true,
 		CodeOwnerApprovalRequired: true,
 	}
 	if !reflect.DeepEqual(want, projects) {
