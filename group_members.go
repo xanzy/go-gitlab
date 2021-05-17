@@ -19,6 +19,7 @@ package gitlab
 import (
 	"fmt"
 	"net/http"
+	"time"
 )
 
 // GroupMembersService handles communication with the group members
@@ -43,6 +44,7 @@ type GroupMemberSAMLIdentity struct {
 // GroupMember represents a GitLab group member.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/members.html
+// Gitlab MR for Object addition for created_at: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/45156
 type GroupMember struct {
 	ID                int                      `json:"id"`
 	Username          string                   `json:"username"`
@@ -50,7 +52,8 @@ type GroupMember struct {
 	State             string                   `json:"state"`
 	AvatarURL         string                   `json:"avatar_url"`
 	WebURL            string                   `json:"web_url"`
-	ExpiresAt         *ISOTime                 `json:"expires_at"`
+	CreatedAt         *time.Time               `json:"created_at"`
+	ExpiresAt         *time.Time               `json:"expires_at"`
 	AccessLevel       AccessLevelValue         `json:"access_level"`
 	GroupSAMLIdentity *GroupMemberSAMLIdentity `json:"group_saml_identity"`
 }
