@@ -65,9 +65,9 @@ func TestListGroupMembersWithoutSAML(t *testing.T) {
 		t.Errorf("Groups.ListGroupMembers returned error: %v", err)
 	}
 
-	create_at, _ := time.Parse(time.RFC3339, "2012-10-21T14:13:35Z")
-	expires_at, _ := time.Parse(time.RFC3339, "2012-10-22T14:13:35Z")
-	want := []*GroupMember{{ID: 1, Username: "raymond_smith", Name: "Raymond Smith", State: "active", AvatarURL: "https://www.gravatar.com/avatar/c2525a7f58ae3776070e44c106c48e15?s=80&d=identicon", WebURL: "http://192.168.1.8:3000/root", CreatedAt: &create_at, ExpiresAt: &expires_at, AccessLevel: 30, GroupSAMLIdentity: nil}}
+	createdAt, _ := time.Parse(time.RFC3339, "2012-10-21T14:13:35Z")
+	expiresAt, _ := time.Parse(time.RFC3339, "2012-10-22T14:13:35Z")
+	want := []*GroupMember{{ID: 1, Username: "raymond_smith", Name: "Raymond Smith", State: "active", AvatarURL: "https://www.gravatar.com/avatar/c2525a7f58ae3776070e44c106c48e15?s=80&d=identicon", WebURL: "http://192.168.1.8:3000/root", CreatedAt: &createdAt, ExpiresAt: &expiresAt, AccessLevel: 30, GroupSAMLIdentity: nil}}
 	if !reflect.DeepEqual(want, members) {
 		t.Errorf("Groups.ListBillableGroupMembers returned %+v, want %+v", members[0], want[0])
 	}
@@ -88,9 +88,9 @@ func TestListGroupMembersWithSAML(t *testing.T) {
 		t.Errorf("Groups.ListGroupMembers returned error: %v", err)
 	}
 
-	create_at, _ := time.Parse(time.RFC3339, "2012-10-21T14:13:35Z")
-	expires_at, _ := time.Parse(time.RFC3339, "2012-10-22T14:13:35Z")
-	want := []*GroupMember{{ID: 2, Username: "john_doe", Name: "John Doe", State: "active", AvatarURL: "https://www.gravatar.com/avatar/c2525a7f58ae3776070e44c106c48e15?s=80&d=identicon", WebURL: "http://192.168.1.8:3000/root", CreatedAt: &create_at, ExpiresAt: &expires_at, AccessLevel: 30, GroupSAMLIdentity: &GroupMemberSAMLIdentity{ExternUID: "ABC-1234567890", Provider: "group_saml", SAMLProviderID: 10}}}
+	createdAt, _ := time.Parse(time.RFC3339, "2012-10-21T14:13:35Z")
+	expiresAt, _ := time.Parse(time.RFC3339, "2012-10-22T14:13:35Z")
+	want := []*GroupMember{{ID: 2, Username: "john_doe", Name: "John Doe", State: "active", AvatarURL: "https://www.gravatar.com/avatar/c2525a7f58ae3776070e44c106c48e15?s=80&d=identicon", WebURL: "http://192.168.1.8:3000/root", CreatedAt: &createdAt, ExpiresAt: &expiresAt, AccessLevel: 30, GroupSAMLIdentity: &GroupMemberSAMLIdentity{ExternUID: "ABC-1234567890", Provider: "group_saml", SAMLProviderID: 10}}}
 	if !reflect.DeepEqual(want, members) {
 		t.Errorf("Groups.ListBillableGroupMembers returned %+v, want %+v", members[0], want[0])
 	}
