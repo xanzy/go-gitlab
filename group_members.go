@@ -44,7 +44,6 @@ type GroupMemberSAMLIdentity struct {
 // GroupMember represents a GitLab group member.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/members.html
-// Gitlab MR for Object addition for created_at: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/45156
 type GroupMember struct {
 	ID                int                      `json:"id"`
 	Username          string                   `json:"username"`
