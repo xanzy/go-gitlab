@@ -19,6 +19,7 @@ package gitlab
 import (
 	"fmt"
 	"net/http"
+	"time"
 )
 
 // GroupMembersService handles communication with the group members
@@ -50,7 +51,8 @@ type GroupMember struct {
 	State             string                   `json:"state"`
 	AvatarURL         string                   `json:"avatar_url"`
 	WebURL            string                   `json:"web_url"`
-	ExpiresAt         *ISOTime                 `json:"expires_at"`
+	CreatedAt         *time.Time               `json:"created_at"`
+	ExpiresAt         *time.Time               `json:"expires_at"`
 	AccessLevel       AccessLevelValue         `json:"access_level"`
 	GroupSAMLIdentity *GroupMemberSAMLIdentity `json:"group_saml_identity"`
 }
