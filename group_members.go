@@ -204,6 +204,26 @@ func (s *GroupsService) ListBillableGroupMembers(gid interface{}, opt *ListBilla
 	return bgm, resp, err
 }
 
+// RemoveBillableGroupMember Removes a given group members that count as billable.
+// The list includes removal from all subgroup or subproject.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/members.html#remove-a-billable-member-from-a-group
+func (s *GroupsService) RemoveBillableGroupMember(gid interface{}, user int, options ...RequestOptionFunc) (*Response, error) {
+	group, err := parseID(gid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("groups/%s/billable_members/%d", pathEscape(group), user)
+
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
+
 // AddGroupMember adds a user to the list of group members.
 //
 // GitLab API docs:
