@@ -205,7 +205,7 @@ func (s *GroupsService) ListBillableGroupMembers(gid interface{}, opt *ListBilla
 }
 
 // RemoveBillableGroupMember Removes a given group members that count as billable.
-// The list includes removal from all subgroup or subproject.
+// This includes removal from all subgroup or subproject.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/members.html#remove-a-billable-member-from-a-group
