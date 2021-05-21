@@ -126,6 +126,17 @@ type Project struct {
 	MergeRequestsTemplate string             `json:"merge_requests_template"`
 }
 
+// BasicProject included in other service responses (such as todos).
+type BasicProject struct {
+	ID                int        `json:"id"`
+	Description       string     `json:"description"`
+	Name              string     `json:"name"`
+	NameWithNamespace string     `json:"name_with_namespace"`
+	Path              string     `json:"path"`
+	PathWithNamespace string     `json:"path_with_namespace"`
+	CreatedAt         *time.Time `json:"created_at"`
+}
+
 // ContainerExpirationPolicy represents the container expiration policy.
 type ContainerExpirationPolicy struct {
 	Cadence         string     `json:"cadence"`

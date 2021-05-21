@@ -45,91 +45,85 @@ const (
 	TodoDirectlyAddressed TodoAction = "directly_addressed"
 )
 
+// TodoTarget represents the available target that can be linked to a todo.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/todos.html
+type TodoTargetType string
+
+const (
+	TodoTargetAlertManagement  TodoTargetType = "AlertManagement::Alert"
+	TodoTargetDesignManagement TodoTargetType = "DesignManagement::Design"
+	TodoTargetIssue            TodoTargetType = "Issue"
+	TodoTargetMergeRequest     TodoTargetType = "MergeRequest"
+)
+
 // TodoTarget represents a todo target of type Issue or MergeRequest
 type TodoTarget struct {
-	// TODO: replace both Assignee and Author structs with v4 User struct
-	Assignee struct {
-		Name      string `json:"name"`
-		Username  string `json:"username"`
-		ID        int    `json:"id"`
-		State     string `json:"state"`
-		AvatarURL string `json:"avatar_url"`
-		WebURL    string `json:"web_url"`
-	} `json:"assignee"`
-	Author struct {
-		Name      string `json:"name"`
-		Username  string `json:"username"`
-		ID        int    `json:"id"`
-		State     string `json:"state"`
-		AvatarURL string `json:"avatar_url"`
-		WebURL    string `json:"web_url"`
-	} `json:"author"`
-	CreatedAt      *time.Time `json:"created_at"`
-	Description    string     `json:"description"`
-	Downvotes      int        `json:"downvotes"`
-	ID             int        `json:"id"`
-	IID            int        `json:"iid"`
-	Labels         []string   `json:"labels"`
-	Milestone      Milestone  `json:"milestone"`
-	ProjectID      int        `json:"project_id"`
-	State          string     `json:"state"`
-	Subscribed     bool       `json:"subscribed"`
-	Title          string     `json:"title"`
-	UpdatedAt      *time.Time `json:"updated_at"`
-	Upvotes        int        `json:"upvotes"`
-	UserNotesCount int        `json:"user_notes_count"`
-	WebURL         string     `json:"web_url"`
+	Assignees      []*BasicUser `json:"assignees"`
+	Assignee       *BasicUser    `json:"assignee"`
+	Author         *BasicUser    `json:"author"`
+	CreatedAt      *time.Time   `json:"created_at"`
+	Description    string       `json:"description"`
+	Downvotes      int          `json:"downvotes"`
+	ID             int          `json:"id"`
+	IID            int          `json:"iid"`
+	Labels         []string     `json:"labels"`
+	Milestone      *Milestone    `json:"milestone"`
+	ProjectID      int          `json:"project_id"`
+	State          string       `json:"state"`
+	Subscribed     bool         `json:"subscribed"`
+	Title          string       `json:"title"`
+	UpdatedAt      *time.Time   `json:"updated_at"`
+	Upvotes        int          `json:"upvotes"`
+	UserNotesCount int          `json:"user_notes_count"`
+	WebURL         string       `json:"web_url"`
 
 	// Only available for type Issue
-	Confidential bool   `json:"confidential"`
-	DueDate      string `json:"due_date"`
-	Weight       int    `json:"weight"`
+	Confidential         bool                        `json:"confidential"`
+	DueDate              string                      `json:"due_date"`
+	HasTasks             bool                        `json:"has_tasks"`
+	Links                *IssueLinks                 `json:"_links"`
+	MovedToID            int                         `json:"moved_to_id"`
+	TaskCompletionStatus *IssueTasksCompletionStatus `json:"task_completion_status"`
+	TimeStats            *TimeStats                  `json:"time_stats"`
+	Weight               int                         `json:"weight"`
 
 	// Only available for type MergeRequest
-	ApprovalsBeforeMerge      int    `json:"approvals_before_merge"`
-	ForceRemoveSourceBranch   bool   `json:"force_remove_source_branch"`
-	MergeCommitSHA            string `json:"merge_commit_sha"`
-	MergeWhenPipelineSucceeds bool   `json:"merge_when_pipeline_succeeds"`
-	MergeStatus               string `json:"merge_status"`
-	SHA                       string `json:"sha"`
-	ShouldRemoveSourceBranch  bool   `json:"should_remove_source_branch"`
-	SourceBranch              string `json:"source_branch"`
-	SourceProjectID           int    `json:"source_project_id"`
-	Squash                    bool   `json:"squash"`
-	TargetBranch              string `json:"target_branch"`
-	TargetProjectID           int    `json:"target_project_id"`
-	WorkInProgress            bool   `json:"work_in_progress"`
+	ApprovalsBeforeMerge      int          `json:"approvals_before_merge"`
+	ForceRemoveSourceBranch   bool         `json:"force_remove_source_branch"`
+	MergeCommitSHA            string       `json:"merge_commit_sha"`
+	MergeWhenPipelineSucceeds bool         `json:"merge_when_pipeline_succeeds"`
+	MergeStatus               string       `json:"merge_status"`
+	Reference                 string       `json:"reference"`
+	Reviewers                 []*BasicUser `json:"reviewers"`
+	SHA                       string       `json:"sha"`
+	ShouldRemoveSourceBranch  bool         `json:"should_remove_source_branch"`
+	SourceBranch              string       `json:"source_branch"`
+	SourceProjectID           int          `json:"source_project_id"`
+	Squash                    bool         `json:"squash"`
+	TargetBranch              string       `json:"target_branch"`
+	TargetProjectID           int          `json:"target_project_id"`
+	WorkInProgress            bool         `json:"work_in_progress"`
+
+	// Only available for type DesignManagement::Design
+	FileName string `json:"filename"`
+	ImageURL string `json:"image_url"`
 }
 
 // Todo represents a GitLab todo.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/todos.html
 type Todo struct {
-	ID      int `json:"id"`
-	Project struct {
-		ID                int    `json:"id"`
-		HTTPURLToRepo     string `json:"http_url_to_repo"`
-		WebURL            string `json:"web_url"`
-		Name              string `json:"name"`
-		NameWithNamespace string `json:"name_with_namespace"`
-		Path              string `json:"path"`
-		PathWithNamespace string `json:"path_with_namespace"`
-	} `json:"project"`
-	Author struct {
-		ID        int    `json:"id"`
-		Name      string `json:"name"`
-		Username  string `json:"username"`
-		State     string `json:"state"`
-		AvatarURL string `json:"avatar_url"`
-		WebURL    string `json:"web_url"`
-	} `json:"author"`
-	ActionName TodoAction `json:"action_name"`
-	TargetType string     `json:"target_type"`
-	Target     TodoTarget `json:"target"`
-	TargetURL  string     `json:"target_url"`
-	Body       string     `json:"body"`
-	State      string     `json:"state"`
-	CreatedAt  *time.Time `json:"created_at"`
+	ID         int            `json:"id"`
+	Project    *BasicProject   `json:"project"`
+	Author     *BasicUser      `json:"author"`
+	ActionName TodoAction     `json:"action_name"`
+	TargetType TodoTargetType `json:"target_type"`
+	Target     TodoTarget     `json:"target"`
+	TargetURL  string         `json:"target_url"`
+	Body       string         `json:"body"`
+	State      string         `json:"state"`
+	CreatedAt  *time.Time     `json:"created_at"`
 }
 
 func (t Todo) String() string {
