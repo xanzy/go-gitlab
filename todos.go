@@ -59,34 +59,34 @@ const (
 
 // TodoTarget represents a todo target of type Issue or MergeRequest
 type TodoTarget struct {
-	Assignees      []*BasicUser `json:"assignees"`
-	Assignee       *BasicUser    `json:"assignee"`
-	Author         *BasicUser    `json:"author"`
-	CreatedAt      *time.Time   `json:"created_at"`
-	Description    string       `json:"description"`
-	Downvotes      int          `json:"downvotes"`
-	ID             int          `json:"id"`
-	IID            int          `json:"iid"`
-	Labels         []string     `json:"labels"`
-	Milestone      *Milestone    `json:"milestone"`
-	ProjectID      int          `json:"project_id"`
-	State          string       `json:"state"`
-	Subscribed     bool         `json:"subscribed"`
-	Title          string       `json:"title"`
-	UpdatedAt      *time.Time   `json:"updated_at"`
-	Upvotes        int          `json:"upvotes"`
-	UserNotesCount int          `json:"user_notes_count"`
-	WebURL         string       `json:"web_url"`
+	Assignees            []*BasicUser           `json:"assignees"`
+	Assignee             *BasicUser             `json:"assignee"`
+	Author               *BasicUser             `json:"author"`
+	CreatedAt            *time.Time             `json:"created_at"`
+	Description          string                 `json:"description"`
+	Downvotes            int                    `json:"downvotes"`
+	ID                   int                    `json:"id"`
+	IID                  int                    `json:"iid"`
+	Labels               []string               `json:"labels"`
+	Milestone            *Milestone             `json:"milestone"`
+	ProjectID            int                    `json:"project_id"`
+	State                string                 `json:"state"`
+	Subscribed           bool                   `json:"subscribed"`
+	TaskCompletionStatus *TasksCompletionStatus `json:"task_completion_status"`
+	Title                string                 `json:"title"`
+	UpdatedAt            *time.Time             `json:"updated_at"`
+	Upvotes              int                    `json:"upvotes"`
+	UserNotesCount       int                    `json:"user_notes_count"`
+	WebURL               string                 `json:"web_url"`
 
 	// Only available for type Issue
-	Confidential         bool                        `json:"confidential"`
-	DueDate              string                      `json:"due_date"`
-	HasTasks             bool                        `json:"has_tasks"`
-	Links                *IssueLinks                 `json:"_links"`
-	MovedToID            int                         `json:"moved_to_id"`
-	TaskCompletionStatus *IssueTasksCompletionStatus `json:"task_completion_status"`
-	TimeStats            *TimeStats                  `json:"time_stats"`
-	Weight               int                         `json:"weight"`
+	Confidential bool        `json:"confidential"`
+	DueDate      string      `json:"due_date"`
+	HasTasks     bool        `json:"has_tasks"`
+	Links        *IssueLinks `json:"_links"`
+	MovedToID    int         `json:"moved_to_id"`
+	TimeStats    *TimeStats  `json:"time_stats"`
+	Weight       int         `json:"weight"`
 
 	// Only available for type MergeRequest
 	ApprovalsBeforeMerge      int          `json:"approvals_before_merge"`
@@ -115,8 +115,8 @@ type TodoTarget struct {
 // GitLab API docs: https://docs.gitlab.com/ce/api/todos.html
 type Todo struct {
 	ID         int            `json:"id"`
-	Project    *BasicProject   `json:"project"`
-	Author     *BasicUser      `json:"author"`
+	Project    *BasicProject  `json:"project"`
+	Author     *BasicUser     `json:"author"`
 	ActionName TodoAction     `json:"action_name"`
 	TargetType TodoTargetType `json:"target_type"`
 	Target     TodoTarget     `json:"target"`
