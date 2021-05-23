@@ -30,32 +30,25 @@ type TodosService struct {
 	client *Client
 }
 
-// TodoAction represents the available actions that can be performed on a todo.
+// Todo represents a GitLab todo.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/todos.html
-type TodoAction string
+type Todo struct {
+	ID         int            `json:"id"`
+	Project    *BasicProject  `json:"project"`
+	Author     *BasicUser     `json:"author"`
+	ActionName TodoAction     `json:"action_name"`
+	TargetType TodoTargetType `json:"target_type"`
+	Target     *TodoTarget    `json:"target"`
+	TargetURL  string         `json:"target_url"`
+	Body       string         `json:"body"`
+	State      string         `json:"state"`
+	CreatedAt  *time.Time     `json:"created_at"`
+}
 
-// The available todo actions.
-const (
-	TodoAssigned          TodoAction = "assigned"
-	TodoMentioned         TodoAction = "mentioned"
-	TodoBuildFailed       TodoAction = "build_failed"
-	TodoMarked            TodoAction = "marked"
-	TodoApprovalRequired  TodoAction = "approval_required"
-	TodoDirectlyAddressed TodoAction = "directly_addressed"
-)
-
-// TodoTarget represents the available target that can be linked to a todo.
-//
-// GitLab API docs: https://docs.gitlab.com/ce/api/todos.html
-type TodoTargetType string
-
-const (
-	TodoTargetAlertManagement  TodoTargetType = "AlertManagement::Alert"
-	TodoTargetDesignManagement TodoTargetType = "DesignManagement::Design"
-	TodoTargetIssue            TodoTargetType = "Issue"
-	TodoTargetMergeRequest     TodoTargetType = "MergeRequest"
-)
+func (t Todo) String() string {
+	return Stringify(t)
+}
 
 // TodoTarget represents a todo target of type Issue or MergeRequest
 type TodoTarget struct {
@@ -108,26 +101,6 @@ type TodoTarget struct {
 	// Only available for type DesignManagement::Design
 	FileName string `json:"filename"`
 	ImageURL string `json:"image_url"`
-}
-
-// Todo represents a GitLab todo.
-//
-// GitLab API docs: https://docs.gitlab.com/ce/api/todos.html
-type Todo struct {
-	ID         int            `json:"id"`
-	Project    *BasicProject  `json:"project"`
-	Author     *BasicUser     `json:"author"`
-	ActionName TodoAction     `json:"action_name"`
-	TargetType TodoTargetType `json:"target_type"`
-	Target     TodoTarget     `json:"target"`
-	TargetURL  string         `json:"target_url"`
-	Body       string         `json:"body"`
-	State      string         `json:"state"`
-	CreatedAt  *time.Time     `json:"created_at"`
-}
-
-func (t Todo) String() string {
-	return Stringify(t)
 }
 
 // ListTodosOptions represents the available ListTodos() options.

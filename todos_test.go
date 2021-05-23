@@ -37,7 +37,7 @@ func TestListTodos(t *testing.T) {
 
 	require.NoError(t, err)
 
-	want := []*Todo{{ID: 1, State: "pending", Target: TodoTarget{ID: 1, ApprovalsBeforeMerge: 2}}, {ID: 2, State: "pending", Target: TodoTarget{ID: 2}}}
+	want := []*Todo{{ID: 1, State: "pending", Target: &TodoTarget{ID: 1, ApprovalsBeforeMerge: 2}}, {ID: 2, State: "pending", Target: &TodoTarget{ID: 2}}}
 	require.Equal(t, want, todos)
 }
 
