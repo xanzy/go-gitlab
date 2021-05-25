@@ -590,9 +590,11 @@ type MergeEvent struct {
 
 // MergeAssignee represents a merge assignee.
 type MergeAssignee struct {
+	ID        int    `json:"id"`
 	Name      string `json:"name"`
 	Username  string `json:"username"`
 	AvatarURL string `json:"avatar_url"`
+	Email     string `json:"email"`
 }
 
 // MergeParams represents the merge params.
