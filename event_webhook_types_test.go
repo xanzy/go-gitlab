@@ -21,6 +21,11 @@ import (
 	"testing"
 )
 
+const (
+	expectedName     = "User1"
+	expectedUsername = "user1"
+)
+
 func TestBuildEventUnmarshal(t *testing.T) {
 	jsonObject := loadFixture("testdata/webhooks/build.json")
 
@@ -143,12 +148,12 @@ func TestMergeEventUnmarshal(t *testing.T) {
 	if event.ObjectAttributes.LastCommit.ID != "da1560886d4f094c3e6c9ef40349f7d38b5d27d7" {
 		t.Errorf("ObjectAttributes.LastCommit.ID is %v, want %s", event.ObjectAttributes.LastCommit.ID, "da1560886d4f094c3e6c9ef40349f7d38b5d27d7")
 	}
-	if event.ObjectAttributes.Assignee.Name != "User1" {
-		t.Errorf("Assignee.Name is %v, want %v", event.ObjectAttributes.Assignee.Name, "User1")
+	if event.ObjectAttributes.Assignee.Name != expectedName {
+		t.Errorf("Assignee.Name is %v, want %v", event.ObjectAttributes.Assignee.Name, expectedName)
 	}
 
-	if event.ObjectAttributes.Assignee.Username != "user1" {
-		t.Errorf("ObjectAttributes is %v, want %v", event.ObjectAttributes.Assignee.Username, "user1")
+	if event.ObjectAttributes.Assignee.Username != expectedUsername {
+		t.Errorf("ObjectAttributes is %v, want %v", event.ObjectAttributes.Assignee.Username, expectedUsername)
 	}
 
 	if event.User.Name != "Administrator" {
@@ -161,6 +166,18 @@ func TestMergeEventUnmarshal(t *testing.T) {
 
 	if name := event.ObjectAttributes.LastCommit.Author.Name; name != "GitLab dev user" {
 		t.Errorf("Commit Username is %s, want %s", name, "GitLab dev user")
+	}
+
+	if event.Assignees[0].ID != 1 {
+		t.Errorf("Assignees[0].ID is %v, want %v", event.Assignees[0].ID, 1)
+	}
+
+	if event.Assignees[0].Name != expectedName {
+		t.Errorf("Assignees[0].Name is %v, want %v", event.Assignees[0].Name, expectedName)
+	}
+
+	if event.Assignees[0].Username != expectedUsername {
+		t.Errorf("Assignees[0].Username is %v, want %v", event.Assignees[0].Username, expectedName)
 	}
 }
 
