@@ -151,7 +151,7 @@ func TestMergeEventUnmarshal(t *testing.T) {
 		t.Errorf("ObjectAttributes is %v, want %v", event.ObjectAttributes.Assignee.Username, "user1")
 	}
 
-	if event.User.Name == "" {
+	if event.User.Name != "Administrator" {
 		t.Errorf("Username is %s, want %s", event.User.Name, "Administrator")
 	}
 
