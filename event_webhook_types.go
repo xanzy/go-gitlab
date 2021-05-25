@@ -536,9 +536,10 @@ type MergeEvent struct {
 		OldRev         string        `json:"oldrev"`
 		Assignee       MergeAssignee `json:"assignee"`
 	} `json:"object_attributes"`
-	Repository *Repository   `json:"repository"`
-	Assignee   MergeAssignee `json:"assignee"`
-	Labels     []Label       `json:"labels"`
+	Repository *Repository      `json:"repository"`
+	Assignee   MergeAssignee    `json:"assignee"`
+	Assignees  []*MergeAssignee `json:"assignees"`
+	Labels     []Label          `json:"labels"`
 	Changes    struct {
 		Assignees struct {
 			Previous []MergeAssignee `json:"previous"`
