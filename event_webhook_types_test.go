@@ -144,7 +144,7 @@ func TestMergeEventUnmarshal(t *testing.T) {
 		t.Errorf("ObjectAttributes.LastCommit.ID is %v, want %s", event.ObjectAttributes.LastCommit.ID, "da1560886d4f094c3e6c9ef40349f7d38b5d27d7")
 	}
 	if event.ObjectAttributes.Assignee.Name != "User1" {
-		t.Errorf("Assignee.Name is %v, want %v", event.ObjectAttributes.ID, "User1")
+		t.Errorf("Assignee.Name is %v, want %v", event.ObjectAttributes.Assignee.Name, "User1")
 	}
 
 	if event.ObjectAttributes.Assignee.Username != "user1" {
