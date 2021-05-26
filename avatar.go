@@ -20,7 +20,7 @@ import (
 	"net/http"
 )
 
-// AccessRequest represents a access request for a group or project.
+// AccessRequest represents a access request for a user avatars.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/avatar.html
@@ -29,8 +29,8 @@ type AvatarOptions struct {
 	Size  int    `json:"size"`
 }
 
-// AccessRequestsService handles communication with the project/group
-// access requests related methods of the GitLab API.
+// AccessRequestsService handles communication with the avatar
+// avatar related methods of the GitLab API.
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/avatar.html
 type AvatarRequestsService struct {
