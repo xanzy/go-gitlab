@@ -530,28 +530,28 @@ type MergeEvent struct {
 				Email string `json:"email"`
 			} `json:"author"`
 		} `json:"last_commit"`
-		WorkInProgress bool          `json:"work_in_progress"`
-		URL            string        `json:"url"`
-		Action         string        `json:"action"`
-		OldRev         string        `json:"oldrev"`
-		Assignee       MergeAssignee `json:"assignee"`
+		WorkInProgress bool           `json:"work_in_progress"`
+		URL            string         `json:"url"`
+		Action         string         `json:"action"`
+		OldRev         string         `json:"oldrev"`
+		Assignee       *MergeAssignee `json:"assignee"`
 	} `json:"object_attributes"`
 	Repository *Repository      `json:"repository"`
-	Assignee   MergeAssignee    `json:"assignee"`
+	Assignee   *MergeAssignee   `json:"assignee"`
 	Assignees  []*MergeAssignee `json:"assignees"`
-	Labels     []Label          `json:"labels"`
+	Labels     []*Label         `json:"labels"`
 	Changes    struct {
 		Assignees struct {
-			Previous []MergeAssignee `json:"previous"`
-			Current  []MergeAssignee `json:"current"`
+			Previous []*MergeAssignee `json:"previous"`
+			Current  []*MergeAssignee `json:"current"`
 		} `json:"assignees"`
 		Description struct {
 			Previous string `json:"previous"`
 			Current  string `json:"current"`
 		} `json:"description"`
 		Labels struct {
-			Previous []Label `json:"previous"`
-			Current  []Label `json:"current"`
+			Previous []*Label `json:"previous"`
+			Current  []*Label `json:"current"`
 		} `json:"labels"`
 		SourceBranch struct {
 			Previous string `json:"previous"`
