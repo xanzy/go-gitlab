@@ -244,6 +244,54 @@ const (
 		}
 	}`
 
+	// exampleReleaseResponse provides fixture for Releases tests.
+	exampleReleaseWithMetadataResponse = `{
+		"tag_name": "v0.1.2+example-metadata",
+		"description": "description",
+		"name": "Awesome app v0.1 alpha",
+		"description_html": "description_html",
+		"created_at": "2019-01-03T01:55:18.203Z",
+		"author": {
+			"id": 1,
+			"name": "Administrator",
+			"username": "root",
+			"state": "active",
+			"avatar_url": "https://www.gravatar.com/avatar/",
+			"web_url": "http://localhost:3000/root"
+		},
+		"commit": {
+			"id": "f8d3d94cbd347e924aa7b715845e439d00e80ca4",
+			"short_id": "f8d3d94c",
+			"title": "Initial commit",
+			"created_at": "2019-01-03T01:53:28.000Z",
+			"parent_ids": [],
+			"message": "Initial commit",
+			"author_name": "Administrator",
+			"author_email": "admin@example.com",
+			"authored_date": "2019-01-03T01:53:28.000Z",
+			"committer_name": "Administrator",
+			"committer_email": "admin@example.com",
+			"committed_date": "2019-01-03T01:53:28.000Z"
+		},
+		"assets": {
+			"count": 2,
+			"sources": [
+			{
+				"format": "zip",
+				"url": "http://localhost:3000/archive/v0.1/awesome-app-v0.1.zip"
+			},
+			{
+				"format": "tar.gz",
+				"url": "http://localhost:3000/archive/v0.1/awesome-app-v0.1.tar.gz"
+			}
+			],
+			"links": []
+		}
+	}`
+
 	// exampleTagName provides a fixture for a tag name.
 	exampleTagName = "v0.1"
+
+	// exampleTagName provides a fixture for a tag name.
+	exampleTagNameWithMetadata = "v0.1.2+example-metadata"
 )

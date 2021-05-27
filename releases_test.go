@@ -159,6 +159,56 @@ func TestReleasesService_CreateReleaseWithAsset(t *testing.T) {
 	}
 }
 
+func TestReleasesService_CreateReleaseWithAssetAndNameMetadata(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/releases",
+		func(w http.ResponseWriter, r *http.Request) {
+			testMethod(t, r, http.MethodPost)
+			b, err := ioutil.ReadAll(r.Body)
+			if err != nil {
+				t.Fatalf("unable to read request body")
+			}
+			if !strings.Contains(string(b), exampleTagNameWithMetadata) {
+				t.Errorf("expected request body to contain %s, got %s",
+					exampleTagNameWithMetadata, string(b))
+			}
+			if !strings.Contains(string(b), "assets") {
+				t.Errorf("expected request body to have assets, got %s",
+					string(b))
+			}
+			if strings.Contains(string(b), "milestones") {
+				t.Errorf("expected request body not to have milestones, got %s",
+					string(b))
+			}
+			if strings.Contains(string(b), "released_at") {
+				t.Errorf("expected request body not to have released_at, got %s",
+					string(b))
+			}
+			fmt.Fprint(w, exampleReleaseWithMetadataResponse)
+		})
+
+	opts := &CreateReleaseOptions{
+		Name:        String("name"),
+		TagName:     String(exampleTagNameWithMetadata),
+		Description: String("Description"),
+		Assets: &ReleaseAssets{
+			Links: []*ReleaseAssetLink{
+				{"sldkf", "sldkfj"},
+			},
+		},
+	}
+
+	release, _, err := client.Releases.CreateRelease(1, opts)
+	if err != nil {
+		t.Error(err)
+	}
+	if release.TagName != exampleTagNameWithMetadata {
+		t.Errorf("expected tag %s, got %s", exampleTagNameWithMetadata, release.TagName)
+	}
+}
+
 func TestReleasesService_CreateReleaseWithMilestones(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
