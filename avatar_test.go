@@ -32,22 +32,24 @@ func TestGetAvatar(t *testing.T) {
 		func(w http.ResponseWriter, r *http.Request) {
 			testMethod(t, r, http.MethodGet)
 			w.WriteHeader(http.StatusAccepted)
-			avatar := struct {
-				Url string `json:"avatar_url"`
-			}{
-				Url: host,
-			}
+			avatar := Avatar{AvatarURL: host}
 			resp, _ := json.Marshal(avatar)
 			_, _ = w.Write(resp)
 		},
 	)
 
-	err, resp := client.Avatar.GetAvatar(&AvatarOptions{Email: "test"})
+	email := "test"
+
+	avatar, resp, err := client.Avatar.GetAvatar(&GetAvatarOptions{Email: &email})
 	if err != nil {
 		t.Fatalf("Avatar.GetAvatar returned error: %v", err)
 	}
 
-	if host != *resp {
-		t.Errorf("Avatar.GetAvatar wrong result %s, want %s", *resp, host)
+	if resp.Status != "202 Accepted" {
+		t.Fatalf("Avatar.GetAvatar returned wrong status code: %v", resp.Status)
+	}
+
+	if host != avatar.AvatarURL {
+		t.Errorf("Avatar.GetAvatar wrong result %s, want %s", avatar.AvatarURL, host)
 	}
 }

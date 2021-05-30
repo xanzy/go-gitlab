@@ -20,15 +20,6 @@ import (
 	"net/http"
 )
 
-// AccessRequest represents a access request for a user avatars.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ee/api/avatar.html
-type AvatarOptions struct {
-	Email string `json:"email"`
-	Size  int    `json:"size"`
-}
-
 // AccessRequestsService handles communication with the avatar
 // avatar related methods of the GitLab API.
 //
@@ -37,20 +28,34 @@ type AvatarRequestsService struct {
 	client *Client
 }
 
-func (s *AvatarRequestsService) GetAvatar(opts *AvatarOptions, options ...RequestOptionFunc) (error, *string) {
+// Avatar represents a GitLab avatar.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/avatar.html
+type Avatar struct {
+	AvatarURL string `json:"avatar_url"`
+}
+
+// AccessRequest represents a access request for a user avatars.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/avatar.html
+type GetAvatarOptions struct {
+	Email *string `json:"email"`
+	Size  *int    `json:"size"`
+}
+
+func (s *AvatarRequestsService) GetAvatar(opts *GetAvatarOptions, options ...RequestOptionFunc) (*Avatar, *Response, error) {
 	req, err := s.client.NewRequest(http.MethodGet, "avatar", opts, options)
 	if err != nil {
-		return err, nil
+		return nil, nil, err
 	}
 
-	avatar := struct {
-		Url string `json:"avatar_url"`
-	}{}
+	avatar := new(Avatar)
 
-	_, err = s.client.Do(req, &avatar)
+	response, err := s.client.Do(req, &avatar)
 	if err != nil {
-		return err, nil
+		return nil, response, err
 	}
 
-	return nil, &avatar.Url
+	return avatar, response, nil
 }
