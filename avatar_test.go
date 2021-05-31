@@ -26,21 +26,20 @@ func TestGetAvatar(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
 
-	const host = "https://google.com"
+	const url = "https://www.gravatar.com/avatar/10e6bf7bcf22c2f00a3ef684b4ada178"
 
 	mux.HandleFunc("/api/v4/avatar",
 		func(w http.ResponseWriter, r *http.Request) {
 			testMethod(t, r, http.MethodGet)
 			w.WriteHeader(http.StatusAccepted)
-			avatar := Avatar{AvatarURL: host}
+			avatar := Avatar{AvatarURL: url}
 			resp, _ := json.Marshal(avatar)
 			_, _ = w.Write(resp)
 		},
 	)
 
-	email := "test"
-
-	avatar, resp, err := client.Avatar.GetAvatar(&GetAvatarOptions{Email: &email})
+	opt := &GetAvatarOptions{Email: String("sander@vanharmelen.nnl")}
+	avatar, resp, err := client.Avatar.GetAvatar(opt)
 	if err != nil {
 		t.Fatalf("Avatar.GetAvatar returned error: %v", err)
 	}
@@ -49,7 +48,7 @@ func TestGetAvatar(t *testing.T) {
 		t.Fatalf("Avatar.GetAvatar returned wrong status code: %v", resp.Status)
 	}
 
-	if host != avatar.AvatarURL {
-		t.Errorf("Avatar.GetAvatar wrong result %s, want %s", avatar.AvatarURL, host)
+	if url != avatar.AvatarURL {
+		t.Errorf("Avatar.GetAvatar wrong result %s, want %s", avatar.AvatarURL, url)
 	}
 }
