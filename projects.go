@@ -281,6 +281,7 @@ type ListProjectsOptions struct {
 	Membership               *bool             `url:"membership,omitempty" json:"membership,omitempty"`
 	Starred                  *bool             `url:"starred,omitempty" json:"starred,omitempty"`
 	Statistics               *bool             `url:"statistics,omitempty" json:"statistics,omitempty"`
+	Topic                    *string           `url:"topic,omitempty" json:"topic,omitempty"`
 	WithCustomAttributes     *bool             `url:"with_custom_attributes,omitempty" json:"with_custom_attributes,omitempty"`
 	WithIssuesEnabled        *bool             `url:"with_issues_enabled,omitempty" json:"with_issues_enabled,omitempty"`
 	WithMergeRequestsEnabled *bool             `url:"with_merge_requests_enabled,omitempty" json:"with_merge_requests_enabled,omitempty"`
