@@ -32,7 +32,7 @@ func TestSearchService_Users(t *testing.T) {
 		mustWriteHTTPResponse(t, w, "testdata/search_users.json")
 	})
 
-	opts := &SearchOptions{PerPage: 2}
+	opts := &SearchOptions{ListOptions: ListOptions{PerPage: 2}}
 	users, _, err := client.Search.Users("doe", opts)
 
 	require.NoError(t, err)
@@ -57,7 +57,7 @@ func TestSearchService_UsersByGroup(t *testing.T) {
 		mustWriteHTTPResponse(t, w, "testdata/search_users.json")
 	})
 
-	opts := &SearchOptions{PerPage: 2}
+	opts := &SearchOptions{ListOptions: ListOptions{PerPage: 2}}
 	users, _, err := client.Search.UsersByGroup("3", "doe", opts)
 
 	require.NoError(t, err)
@@ -82,7 +82,7 @@ func TestSearchService_UsersByProject(t *testing.T) {
 		mustWriteHTTPResponse(t, w, "testdata/search_users.json")
 	})
 
-	opts := &SearchOptions{PerPage: 2}
+	opts := &SearchOptions{ListOptions: ListOptions{PerPage: 2}}
 	users, _, err := client.Search.UsersByProject("6", "doe", opts)
 
 	require.NoError(t, err)
