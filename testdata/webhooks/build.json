@@ -17,9 +17,10 @@
   "project_id": 380,
   "project_name": "gitlab-org/gitlab-test",
   "user": {
-    "id": 3,
-    "name": "User",
-    "email": "user@gitlab.com",
+    "id": 42,
+    "name": "Administrator",
+    "username": "root",
+    "email": "root@example.com",
     "avatar_url": "http://www.gravatar.com/avatar/e32bd13e2add097461cb96824b7a829c?s=80\u0026d=identicon"
   },
   "commit": {

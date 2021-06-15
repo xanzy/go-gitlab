@@ -36,10 +36,11 @@
      "url": "http://192.168.64.1:3005/gitlab-org/gitlab-test/merge_requests/1"
   },
   "user":{
+     "id": 42,
      "name": "Administrator",
      "username": "root",
-     "avatar_url": "http://www.gravatar.com/avatar/e32bd13e2add097461cb96824b7a829c?s=80\u0026d=identicon",
-     "email": "user_email@gitlab.com"
+     "email": "root@example.com",
+     "avatar_url": "http://www.gravatar.com/avatar/e32bd13e2add097461cb96824b7a829c?s=80\u0026d=identicon"
   },
   "project":{
      "id": 1,
@@ -77,8 +78,10 @@
         "manual": true,
         "allow_failure": false,
         "user":{
+           "id": 42,
            "name": "Administrator",
            "username": "root",
+           "email": "root@example.com",
            "avatar_url": "http://www.gravatar.com/avatar/e32bd13e2add097461cb96824b7a829c?s=80\u0026d=identicon"
         },
         "runner": null,
@@ -99,8 +102,10 @@
         "manual": false,
         "allow_failure": false,
         "user":{
+           "id": 42,
            "name": "Administrator",
            "username": "root",
+           "email": "root@example.com",
            "avatar_url": "http://www.gravatar.com/avatar/e32bd13e2add097461cb96824b7a829c?s=80\u0026d=identicon"
         },
         "runner": {
@@ -126,8 +131,10 @@
         "manual": false,
         "allow_failure": false,
         "user":{
+           "id": 42,
            "name": "Administrator",
            "username": "root",
+           "email": "root@example.com",
            "avatar_url": "http://www.gravatar.com/avatar/e32bd13e2add097461cb96824b7a829c?s=80\u0026d=identicon"
         },
         "runner": {
@@ -153,8 +160,10 @@
         "manual": false,
         "allow_failure": false,
         "user":{
+           "id": 42,
            "name": "Administrator",
            "username": "root",
+           "email": "root@example.com",
            "avatar_url": "http://www.gravatar.com/avatar/e32bd13e2add097461cb96824b7a829c?s=80\u0026d=identicon"
         },
         "runner": {
@@ -180,8 +189,10 @@
         "manual": false,
         "allow_failure": false,
         "user":{
+           "id": 42,
            "name": "Administrator",
            "username": "root",
+           "email": "root@example.com",
            "avatar_url": "http://www.gravatar.com/avatar/e32bd13e2add097461cb96824b7a829c?s=80\u0026d=identicon"
         },
         "runner": null,
