@@ -12,7 +12,7 @@
     "avatar_url": null,
     "git_ssh_url": "ssh://vlad@10.126.0.2:2222/root/test-deployment-webhooks.git",
     "git_http_url": "http://10.126.0.2:3000/root/test-deployment-webhooks.git",
-    "namespace": "Administrator",
+    "namespace": "User1",
     "visibility_level": 0,
     "path_with_namespace": "root/test-deployment-webhooks",
     "default_branch": "master",
@@ -25,8 +25,8 @@
   "short_sha": "279484c0",
   "user": {
     "id": 42,
-    "name": "Administrator",
-    "username": "root",
+    "name": "User1",
+    "username": "user1",
     "avatar_url": "https://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=80&d=identicon",
     "email": "admin@example.com"
   },

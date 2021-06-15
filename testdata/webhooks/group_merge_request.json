@@ -2,9 +2,9 @@
   "object_kind": "merge_request",
   "user": {
     "id": 42,
-    "name": "Administrator",
-    "username": "root",
-    "email": "test.user@mail.com",
+    "name": "User1",
+    "username": "user1",
+    "email": "user1@mail.com",
     "avatar_url": "http://www.gravatar.com/avatar/d22738dc40839e3d95fca77ca3eac067?s=80\u0026d=identicon"
   },
   "project": {
@@ -108,8 +108,8 @@
     "homepage": "http://example.com/exm-namespace/example-project"
   },
   "assignee": {
-    "name": "Administrator",
-    "username": "root",
+    "name": "User1",
+    "username": "user1",
     "avatar_url": "http://www.gravatar.com/avatar/d22738dc40839e3d95fca77ca3eac067?s=80\u0026d=identicon"
   }
 }

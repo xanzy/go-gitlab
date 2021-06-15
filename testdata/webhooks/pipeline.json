@@ -37,9 +37,9 @@
   },
   "user":{
      "id": 42,
-     "name": "Administrator",
-     "username": "root",
-     "email": "root@example.com",
+     "name": "User1",
+     "username": "user1",
+     "email": "user1@example.com",
      "avatar_url": "http://www.gravatar.com/avatar/e32bd13e2add097461cb96824b7a829c?s=80\u0026d=identicon"
   },
   "project":{
@@ -79,9 +79,9 @@
         "allow_failure": false,
         "user":{
            "id": 42,
-           "name": "Administrator",
-           "username": "root",
-           "email": "root@example.com",
+           "name": "User1",
+           "username": "user1",
+           "email": "user1@example.com",
            "avatar_url": "http://www.gravatar.com/avatar/e32bd13e2add097461cb96824b7a829c?s=80\u0026d=identicon"
         },
         "runner": null,
@@ -103,9 +103,9 @@
         "allow_failure": false,
         "user":{
            "id": 42,
-           "name": "Administrator",
-           "username": "root",
-           "email": "root@example.com",
+           "name": "User1",
+           "username": "user1",
+           "email": "user1@example.com",
            "avatar_url": "http://www.gravatar.com/avatar/e32bd13e2add097461cb96824b7a829c?s=80\u0026d=identicon"
         },
         "runner": {
@@ -132,9 +132,9 @@
         "allow_failure": false,
         "user":{
            "id": 42,
-           "name": "Administrator",
-           "username": "root",
-           "email": "root@example.com",
+           "name": "User1",
+           "username": "user1",
+           "email": "user1@example.com",
            "avatar_url": "http://www.gravatar.com/avatar/e32bd13e2add097461cb96824b7a829c?s=80\u0026d=identicon"
         },
         "runner": {
@@ -161,9 +161,9 @@
         "allow_failure": false,
         "user":{
            "id": 42,
-           "name": "Administrator",
-           "username": "root",
-           "email": "root@example.com",
+           "name": "User1",
+           "username": "user1",
+           "email": "user1@example.com",
            "avatar_url": "http://www.gravatar.com/avatar/e32bd13e2add097461cb96824b7a829c?s=80\u0026d=identicon"
         },
         "runner": {
@@ -190,9 +190,9 @@
         "allow_failure": false,
         "user":{
            "id": 42,
-           "name": "Administrator",
-           "username": "root",
-           "email": "root@example.com",
+           "name": "User1",
+           "username": "user1",
+           "email": "user1@example.com",
            "avatar_url": "http://www.gravatar.com/avatar/e32bd13e2add097461cb96824b7a829c?s=80\u0026d=identicon"
         },
         "runner": null,
