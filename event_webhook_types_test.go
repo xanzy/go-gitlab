@@ -51,8 +51,8 @@ func TestBuildEventUnmarshal(t *testing.T) {
 		t.Errorf("User ID is %d, want %d", event.User.ID, 42)
 	}
 
-	if event.User.Name != "Administrator" {
-		t.Errorf("Username is %s, want %s", event.User.Name, "Administrator")
+	if event.User.Name != expectedName {
+		t.Errorf("Username is %s, want %s", event.User.Name, expectedName)
 	}
 }
 
@@ -78,8 +78,8 @@ func TestDeploymentEventUnmarshal(t *testing.T) {
 		t.Errorf("User ID is %d, want %d", event.User.ID, 42)
 	}
 
-	if event.User.Name != "Administrator" {
-		t.Errorf("Username is %s, want %s", event.User.Name, "Administrator")
+	if event.User.Name != expectedName {
+		t.Errorf("Username is %s, want %s", event.User.Name, expectedName)
 	}
 
 	if event.CommitTitle != "Add new file" {
@@ -190,12 +190,12 @@ func TestMergeEventUnmarshal(t *testing.T) {
 		t.Errorf("User ID is %d, want %d", event.User.ID, 42)
 	}
 
-	if event.User.Name != "Administrator" {
-		t.Errorf("Username is %s, want %s", event.User.Name, "Administrator")
+	if event.User.Name != expectedName {
+		t.Errorf("Username is %s, want %s", event.User.Name, expectedName)
 	}
 
-	if event.User.Email != "root@example.com" {
-		t.Errorf("User email is %s, want %s", event.User.Email, "root@example.com")
+	if event.User.Email != "user1@example.com" {
+		t.Errorf("User email is %s, want %s", event.User.Email, "user1@example.com")
 	}
 
 	if event.ObjectAttributes.LastCommit.Timestamp == nil {
@@ -245,8 +245,8 @@ func TestMergeEventUnmarshalFromGroup(t *testing.T) {
 		t.Errorf("ObjectKind is %v, want %v", event.ObjectKind, "merge_request")
 	}
 
-	if event.User.Username != "root" {
-		t.Errorf("User.Username is %v, want %v", event.User.Username, "root")
+	if event.User.Username != expectedUsername {
+		t.Errorf("User.Username is %v, want %v", event.User.Username, expectedUsername)
 	}
 
 	if event.Project.Name != exampleProjectName {
@@ -269,12 +269,12 @@ func TestMergeEventUnmarshalFromGroup(t *testing.T) {
 		t.Errorf("Repository.Name is %v, want %v", event.Repository.Name, exampleProjectName)
 	}
 
-	if event.Assignee.Username != "root" {
-		t.Errorf("Assignee.Username is %v, want %v", event.Assignee, "root")
+	if event.Assignee.Username != expectedUsername {
+		t.Errorf("Assignee.Username is %v, want %v", event.Assignee, expectedUsername)
 	}
 
-	if event.User.Name != "Administrator" {
-		t.Errorf("Username is %s, want %s", event.User.Name, "Administrator")
+	if event.User.Name != expectedName {
+		t.Errorf("Username is %s, want %s", event.User.Name, expectedName)
 	}
 
 	if event.ObjectAttributes.LastCommit.Timestamp == nil {
@@ -308,8 +308,8 @@ func TestPipelineEventUnmarshal(t *testing.T) {
 		t.Errorf("User ID is %d, want %d", event.User.ID, 42)
 	}
 
-	if event.User.Name != "Administrator" {
-		t.Errorf("Username is %s, want %s", event.User.Name, "Administrator")
+	if event.User.Name != expectedName {
+		t.Errorf("Username is %s, want %s", event.User.Name, expectedName)
 	}
 
 	if event.Commit.Timestamp == nil {
