@@ -52,3 +52,34 @@ func TestGetEpicNote(t *testing.T) {
 		t.Errorf("Notes.GetEpicNote want %#v, got %#v", note, want)
 	}
 }
+
+func TestGetMergeRequestNote(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/merge_requests/4329/notes/3", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		fmt.Fprint(w, `{"id":3,"type":"DiffNote","body":"foo bar","attachment":null,"system":false,"noteable_id":4392,"noteable_type":"Epic","resolvable":false,"noteable_iid":null}`)
+	})
+
+	note, _, err := client.Notes.GetMergeRequestNote("1", 4329, 3, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	want := &Note{
+		ID:           3,
+		Type:         "DiffNote",
+		Body:         "foo bar",
+		Attachment:   "",
+		Title:        "",
+		FileName:     "",
+		System:       false,
+		NoteableID:   4392,
+		NoteableType: "Epic",
+	}
+
+	if !reflect.DeepEqual(note, want) {
+		t.Errorf("Notes.GetEpicNote want %#v, got %#v", note, want)
+	}
+}

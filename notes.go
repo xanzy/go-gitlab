@@ -35,6 +35,7 @@ type NotesService struct {
 // GitLab API docs: https://docs.gitlab.com/ce/api/notes.html
 type Note struct {
 	ID         int    `json:"id"`
+	Type       string `json:"type"`
 	Body       string `json:"body"`
 	Attachment string `json:"attachment"`
 	Title      string `json:"title"`
