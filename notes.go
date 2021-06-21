@@ -30,16 +30,30 @@ type NotesService struct {
 	client *Client
 }
 
+// NoteTypeValue represents the type of a Note
+type NoteTypeValue string
+
+// List of note type values.
+//
+// Though not present in the GitLab API docs the possible values can be found here
+// https://gitlab.com/gitlab-org/gitlab/-/blob/master/app/models/note.rb#L132
+const (
+	LegacyDiffNoteType NoteTypeValue = "LegacyDiffNote"
+	DiffNoteType       NoteTypeValue = "DiffNote"
+	NoteType           NoteTypeValue = "Note"
+	DiscussionNoteType NoteTypeValue = "DiscussionNote"
+)
+
 // Note represents a GitLab note.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/notes.html
 type Note struct {
-	ID         int    `json:"id"`
-	Type       string `json:"type"`
-	Body       string `json:"body"`
-	Attachment string `json:"attachment"`
-	Title      string `json:"title"`
-	FileName   string `json:"file_name"`
+	ID         int            `json:"id"`
+	Type       *NoteTypeValue `json:"type"`
+	Body       string         `json:"body"`
+	Attachment string         `json:"attachment"`
+	Title      string         `json:"title"`
+	FileName   string         `json:"file_name"`
 	Author     struct {
 		ID        int    `json:"id"`
 		Username  string `json:"username"`
