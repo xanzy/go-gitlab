@@ -67,11 +67,11 @@ func TestGetMergeRequestNote(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	noteTye := DiffNoteType
+	noteType := DiffNoteType
 
 	want := &Note{
 		ID:           3,
-		Type:         &noteTye,
+		Type:         &noteType,
 		Body:         "foo bar",
 		Attachment:   "",
 		Title:        "",
