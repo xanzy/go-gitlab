@@ -290,6 +290,25 @@ func MergeMethod(v MergeMethodValue) *MergeMethodValue {
 	return p
 }
 
+// NoteTypeValue represents the type of a Note.
+type NoteTypeValue string
+
+// List of available note types.
+const (
+	DiffNote       NoteTypeValue = "DiffNote"
+	DiscussionNote NoteTypeValue = "DiscussionNote"
+	GenericNote    NoteTypeValue = "Note"
+	LegacyDiffNote NoteTypeValue = "LegacyDiffNote"
+)
+
+// NoteType is a helper routine that allocates a new NoteTypeValue to
+// store v and returns a pointer to it.
+func NoteType(v NoteTypeValue) *NoteTypeValue {
+	p := new(NoteTypeValue)
+	*p = v
+	return p
+}
+
 // NotificationLevelValue represents a notification level.
 type NotificationLevelValue int
 
