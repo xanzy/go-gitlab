@@ -112,6 +112,7 @@ type Issue struct {
 	Confidential         bool                   `json:"confidential"`
 	Weight               int                    `json:"weight"`
 	DiscussionLocked     bool                   `json:"discussion_locked"`
+	IssueType            *string                `json:"issue_type,omitempty"`
 	Subscribed           bool                   `json:"subscribed"`
 	UserNotesCount       int                    `json:"user_notes_count"`
 	Links                *IssueLinks            `json:"_links"`
@@ -229,6 +230,7 @@ type ListIssuesOptions struct {
 	UpdatedAfter       *time.Time `url:"updated_after,omitempty" json:"updated_after,omitempty"`
 	UpdatedBefore      *time.Time `url:"updated_before,omitempty" json:"updated_before,omitempty"`
 	Confidential       *bool      `url:"confidential,omitempty" json:"confidential,omitempty"`
+	IssueType          *string    `url:"issue_type,omitempty" json:"issue_type,omitempty"`
 }
 
 // ListIssues gets all issues created by authenticated user. This function
@@ -279,6 +281,7 @@ type ListGroupIssuesOptions struct {
 	CreatedBefore      *time.Time `url:"created_before,omitempty" json:"created_before,omitempty"`
 	UpdatedAfter       *time.Time `url:"updated_after,omitempty" json:"updated_after,omitempty"`
 	UpdatedBefore      *time.Time `url:"updated_before,omitempty" json:"updated_before,omitempty"`
+	IssueType          *string    `url:"issue_type,omitempty" json:"issue_type,omitempty"`
 }
 
 // ListGroupIssues gets a list of group issues. This function accepts
@@ -336,6 +339,7 @@ type ListProjectIssuesOptions struct {
 	UpdatedAfter       *time.Time `url:"updated_after,omitempty" json:"updated_after,omitempty"`
 	UpdatedBefore      *time.Time `url:"updated_before,omitempty" json:"updated_before,omitempty"`
 	Confidential       *bool      `url:"confidential,omitempty" json:"confidential,omitempty"`
+	IssueType          *string    `url:"issue_type,omitempty" json:"issue_type,omitempty"`
 }
 
 // ListProjectIssues gets a list of project issues. This function accepts
@@ -403,6 +407,7 @@ type CreateIssueOptions struct {
 	MergeRequestToResolveDiscussionsOf *int       `url:"merge_request_to_resolve_discussions_of,omitempty" json:"merge_request_to_resolve_discussions_of,omitempty"`
 	DiscussionToResolve                *string    `url:"discussion_to_resolve,omitempty" json:"discussion_to_resolve,omitempty"`
 	Weight                             *int       `url:"weight,omitempty" json:"weight,omitempty"`
+	IssueType                          *string    `url:"issue_type,omitempty" json:"issue_type,omitempty"`
 }
 
 // CreateIssue creates a new project issue.
@@ -446,6 +451,7 @@ type UpdateIssueOptions struct {
 	DueDate          *ISOTime   `url:"due_date,omitempty" json:"due_date,omitempty"`
 	Weight           *int       `url:"weight,omitempty" json:"weight,omitempty"`
 	DiscussionLocked *bool      `url:"discussion_locked,omitempty" json:"discussion_locked,omitempty"`
+	IssueType        *string    `url:"issue_type,omitempty" json:"issue_type,omitempty"`
 }
 
 // UpdateIssue updates an existing project issue. This function is also used
