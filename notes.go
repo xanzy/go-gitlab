@@ -55,6 +55,7 @@ type Note struct {
 	CreatedAt    *time.Time    `json:"created_at"`
 	NoteableID   int           `json:"noteable_id"`
 	NoteableType string        `json:"noteable_type"`
+	CommitID     string        `json:"commit_id"`
 	Position     *NotePosition `json:"position"`
 	Resolvable   bool          `json:"resolvable"`
 	Resolved     bool          `json:"resolved"`
