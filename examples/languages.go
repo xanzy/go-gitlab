@@ -23,7 +23,7 @@ import (
 )
 
 func languagesExample() {
-	git, err := gitlab.NewClient("yourtokengoeshere")
+	git, err := gitlab.NewClient(gitlab.PrivateTokenAuth("yourtokengoeshere"))
 	if err != nil {
 		log.Fatal(err)
 	}
