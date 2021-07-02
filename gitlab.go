@@ -46,6 +46,10 @@ const (
 
 	headerRateLimit = "RateLimit-Limit"
 	headerRateReset = "RateLimit-Reset"
+
+	PrivateTokenHeader = "Private-Token"
+	JobTokenHeader     = "Job-Token"
+	DeployTokenHeader  = "Deploy-Token"
 )
 
 // authType represents an authentication type within GitLab.
@@ -59,7 +63,7 @@ type authType int
 const (
 	basicAuth authType = iota
 	oAuthToken
-	privateToken
+	authHeader
 )
 
 // A Client manages communication with the GitLab API.
@@ -88,8 +92,8 @@ type Client struct {
 	// Username and password used for basix authentication.
 	username, password string
 
-	// Token used to make authenticated API calls.
-	token string
+	// Header and token used to make authenticated API calls.
+	authHeader, token string
 
 	// Protects the token field from concurrent read/write accesses.
 	tokenLock sync.RWMutex
@@ -205,11 +209,19 @@ type RateLimiter interface {
 // NewClient returns a new GitLab API client. To use API methods which require
 // authentication, provide a valid private or personal token.
 func NewClient(token string, options ...ClientOptionFunc) (*Client, error) {
+	return NewHeaderAuthClient(PrivateTokenHeader, token, options...)
+}
+
+// NewClient returns a new GitLab API client. To use API methods which require
+// authentication, provide a valid authentication header and token.
+func NewHeaderAuthClient(header, token string, options ...ClientOptionFunc) (*Client, error) {
 	client, err := newClient(options...)
 	if err != nil {
 		return nil, err
 	}
-	client.authType = privateToken
+
+	client.authType = authHeader
+	client.authHeader = header
 	client.token = token
 	return client, nil
 }
@@ -647,8 +659,8 @@ func (c *Client) Do(req *retryablehttp.Request, v interface{}) (*Response, error
 		req.Header.Set("Authorization", "Bearer "+basicAuthToken)
 	case oAuthToken:
 		req.Header.Set("Authorization", "Bearer "+c.token)
-	case privateToken:
-		req.Header.Set("PRIVATE-TOKEN", c.token)
+	case authHeader:
+		req.Header.Set(c.authHeader, c.token)
 	}
 
 	resp, err := c.client.Do(req)
