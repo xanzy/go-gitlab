@@ -131,6 +131,7 @@ func (p PipelineTestReport) String() string {
 // on other assets, like Commit.
 type PipelineInfo struct {
 	ID        int        `json:"id"`
+	ProjectID int        `json:"project_id"`
 	Status    string     `json:"status"`
 	Ref       string     `json:"ref"`
 	SHA       string     `json:"sha"`
