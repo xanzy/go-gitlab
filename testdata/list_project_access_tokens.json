@@ -12,7 +12,8 @@
         ],
         "user_id": 2453,
         "active": true,
-        "expires_at": null
+        "expires_at": null,
+        "access_level": 40
     },
     {
         "id": 1877,
@@ -27,6 +28,7 @@
         ],
         "user_id": 2456,
         "active": true,
-        "expires_at": null
+        "expires_at": null,
+        "access_level": 30
     }
 ]

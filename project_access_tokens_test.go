@@ -48,22 +48,24 @@ func TestListProjectAccessTokens(t *testing.T) {
 
 	want := []*ProjectAccessToken{
 		{
-			ID:        1876,
-			UserID:    2453,
-			Name:      "token 10",
-			Scopes:    []string{"api", "read_api", "read_repository", "write_repository"},
-			CreatedAt: &time1,
-			Active:    true,
-			Revoked:   false,
+			ID:          1876,
+			UserID:      2453,
+			Name:        "token 10",
+			Scopes:      []string{"api", "read_api", "read_repository", "write_repository"},
+			CreatedAt:   &time1,
+			Active:      true,
+			Revoked:     false,
+			AccessLevel: AccessLevelValue(40),
 		},
 		{
-			ID:        1877,
-			UserID:    2456,
-			Name:      "token 8",
-			Scopes:    []string{"api", "read_api", "read_repository", "write_repository"},
-			CreatedAt: &time2,
-			Active:    true,
-			Revoked:   false,
+			ID:          1877,
+			UserID:      2456,
+			Name:        "token 8",
+			Scopes:      []string{"api", "read_api", "read_repository", "write_repository"},
+			CreatedAt:   &time2,
+			Active:      true,
+			Revoked:     false,
+			AccessLevel: AccessLevelValue(30),
 		},
 	}
 
@@ -91,15 +93,16 @@ func TestCreateProjectAccessToken(t *testing.T) {
 		t.Errorf("ProjectAccessTokens.CreateProjectAccessToken returned error: %v", err)
 	}
 	want := &ProjectAccessToken{
-		ID:        1876,
-		UserID:    2453,
-		Name:      "token 10",
-		Scopes:    []string{"api", "read_api", "read_repository", "write_repository"},
-		ExpiresAt: nil,
-		CreatedAt: &time1,
-		Active:    true,
-		Revoked:   false,
-		Token:     "2UsevZE1x1ZdFZW4MNzH",
+		ID:          1876,
+		UserID:      2453,
+		Name:        "token 10",
+		Scopes:      []string{"api", "read_api", "read_repository", "write_repository"},
+		ExpiresAt:   nil,
+		CreatedAt:   &time1,
+		Active:      true,
+		Revoked:     false,
+		Token:       "2UsevZE1x1ZdFZW4MNzH",
+		AccessLevel: AccessLevelValue(40),
 	}
 
 	if !reflect.DeepEqual(want, projectAccessToken) {
