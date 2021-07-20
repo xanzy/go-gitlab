@@ -122,6 +122,7 @@ type Client struct {
 	ExternalStatusChecks  *ExternalStatusChecksService
 	Features              *FeaturesService
 	FreezePeriods         *FreezePeriodsService
+	GenericPackages       *GenericPackagesService
 	GeoNodes              *GeoNodesService
 	GitIgnoreTemplates    *GitIgnoreTemplatesService
 	GroupBadges           *GroupBadgesService
@@ -312,6 +313,7 @@ func newClient(options ...ClientOptionFunc) (*Client, error) {
 	c.ExternalStatusChecks = &ExternalStatusChecksService{client: c}
 	c.Features = &FeaturesService{client: c}
 	c.FreezePeriods = &FreezePeriodsService{client: c}
+	c.GenericPackages = &GenericPackagesService{client: c}
 	c.GeoNodes = &GeoNodesService{client: c}
 	c.GitIgnoreTemplates = &GitIgnoreTemplatesService{client: c}
 	c.GroupBadges = &GroupBadgesService{client: c}
