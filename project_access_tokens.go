@@ -34,15 +34,16 @@ type ProjectAccessTokensService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/resource_access_tokens.html
 type ProjectAccessToken struct {
-	ID        int        `json:"id"`
-	UserID    int        `json:"user_id"`
-	Name      string     `json:"name"`
-	Scopes    []string   `json:"scopes"`
-	CreatedAt *time.Time `json:"created_at"`
-	ExpiresAt *ISOTime   `json:"expires_at"`
-	Active    bool       `json:"active"`
-	Revoked   bool       `json:"revoked"`
-	Token     string     `json:"token"`
+	ID          int              `json:"id"`
+	UserID      int              `json:"user_id"`
+	Name        string           `json:"name"`
+	Scopes      []string         `json:"scopes"`
+	CreatedAt   *time.Time       `json:"created_at"`
+	ExpiresAt   *ISOTime         `json:"expires_at"`
+	Active      bool             `json:"active"`
+	Revoked     bool             `json:"revoked"`
+	Token       string           `json:"token"`
+	AccessLevel AccessLevelValue `json:"access_level"`
 }
 
 func (v ProjectAccessToken) String() string {
@@ -88,9 +89,10 @@ func (s *ProjectAccessTokensService) ListProjectAccessTokens(pid interface{}, op
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/resource_access_tokens.html#create-a-project-access-token
 type CreateProjectAccessTokenOptions struct {
-	Name      *string  `url:"name,omitempty" json:"name,omitempty"`
-	Scopes    []string `url:"scopes,omitempty" json:"scopes,omitempty"`
-	ExpiresAt *ISOTime `url:"expires_at,omitempty" json:"expires_at,omitempty"`
+	Name        *string           `url:"name,omitempty" json:"name,omitempty"`
+	Scopes      []string          `url:"scopes,omitempty" json:"scopes,omitempty"`
+	AccessLevel *AccessLevelValue `url:"access_level,omitempty" json:"access_level,omitempty"`
+	ExpiresAt   *ISOTime          `url:"expires_at,omitempty" json:"expires_at,omitempty"`
 }
 
 // CreateProjectAccessToken creates a new Project Access Token.

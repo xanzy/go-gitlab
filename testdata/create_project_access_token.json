@@ -12,5 +12,6 @@
     "user_id": 2453,
     "active": true,
     "expires_at": null,
-    "token": "2UsevZE1x1ZdFZW4MNzH"
+    "token": "2UsevZE1x1ZdFZW4MNzH",
+    "access_level": 40
 }
