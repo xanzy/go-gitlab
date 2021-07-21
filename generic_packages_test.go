@@ -53,7 +53,7 @@ func TestPublishPackageFile(t *testing.T) {
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/projects/1234/packages/generic/foo/0.1.2/bar-baz.txt", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, http.MethodGet)
+		testMethod(t, r, http.MethodPut)
 		fmt.Fprint(w, `
 		{
 			"message": "201 Created"
@@ -61,9 +61,14 @@ func TestPublishPackageFile(t *testing.T) {
 	`)
 	})
 
-	result, _, err := client.GenericPackages.PublishPackageFile(1234, "foo", "0.1.2", "bar-baz.txt", io.NopCloser(strings.NewReader("bar = baz")), &PublishPackageFileOptions{})
+	url, result, _, err := client.GenericPackages.PublishPackageFile(1234, "foo", "0.1.2", "bar-baz.txt", io.NopCloser(strings.NewReader("bar = baz")), &PublishPackageFileOptions{})
 	if err != nil {
 		t.Errorf("GenericPackages.PublishPackageFile returned error: %v", err)
+	}
+
+	goldenURL := client.BaseURL().String() + "projects/1234/packages/generic/foo/0%2E1%2E2/bar-baz%2Etxt"
+	if url != goldenURL {
+		t.Errorf("GenericPackages.PublishPackageFile URL was %+v, want %+v", url, goldenURL)
 	}
 
 	body := map[string]interface{}{}

@@ -23,6 +23,15 @@ import (
 	"net/http"
 )
 
+// GenericPackageStatusValue represents a GitLab Package Status.
+type GenericPackageStatusValue string
+
+// These constants represent all valid package statuses.
+const (
+	Default GenericPackageStatusValue = "default"
+	Hidden  GenericPackageStatusValue = "hidden"
+)
+
 // GenericPackagesService handles communication with the packages related methods
 // of the GitLab API.
 //
@@ -41,7 +50,7 @@ func (s *GenericPackagesService) DownloadPackageFile(pid interface{}, packageNam
 		return nil, nil, err
 	}
 	u := fmt.Sprintf(
-		"/projects/%s/packages/generic/%s/%s/%s",
+		"projects/%s/packages/generic/%s/%s/%s",
 		pathEscape(project),
 		pathEscape(packageName),
 		pathEscape(packageVersion),
@@ -67,20 +76,21 @@ func (s *GenericPackagesService) DownloadPackageFile(pid interface{}, packageNam
 // GitLab docs:
 // https://docs.gitlab.com/ee/user/packages/generic_packages/index.html#download-package-file
 type PublishPackageFileOptions struct {
-	Status *GenericPackageStateValue `url:"status,omitempty" json:"status,omitempty"`
+	Status *GenericPackageStatusValue `url:"status,omitempty" json:"status,omitempty"`
 }
 
-// PublishPackageFile allows you to download the package file.
+// PublishPackageFile uploads a file to a project's Package Registry.
+// Returns the package URL, the response body, the Response, and any error.
 //
 // GitLab docs:
 // https://docs.gitlab.com/ee/user/packages/generic_packages/index.html#download-package-file
-func (s *GenericPackagesService) PublishPackageFile(pid interface{}, packageName, packageVersion, fileName string, content io.ReadCloser, opt *PublishPackageFileOptions, options ...RequestOptionFunc) ([]byte, *Response, error) {
+func (s *GenericPackagesService) PublishPackageFile(pid interface{}, packageName, packageVersion, fileName string, content io.ReadCloser, opt *PublishPackageFileOptions, options ...RequestOptionFunc) (string, []byte, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
-		return nil, nil, err
+		return "", nil, nil, err
 	}
 	u := fmt.Sprintf(
-		"/projects/%s/packages/generic/%s/%s/%s",
+		"projects/%s/packages/generic/%s/%s/%s",
 		pathEscape(project),
 		pathEscape(packageName),
 		pathEscape(packageVersion),
@@ -90,16 +100,18 @@ func (s *GenericPackagesService) PublishPackageFile(pid interface{}, packageName
 	// This is currently the only way to use a PUT request to upload a non-JSON file
 	options = append(options, WithUploadFile(content))
 
-	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
-		return nil, nil, err
+		return "", nil, nil, err
 	}
 
 	var f bytes.Buffer
 	resp, err := s.client.Do(req, &f)
 	if err != nil {
-		return nil, resp, err
+		return "", nil, resp, err
 	}
 
-	return f.Bytes(), resp, err
+	// ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/my_package/0.0.1/file.txt'
+	downloadURL := fmt.Sprintf("%s%s", s.client.BaseURL(), u)
+	return downloadURL, f.Bytes(), resp, err
 }
