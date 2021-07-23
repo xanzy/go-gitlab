@@ -57,6 +57,36 @@ func (m MergeRequestApprovals) String() string {
 	return Stringify(m)
 }
 
+// MergeRequestApprovalsConfiguration represents a Gitlab merge request aprrovals configuration.
+//
+// Gitlab API docs:
+// https://docs.gitlab.com/ee/api/merge_request_approvals.html#get-configuration-1
+type MergeRequestApprovalsConfiguration struct {
+	ID                             int                          `json:"id"`
+	IID                            int                          `json:"iid"`
+	ProjectID                      int                          `json:"project_id"`
+	Title                          string                       `json:"title"`
+	Description                    string                       `json:"description"`
+	State                          string                       `json:"state"`
+	CreatedAt                      *time.Time                   `json:"created_at"`
+	UpdatedAt                      *time.Time                   `json:"updated_at"`
+	MergeStatus                    string                       `json:"merge_status"`
+	Approved                       bool                         `json:"approved"`
+	ApprovalsRequired              int                          `json:"approvals_required"`
+	ApprovalsLeft                  int                          `json:"approvals_left"`
+	RequirePasswordToApprove       bool                         `json:"require_password_to_approve"`
+	ApprovedBy                     []*MergeRequestApproverUser  `json:"approved_by"`
+	SuggestedApprovers             []*BasicUser                 `json:"suggested_approvers"`
+	Approvers                      []*MergeRequestApproverUser  `json:"approvers"`
+	ApproverGroups                 []*MergeRequestApproverGroup `json:"approver_groups"`
+	UserHasApproved                bool                         `json:"user_has_approved"`
+	UserCanApprove                 bool                         `json:"user_can_approve"`
+	ApprovalRulesLeft              []*MergeRequestApprovalRule  `json:"approval_rules_left"`
+	HasApprovalRules               bool                         `json:"has_approval_rules"`
+	MergeRequestApproversAvailable bool                         `json:"merge_request_approvers_available"`
+	MultipleApprovalRulesAvailable bool                         `json:"multiple_approval_rules_available"`
+}
+
 // MergeRequestApproverGroup  represents GitLab project level merge request approver group.
 //
 // GitLab API docs:
@@ -183,7 +213,7 @@ type ChangeMergeRequestApprovalConfigurationOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#get-configuration-1
-func (s *MergeRequestApprovalsService) GetConfiguration(pid interface{}, mr int, options ...RequestOptionFunc) (*MergeRequestApprovals, *Response, error) {
+func (s *MergeRequestApprovalsService) GetConfiguration(pid interface{}, mr int, options ...RequestOptionFunc) (*MergeRequestApprovalsConfiguration, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
