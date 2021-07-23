@@ -225,7 +225,7 @@ func (s *MergeRequestApprovalsService) GetConfiguration(pid interface{}, mr int,
 		return nil, nil, err
 	}
 
-	m := new(MergeRequestApprovals)
+	m := new(MergeRequestApprovalsConfiguration)
 	resp, err := s.client.Do(req, m)
 	if err != nil {
 		return nil, resp, err
