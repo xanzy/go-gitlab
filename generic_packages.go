@@ -97,10 +97,11 @@ func (s *GenericPackagesService) PublishPackageFile(pid interface{}, packageName
 		pathEscape(fileName),
 	)
 
-	// This is currently the only way to use a PUT request to upload a non-JSON file
+	// This is currently the only way to use a PUT request to upload a non-JSON file.
+	// We invoke NewRequest with MethodGet so the body is not marshalled to JSON;
+	// WithUploadFile modifies the request to MethodPut
 	options = append(options, WithUploadFile(content))
-
-	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return "", nil, nil, err
 	}
