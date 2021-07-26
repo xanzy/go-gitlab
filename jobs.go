@@ -42,6 +42,7 @@ type Job struct {
 	StartedAt         *time.Time `json:"started_at"`
 	FinishedAt        *time.Time `json:"finished_at"`
 	Duration          float64    `json:"duration"`
+	QueuedDuration    float64    `json:"queued_duration"`
 	ArtifactsExpireAt *time.Time `json:"artifacts_expire_at"`
 	TagList           []string   `json:"tag_list"`
 	ID                int        `json:"id"`
