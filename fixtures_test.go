@@ -51,8 +51,11 @@ const (
 		"locked": false
 	}`
 
-	// exampleEventUserName provides a fixture for a event username.
+	// exampleEventUserName provides a fixture for a event user's name.
 	exampleEventUserName = "John Smith"
+
+	// exampleEventUserUsername provides a ficture for the event username.
+	exampleEventUserUsername = "jsmith"
 
 	// exampleProjectName provides a fixture for a project name.
 	exampleProjectName = "example-project"
