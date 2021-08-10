@@ -44,6 +44,7 @@ type PipelineVariable struct {
 // GitLab API docs: https://docs.gitlab.com/ce/api/pipelines.html
 type Pipeline struct {
 	ID             int             `json:"id"`
+	ProjectID      int             `json:"project_id"`
 	Status         string          `json:"status"`
 	Ref            string          `json:"ref"`
 	SHA            string          `json:"sha"`
@@ -131,6 +132,7 @@ func (p PipelineTestReport) String() string {
 // on other assets, like Commit.
 type PipelineInfo struct {
 	ID        int        `json:"id"`
+	ProjectID int        `json:"project_id"`
 	Status    string     `json:"status"`
 	Ref       string     `json:"ref"`
 	SHA       string     `json:"sha"`
