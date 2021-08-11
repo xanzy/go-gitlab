@@ -925,9 +925,10 @@ func (s *UsersService) GetUserActivities(opt *GetUserActivitiesOptions, options 
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/users.html#user-status
 type UserStatus struct {
-	Emoji       string `json:"emoji"`
-	Message     string `json:"message"`
-	MessageHTML string `json:"message_html"`
+	Emoji        string `json:"emoji"`
+	Availability string `json:"availability"`
+	Message      string `json:"message"`
+	MessageHTML  string `json:"message_html"`
 }
 
 // CurrentUserStatus retrieves the user status
