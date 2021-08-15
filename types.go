@@ -581,3 +581,14 @@ func (t *BoolValue) UnmarshalJSON(b []byte) error {
 		return err
 	}
 }
+
+type AvailabilityValue string
+
+// Availability values used in UserStatus.Availability
+//
+// Undocummented, see code at:
+// https://gitlab.com/gitlab-org/gitlab-foss/-/blob/3cfe2ab491cdaf46d5a8ff6359fc6a89a7557eea/app/models/user_status.rb#L22
+const (
+	AvailabilityNotSet AvailabilityValue = "not_set"
+	AvailabilityBusy   AvailabilityValue = "busy"
+)

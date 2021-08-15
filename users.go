@@ -925,20 +925,11 @@ func (s *UsersService) GetUserActivities(opt *GetUserActivitiesOptions, options 
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/users.html#user-status
 type UserStatus struct {
-	Emoji        string `json:"emoji"`
-	Availability string `json:"availability"`
-	Message      string `json:"message"`
-	MessageHTML  string `json:"message_html"`
+	Emoji        string            `json:"emoji"`
+	Availability AvailabilityValue `json:"availability"`
+	Message      string            `json:"message"`
+	MessageHTML  string            `json:"message_html"`
 }
-
-// Availability values used in UserStatus.Availability
-//
-// Undocummented, see code at:
-// https://gitlab.com/gitlab-org/gitlab-foss/-/blob/3cfe2ab491cdaf46d5a8ff6359fc6a89a7557eea/app/models/user_status.rb#L22
-const (
-	AvailabilityNotSet string = "not_set"
-	AvailabilityBusy   string = "busy"
-)
 
 // CurrentUserStatus retrieves the user status
 //
