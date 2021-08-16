@@ -78,6 +78,26 @@ func AccessLevel(v AccessLevelValue) *AccessLevelValue {
 	return p
 }
 
+// AvailabilityValue represents an availability value within GitLab.
+type AvailabilityValue string
+
+// List of available availability values.
+//
+// Undocummented, see code at:
+// https://gitlab.com/gitlab-org/gitlab-foss/-/blob/master/app/models/user_status.rb#L22
+const (
+	NotSet AvailabilityValue = "not_set"
+	Busy   AvailabilityValue = "busy"
+)
+
+// Availability is a helper routine that allocates a new AvailabilityValue
+// to store v and returns a pointer to it.
+func Availability(v AvailabilityValue) *AvailabilityValue {
+	p := new(AvailabilityValue)
+	*p = v
+	return p
+}
+
 // BuildStateValue represents a GitLab build state.
 type BuildStateValue string
 
@@ -581,14 +601,3 @@ func (t *BoolValue) UnmarshalJSON(b []byte) error {
 		return err
 	}
 }
-
-type AvailabilityValue string
-
-// Availability values used in UserStatus.Availability
-//
-// Undocummented, see code at:
-// https://gitlab.com/gitlab-org/gitlab-foss/-/blob/3cfe2ab491cdaf46d5a8ff6359fc6a89a7557eea/app/models/user_status.rb#L22
-const (
-	AvailabilityNotSet AvailabilityValue = "not_set"
-	AvailabilityBusy   AvailabilityValue = "busy"
-)
