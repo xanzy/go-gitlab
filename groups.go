@@ -127,8 +127,8 @@ func (s *GroupsService) ListGroups(opt *ListGroupsOptions, options ...RequestOpt
 // GitLab API docs: https://docs.gitlab.com/ce/api/groups.html#details-of-a-group
 type GetGroupOptions struct {
 	ListOptions
-	WithProjects         *string `url:"with_projects,omitempty" json:"with_projects,omitempty"`
-	WithCustomAttributes *bool   `url:"with_custom_attributes,omitempty" json:"with_custom_attributes,omitempty"`
+	WithProjects         *bool `url:"with_projects,omitempty" json:"with_projects,omitempty"`
+	WithCustomAttributes *bool `url:"with_custom_attributes,omitempty" json:"with_custom_attributes,omitempty"`
 }
 
 // GetGroup gets all details of a group.
