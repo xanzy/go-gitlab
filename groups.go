@@ -122,17 +122,26 @@ func (s *GroupsService) ListGroups(opt *ListGroupsOptions, options ...RequestOpt
 	return g, resp, err
 }
 
+// GetGroupOptions represents the available GetGroup() options.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/groups.html#details-of-a-group
+type GetGroupOptions struct {
+	ListOptions
+	WithProjects         *string `url:"with_projects,omitempty" json:"with_projects,omitempty"`
+	WithCustomAttributes *bool   `url:"with_custom_attributes,omitempty" json:"with_custom_attributes,omitempty"`
+}
+
 // GetGroup gets all details of a group.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/groups.html#details-of-a-group
-func (s *GroupsService) GetGroup(gid interface{}, options ...RequestOptionFunc) (*Group, *Response, error) {
+func (s *GroupsService) GetGroup(gid interface{}, opt *GetGroupOptions, options ...RequestOptionFunc) (*Group, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("groups/%s", pathEscape(group))
 
-	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
