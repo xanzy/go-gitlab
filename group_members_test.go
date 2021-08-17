@@ -102,7 +102,7 @@ func TestListGroupMembersWithoutSAML(t *testing.T) {
 
 	createdAt, _ := time.Parse(time.RFC3339, "2012-10-21T14:13:35Z")
 	expiresAt, _ := time.Parse(time.RFC3339, "2012-10-22T00:00:00Z")
-	var expiresAtISOTime ISOTime = ISOTime(expiresAt)
+	expiresAtISOTime := ISOTime(expiresAt)
 	want := []*GroupMember{
 		{
 			ID:                1,
