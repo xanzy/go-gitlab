@@ -88,7 +88,7 @@ func TestListGroupMembersWithoutSAML(t *testing.T) {
 						"avatar_url": "https://www.gravatar.com/avatar/c2525a7f58ae3776070e44c106c48e15?s=80&d=identicon",
 						"web_url": "http://192.168.1.8:3000/root",
 						"created_at": "2012-10-21T14:13:35Z",
-						"expires_at": "2012-10-22T14:13:35Z",
+						"expires_at": "2012-10-22",
 						"access_level": 30,
 						"group_saml_identity": null
 					}
@@ -101,7 +101,8 @@ func TestListGroupMembersWithoutSAML(t *testing.T) {
 	}
 
 	createdAt, _ := time.Parse(time.RFC3339, "2012-10-21T14:13:35Z")
-	expiresAt, _ := time.Parse(time.RFC3339, "2012-10-22T14:13:35Z")
+	expiresAt, _ := time.Parse(time.RFC3339, "2012-10-22T00:00:00Z")
+	expiresAtISOTime := ISOTime(expiresAt)
 	want := []*GroupMember{
 		{
 			ID:                1,
@@ -111,7 +112,7 @@ func TestListGroupMembersWithoutSAML(t *testing.T) {
 			AvatarURL:         "https://www.gravatar.com/avatar/c2525a7f58ae3776070e44c106c48e15?s=80&d=identicon",
 			WebURL:            "http://192.168.1.8:3000/root",
 			CreatedAt:         &createdAt,
-			ExpiresAt:         &expiresAt,
+			ExpiresAt:         &expiresAtISOTime,
 			AccessLevel:       30,
 			GroupSAMLIdentity: nil,
 		},
@@ -138,7 +139,7 @@ func TestListGroupMembersWithSAML(t *testing.T) {
 						"avatar_url": "https://www.gravatar.com/avatar/c2525a7f58ae3776070e44c106c48e15?s=80&d=identicon",
 						"web_url": "http://192.168.1.8:3000/root",
 						"created_at": "2012-10-21T14:13:35Z",
-						"expires_at": "2012-10-22T14:13:35Z",
+						"expires_at": "2012-10-22",
 						"access_level": 30,
 						"group_saml_identity": {
 							"extern_uid":"ABC-1234567890",
@@ -155,7 +156,8 @@ func TestListGroupMembersWithSAML(t *testing.T) {
 	}
 
 	createdAt, _ := time.Parse(time.RFC3339, "2012-10-21T14:13:35Z")
-	expiresAt, _ := time.Parse(time.RFC3339, "2012-10-22T14:13:35Z")
+	expiresAt, _ := time.Parse(time.RFC3339, "2012-10-22T00:00:00Z")
+	expiresAtISOTime := ISOTime(expiresAt)
 	want := []*GroupMember{
 		{
 			ID:          2,
@@ -165,7 +167,7 @@ func TestListGroupMembersWithSAML(t *testing.T) {
 			AvatarURL:   "https://www.gravatar.com/avatar/c2525a7f58ae3776070e44c106c48e15?s=80&d=identicon",
 			WebURL:      "http://192.168.1.8:3000/root",
 			CreatedAt:   &createdAt,
-			ExpiresAt:   &expiresAt,
+			ExpiresAt:   &expiresAtISOTime,
 			AccessLevel: 30,
 			GroupSAMLIdentity: &GroupMemberSAMLIdentity{
 				ExternUID:      "ABC-1234567890",
