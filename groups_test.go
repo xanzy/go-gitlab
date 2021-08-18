@@ -38,7 +38,7 @@ func TestGetGroup(t *testing.T) {
 			fmt.Fprint(w, `{"id": 1, "name": "g"}`)
 		})
 
-	group, _, err := client.Groups.GetGroup("g")
+	group, _, err := client.Groups.GetGroup("g", &GetGroupOptions{})
 	if err != nil {
 		t.Errorf("Groups.GetGroup returned error: %v", err)
 	}
