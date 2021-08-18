@@ -52,7 +52,7 @@ type GroupMember struct {
 	AvatarURL         string                   `json:"avatar_url"`
 	WebURL            string                   `json:"web_url"`
 	CreatedAt         *time.Time               `json:"created_at"`
-	ExpiresAt         *time.Time               `json:"expires_at"`
+	ExpiresAt         *ISOTime                 `json:"expires_at"`
 	AccessLevel       AccessLevelValue         `json:"access_level"`
 	GroupSAMLIdentity *GroupMemberSAMLIdentity `json:"group_saml_identity"`
 }
