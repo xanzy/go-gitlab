@@ -48,8 +48,8 @@ type Project struct {
 	HTTPURLToRepo                             string                     `json:"http_url_to_repo"`
 	WebURL                                    string                     `json:"web_url"`
 	ReadmeURL                                 string                     `json:"readme_url"`
-	Topics                                    []string                   `json:"topics"`
 	TagList                                   []string                   `json:"tag_list"`
+	Topics                                    []string                   `json:"topics"`
 	Owner                                     *User                      `json:"owner"`
 	Name                                      string                     `json:"name"`
 	NameWithNamespace                         string                     `json:"name_with_namespace"`
@@ -587,8 +587,8 @@ type CreateProjectOptions struct {
 	RemoveSourceBranchAfterMerge              *bool                                `url:"remove_source_branch_after_merge,omitempty" json:"remove_source_branch_after_merge,omitempty"`
 	LFSEnabled                                *bool                                `url:"lfs_enabled,omitempty" json:"lfs_enabled,omitempty"`
 	RequestAccessEnabled                      *bool                                `url:"request_access_enabled,omitempty" json:"request_access_enabled,omitempty"`
-	Topics                                    *[]string                            `url:"topics,omitempty" json:"topics,omitempty"`
 	TagList                                   *[]string                            `url:"tag_list,omitempty" json:"tag_list,omitempty"`
+	Topics                                    *[]string                            `url:"topics,omitempty" json:"topics,omitempty"`
 	PrintingMergeRequestLinkEnabled           *bool                                `url:"printing_merge_request_link_enabled,omitempty" json:"printing_merge_request_link_enabled,omitempty"`
 	BuildGitStrategy                          *string                              `url:"build_git_strategy,omitempty" json:"build_git_strategy,omitempty"`
 	BuildTimeout                              *int                                 `url:"build_timeout,omitempty" json:"build_timeout,omitempty"`
@@ -730,8 +730,8 @@ type EditProjectOptions struct {
 	RemoveSourceBranchAfterMerge              *bool                                `url:"remove_source_branch_after_merge,omitempty" json:"remove_source_branch_after_merge,omitempty"`
 	LFSEnabled                                *bool                                `url:"lfs_enabled,omitempty" json:"lfs_enabled,omitempty"`
 	RequestAccessEnabled                      *bool                                `url:"request_access_enabled,omitempty" json:"request_access_enabled,omitempty"`
-	Topics                                    *[]string                            `url:"topics,omitempty" json:"topics,omitempty"`
 	TagList                                   *[]string                            `url:"tag_list,omitempty" json:"tag_list,omitempty"`
+	Topics                                    *[]string                            `url:"topics,omitempty" json:"topics,omitempty"`
 	BuildGitStrategy                          *string                              `url:"build_git_strategy,omitempty" json:"build_git_strategy,omitempty"`
 	BuildTimeout                              *int                                 `url:"build_timeout,omitempty" json:"build_timeout,omitempty"`
 	AutoCancelPendingPipelines                *string                              `url:"auto_cancel_pending_pipelines,omitempty" json:"auto_cancel_pending_pipelines,omitempty"`
