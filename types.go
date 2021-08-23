@@ -442,14 +442,14 @@ func SubGroupCreationLevel(v SubGroupCreationLevelValue) *SubGroupCreationLevelV
 	return p
 }
 
-// VisibilityValue represents a visibility level within GitLab.
+// SquashOptionValue represents a squash optional level within GitLab.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/
+// GitLab API docs: https://docs.gitlab.com/ee/api/projects.html#create-project
 type SquashOptionValue string
 
-// List of available visibility levels.
+// List of available squash options.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/
+// GitLab API docs: https://docs.gitlab.com/ee/api/projects.html#create-project
 const (
 	SquashOptionNever      SquashOptionValue = "never"
 	SquashOptionAlways     SquashOptionValue = "always"
@@ -457,8 +457,8 @@ const (
 	SquashOptionDefaultOn  SquashOptionValue = "default_off"
 )
 
-// Visibility is a helper routine that allocates a new VisibilityValue
-// to store v and returns a pointer to it.
+// SquashOption is a helper routine that allocates a new SquashOptionValue
+// to store s and returns a pointer to it.
 func SquashOption(s SquashOptionValue) *SquashOptionValue {
 	p := new(SquashOptionValue)
 	*p = s
