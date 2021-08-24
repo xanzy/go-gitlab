@@ -442,6 +442,29 @@ func SubGroupCreationLevel(v SubGroupCreationLevelValue) *SubGroupCreationLevelV
 	return p
 }
 
+// SquashOptionValue represents a squash optional level within GitLab.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/projects.html#create-project
+type SquashOptionValue string
+
+// List of available squash options.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/projects.html#create-project
+const (
+	SquashOptionNever      SquashOptionValue = "never"
+	SquashOptionAlways     SquashOptionValue = "always"
+	SquashOptionDefaultOff SquashOptionValue = "default_on"
+	SquashOptionDefaultOn  SquashOptionValue = "default_off"
+)
+
+// SquashOption is a helper routine that allocates a new SquashOptionValue
+// to store s and returns a pointer to it.
+func SquashOption(s SquashOptionValue) *SquashOptionValue {
+	p := new(SquashOptionValue)
+	*p = s
+	return p
+}
+
 // TasksCompletionStatus represents tasks of the issue/merge request.
 type TasksCompletionStatus struct {
 	Count          int `json:"count"`
