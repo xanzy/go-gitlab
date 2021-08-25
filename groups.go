@@ -198,6 +198,59 @@ func (s *GroupsService) CreateGroup(opt *CreateGroupOptions, options ...RequestO
 	return g, resp, err
 }
 
+// EditGroupOptions represents the available EditGroup() options.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/groups.html#update-group
+type EditGroupOptions struct {
+	Name                                 *string                     `url:"name,omitempty" json:"name,omitempty"`
+	Path                                 *string                     `url:"path,omitempty" json:"path,omitempty"`
+	Description                          *string                     `url:"description,omitempty" json:"description,omitempty"`
+	MembershipLock                       *bool                       `url:"membership_lock,omitempty" json:"membership_lock,omitempty"`
+	Visibility                           *VisibilityValue            `url:"visibility,omitempty" json:"visibility,omitempty"`
+	ShareWithGroupLock                   *bool                       `url:"share_with_group_lock,omitempty" json:"share_with_group_lock,omitempty"`
+	RequireTwoFactorAuth                 *bool                       `url:"require_two_factor_authentication,omitempty" json:"require_two_factor_authentication,omitempty"`
+	TwoFactorGracePeriod                 *int                        `url:"two_factor_grace_period,omitempty" json:"two_factor_grace_period,omitempty"`
+	ProjectCreationLevel                 *ProjectCreationLevelValue  `url:"project_creation_level,omitempty" json:"project_creation_level,omitempty"`
+	AutoDevopsEnabled                    *bool                       `url:"auto_devops_enabled,omitempty" json:"auto_devops_enabled,omitempty"`
+	SubGroupCreationLevel                *SubGroupCreationLevelValue `url:"subgroup_creation_level,omitempty" json:"subgroup_creation_level,omitempty"`
+	EmailsDisabled                       *bool                       `url:"emails_disabled,omitempty" json:"emails_disabled,omitempty"`
+	MentionsDisabled                     *bool                       `url:"mentions_disabled,omitempty" json:"mentions_disabled,omitempty"`
+	LFSEnabled                           *bool                       `url:"lfs_enabled,omitempty" json:"lfs_enabled,omitempty"`
+	RequestAccessEnabled                 *bool                       `url:"request_access_enabled,omitempty" json:"request_access_enabled,omitempty"`
+	DefaultBranchProtection              *int                        `url:"default_branch_protection,omitempty" json:"default_branch_protection,omitempty"`
+	FileTemplateProjectId                *int                        `url:"file_template_project_id,omitempty" json:"file_template_project_id,omitempty"`
+	SharedRunnersMinutesLimit            *int                        `url:"shared_runners_minutes_limit,omitempty" json:"shared_runners_minutes_limit,omitempty"`
+	ExtraSharedRunnersMinutesLimit       *int                        `url:"extra_shared_runners_minutes_limit,omitempty" json:"extra_shared_runners_minutes_limit,omitempty"`
+	PreventForkingOutsideGroup           *bool                       `url:"prevent_forking_outside_group,omitempty" json:"prevent_forking_outside_group,omitempty"`
+	SharedRunnersSetting                 *SharedRunnersSettingValue  `url:"shared_runners_setting,omitempty" json:"shared_runners_setting,omitempty"`
+	PreventSharingGroupsOutsideHierarchy *bool                       `url:"prevent_sharing_groups_outside_hierarchy,omitempty" json:"prevent_sharing_groups_outside_hierarchy,omitempty"`
+}
+
+// EditGroup creates a new project group. Only available to group owners
+// and administrators.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/groups.html#update-group
+func (s *GroupsService) EditGroup(gid interface{}, opt *EditGroupOptions, options ...RequestOptionFunc) (*Group, *Response, error) {
+	group, err := parseID(gid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("groups/%s", pathEscape(group))
+
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	g := new(Group)
+	resp, err := s.client.Do(req, g)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return g, resp, err
+}
+
 // TransferGroup transfers a project to the Group namespace. Available only
 // for admin.
 //

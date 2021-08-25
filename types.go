@@ -421,6 +421,28 @@ func ProjectCreationLevel(v ProjectCreationLevelValue) *ProjectCreationLevelValu
 	return p
 }
 
+// SharedRunnersSettingValue represents whether shared runners are enabled for a group’s subgroups and projects.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/groups.html#options-for-shared_runners_setting
+type SharedRunnersSettingValue string
+
+// List of available shared runner settings levels.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/groups.html#options-for-shared_runners_setting
+const (
+	EnabledSharedRunnersSettingValue                  SharedRunnersSettingValue = "enabled"
+	DisabledWithOverrideSharedRunnersSettingValue     SharedRunnersSettingValue = "disabled_with_override"
+	DisabledAndUnoverridableSharedRunnersSettingValue SharedRunnersSettingValue = "disabled_and_unoverridable"
+)
+
+// SharedRunnersSetting is a helper routine that allocates a new SharedRunnersSettingValue
+// to store v and returns a pointer to it.
+func SharedRunnersSetting(v SharedRunnersSettingValue) *SharedRunnersSettingValue {
+	p := new(SharedRunnersSettingValue)
+	*p = v
+	return p
+}
+
 // SubGroupCreationLevelValue represents a sub group creation level within GitLab.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/

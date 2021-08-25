@@ -75,6 +75,32 @@ func TestCreateGroup(t *testing.T) {
 	}
 }
 
+func TestEditGroup(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/groups/1",
+		func(w http.ResponseWriter, r *http.Request) {
+			testMethod(t, r, http.MethodPut)
+			fmt.Fprint(w, `{"id": 1, "name": "g", "path": "g"}`)
+		})
+
+	opt := &EditGroupOptions{
+		Name: String("g"),
+		Path: String("g"),
+	}
+
+	group, _, err := client.Groups.EditGroup(1, opt, nil)
+	if err != nil {
+		t.Errorf("Groups.EditGroup returned error: %v", err)
+	}
+
+	want := &Group{ID: 1, Name: "g", Path: "g"}
+	if !reflect.DeepEqual(want, group) {
+		t.Errorf("Groups.EditGroup returned %+v, want %+v", group, want)
+	}
+}
+
 func TestTransferGroup(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
