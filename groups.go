@@ -218,7 +218,7 @@ type EditGroupOptions struct {
 	LFSEnabled                           *bool                       `url:"lfs_enabled,omitempty" json:"lfs_enabled,omitempty"`
 	RequestAccessEnabled                 *bool                       `url:"request_access_enabled,omitempty" json:"request_access_enabled,omitempty"`
 	DefaultBranchProtection              *int                        `url:"default_branch_protection,omitempty" json:"default_branch_protection,omitempty"`
-	FileTemplateProjectId                *int                        `url:"file_template_project_id,omitempty" json:"file_template_project_id,omitempty"`
+	FileTemplateProjectID                *int                        `url:"file_template_project_id,omitempty" json:"file_template_project_id,omitempty"`
 	SharedRunnersMinutesLimit            *int                        `url:"shared_runners_minutes_limit,omitempty" json:"shared_runners_minutes_limit,omitempty"`
 	ExtraSharedRunnersMinutesLimit       *int                        `url:"extra_shared_runners_minutes_limit,omitempty" json:"extra_shared_runners_minutes_limit,omitempty"`
 	PreventForkingOutsideGroup           *bool                       `url:"prevent_forking_outside_group,omitempty" json:"prevent_forking_outside_group,omitempty"`
