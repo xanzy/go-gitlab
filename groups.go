@@ -226,7 +226,7 @@ type EditGroupOptions struct {
 	PreventSharingGroupsOutsideHierarchy *bool                       `url:"prevent_sharing_groups_outside_hierarchy,omitempty" json:"prevent_sharing_groups_outside_hierarchy,omitempty"`
 }
 
-// EditGroup creates a new project group. Only available to group owners
+// EditGroup updates an existing group. Only available to group owners
 // and administrators.
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/groups.html#update-group
