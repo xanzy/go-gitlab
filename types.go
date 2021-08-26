@@ -421,14 +421,17 @@ func ProjectCreationLevel(v ProjectCreationLevelValue) *ProjectCreationLevelValu
 	return p
 }
 
-// SharedRunnersSettingValue represents whether shared runners are enabled for a group’s subgroups and projects.
+// SharedRunnersSettingValue determines whether shared runners are enabled for a
+// group’s subgroups and projects.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/groups.html#options-for-shared_runners_setting
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/groups.html#options-for-shared_runners_setting
 type SharedRunnersSettingValue string
 
-// List of available shared runner settings levels.
+// List of available shared runner setting levels.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/groups.html#options-for-shared_runners_setting
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/groups.html#options-for-shared_runners_setting
 const (
 	EnabledSharedRunnersSettingValue                  SharedRunnersSettingValue = "enabled"
 	DisabledWithOverrideSharedRunnersSettingValue     SharedRunnersSettingValue = "disabled_with_override"
