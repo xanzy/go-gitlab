@@ -34,33 +34,34 @@ type GroupsService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/groups.html
 type Group struct {
-	ID                    int                        `json:"id"`
-	Name                  string                     `json:"name"`
-	Path                  string                     `json:"path"`
-	Description           string                     `json:"description"`
-	MembershipLock        bool                       `json:"membership_lock"`
-	Visibility            VisibilityValue            `json:"visibility"`
-	LFSEnabled            bool                       `json:"lfs_enabled"`
-	AvatarURL             string                     `json:"avatar_url"`
-	WebURL                string                     `json:"web_url"`
-	RequestAccessEnabled  bool                       `json:"request_access_enabled"`
-	FullName              string                     `json:"full_name"`
-	FullPath              string                     `json:"full_path"`
-	ParentID              int                        `json:"parent_id"`
-	Projects              []*Project                 `json:"projects"`
-	Statistics            *StorageStatistics         `json:"statistics"`
-	CustomAttributes      []*CustomAttribute         `json:"custom_attributes"`
-	ShareWithGroupLock    bool                       `json:"share_with_group_lock"`
-	RequireTwoFactorAuth  bool                       `json:"require_two_factor_authentication"`
-	TwoFactorGracePeriod  int                        `json:"two_factor_grace_period"`
-	ProjectCreationLevel  ProjectCreationLevelValue  `json:"project_creation_level"`
-	AutoDevopsEnabled     bool                       `json:"auto_devops_enabled"`
-	SubGroupCreationLevel SubGroupCreationLevelValue `json:"subgroup_creation_level"`
-	EmailsDisabled        bool                       `json:"emails_disabled"`
-	MentionsDisabled      bool                       `json:"mentions_disabled"`
-	RunnersToken          string                     `json:"runners_token"`
-	SharedProjects        []*Project                 `json:"shared_projects"`
-	SharedWithGroups      []struct {
+	ID                      int                        `json:"id"`
+	Name                    string                     `json:"name"`
+	Path                    string                     `json:"path"`
+	Description             string                     `json:"description"`
+	MembershipLock          bool                       `json:"membership_lock"`
+	Visibility              VisibilityValue            `json:"visibility"`
+	LFSEnabled              bool                       `json:"lfs_enabled"`
+	DefaultBranchProtection int                        `json:"default_branch_protection"`
+	AvatarURL               string                     `json:"avatar_url"`
+	WebURL                  string                     `json:"web_url"`
+	RequestAccessEnabled    bool                       `json:"request_access_enabled"`
+	FullName                string                     `json:"full_name"`
+	FullPath                string                     `json:"full_path"`
+	ParentID                int                        `json:"parent_id"`
+	Projects                []*Project                 `json:"projects"`
+	Statistics              *StorageStatistics         `json:"statistics"`
+	CustomAttributes        []*CustomAttribute         `json:"custom_attributes"`
+	ShareWithGroupLock      bool                       `json:"share_with_group_lock"`
+	RequireTwoFactorAuth    bool                       `json:"require_two_factor_authentication"`
+	TwoFactorGracePeriod    int                        `json:"two_factor_grace_period"`
+	ProjectCreationLevel    ProjectCreationLevelValue  `json:"project_creation_level"`
+	AutoDevopsEnabled       bool                       `json:"auto_devops_enabled"`
+	SubGroupCreationLevel   SubGroupCreationLevelValue `json:"subgroup_creation_level"`
+	EmailsDisabled          bool                       `json:"emails_disabled"`
+	MentionsDisabled        bool                       `json:"mentions_disabled"`
+	RunnersToken            string                     `json:"runners_token"`
+	SharedProjects          []*Project                 `json:"shared_projects"`
+	SharedWithGroups        []struct {
 		GroupID          int      `json:"group_id"`
 		GroupName        string   `json:"group_name"`
 		GroupFullPath    string   `json:"group_full_path"`
@@ -173,6 +174,7 @@ type CreateGroupOptions struct {
 	EmailsDisabled                 *bool                       `url:"emails_disabled,omitempty" json:"emails_disabled,omitempty"`
 	MentionsDisabled               *bool                       `url:"mentions_disabled,omitempty" json:"mentions_disabled,omitempty"`
 	LFSEnabled                     *bool                       `url:"lfs_enabled,omitempty" json:"lfs_enabled,omitempty"`
+	DefaultBranchProtection        *int                        `url:"default_branch_protection,omitempty" json:"default_branch_protection"`
 	RequestAccessEnabled           *bool                       `url:"request_access_enabled,omitempty" json:"request_access_enabled,omitempty"`
 	ParentID                       *int                        `url:"parent_id,omitempty" json:"parent_id,omitempty"`
 	SharedRunnersMinutesLimit      *int                        `url:"shared_runners_minutes_limit,omitempty" json:"shared_runners_minutes_limit,omitempty"`
