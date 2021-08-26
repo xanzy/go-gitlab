@@ -19,8 +19,8 @@ type AuditEvent struct {
 }
 
 // AuditEventDetails represents the details portion of an audit event for
-// a group, a project or the instance. The exact fields that are returned for an audit event
-// depend on the action being recorded.
+// a group, a project or the instance. The exact fields that are returned
+// for an audit event depend on the action being recorded.
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/audit_events.html
 type AuditEventDetails struct {
@@ -41,8 +41,8 @@ type AuditEventDetails struct {
 	FailedLogin   string      `json:"failed_login"`
 }
 
-// AuditEventsService handles communication with the project/group/instance audit
-// event related methods of the GitLab API.
+// AuditEventsService handles communication with the project/group/instance
+// audit event related methods of the GitLab API.
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/audit_events.html
 type AuditEventsService struct {
@@ -57,6 +57,46 @@ type ListAuditEventsOptions struct {
 	ListOptions
 	CreatedAfter  *time.Time `url:"created_after,omitempty" json:"created_after,omitempty"`
 	CreatedBefore *time.Time `url:"created_before,omitempty" json:"created_before,omitempty"`
+}
+
+// ListInstanceAuditEvents gets a list of audit events for instance.
+// Authentication as Administrator is required.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/audit_events.html
+func (s *AuditEventsService) ListInstanceAuditEvents(opt *ListAuditEventsOptions, options ...RequestOptionFunc) ([]*AuditEvent, *Response, error) {
+	req, err := s.client.NewRequest(http.MethodGet, "audit_events", opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var aes []*AuditEvent
+	resp, err := s.client.Do(req, &aes)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return aes, resp, err
+}
+
+// GetInstanceAuditEvent gets a specific instance audit event.
+// Authentication as Administrator is required.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/audit_events.html
+func (s *AuditEventsService) GetInstanceAuditEvent(event int, options ...RequestOptionFunc) (*AuditEvent, *Response, error) {
+	u := fmt.Sprintf("audit_events/%d", event)
+
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	ae := new(AuditEvent)
+	resp, err := s.client.Do(req, ae)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return ae, resp, err
 }
 
 // ListGroupAuditEvents gets a list of audit events for the specified group
@@ -143,46 +183,6 @@ func (s *AuditEventsService) GetProjectAuditEvent(pid interface{}, event int, op
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/audit_events/%d", pathEscape(project), event)
-
-	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	ae := new(AuditEvent)
-	resp, err := s.client.Do(req, ae)
-	if err != nil {
-		return nil, resp, err
-	}
-
-	return ae, resp, err
-}
-
-// ListInstanceAuditEvents gets a list of audit events for instance.
-// Authentication as Administrator is required.
-//
-// GitLab API docs: https://docs.gitlab.com/ee/api/audit_events.html
-func (s *AuditEventsService) ListInstanceAuditEvents(opt *ListAuditEventsOptions, options ...RequestOptionFunc) ([]*AuditEvent, *Response, error) {
-	req, err := s.client.NewRequest(http.MethodGet, "audit_events", opt, options)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	var aes []*AuditEvent
-	resp, err := s.client.Do(req, &aes)
-	if err != nil {
-		return nil, resp, err
-	}
-
-	return aes, resp, err
-}
-
-// GetInstanceAuditEvent gets a specific instance audit event.
-// Authentication as Administrator is required.
-//
-// GitLab API docs: https://docs.gitlab.com/ee/api/audit_events.html
-func (s *AuditEventsService) GetInstanceAuditEvent(event int, options ...RequestOptionFunc) (*AuditEvent, *Response, error) {
-	u := fmt.Sprintf("audit_events/%d", event)
 
 	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
