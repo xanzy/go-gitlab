@@ -101,3 +101,37 @@ func TestDeleteRegistryRepository(t *testing.T) {
 		t.Errorf("ContainerRegistry.DeleteRegistryRepository returned error: %v", err)
 	}
 }
+
+func TestListRegistryRepositoryTags(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/5/registry/repositories/2/tags", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		fmt.Fprintf(w, `[
+			{
+			  "name": "A",
+			  "path": "group/project:A",
+			  "location": "gitlab.example.com:5000/group/project:A"
+			},
+			{
+			  "name": "latest",
+			  "path": "group/project:latest",
+			  "location": "gitlab.example.com:5000/group/project:latest"
+			}
+		  ]`)
+	})
+
+	registryRepositoryTags, _, err := client.ContainerRegistry.ListRegistryRepositoryTags(5, 2, &ListRegistryRepositoryTagsOptions{})
+	if err != nil {
+		t.Errorf("ContainerRegistry.ListRegistryRepositoryTags returned error: %v", err)
+	}
+
+	want := []*RegistryRepositoryTag{
+		{Name: "A", Path: "group/project:A", Location: "gitlab.example.com:5000/group/project:A"},
+		{Name: "latest", Path: "group/project:latest", Location: "gitlab.example.com:5000/group/project:latest"},
+	}
+	if !reflect.DeepEqual(want, registryRepositoryTags) {
+		t.Errorf("ContainerRepository.ListRegistryRepositoryTags returned %+v, want %+v", registryRepositoryTags, want)
+	}
+}
