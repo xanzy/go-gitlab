@@ -454,3 +454,17 @@ func TestEditGroupCluster(t *testing.T) {
 		t.Errorf("GroupCluster.EditCluster returned %+v, want %+v", cluster, want)
 	}
 }
+
+func TestDeleteGroupCluster(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/groups/26/clusters/23", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodDelete)
+	})
+
+	_, err := client.GroupCluster.DeleteCluster(26, 23)
+	if err != nil {
+		t.Errorf("GroupCluster.DeleteCluster returned error: %v", err)
+	}
+}
