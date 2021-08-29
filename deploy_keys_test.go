@@ -143,3 +143,43 @@ func TestListProjectDeployKeys(t *testing.T) {
 		t.Errorf("DeployKeys.ListProjectDeployKeys returned %+v, want %+v", deployKeys, want)
 	}
 }
+
+func TestGetDeployKey(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/5/deploy_keys/11", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		fmt.Fprintf(w, `{
+			"id": 1,
+			"title": "Public key",
+			"key": "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAIEAiPWx6WM4lhHNedGfBpPJNPpZ7yKu+dnn1SJejgt4596k6YjzGGphH2TUxwKzxcKDKKezwkpfnxPkSMkuEspGRt/aZZ9wa++Oi7Qkr8prgHc4soW6NUlfDzpvZK2H5E7eQaSeP3SAwGmQKUFHCddNaP0L+hM7zhFNzjFvpaMgJw0=",
+			"created_at": "2013-10-02T10:12:29Z",
+			"can_push": false
+		  }`)
+	})
+
+	deployKey, _, err := client.DeployKeys.GetDeployKey(5, 11)
+	if err != nil {
+		t.Errorf("DeployKeys.GetDeployKey returned error: %v", err)
+	}
+
+	timeLayout := "2006-01-02T15:04:05Z07:00"
+	createdAt, err := time.Parse(timeLayout, "2013-10-02T10:12:29Z")
+	if err != nil {
+		t.Errorf("DeployKeys.ListAllDeployKeys returned an error while parsing time: %v", err)
+	}
+
+	canPush := false
+
+	want := &DeployKey{
+		ID:        1,
+		Title:     "Public key",
+		Key:       "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAIEAiPWx6WM4lhHNedGfBpPJNPpZ7yKu+dnn1SJejgt4596k6YjzGGphH2TUxwKzxcKDKKezwkpfnxPkSMkuEspGRt/aZZ9wa++Oi7Qkr8prgHc4soW6NUlfDzpvZK2H5E7eQaSeP3SAwGmQKUFHCddNaP0L+hM7zhFNzjFvpaMgJw0=",
+		CreatedAt: &createdAt,
+		CanPush:   &canPush,
+	}
+	if !reflect.DeepEqual(want, deployKey) {
+		t.Errorf("DeployKeys.GetDeployKey returned %+v, want %+v", deployKey, want)
+	}
+}
