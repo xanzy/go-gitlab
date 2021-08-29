@@ -246,3 +246,90 @@ func TestGetGroupCluster(t *testing.T) {
 		t.Errorf("GroupCluster.GetCluster returned %+v, want %+v", cluster, want)
 	}
 }
+
+func TestAddGroupCluster(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/groups/26/clusters/user", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPost)
+		fmt.Fprintf(w, `{
+			"id":24,
+			"name":"cluster-5",
+			"created_at":"2019-01-03T21:53:40.610Z",
+			"managed": true,
+			"enabled": true,
+			"provider_type":"user",
+			"platform_type":"kubernetes",
+			"environment_scope":"*",
+			"cluster_type":"group_type",
+			"user":
+			{
+			  "id":1,
+			  "name":"Administrator",
+			  "username":"root",
+			  "state":"active",
+			  "avatar_url":"https://www.gravatar.com/avatar/4249f4df72b..",
+			  "web_url":"https://gitlab.example.com/root"
+			},
+			"platform_kubernetes":
+			{
+			  "api_url":"https://35.111.51.20",
+			  "authorization_type":"rbac",
+			  "ca_cert":"-----BEGIN CERTIFICATE-----\r\nhFiK1L61owwDQYJKoZIhvcNAQELBQAw\r\nLzEtMCsGA1UEAxMkZDA1YzQ1YjctNzdiMS00NDY0LThjNmEtMTQ0ZDJkZjM4ZDBj\r\nMB4XDTE4MTIyNzIwMDM1MVoXDTIzMTIyNjIxMDM1MVowLzEtMCsGA1UEAxMkZDA1\r\nYzQ1YjctNzdiMS00NDY0LThjNmEtMTQ0ZDJkZjM.......-----END CERTIFICATE-----"
+			},
+			"management_project":null,
+			"group":
+			{
+			  "id":26,
+			  "name":"group-with-clusters-api",
+			  "web_url":"https://gitlab.example.com/root/group-with-clusters-api"
+			}
+		  }`)
+	})
+
+	cluster, _, err := client.GroupCluster.AddCluster(26, &AddGroupClusterOptions{})
+	if err != nil {
+		t.Errorf("GroupCluster.AddCluster returned error: %v", err)
+	}
+
+	timeLayout := "2006-01-02T15:04:05Z07:00"
+	createdAt, err := time.Parse(timeLayout, "2019-01-03T21:53:40.610Z")
+	if err != nil {
+		t.Errorf("DeployKeys.ListAllDeployKeys returned an error while parsing time: %v", err)
+	}
+
+	want := &GroupCluster{
+		ID:               24,
+		Name:             "cluster-5",
+		CreatedAt:        &createdAt,
+		Managed:          true,
+		Enabled:          true,
+		ProviderType:     "user",
+		PlatformType:     "kubernetes",
+		EnvironmentScope: "*",
+		ClusterType:      "group_type",
+		User: &User{
+			ID:        1,
+			Name:      "Administrator",
+			Username:  "root",
+			State:     "active",
+			AvatarURL: "https://www.gravatar.com/avatar/4249f4df72b..",
+			WebURL:    "https://gitlab.example.com/root",
+		},
+		PlatformKubernetes: &PlatformKubernetes{
+			APIURL:            "https://35.111.51.20",
+			AuthorizationType: "rbac",
+			CaCert:            "-----BEGIN CERTIFICATE-----\r\nhFiK1L61owwDQYJKoZIhvcNAQELBQAw\r\nLzEtMCsGA1UEAxMkZDA1YzQ1YjctNzdiMS00NDY0LThjNmEtMTQ0ZDJkZjM4ZDBj\r\nMB4XDTE4MTIyNzIwMDM1MVoXDTIzMTIyNjIxMDM1MVowLzEtMCsGA1UEAxMkZDA1\r\nYzQ1YjctNzdiMS00NDY0LThjNmEtMTQ0ZDJkZjM.......-----END CERTIFICATE-----",
+		},
+		ManagementProject: nil,
+		Group: &Group{
+			ID:     26,
+			Name:   "group-with-clusters-api",
+			WebURL: "https://gitlab.example.com/root/group-with-clusters-api",
+		},
+	}
+	if !reflect.DeepEqual(want, cluster) {
+		t.Errorf("GroupCluster.AddCluster returned %+v, want %+v", cluster, want)
+	}
+}
