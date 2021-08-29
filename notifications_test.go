@@ -30,6 +30,7 @@ func TestGetGlobalSettings(t *testing.T) {
 	mux.HandleFunc("/api/v4/notification_settings", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
 		fmt.Fprintf(w, `{
+			"level": "participating",
 			"notification_email": "admin@example.com"
 		  }`)
 	})
@@ -40,6 +41,7 @@ func TestGetGlobalSettings(t *testing.T) {
 	}
 
 	want := &NotificationSettings{
+		Level:             1,
 		NotificationEmail: "admin@example.com",
 	}
 	if !reflect.DeepEqual(settings, want) {
