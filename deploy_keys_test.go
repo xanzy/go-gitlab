@@ -279,3 +279,47 @@ func TestEnableDeployKey(t *testing.T) {
 		t.Errorf("DeployKeys.EnableDeployKey returned %+v, want %+v", deployKey, want)
 	}
 }
+
+func TestUpdateDeployKey(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/5/deploy_keys/11", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPut)
+		fmt.Fprintf(w, `{
+			"id": 11,
+			"title": "New deploy key",
+			"key": "ssh-rsa AAAA...",
+			"created_at": "2015-08-29T12:44:31.550Z",
+			"can_push": true
+		 }`)
+	})
+
+	title := "New deploy key"
+	canPush := true
+	opt := &UpdateDeployKeyOptions{
+		Title:   &title,
+		CanPush: &canPush,
+	}
+	deployKey, _, err := client.DeployKeys.UpdateDeployKey(5, 11, opt)
+	if err != nil {
+		t.Errorf("DeployKeys.UpdateDeployKey returned error: %v", err)
+	}
+
+	timeLayout := "2006-01-02T15:04:05Z07:00"
+	createdAt, err := time.Parse(timeLayout, "2015-08-29T12:44:31.550Z")
+	if err != nil {
+		t.Errorf("DeployKeys.ListAllDeployKeys returned an error while parsing time: %v", err)
+	}
+
+	want := &DeployKey{
+		ID:        11,
+		Title:     title,
+		Key:       "ssh-rsa AAAA...",
+		CanPush:   &canPush,
+		CreatedAt: &createdAt,
+	}
+	if !reflect.DeepEqual(want, deployKey) {
+		t.Errorf("DeployKeys.UpdateDeployKey returned %+v, want %+v", deployKey, want)
+	}
+}
