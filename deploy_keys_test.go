@@ -229,3 +229,17 @@ func TestAddDeployKey(t *testing.T) {
 		t.Errorf("DeployKeys.AddDeployKey returned %+v, want %+v", deployKey, want)
 	}
 }
+
+func TestDeleteDeployKey(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/5/deploy_keys/13", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodDelete)
+	})
+
+	_, err := client.DeployKeys.DeleteDeployKey(5, 13)
+	if err != nil {
+		t.Errorf("Deploykeys.DeleteDeployKey returned error: %v", err)
+	}
+}
