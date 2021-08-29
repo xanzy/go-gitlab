@@ -179,3 +179,23 @@ func TestGetRegistryRepositoryTagDetail(t *testing.T) {
 		t.Errorf("ContainerRepository.ListRegistryRepositories returned %+v, want %+v", repositoryTag, want)
 	}
 }
+
+func TestDeleteRegistryRepositoryTag(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/5/registry/repositories/2/tags/v10.0.0", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodDelete)
+	})
+
+	/**
+		_, err := client.ContainerRegistry.DeleteRegistryRepository(5, 2)
+	if err != nil {
+		t.Errorf("ContainerRegistry.DeleteRegistryRepository returned error: %v", err)
+	}
+	*/
+	_, err := client.ContainerRegistry.DeleteRegistryRepositoryTag(5, 2, "v10.0.0")
+	if err != nil {
+		t.Errorf("ContainerRepository.DeleteRegistryRepositoryTag returned error: %v", err)
+	}
+}
