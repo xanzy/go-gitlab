@@ -188,14 +188,38 @@ func TestDeleteRegistryRepositoryTag(t *testing.T) {
 		testMethod(t, r, http.MethodDelete)
 	})
 
-	/**
-		_, err := client.ContainerRegistry.DeleteRegistryRepository(5, 2)
-	if err != nil {
-		t.Errorf("ContainerRegistry.DeleteRegistryRepository returned error: %v", err)
-	}
-	*/
 	_, err := client.ContainerRegistry.DeleteRegistryRepositoryTag(5, 2, "v10.0.0")
 	if err != nil {
 		t.Errorf("ContainerRepository.DeleteRegistryRepositoryTag returned error: %v", err)
+	}
+}
+
+func TestDeleteRegistryRepositoryTags(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/5/registry/repositories/2/tags", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodDelete)
+	})
+
+	var tests = []struct {
+		event           string
+		nameRegexDelete string
+		keepN           int
+		nameRegexKeep   string
+		olderThan       string
+	}{
+		{"keep_atleast_5_remove_2_days_old", "[0-9a-z]{40}", 0, "", "2d"},
+		{"remove_all_keep_5", ".*", 5, "", ""},
+		{"remove_all_tags_keep_tags_beginning_with_stable", ".*", 0, "stable.*", ""},
+		{"remove_all_tags_older_than_1_month", ".*", 0, "", "1month"},
+	}
+	for _, tc := range tests {
+		t.Run(tc.event, func(t *testing.T) {
+			_, err := client.ContainerRegistry.DeleteRegistryRepositoryTags(5, 2, &DeleteRegistryRepositoryTagsOptions{NameRegexpDelete: &tc.nameRegexDelete, NameRegexpKeep: &tc.nameRegexKeep, KeepN: &tc.keepN, OlderThan: &tc.olderThan})
+			if err != nil {
+				t.Errorf("ContainerRegistry.DeleteRegistryRepositoryTags returned error: %v", err)
+			}
+		})
 	}
 }
