@@ -65,7 +65,7 @@ type PlatformKubernetes struct {
 // ManagementProject represents a GitLab Project Cluster management_project.
 type ManagementProject struct {
 	ID                int        `json:"id"`
-	Description       string     `json:"description"`
+	Description       *string    `json:"description"`
 	Name              string     `json:"name"`
 	NameWithNamespace string     `json:"name_with_namespace"`
 	Path              string     `json:"path"`
