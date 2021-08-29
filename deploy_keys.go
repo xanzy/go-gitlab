@@ -178,7 +178,7 @@ func (s *DeployKeysService) DeleteDeployKey(pid interface{}, deployKey int, opti
 // EnableDeployKey enables a deploy key.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/deploy_keys.html#enable-deploy-key
+// https://docs.gitlab.com/ce/api/deploy_keys.html#enable-a-deploy-key
 func (s *DeployKeysService) EnableDeployKey(pid interface{}, deployKey int, options ...RequestOptionFunc) (*DeployKey, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
