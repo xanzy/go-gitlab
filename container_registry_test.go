@@ -135,3 +135,47 @@ func TestListRegistryRepositoryTags(t *testing.T) {
 		t.Errorf("ContainerRepository.ListRegistryRepositoryTags returned %+v, want %+v", registryRepositoryTags, want)
 	}
 }
+
+func TestGetRegistryRepositoryTagDetail(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/5/registry/repositories/2/tags/v10.0.0", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		fmt.Fprintf(w, `{
+			"name": "v10.0.0",
+			"path": "group/project:latest",
+			"location": "gitlab.example.com:5000/group/project:latest",
+			"revision": "e9ed9d87c881d8c2fd3a31b41904d01ba0b836e7fd15240d774d811a1c248181",
+			"short_revision": "e9ed9d87c",
+			"digest": "sha256:c3490dcf10ffb6530c1303522a1405dfaf7daecd8f38d3e6a1ba19ea1f8a1751",
+			"created_at": "2019-01-06T16:49:51.272+00:00",
+			"total_size": 350224384
+		  }`)
+	})
+
+	repositoryTag, _, err := client.ContainerRegistry.GetRegistryRepositoryTagDetail(5, 2, "v10.0.0")
+	if err != nil {
+		t.Errorf("ContainerRegistry.GetRegistryRepositoryTagDetail returned error: %v", err)
+	}
+
+	timeLayout := "2006-01-02T15:04:05Z07:00"
+	createdAt, err := time.Parse(timeLayout, "2019-01-06T16:49:51.272+00:00")
+	if err != nil {
+		t.Errorf("ContainerRepository.ListRegistryRepositories error while parsing time: %v", err)
+	}
+
+	want := &RegistryRepositoryTag{
+		Name:          "v10.0.0",
+		Path:          "group/project:latest",
+		Location:      "gitlab.example.com:5000/group/project:latest",
+		Revision:      "e9ed9d87c881d8c2fd3a31b41904d01ba0b836e7fd15240d774d811a1c248181",
+		ShortRevision: "e9ed9d87c",
+		Digest:        "sha256:c3490dcf10ffb6530c1303522a1405dfaf7daecd8f38d3e6a1ba19ea1f8a1751",
+		CreatedAt:     &createdAt,
+		TotalSize:     350224384,
+	}
+	if !reflect.DeepEqual(want, repositoryTag) {
+		t.Errorf("ContainerRepository.ListRegistryRepositories returned %+v, want %+v", repositoryTag, want)
+	}
+}

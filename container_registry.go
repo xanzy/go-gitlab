@@ -159,7 +159,7 @@ func (s *ContainerRegistryService) ListRegistryRepositoryTags(pid interface{}, r
 // GetRegistryRepositoryTagDetail get details of a registry repository tag
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/container_registry.html#get-details-of-a-repository-tag
+// https://docs.gitlab.com/ee/api/container_registry.html#get-details-of-a-registry-repository-tag
 func (s *ContainerRegistryService) GetRegistryRepositoryTagDetail(pid interface{}, repository int, tagName string, options ...RequestOptionFunc) (*RegistryRepositoryTag, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -188,7 +188,7 @@ func (s *ContainerRegistryService) GetRegistryRepositoryTagDetail(pid interface{
 // DeleteRegistryRepositoryTag deletes a registry repository tag.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/container_registry.html#delete-a-repository-tag
+// https://docs.gitlab.com/ee/api/container_registry.html#delete-a-registry-repository-tag
 func (s *ContainerRegistryService) DeleteRegistryRepositoryTag(pid interface{}, repository int, tagName string, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
