@@ -333,3 +333,124 @@ func TestAddGroupCluster(t *testing.T) {
 		t.Errorf("GroupCluster.AddCluster returned %+v, want %+v", cluster, want)
 	}
 }
+
+func TestEditGroupCluster(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/groups/26/clusters/24", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPut)
+		fmt.Fprintf(w, `{
+			"id":24,
+			"name":"new-cluster-name",
+			"domain":"new-domain.com",
+			"created_at":"2019-01-03T21:53:40.610Z",
+			"managed": true,
+			"enabled": true,
+			"provider_type":"user",
+			"platform_type":"kubernetes",
+			"environment_scope":"*",
+			"cluster_type":"group_type",
+			"user":
+			{
+			  "id":1,
+			  "name":"Administrator",
+			  "username":"root",
+			  "state":"active",
+			  "avatar_url":"https://www.gravatar.com/avatar/4249f4df72b..",
+			  "web_url":"https://gitlab.example.com/root"
+			},
+			"platform_kubernetes":
+			{
+			  "api_url":"https://new-api-url.com",
+			  "authorization_type":"rbac"
+			},
+			"management_project":
+			{
+			  "id":2,
+			  "description":null,
+			  "name":"project2",
+			  "name_with_namespace":"John Doe8 / project2",
+			  "path":"project2",
+			  "path_with_namespace":"namespace2/project2",
+			  "created_at":"2019-10-11T02:55:54.138Z"
+			},
+			"group":
+			{
+			  "id":26,
+			  "name":"group-with-clusters-api",
+			  "web_url":"https://gitlab.example.com/group-with-clusters-api"
+			}
+		  }`)
+	})
+
+	name := "new-cluster-name"
+	domain := "new-domain.com"
+	enviromentScope := "*"
+	apiUrl := "https://new-api-url.com"
+	opt := &EditGroupClusterOptions{
+		Name:             &name,
+		Domain:           &domain,
+		EnvironmentScope: &enviromentScope,
+		PlatformKubernetes: &EditGroupPlatformKubernetesOptions{
+			APIURL: &apiUrl,
+		},
+	}
+	cluster, _, err := client.GroupCluster.EditCluster(26, 24, opt)
+	if err != nil {
+		t.Errorf("GroupCluster.EditCluster returned error: %v", err)
+	}
+
+	timeLayout := "2006-01-02T15:04:05Z07:00"
+	createdAt, err := time.Parse(timeLayout, "2019-01-03T21:53:40.610Z")
+	if err != nil {
+		t.Errorf("DeployKeys.ListAllDeployKeys returned an error while parsing time: %v", err)
+	}
+
+	createdAt2, err := time.Parse(timeLayout, "2019-10-11T02:55:54.138Z")
+	if err != nil {
+		t.Errorf("DeployKeys.ListAllDeployKeys returned an error while parsing time: %v", err)
+	}
+
+	want := &GroupCluster{
+		ID:               24,
+		Name:             "new-cluster-name",
+		Domain:           "new-domain.com",
+		CreatedAt:        &createdAt,
+		Managed:          true,
+		Enabled:          true,
+		ProviderType:     "user",
+		PlatformType:     "kubernetes",
+		EnvironmentScope: "*",
+		ClusterType:      "group_type",
+		User: &User{
+			ID:        1,
+			Name:      "Administrator",
+			Username:  "root",
+			State:     "active",
+			AvatarURL: "https://www.gravatar.com/avatar/4249f4df72b..",
+			WebURL:    "https://gitlab.example.com/root",
+		},
+		PlatformKubernetes: &PlatformKubernetes{
+			APIURL:            "https://new-api-url.com",
+			AuthorizationType: "rbac",
+		},
+		ManagementProject: &ManagementProject{
+			ID:                2,
+			Description:       nil,
+			Name:              "project2",
+			NameWithNamespace: "John Doe8 / project2",
+			Path:              "project2",
+			PathWithNamespace: "namespace2/project2",
+			CreatedAt:         &createdAt2,
+		},
+		Group: &Group{
+			ID:     26,
+			Name:   "group-with-clusters-api",
+			WebURL: "https://gitlab.example.com/group-with-clusters-api",
+		},
+	}
+	if !reflect.DeepEqual(want, cluster) {
+		t.Errorf("GroupCluster.EditCluster returned %+v, want %+v", cluster, want)
+	}
+}
