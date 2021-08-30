@@ -58,30 +58,43 @@ func TestListRegistryRepositories(t *testing.T) {
 	}
 
 	timeLayout := "2006-01-02T15:04:05.000Z"
-
-	created_at1, err := time.Parse(timeLayout, "2019-01-10T13:38:57.391Z")
+	createdAt1, err := time.Parse(timeLayout, "2019-01-10T13:38:57.391Z")
 	if err != nil {
 		t.Errorf("ContainerRepository.ListRegistryRepositories error while parsing time: %v", err)
 	}
 
-	created_at2, err := time.Parse(timeLayout, "2019-01-10T13:39:08.229Z")
+	createdAt2, err := time.Parse(timeLayout, "2019-01-10T13:39:08.229Z")
 	if err != nil {
 		t.Errorf("ContainerRepository.ListRegistryRepositories error while parsing time: %v", err)
 	}
 
-	cleanup_policy_started_at1, err := time.Parse(timeLayout, "2020-01-10T15:40:57.391Z")
+	cleanupPolicyStartedAt1, err := time.Parse(timeLayout, "2020-01-10T15:40:57.391Z")
 	if err != nil {
 		t.Errorf("ContainerRepository.ListRegistryRepositories error while parsing time: %v", err)
 	}
 
-	cleanup_policy_started_at2, err := time.Parse(timeLayout, "2020-08-17T03:12:35.489Z")
+	cleanupPolicyStartedAt2, err := time.Parse(timeLayout, "2020-08-17T03:12:35.489Z")
 	if err != nil {
 		t.Errorf("ContainerRepository.ListRegistryRepositories error while parsing time: %v", err)
 	}
 
 	want := []*RegistryRepository{
-		{ID: 1, Name: "", Path: "group/project", Location: "gitlab.example.com:5000/group/project", CreatedAt: &created_at1, CleanupPolicyStartedAt: &cleanup_policy_started_at1},
-		{ID: 2, Name: "releases", Path: "group/project/releases", Location: "gitlab.example.com:5000/group/project/releases", CreatedAt: &created_at2, CleanupPolicyStartedAt: &cleanup_policy_started_at2},
+		{
+			ID:                     1,
+			Name:                   "",
+			Path:                   "group/project",
+			Location:               "gitlab.example.com:5000/group/project",
+			CreatedAt:              &createdAt1,
+			CleanupPolicyStartedAt: &cleanupPolicyStartedAt1,
+		},
+		{
+			ID:                     2,
+			Name:                   "releases",
+			Path:                   "group/project/releases",
+			Location:               "gitlab.example.com:5000/group/project/releases",
+			CreatedAt:              &createdAt2,
+			CleanupPolicyStartedAt: &cleanupPolicyStartedAt2,
+		},
 	}
 	if !reflect.DeepEqual(want, repositories) {
 		t.Errorf("ContainerRepository.ListRegistryRepositories returned %+v, want %+v", repositories, want)
@@ -122,14 +135,23 @@ func TestListRegistryRepositoryTags(t *testing.T) {
 		  ]`)
 	})
 
-	registryRepositoryTags, _, err := client.ContainerRegistry.ListRegistryRepositoryTags(5, 2, &ListRegistryRepositoryTagsOptions{})
+	opt := &ListRegistryRepositoryTagsOptions{}
+	registryRepositoryTags, _, err := client.ContainerRegistry.ListRegistryRepositoryTags(5, 2, opt)
 	if err != nil {
 		t.Errorf("ContainerRegistry.ListRegistryRepositoryTags returned error: %v", err)
 	}
 
 	want := []*RegistryRepositoryTag{
-		{Name: "A", Path: "group/project:A", Location: "gitlab.example.com:5000/group/project:A"},
-		{Name: "latest", Path: "group/project:latest", Location: "gitlab.example.com:5000/group/project:latest"},
+		{
+			Name:     "A",
+			Path:     "group/project:A",
+			Location: "gitlab.example.com:5000/group/project:A",
+		},
+		{
+			Name:     "latest",
+			Path:     "group/project:latest",
+			Location: "gitlab.example.com:5000/group/project:latest",
+		},
 	}
 	if !reflect.DeepEqual(want, registryRepositoryTags) {
 		t.Errorf("ContainerRepository.ListRegistryRepositoryTags returned %+v, want %+v", registryRepositoryTags, want)
@@ -209,14 +231,44 @@ func TestDeleteRegistryRepositoryTags(t *testing.T) {
 		nameRegexKeep   string
 		olderThan       string
 	}{
-		{"keep_atleast_5_remove_2_days_old", "[0-9a-z]{40}", 0, "", "2d"},
-		{"remove_all_keep_5", ".*", 5, "", ""},
-		{"remove_all_tags_keep_tags_beginning_with_stable", ".*", 0, "stable.*", ""},
-		{"remove_all_tags_older_than_1_month", ".*", 0, "", "1month"},
+		{
+			"keep_atleast_5_remove_2_days_old",
+			"[0-9a-z]{40}",
+			0,
+			"",
+			"2d",
+		},
+		{
+			"remove_all_keep_5",
+			".*",
+			5,
+			"",
+			"",
+		},
+		{
+			"remove_all_tags_keep_tags_beginning_with_stable",
+			".*",
+			0,
+			"stable.*",
+			"",
+		},
+		{
+			"remove_all_tags_older_than_1_month",
+			".*",
+			0,
+			"",
+			"1month",
+		},
 	}
 	for _, tc := range tests {
 		t.Run(tc.event, func(t *testing.T) {
-			_, err := client.ContainerRegistry.DeleteRegistryRepositoryTags(5, 2, &DeleteRegistryRepositoryTagsOptions{NameRegexpDelete: &tc.nameRegexDelete, NameRegexpKeep: &tc.nameRegexKeep, KeepN: &tc.keepN, OlderThan: &tc.olderThan})
+			opt := &DeleteRegistryRepositoryTagsOptions{
+				NameRegexpDelete: &tc.nameRegexDelete,
+				NameRegexpKeep:   &tc.nameRegexKeep,
+				KeepN:            &tc.keepN,
+				OlderThan:        &tc.olderThan,
+			}
+			_, err := client.ContainerRegistry.DeleteRegistryRepositoryTags(5, 2, opt)
 			if err != nil {
 				t.Errorf("ContainerRegistry.DeleteRegistryRepositoryTags returned error: %v", err)
 			}

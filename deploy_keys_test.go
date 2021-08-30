@@ -34,13 +34,13 @@ func TestListAllDeployKeys(t *testing.T) {
 			{
 			  "id": 1,
 			  "title": "Public key",
-			  "key": "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAIEAiPWx6WM4lhHNedGfBpPJNPpZ7yKu+dnn1SJejgt4596k6YjzGGphH2TUxwKzxcKDKKezwkpfnxPkSMkuEspGRt/aZZ9wa++Oi7Qkr8prgHc4soW6NUlfDzpvZK2H5E7eQaSeP3SAwGmQKUFHCddNaP0L+hM7zhFNzjFvpaMgJw0=",
+			  "key": "ssh-rsa AAAA...",
 			  "created_at": "2013-10-02T10:12:29Z"
 			},
 			{
 			  "id": 3,
 			  "title": "Another Public key",
-			  "key": "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAIEAiPWx6WM4lhHNedGfBpPJNPpZ7yKu+dnn1SJejgt4596k6YjzGGphH2TUxwKzxcKDKKezwkpfnxPkSMkuEspGRt/aZZ9wa++Oi7Qkr8prgHc4soW6NUlfDzpvZK2H5E7eQaSeP3SAwGmQKUFHCddNaP0L+hM7zhFNzjFvpaMgJw0=",
+			  "key": "ssh-rsa AAAA...",
 			  "created_at": "2013-10-02T11:12:29Z"
 			}
 		  ]`)
@@ -66,13 +66,13 @@ func TestListAllDeployKeys(t *testing.T) {
 		{
 			ID:        1,
 			Title:     "Public key",
-			Key:       "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAIEAiPWx6WM4lhHNedGfBpPJNPpZ7yKu+dnn1SJejgt4596k6YjzGGphH2TUxwKzxcKDKKezwkpfnxPkSMkuEspGRt/aZZ9wa++Oi7Qkr8prgHc4soW6NUlfDzpvZK2H5E7eQaSeP3SAwGmQKUFHCddNaP0L+hM7zhFNzjFvpaMgJw0=",
+			Key:       "ssh-rsa AAAA...",
 			CreatedAt: &createdAt,
 		},
 		{
 			ID:        3,
 			Title:     "Another Public key",
-			Key:       "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAIEAiPWx6WM4lhHNedGfBpPJNPpZ7yKu+dnn1SJejgt4596k6YjzGGphH2TUxwKzxcKDKKezwkpfnxPkSMkuEspGRt/aZZ9wa++Oi7Qkr8prgHc4soW6NUlfDzpvZK2H5E7eQaSeP3SAwGmQKUFHCddNaP0L+hM7zhFNzjFvpaMgJw0=",
+			Key:       "ssh-rsa AAAA...",
 			CreatedAt: &createdAt2,
 		},
 	}
@@ -91,14 +91,14 @@ func TestListProjectDeployKeys(t *testing.T) {
 			{
 			  "id": 1,
 			  "title": "Public key",
-			  "key": "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAIEAiPWx6WM4lhHNedGfBpPJNPpZ7yKu+dnn1SJejgt4596k6YjzGGphH2TUxwKzxcKDKKezwkpfnxPkSMkuEspGRt/aZZ9wa++Oi7Qkr8prgHc4soW6NUlfDzpvZK2H5E7eQaSeP3SAwGmQKUFHCddNaP0L+hM7zhFNzjFvpaMgJw0=",
+			  "key": "ssh-rsa AAAA...",
 			  "created_at": "2013-10-02T10:12:29Z",
 			  "can_push": false
 			},
 			{
 			  "id": 3,
 			  "title": "Another Public key",
-			  "key": "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAIEAiPWx6WM4lhHNedGfBpPJNPpZ7yKu+dnn1SJejgt4596k6YjzGGphH2TUxwKzxcKDKKezwkpfnxPkSMkuEspGRt/aZZ9wa++Oi7Qkr8prgHc4soW6NUlfDzpvZK2H5E7eQaSeP3SAwGmQKUFHCddNaP0L+hM7zhFNzjFvpaMgJw0=",
+			  "key": "ssh-rsa AAAA...",
 			  "created_at": "2013-10-02T11:12:29Z",
 			  "can_push": false
 			}
@@ -121,22 +121,20 @@ func TestListProjectDeployKeys(t *testing.T) {
 		t.Errorf("DeployKeys.ListAllDeployKeys returned an error while parsing time: %v", err)
 	}
 
-	canPush := false
-
 	want := []*DeployKey{
 		{
 			ID:        1,
 			Title:     "Public key",
-			Key:       "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAIEAiPWx6WM4lhHNedGfBpPJNPpZ7yKu+dnn1SJejgt4596k6YjzGGphH2TUxwKzxcKDKKezwkpfnxPkSMkuEspGRt/aZZ9wa++Oi7Qkr8prgHc4soW6NUlfDzpvZK2H5E7eQaSeP3SAwGmQKUFHCddNaP0L+hM7zhFNzjFvpaMgJw0=",
+			Key:       "ssh-rsa AAAA...",
 			CreatedAt: &createdAt,
-			CanPush:   &canPush,
+			CanPush:   Bool(false),
 		},
 		{
 			ID:        3,
 			Title:     "Another Public key",
-			Key:       "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAIEAiPWx6WM4lhHNedGfBpPJNPpZ7yKu+dnn1SJejgt4596k6YjzGGphH2TUxwKzxcKDKKezwkpfnxPkSMkuEspGRt/aZZ9wa++Oi7Qkr8prgHc4soW6NUlfDzpvZK2H5E7eQaSeP3SAwGmQKUFHCddNaP0L+hM7zhFNzjFvpaMgJw0=",
+			Key:       "ssh-rsa AAAA...",
 			CreatedAt: &createdAt2,
-			CanPush:   &canPush,
+			CanPush:   Bool(false),
 		},
 	}
 	if !reflect.DeepEqual(want, deployKeys) {
@@ -153,7 +151,7 @@ func TestGetDeployKey(t *testing.T) {
 		fmt.Fprintf(w, `{
 			"id": 1,
 			"title": "Public key",
-			"key": "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAIEAiPWx6WM4lhHNedGfBpPJNPpZ7yKu+dnn1SJejgt4596k6YjzGGphH2TUxwKzxcKDKKezwkpfnxPkSMkuEspGRt/aZZ9wa++Oi7Qkr8prgHc4soW6NUlfDzpvZK2H5E7eQaSeP3SAwGmQKUFHCddNaP0L+hM7zhFNzjFvpaMgJw0=",
+			"key": "ssh-rsa AAAA...",
 			"created_at": "2013-10-02T10:12:29Z",
 			"can_push": false
 		  }`)
@@ -170,14 +168,12 @@ func TestGetDeployKey(t *testing.T) {
 		t.Errorf("DeployKeys.ListAllDeployKeys returned an error while parsing time: %v", err)
 	}
 
-	canPush := false
-
 	want := &DeployKey{
 		ID:        1,
 		Title:     "Public key",
-		Key:       "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAIEAiPWx6WM4lhHNedGfBpPJNPpZ7yKu+dnn1SJejgt4596k6YjzGGphH2TUxwKzxcKDKKezwkpfnxPkSMkuEspGRt/aZZ9wa++Oi7Qkr8prgHc4soW6NUlfDzpvZK2H5E7eQaSeP3SAwGmQKUFHCddNaP0L+hM7zhFNzjFvpaMgJw0=",
+		Key:       "ssh-rsa AAAA...",
 		CreatedAt: &createdAt,
-		CanPush:   &canPush,
+		CanPush:   Bool(false),
 	}
 	if !reflect.DeepEqual(want, deployKey) {
 		t.Errorf("DeployKeys.GetDeployKey returned %+v, want %+v", deployKey, want)
@@ -199,13 +195,10 @@ func TestAddDeployKey(t *testing.T) {
 		 }`)
 	})
 
-	key := "ssh-rsa AAAA..."
-	title := "My deploy key"
-	canPush := true
 	opt := &AddDeployKeyOptions{
-		Key:     &key,
-		Title:   &title,
-		CanPush: &canPush,
+		Key:     String("ssh-rsa AAAA..."),
+		Title:   String("My deploy key"),
+		CanPush: Bool(true),
 	}
 	deployKey, _, err := client.DeployKeys.AddDeployKey(5, opt)
 	if err != nil {
@@ -219,10 +212,10 @@ func TestAddDeployKey(t *testing.T) {
 	}
 
 	want := &DeployKey{
-		Title:     title,
+		Title:     *String("My deploy key"),
 		ID:        12,
-		Key:       key,
-		CanPush:   &canPush,
+		Key:       *String("ssh-rsa AAAA..."),
+		CanPush:   Bool(true),
 		CreatedAt: &createdAt,
 	}
 	if !reflect.DeepEqual(want, deployKey) {
@@ -295,11 +288,9 @@ func TestUpdateDeployKey(t *testing.T) {
 		 }`)
 	})
 
-	title := "New deploy key"
-	canPush := true
 	opt := &UpdateDeployKeyOptions{
-		Title:   &title,
-		CanPush: &canPush,
+		Title:   String("New deploy key"),
+		CanPush: Bool(true),
 	}
 	deployKey, _, err := client.DeployKeys.UpdateDeployKey(5, 11, opt)
 	if err != nil {
@@ -314,9 +305,9 @@ func TestUpdateDeployKey(t *testing.T) {
 
 	want := &DeployKey{
 		ID:        11,
-		Title:     title,
+		Title:     *String("New deploy key"),
 		Key:       "ssh-rsa AAAA...",
-		CanPush:   &canPush,
+		CanPush:   Bool(true),
 		CreatedAt: &createdAt,
 	}
 	if !reflect.DeepEqual(want, deployKey) {

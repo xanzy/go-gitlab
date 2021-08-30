@@ -39,12 +39,12 @@ type GroupCluster struct {
 	Name               string              `json:"name"`
 	Domain             string              `json:"domain"`
 	CreatedAt          *time.Time          `json:"created_at"`
+	Managed            bool                `json:"managed"`
+	Enabled            bool                `json:"enabled"`
 	ProviderType       string              `json:"provider_type"`
 	PlatformType       string              `json:"platform_type"`
 	EnvironmentScope   string              `json:"environment_scope"`
 	ClusterType        string              `json:"cluster_type"`
-	Managed            bool                `json:"managed"`
-	Enabled            bool                `json:"enabled"`
 	User               *User               `json:"user"`
 	PlatformKubernetes *PlatformKubernetes `json:"platform_kubernetes"`
 	ManagementProject  *ManagementProject  `json:"management_project"`

@@ -60,7 +60,7 @@ func TestGroupListClusters(t *testing.T) {
 			  "management_project":
 			  {
 				"id":2,
-				"description":null,
+				"description": "sdhfgnbsdjfhg",
 				"name":"project2",
 				"name_with_namespace":"John Doe8 / project2",
 				"path":"project2",
@@ -118,7 +118,7 @@ func TestGroupListClusters(t *testing.T) {
 			},
 			ManagementProject: &ManagementProject{
 				ID:                2,
-				Description:       nil,
+				Description:       "sdhfgnbsdjfhg",
 				Name:              "project2",
 				NameWithNamespace: "John Doe8 / project2",
 				Path:              "project2",
@@ -171,7 +171,7 @@ func TestGetGroupCluster(t *testing.T) {
 			"management_project":
 			{
 			  "id":2,
-			  "description":null,
+			  "description": "skjdfgsdfg",
 			  "name":"project2",
 			  "name_with_namespace":"John Doe8 / project2",
 			  "path":"project2",
@@ -229,7 +229,7 @@ func TestGetGroupCluster(t *testing.T) {
 		},
 		ManagementProject: &ManagementProject{
 			ID:                2,
-			Description:       nil,
+			Description:       "skjdfgsdfg",
 			Name:              "project2",
 			NameWithNamespace: "John Doe8 / project2",
 			Path:              "project2",
@@ -368,7 +368,7 @@ func TestEditGroupCluster(t *testing.T) {
 			"management_project":
 			{
 			  "id":2,
-			  "description":null,
+			  "description":"sjdkfngjkdsfngdfgndfg",
 			  "name":"project2",
 			  "name_with_namespace":"John Doe8 / project2",
 			  "path":"project2",
@@ -437,7 +437,7 @@ func TestEditGroupCluster(t *testing.T) {
 		},
 		ManagementProject: &ManagementProject{
 			ID:                2,
-			Description:       nil,
+			Description:       "sjdkfngjkdsfngdfgndfg",
 			Name:              "project2",
 			NameWithNamespace: "John Doe8 / project2",
 			Path:              "project2",
