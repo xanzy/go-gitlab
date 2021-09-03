@@ -58,9 +58,9 @@ type authType int
 // GitLab API docs: https://docs.gitlab.com/ce/api/
 const (
 	basicAuth authType = iota
+	jobToken
 	oAuthToken
 	privateToken
-	jobToken
 )
 
 // A Client manages communication with the GitLab API.
@@ -215,18 +215,6 @@ func NewClient(token string, options ...ClientOptionFunc) (*Client, error) {
 	return client, nil
 }
 
-// NewJobClient returns a new GitLab API client. To use API methods which require
-// authentication, provide a valid job token.
-func NewJobClient(token string, options ...ClientOptionFunc) (*Client, error) {
-	client, err := newClient(options...)
-	if err != nil {
-		return nil, err
-	}
-	client.authType = jobToken
-	client.token = token
-	return client, nil
-}
-
 // NewBasicAuthClient returns a new GitLab API client. To use API methods which
 // require authentication, provide a valid username and password.
 func NewBasicAuthClient(username, password string, options ...ClientOptionFunc) (*Client, error) {
@@ -239,6 +227,18 @@ func NewBasicAuthClient(username, password string, options ...ClientOptionFunc) 
 	client.username = username
 	client.password = password
 
+	return client, nil
+}
+
+// NewJobClient returns a new GitLab API client. To use API methods which require
+// authentication, provide a valid job token.
+func NewJobClient(token string, options ...ClientOptionFunc) (*Client, error) {
+	client, err := newClient(options...)
+	if err != nil {
+		return nil, err
+	}
+	client.authType = jobToken
+	client.token = token
 	return client, nil
 }
 
@@ -658,12 +658,12 @@ func (c *Client) Do(req *retryablehttp.Request, v interface{}) (*Response, error
 			}
 		}
 		req.Header.Set("Authorization", "Bearer "+basicAuthToken)
+	case jobToken:
+		req.Header.Set("JOB-TOKEN", c.token)
 	case oAuthToken:
 		req.Header.Set("Authorization", "Bearer "+c.token)
 	case privateToken:
 		req.Header.Set("PRIVATE-TOKEN", c.token)
-	case jobToken:
-		req.Header.Set("JOB-TOKEN", c.token)
 	}
 
 	resp, err := c.client.Do(req)
