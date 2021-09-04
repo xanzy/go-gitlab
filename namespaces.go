@@ -47,6 +47,8 @@ type Namespace struct {
 	BillableMembersCount        int        `json:"billable_members_count"`
 	WebUrl                      string     `json:"web_url"`
 	TrialEndsOn                 *time.Time `json:"trial_ends_on"`
+	MaxSeatsUsed                *int       `json:"max_seats_used"`
+	SeatsInUse                  *int       `json:"seats_in_use"`
 }
 
 func (n Namespace) String() string {

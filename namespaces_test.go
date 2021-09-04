@@ -141,3 +141,54 @@ func TestListNamespaces(t *testing.T) {
 		})
 	}
 }
+
+func TestGetNamespace(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/namespaces/2", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		fmt.Fprintf(w, `{
+			"id": 2,
+			"name": "group1",
+			"path": "group1",
+			"kind": "group",
+			"full_path": "group1",
+			"avatar_url": null,
+			"web_url": "https://gitlab.example.com/groups/group1",
+			"members_count_with_descendants": 2,
+			"billable_members_count": 2,
+			"max_seats_used": 0,
+			"seats_in_use": 0,
+			"plan": "default",
+			"trial_ends_on": null,
+			"trial": false
+		  }`)
+	})
+
+	namespace, _, err := client.Namespaces.GetNamespace(2)
+	if err != nil {
+		t.Errorf("Namespaces.GetNamespace returned error: %v", err)
+	}
+
+	want := &Namespace{
+		ID:                          2,
+		Name:                        "group1",
+		Path:                        "group1",
+		Kind:                        "group",
+		FullPath:                    "group1",
+		AvatarUrl:                   nil,
+		WebUrl:                      "https://gitlab.example.com/groups/group1",
+		MembersCountWithDescendants: 2,
+		BillableMembersCount:        2,
+		MaxSeatsUsed:                Int(0),
+		SeatsInUse:                  Int(0),
+		Plan:                        "default",
+		TrialEndsOn:                 nil,
+		Trial:                       false,
+	}
+
+	if !reflect.DeepEqual(namespace, want) {
+		t.Errorf("Namespaces.ListNamespaces returned \ngot:\n%v\nwant:\n%v", Stringify(namespace), Stringify(want))
+	}
+}
