@@ -212,7 +212,7 @@ func TestNamespaceExists(t *testing.T) {
 	}
 	exists, _, err := client.Namespaces.NamespaceExists("my-group", opt)
 	if err != nil {
-		t.Errorf("Namespaces.NamespaceExists returned err: %v", err)
+		t.Errorf("Namespaces.NamespaceExists returned error: %v", err)
 	}
 
 	want := &NamespaceExistance{
@@ -221,5 +221,59 @@ func TestNamespaceExists(t *testing.T) {
 	}
 	if !reflect.DeepEqual(exists, want) {
 		t.Errorf("Namespaces.NamespaceExists returned \ngot:\n%v\nwant:\n%v", Stringify(exists), Stringify(want))
+	}
+}
+
+func TestSearchNamespace(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/namespaces", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		fmt.Fprintf(w, `[
+			{
+			  "id": 4,
+			  "name": "twitter",
+			  "path": "twitter",
+			  "kind": "group",
+			  "full_path": "twitter",
+			  "avatar_url": null,
+			  "web_url": "https://gitlab.example.com/groups/twitter",
+			  "members_count_with_descendants": 2,
+			  "billable_members_count": 2,
+			  "max_seats_used": 0,
+			  "seats_in_use": 0,
+			  "plan": "default",
+			  "trial_ends_on": null,
+			  "trial": false
+			}
+		  ]`)
+	})
+
+	namespaces, _, err := client.Namespaces.SearchNamespace("?search=twitter")
+	if err != nil {
+		t.Errorf("Namespaces.SearchNamespaces returned error: %v", err)
+	}
+
+	want := []*Namespace{
+		{
+			ID:                          4,
+			Name:                        "twitter",
+			Path:                        "twitter",
+			Kind:                        "group",
+			FullPath:                    "twitter",
+			AvatarUrl:                   nil,
+			WebUrl:                      "https://gitlab.example.com/groups/twitter",
+			MembersCountWithDescendants: 2,
+			BillableMembersCount:        2,
+			MaxSeatsUsed:                Int(0),
+			SeatsInUse:                  Int(0),
+			Plan:                        "default",
+			TrialEndsOn:                 nil,
+			Trial:                       false,
+		},
+	}
+	if !reflect.DeepEqual(namespaces, want) {
+		t.Errorf("Namespaces.SearchNamespaces returned \ngot:\n%v\nwant:\n%v", Stringify(namespaces), Stringify(want))
 	}
 }
