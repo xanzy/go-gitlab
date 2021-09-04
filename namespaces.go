@@ -19,6 +19,7 @@ package gitlab
 import (
 	"fmt"
 	"net/http"
+	"time"
 )
 
 // NamespacesService handles communication with the namespace related methods
@@ -33,13 +34,19 @@ type NamespacesService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/namespaces.html
 type Namespace struct {
-	ID                          int    `json:"id"`
-	Name                        string `json:"name"`
-	Path                        string `json:"path"`
-	Kind                        string `json:"kind"`
-	FullPath                    string `json:"full_path"`
-	ParentID                    int    `json:"parent_id"`
-	MembersCountWithDescendants int    `json:"members_count_with_descendants"`
+	ID                          int        `json:"id"`
+	Name                        string     `json:"name"`
+	Path                        string     `json:"path"`
+	Kind                        string     `json:"kind"`
+	FullPath                    string     `json:"full_path"`
+	ParentID                    int        `json:"parent_id"`
+	MembersCountWithDescendants int        `json:"members_count_with_descendants"`
+	AvatarUrl                   *string    `json:"avatar_url"`
+	Plan                        string     `json:"plan"`
+	Trial                       bool       `json:"trial"`
+	BillableMembersCount        int        `json:"billable_members_count"`
+	WebUrl                      string     `json:"web_url"`
+	TrialEndsOn                 *time.Time `json:"trial_ends_on"`
 }
 
 func (n Namespace) String() string {
@@ -51,7 +58,8 @@ func (n Namespace) String() string {
 // GitLab API docs: https://docs.gitlab.com/ce/api/namespaces.html#list-namespaces
 type ListNamespacesOptions struct {
 	ListOptions
-	Search *string `url:"search,omitempty" json:"search,omitempty"`
+	Search    *string `url:"search,omitempty" json:"search,omitempty"`
+	OwnedOnly *bool   `url:"owned_only,omitempty" json:"owned_only,omitempty"`
 }
 
 // ListNamespaces gets a list of projects accessible by the authenticated user.
