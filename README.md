@@ -34,6 +34,7 @@ to add new and/or missing endpoints. Currently the following services are suppor
 - [x] Events
 - [x] Feature Flags
 - [ ] Geo Nodes
+- [x] Pages
 - [x] GitLab CI Config Templates
 - [x] Gitignores Templates
 - [x] Group Access Requests

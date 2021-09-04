@@ -185,6 +185,7 @@ type Client struct {
 	Validate              *ValidateService
 	Version               *VersionService
 	Wikis                 *WikisService
+	GitlabPages           *PagesService
 }
 
 // ListOptions specifies the optional parameters to various List methods that
@@ -359,6 +360,7 @@ func newClient(options ...ClientOptionFunc) (*Client, error) {
 	c.Validate = &ValidateService{client: c}
 	c.Version = &VersionService{client: c}
 	c.Wikis = &WikisService{client: c}
+	c.GitlabPages = &PagesService{client: c}
 
 	return c, nil
 }
