@@ -51,6 +51,11 @@ type Namespace struct {
 	SeatsInUse                  *int       `json:"seats_in_use"`
 }
 
+type NamespaceExistance struct {
+	Exists   bool     `json:"exists"`
+	Suggests []string `json:"suggests"`
+}
+
 func (n Namespace) String() string {
 	return Stringify(n)
 }
@@ -62,6 +67,7 @@ type ListNamespacesOptions struct {
 	ListOptions
 	Search    *string `url:"search,omitempty" json:"search,omitempty"`
 	OwnedOnly *bool   `url:"owned_only,omitempty" json:"owned_only,omitempty"`
+	ParentId  *int    `url:"parent_id,omitempty" json:"parent_id,omitempty"`
 }
 
 // ListNamespaces gets a list of projects accessible by the authenticated user.
@@ -124,6 +130,27 @@ func (s *NamespacesService) GetNamespace(id interface{}, options ...RequestOptio
 	}
 
 	n := new(Namespace)
+	resp, err := s.client.Do(req, n)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return n, resp, err
+}
+
+func (s *NamespacesService) NamespaceExists(id interface{}, opt *ListNamespacesOptions, options ...RequestOptionFunc) (*NamespaceExistance, *Response, error) {
+	namespace, err := parseID(id)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("namespaces/%s/exists", namespace)
+
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	n := new(NamespaceExistance)
 	resp, err := s.client.Do(req, n)
 	if err != nil {
 		return nil, resp, err

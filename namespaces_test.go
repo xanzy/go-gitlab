@@ -192,3 +192,34 @@ func TestGetNamespace(t *testing.T) {
 		t.Errorf("Namespaces.ListNamespaces returned \ngot:\n%v\nwant:\n%v", Stringify(namespace), Stringify(want))
 	}
 }
+
+func TestNamespaceExists(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/namespaces/my-group/exists", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		fmt.Fprintf(w, `{
+			"exists": true,
+			"suggests": [
+				"my-group1"
+			]
+		}`)
+	})
+
+	opt := &ListNamespacesOptions{
+		ParentId: Int(1),
+	}
+	exists, _, err := client.Namespaces.NamespaceExists("my-group", opt)
+	if err != nil {
+		t.Errorf("Namespaces.NamespaceExists returned err: %v", err)
+	}
+
+	want := &NamespaceExistance{
+		Exists:   true,
+		Suggests: []string{"my-group1"},
+	}
+	if !reflect.DeepEqual(exists, want) {
+		t.Errorf("Namespaces.NamespaceExists returned \ngot:\n%v\nwant:\n%v", Stringify(exists), Stringify(want))
+	}
+}
