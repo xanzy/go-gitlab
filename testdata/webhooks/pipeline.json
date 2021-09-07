@@ -8,6 +8,7 @@
      "before_sha": "bcbb5ec396a2c0f828686f14fac9b80b780504f2",
      "source": "merge_request_event",
      "status": "success",
+     "detailed_status": "passed",
      "stages":[
         "build",
         "test",
@@ -16,6 +17,7 @@
      "created_at": "2016-08-12 15:23:28 UTC",
      "finished_at": "2016-08-12 15:26:29 UTC",
      "duration": 63,
+     "queued_duration": 12,
      "variables": [
        {
          "key": "NESTOR_PROD_ENVIRONMENT",

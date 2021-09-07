@@ -301,7 +301,15 @@ func TestPipelineEventUnmarshal(t *testing.T) {
 	}
 
 	if event.ObjectAttributes.ID != 31 {
-		t.Errorf("ObjectAttributes is %v, want %v", event.ObjectAttributes.ID, 1977)
+		t.Errorf("ObjectAttributes.ID is %v, want %v", event.ObjectAttributes.ID, 1977)
+	}
+
+	if event.ObjectAttributes.DetailedStatus != "passed" {
+		t.Errorf("ObjectAttributes.DetailedStatus is %v, want %v", event.ObjectAttributes.DetailedStatus, "passed")
+	}
+
+	if event.ObjectAttributes.QueuedDuration != 12 {
+		t.Errorf("ObjectAttributes.QueuedDuration is %v, want %v", event.ObjectAttributes.QueuedDuration, 12)
 	}
 
 	if event.User.ID != 42 {
