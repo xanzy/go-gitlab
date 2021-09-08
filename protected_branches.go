@@ -138,6 +138,7 @@ type ProtectRepositoryBranchesOptions struct {
 type BranchPermissionOptions struct {
 	UserID      *int              `url:"user_id,omitempty" json:"user_id,omitempty"`
 	GroupID     *int              `url:"group_id,omitempty" json:"group_id,omitempty"`
+	DeployKeyID *int              `url:"deploy_key_id,omitempty" json:"deploy_key_id,omitempty"`
 	AccessLevel *AccessLevelValue `url:"access_level,omitempty" json:"access_level,omitempty"`
 }
 

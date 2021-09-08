@@ -478,8 +478,8 @@ type SquashOptionValue string
 const (
 	SquashOptionNever      SquashOptionValue = "never"
 	SquashOptionAlways     SquashOptionValue = "always"
-	SquashOptionDefaultOff SquashOptionValue = "default_on"
-	SquashOptionDefaultOn  SquashOptionValue = "default_off"
+	SquashOptionDefaultOff SquashOptionValue = "default_off"
+	SquashOptionDefaultOn  SquashOptionValue = "default_on"
 )
 
 // SquashOption is a helper routine that allocates a new SquashOptionValue

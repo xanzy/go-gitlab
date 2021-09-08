@@ -495,7 +495,9 @@ func (s *CommitsService) GetMergeRequestsByCommit(pid interface{}, sha string, o
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/commits.html#cherry-pick-a-commit
 type CherryPickCommitOptions struct {
-	Branch *string `url:"branch,omitempty" json:"branch,omitempty"`
+	Branch  *string `url:"branch,omitempty" json:"branch,omitempty"`
+	DryRun  *bool   `url:"dry_run,omitempty" json:"dry_run,omitempty"`
+	Message *string `url:"message,omitempty" json:"message,omitempty"`
 }
 
 // CherryPickCommit cherry picks a commit to a given branch.
