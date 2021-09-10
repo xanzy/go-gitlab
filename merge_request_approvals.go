@@ -44,6 +44,7 @@ type MergeRequestApprovals struct {
 	CreatedAt            *time.Time                   `json:"created_at"`
 	UpdatedAt            *time.Time                   `json:"updated_at"`
 	MergeStatus          string                       `json:"merge_status"`
+	Approved             bool                         `json:"approved"`
 	ApprovalsBeforeMerge int                          `json:"approvals_before_merge"`
 	ApprovalsRequired    int                          `json:"approvals_required"`
 	ApprovalsLeft        int                          `json:"approvals_left"`
