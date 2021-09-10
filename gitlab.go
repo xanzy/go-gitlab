@@ -151,6 +151,7 @@ type Client struct {
 	Notes                 *NotesService
 	NotificationSettings  *NotificationSettingsService
 	Packages              *PackagesService
+	Pages                 *PagesService
 	PagesDomains          *PagesDomainsService
 	PipelineSchedules     *PipelineSchedulesService
 	PipelineTriggers      *PipelineTriggersService
@@ -337,6 +338,7 @@ func newClient(options ...ClientOptionFunc) (*Client, error) {
 	c.Notes = &NotesService{client: c}
 	c.NotificationSettings = &NotificationSettingsService{client: c}
 	c.Packages = &PackagesService{client: c}
+	c.Pages = &PagesService{client: c}
 	c.PagesDomains = &PagesDomainsService{client: c}
 	c.PipelineSchedules = &PipelineSchedulesService{client: c}
 	c.PipelineTriggers = &PipelineTriggersService{client: c}
