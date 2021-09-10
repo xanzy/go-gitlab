@@ -499,6 +499,7 @@ type MergeEvent struct {
 		TimeEstimate             int          `json:"time_estimate"`
 		Source                   *Repository  `json:"source"`
 		Target                   *Repository  `json:"target"`
+		HeadPipelineID           *int         `json:"head_pipeline_id"`
 		LastCommit               struct {
 			ID        string     `json:"id"`
 			Message   string     `json:"message"`
