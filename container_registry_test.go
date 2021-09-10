@@ -181,7 +181,6 @@ func TestGetRegistryRepositoryTagDetail(t *testing.T) {
 		t.Errorf("ContainerRegistry.GetRegistryRepositoryTagDetail returned error: %v", err)
 	}
 
-	timeLayout := "2006-01-02T15:04:05Z07:00"
 	createdAt, err := time.Parse(timeLayout, "2019-01-06T16:49:51.272+00:00")
 	if err != nil {
 		t.Errorf("ContainerRepository.ListRegistryRepositories error while parsing time: %v", err)

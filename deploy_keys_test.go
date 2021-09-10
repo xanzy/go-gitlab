@@ -51,7 +51,6 @@ func TestListAllDeployKeys(t *testing.T) {
 		t.Errorf("DeployKeys.ListAllDeployKeys returned error: %v", err)
 	}
 
-	timeLayout := "2006-01-02T15:04:05Z07:00"
 	createdAt, err := time.Parse(timeLayout, "2013-10-02T10:12:29Z")
 	if err != nil {
 		t.Errorf("DeployKeys.ListAllDeployKeys returned an error while parsing time: %v", err)
@@ -110,7 +109,6 @@ func TestListProjectDeployKeys(t *testing.T) {
 		t.Errorf("DeployKeys.ListProjectDeployKeys returned error: %v", err)
 	}
 
-	timeLayout := "2006-01-02T15:04:05Z07:00"
 	createdAt, err := time.Parse(timeLayout, "2013-10-02T10:12:29Z")
 	if err != nil {
 		t.Errorf("DeployKeys.ListAllDeployKeys returned an error while parsing time: %v", err)
@@ -162,7 +160,6 @@ func TestGetDeployKey(t *testing.T) {
 		t.Errorf("DeployKeys.GetDeployKey returned error: %v", err)
 	}
 
-	timeLayout := "2006-01-02T15:04:05Z07:00"
 	createdAt, err := time.Parse(timeLayout, "2013-10-02T10:12:29Z")
 	if err != nil {
 		t.Errorf("DeployKeys.ListAllDeployKeys returned an error while parsing time: %v", err)
@@ -205,7 +202,6 @@ func TestAddDeployKey(t *testing.T) {
 		t.Errorf("DeployKey.AddDeployKey returned error: %v", err)
 	}
 
-	timeLayout := "2006-01-02T15:04:05Z07:00"
 	createdAt, err := time.Parse(timeLayout, "2015-08-29T12:44:31.550Z")
 	if err != nil {
 		t.Errorf("DeployKeys.ListAllDeployKeys returned an error while parsing time: %v", err)
@@ -256,7 +252,6 @@ func TestEnableDeployKey(t *testing.T) {
 		t.Errorf("DeployKeys.EnableDeployKey returned error: %v", err)
 	}
 
-	timeLayout := "2006-01-02T15:04:05Z07:00"
 	createdAt, err := time.Parse(timeLayout, "2015-08-29T12:44:31.550Z")
 	if err != nil {
 		t.Errorf("DeployKeys.ListAllDeployKeys returned an error while parsing time: %v", err)
@@ -297,7 +292,6 @@ func TestUpdateDeployKey(t *testing.T) {
 		t.Errorf("DeployKeys.UpdateDeployKey returned error: %v", err)
 	}
 
-	timeLayout := "2006-01-02T15:04:05Z07:00"
 	createdAt, err := time.Parse(timeLayout, "2015-08-29T12:44:31.550Z")
 	if err != nil {
 		t.Errorf("DeployKeys.ListAllDeployKeys returned an error while parsing time: %v", err)

@@ -55,7 +55,7 @@ func TestGroupListClusters(t *testing.T) {
 			  {
 				"api_url":"https://104.197.68.152",
 				"authorization_type":"rbac",
-				"ca_cert":"-----BEGIN CERTIFICATE-----\r\nhFiK1L61owwDQYJKoZIhvcNAQELBQAw\r\nLzEtMCsGA1UEAxMkZDA1YzQ1YjctNzdiMS00NDY0LThjNmEtMTQ0ZDJkZjM4ZDBj\r\nMB4XDTE4MTIyNzIwMDM1MVoXDTIzMTIyNjIxMDM1MVowLzEtMCsGA1UEAxMkZDA1\r\nYzQ1YjctNzdiMS00NDY0LThjNmEtMTQ0ZDJkZjM.......-----END CERTIFICATE-----"
+			    "ca_cert":"-----BEGIN CERTIFICATE-----\r\nAAAAA\r\n-----END CERTIFICATE-----"
 			  },
 			  "management_project":
 			  {
@@ -80,7 +80,6 @@ func TestGroupListClusters(t *testing.T) {
 		t.Errorf("GroupCluster.ListClusters returned error: %v", err)
 	}
 
-	timeLayout := "2006-01-02T15:04:05Z07:00"
 	createdAt, err := time.Parse(timeLayout, "2019-01-02T20:18:12.563Z")
 	if err != nil {
 		t.Errorf("DeployKeys.ListAllDeployKeys returned an error while parsing time: %v", err)
@@ -114,7 +113,7 @@ func TestGroupListClusters(t *testing.T) {
 			PlatformKubernetes: &PlatformKubernetes{
 				APIURL:            "https://104.197.68.152",
 				AuthorizationType: "rbac",
-				CaCert:            "-----BEGIN CERTIFICATE-----\r\nhFiK1L61owwDQYJKoZIhvcNAQELBQAw\r\nLzEtMCsGA1UEAxMkZDA1YzQ1YjctNzdiMS00NDY0LThjNmEtMTQ0ZDJkZjM4ZDBj\r\nMB4XDTE4MTIyNzIwMDM1MVoXDTIzMTIyNjIxMDM1MVowLzEtMCsGA1UEAxMkZDA1\r\nYzQ1YjctNzdiMS00NDY0LThjNmEtMTQ0ZDJkZjM.......-----END CERTIFICATE-----",
+				CaCert:            "-----BEGIN CERTIFICATE-----\r\nAAAAA\r\n-----END CERTIFICATE-----",
 			},
 			ManagementProject: &ManagementProject{
 				ID:                2,
@@ -166,7 +165,7 @@ func TestGetGroupCluster(t *testing.T) {
 			{
 			  "api_url":"https://104.197.68.152",
 			  "authorization_type":"rbac",
-			  "ca_cert":"-----BEGIN CERTIFICATE-----\r\nhFiK1L61owwDQYJKoZIhvcNAQELBQAw\r\nLzEtMCsGA1UEAxMkZDA1YzQ1YjctNzdiMS00NDY0LThjNmEtMTQ0ZDJkZjM4ZDBj\r\nMB4XDTE4MTIyNzIwMDM1MVoXDTIzMTIyNjIxMDM1MVowLzEtMCsGA1UEAxMkZDA1\r\nYzQ1YjctNzdiMS00NDY0LThjNmEtMTQ0ZDJkZjM.......-----END CERTIFICATE-----"
+			  "ca_cert":"-----BEGIN CERTIFICATE-----\r\nAAAAA\r\n-----END CERTIFICATE-----"
 			},
 			"management_project":
 			{
@@ -192,7 +191,6 @@ func TestGetGroupCluster(t *testing.T) {
 		t.Errorf("GroupCluster.GetCluster returned error: %v", err)
 	}
 
-	timeLayout := "2006-01-02T15:04:05Z07:00"
 	createdAt, err := time.Parse(timeLayout, "2019-01-02T20:18:12.563Z")
 	if err != nil {
 		t.Errorf("DeployKeys.ListAllDeployKeys returned an error while parsing time: %v", err)
@@ -225,7 +223,7 @@ func TestGetGroupCluster(t *testing.T) {
 		PlatformKubernetes: &PlatformKubernetes{
 			APIURL:            "https://104.197.68.152",
 			AuthorizationType: "rbac",
-			CaCert:            "-----BEGIN CERTIFICATE-----\r\nhFiK1L61owwDQYJKoZIhvcNAQELBQAw\r\nLzEtMCsGA1UEAxMkZDA1YzQ1YjctNzdiMS00NDY0LThjNmEtMTQ0ZDJkZjM4ZDBj\r\nMB4XDTE4MTIyNzIwMDM1MVoXDTIzMTIyNjIxMDM1MVowLzEtMCsGA1UEAxMkZDA1\r\nYzQ1YjctNzdiMS00NDY0LThjNmEtMTQ0ZDJkZjM.......-----END CERTIFICATE-----",
+			CaCert:            "-----BEGIN CERTIFICATE-----\r\nAAAAA\r\n-----END CERTIFICATE-----",
 		},
 		ManagementProject: &ManagementProject{
 			ID:                2,
@@ -276,7 +274,7 @@ func TestAddGroupCluster(t *testing.T) {
 			{
 			  "api_url":"https://35.111.51.20",
 			  "authorization_type":"rbac",
-			  "ca_cert":"-----BEGIN CERTIFICATE-----\r\nhFiK1L61owwDQYJKoZIhvcNAQELBQAw\r\nLzEtMCsGA1UEAxMkZDA1YzQ1YjctNzdiMS00NDY0LThjNmEtMTQ0ZDJkZjM4ZDBj\r\nMB4XDTE4MTIyNzIwMDM1MVoXDTIzMTIyNjIxMDM1MVowLzEtMCsGA1UEAxMkZDA1\r\nYzQ1YjctNzdiMS00NDY0LThjNmEtMTQ0ZDJkZjM.......-----END CERTIFICATE-----"
+			  "ca_cert":"-----BEGIN CERTIFICATE-----\r\nAAAAA\r\n-----END CERTIFICATE-----"
 			},
 			"management_project":null,
 			"group":
@@ -293,7 +291,6 @@ func TestAddGroupCluster(t *testing.T) {
 		t.Errorf("GroupCluster.AddCluster returned error: %v", err)
 	}
 
-	timeLayout := "2006-01-02T15:04:05Z07:00"
 	createdAt, err := time.Parse(timeLayout, "2019-01-03T21:53:40.610Z")
 	if err != nil {
 		t.Errorf("DeployKeys.ListAllDeployKeys returned an error while parsing time: %v", err)
@@ -320,7 +317,7 @@ func TestAddGroupCluster(t *testing.T) {
 		PlatformKubernetes: &PlatformKubernetes{
 			APIURL:            "https://35.111.51.20",
 			AuthorizationType: "rbac",
-			CaCert:            "-----BEGIN CERTIFICATE-----\r\nhFiK1L61owwDQYJKoZIhvcNAQELBQAw\r\nLzEtMCsGA1UEAxMkZDA1YzQ1YjctNzdiMS00NDY0LThjNmEtMTQ0ZDJkZjM4ZDBj\r\nMB4XDTE4MTIyNzIwMDM1MVoXDTIzMTIyNjIxMDM1MVowLzEtMCsGA1UEAxMkZDA1\r\nYzQ1YjctNzdiMS00NDY0LThjNmEtMTQ0ZDJkZjM.......-----END CERTIFICATE-----",
+			CaCert:            "-----BEGIN CERTIFICATE-----\r\nAAAAA\r\n-----END CERTIFICATE-----",
 		},
 		ManagementProject: nil,
 		Group: &Group{
@@ -387,13 +384,13 @@ func TestEditGroupCluster(t *testing.T) {
 	name := "new-cluster-name"
 	domain := "new-domain.com"
 	enviromentScope := "*"
-	apiUrl := "https://new-api-url.com"
+	apiURL := "https://new-api-url.com"
 	opt := &EditGroupClusterOptions{
 		Name:             &name,
 		Domain:           &domain,
 		EnvironmentScope: &enviromentScope,
 		PlatformKubernetes: &EditGroupPlatformKubernetesOptions{
-			APIURL: &apiUrl,
+			APIURL: &apiURL,
 		},
 	}
 	cluster, _, err := client.GroupCluster.EditCluster(26, 24, opt)
@@ -401,7 +398,6 @@ func TestEditGroupCluster(t *testing.T) {
 		t.Errorf("GroupCluster.EditCluster returned error: %v", err)
 	}
 
-	timeLayout := "2006-01-02T15:04:05Z07:00"
 	createdAt, err := time.Parse(timeLayout, "2019-01-03T21:53:40.610Z")
 	if err != nil {
 		t.Errorf("DeployKeys.ListAllDeployKeys returned an error while parsing time: %v", err)
