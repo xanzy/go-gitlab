@@ -40,20 +40,15 @@ type Namespace struct {
 	Kind                        string     `json:"kind"`
 	FullPath                    string     `json:"full_path"`
 	ParentID                    int        `json:"parent_id"`
+	AvatarURL                   *string    `json:"avatar_url"`
+	WebURL                      string     `json:"web_url"`
 	MembersCountWithDescendants int        `json:"members_count_with_descendants"`
-	AvatarUrl                   *string    `json:"avatar_url"`
-	Plan                        string     `json:"plan"`
-	Trial                       bool       `json:"trial"`
 	BillableMembersCount        int        `json:"billable_members_count"`
-	WebUrl                      string     `json:"web_url"`
+	Plan                        string     `json:"plan"`
 	TrialEndsOn                 *time.Time `json:"trial_ends_on"`
+	Trial                       bool       `json:"trial"`
 	MaxSeatsUsed                *int       `json:"max_seats_used"`
 	SeatsInUse                  *int       `json:"seats_in_use"`
-}
-
-type NamespaceExistance struct {
-	Exists   bool     `json:"exists"`
-	Suggests []string `json:"suggests"`
 }
 
 func (n Namespace) String() string {
@@ -67,7 +62,6 @@ type ListNamespacesOptions struct {
 	ListOptions
 	Search    *string `url:"search,omitempty" json:"search,omitempty"`
 	OwnedOnly *bool   `url:"owned_only,omitempty" json:"owned_only,omitempty"`
-	ParentId  *int    `url:"parent_id,omitempty" json:"parent_id,omitempty"`
 }
 
 // ListNamespaces gets a list of projects accessible by the authenticated user.
@@ -138,7 +132,28 @@ func (s *NamespacesService) GetNamespace(id interface{}, options ...RequestOptio
 	return n, resp, err
 }
 
-func (s *NamespacesService) NamespaceExists(id interface{}, opt *ListNamespacesOptions, options ...RequestOptionFunc) (*NamespaceExistance, *Response, error) {
+// NamespaceExistance represents a namespace exists result.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/namespaces.html#get-existence-of-a-namespace
+type NamespaceExistance struct {
+	Exists   bool     `json:"exists"`
+	Suggests []string `json:"suggests"`
+}
+
+// NamespaceExistsOptions represents the available NamespaceExists() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/namespaces.html#get-existence-of-a-namespace
+type NamespaceExistsOptions struct {
+	ParentID *int `url:"parent_id,omitempty" json:"parent_id,omitempty"`
+}
+
+// NamespaceExists checks the existence of a namespace.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/namespaces.html#get-existence-of-a-namespace
+func (s *NamespacesService) NamespaceExists(id interface{}, opt *NamespaceExistsOptions, options ...RequestOptionFunc) (*NamespaceExistance, *Response, error) {
 	namespace, err := parseID(id)
 	if err != nil {
 		return nil, nil, err

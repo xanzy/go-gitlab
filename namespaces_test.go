@@ -74,9 +74,9 @@ func TestListNamespaces(t *testing.T) {
 	})
 
 	testCases := []struct {
-		event      string
-		search     *string
-		owned_only *bool
+		event     string
+		search    *string
+		ownedOnly *bool
 	}{
 		{"with_nothing", nil, nil},
 		{"with_search", String("foobar"), nil},
@@ -85,7 +85,7 @@ func TestListNamespaces(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.event, func(t *testing.T) {
-			namespaces, _, err := client.Namespaces.ListNamespaces(&ListNamespacesOptions{Search: tc.search, OwnedOnly: tc.owned_only})
+			namespaces, _, err := client.Namespaces.ListNamespaces(&ListNamespacesOptions{Search: tc.search, OwnedOnly: tc.ownedOnly})
 			if err != nil {
 				t.Errorf("Namespaces.ListNamespaces returned error: %v", err)
 			}
@@ -97,8 +97,8 @@ func TestListNamespaces(t *testing.T) {
 					Path:                 "user1",
 					Kind:                 "user",
 					FullPath:             "user1",
-					AvatarUrl:            String("https://secure.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=80&d=identicon"),
-					WebUrl:               "https://gitlab.example.com/user1",
+					AvatarURL:            String("https://secure.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=80&d=identicon"),
+					WebURL:               "https://gitlab.example.com/user1",
 					Plan:                 "default",
 					BillableMembersCount: 1,
 					TrialEndsOn:          nil,
@@ -110,8 +110,8 @@ func TestListNamespaces(t *testing.T) {
 					Path:                        "group1",
 					Kind:                        "group",
 					FullPath:                    "group1",
-					AvatarUrl:                   nil,
-					WebUrl:                      "https://gitlab.example.com/groups/group1",
+					AvatarURL:                   nil,
+					WebURL:                      "https://gitlab.example.com/groups/group1",
 					MembersCountWithDescendants: 2,
 					BillableMembersCount:        2,
 					Plan:                        "default",
@@ -125,8 +125,8 @@ func TestListNamespaces(t *testing.T) {
 					Kind:                        "group",
 					FullPath:                    "foo/bar",
 					ParentID:                    9,
-					AvatarUrl:                   nil,
-					WebUrl:                      "https://gitlab.example.com/groups/foo/bar",
+					AvatarURL:                   nil,
+					WebURL:                      "https://gitlab.example.com/groups/foo/bar",
 					MembersCountWithDescendants: 5,
 					BillableMembersCount:        5,
 					Plan:                        "default",
@@ -177,8 +177,8 @@ func TestGetNamespace(t *testing.T) {
 		Path:                        "group1",
 		Kind:                        "group",
 		FullPath:                    "group1",
-		AvatarUrl:                   nil,
-		WebUrl:                      "https://gitlab.example.com/groups/group1",
+		AvatarURL:                   nil,
+		WebURL:                      "https://gitlab.example.com/groups/group1",
 		MembersCountWithDescendants: 2,
 		BillableMembersCount:        2,
 		MaxSeatsUsed:                Int(0),
@@ -207,8 +207,8 @@ func TestNamespaceExists(t *testing.T) {
 		}`)
 	})
 
-	opt := &ListNamespacesOptions{
-		ParentId: Int(1),
+	opt := &NamespaceExistsOptions{
+		ParentID: Int(1),
 	}
 	exists, _, err := client.Namespaces.NamespaceExists("my-group", opt)
 	if err != nil {
@@ -262,8 +262,8 @@ func TestSearchNamespace(t *testing.T) {
 			Path:                        "twitter",
 			Kind:                        "group",
 			FullPath:                    "twitter",
-			AvatarUrl:                   nil,
-			WebUrl:                      "https://gitlab.example.com/groups/twitter",
+			AvatarURL:                   nil,
+			WebURL:                      "https://gitlab.example.com/groups/twitter",
 			MembersCountWithDescendants: 2,
 			BillableMembersCount:        2,
 			MaxSeatsUsed:                Int(0),
