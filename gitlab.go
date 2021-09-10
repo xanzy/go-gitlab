@@ -826,3 +826,14 @@ func parseError(raw interface{}) string {
 		return fmt.Sprintf("failed to parse unexpected error type: %T", raw)
 	}
 }
+
+// WithToken сhanges the token, but does not change the authorization method.
+// For change authorization method create new Client.
+func (c *Client) WithToken(token string) *Client {
+	c.tokenLock.Lock()
+	defer c.tokenLock.Unlock()
+
+	c.token = token
+
+	return c
+}
