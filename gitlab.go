@@ -636,10 +636,22 @@ func (c *Client) Do(req *retryablehttp.Request, v interface{}) (*Response, error
 	// silently as the limiter will be disabled in case of an error.
 	c.configureLimiterOnce.Do(func() { c.configureLimiter(req.Context()) })
 
+	ctx := req.Context()
+
 	// Wait will block until the limiter can obtain a new token.
-	err := c.limiter.Wait(req.Context())
+	err := c.limiter.Wait(ctx)
 	if err != nil {
 		return nil, err
+	}
+
+	var token string
+	c.tokenLock.RLock()
+	token = c.token
+	c.tokenLock.RUnlock()
+
+	authToken := TokenFromContext(ctx)
+	if authToken != nil {
+		token = *authToken
 	}
 
 	// Set the correct authentication header. If using basic auth, then check
@@ -647,9 +659,7 @@ func (c *Client) Do(req *retryablehttp.Request, v interface{}) (*Response, error
 	var basicAuthToken string
 	switch c.authType {
 	case basicAuth:
-		c.tokenLock.RLock()
-		basicAuthToken = c.token
-		c.tokenLock.RUnlock()
+		basicAuthToken = token
 		if basicAuthToken == "" {
 			// If we don't have a token yet, we first need to request one.
 			basicAuthToken, err = c.requestOAuthToken(req.Context(), basicAuthToken)
@@ -659,11 +669,11 @@ func (c *Client) Do(req *retryablehttp.Request, v interface{}) (*Response, error
 		}
 		req.Header.Set("Authorization", "Bearer "+basicAuthToken)
 	case jobToken:
-		req.Header.Set("JOB-TOKEN", c.token)
+		req.Header.Set("JOB-TOKEN", token)
 	case oAuthToken:
-		req.Header.Set("Authorization", "Bearer "+c.token)
+		req.Header.Set("Authorization", "Bearer "+token)
 	case privateToken:
-		req.Header.Set("PRIVATE-TOKEN", c.token)
+		req.Header.Set("PRIVATE-TOKEN", token)
 	}
 
 	resp, err := c.client.Do(req)
@@ -825,15 +835,4 @@ func parseError(raw interface{}) string {
 	default:
 		return fmt.Sprintf("failed to parse unexpected error type: %T", raw)
 	}
-}
-
-// WithToken сhanges the token, but does not change the authorization method.
-// For change authorization method create new Client.
-func (c *Client) WithToken(token string) *Client {
-	c.tokenLock.Lock()
-	defer c.tokenLock.Unlock()
-
-	c.token = token
-
-	return c
 }
