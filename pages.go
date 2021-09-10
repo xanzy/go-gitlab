@@ -25,7 +25,7 @@ type PagesService struct {
 	client *Client
 }
 
-// Remove pages. The user must have admin privileges.
+// UnpublishPages unpublished pages. The user must have admin privileges.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/pages.html#unpublish-pages

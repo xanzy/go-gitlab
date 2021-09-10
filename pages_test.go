@@ -29,8 +29,8 @@ func TestUnpublishPages(t *testing.T) {
 		testMethod(t, r, http.MethodDelete)
 	})
 
-	_, err := client.GitlabPages.UnpublishPages(2)
+	_, err := client.Pages.UnpublishPages(2)
 	if err != nil {
-		t.Errorf("GitlabPages.UnpublishPages returned error: %v", err)
+		t.Errorf("Pages.UnpublishPages returned error: %v", err)
 	}
 }

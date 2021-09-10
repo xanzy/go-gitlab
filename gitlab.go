@@ -150,6 +150,7 @@ type Client struct {
 	Notes                 *NotesService
 	NotificationSettings  *NotificationSettingsService
 	Packages              *PackagesService
+	Pages                 *PagesService
 	PagesDomains          *PagesDomainsService
 	PipelineSchedules     *PipelineSchedulesService
 	PipelineTriggers      *PipelineTriggersService
@@ -185,7 +186,6 @@ type Client struct {
 	Validate              *ValidateService
 	Version               *VersionService
 	Wikis                 *WikisService
-	GitlabPages           *PagesService
 }
 
 // ListOptions specifies the optional parameters to various List methods that
@@ -325,6 +325,7 @@ func newClient(options ...ClientOptionFunc) (*Client, error) {
 	c.Notes = &NotesService{client: c}
 	c.NotificationSettings = &NotificationSettingsService{client: c}
 	c.Packages = &PackagesService{client: c}
+	c.Pages = &PagesService{client: c}
 	c.PagesDomains = &PagesDomainsService{client: c}
 	c.PipelineSchedules = &PipelineSchedulesService{client: c}
 	c.PipelineTriggers = &PipelineTriggersService{client: c}
@@ -360,7 +361,6 @@ func newClient(options ...ClientOptionFunc) (*Client, error) {
 	c.Validate = &ValidateService{client: c}
 	c.Version = &VersionService{client: c}
 	c.Wikis = &WikisService{client: c}
-	c.GitlabPages = &PagesService{client: c}
 
 	return c, nil
 }
