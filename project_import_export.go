@@ -18,8 +18,13 @@ package gitlab
 
 import (
 	"bytes"
+	"encoding/json"
 	"fmt"
+	"io"
+	"mime/multipart"
 	"net/http"
+	"os"
+	"strings"
 	"time"
 )
 
@@ -162,6 +167,7 @@ func (s *ProjectImportExportService) ExportDownload(pid interface{}, options ...
 // https://docs.gitlab.com/ce/api/project_import_export.html#import-a-file
 type ImportFileOptions struct {
 	Namespace      *string               `url:"namespace,omitempty" json:"namespace,omitempty"`
+	Name           *string               `url:"name,omitempty" json:"name,omitempty"`
 	File           *string               `url:"file,omitempty" json:"file,omitempty"`
 	Path           *string               `url:"path,omitempty" json:"path,omitempty"`
 	Overwrite      *bool                 `url:"overwrite,omitempty" json:"overwrite,omitempty"`
@@ -173,10 +179,41 @@ type ImportFileOptions struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/project_import_export.html#import-a-file
 func (s *ProjectImportExportService) ImportFile(opt *ImportFileOptions, options ...RequestOptionFunc) (*ImportStatus, *Response, error) {
-	req, err := s.client.NewRequest(http.MethodPost, "projects/import", opt, options)
+	file, err := os.Open(*opt.File)
 	if err != nil {
 		return nil, nil, err
 	}
+	defer file.Close()
+	var b bytes.Buffer
+	writer := multipart.NewWriter(&b)
+	var optMap map[string]interface{}
+	optMarshalled, err := json.Marshal(opt)
+	if err != nil {
+		return nil, nil, err
+	}
+	json.Unmarshal(optMarshalled, &optMap)
+
+	for key, value := range optMap {
+		if strings.ToLower(key) == "file" {
+			part, err := writer.CreateFormFile("file", file.Name())
+			if err != nil {
+				return nil, nil, err
+			}
+			_, err = io.Copy(part, file)
+		} else {
+			_ = writer.WriteField(strings.ToLower(key), fmt.Sprintf("%v", value))
+		}
+	}
+
+	err = writer.Close()
+	if err != nil {
+		return nil, nil, err
+	}
+	req, err := s.client.NewRequest(http.MethodPost, "projects/import", &b, options)
+	if err != nil {
+		return nil, nil, err
+	}
+	req.Header.Set("Content-Type", writer.FormDataContentType())
 
 	is := new(ImportStatus)
 	resp, err := s.client.Do(req, is)
