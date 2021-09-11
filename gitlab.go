@@ -156,6 +156,7 @@ type Client struct {
 	PipelineSchedules     *PipelineSchedulesService
 	PipelineTriggers      *PipelineTriggersService
 	Pipelines             *PipelinesService
+	PlanLimits            *PlanLimitsService
 	ProjectBadges         *ProjectBadgesService
 	ProjectAccessTokens   *ProjectAccessTokensService
 	ProjectCluster        *ProjectClustersService
@@ -343,6 +344,7 @@ func newClient(options ...ClientOptionFunc) (*Client, error) {
 	c.PipelineSchedules = &PipelineSchedulesService{client: c}
 	c.PipelineTriggers = &PipelineTriggersService{client: c}
 	c.Pipelines = &PipelinesService{client: c}
+	c.PlanLimits = &PlanLimitsService{client: c}
 	c.ProjectBadges = &ProjectBadgesService{client: c}
 	c.ProjectAccessTokens = &ProjectAccessTokensService{client: c}
 	c.ProjectCluster = &ProjectClustersService{client: c}
