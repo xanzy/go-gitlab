@@ -25,6 +25,7 @@ const (
 		"run_untagged": true,
 		"id": 6,
 		"is_shared": false,
+		"runner_type": "project_type",
 		"contacted_at": "2016-01-25T16:39:48.066Z",
 		"name": null,
 		"online": true,

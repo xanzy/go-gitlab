@@ -39,6 +39,7 @@ type Runner struct {
 	Active      bool   `json:"active"`
 	IsShared    bool   `json:"is_shared"`
 	IPAddress   string `json:"ip_address"`
+	RunnerType  string `json:"runner_type"`
 	Name        string `json:"name"`
 	Online      bool   `json:"online"`
 	Status      string `json:"status"`
@@ -55,6 +56,7 @@ type RunnerDetails struct {
 	ID           int        `json:"id"`
 	IPAddress    string     `json:"ip_address"`
 	IsShared     bool       `json:"is_shared"`
+	RunnerType   string     `json:"runner_type"`
 	ContactedAt  *time.Time `json:"contacted_at"`
 	Name         string     `json:"name"`
 	Online       bool       `json:"online"`
