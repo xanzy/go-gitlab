@@ -327,6 +327,14 @@ func TestPipelineEventUnmarshal(t *testing.T) {
 	if name := event.Commit.Author.Name; name != "User" {
 		t.Errorf("Commit Username is %s, want %s", name, "User")
 	}
+
+	if len(event.Builds) != 5 {
+		t.Errorf("Builds length is %d, want %d", len(event.Builds), 5)
+	}
+
+	if event.Builds[0].AllowFailure != true {
+		t.Errorf("Builds.0.AllowFailure is %v, want %v", event.Builds[0].AllowFailure, true)
+	}
 }
 
 func TestPushEventUnmarshal(t *testing.T) {
