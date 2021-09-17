@@ -2,10 +2,11 @@ package gitlab
 
 import (
 	"fmt"
-	"github.com/stretchr/testify/require"
 	"net/http"
 	"testing"
 	"time"
+
+	"github.com/stretchr/testify/require"
 )
 
 func TestSystemHooksService_ListHooks(t *testing.T) {
@@ -19,7 +20,7 @@ func TestSystemHooksService_ListHooks(t *testing.T) {
 
 	hooks, _, err := client.SystemHooks.ListHooks()
 	require.NoError(t, err)
-	
+
 	want := []*Hook{{ID: 1, URL: "https://gitlab.example.com/hook"}}
 	require.Equal(t, want, hooks)
 }
@@ -37,11 +38,11 @@ func TestSystemHooksService_AddHook(t *testing.T) {
 		URL: String("https://gitlab.example.com/hook"),
 	}
 
-	h, _, err := client.SystemHooks.AddHook(opt)
+	hook, _, err := client.SystemHooks.AddHook(opt)
 	require.NoError(t, err)
-	
+
 	want := &Hook{ID: 1, URL: "https://gitlab.example.com/hook", CreatedAt: (*time.Time)(nil)}
-	require.Equal(t, want, h)
+	require.Equal(t, want, hook)
 }
 
 func TestSystemHooksService_TestHook(t *testing.T) {
@@ -54,9 +55,9 @@ func TestSystemHooksService_TestHook(t *testing.T) {
 				"name" : "Ruby","path" : "ruby","event_name" : "project_create"}`)
 	})
 
-	he, _, err := client.SystemHooks.TestHook(1)
+	hook, _, err := client.SystemHooks.TestHook(1)
 	require.NoError(t, err)
-	
+
 	want := &HookEvent{
 		EventName:  "project_create",
 		Name:       "Ruby",
@@ -65,7 +66,7 @@ func TestSystemHooksService_TestHook(t *testing.T) {
 		OwnerName:  "Someone",
 		OwnerEmail: "example@gitlabhq.com",
 	}
-	require.Equal(t, want, he)
+	require.Equal(t, want, hook)
 }
 
 func TestSystemHooksService_DeleteHook(t *testing.T) {
