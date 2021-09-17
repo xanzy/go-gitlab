@@ -16,9 +16,10 @@ func TestSystemHooksService_ListHooks(t *testing.T) {
 		testMethod(t, r, http.MethodGet)
 		fmt.Fprint(w, `[{"id":1,"url":"https://gitlab.example.com/hook"}]`)
 	})
-	hooks, _, err := client.SystemHooks.ListHooks()
 
+	hooks, _, err := client.SystemHooks.ListHooks()
 	require.NoError(t, err)
+	
 	want := []*Hook{{ID: 1, URL: "https://gitlab.example.com/hook"}}
 	require.Equal(t, want, hooks)
 }
