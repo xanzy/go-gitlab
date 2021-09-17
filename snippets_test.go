@@ -2,15 +2,10 @@ package gitlab
 
 import (
 	"fmt"
-	"github.com/stretchr/testify/require"
 	"net/http"
 	"testing"
-)
 
-var (
-	resp     = `{"id":1, "title":"test"}`
-	respList = `[{"id":42,"title":"Voluptatem iure ut qui aut et consequatur quaerat."}]`
-	want     = &Snippet{ID: 1, Title: "test"}
+	"github.com/stretchr/testify/require"
 )
 
 func TestSnippetsService_ListSnippets(t *testing.T) {
@@ -19,7 +14,7 @@ func TestSnippetsService_ListSnippets(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/snippets", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
-		fmt.Fprint(w, respList)
+		fmt.Fprint(w, `[{"id":42,"title":"test"}]`)
 	})
 
 	opt := &ListSnippetsOptions{Page: 1, PerPage: 10}
@@ -27,7 +22,7 @@ func TestSnippetsService_ListSnippets(t *testing.T) {
 	ss, _, err := client.Snippets.ListSnippets(opt)
 	require.NoError(t, err)
 
-	want := []*Snippet{{ID: 42, Title: "Voluptatem iure ut qui aut et consequatur quaerat."}}
+	want := []*Snippet{{ID: 42, Title: "test"}}
 	require.Equal(t, want, ss)
 }
 
@@ -37,12 +32,13 @@ func TestSnippetsService_GetSnippet(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/snippets/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
-		fmt.Fprint(w, resp)
+		fmt.Fprint(w, `{"id":1, "title":"test"}`)
 	})
 
 	s, _, err := client.Snippets.GetSnippet(1)
 	require.NoError(t, err)
 
+	want := &Snippet{ID: 1, Title: "test"}
 	require.Equal(t, want, s)
 }
 
@@ -52,7 +48,7 @@ func TestSnippetsService_CreateSnippet(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/snippets", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
-		fmt.Fprint(w, resp)
+		fmt.Fprint(w, `{"id":1, "title":"test"}`)
 	})
 
 	opt := &CreateSnippetOptions{
@@ -66,6 +62,7 @@ func TestSnippetsService_CreateSnippet(t *testing.T) {
 	s, _, err := client.Snippets.CreateSnippet(opt)
 	require.NoError(t, err)
 
+	want := &Snippet{ID: 1, Title: "test"}
 	require.Equal(t, want, s)
 }
 
@@ -75,7 +72,7 @@ func TestSnippetsService_UpdateSnippet(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/snippets/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
-		fmt.Fprint(w, resp)
+		fmt.Fprint(w, `{"id":1, "title":"test"}`)
 	})
 
 	opt := &UpdateSnippetOptions{
@@ -89,6 +86,7 @@ func TestSnippetsService_UpdateSnippet(t *testing.T) {
 	s, _, err := client.Snippets.UpdateSnippet(1, opt)
 	require.NoError(t, err)
 
+	want := &Snippet{ID: 1, Title: "test"}
 	require.Equal(t, want, s)
 }
 
@@ -127,7 +125,7 @@ func TestSnippetsService_ExploreSnippets(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/snippets/public", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
-		fmt.Fprint(w, respList)
+		fmt.Fprint(w, `[{"id":42,"title":"test"}]`)
 	})
 
 	opt := &ExploreSnippetsOptions{Page: 1, PerPage: 10}
@@ -135,6 +133,6 @@ func TestSnippetsService_ExploreSnippets(t *testing.T) {
 	ss, _, err := client.Snippets.ExploreSnippets(opt)
 	require.NoError(t, err)
 
-	want := []*Snippet{{ID: 42, Title: "Voluptatem iure ut qui aut et consequatur quaerat."}}
+	want := []*Snippet{{ID: 42, Title: "test"}}
 	require.Equal(t, want, ss)
 }
