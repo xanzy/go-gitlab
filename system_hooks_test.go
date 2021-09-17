@@ -79,29 +79,3 @@ func TestSystemHooksService_DeleteHook(t *testing.T) {
 	_, err := client.SystemHooks.DeleteHook(1)
 	require.NoError(t, err)
 }
-
-func TestHook_String(t *testing.T) {
-	h := &Hook{
-		ID:        1,
-		URL:       "https://github.com/",
-		CreatedAt: nil,
-	}
-	hs := h.String()
-	want := "gitlab.Hook{ID:1, URL:\"https://github.com/\"}"
-	require.Equal(t,want , hs)
-}
-
-func TestHookEvent_String(t *testing.T) {
-	he := &HookEvent{
-		EventName:  "event",
-		Name:       "name",
-		Path:       "path",
-		ProjectID:  1,
-		OwnerName:  "owner",
-		OwnerEmail: "owner_email",
-	}
-
-	hes := he.String()
-	want := "gitlab.HookEvent{EventName:\"event\", Name:\"name\", Path:\"path\", ProjectID:1, OwnerName:\"owner\", OwnerEmail:\"owner_email\"}"
-	require.Equal(t, want, hes)
-}
