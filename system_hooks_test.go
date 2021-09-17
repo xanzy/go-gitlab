@@ -55,8 +55,8 @@ func TestSystemHooksService_TestHook(t *testing.T) {
 	})
 
 	he, _, err := client.SystemHooks.TestHook(1)
-
 	require.NoError(t, err)
+	
 	want := &HookEvent{
 		EventName:  "project_create",
 		Name:       "Ruby",
