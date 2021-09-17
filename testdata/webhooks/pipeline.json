@@ -78,7 +78,7 @@
         "finished_at": null,
         "when": "manual",
         "manual": true,
-        "allow_failure": false,
+        "allow_failure": true,
         "user":{
            "id": 42,
            "name": "User1",
