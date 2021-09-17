@@ -36,9 +36,10 @@ func TestSystemHooksService_AddHook(t *testing.T) {
 	opt := &AddHookOptions{
 		URL: String("https://gitlab.example.com/hook"),
 	}
-	h, _, err := client.SystemHooks.AddHook(opt)
 
+	h, _, err := client.SystemHooks.AddHook(opt)
 	require.NoError(t, err)
+	
 	want := &Hook{ID: 1, URL: "https://gitlab.example.com/hook", CreatedAt: (*time.Time)(nil)}
 	require.Equal(t, want, h)
 }
