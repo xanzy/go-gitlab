@@ -111,6 +111,7 @@ type CommitCommentEvent struct {
 	} `json:"object_attributes"`
 	Commit *struct {
 		ID        string     `json:"id"`
+		Title     string     `json:"title"`
 		Message   string     `json:"message"`
 		Timestamp *time.Time `json:"timestamp"`
 		URL       string     `json:"url"`
