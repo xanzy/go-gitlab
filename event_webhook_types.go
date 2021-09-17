@@ -106,6 +106,8 @@ type CommitCommentEvent struct {
 			RenamedFile bool   `json:"renamed_file"`
 			DeletedFile bool   `json:"deleted_file"`
 		} `json:"st_diff"`
+		Description string `json:"description"`
+		URL         string `json:"url"`
 	} `json:"object_attributes"`
 	Commit *struct {
 		ID        string     `json:"id"`
@@ -193,6 +195,7 @@ type IssueCommentEvent struct {
 		NoteableID   int     `json:"noteable_id"`
 		System       bool    `json:"system"`
 		StDiff       []*Diff `json:"st_diff"`
+		Description  string  `json:"description"`
 		URL          string  `json:"url"`
 	} `json:"object_attributes"`
 	Issue struct {
@@ -849,6 +852,7 @@ type SnippetCommentEvent struct {
 		NoteableID   int    `json:"noteable_id"`
 		System       bool   `json:"system"`
 		StDiff       *Diff  `json:"st_diff"`
+		Description  string `json:"description"`
 		URL          string `json:"url"`
 	} `json:"object_attributes"`
 	Snippet *Snippet `json:"snippet"`

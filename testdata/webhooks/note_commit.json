@@ -54,6 +54,7 @@
       "renamed_file": false,
       "deleted_file": false
     },
+    "description": "This is a commit comment. How does this work?",
     "url": "http://example.com/gitlab-org/gitlab-test/commit/cfe32cf61b73a0d5e9f13e774abde7ff789b1660#note_1243"
   },
   "commit": {

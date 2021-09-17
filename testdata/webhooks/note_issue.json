@@ -45,6 +45,7 @@
     "noteable_id": 92,
     "system": false,
     "st_diff": null,
+    "description": "Hello world",
     "url": "http://example.com/gitlab-org/gitlab-test/issues/17#note_1241"
   },
   "issue": {
