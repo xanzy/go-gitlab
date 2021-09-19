@@ -2,10 +2,11 @@ package gitlab
 
 import (
 	"fmt"
-	"github.com/stretchr/testify/require"
 	"net/http"
 	"testing"
 	"time"
+
+	"github.com/stretchr/testify/require"
 )
 
 func TestSidekiqService_GetQueueMetrics(t *testing.T) {
