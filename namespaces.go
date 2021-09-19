@@ -116,7 +116,7 @@ func (s *NamespacesService) GetNamespace(id interface{}, options ...RequestOptio
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("namespaces/%s", namespace)
+	u := fmt.Sprintf("namespaces/%s", pathEscape(namespace))
 
 	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
