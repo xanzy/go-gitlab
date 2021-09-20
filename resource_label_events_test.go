@@ -40,27 +40,6 @@ func TestResourceLabelEventsService_ListIssueLabelEvents(t *testing.T) {
 		`)
 	})
 
-	opt := &ListLabelEventsOptions{ListOptions(struct {
-		Page    int
-		PerPage int
-	}{Page: 1, PerPage: 10})}
-
-	les, resp, err := client.ResourceLabelEvents.ListIssueLabelEvents(1.5, 11, opt)
-	require.EqualError(t, err, "invalid ID type 1.5, the ID must be an int or a string")
-	require.Nil(t, resp)
-
-	les, resp, err = client.ResourceLabelEvents.ListIssueLabelEvents(5, 11, opt, errorOption)
-	require.EqualError(t, err, "RequestOptionFunc returns an error")
-	require.Nil(t, resp)
-
-	les, resp, err = client.ResourceLabelEvents.ListIssueLabelEvents(6, 11, opt)
-	require.Error(t, err)
-	require.Equal(t, http.StatusNotFound, resp.StatusCode)
-
-	les, resp, err = client.ResourceLabelEvents.ListIssueLabelEvents(5, 11, opt)
-	require.NoError(t, err)
-	require.NotNil(t, resp)
-
 	want := []*LabelEvent{{
 		ID:           142,
 		Action:       "add",
@@ -95,7 +74,25 @@ func TestResourceLabelEventsService_ListIssueLabelEvents(t *testing.T) {
 			Description: "",
 		},
 	}}
+	les, resp, err := client.ResourceLabelEvents.ListIssueLabelEvents(5, 11, nil)
+	require.NoError(t, err)
+	require.NotNil(t, resp)
 	require.Equal(t, want, les)
+
+	les, resp, err = client.ResourceLabelEvents.ListIssueLabelEvents(1.5, 11, nil)
+	require.EqualError(t, err, "invalid ID type 1.5, the ID must be an int or a string")
+	require.Nil(t, resp)
+	require.Nil(t, les)
+
+	les, resp, err = client.ResourceLabelEvents.ListIssueLabelEvents(5, 11, nil, errorOption)
+	require.EqualError(t, err, "RequestOptionFunc returns an error")
+	require.Nil(t, resp)
+	require.Nil(t, les)
+
+	les, resp, err = client.ResourceLabelEvents.ListIssueLabelEvents(6, 11, nil)
+	require.Error(t, err)
+	require.Nil(t, les)
+	require.Equal(t, http.StatusNotFound, resp.StatusCode)
 }
 
 func TestResourceLabelEventsService_GetIssueLabelEvent(t *testing.T) {
@@ -127,22 +124,6 @@ func TestResourceLabelEventsService_GetIssueLabelEvent(t *testing.T) {
 			  }`,
 		)
 	})
-
-	le, resp, err := client.ResourceLabelEvents.GetIssueLabelEvent(1.5, 11, 1)
-	require.EqualError(t, err, "invalid ID type 1.5, the ID must be an int or a string")
-	require.Nil(t, resp)
-
-	le, resp, err = client.ResourceLabelEvents.GetIssueLabelEvent(5, 11, 1, errorOption)
-	require.EqualError(t, err, "RequestOptionFunc returns an error")
-	require.Nil(t, resp)
-
-	le, resp, err = client.ResourceLabelEvents.GetIssueLabelEvent(6, 11, 1)
-	require.Error(t, err)
-	require.Equal(t, http.StatusNotFound, resp.StatusCode)
-
-	le, resp, err = client.ResourceLabelEvents.GetIssueLabelEvent(5, 11, 1)
-	require.NoError(t, err)
-	require.NotNil(t, resp)
 
 	want := &LabelEvent{
 		ID:           1,
@@ -178,7 +159,26 @@ func TestResourceLabelEventsService_GetIssueLabelEvent(t *testing.T) {
 			Description: "",
 		},
 	}
+
+	le, resp, err := client.ResourceLabelEvents.GetIssueLabelEvent(5, 11, 1)
+	require.NoError(t, err)
+	require.NotNil(t, resp)
 	require.Equal(t, want, le)
+
+	le, resp, err = client.ResourceLabelEvents.GetIssueLabelEvent(1.5, 11, 1)
+	require.EqualError(t, err, "invalid ID type 1.5, the ID must be an int or a string")
+	require.Nil(t, resp)
+	require.Nil(t, le)
+
+	le, resp, err = client.ResourceLabelEvents.GetIssueLabelEvent(5, 11, 1, errorOption)
+	require.EqualError(t, err, "RequestOptionFunc returns an error")
+	require.Nil(t, resp)
+	require.Nil(t, le)
+
+	le, resp, err = client.ResourceLabelEvents.GetIssueLabelEvent(6, 11, 1)
+	require.Error(t, err)
+	require.Nil(t, le)
+	require.Equal(t, http.StatusNotFound, resp.StatusCode)
 }
 
 func TestResourceLabelEventsService_ListGroupEpicLabelEvents(t *testing.T) {
@@ -212,27 +212,6 @@ func TestResourceLabelEventsService_ListGroupEpicLabelEvents(t *testing.T) {
 			]
 		`)
 	})
-
-	opt := &ListLabelEventsOptions{ListOptions(struct {
-		Page    int
-		PerPage int
-	}{Page: 1, PerPage: 10})}
-
-	les, resp, err := client.ResourceLabelEvents.ListGroupEpicLabelEvents(1.5, 11, opt)
-	require.EqualError(t, err, "invalid ID type 1.5, the ID must be an int or a string")
-	require.Nil(t, resp)
-
-	les, resp, err = client.ResourceLabelEvents.ListGroupEpicLabelEvents(1, 11, opt, errorOption)
-	require.EqualError(t, err, "RequestOptionFunc returns an error")
-	require.Nil(t, resp)
-
-	les, resp, err = client.ResourceLabelEvents.ListGroupEpicLabelEvents(6, 11, opt)
-	require.Error(t, err)
-	require.Equal(t, http.StatusNotFound, resp.StatusCode)
-
-	les, resp, err = client.ResourceLabelEvents.ListGroupEpicLabelEvents(1, 11, opt)
-	require.NoError(t, err)
-	require.NotNil(t, resp)
 
 	want := []*LabelEvent{{
 		ID:           106,
@@ -268,7 +247,26 @@ func TestResourceLabelEventsService_ListGroupEpicLabelEvents(t *testing.T) {
 			Description: "",
 		},
 	}}
+
+	les, resp, err := client.ResourceLabelEvents.ListGroupEpicLabelEvents(1, 11, nil)
+	require.NoError(t, err)
+	require.NotNil(t, resp)
 	require.Equal(t, want, les)
+
+	les, resp, err = client.ResourceLabelEvents.ListGroupEpicLabelEvents(1.5, 11, nil)
+	require.EqualError(t, err, "invalid ID type 1.5, the ID must be an int or a string")
+	require.Nil(t, resp)
+	require.Nil(t, les)
+
+	les, resp, err = client.ResourceLabelEvents.ListGroupEpicLabelEvents(1, 11, nil, errorOption)
+	require.EqualError(t, err, "RequestOptionFunc returns an error")
+	require.Nil(t, resp)
+	require.Nil(t, les)
+
+	les, resp, err = client.ResourceLabelEvents.ListGroupEpicLabelEvents(6, 11, nil)
+	require.Error(t, err)
+	require.Nil(t, les)
+	require.Equal(t, http.StatusNotFound, resp.StatusCode)
 }
 
 func TestResourceLabelEventsService_GetGroupEpicLabelEvent(t *testing.T) {
@@ -300,22 +298,6 @@ func TestResourceLabelEventsService_GetGroupEpicLabelEvent(t *testing.T) {
 		}
 		`)
 	})
-
-	le, resp, err := client.ResourceLabelEvents.GetGroupEpicLabelEvent(1.5, 11, 107)
-	require.EqualError(t, err, "invalid ID type 1.5, the ID must be an int or a string")
-	require.Nil(t, resp)
-
-	le, resp, err = client.ResourceLabelEvents.GetGroupEpicLabelEvent(1, 11, 107, errorOption)
-	require.EqualError(t, err, "RequestOptionFunc returns an error")
-	require.Nil(t, resp)
-
-	le, resp, err = client.ResourceLabelEvents.GetGroupEpicLabelEvent(6, 11, 107)
-	require.Error(t, err)
-	require.Equal(t, http.StatusNotFound, resp.StatusCode)
-
-	le, resp, err = client.ResourceLabelEvents.GetGroupEpicLabelEvent(1, 11, 107)
-	require.NoError(t, err)
-	require.NotNil(t, resp)
 
 	want := &LabelEvent{
 		ID:           107,
@@ -351,7 +333,26 @@ func TestResourceLabelEventsService_GetGroupEpicLabelEvent(t *testing.T) {
 			Description: "",
 		},
 	}
+
+	le, resp, err := client.ResourceLabelEvents.GetGroupEpicLabelEvent(1, 11, 107)
+	require.NoError(t, err)
+	require.NotNil(t, resp)
 	require.Equal(t, want, le)
+
+	le, resp, err = client.ResourceLabelEvents.GetGroupEpicLabelEvent(1.5, 11, 107)
+	require.EqualError(t, err, "invalid ID type 1.5, the ID must be an int or a string")
+	require.Nil(t, resp)
+	require.Nil(t, le)
+
+	le, resp, err = client.ResourceLabelEvents.GetGroupEpicLabelEvent(1, 11, 107, errorOption)
+	require.EqualError(t, err, "RequestOptionFunc returns an error")
+	require.Nil(t, resp)
+	require.Nil(t, le)
+
+	le, resp, err = client.ResourceLabelEvents.GetGroupEpicLabelEvent(6, 11, 107)
+	require.Error(t, err)
+	require.Nil(t, le)
+	require.Equal(t, http.StatusNotFound, resp.StatusCode)
 }
 
 func TestResourceLabelEventsService_ListMergeRequestsLabelEvents(t *testing.T) {
@@ -385,27 +386,6 @@ func TestResourceLabelEventsService_ListMergeRequestsLabelEvents(t *testing.T) {
 			]
 		`)
 	})
-
-	opt := &ListLabelEventsOptions{ListOptions(struct {
-		Page    int
-		PerPage int
-	}{Page: 1, PerPage: 10})}
-
-	les, resp, err := client.ResourceLabelEvents.ListMergeRequestsLabelEvents(1.5, 11, opt)
-	require.EqualError(t, err, "invalid ID type 1.5, the ID must be an int or a string")
-	require.Nil(t, resp)
-
-	les, resp, err = client.ResourceLabelEvents.ListMergeRequestsLabelEvents(5, 11, opt, errorOption)
-	require.EqualError(t, err, "RequestOptionFunc returns an error")
-	require.Nil(t, resp)
-
-	les, resp, err = client.ResourceLabelEvents.ListMergeRequestsLabelEvents(6, 11, opt)
-	require.Error(t, err)
-	require.Equal(t, http.StatusNotFound, resp.StatusCode)
-
-	les, resp, err = client.ResourceLabelEvents.ListMergeRequestsLabelEvents(5, 11, opt)
-	require.NoError(t, err)
-	require.NotNil(t, resp)
 
 	want := []*LabelEvent{{
 		ID:           119,
@@ -441,7 +421,26 @@ func TestResourceLabelEventsService_ListMergeRequestsLabelEvents(t *testing.T) {
 			Description: "",
 		},
 	}}
+
+	les, resp, err := client.ResourceLabelEvents.ListMergeRequestsLabelEvents(5, 11, nil)
+	require.NoError(t, err)
+	require.NotNil(t, resp)
 	require.Equal(t, want, les)
+
+	les, resp, err = client.ResourceLabelEvents.ListMergeRequestsLabelEvents(1.5, 11, nil)
+	require.EqualError(t, err, "invalid ID type 1.5, the ID must be an int or a string")
+	require.Nil(t, resp)
+	require.Nil(t, les)
+
+	les, resp, err = client.ResourceLabelEvents.ListMergeRequestsLabelEvents(5, 11, nil, errorOption)
+	require.EqualError(t, err, "RequestOptionFunc returns an error")
+	require.Nil(t, resp)
+	require.Nil(t, les)
+
+	les, resp, err = client.ResourceLabelEvents.ListMergeRequestsLabelEvents(6, 11, nil)
+	require.Error(t, err)
+	require.Nil(t, les)
+	require.Equal(t, http.StatusNotFound, resp.StatusCode)
 }
 
 func TestResourceLabelEventsService_GetMergeRequestLabelEvent(t *testing.T) {
@@ -473,22 +472,6 @@ func TestResourceLabelEventsService_GetMergeRequestLabelEvent(t *testing.T) {
 			}
 		`)
 	})
-
-	le, resp, err := client.ResourceLabelEvents.GetMergeRequestLabelEvent(1.5, 11, 120)
-	require.EqualError(t, err, "invalid ID type 1.5, the ID must be an int or a string")
-	require.Nil(t, resp)
-
-	le, resp, err = client.ResourceLabelEvents.GetMergeRequestLabelEvent(5, 11, 120, errorOption)
-	require.EqualError(t, err, "RequestOptionFunc returns an error")
-	require.Nil(t, resp)
-
-	le, resp, err = client.ResourceLabelEvents.GetMergeRequestLabelEvent(6, 11, 120)
-	require.Error(t, err)
-	require.Equal(t, http.StatusNotFound, resp.StatusCode)
-
-	le, _, err = client.ResourceLabelEvents.GetMergeRequestLabelEvent(5, 11, 120)
-	require.NoError(t, err)
-	require.NotNil(t, resp)
 
 	want := &LabelEvent{
 		ID:           120,
@@ -524,5 +507,24 @@ func TestResourceLabelEventsService_GetMergeRequestLabelEvent(t *testing.T) {
 			Description: "",
 		},
 	}
+
+	le, resp, err := client.ResourceLabelEvents.GetMergeRequestLabelEvent(5, 11, 120)
+	require.NoError(t, err)
+	require.NotNil(t, resp)
 	require.Equal(t, want, le)
+
+	le, resp, err = client.ResourceLabelEvents.GetMergeRequestLabelEvent(1.5, 11, 120)
+	require.EqualError(t, err, "invalid ID type 1.5, the ID must be an int or a string")
+	require.Nil(t, resp)
+	require.Nil(t, le)
+
+	le, resp, err = client.ResourceLabelEvents.GetMergeRequestLabelEvent(5, 11, 120, errorOption)
+	require.EqualError(t, err, "RequestOptionFunc returns an error")
+	require.Nil(t, resp)
+	require.Nil(t, le)
+
+	le, resp, err = client.ResourceLabelEvents.GetMergeRequestLabelEvent(6, 11, 120)
+	require.Error(t, err)
+	require.Nil(t, le)
+	require.Equal(t, http.StatusNotFound, resp.StatusCode)
 }
