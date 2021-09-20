@@ -74,6 +74,7 @@ func TestResourceLabelEventsService_ListIssueLabelEvents(t *testing.T) {
 			Description: "",
 		},
 	}}
+
 	les, resp, err := client.ResourceLabelEvents.ListIssueLabelEvents(5, 11, nil)
 	require.NoError(t, err)
 	require.NotNil(t, resp)
