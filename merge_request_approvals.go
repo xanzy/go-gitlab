@@ -36,32 +36,6 @@ type MergeRequestApprovalsService struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#merge-request-level-mr-approvals
 type MergeRequestApprovals struct {
-	ID                   int                          `json:"id"`
-	ProjectID            int                          `json:"project_id"`
-	Title                string                       `json:"title"`
-	Description          string                       `json:"description"`
-	State                string                       `json:"state"`
-	CreatedAt            *time.Time                   `json:"created_at"`
-	UpdatedAt            *time.Time                   `json:"updated_at"`
-	MergeStatus          string                       `json:"merge_status"`
-	ApprovalsBeforeMerge int                          `json:"approvals_before_merge"`
-	ApprovalsRequired    int                          `json:"approvals_required"`
-	ApprovalsLeft        int                          `json:"approvals_left"`
-	ApprovedBy           []*MergeRequestApproverUser  `json:"approved_by"`
-	Approvers            []*MergeRequestApproverUser  `json:"approvers"`
-	ApproverGroups       []*MergeRequestApproverGroup `json:"approver_groups"`
-	SuggestedApprovers   []*BasicUser                 `json:"suggested_approvers"`
-}
-
-func (m MergeRequestApprovals) String() string {
-	return Stringify(m)
-}
-
-// MergeRequestApprovalsConfiguration represents a Gitlab merge request aprrovals configuration.
-//
-// Gitlab API docs:
-// https://docs.gitlab.com/ee/api/merge_request_approvals.html#get-configuration-1
-type MergeRequestApprovalsConfiguration struct {
 	ID                             int                          `json:"id"`
 	IID                            int                          `json:"iid"`
 	ProjectID                      int                          `json:"project_id"`
@@ -72,6 +46,7 @@ type MergeRequestApprovalsConfiguration struct {
 	UpdatedAt                      *time.Time                   `json:"updated_at"`
 	MergeStatus                    string                       `json:"merge_status"`
 	Approved                       bool                         `json:"approved"`
+	ApprovalsBeforeMerge           int                          `json:"approvals_before_merge"`
 	ApprovalsRequired              int                          `json:"approvals_required"`
 	ApprovalsLeft                  int                          `json:"approvals_left"`
 	RequirePasswordToApprove       bool                         `json:"require_password_to_approve"`
@@ -85,6 +60,10 @@ type MergeRequestApprovalsConfiguration struct {
 	HasApprovalRules               bool                         `json:"has_approval_rules"`
 	MergeRequestApproversAvailable bool                         `json:"merge_request_approvers_available"`
 	MultipleApprovalRulesAvailable bool                         `json:"multiple_approval_rules_available"`
+}
+
+func (m MergeRequestApprovals) String() string {
+	return Stringify(m)
 }
 
 // MergeRequestApproverGroup  represents GitLab project level merge request approver group.
@@ -213,7 +192,7 @@ type ChangeMergeRequestApprovalConfigurationOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#get-configuration-1
-func (s *MergeRequestApprovalsService) GetConfiguration(pid interface{}, mr int, options ...RequestOptionFunc) (*MergeRequestApprovalsConfiguration, *Response, error) {
+func (s *MergeRequestApprovalsService) GetConfiguration(pid interface{}, mr int, options ...RequestOptionFunc) (*MergeRequestApprovals, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -225,7 +204,7 @@ func (s *MergeRequestApprovalsService) GetConfiguration(pid interface{}, mr int,
 		return nil, nil, err
 	}
 
-	m := new(MergeRequestApprovalsConfiguration)
+	m := new(MergeRequestApprovals)
 	resp, err := s.client.Do(req, m)
 	if err != nil {
 		return nil, resp, err
