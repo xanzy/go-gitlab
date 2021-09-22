@@ -615,16 +615,16 @@ func TestChangeAllowedApprovers(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/approvers", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
-		testBody(t, r, `{"approver_ids":[1],"approver_group_ids":[2]}`)
+		testBody(t, r, `{"approver_group_ids":[1],"approver_ids":[2]}`)
 		fmt.Fprint(w, `{
-			"approvers": [{"user":{"id":1}}],
-			"approver_groups": [{"group":{"id":2}}]
+			"approver_groups": [{"group":{"id":1}}],
+			"approvers": [{"user":{"id":2}}]
 		}`)
 	})
 
 	opt := &ChangeAllowedApproversOptions{
-		ApproverIDs:      []int{1},
-		ApproverGroupIDs: []int{2},
+		ApproverGroupIDs: []int{1},
+		ApproverIDs:      []int{2},
 	}
 
 	approvals, _, err := client.Projects.ChangeAllowedApprovers(1, opt)
@@ -633,13 +633,6 @@ func TestChangeAllowedApprovers(t *testing.T) {
 	}
 
 	want := &ProjectApprovals{
-		Approvers: []*MergeRequestApproverUser{
-			{
-				User: &BasicUser{
-					ID: 1,
-				},
-			},
-		},
 		ApproverGroups: []*MergeRequestApproverGroup{
 			{
 				Group: struct {
@@ -655,6 +648,13 @@ func TestChangeAllowedApprovers(t *testing.T) {
 					LFSEnabled           bool   `json:"lfs_enabled"`
 					RequestAccessEnabled bool   `json:"request_access_enabled"`
 				}{
+					ID: 1,
+				},
+			},
+		},
+		Approvers: []*MergeRequestApproverUser{
+			{
+				User: &BasicUser{
 					ID: 2,
 				},
 			},
@@ -676,7 +676,7 @@ func TestForkProject(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/fork", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
-		testBody(t, r, fmt.Sprintf(`{"namespace":"%s","name":"%s","path":"%s"}`, namespace, name, path))
+		testBody(t, r, fmt.Sprintf(`{"name":"%s","namespace":"%s","path":"%s"}`, name, namespace, path))
 		fmt.Fprint(w, `{"id":2}`)
 	})
 

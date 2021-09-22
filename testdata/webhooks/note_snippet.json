@@ -45,6 +45,7 @@
     "noteable_id": 53,
     "system": false,
     "st_diff": null,
+    "description": "Is this snippet doing what it's supposed to be doing?",
     "url": "http://example.com/gitlab-org/gitlab-test/snippets/53#note_1245"
   },
   "snippet": {

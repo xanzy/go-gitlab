@@ -381,7 +381,11 @@ func TestParseTagHook(t *testing.T) {
 	}
 
 	if event.UserName != exampleEventUserName {
-		t.Errorf("Username is %s, want %s", event.UserName, exampleEventUserName)
+		t.Errorf("Name is %s, want %s", event.UserName, exampleEventUserName)
+	}
+
+	if event.UserUsername != exampleEventUserUsername {
+		t.Errorf("Username is %s, want %s", event.UserUsername, exampleEventUserUsername)
 	}
 
 	if event.Ref != "refs/tags/v1.0.0" {

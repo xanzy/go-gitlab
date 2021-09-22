@@ -25,6 +25,7 @@ const (
 		"run_untagged": true,
 		"id": 6,
 		"is_shared": false,
+		"runner_type": "project_type",
 		"contacted_at": "2016-01-25T16:39:48.066Z",
 		"name": null,
 		"online": true,
@@ -51,8 +52,11 @@ const (
 		"locked": false
 	}`
 
-	// exampleEventUserName provides a fixture for a event username.
+	// exampleEventUserName provides a fixture for a event user's name.
 	exampleEventUserName = "John Smith"
+
+	// exampleEventUserUsername provides a ficture for the event username.
+	exampleEventUserUsername = "jsmith"
 
 	// exampleProjectName provides a fixture for a project name.
 	exampleProjectName = "example-project"

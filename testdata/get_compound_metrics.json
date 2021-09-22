@@ -1,0 +1,22 @@
+{
+  "queues": {
+    "default": {
+      "backlog": 0,
+      "latency": 0
+    }
+  },
+  "processes": [
+    {
+      "hostname": "gitlab.example.com",
+      "pid": 5649,
+      "tag": "gitlab",
+      "concurrency": 25,
+      "busy": 0
+    }
+  ],
+  "jobs": {
+    "processed": 2,
+    "failed": 0,
+    "enqueued": 0
+  }
+}

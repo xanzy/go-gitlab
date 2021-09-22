@@ -66,7 +66,7 @@ func (s *GitIgnoreTemplatesService) ListTemplates(opt *ListTemplatesOptions, opt
 // GetTemplate get a git ignore template
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/templates/gitignores.html#single-gitignore-template
+// https://docs.gitlab.com/ce/api/templates/gitignores.html#get-a-single-gitignore-template
 func (s *GitIgnoreTemplatesService) GetTemplate(key string, options ...RequestOptionFunc) (*GitIgnoreTemplate, *Response, error) {
 	u := fmt.Sprintf("templates/gitignores/%s", url.PathEscape(key))
 

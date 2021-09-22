@@ -57,6 +57,7 @@ to add new and/or missing endpoints. Currently the following services are suppor
 - [x] Notes (comments)
 - [x] Notification Settings
 - [x] Open Source License Templates
+- [x] Pages
 - [x] Pages Domains
 - [x] Personal Access Tokens
 - [x] Pipeline Schedules

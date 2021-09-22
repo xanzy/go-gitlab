@@ -44,6 +44,7 @@ type PipelineVariable struct {
 // GitLab API docs: https://docs.gitlab.com/ce/api/pipelines.html
 type Pipeline struct {
 	ID             int             `json:"id"`
+	ProjectID      int             `json:"project_id"`
 	Status         string          `json:"status"`
 	Ref            string          `json:"ref"`
 	SHA            string          `json:"sha"`
@@ -57,6 +58,7 @@ type Pipeline struct {
 	FinishedAt     *time.Time      `json:"finished_at"`
 	CommittedAt    *time.Time      `json:"committed_at"`
 	Duration       int             `json:"duration"`
+	QueuedDuration int             `json:"queued_duration"`
 	Coverage       string          `json:"coverage"`
 	WebURL         string          `json:"web_url"`
 	DetailedStatus *DetailedStatus `json:"detailed_status"`

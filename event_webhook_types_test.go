@@ -301,7 +301,15 @@ func TestPipelineEventUnmarshal(t *testing.T) {
 	}
 
 	if event.ObjectAttributes.ID != 31 {
-		t.Errorf("ObjectAttributes is %v, want %v", event.ObjectAttributes.ID, 1977)
+		t.Errorf("ObjectAttributes.ID is %v, want %v", event.ObjectAttributes.ID, 1977)
+	}
+
+	if event.ObjectAttributes.DetailedStatus != "passed" {
+		t.Errorf("ObjectAttributes.DetailedStatus is %v, want %v", event.ObjectAttributes.DetailedStatus, "passed")
+	}
+
+	if event.ObjectAttributes.QueuedDuration != 12 {
+		t.Errorf("ObjectAttributes.QueuedDuration is %v, want %v", event.ObjectAttributes.QueuedDuration, 12)
 	}
 
 	if event.User.ID != 42 {
@@ -318,6 +326,14 @@ func TestPipelineEventUnmarshal(t *testing.T) {
 
 	if name := event.Commit.Author.Name; name != "User" {
 		t.Errorf("Commit Username is %s, want %s", name, "User")
+	}
+
+	if len(event.Builds) != 5 {
+		t.Errorf("Builds length is %d, want %d", len(event.Builds), 5)
+	}
+
+	if event.Builds[0].AllowFailure != true {
+		t.Errorf("Builds.0.AllowFailure is %v, want %v", event.Builds[0].AllowFailure, true)
 	}
 }
 

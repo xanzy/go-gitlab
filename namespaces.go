@@ -19,6 +19,7 @@ package gitlab
 import (
 	"fmt"
 	"net/http"
+	"time"
 )
 
 // NamespacesService handles communication with the namespace related methods
@@ -33,13 +34,21 @@ type NamespacesService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/namespaces.html
 type Namespace struct {
-	ID                          int    `json:"id"`
-	Name                        string `json:"name"`
-	Path                        string `json:"path"`
-	Kind                        string `json:"kind"`
-	FullPath                    string `json:"full_path"`
-	ParentID                    int    `json:"parent_id"`
-	MembersCountWithDescendants int    `json:"members_count_with_descendants"`
+	ID                          int        `json:"id"`
+	Name                        string     `json:"name"`
+	Path                        string     `json:"path"`
+	Kind                        string     `json:"kind"`
+	FullPath                    string     `json:"full_path"`
+	ParentID                    int        `json:"parent_id"`
+	AvatarURL                   *string    `json:"avatar_url"`
+	WebURL                      string     `json:"web_url"`
+	MembersCountWithDescendants int        `json:"members_count_with_descendants"`
+	BillableMembersCount        int        `json:"billable_members_count"`
+	Plan                        string     `json:"plan"`
+	TrialEndsOn                 *time.Time `json:"trial_ends_on"`
+	Trial                       bool       `json:"trial"`
+	MaxSeatsUsed                *int       `json:"max_seats_used"`
+	SeatsInUse                  *int       `json:"seats_in_use"`
 }
 
 func (n Namespace) String() string {
@@ -51,7 +60,8 @@ func (n Namespace) String() string {
 // GitLab API docs: https://docs.gitlab.com/ce/api/namespaces.html#list-namespaces
 type ListNamespacesOptions struct {
 	ListOptions
-	Search *string `url:"search,omitempty" json:"search,omitempty"`
+	Search    *string `url:"search,omitempty" json:"search,omitempty"`
+	OwnedOnly *bool   `url:"owned_only,omitempty" json:"owned_only,omitempty"`
 }
 
 // ListNamespaces gets a list of projects accessible by the authenticated user.
@@ -106,7 +116,7 @@ func (s *NamespacesService) GetNamespace(id interface{}, options ...RequestOptio
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("namespaces/%s", namespace)
+	u := fmt.Sprintf("namespaces/%s", pathEscape(namespace))
 
 	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
@@ -114,6 +124,48 @@ func (s *NamespacesService) GetNamespace(id interface{}, options ...RequestOptio
 	}
 
 	n := new(Namespace)
+	resp, err := s.client.Do(req, n)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return n, resp, err
+}
+
+// NamespaceExistance represents a namespace exists result.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/namespaces.html#get-existence-of-a-namespace
+type NamespaceExistance struct {
+	Exists   bool     `json:"exists"`
+	Suggests []string `json:"suggests"`
+}
+
+// NamespaceExistsOptions represents the available NamespaceExists() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/namespaces.html#get-existence-of-a-namespace
+type NamespaceExistsOptions struct {
+	ParentID *int `url:"parent_id,omitempty" json:"parent_id,omitempty"`
+}
+
+// NamespaceExists checks the existence of a namespace.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/namespaces.html#get-existence-of-a-namespace
+func (s *NamespacesService) NamespaceExists(id interface{}, opt *NamespaceExistsOptions, options ...RequestOptionFunc) (*NamespaceExistance, *Response, error) {
+	namespace, err := parseID(id)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("namespaces/%s/exists", namespace)
+
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	n := new(NamespaceExistance)
 	resp, err := s.client.Do(req, n)
 	if err != nil {
 		return nil, resp, err

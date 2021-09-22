@@ -106,9 +106,12 @@ type CommitCommentEvent struct {
 			RenamedFile bool   `json:"renamed_file"`
 			DeletedFile bool   `json:"deleted_file"`
 		} `json:"st_diff"`
+		Description string `json:"description"`
+		URL         string `json:"url"`
 	} `json:"object_attributes"`
 	Commit *struct {
 		ID        string     `json:"id"`
+		Title     string     `json:"title"`
 		Message   string     `json:"message"`
 		Timestamp *time.Time `json:"timestamp"`
 		URL       string     `json:"url"`
@@ -193,6 +196,7 @@ type IssueCommentEvent struct {
 		NoteableID   int     `json:"noteable_id"`
 		System       bool    `json:"system"`
 		StDiff       []*Diff `json:"st_diff"`
+		Description  string  `json:"description"`
 		URL          string  `json:"url"`
 	} `json:"object_attributes"`
 	Issue struct {
@@ -499,6 +503,7 @@ type MergeEvent struct {
 		TimeEstimate             int          `json:"time_estimate"`
 		Source                   *Repository  `json:"source"`
 		Target                   *Repository  `json:"target"`
+		HeadPipelineID           *int         `json:"head_pipeline_id"`
 		LastCommit               struct {
 			ID        string     `json:"id"`
 			Message   string     `json:"message"`
@@ -622,17 +627,19 @@ func (p *MergeParams) UnmarshalJSON(b []byte) error {
 type PipelineEvent struct {
 	ObjectKind       string `json:"object_kind"`
 	ObjectAttributes struct {
-		ID         int      `json:"id"`
-		Ref        string   `json:"ref"`
-		Tag        bool     `json:"tag"`
-		SHA        string   `json:"sha"`
-		BeforeSHA  string   `json:"before_sha"`
-		Source     string   `json:"source"`
-		Status     string   `json:"status"`
-		Stages     []string `json:"stages"`
-		CreatedAt  string   `json:"created_at"`
-		FinishedAt string   `json:"finished_at"`
-		Duration   int      `json:"duration"`
+		ID             int      `json:"id"`
+		Ref            string   `json:"ref"`
+		Tag            bool     `json:"tag"`
+		SHA            string   `json:"sha"`
+		BeforeSHA      string   `json:"before_sha"`
+		Source         string   `json:"source"`
+		Status         string   `json:"status"`
+		DetailedStatus string   `json:"detailed_status"`
+		Stages         []string `json:"stages"`
+		CreatedAt      string   `json:"created_at"`
+		FinishedAt     string   `json:"finished_at"`
+		Duration       int      `json:"duration"`
+		QueuedDuration int      `json:"queued_duration"`
 	} `json:"object_attributes"`
 	MergeRequest struct {
 		ID                 int    `json:"id"`
@@ -675,17 +682,18 @@ type PipelineEvent struct {
 		} `json:"author"`
 	} `json:"commit"`
 	Builds []struct {
-		ID         int        `json:"id"`
-		Stage      string     `json:"stage"`
-		Name       string     `json:"name"`
-		Status     string     `json:"status"`
-		CreatedAt  string     `json:"created_at"`
-		StartedAt  string     `json:"started_at"`
-		FinishedAt string     `json:"finished_at"`
-		When       string     `json:"when"`
-		Manual     bool       `json:"manual"`
-		User       *EventUser `json:"user"`
-		Runner     struct {
+		ID           int        `json:"id"`
+		Stage        string     `json:"stage"`
+		Name         string     `json:"name"`
+		Status       string     `json:"status"`
+		CreatedAt    string     `json:"created_at"`
+		StartedAt    string     `json:"started_at"`
+		FinishedAt   string     `json:"finished_at"`
+		When         string     `json:"when"`
+		Manual       bool       `json:"manual"`
+		AllowFailure bool       `json:"allow_failure"`
+		User         *EventUser `json:"user"`
+		Runner       struct {
 			ID          int    `json:"id"`
 			Description string `json:"description"`
 			Active      bool   `json:"active"`
@@ -845,6 +853,7 @@ type SnippetCommentEvent struct {
 		NoteableID   int    `json:"noteable_id"`
 		System       bool   `json:"system"`
 		StDiff       *Diff  `json:"st_diff"`
+		Description  string `json:"description"`
 		URL          string `json:"url"`
 	} `json:"object_attributes"`
 	Snippet *Snippet `json:"snippet"`
@@ -855,18 +864,19 @@ type SnippetCommentEvent struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ce/user/project/integrations/webhooks.html#tag-events
 type TagEvent struct {
-	ObjectKind  string `json:"object_kind"`
-	Before      string `json:"before"`
-	After       string `json:"after"`
-	Ref         string `json:"ref"`
-	CheckoutSHA string `json:"checkout_sha"`
-	UserID      int    `json:"user_id"`
-	UserName    string `json:"user_name"`
-	UserAvatar  string `json:"user_avatar"`
-	UserEmail   string `json:"user_email"`
-	ProjectID   int    `json:"project_id"`
-	Message     string `json:"message"`
-	Project     struct {
+	ObjectKind   string `json:"object_kind"`
+	Before       string `json:"before"`
+	After        string `json:"after"`
+	Ref          string `json:"ref"`
+	CheckoutSHA  string `json:"checkout_sha"`
+	UserID       int    `json:"user_id"`
+	UserName     string `json:"user_name"`
+	UserUsername string `json:"user_username"`
+	UserAvatar   string `json:"user_avatar"`
+	UserEmail    string `json:"user_email"`
+	ProjectID    int    `json:"project_id"`
+	Message      string `json:"message"`
+	Project      struct {
 		Name              string          `json:"name"`
 		Description       string          `json:"description"`
 		AvatarURL         string          `json:"avatar_url"`

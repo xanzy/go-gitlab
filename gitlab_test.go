@@ -32,6 +32,8 @@ import (
 	retryablehttp "github.com/hashicorp/go-retryablehttp"
 )
 
+var timeLayout = "2006-01-02T15:04:05Z07:00"
+
 // setup sets up a test HTTP server along with a gitlab.Client that is
 // configured to talk to that test server.  Tests should register handlers on
 // mux which provide mock responses for the API method being tested.

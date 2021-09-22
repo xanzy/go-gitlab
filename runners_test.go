@@ -134,6 +134,7 @@ func expectedParsedDetails() *RunnerDetails {
 		Description: "test-1-20150125-test",
 		ID:          6,
 		IsShared:    false,
+		RunnerType:  "project_type",
 		ContactedAt: &timestamp,
 		Online:      true,
 		Status:      "online",
