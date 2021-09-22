@@ -242,3 +242,108 @@ func TestRepositoryFilesService_GetRawFile(t *testing.T) {
 	require.Nil(t, b)
 	require.Equal(t, http.StatusNotFound, resp.StatusCode)
 }
+
+func TestRepositoryFilesService_CreateFile(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/13083/repository/files/app%2Fproject%2Erb", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPost)
+		fmt.Fprintf(w, `
+			{
+			  "file_path": "app/project.rb",
+			  "branch": "master"
+			}
+		`)
+	})
+
+	want := &FileInfo{
+		FilePath: "app/project.rb",
+		Branch:   "master",
+	}
+
+	fi, resp, err := client.RepositoryFiles.CreateFile(13083, "app%2Fproject%2Erb", nil)
+	require.NoError(t, err)
+	require.NotNil(t, resp)
+	require.Equal(t, want, fi)
+
+	fi, resp, err = client.RepositoryFiles.CreateFile(13083.01, "app%2Fproject%2Erb", nil)
+	require.EqualError(t, err, "invalid ID type 13083.01, the ID must be an int or a string")
+	require.Nil(t, resp)
+	require.Nil(t, fi)
+
+	fi, resp, err = client.RepositoryFiles.CreateFile(13083, "app%2Fproject%2Erb", nil, errorOption)
+	require.EqualError(t, err, "RequestOptionFunc returns an error")
+	require.Nil(t, resp)
+	require.Nil(t, fi)
+
+	fi, resp, err = client.RepositoryFiles.CreateFile(13084, "app%2Fproject%2Erb", nil)
+	require.Error(t, err)
+	require.Nil(t, fi)
+	require.Equal(t, http.StatusNotFound, resp.StatusCode)
+}
+
+func TestRepositoryFilesService_UpdateFile(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/13083/repository/files/app%2Fproject%2Erb", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPut)
+		fmt.Fprintf(w, `
+			{
+			  "file_path": "app/project.rb",
+			  "branch": "master"
+			}
+		`)
+	})
+
+	want := &FileInfo{
+		FilePath: "app/project.rb",
+		Branch:   "master",
+	}
+
+	fi, resp, err := client.RepositoryFiles.UpdateFile(13083, "app%2Fproject%2Erb", nil)
+	require.NoError(t, err)
+	require.NotNil(t, resp)
+	require.Equal(t, want, fi)
+
+	fi, resp, err = client.RepositoryFiles.UpdateFile(13083.01, "app%2Fproject%2Erb", nil)
+	require.EqualError(t, err, "invalid ID type 13083.01, the ID must be an int or a string")
+	require.Nil(t, resp)
+	require.Nil(t, fi)
+
+	fi, resp, err = client.RepositoryFiles.UpdateFile(13083, "app%2Fproject%2Erb", nil, errorOption)
+	require.EqualError(t, err, "RequestOptionFunc returns an error")
+	require.Nil(t, resp)
+	require.Nil(t, fi)
+
+	fi, resp, err = client.RepositoryFiles.UpdateFile(13084, "app%2Fproject%2Erb", nil)
+	require.Error(t, err)
+	require.Nil(t, fi)
+	require.Equal(t, http.StatusNotFound, resp.StatusCode)
+}
+
+func TestRepositoryFilesService_DeleteFile(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/13083/repository/files/app%2Fproject%2Erb", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodDelete)
+	})
+
+	resp, err := client.RepositoryFiles.DeleteFile(13083, "app%2Fproject%2Erb", nil)
+	require.NoError(t, err)
+	require.NotNil(t, resp)
+
+	resp, err = client.RepositoryFiles.DeleteFile(13083.01, "app%2Fproject%2Erb", nil)
+	require.EqualError(t, err, "invalid ID type 13083.01, the ID must be an int or a string")
+	require.Nil(t, resp)
+
+	resp, err = client.RepositoryFiles.DeleteFile(13083, "app%2Fproject%2Erb", nil, errorOption)
+	require.EqualError(t, err, "RequestOptionFunc returns an error")
+	require.Nil(t, resp)
+
+	resp, err = client.RepositoryFiles.DeleteFile(13084, "app%2Fproject%2Erb", nil)
+	require.Error(t, err)
+	require.Equal(t, http.StatusNotFound, resp.StatusCode)
+}
