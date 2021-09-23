@@ -89,7 +89,7 @@ func TestRepositoryFilesService_GetFileMetaData(t *testing.T) {
 		Encoding:     "base64",
 		Ref:          "master",
 		BlobID:       "79f7bbd25901e8334750839545a9bd021f0e4c83",
-		CommitID:     "570e7b2abdd848b95f2f578043fc23bd6f6fd24d",
+		CommitID:     "d5a3ff139356ce33e37e73add446f16869741b50",
 		SHA256:       "4c294617b60715c1d218e61164a3abd4808a4284cbc30e6728a01ad9aada4481",
 		LastCommitID: "570e7b2abdd848b95f2f578043fc23bd6f6fd24d",
 	}
