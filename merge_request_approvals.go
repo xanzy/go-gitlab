@@ -36,22 +36,30 @@ type MergeRequestApprovalsService struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#merge-request-level-mr-approvals
 type MergeRequestApprovals struct {
-	ID                   int                          `json:"id"`
-	ProjectID            int                          `json:"project_id"`
-	Title                string                       `json:"title"`
-	Description          string                       `json:"description"`
-	State                string                       `json:"state"`
-	CreatedAt            *time.Time                   `json:"created_at"`
-	UpdatedAt            *time.Time                   `json:"updated_at"`
-	MergeStatus          string                       `json:"merge_status"`
-	Approved             bool                         `json:"approved"`
-	ApprovalsBeforeMerge int                          `json:"approvals_before_merge"`
-	ApprovalsRequired    int                          `json:"approvals_required"`
-	ApprovalsLeft        int                          `json:"approvals_left"`
-	ApprovedBy           []*MergeRequestApproverUser  `json:"approved_by"`
-	Approvers            []*MergeRequestApproverUser  `json:"approvers"`
-	ApproverGroups       []*MergeRequestApproverGroup `json:"approver_groups"`
-	SuggestedApprovers   []*BasicUser                 `json:"suggested_approvers"`
+	ID                             int                          `json:"id"`
+	IID                            int                          `json:"iid"`
+	ProjectID                      int                          `json:"project_id"`
+	Title                          string                       `json:"title"`
+	Description                    string                       `json:"description"`
+	State                          string                       `json:"state"`
+	CreatedAt                      *time.Time                   `json:"created_at"`
+	UpdatedAt                      *time.Time                   `json:"updated_at"`
+	MergeStatus                    string                       `json:"merge_status"`
+	Approved                       bool                         `json:"approved"`
+	ApprovalsBeforeMerge           int                          `json:"approvals_before_merge"`
+	ApprovalsRequired              int                          `json:"approvals_required"`
+	ApprovalsLeft                  int                          `json:"approvals_left"`
+	RequirePasswordToApprove       bool                         `json:"require_password_to_approve"`
+	ApprovedBy                     []*MergeRequestApproverUser  `json:"approved_by"`
+	SuggestedApprovers             []*BasicUser                 `json:"suggested_approvers"`
+	Approvers                      []*MergeRequestApproverUser  `json:"approvers"`
+	ApproverGroups                 []*MergeRequestApproverGroup `json:"approver_groups"`
+	UserHasApproved                bool                         `json:"user_has_approved"`
+	UserCanApprove                 bool                         `json:"user_can_approve"`
+	ApprovalRulesLeft              []*MergeRequestApprovalRule  `json:"approval_rules_left"`
+	HasApprovalRules               bool                         `json:"has_approval_rules"`
+	MergeRequestApproversAvailable bool                         `json:"merge_request_approvers_available"`
+	MultipleApprovalRulesAvailable bool                         `json:"multiple_approval_rules_available"`
 }
 
 func (m MergeRequestApprovals) String() string {

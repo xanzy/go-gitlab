@@ -126,7 +126,7 @@ func (s *RepositoryFilesService) GetFileMetaData(pid interface{}, fileName strin
 
 	f := &File{
 		BlobID:       resp.Header.Get("X-Gitlab-Blob-Id"),
-		CommitID:     resp.Header.Get("X-Gitlab-Last-Commit-Id"),
+		CommitID:     resp.Header.Get("X-Gitlab-Commit-Id"),
 		Encoding:     resp.Header.Get("X-Gitlab-Encoding"),
 		FileName:     resp.Header.Get("X-Gitlab-File-Name"),
 		FilePath:     resp.Header.Get("X-Gitlab-File-Path"),
