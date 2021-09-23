@@ -725,6 +725,7 @@ func (s *DiscussionsService) GetMergeRequestDiscussion(pid interface{}, mergeReq
 // https://docs.gitlab.com/ce/api/discussions.html#create-new-merge-request-thread
 type CreateMergeRequestDiscussionOptions struct {
 	Body      *string       `url:"body,omitempty" json:"body,omitempty"`
+	CommitID  *string       `url:"commit_id,omitempty" json:"commit_id,omitempty"`
 	CreatedAt *time.Time    `url:"created_at,omitempty" json:"created_at,omitempty"`
 	Position  *NotePosition `url:"position,omitempty" json:"position,omitempty"`
 }
