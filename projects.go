@@ -111,6 +111,7 @@ type Project struct {
 	AutocloseReferencedIssues                 bool                       `json:"autoclose_referenced_issues"`
 	SuggestionCommitMessage                   string                     `json:"suggestion_commit_message"`
 	CIForwardDeploymentEnabled                bool                       `json:"ci_forward_deployment_enabled"`
+	SquashOption                              *SquashOptionValue         `json:"squash_option"`
 	SharedWithGroups                          []struct {
 		GroupID          int    `json:"group_id"`
 		GroupName        string `json:"group_name"`
