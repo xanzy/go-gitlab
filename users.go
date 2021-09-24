@@ -70,6 +70,7 @@ type User struct {
 	Twitter                        string             `json:"twitter"`
 	WebsiteURL                     string             `json:"website_url"`
 	Organization                   string             `json:"organization"`
+	JobTitle                       string             `json:"job_title"`
 	ExternUID                      string             `json:"extern_uid"`
 	Provider                       string             `json:"provider"`
 	ThemeID                        int                `json:"theme_id"`
@@ -185,6 +186,7 @@ type CreateUserOptions struct {
 	Twitter             *string `url:"twitter,omitempty" json:"twitter,omitempty"`
 	WebsiteURL          *string `url:"website_url,omitempty" json:"website_url,omitempty"`
 	Organization        *string `url:"organization,omitempty" json:"organization,omitempty"`
+	JobTitle            *string `json:"job_title,omitempty"`
 	ProjectsLimit       *int    `url:"projects_limit,omitempty" json:"projects_limit,omitempty"`
 	ExternUID           *string `url:"extern_uid,omitempty" json:"extern_uid,omitempty"`
 	Provider            *string `url:"provider,omitempty" json:"provider,omitempty"`
@@ -229,6 +231,7 @@ type ModifyUserOptions struct {
 	Twitter            *string `url:"twitter,omitempty" json:"twitter,omitempty"`
 	WebsiteURL         *string `url:"website_url,omitempty" json:"website_url,omitempty"`
 	Organization       *string `url:"organization,omitempty" json:"organization,omitempty"`
+	JobTitle           *string `url:"job_title,omitempty" json:"job_title,omitempty"`
 	ProjectsLimit      *int    `url:"projects_limit,omitempty" json:"projects_limit,omitempty"`
 	ExternUID          *string `url:"extern_uid,omitempty" json:"extern_uid,omitempty"`
 	Provider           *string `url:"provider,omitempty" json:"provider,omitempty"`
