@@ -186,7 +186,7 @@ type CreateUserOptions struct {
 	Twitter             *string `url:"twitter,omitempty" json:"twitter,omitempty"`
 	WebsiteURL          *string `url:"website_url,omitempty" json:"website_url,omitempty"`
 	Organization        *string `url:"organization,omitempty" json:"organization,omitempty"`
-	JobTitle            *string `json:"job_title,omitempty"`
+	JobTitle            *string `url:"job_title,omitempty" json:"job_title,omitempty"`
 	ProjectsLimit       *int    `url:"projects_limit,omitempty" json:"projects_limit,omitempty"`
 	ExternUID           *string `url:"extern_uid,omitempty" json:"extern_uid,omitempty"`
 	Provider            *string `url:"provider,omitempty" json:"provider,omitempty"`
