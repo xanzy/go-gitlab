@@ -212,17 +212,6 @@ func TestProjectBadgesService_DeleteProjectBadge(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/badges/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)
-		fmt.Fprintf(w, `
-		  {
-			"name": "mybadge",
-			"id": 1,
-			"link_url": "http://example.com/ci_status.svg?project={project_path}&ref={default_branch}",
-			"image_url": "https://shields.io/my/badge",
-			"rendered_link_url": "http://example.com/ci_status.svg?project=example-org/example-project&ref=master",
-			"rendered_image_url": "https://shields.io/my/badge",
-			"kind": "project"
-		  }
-		`)
 	})
 
 	resp, err := client.ProjectBadges.DeleteProjectBadge(1, 1, nil, nil)
