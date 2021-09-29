@@ -362,8 +362,54 @@ func TestPushEventUnmarshal(t *testing.T) {
 		t.Errorf("Commit Timestamp isn't nil")
 	}
 
+	if event.Commits[0] == nil || event.Commits[0].Message != exampleCommitMessage {
+		t.Errorf("Commit Message is %s, want %s", event.Commits[0].Message, exampleCommitMessage)
+	}
+
+	if event.Commits[0] == nil || event.Commits[0].Title != exampleCommitTitle {
+		t.Errorf("Commit Title is %s, want %s", event.Commits[0].Title, exampleCommitTitle)
+	}
+
 	if event.Commits[0] == nil || event.Commits[0].Author.Name != "Jordi Mallach" {
 		t.Errorf("Commit Username is %s, want %s", event.UserName, "Jordi Mallach")
+	}
+}
+
+func TestTagEventUnmarshal(t *testing.T) {
+	jsonObject := loadFixture("testdata/webhooks/tag_push.json")
+	var event *TagEvent
+	err := json.Unmarshal(jsonObject, &event)
+
+	if err != nil {
+		t.Errorf("Tag Event can not unmarshaled: %v\n ", err.Error())
+	}
+
+	if event == nil {
+		t.Errorf("Tag Event is null")
+	}
+
+	if event.ProjectID != 1 {
+		t.Errorf("ProjectID is %v, want %v", event.ProjectID, 1)
+	}
+
+	if event.UserName != exampleEventUserName {
+		t.Errorf("Username is %s, want %s", event.UserName, exampleEventUserName)
+	}
+
+	if event.Commits[0] == nil || event.Commits[0].Timestamp == nil {
+		t.Errorf("Commit Timestamp isn't nil")
+	}
+
+	if event.Commits[0] == nil || event.Commits[0].Message != exampleCommitMessage {
+		t.Errorf("Commit Message is %s, want %s", event.Commits[0].Message, exampleCommitMessage)
+	}
+
+	if event.Commits[0] == nil || event.Commits[0].Title != exampleCommitTitle {
+		t.Errorf("Commit Title is %s, want %s", event.Commits[0].Title, exampleCommitTitle)
+	}
+
+	if event.Commits[0] == nil || event.Commits[0].Author.Name != exampleEventUserName {
+		t.Errorf("Commit Username is %s, want %s", event.UserName, exampleEventUserName)
 	}
 }
 
