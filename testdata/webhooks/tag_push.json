@@ -35,6 +35,21 @@
     "git_ssh_url":"git@example.com:jsmith/example.git",
     "visibility_level":0
   },
-  "commits": [],
-  "total_commits_count": 0
+  "commits": [
+    {
+      "id": "82b3d5ae55f7080f1e6022629cdb57bfae7cccc7",
+      "message": "Merge branch 'some-feature' into 'master'\n\nRelease v1.0.0\n\nSee merge request jsmith/example!1",
+      "title": "Merge branch 'some-feature' into 'master'",
+      "timestamp": "2012-01-03T23:36:29+02:00",
+      "url": "http://example.com/jsmith/example/commit/82b3d5ae55f7080f1e6022629cdb57bfae7cccc7",
+      "author": {
+        "name": "John Smith",
+        "email": "johnsmith@example.com"
+      },
+      "added": ["CHANGELOG"],
+      "modified": ["UPGRADE.md"],
+      "removed": []
+    }
+  ],
+  "total_commits_count": 1
 }

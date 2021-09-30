@@ -17,6 +17,12 @@
 package gitlab
 
 const (
+	// exampleCommitMessage provides fixture for a commit message.
+	exampleCommitMessage = "Merge branch 'some-feature' into 'master'\n\nRelease v1.0.0\n\nSee merge request jsmith/example!1"
+
+	// exampleCommitTitle provides fixture for a commit title.
+	exampleCommitTitle = "Merge branch 'some-feature' into 'master'"
+
 	// exampleDetailResponse provides fixture for Runners tests.
 	exampleDetailResponse = `{
 		"active": true,
