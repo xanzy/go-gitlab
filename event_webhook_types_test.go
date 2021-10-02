@@ -312,6 +312,10 @@ func TestPipelineEventUnmarshal(t *testing.T) {
 		t.Errorf("ObjectAttributes.QueuedDuration is %v, want %v", event.ObjectAttributes.QueuedDuration, 12)
 	}
 
+	if event.ObjectAttributes.Variables[0].Key != "NESTOR_PROD_ENVIRONMENT" {
+		t.Errorf("ObjectAttributes.Variables[0].Key is %v, want %v", event.ObjectAttributes.Variables[0].Key, "NESTOR_PROD_ENVIRONMENT")
+	}
+
 	if event.User.ID != 42 {
 		t.Errorf("User ID is %d, want %d", event.User.ID, 42)
 	}

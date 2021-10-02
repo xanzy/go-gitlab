@@ -640,6 +640,10 @@ type PipelineEvent struct {
 		FinishedAt     string   `json:"finished_at"`
 		Duration       int      `json:"duration"`
 		QueuedDuration int      `json:"queued_duration"`
+		Variables      []struct {
+			Key   string `json:"key"`
+			Value string `json:"value"`
+		} `json:"variables"`
 	} `json:"object_attributes"`
 	MergeRequest struct {
 		ID                 int    `json:"id"`
