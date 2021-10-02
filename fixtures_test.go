@@ -299,6 +299,22 @@ const (
 		}
 	}`
 
+	// exampleStatusChecks provides a fixture for status checks for a merge request.
+	exampleStatusChecks = `[
+    {
+        "id": 2,
+        "name": "Rule 1",
+        "external_url": "https://gitlab.com/test-endpoint",
+        "status": "approved"
+    },
+    {
+        "id": 1,
+        "name": "Rule 2",
+        "external_url": "https://gitlab.com/test-endpoint-2",
+        "status": "pending"
+    }
+	]`
+
 	// exampleTagName provides a fixture for a tag name.
 	exampleTagName = "v0.1"
 
