@@ -1336,3 +1336,78 @@ func TestAwardEmojiService_CreateSnippetAwardEmojiOnNote(t *testing.T) {
 	require.Nil(t, ae)
 	require.Equal(t, http.StatusNotFound, resp.StatusCode)
 }
+
+func TestAwardEmojiService_DeleteMergeRequestAwardEmojiOnNote(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/merge_requests/80/notes/1/award_emoji/1", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodDelete)
+	})
+
+	resp, err := client.AwardEmoji.DeleteMergeRequestAwardEmojiOnNote(1, 80, 1, 1, nil)
+	require.NoError(t, err)
+	require.NotNil(t, resp)
+
+	resp, err = client.AwardEmoji.DeleteMergeRequestAwardEmojiOnNote(1.01, 80, 1, 1, nil)
+	require.EqualError(t, err, "invalid ID type 1.01, the ID must be an int or a string")
+	require.Nil(t, resp)
+
+	resp, err = client.AwardEmoji.DeleteMergeRequestAwardEmojiOnNote(1, 80, 1, 1, nil, errorOption)
+	require.EqualError(t, err, "RequestOptionFunc returns an error")
+	require.Nil(t, resp)
+
+	resp, err = client.AwardEmoji.DeleteMergeRequestAwardEmojiOnNote(3, 80, 1, 1, nil)
+	require.Error(t, err)
+	require.Equal(t, http.StatusNotFound, resp.StatusCode)
+}
+
+func TestAwardEmojiService_DeleteIssuesAwardEmojiOnNote(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/issues/80/notes/1/award_emoji/1", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodDelete)
+	})
+
+	resp, err := client.AwardEmoji.DeleteIssuesAwardEmojiOnNote(1, 80, 1, 1, nil)
+	require.NoError(t, err)
+	require.NotNil(t, resp)
+
+	resp, err = client.AwardEmoji.DeleteIssuesAwardEmojiOnNote(1.01, 80, 1, 1, nil)
+	require.EqualError(t, err, "invalid ID type 1.01, the ID must be an int or a string")
+	require.Nil(t, resp)
+
+	resp, err = client.AwardEmoji.DeleteIssuesAwardEmojiOnNote(1, 80, 1, 1, nil, errorOption)
+	require.EqualError(t, err, "RequestOptionFunc returns an error")
+	require.Nil(t, resp)
+
+	resp, err = client.AwardEmoji.DeleteIssuesAwardEmojiOnNote(3, 80, 1, 1, nil)
+	require.Error(t, err)
+	require.Equal(t, http.StatusNotFound, resp.StatusCode)
+}
+
+func TestAwardEmojiService_DeleteSnippetAwardEmojiOnNote(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/snippets/80/notes/1/award_emoji/1", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodDelete)
+	})
+
+	resp, err := client.AwardEmoji.DeleteSnippetAwardEmojiOnNote(1, 80, 1, 1, nil)
+	require.NoError(t, err)
+	require.NotNil(t, resp)
+
+	resp, err = client.AwardEmoji.DeleteSnippetAwardEmojiOnNote(1.01, 80, 1, 1, nil)
+	require.EqualError(t, err, "invalid ID type 1.01, the ID must be an int or a string")
+	require.Nil(t, resp)
+
+	resp, err = client.AwardEmoji.DeleteSnippetAwardEmojiOnNote(1, 80, 1, 1, nil, errorOption)
+	require.EqualError(t, err, "RequestOptionFunc returns an error")
+	require.Nil(t, resp)
+
+	resp, err = client.AwardEmoji.DeleteSnippetAwardEmojiOnNote(3, 80, 1, 1, nil)
+	require.Error(t, err)
+	require.Equal(t, http.StatusNotFound, resp.StatusCode)
+}
