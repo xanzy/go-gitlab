@@ -41,13 +41,6 @@ func TestAuditEventsService_ListInstanceAuditEvents(t *testing.T) {
 		EntityID:   6,
 		EntityType: "Project",
 		Details: AuditEventDetails{
-			With:          "",
-			Add:           "",
-			As:            "",
-			Change:        "",
-			From:          "",
-			To:            "",
-			Remove:        "",
 			CustomMessage: "Project archived",
 			AuthorName:    "Venkatesh Thalluri",
 			TargetID:      "flightjs/flight",
@@ -55,9 +48,7 @@ func TestAuditEventsService_ListInstanceAuditEvents(t *testing.T) {
 			TargetDetails: "flightjs/flight",
 			IPAddress:     "127.0.0.1",
 			EntityPath:    "flightjs/flight",
-			FailedLogin:   "",
 		},
-		CreatedAt: nil,
 	}}
 
 	aes, resp, err := client.AuditEvents.ListInstanceAuditEvents(nil)
@@ -117,13 +108,6 @@ func TestAuditEventsService_GetInstanceAuditEvent(t *testing.T) {
 		EntityID:   6,
 		EntityType: "Project",
 		Details: AuditEventDetails{
-			With:          "",
-			Add:           "",
-			As:            "",
-			Change:        "",
-			From:          "",
-			To:            "",
-			Remove:        "",
 			CustomMessage: "Project archived",
 			AuthorName:    "Venkatesh Thalluri",
 			TargetID:      "flightjs/flight",
@@ -131,9 +115,7 @@ func TestAuditEventsService_GetInstanceAuditEvent(t *testing.T) {
 			TargetDetails: "flightjs/flight",
 			IPAddress:     "127.0.0.1",
 			EntityPath:    "flightjs/flight",
-			FailedLogin:   "",
 		},
-		CreatedAt: nil,
 	}
 
 	ae, resp, err := client.AuditEvents.GetInstanceAuditEvent(1, nil)
@@ -185,13 +167,6 @@ func TestAuditEventsService_ListGroupAuditEvents(t *testing.T) {
 		EntityID:   6,
 		EntityType: "Group",
 		Details: AuditEventDetails{
-			With:          "",
-			Add:           "",
-			As:            "",
-			Change:        "",
-			From:          "",
-			To:            "",
-			Remove:        "",
 			CustomMessage: "Group archived",
 			AuthorName:    "Venkatesh Thalluri",
 			TargetID:      "flightjs/flight",
@@ -199,9 +174,7 @@ func TestAuditEventsService_ListGroupAuditEvents(t *testing.T) {
 			TargetDetails: "flightjs/flight",
 			IPAddress:     "127.0.0.1",
 			EntityPath:    "flightjs/flight",
-			FailedLogin:   "",
 		},
-		CreatedAt: nil,
 	}}
 
 	aes, resp, err := client.AuditEvents.ListGroupAuditEvents(6, nil)
@@ -256,13 +229,6 @@ func TestAuditEventsService_GetGroupAuditEvent(t *testing.T) {
 		EntityID:   6,
 		EntityType: "Group",
 		Details: AuditEventDetails{
-			With:          "",
-			Add:           "",
-			As:            "",
-			Change:        "",
-			From:          "",
-			To:            "",
-			Remove:        "",
 			CustomMessage: "Group archived",
 			AuthorName:    "Venkatesh Thalluri",
 			TargetID:      "flightjs/flight",
@@ -270,9 +236,7 @@ func TestAuditEventsService_GetGroupAuditEvent(t *testing.T) {
 			TargetDetails: "flightjs/flight",
 			IPAddress:     "127.0.0.1",
 			EntityPath:    "flightjs/flight",
-			FailedLogin:   "",
 		},
-		CreatedAt: nil,
 	}
 
 	ae, resp, err := client.AuditEvents.GetGroupAuditEvent(6, 1, nil)
@@ -329,13 +293,6 @@ func TestAuditEventsService_ListProjectAuditEvents(t *testing.T) {
 		EntityID:   6,
 		EntityType: "Project",
 		Details: AuditEventDetails{
-			With:          "",
-			Add:           "",
-			As:            "",
-			Change:        "",
-			From:          "",
-			To:            "",
-			Remove:        "",
 			CustomMessage: "Project archived",
 			AuthorName:    "Venkatesh Thalluri",
 			TargetID:      "flightjs/flight",
@@ -343,9 +300,7 @@ func TestAuditEventsService_ListProjectAuditEvents(t *testing.T) {
 			TargetDetails: "flightjs/flight",
 			IPAddress:     "127.0.0.1",
 			EntityPath:    "flightjs/flight",
-			FailedLogin:   "",
 		},
-		CreatedAt: nil,
 	}}
 
 	aes, resp, err := client.AuditEvents.ListProjectAuditEvents(6, nil)
@@ -400,13 +355,6 @@ func TestAuditEventsService_GetProjectAuditEvent(t *testing.T) {
 		EntityID:   6,
 		EntityType: "Project",
 		Details: AuditEventDetails{
-			With:          "",
-			Add:           "",
-			As:            "",
-			Change:        "",
-			From:          "",
-			To:            "",
-			Remove:        "",
 			CustomMessage: "Project archived",
 			AuthorName:    "Venkatesh Thalluri",
 			TargetID:      "flightjs/flight",
@@ -414,9 +362,7 @@ func TestAuditEventsService_GetProjectAuditEvent(t *testing.T) {
 			TargetDetails: "flightjs/flight",
 			IPAddress:     "127.0.0.1",
 			EntityPath:    "flightjs/flight",
-			FailedLogin:   "",
 		},
-		CreatedAt: nil,
 	}
 
 	ae, resp, err := client.AuditEvents.GetProjectAuditEvent(6, 1, nil)
