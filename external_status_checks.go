@@ -3,6 +3,7 @@ package gitlab
 import (
 	"fmt"
 	"net/http"
+	"time"
 )
 
 // ExternalStatusChecksService handles communication with the external status check
@@ -18,6 +19,23 @@ type StatusCheck struct {
 	Name        string `json:"name"`
 	ExternalURL string `json:"external_url"`
 	Status      string `json:"status"`
+}
+
+type ProjectStatusCheck struct {
+	ID                int                          `json:"id"`
+	Name              string                       `json:"name"`
+	ProjectID         int                          `json:"project_id"`
+	ExternalURL       string                       `json:"external_url"`
+	ProtectedBranches []StatusCheckProtectedBranch `json:"protected_branches"`
+}
+
+type StatusCheckProtectedBranch struct {
+	ID                        int        `json:"id"`
+	ProjectID                 int        `json:"project_id"`
+	Name                      string     `json:"name"`
+	CreatedAt                 *time.Time `json:"created_at"`
+	UpdatedAt                 *time.Time `json:"updated_at"`
+	CodeOwnerApprovalRequired bool       `json:"code_owner_approval_required"`
 }
 
 // ListExternalStatusChecks lists the external status checks that apply to it and their status
@@ -43,4 +61,28 @@ func (s *ExternalStatusChecksService) ListExternalStatusChecks(pid interface{}, 
 	}
 
 	return scs, resp, err
+}
+
+// ListProjectExternalStatusChecks lists the project external status checks
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/status_checks.html#get-project-external-status-checks
+func (s *ExternalStatusChecksService) ListProjectExternalStatusChecks(pid interface{}, opt *ListOptions, options ...RequestOptionFunc) ([]*ProjectStatusCheck, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/external_status_checks", pathEscape(project))
+
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var pscs []*ProjectStatusCheck
+	resp, err := s.client.Do(req, &pscs)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return pscs, resp, err
 }
