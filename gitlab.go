@@ -121,6 +121,7 @@ type Client struct {
 	Events                *EventsService
 	Features              *FeaturesService
 	FreezePeriods         *FreezePeriodsService
+	GeoNodes              *GeoNodesService
 	GitIgnoreTemplates    *GitIgnoreTemplatesService
 	GroupBadges           *GroupBadgesService
 	GroupCluster          *GroupClustersService
@@ -308,6 +309,7 @@ func newClient(options ...ClientOptionFunc) (*Client, error) {
 	c.Events = &EventsService{client: c}
 	c.Features = &FeaturesService{client: c}
 	c.FreezePeriods = &FreezePeriodsService{client: c}
+	c.GeoNodes = &GeoNodesService{client: c}
 	c.GitIgnoreTemplates = &GitIgnoreTemplatesService{client: c}
 	c.GroupBadges = &GroupBadgesService{client: c}
 	c.GroupCluster = &GroupClustersService{client: c}
