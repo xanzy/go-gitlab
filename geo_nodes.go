@@ -205,3 +205,24 @@ func (s *GeoNodesService) DeleteGeoNode(id int, options ...RequestOptionFunc) (*
 
 	return s.client.Do(req, nil)
 }
+
+// RepairGeoNode to repair the OAuth authentication of a Geo node.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/geo_nodes.html#repair-a-geo-node
+func (s *GeoNodesService) RepairGeoNode(id int, options ...RequestOptionFunc) (*GeoNode, *Response, error) {
+	u := fmt.Sprintf("geo_nodes/%d/repair", id)
+
+	req, err := s.client.NewRequest(http.MethodPost, u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	g := new(GeoNode)
+	resp, err := s.client.Do(req, g)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return g, resp, err
+}
