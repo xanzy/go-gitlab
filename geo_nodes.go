@@ -226,3 +226,186 @@ func (s *GeoNodesService) RepairGeoNode(id int, options ...RequestOptionFunc) (*
 
 	return g, resp, err
 }
+
+// GeoNodeStatus represents the status of Geo Node.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/geo_nodes.html#retrieve-status-about-all-geo-nodes
+type GeoNodeStatus struct {
+	GeoNodeID                                     int         `json:"geo_node_id"`
+	Healthy                                       bool        `json:"healthy"`
+	Health                                        string      `json:"health"`
+	HealthStatus                                  string      `json:"health_status"`
+	MissingOauthApplication                       bool        `json:"missing_oauth_application"`
+	AttachmentsCount                              int         `json:"attachments_count"`
+	AttachmentsSyncedCount                        interface{} `json:"attachments_synced_count"`
+	AttachmentsFailedCount                        interface{} `json:"attachments_failed_count"`
+	AttachmentsSyncedMissingOnPrimaryCount        int         `json:"attachments_synced_missing_on_primary_count"`
+	AttachmentsSyncedInPercentage                 string      `json:"attachments_synced_in_percentage"`
+	DbReplicationLagSeconds                       interface{} `json:"db_replication_lag_seconds"`
+	LfsObjectsCount                               int         `json:"lfs_objects_count"`
+	LfsObjectsSyncedCount                         interface{} `json:"lfs_objects_synced_count"`
+	LfsObjectsFailedCount                         interface{} `json:"lfs_objects_failed_count"`
+	LfsObjectsSyncedMissingOnPrimaryCount         int         `json:"lfs_objects_synced_missing_on_primary_count"`
+	LfsObjectsSyncedInPercentage                  string      `json:"lfs_objects_synced_in_percentage"`
+	JobArtifactsCount                             int         `json:"job_artifacts_count"`
+	JobArtifactsSyncedCount                       interface{} `json:"job_artifacts_synced_count"`
+	JobArtifactsFailedCount                       interface{} `json:"job_artifacts_failed_count"`
+	JobArtifactsSyncedMissingOnPrimaryCount       int         `json:"job_artifacts_synced_missing_on_primary_count"`
+	JobArtifactsSyncedInPercentage                string      `json:"job_artifacts_synced_in_percentage"`
+	ContainerRepositoriesCount                    int         `json:"container_repositories_count"`
+	ContainerRepositoriesSyncedCount              interface{} `json:"container_repositories_synced_count"`
+	ContainerRepositoriesFailedCount              interface{} `json:"container_repositories_failed_count"`
+	ContainerRepositoriesSyncedInPercentage       string      `json:"container_repositories_synced_in_percentage"`
+	DesignRepositoriesCount                       int         `json:"design_repositories_count"`
+	DesignRepositoriesSyncedCount                 interface{} `json:"design_repositories_synced_count"`
+	DesignRepositoriesFailedCount                 interface{} `json:"design_repositories_failed_count"`
+	DesignRepositoriesSyncedInPercentage          string      `json:"design_repositories_synced_in_percentage"`
+	ProjectsCount                                 int         `json:"projects_count"`
+	RepositoriesCount                             int         `json:"repositories_count"`
+	RepositoriesFailedCount                       interface{} `json:"repositories_failed_count"`
+	RepositoriesSyncedCount                       interface{} `json:"repositories_synced_count"`
+	RepositoriesSyncedInPercentage                string      `json:"repositories_synced_in_percentage"`
+	WikisCount                                    int         `json:"wikis_count"`
+	WikisFailedCount                              interface{} `json:"wikis_failed_count"`
+	WikisSyncedCount                              interface{} `json:"wikis_synced_count"`
+	WikisSyncedInPercentage                       string      `json:"wikis_synced_in_percentage"`
+	ReplicationSlotsCount                         int         `json:"replication_slots_count"`
+	ReplicationSlotsUsedCount                     int         `json:"replication_slots_used_count"`
+	ReplicationSlotsUsedInPercentage              string      `json:"replication_slots_used_in_percentage"`
+	ReplicationSlotsMaxRetainedWalBytes           int         `json:"replication_slots_max_retained_wal_bytes"`
+	RepositoriesCheckedCount                      int         `json:"repositories_checked_count"`
+	RepositoriesCheckedFailedCount                int         `json:"repositories_checked_failed_count"`
+	RepositoriesCheckedInPercentage               string      `json:"repositories_checked_in_percentage"`
+	RepositoriesChecksummedCount                  int         `json:"repositories_checksummed_count"`
+	RepositoriesChecksumFailedCount               int         `json:"repositories_checksum_failed_count"`
+	RepositoriesChecksummedInPercentage           string      `json:"repositories_checksummed_in_percentage"`
+	WikisChecksummedCount                         int         `json:"wikis_checksummed_count"`
+	WikisChecksumFailedCount                      int         `json:"wikis_checksum_failed_count"`
+	WikisChecksummedInPercentage                  string      `json:"wikis_checksummed_in_percentage"`
+	RepositoriesVerifiedCount                     int         `json:"repositories_verified_count"`
+	RepositoriesVerificationFailedCount           int         `json:"repositories_verification_failed_count"`
+	RepositoriesVerifiedInPercentage              string      `json:"repositories_verified_in_percentage"`
+	RepositoriesChecksumMismatchCount             int         `json:"repositories_checksum_mismatch_count"`
+	WikisVerifiedCount                            int         `json:"wikis_verified_count"`
+	WikisVerificationFailedCount                  int         `json:"wikis_verification_failed_count"`
+	WikisVerifiedInPercentage                     string      `json:"wikis_verified_in_percentage"`
+	WikisChecksumMismatchCount                    int         `json:"wikis_checksum_mismatch_count"`
+	RepositoriesRetryingVerificationCount         int         `json:"repositories_retrying_verification_count"`
+	WikisRetryingVerificationCount                int         `json:"wikis_retrying_verification_count"`
+	LastEventID                                   int         `json:"last_event_id"`
+	LastEventTimestamp                            int         `json:"last_event_timestamp"`
+	CursorLastEventID                             interface{} `json:"cursor_last_event_id"`
+	CursorLastEventTimestamp                      int         `json:"cursor_last_event_timestamp"`
+	LastSuccessfulStatusCheckTimestamp            int         `json:"last_successful_status_check_timestamp"`
+	Version                                       string      `json:"version"`
+	Revision                                      string      `json:"revision"`
+	MergeRequestDiffsCount                        int         `json:"merge_request_diffs_count"`
+	MergeRequestDiffsChecksumTotalCount           int         `json:"merge_request_diffs_checksum_total_count"`
+	MergeRequestDiffsChecksummedCount             int         `json:"merge_request_diffs_checksummed_count"`
+	MergeRequestDiffsChecksumFailedCount          int         `json:"merge_request_diffs_checksum_failed_count"`
+	MergeRequestDiffsSyncedCount                  interface{} `json:"merge_request_diffs_synced_count"`
+	MergeRequestDiffsFailedCount                  interface{} `json:"merge_request_diffs_failed_count"`
+	MergeRequestDiffsRegistryCount                interface{} `json:"merge_request_diffs_registry_count"`
+	MergeRequestDiffsVerificationTotalCount       interface{} `json:"merge_request_diffs_verification_total_count"`
+	MergeRequestDiffsVerifiedCount                interface{} `json:"merge_request_diffs_verified_count"`
+	MergeRequestDiffsVerificationFailedCount      interface{} `json:"merge_request_diffs_verification_failed_count"`
+	MergeRequestDiffsSyncedInPercentage           string      `json:"merge_request_diffs_synced_in_percentage"`
+	MergeRequestDiffsVerifiedInPercentage         string      `json:"merge_request_diffs_verified_in_percentage"`
+	PackageFilesCount                             int         `json:"package_files_count"`
+	PackageFilesChecksumTotalCount                int         `json:"package_files_checksum_total_count"`
+	PackageFilesChecksummedCount                  int         `json:"package_files_checksummed_count"`
+	PackageFilesChecksumFailedCount               int         `json:"package_files_checksum_failed_count"`
+	PackageFilesSyncedCount                       interface{} `json:"package_files_synced_count"`
+	PackageFilesFailedCount                       interface{} `json:"package_files_failed_count"`
+	PackageFilesRegistryCount                     interface{} `json:"package_files_registry_count"`
+	PackageFilesVerificationTotalCount            interface{} `json:"package_files_verification_total_count"`
+	PackageFilesVerifiedCount                     interface{} `json:"package_files_verified_count"`
+	PackageFilesVerificationFailedCount           interface{} `json:"package_files_verification_failed_count"`
+	PackageFilesSyncedInPercentage                string      `json:"package_files_synced_in_percentage"`
+	PackageFilesVerifiedInPercentage              string      `json:"package_files_verified_in_percentage"`
+	PagesDeploymentsCount                         int         `json:"pages_deployments_count"`
+	PagesDeploymentsChecksumTotalCount            int         `json:"pages_deployments_checksum_total_count"`
+	PagesDeploymentsChecksummedCount              int         `json:"pages_deployments_checksummed_count"`
+	PagesDeploymentsChecksumFailedCount           int         `json:"pages_deployments_checksum_failed_count"`
+	PagesDeploymentsSyncedCount                   interface{} `json:"pages_deployments_synced_count"`
+	PagesDeploymentsFailedCount                   interface{} `json:"pages_deployments_failed_count"`
+	PagesDeploymentsRegistryCount                 interface{} `json:"pages_deployments_registry_count"`
+	PagesDeploymentsVerificationTotalCount        interface{} `json:"pages_deployments_verification_total_count"`
+	PagesDeploymentsVerifiedCount                 interface{} `json:"pages_deployments_verified_count"`
+	PagesDeploymentsVerificationFailedCount       interface{} `json:"pages_deployments_verification_failed_count"`
+	PagesDeploymentsSyncedInPercentage            string      `json:"pages_deployments_synced_in_percentage"`
+	PagesDeploymentsVerifiedInPercentage          string      `json:"pages_deployments_verified_in_percentage"`
+	TerraformStateVersionsCount                   int         `json:"terraform_state_versions_count"`
+	TerraformStateVersionsChecksumTotalCount      int         `json:"terraform_state_versions_checksum_total_count"`
+	TerraformStateVersionsChecksummedCount        int         `json:"terraform_state_versions_checksummed_count"`
+	TerraformStateVersionsChecksumFailedCount     int         `json:"terraform_state_versions_checksum_failed_count"`
+	TerraformStateVersionsSyncedCount             interface{} `json:"terraform_state_versions_synced_count"`
+	TerraformStateVersionsFailedCount             interface{} `json:"terraform_state_versions_failed_count"`
+	TerraformStateVersionsRegistryCount           interface{} `json:"terraform_state_versions_registry_count"`
+	TerraformStateVersionsVerificationTotalCount  interface{} `json:"terraform_state_versions_verification_total_count"`
+	TerraformStateVersionsVerifiedCount           interface{} `json:"terraform_state_versions_verified_count"`
+	TerraformStateVersionsVerificationFailedCount interface{} `json:"terraform_state_versions_verification_failed_count"`
+	TerraformStateVersionsSyncedInPercentage      string      `json:"terraform_state_versions_synced_in_percentage"`
+	TerraformStateVersionsVerifiedInPercentage    string      `json:"terraform_state_versions_verified_in_percentage"`
+	SnippetRepositoriesCount                      int         `json:"snippet_repositories_count"`
+	SnippetRepositoriesChecksumTotalCount         int         `json:"snippet_repositories_checksum_total_count"`
+	SnippetRepositoriesChecksummedCount           int         `json:"snippet_repositories_checksummed_count"`
+	SnippetRepositoriesChecksumFailedCount        int         `json:"snippet_repositories_checksum_failed_count"`
+	SnippetRepositoriesSyncedCount                interface{} `json:"snippet_repositories_synced_count"`
+	SnippetRepositoriesFailedCount                interface{} `json:"snippet_repositories_failed_count"`
+	SnippetRepositoriesRegistryCount              interface{} `json:"snippet_repositories_registry_count"`
+	SnippetRepositoriesVerificationTotalCount     interface{} `json:"snippet_repositories_verification_total_count"`
+	SnippetRepositoriesVerifiedCount              interface{} `json:"snippet_repositories_verified_count"`
+	SnippetRepositoriesVerificationFailedCount    interface{} `json:"snippet_repositories_verification_failed_count"`
+	SnippetRepositoriesSyncedInPercentage         string      `json:"snippet_repositories_synced_in_percentage"`
+	SnippetRepositoriesVerifiedInPercentage       string      `json:"snippet_repositories_verified_in_percentage"`
+	GroupWikiRepositoriesCount                    int         `json:"group_wiki_repositories_count"`
+	GroupWikiRepositoriesChecksumTotalCount       int         `json:"group_wiki_repositories_checksum_total_count"`
+	GroupWikiRepositoriesChecksummedCount         int         `json:"group_wiki_repositories_checksummed_count"`
+	GroupWikiRepositoriesChecksumFailedCount      int         `json:"group_wiki_repositories_checksum_failed_count"`
+	GroupWikiRepositoriesSyncedCount              interface{} `json:"group_wiki_repositories_synced_count"`
+	GroupWikiRepositoriesFailedCount              interface{} `json:"group_wiki_repositories_failed_count"`
+	GroupWikiRepositoriesRegistryCount            interface{} `json:"group_wiki_repositories_registry_count"`
+	GroupWikiRepositoriesVerificationTotalCount   interface{} `json:"group_wiki_repositories_verification_total_count"`
+	GroupWikiRepositoriesVerifiedCount            interface{} `json:"group_wiki_repositories_verified_count"`
+	GroupWikiRepositoriesVerificationFailedCount  interface{} `json:"group_wiki_repositories_verification_failed_count"`
+	GroupWikiRepositoriesSyncedInPercentage       string      `json:"group_wiki_repositories_synced_in_percentage"`
+	GroupWikiRepositoriesVerifiedInPercentage     string      `json:"group_wiki_repositories_verified_in_percentage"`
+	PipelineArtifactsCount                        int         `json:"pipeline_artifacts_count"`
+	PipelineArtifactsChecksumTotalCount           int         `json:"pipeline_artifacts_checksum_total_count"`
+	PipelineArtifactsChecksummedCount             int         `json:"pipeline_artifacts_checksummed_count"`
+	PipelineArtifactsChecksumFailedCount          int         `json:"pipeline_artifacts_checksum_failed_count"`
+	PipelineArtifactsSyncedCount                  interface{} `json:"pipeline_artifacts_synced_count"`
+	PipelineArtifactsFailedCount                  interface{} `json:"pipeline_artifacts_failed_count"`
+	PipelineArtifactsRegistryCount                interface{} `json:"pipeline_artifacts_registry_count"`
+	PipelineArtifactsVerificationTotalCount       interface{} `json:"pipeline_artifacts_verification_total_count"`
+	PipelineArtifactsVerifiedCount                interface{} `json:"pipeline_artifacts_verified_count"`
+	PipelineArtifactsVerificationFailedCount      interface{} `json:"pipeline_artifacts_verification_failed_count"`
+	PipelineArtifactsSyncedInPercentage           string      `json:"pipeline_artifacts_synced_in_percentage"`
+	PipelineArtifactsVerifiedInPercentage         string      `json:"pipeline_artifacts_verified_in_percentage"`
+	UploadsCount                                  int         `json:"uploads_count"`
+	UploadsSyncedCount                            interface{} `json:"uploads_synced_count"`
+	UploadsFailedCount                            int         `json:"uploads_failed_count"`
+	UploadsRegistryCount                          interface{} `json:"uploads_registry_count"`
+	UploadsSyncedInPercentage                     string      `json:"uploads_synced_in_percentage"`
+}
+
+// RetrieveStatusOfAllGeoNodes get the list of status of all Geo Nodes.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/geo_nodes.html#retrieve-status-about-all-geo-nodes
+func (s *GeoNodesService) RetrieveStatusOfAllGeoNodes(options ...RequestOptionFunc) ([]*GeoNodeStatus, *Response, error) {
+	req, err := s.client.NewRequest(http.MethodGet, "geo_nodes/status", nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var gnss []*GeoNodeStatus
+	resp, err := s.client.Do(req, &gnss)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return gnss, resp, err
+}
