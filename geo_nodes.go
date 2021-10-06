@@ -152,7 +152,7 @@ func (s *GeoNodesService) GetGeoNode(id int, options ...RequestOptionFunc) (*Geo
 // UpdateGeoNodesOptions represents the available EditGeoNode() options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/geo_nodes.html#create-a-new-geo-node
+// https://docs.gitlab.com/ee/api/geo_nodes.html#edit-a-geo-node
 type UpdateGeoNodesOptions struct {
 	Id                               *int      `url:"primary,omitempty" json:"primary,omitempty"`
 	Enabled                          *bool     `url:"enabled,omitempty" json:"enabled,omitempty"`
