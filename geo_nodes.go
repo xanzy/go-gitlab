@@ -149,7 +149,7 @@ func (s *GeoNodesService) GetGeoNode(id int, options ...RequestOptionFunc) (*Geo
 	return g, resp, err
 }
 
-// EditGeoNode gets a specific geo node.
+// EditGeoNode edits a specific geo node.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/geo_nodes.html#edit-a-geo-node
@@ -168,4 +168,19 @@ func (s *GeoNodesService) EditGeoNode(id int, options ...RequestOptionFunc) (*Ge
 	}
 
 	return g, resp, err
+}
+
+// DeleteGeoNode deletes a specific geo node.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/geo_nodes.html#delete-a-geo-node
+func (s *GeoNodesService) DeleteGeoNode(id int, options ...RequestOptionFunc) (*Response, error) {
+	u := fmt.Sprintf("geo_nodes/%d", id)
+
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
 }

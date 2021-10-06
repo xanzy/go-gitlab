@@ -347,3 +347,24 @@ func TestGeoNodesService_EditGeoNode(t *testing.T) {
 	require.Nil(t, g)
 	require.Equal(t, http.StatusNotFound, resp.StatusCode)
 }
+
+func TestGeoNodesService_DeleteGeoNode(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/geo_nodes/3", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodDelete)
+	})
+
+	resp, err := client.GeoNodes.DeleteGeoNode(3, nil)
+	require.NoError(t, err)
+	require.NotNil(t, resp)
+
+	resp, err = client.GeoNodes.DeleteGeoNode(3, errorOption)
+	require.EqualError(t, err, "RequestOptionFunc returns an error")
+	require.Nil(t, resp)
+
+	resp, err = client.GeoNodes.DeleteGeoNode(5, nil)
+	require.Error(t, err)
+	require.Equal(t, http.StatusNotFound, resp.StatusCode)
+}
