@@ -124,6 +124,7 @@ func (s *GeoNodesService) ListGeoNodes(opt *ListGeoNodesOptions, options ...Requ
 	if err != nil {
 		return nil, resp, err
 	}
+
 	return gs, resp, err
 }
 
@@ -144,6 +145,7 @@ func (s *GeoNodesService) GetGeoNode(id int, options ...RequestOptionFunc) (*Geo
 	if err != nil {
 		return nil, resp, err
 	}
+
 	return g, resp, err
 }
 
@@ -164,5 +166,6 @@ func (s *GeoNodesService) EditGeoNode(id int, options ...RequestOptionFunc) (*Ge
 	if err != nil {
 		return nil, resp, err
 	}
+
 	return g, resp, err
 }
