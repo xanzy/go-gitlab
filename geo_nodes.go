@@ -149,14 +149,35 @@ func (s *GeoNodesService) GetGeoNode(id int, options ...RequestOptionFunc) (*Geo
 	return g, resp, err
 }
 
-// EditGeoNode edits a specific geo node.
+// UpdateGeoNodesOptions represents the available EditGeoNode() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/geo_nodes.html#create-a-new-geo-node
+type UpdateGeoNodesOptions struct {
+	Id                               *int      `url:"primary,omitempty" json:"primary,omitempty"`
+	Enabled                          *bool     `url:"enabled,omitempty" json:"enabled,omitempty"`
+	Name                             *string   `url:"name,omitempty" json:"name,omitempty"`
+	URL                              *string   `url:"url,omitempty" json:"url,omitempty"`
+	InternalURL                      *string   `url:"internal_url,omitempty" json:"internal_url,omitempty"`
+	FilesMaxCapacity                 *int      `url:"files_max_capacity,omitempty" json:"files_max_capacity,omitempty"`
+	ReposMaxCapacity                 *int      `url:"repos_max_capacity,omitempty" json:"repos_max_capacity,omitempty"`
+	VerificationMaxCapacity          *int      `url:"verification_max_capacity,omitempty" json:"verification_max_capacity,omitempty"`
+	ContainerRepositoriesMaxCapacity *int      `url:"container_repositories_max_capacity,omitempty" json:"container_repositories_max_capacity,omitempty"`
+	SyncObjectStorage                *bool     `url:"sync_object_storage,omitempty" json:"sync_object_storage,omitempty"`
+	SelectiveSyncType                *string   `url:"selective_sync_type,omitempty" json:"selective_sync_type,omitempty"`
+	SelectiveSyncShards              []*string `url:"selective_sync_shards,omitempty" json:"selective_sync_shards,omitempty"`
+	SelectiveSyncNamespaceIds        []*int    `url:"selective_sync_namespace_ids,omitempty" json:"selective_sync_namespace_ids,omitempty"`
+	MinimumReverificationInterval    *int      `url:"minimum_reverification_interval,omitempty" json:"minimum_reverification_interval,omitempty"`
+}
+
+// EditGeoNode updates settings of an existing Geo node.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/geo_nodes.html#edit-a-geo-node
-func (s *GeoNodesService) EditGeoNode(id int, options ...RequestOptionFunc) (*GeoNode, *Response, error) {
+func (s *GeoNodesService) EditGeoNode(id int, opt *UpdateGeoNodesOptions, options ...RequestOptionFunc) (*GeoNode, *Response, error) {
 	u := fmt.Sprintf("geo_nodes/%d", id)
 
-	req, err := s.client.NewRequest(http.MethodPut, u, nil, options)
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -170,7 +191,7 @@ func (s *GeoNodesService) EditGeoNode(id int, options ...RequestOptionFunc) (*Ge
 	return g, resp, err
 }
 
-// DeleteGeoNode deletes a specific geo node.
+// DeleteGeoNode removes the Geo node.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/geo_nodes.html#delete-a-geo-node

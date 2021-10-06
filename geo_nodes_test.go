@@ -337,7 +337,7 @@ func TestGeoNodesService_EditGeoNode(t *testing.T) {
 	require.NotNil(t, resp)
 	require.Equal(t, want, g)
 
-	g, resp, err = client.GeoNodes.EditGeoNode(3, errorOption)
+	g, resp, err = client.GeoNodes.EditGeoNode(3, nil, errorOption)
 	require.EqualError(t, err, "RequestOptionFunc returns an error")
 	require.Nil(t, resp)
 	require.Nil(t, g)
