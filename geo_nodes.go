@@ -16,7 +16,10 @@
 
 package gitlab
 
-import "net/http"
+import (
+	"fmt"
+	"net/http"
+)
 
 // GeoNode represents a GitLab Geo Node.
 //
@@ -81,6 +84,10 @@ type CreateGeoNodesOptions struct {
 	MinimumReverificationInterval    *int      `url:"minimum_reverification_interval,omitempty" json:"minimum_reverification_interval,omitempty"`
 }
 
+// CreateGeoNode creates a new Geo Node.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/geo_nodes.html#create-a-new-geo-node
 func (s *GeoNodesService) CreateGeoNode(opt *CreateGeoNodesOptions, options ...RequestOptionFunc) (*GeoNode, *Response, error) {
 	req, err := s.client.NewRequest(http.MethodPost, "geo_nodes", opt, options)
 	if err != nil {
@@ -93,5 +100,49 @@ func (s *GeoNodesService) CreateGeoNode(opt *CreateGeoNodesOptions, options ...R
 		return nil, resp, err
 	}
 
+	return g, resp, err
+}
+
+// ListGeoNodesOptions represents the available ListGeoNodes() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/geo_nodes.html#retrieve-configuration-about-all-geo-nodes
+type ListGeoNodesOptions ListOptions
+
+// ListGeoNodes gets a list of geo nodes.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/geo_nodes.html#retrieve-configuration-about-all-geo-nodes
+func (s *GeoNodesService) ListGeoNodes(opt *ListGeoNodesOptions, options ...RequestOptionFunc) ([]*GeoNode, *Response, error) {
+	req, err := s.client.NewRequest(http.MethodGet, "geo_nodes", opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var gs []*GeoNode
+	resp, err := s.client.Do(req, &gs)
+	if err != nil {
+		return nil, resp, err
+	}
+	return gs, resp, err
+}
+
+// GetGeoNode gets a specific geo node.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/geo_nodes.html#retrieve-configuration-about-a-specific-geo-node
+func (s *GeoNodesService) GetGeoNode(id int, opt *ListGeoNodesOptions, options ...RequestOptionFunc) (*GeoNode, *Response, error) {
+	u := fmt.Sprintf("geo_nodes/%d", id)
+
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	g := new(GeoNode)
+	resp, err := s.client.Do(req, g)
+	if err != nil {
+		return nil, resp, err
+	}
 	return g, resp, err
 }
