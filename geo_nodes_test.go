@@ -550,7 +550,7 @@ func TestGeoNodesService_RetrieveStatusOfAllGeoNodes(t *testing.T) {
 	require.NotNil(t, resp)
 	require.Equal(t, want, gnss)
 
-	gnss, resp, err = client.GeoNodes.RetrieveStatusOfAllGeoNodes(nil, errorOption)
+	gnss, resp, err = client.GeoNodes.RetrieveStatusOfAllGeoNodes(errorOption)
 	require.EqualError(t, err, "RequestOptionFunc returns an error")
 	require.Nil(t, resp)
 	require.Nil(t, gnss)
@@ -568,5 +568,116 @@ func TestGeoNodesService_RetrieveStatusOfAllGeoNodes_StatusNotFound(t *testing.T
 	gnss, resp, err := client.GeoNodes.RetrieveStatusOfAllGeoNodes(nil)
 	require.Error(t, err)
 	require.Nil(t, gnss)
+	require.Equal(t, http.StatusNotFound, resp.StatusCode)
+}
+
+func TestGeoNodesService_RetrieveStatusOfGeoNode(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/geo_nodes/1/status", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		mustWriteHTTPResponse(t, w, "testdata/get_geo_node_status.json")
+	})
+
+	want := &GeoNodeStatus{
+		GeoNodeID:                                  1,
+		Healthy:                                    true,
+		Health:                                     "Healthy",
+		HealthStatus:                               "Healthy",
+		MissingOauthApplication:                    false,
+		AttachmentsCount:                           1,
+		AttachmentsSyncedInPercentage:              "0.00%",
+		LfsObjectsSyncedInPercentage:               "0.00%",
+		JobArtifactsCount:                          2,
+		JobArtifactsSyncedInPercentage:             "0.00%",
+		ContainerRepositoriesCount:                 3,
+		ContainerRepositoriesSyncedInPercentage:    "0.00%",
+		DesignRepositoriesCount:                    3,
+		DesignRepositoriesSyncedInPercentage:       "0.00%",
+		ProjectsCount:                              41,
+		RepositoriesCount:                          41,
+		RepositoriesSyncedInPercentage:             "0.00%",
+		WikisCount:                                 41,
+		WikisSyncedInPercentage:                    "0.00%",
+		ReplicationSlotsCount:                      1,
+		ReplicationSlotsUsedCount:                  1,
+		ReplicationSlotsUsedInPercentage:           "100.00%",
+		RepositoriesCheckedCount:                   20,
+		RepositoriesCheckedFailedCount:             20,
+		RepositoriesCheckedInPercentage:            "100.00%",
+		RepositoriesChecksummedCount:               20,
+		RepositoriesChecksumFailedCount:            5,
+		RepositoriesChecksummedInPercentage:        "48.78%",
+		WikisChecksummedCount:                      10,
+		WikisChecksumFailedCount:                   3,
+		WikisChecksummedInPercentage:               "24.39%",
+		RepositoriesVerifiedCount:                  20,
+		RepositoriesVerificationFailedCount:        5,
+		RepositoriesVerifiedInPercentage:           "48.78%",
+		RepositoriesChecksumMismatchCount:          3,
+		WikisVerifiedCount:                         10,
+		WikisVerificationFailedCount:               3,
+		WikisVerifiedInPercentage:                  "24.39%",
+		WikisChecksumMismatchCount:                 1,
+		RepositoriesRetryingVerificationCount:      1,
+		WikisRetryingVerificationCount:             3,
+		LastEventID:                                23,
+		LastEventTimestamp:                         1509681166,
+		LastSuccessfulStatusCheckTimestamp:         1510125024,
+		Version:                                    "10.3.0",
+		Revision:                                   "33d33a096a",
+		MergeRequestDiffsCount:                     5,
+		MergeRequestDiffsChecksumTotalCount:        5,
+		MergeRequestDiffsChecksummedCount:          5,
+		MergeRequestDiffsSyncedInPercentage:        "0.00%",
+		MergeRequestDiffsVerifiedInPercentage:      "0.00%",
+		PackageFilesCount:                          5,
+		PackageFilesChecksumTotalCount:             5,
+		PackageFilesChecksummedCount:               5,
+		PackageFilesSyncedInPercentage:             "0.00%",
+		PackageFilesVerifiedInPercentage:           "0.00%",
+		PagesDeploymentsCount:                      5,
+		PagesDeploymentsChecksumTotalCount:         5,
+		PagesDeploymentsChecksummedCount:           5,
+		PagesDeploymentsSyncedInPercentage:         "0.00%",
+		PagesDeploymentsVerifiedInPercentage:       "0.00%",
+		TerraformStateVersionsCount:                5,
+		TerraformStateVersionsChecksumTotalCount:   5,
+		TerraformStateVersionsChecksummedCount:     5,
+		TerraformStateVersionsSyncedInPercentage:   "0.00%",
+		TerraformStateVersionsVerifiedInPercentage: "0.00%",
+		SnippetRepositoriesCount:                   5,
+		SnippetRepositoriesChecksumTotalCount:      5,
+		SnippetRepositoriesChecksummedCount:        5,
+		SnippetRepositoriesSyncedInPercentage:      "0.00%",
+		SnippetRepositoriesVerifiedInPercentage:    "0.00%",
+		GroupWikiRepositoriesCount:                 5,
+		GroupWikiRepositoriesChecksumTotalCount:    5,
+		GroupWikiRepositoriesChecksummedCount:      5,
+		GroupWikiRepositoriesSyncedInPercentage:    "0.00%",
+		GroupWikiRepositoriesVerifiedInPercentage:  "0.00%",
+		PipelineArtifactsCount:                     5,
+		PipelineArtifactsChecksumTotalCount:        5,
+		PipelineArtifactsChecksummedCount:          5,
+		PipelineArtifactsSyncedInPercentage:        "0.00%",
+		PipelineArtifactsVerifiedInPercentage:      "0.00%",
+		UploadsCount:                               5,
+		UploadsSyncedInPercentage:                  "0.00%",
+	}
+
+	gns, resp, err := client.GeoNodes.RetrieveStatusOfGeoNode(1, nil)
+	require.NoError(t, err)
+	require.NotNil(t, resp)
+	require.Equal(t, want, gns)
+
+	gns, resp, err = client.GeoNodes.RetrieveStatusOfGeoNode(1, errorOption)
+	require.EqualError(t, err, "RequestOptionFunc returns an error")
+	require.Nil(t, resp)
+	require.Nil(t, gns)
+
+	gns, resp, err = client.GeoNodes.RetrieveStatusOfGeoNode(3, nil)
+	require.Error(t, err)
+	require.Nil(t, gns)
 	require.Equal(t, http.StatusNotFound, resp.StatusCode)
 }

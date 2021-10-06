@@ -409,3 +409,24 @@ func (s *GeoNodesService) RetrieveStatusOfAllGeoNodes(options ...RequestOptionFu
 
 	return gnss, resp, err
 }
+
+// RetrieveStatusOfGeoNode get the of status of a specific Geo Nodes.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/geo_nodes.html#retrieve-status-about-a-specific-geo-node
+func (s *GeoNodesService) RetrieveStatusOfGeoNode(id int, options ...RequestOptionFunc) (*GeoNodeStatus, *Response, error) {
+	u := fmt.Sprintf("geo_nodes/%d/status", id)
+
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	gns := new(GeoNodeStatus)
+	resp, err := s.client.Do(req, gns)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return gns, resp, err
+}
