@@ -16,6 +16,8 @@
 
 package gitlab
 
+import "net/http"
+
 // GeoNode represents a GitLab Geo Node.
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/geo_nodes.html
@@ -75,6 +77,21 @@ type CreateGeoNodesOptions struct {
 	SyncObjectStorage                *bool     `url:"sync_object_storage,omitempty" json:"sync_object_storage,omitempty"`
 	SelectiveSyncType                *string   `url:"selective_sync_type,omitempty" json:"selective_sync_type,omitempty"`
 	SelectiveSyncShards              []*string `url:"selective_sync_shards,omitempty" json:"selective_sync_shards,omitempty"`
-	SelectiveSyncNamespaceIds        []*string `url:"selective_sync_namespace_ids,omitempty" json:"selective_sync_namespace_ids,omitempty"`
+	SelectiveSyncNamespaceIds        []*int    `url:"selective_sync_namespace_ids,omitempty" json:"selective_sync_namespace_ids,omitempty"`
 	MinimumReverificationInterval    *int      `url:"minimum_reverification_interval,omitempty" json:"minimum_reverification_interval,omitempty"`
+}
+
+func (s *GeoNodesService) CreateGeoNode(opt *CreateGeoNodesOptions, options ...RequestOptionFunc) (*GeoNode, *Response, error) {
+	req, err := s.client.NewRequest(http.MethodPost, "geo_nodes", opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	g := new(GeoNode)
+	resp, err := s.client.Do(req, g)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return g, resp, err
 }
