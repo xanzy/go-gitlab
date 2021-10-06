@@ -131,10 +131,10 @@ func (s *GeoNodesService) ListGeoNodes(opt *ListGeoNodesOptions, options ...Requ
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/geo_nodes.html#retrieve-configuration-about-a-specific-geo-node
-func (s *GeoNodesService) GetGeoNode(id int, opt *ListGeoNodesOptions, options ...RequestOptionFunc) (*GeoNode, *Response, error) {
+func (s *GeoNodesService) GetGeoNode(id int, options ...RequestOptionFunc) (*GeoNode, *Response, error) {
 	u := fmt.Sprintf("geo_nodes/%d", id)
 
-	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
