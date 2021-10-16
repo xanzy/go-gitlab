@@ -154,6 +154,7 @@ type ListMergeRequestsOptions struct {
 	UpdatedBefore          *time.Time `url:"updated_before,omitempty" json:"updated_before,omitempty"`
 	Scope                  *string    `url:"scope,omitempty" json:"scope,omitempty"`
 	AuthorID               *int       `url:"author_id,omitempty" json:"author_id,omitempty"`
+	AuthorUsername         *string    `url:"author_username,omitempty" json:"author_username,omitempty"`
 	AssigneeID             *int       `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
 	ReviewerID             *int       `url:"reviewer_id,omitempty" json:"reviewer_id,omitempty"`
 	ReviewerUsername       *string    `url:"reviewer_username,omitempty" json:"reviewer_username,omitempty"`
@@ -209,6 +210,7 @@ type ListGroupMergeRequestsOptions struct {
 	UpdatedBefore          *time.Time `url:"updated_before,omitempty" json:"updated_before,omitempty"`
 	Scope                  *string    `url:"scope,omitempty" json:"scope,omitempty"`
 	AuthorID               *int       `url:"author_id,omitempty" json:"author_id,omitempty"`
+	AuthorUsername         *string    `url:"author_username,omitempty" json:"author_username,omitempty"`
 	AssigneeID             *int       `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
 	ReviewerID             *int       `url:"reviewer_id,omitempty" json:"reviewer_id,omitempty"`
 	ReviewerUsername       *string    `url:"reviewer_username,omitempty" json:"reviewer_username,omitempty"`
@@ -268,6 +270,7 @@ type ListProjectMergeRequestsOptions struct {
 	UpdatedBefore          *time.Time `url:"updated_before,omitempty" json:"updated_before,omitempty"`
 	Scope                  *string    `url:"scope,omitempty" json:"scope,omitempty"`
 	AuthorID               *int       `url:"author_id,omitempty" json:"author_id,omitempty"`
+	AuthorUsername         *string    `url:"author_username,omitempty" json:"author_username,omitempty"`
 	AssigneeID             *int       `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
 	ReviewerID             *int       `url:"reviewer_id,omitempty" json:"reviewer_id,omitempty"`
 	ReviewerUsername       *string    `url:"reviewer_username,omitempty" json:"reviewer_username,omitempty"`
