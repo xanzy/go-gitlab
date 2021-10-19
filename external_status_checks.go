@@ -6,15 +6,15 @@ import (
 	"time"
 )
 
-// ExternalStatusChecksService handles communication with the external status check
-//  related methods of the GitLab API.
+// ExternalStatusChecksService handles communication with the external
+// status check related methods of the GitLab API.
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/status_checks.html
 type ExternalStatusChecksService struct {
 	client *Client
 }
 
-type StatusCheck struct {
+type MergeStatusCheck struct {
 	ID          int    `json:"id"`
 	Name        string `json:"name"`
 	ExternalURL string `json:"external_url"`
@@ -38,11 +38,12 @@ type StatusCheckProtectedBranch struct {
 	CodeOwnerApprovalRequired bool       `json:"code_owner_approval_required"`
 }
 
-// ListExternalStatusChecks lists the external status checks that apply to it and their status
-// for a single merge request
+// ListMergeStatusChecks lists the external status checks that apply to it
+// and their status for a single merge request.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/status_checks.html#list-status-checks-for-a-merge-request
-func (s *ExternalStatusChecksService) ListExternalStatusChecks(pid interface{}, mr int, opt *ListOptions, options ...RequestOptionFunc) ([]*StatusCheck, *Response, error) {
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/status_checks.html#list-status-checks-for-a-merge-request
+func (s *ExternalStatusChecksService) ListMergeStatusChecks(pid interface{}, mr int, opt *ListOptions, options ...RequestOptionFunc) ([]*MergeStatusCheck, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -54,19 +55,20 @@ func (s *ExternalStatusChecksService) ListExternalStatusChecks(pid interface{}, 
 		return nil, nil, err
 	}
 
-	var scs []*StatusCheck
-	resp, err := s.client.Do(req, &scs)
+	var mscs []*MergeStatusCheck
+	resp, err := s.client.Do(req, &mscs)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return scs, resp, err
+	return mscs, resp, err
 }
 
-// ListProjectExternalStatusChecks lists the project external status checks
+// ListProjectStatusChecks lists the project external status checks.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/status_checks.html#get-project-external-status-checks
-func (s *ExternalStatusChecksService) ListProjectExternalStatusChecks(pid interface{}, opt *ListOptions, options ...RequestOptionFunc) ([]*ProjectStatusCheck, *Response, error) {
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/status_checks.html#get-project-external-status-checks
+func (s *ExternalStatusChecksService) ListProjectStatusChecks(pid interface{}, opt *ListOptions, options ...RequestOptionFunc) ([]*ProjectStatusCheck, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err

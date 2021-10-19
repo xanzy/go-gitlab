@@ -9,7 +9,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestListExternalStatusChecks(t *testing.T) {
+func TestListMergeStatusChecks(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
 
@@ -18,12 +18,12 @@ func TestListExternalStatusChecks(t *testing.T) {
 		fmt.Fprint(w, exampleStatusChecks)
 	})
 
-	statusChecks, _, err := client.ExternalStatusChecks.ListExternalStatusChecks(1, 1, nil)
+	statusChecks, _, err := client.ExternalStatusChecks.ListMergeStatusChecks(1, 1, nil)
 	if err != nil {
-		t.Fatalf("ExternalStatusChecks.ListExternalStatusChecks returns an error: %v", err)
+		t.Fatalf("ExternalStatusChecks.ListMergeStatusChecks returns an error: %v", err)
 	}
 
-	expectedStatusChecks := []*StatusCheck{
+	expectedStatusChecks := []*MergeStatusCheck{
 		{
 			ID:          2,
 			Name:        "Rule 1",
@@ -41,7 +41,7 @@ func TestListExternalStatusChecks(t *testing.T) {
 	assert.Equal(t, expectedStatusChecks, statusChecks)
 }
 
-func TestListProjectExternalStatusChecks(t *testing.T) {
+func TestListProjectStatusChecks(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
 
@@ -50,15 +50,16 @@ func TestListProjectExternalStatusChecks(t *testing.T) {
 		fmt.Fprint(w, exampleProjectStatusChecks)
 	})
 
-	projectStatusChecks, _, err := client.ExternalStatusChecks.ListProjectExternalStatusChecks(1, nil)
+	projectStatusChecks, _, err := client.ExternalStatusChecks.ListProjectStatusChecks(1, nil)
 	if err != nil {
-		t.Fatalf("ExternalStatusChecks.ListProjectExternalStatusChecks returns an error: %v", err)
+		t.Fatalf("ExternalStatusChecks.ListProjectStatusChecks returns an error: %v", err)
 	}
 
 	time1, err := time.Parse(time.RFC3339, "2020-10-12T14:04:50.787Z")
 	if err != nil {
-		t.Errorf("ExternalStatusChecks.ListProjectExternalStatusChecks returns an error: %v", err)
+		t.Errorf("ExternalStatusChecks.ListProjectStatusChecks returns an error: %v", err)
 	}
+
 	expectedProjectStatusChecks := []*ProjectStatusCheck{
 		{
 			ID:          1,
