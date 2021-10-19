@@ -67,6 +67,26 @@ const (
 	// exampleProjectName provides a fixture for a project name.
 	exampleProjectName = "example-project"
 
+	// exampleProjectStatusChecks provides a fixture for a project status checks.
+	exampleProjectStatusChecks = `[
+		{
+			"id": 1,
+			"name": "Compliance Check",
+			"project_id": 6,
+			"external_url": "https://gitlab.com/example/test.json",
+			"protected_branches": [
+				{
+					"id": 14,
+					"project_id": 6,
+					"name": "master",
+					"created_at": "2020-10-12T14:04:50.787Z",
+					"updated_at": "2020-10-12T14:04:50.787Z",
+					"code_owner_approval_required": false
+				}
+			]
+		}
+	]`
+
 	// exampleRegisterNewRunner provides fixture for Runners tests.
 	exampleRegisterNewRunner = `{
 		"id": 12345,
@@ -298,6 +318,22 @@ const (
 			"links": []
 		}
 	}`
+
+	// exampleStatusChecks provides a fixture for status checks for a merge request.
+	exampleStatusChecks = `[
+    {
+        "id": 2,
+        "name": "Rule 1",
+        "external_url": "https://gitlab.com/test-endpoint",
+        "status": "approved"
+    },
+    {
+        "id": 1,
+        "name": "Rule 2",
+        "external_url": "https://gitlab.com/test-endpoint-2",
+        "status": "pending"
+    }
+	]`
 
 	// exampleTagName provides a fixture for a tag name.
 	exampleTagName = "v0.1"

@@ -119,6 +119,7 @@ type Client struct {
 	EpicIssues            *EpicIssuesService
 	Epics                 *EpicsService
 	Events                *EventsService
+	ExternalStatusChecks  *ExternalStatusChecksService
 	Features              *FeaturesService
 	FreezePeriods         *FreezePeriodsService
 	GeoNodes              *GeoNodesService
@@ -307,6 +308,7 @@ func newClient(options ...ClientOptionFunc) (*Client, error) {
 	c.EpicIssues = &EpicIssuesService{client: c}
 	c.Epics = &EpicsService{client: c}
 	c.Events = &EventsService{client: c}
+	c.ExternalStatusChecks = &ExternalStatusChecksService{client: c}
 	c.Features = &FeaturesService{client: c}
 	c.FreezePeriods = &FreezePeriodsService{client: c}
 	c.GeoNodes = &GeoNodesService{client: c}
