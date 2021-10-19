@@ -41,20 +41,23 @@ func TestGetCurrentPlanLimits(t *testing.T) {
 		  }`)
 	})
 
-	planlimit, _, err := client.PlanLimits.GetCurrentPlanLimits()
+	opt := &GetCurrentPlanLimitsOptions{
+		PlanName: String("default"),
+	}
+	planlimit, _, err := client.PlanLimits.GetCurrentPlanLimits(opt)
 	if err != nil {
 		t.Errorf("PlanLimits.GetCurrentPlanLimits returned error: %v", err)
 	}
 
 	want := &PlanLimit{
-		ConanMaxFileSize:           Int(3221225472),
-		GenericPackagesMaxFileSize: Int(5368709120),
-		HelmMaxFileSize:            Int(5242880),
-		MavenMaxFileSize:           Int(3221225472),
-		NpmMaxFileSize:             Int(524288000),
-		NugetMaxFileSize:           Int(524288000),
-		PyPiMaxFileSize:            Int(3221225472),
-		TerraformModuleMaxFileSize: Int(1073741824),
+		ConanMaxFileSize:           3221225472,
+		GenericPackagesMaxFileSize: 5368709120,
+		HelmMaxFileSize:            5242880,
+		MavenMaxFileSize:           3221225472,
+		NPMMaxFileSize:             524288000,
+		NugetMaxFileSize:           524288000,
+		PyPiMaxFileSize:            3221225472,
+		TerraformModuleMaxFileSize: 1073741824,
 	}
 
 	if !reflect.DeepEqual(want, planlimit) {
@@ -80,8 +83,8 @@ func TestChangePlanLimits(t *testing.T) {
 		  }`)
 	})
 
-	opt := &PlanLimitOptions{
-		PlanName:         "default",
+	opt := &ChangePlanLimitOptions{
+		PlanName:         String("default"),
 		ConanMaxFileSize: Int(3221225472),
 	}
 	planlimit, _, err := client.PlanLimits.ChangePlanLimits(opt)
@@ -90,14 +93,14 @@ func TestChangePlanLimits(t *testing.T) {
 	}
 
 	want := &PlanLimit{
-		ConanMaxFileSize:           Int(3221225472),
-		GenericPackagesMaxFileSize: Int(5368709120),
-		HelmMaxFileSize:            Int(5242880),
-		MavenMaxFileSize:           Int(3221225472),
-		NpmMaxFileSize:             Int(524288000),
-		NugetMaxFileSize:           Int(524288000),
-		PyPiMaxFileSize:            Int(3221225472),
-		TerraformModuleMaxFileSize: Int(1073741824),
+		ConanMaxFileSize:           3221225472,
+		GenericPackagesMaxFileSize: 5368709120,
+		HelmMaxFileSize:            5242880,
+		MavenMaxFileSize:           3221225472,
+		NPMMaxFileSize:             524288000,
+		NugetMaxFileSize:           524288000,
+		PyPiMaxFileSize:            3221225472,
+		TerraformModuleMaxFileSize: 1073741824,
 	}
 
 	if !reflect.DeepEqual(want, planlimit) {
