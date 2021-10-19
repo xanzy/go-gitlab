@@ -18,14 +18,14 @@ package gitlab
 
 import (
 	"bytes"
-	"encoding/json"
 	"fmt"
 	"io"
 	"mime/multipart"
 	"net/http"
 	"os"
-	"strings"
 	"time"
+
+	"github.com/google/go-querystring/query"
 )
 
 // ProjectImportExportService handles communication with the project
@@ -179,41 +179,54 @@ type ImportFileOptions struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/project_import_export.html#import-a-file
 func (s *ProjectImportExportService) ImportFile(opt *ImportFileOptions, options ...RequestOptionFunc) (*ImportStatus, *Response, error) {
+	// First check if we got all required options.
+	if opt == nil || opt.File == nil || *opt.File == "" {
+		return nil, nil, fmt.Errorf("Missing required option: File")
+	}
+	if opt == nil || opt.Path == nil || *opt.Path == "" {
+		return nil, nil, fmt.Errorf("Missing required option: Path")
+	}
+
 	file, err := os.Open(*opt.File)
 	if err != nil {
 		return nil, nil, err
 	}
 	defer file.Close()
-	var b bytes.Buffer
-	writer := multipart.NewWriter(&b)
-	var optMap map[string]interface{}
-	optMarshalled, err := json.Marshal(opt)
+
+	b := &bytes.Buffer{}
+	w := multipart.NewWriter(b)
+
+	fields, err := query.Values(opt)
 	if err != nil {
 		return nil, nil, err
 	}
-	json.Unmarshal(optMarshalled, &optMap)
 
-	for key, value := range optMap {
-		if strings.ToLower(key) == "file" {
-			part, err := writer.CreateFormFile("file", file.Name())
+	for name := range fields {
+		if name == "file" {
+			part, err := w.CreateFormFile("file", file.Name())
 			if err != nil {
 				return nil, nil, err
 			}
-			_, err = io.Copy(part, file)
+			if _, err = io.Copy(part, file); err != nil {
+				return nil, nil, err
+			}
 		} else {
-			_ = writer.WriteField(strings.ToLower(key), fmt.Sprintf("%v", value))
+			if err = w.WriteField(name, fmt.Sprintf("%v", fields.Get(name))); err != nil {
+				return nil, nil, err
+			}
 		}
 	}
 
-	err = writer.Close()
+	err = w.Close()
 	if err != nil {
 		return nil, nil, err
 	}
-	req, err := s.client.NewRequest(http.MethodPost, "projects/import", &b, options)
+
+	req, err := s.client.NewRequest(http.MethodPost, "projects/import", b, options)
 	if err != nil {
 		return nil, nil, err
 	}
-	req.Header.Set("Content-Type", writer.FormDataContentType())
+	req.Header.Set("Content-Type", w.FormDataContentType())
 
 	is := new(ImportStatus)
 	resp, err := s.client.Do(req, is)

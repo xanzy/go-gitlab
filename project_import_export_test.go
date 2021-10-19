@@ -128,63 +128,6 @@ func TestProjectImportExportService_ExportDownload(t *testing.T) {
 	require.Equal(t, http.StatusNotFound, resp.StatusCode)
 }
 
-func TestProjectImportExportService_ImportFile(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
-
-	mux.HandleFunc("/api/v4/projects/import", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, http.MethodPost)
-		fmt.Fprintf(w, `
-			{
-			  "id": 1,
-			  "description": null,
-			  "name": "api-project",
-			  "name_with_namespace": "Administrator / api-project",
-			  "path": "api-project",
-			  "path_with_namespace": "root/api-project",
-			  "import_status": "scheduled",
-			  "correlation_id": "mezklWso3Za",
-			  "failed_relations": []
-			}
-		`)
-	})
-
-	want := &ImportStatus{
-		ID:                1,
-		Description:       "",
-		Name:              "api-project",
-		NameWithNamespace: "Administrator / api-project",
-		Path:              "api-project",
-		PathWithNamespace: "root/api-project",
-		ImportStatus:      "scheduled",
-	}
-
-	es, resp, err := client.ProjectImportExport.ImportFile(nil, nil)
-	require.NoError(t, err)
-	require.NotNil(t, resp)
-	require.Equal(t, want, es)
-
-	es, resp, err = client.ProjectImportExport.ImportFile(nil, errorOption)
-	require.EqualError(t, err, "RequestOptionFunc returns an error")
-	require.Nil(t, resp)
-	require.Nil(t, es)
-}
-
-func TestProjectImportExportService_ImportFile_NotFound(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
-
-	mux.HandleFunc("/api/v4/projects/import", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, http.MethodPost)
-		w.WriteHeader(http.StatusNotFound)
-	})
-
-	es, resp, err := client.ProjectImportExport.ImportFile(nil, nil)
-	require.Error(t, err)
-	require.Nil(t, es)
-	require.Equal(t, http.StatusNotFound, resp.StatusCode)
-}
-
 func TestProjectImportExportService_ImportStatus(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
