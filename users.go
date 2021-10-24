@@ -515,6 +515,64 @@ func (s *UsersService) UnblockUser(user int, options ...RequestOptionFunc) error
 	}
 }
 
+// ApproveUser approve the specified user. Available only for admin.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/users.html#approve-user
+func (s *UsersService) ApproveUser(user int, options ...RequestOptionFunc) error {
+	u := fmt.Sprintf("users/%d/approve", user)
+
+	req, err := s.client.NewRequest(http.MethodPost, u, nil, options)
+	if err != nil {
+		return err
+	}
+
+	resp, err := s.client.Do(req, nil)
+	if err != nil && resp == nil {
+		return err
+	}
+
+	switch resp.StatusCode {
+	case 201:
+		return nil
+	case 403:
+		return ErrUserApprovePrevented
+	case 404:
+		return ErrUserNotFound
+	default:
+		return fmt.Errorf("Received unexpected result code: %d", resp.StatusCode)
+	}
+}
+
+// RejectUser reject the specified user. Available only for admin.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/users.html#reject-user
+func (s *UsersService) RejectUser(user int, options ...RequestOptionFunc) error {
+	u := fmt.Sprintf("users/%d/reject", user)
+
+	req, err := s.client.NewRequest(http.MethodPost, u, nil, options)
+	if err != nil {
+		return err
+	}
+
+	resp, err := s.client.Do(req, nil)
+	if err != nil && resp == nil {
+		return err
+	}
+
+	switch resp.StatusCode {
+	case 201:
+		return nil
+	case 403:
+		return ErrUserRejectPrevented
+	case 404:
+		return ErrUserNotFound
+	case 409:
+		return ErrConflict
+	default:
+		return fmt.Errorf("Received unexpected result code: %d", resp.StatusCode)
+	}
+}
+
 // DeactivateUser deactivate the specified user. Available only for admin.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/users.html#deactivate-user
