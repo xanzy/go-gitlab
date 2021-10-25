@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"net/http"
 	"testing"
-	
-	"github.com/stretchr/testify/require"	
+
+	"github.com/stretchr/testify/require"
 )
 
 func TestResourceStateEventsService_ListIssueStateEvents(t *testing.T) {
