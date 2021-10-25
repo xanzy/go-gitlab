@@ -30,6 +30,9 @@ var (
 	ErrUserDeactivatePrevented = errors.New("Cannot deactivate a user that is blocked by admin or by LDAP synchronization, or that has any activity in past 180 days")
 	ErrUserNotFound            = errors.New("User does not exist")
 	ErrUserUnblockPrevented    = errors.New("Cannot unblock a user that is blocked by LDAP synchronization")
+	ErrUserApprovePrevented    = errors.New("The user you are trying to approve is not pending approval")
+	ErrUserRejectPrevented     = errors.New("Cannot reject a user if not authenticated as administrator")
+	ErrUserConflict            = errors.New("User does not have a pending request")
 )
 
 // UsersService handles communication with the user related methods of
@@ -567,7 +570,7 @@ func (s *UsersService) RejectUser(user int, options ...RequestOptionFunc) error 
 	case 404:
 		return ErrUserNotFound
 	case 409:
-		return ErrConflict
+		return ErrUserConflict
 	default:
 		return fmt.Errorf("Received unexpected result code: %d", resp.StatusCode)
 	}
