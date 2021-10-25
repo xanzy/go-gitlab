@@ -563,7 +563,7 @@ func (s *UsersService) RejectUser(user int, options ...RequestOptionFunc) error 
 	}
 
 	switch resp.StatusCode {
-	case 201:
+	case 200:
 		return nil
 	case 403:
 		return ErrUserRejectPrevented
