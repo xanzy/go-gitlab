@@ -92,7 +92,6 @@ func TestBlockUser_UnknownError(t *testing.T) {
 	}
 }
 
-//  ------------------------  Unblock user -------------------------
 func TestUnblockUser(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
@@ -255,26 +254,6 @@ func TestActivateUser_UserNotFound(t *testing.T) {
 	}
 }
 
-func TestGetMemberships(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
-
-	path := fmt.Sprintf("/%susers/1/memberships", apiVersionPath)
-	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, http.MethodGet)
-		mustWriteHTTPResponse(t, w, "testdata/get_user_memberships.json")
-	})
-
-	opt := new(GetUserMembershipOptions)
-
-	memberships, _, err := client.Users.GetUserMemberships(1, opt)
-	require.NoError(t, err)
-
-	want := []*UserMembership{{SourceID: 1, SourceName: "Project one", SourceType: "Project", AccessLevel: 20}, {SourceID: 3, SourceName: "Group three", SourceType: "Namespace", AccessLevel: 20}}
-	assert.Equal(t, want, memberships)
-}
-
-//  ------------------------  Approve user -------------------------
 func TestApproveUser(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
@@ -341,7 +320,6 @@ func TestApproveUser_UnknownError(t *testing.T) {
 	}
 }
 
-//  ------------------------  Reject user -------------------------
 func TestRejectUser(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
@@ -422,4 +400,23 @@ func TestRejectUser_UnknownError(t *testing.T) {
 	if err.Error() != want {
 		t.Errorf("Users.RejectUser error.\nExpected: %s\n\tGot: %v", want, err)
 	}
+}
+
+func TestGetMemberships(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	path := fmt.Sprintf("/%susers/1/memberships", apiVersionPath)
+	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		mustWriteHTTPResponse(t, w, "testdata/get_user_memberships.json")
+	})
+
+	opt := new(GetUserMembershipOptions)
+
+	memberships, _, err := client.Users.GetUserMemberships(1, opt)
+	require.NoError(t, err)
+
+	want := []*UserMembership{{SourceID: 1, SourceName: "Project one", SourceType: "Project", AccessLevel: 20}, {SourceID: 3, SourceName: "Group three", SourceType: "Namespace", AccessLevel: 20}}
+	assert.Equal(t, want, memberships)
 }
