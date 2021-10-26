@@ -92,7 +92,6 @@ func TestBlockUser_UnknownError(t *testing.T) {
 	}
 }
 
-//  ------------------------  Unblock user -------------------------
 func TestUnblockUser(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
@@ -252,6 +251,154 @@ func TestActivateUser_UserNotFound(t *testing.T) {
 	err := client.Users.ActivateUser(1)
 	if !errors.Is(err, ErrUserNotFound) {
 		t.Errorf("Users.ActivateUser error.\nExpected: %+v\n\tGot: %+v", ErrUserNotFound, err)
+	}
+}
+
+func TestApproveUser(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	path := fmt.Sprintf("/%susers/1/approve", apiVersionPath)
+	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPost)
+		w.WriteHeader(http.StatusCreated)
+	})
+
+	err := client.Users.ApproveUser(1)
+	if err != nil {
+		t.Errorf("Users.ApproveUser returned error: %v", err)
+	}
+}
+
+func TestApproveUser_UserNotFound(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	path := fmt.Sprintf("/%susers/1/approve", apiVersionPath)
+	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPost)
+		w.WriteHeader(http.StatusNotFound)
+	})
+
+	err := client.Users.ApproveUser(1)
+	if !errors.Is(err, ErrUserNotFound) {
+		t.Errorf("Users.ApproveUser error.\nExpected: %v\nGot: %v", ErrUserNotFound, err)
+	}
+}
+
+func TestApproveUser_ApprovePrevented(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	path := fmt.Sprintf("/%susers/1/approve", apiVersionPath)
+	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPost)
+		w.WriteHeader(http.StatusForbidden)
+	})
+
+	err := client.Users.ApproveUser(1)
+	if !errors.Is(err, ErrUserApprovePrevented) {
+		t.Errorf("Users.ApproveUser error.\nExpected: %v\nGot: %v", ErrUserApprovePrevented, err)
+	}
+}
+
+func TestApproveUser_UnknownError(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	path := fmt.Sprintf("/%susers/1/approve", apiVersionPath)
+	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPost)
+		w.WriteHeader(http.StatusTeapot)
+	})
+
+	want := fmt.Sprintf("Received unexpected result code: %d", http.StatusTeapot)
+
+	err := client.Users.ApproveUser(1)
+	if err.Error() != want {
+		t.Errorf("Users.ApproveUser error.\nExpected: %s\n\tGot: %v", want, err)
+	}
+}
+
+func TestRejectUser(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	path := fmt.Sprintf("/%susers/1/reject", apiVersionPath)
+	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPost)
+		w.WriteHeader(http.StatusOK)
+	})
+
+	err := client.Users.RejectUser(1)
+	if err != nil {
+		t.Errorf("Users.RejectUser returned error: %v", err)
+	}
+}
+
+func TestRejectUser_UserNotFound(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	path := fmt.Sprintf("/%susers/1/reject", apiVersionPath)
+	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPost)
+		w.WriteHeader(http.StatusNotFound)
+	})
+
+	err := client.Users.RejectUser(1)
+	if !errors.Is(err, ErrUserNotFound) {
+		t.Errorf("Users.RejectUser error.\nExpected: %v\nGot: %v", ErrUserNotFound, err)
+	}
+}
+
+func TestRejectUser_RejectPrevented(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	path := fmt.Sprintf("/%susers/1/reject", apiVersionPath)
+	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPost)
+		w.WriteHeader(http.StatusForbidden)
+	})
+
+	err := client.Users.RejectUser(1)
+	if !errors.Is(err, ErrUserRejectPrevented) {
+		t.Errorf("Users.RejectUser error.\nExpected: %v\nGot: %v", ErrUserRejectPrevented, err)
+	}
+}
+
+func TestRejectUser_Conflict(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	path := fmt.Sprintf("/%susers/1/reject", apiVersionPath)
+	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPost)
+		w.WriteHeader(http.StatusConflict)
+	})
+
+	err := client.Users.RejectUser(1)
+	if !errors.Is(err, ErrUserConflict) {
+		t.Errorf("Users.RejectUser error.\nExpected: %v\nGot: %v", ErrUserConflict, err)
+	}
+}
+
+func TestRejectUser_UnknownError(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	path := fmt.Sprintf("/%susers/1/reject", apiVersionPath)
+	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPost)
+		w.WriteHeader(http.StatusTeapot)
+	})
+
+	want := fmt.Sprintf("Received unexpected result code: %d", http.StatusTeapot)
+
+	err := client.Users.RejectUser(1)
+	if err.Error() != want {
+		t.Errorf("Users.RejectUser error.\nExpected: %s\n\tGot: %v", want, err)
 	}
 }
 
