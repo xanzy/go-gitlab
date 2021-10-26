@@ -41,6 +41,7 @@ const (
 	EventTypeSystemHook    EventType = "System Hook"
 	EventTypeTagPush       EventType = "Tag Push Hook"
 	EventTypeWikiPage      EventType = "Wiki Page Hook"
+	EventTypeServiceHook   EventType = "Service Hook"
 )
 
 const (
@@ -50,11 +51,21 @@ const (
 	noteableTypeSnippet      = "Snippet"
 )
 
+const (
+	eventObjectKindPush         = "push"
+	eventObjectKindTagPush      = "tag_push"
+	eventObjectKindMergeRequest = "merge_request"
+)
+
 type noteEvent struct {
 	ObjectKind       string `json:"object_kind"`
 	ObjectAttributes struct {
 		NoteableType string `json:"noteable_type"`
 	} `json:"object_attributes"`
+}
+
+type serviceEvent struct {
+	ObjectKind string `json:"object_kind"`
 }
 
 const eventTypeHeader = "X-Gitlab-Event"
@@ -119,9 +130,9 @@ func ParseSystemhook(payload []byte) (event interface{}, err error) {
 	}
 
 	switch e.EventName {
-	case "push":
+	case eventObjectKindPush:
 		event = &PushSystemEvent{}
-	case "tag_push":
+	case eventObjectKindTagPush:
 		event = &TagPushSystemEvent{}
 	case "repository_update":
 		event = &RepositoryUpdateSystemEvent{}
@@ -241,6 +252,22 @@ func ParseWebhook(eventType EventType, payload []byte) (event interface{}, err e
 			event = &SnippetCommentEvent{}
 		default:
 			return nil, fmt.Errorf("unexpected noteable type %s", note.ObjectAttributes.NoteableType)
+		}
+	case EventTypeServiceHook:
+		service := &serviceEvent{}
+		err := json.Unmarshal(payload, service)
+		if err != nil {
+			return nil, err
+		}
+		switch service.ObjectKind {
+		case eventObjectKindPush:
+			event = &PushEvent{}
+		case eventObjectKindTagPush:
+			event = &TagEvent{}
+		case eventObjectKindMergeRequest:
+			event = &MergeEvent{}
+		default:
+			return nil, fmt.Errorf("unexpected service type %s", service.ObjectKind)
 		}
 
 	default:

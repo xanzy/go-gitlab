@@ -34,7 +34,7 @@ func TestParseSystemhookPush(t *testing.T) {
 	if !ok {
 		t.Errorf("Expected PushSystemHookEvent, but parsing produced %T", parsedEvent)
 	}
-	assert.Equal(t, "push", event.EventName)
+	assert.Equal(t, eventObjectKindPush, event.EventName)
 }
 
 func TestParseSystemhookTagPush(t *testing.T) {
@@ -49,7 +49,7 @@ func TestParseSystemhookTagPush(t *testing.T) {
 	if !ok {
 		t.Errorf("Expected TagPushSystemHookEvent, but parsing produced %T", parsedEvent)
 	}
-	assert.Equal(t, "tag_push", event.EventName)
+	assert.Equal(t, eventObjectKindTagPush, event.EventName)
 }
 
 func TestParseSystemhookMergeRequest(t *testing.T) {
@@ -64,7 +64,7 @@ func TestParseSystemhookMergeRequest(t *testing.T) {
 	if !ok {
 		t.Errorf("Expected MergeRequestSystemHookEvent, but parsing produced %T", parsedEvent)
 	}
-	assert.Equal(t, "merge_request", event.ObjectKind)
+	assert.Equal(t, eventObjectKindMergeRequest, event.ObjectKind)
 }
 
 func TestParseSystemhookRepositoryUpdate(t *testing.T) {

@@ -18,6 +18,7 @@ package gitlab
 
 import (
 	"net/http"
+	"reflect"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -286,8 +287,8 @@ func TestParsePushHook(t *testing.T) {
 		t.Errorf("Expected PushEvent, but parsing produced %T", parsedEvent)
 	}
 
-	if event.ObjectKind != "push" {
-		t.Errorf("ObjectKind is %v, want %v", event.ObjectKind, "push")
+	if event.ObjectKind != eventObjectKindPush {
+		t.Errorf("ObjectKind is %v, want %v", event.ObjectKind, eventObjectKindPush)
 	}
 
 	if event.ProjectID != 15 {
@@ -372,8 +373,8 @@ func TestParseTagHook(t *testing.T) {
 		t.Errorf("Expected TagEvent, but parsing produced %T", parsedEvent)
 	}
 
-	if event.ObjectKind != "tag_push" {
-		t.Errorf("ObjectKind is %v, want %v", event.ObjectKind, "tag_push")
+	if event.ObjectKind != eventObjectKindTagPush {
+		t.Errorf("ObjectKind is %v, want %v", event.ObjectKind, eventObjectKindTagPush)
 	}
 
 	if event.ProjectID != 1 {
@@ -420,5 +421,28 @@ func TestParseWikiPageHook(t *testing.T) {
 
 	if event.ObjectAttributes.Message != "adding an awesome page to the wiki" {
 		t.Errorf("Message is %v, want %v", event.ObjectAttributes.Message, "adding an awesome page to the wiki")
+	}
+}
+
+func TestParseServiceWebHook(t *testing.T) {
+	parsedEvent, err := ParseWebhook("Service Hook", loadFixture("testdata/webhooks/service_merge_request.json"))
+	if err != nil {
+		t.Errorf("Error parsing service hook merge request: %s", err)
+	}
+
+	switch event := parsedEvent.(type) {
+	case *MergeEvent:
+		assert.EqualValues(t, &EventUser{
+			ID:        2,
+			Name:      "the test",
+			Username:  "test",
+			Email:     "test@test.test",
+			AvatarURL: "https://www.gravatar.com/avatar/dd46a756faad4727fb679320751f6dea?s=80&d=identicon",
+		}, event.User)
+		assert.EqualValues(t, "unchecked", event.ObjectAttributes.MergeStatus)
+		assert.EqualValues(t, "next-feature", event.ObjectAttributes.SourceBranch)
+		assert.EqualValues(t, "master", event.ObjectAttributes.TargetBranch)
+	default:
+		t.Errorf("unexpected event type: %s", reflect.TypeOf(parsedEvent))
 	}
 }

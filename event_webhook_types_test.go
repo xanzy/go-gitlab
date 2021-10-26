@@ -241,8 +241,8 @@ func TestMergeEventUnmarshalFromGroup(t *testing.T) {
 		t.Errorf("Group Merge Event is null")
 	}
 
-	if event.ObjectKind != "merge_request" {
-		t.Errorf("ObjectKind is %v, want %v", event.ObjectKind, "merge_request")
+	if event.ObjectKind != eventObjectKindMergeRequest {
+		t.Errorf("ObjectKind is %v, want %v", event.ObjectKind, eventObjectKindMergeRequest)
 	}
 
 	if event.User.Username != expectedUsername {
