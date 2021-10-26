@@ -287,8 +287,8 @@ func TestParsePushHook(t *testing.T) {
 		t.Errorf("Expected PushEvent, but parsing produced %T", parsedEvent)
 	}
 
-	if event.ObjectKind != "push" {
-		t.Errorf("ObjectKind is %v, want %v", event.ObjectKind, "push")
+	if event.ObjectKind != eventObjectKindPush {
+		t.Errorf("ObjectKind is %v, want %v", event.ObjectKind, eventObjectKindPush)
 	}
 
 	if event.ProjectID != 15 {
@@ -373,8 +373,8 @@ func TestParseTagHook(t *testing.T) {
 		t.Errorf("Expected TagEvent, but parsing produced %T", parsedEvent)
 	}
 
-	if event.ObjectKind != "tag_push" {
-		t.Errorf("ObjectKind is %v, want %v", event.ObjectKind, "tag_push")
+	if event.ObjectKind != eventObjectKindTagPush {
+		t.Errorf("ObjectKind is %v, want %v", event.ObjectKind, eventObjectKindTagPush)
 	}
 
 	if event.ProjectID != 1 {

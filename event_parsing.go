@@ -51,6 +51,12 @@ const (
 	noteableTypeSnippet      = "Snippet"
 )
 
+const (
+	eventObjectKindPush         = "push"
+	eventObjectKindTagPush      = "tag_push"
+	eventObjectKindMergeRequest = "merge_request"
+)
+
 type noteEvent struct {
 	ObjectKind       string `json:"object_kind"`
 	ObjectAttributes struct {
@@ -124,9 +130,9 @@ func ParseSystemhook(payload []byte) (event interface{}, err error) {
 	}
 
 	switch e.EventName {
-	case "push":
+	case eventObjectKindPush:
 		event = &PushSystemEvent{}
-	case "tag_push":
+	case eventObjectKindTagPush:
 		event = &TagPushSystemEvent{}
 	case "repository_update":
 		event = &RepositoryUpdateSystemEvent{}
@@ -254,11 +260,11 @@ func ParseWebhook(eventType EventType, payload []byte) (event interface{}, err e
 			return nil, err
 		}
 		switch service.ObjectKind {
-		case "push":
+		case eventObjectKindPush:
 			event = &PushEvent{}
-		case "tag_push":
+		case eventObjectKindTagPush:
 			event = &TagEvent{}
-		case "merge_request":
+		case eventObjectKindMergeRequest:
 			event = &MergeEvent{}
 		default:
 			return nil, fmt.Errorf("unexpected service type %s", service.ObjectKind)
