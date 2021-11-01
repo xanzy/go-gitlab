@@ -163,6 +163,7 @@ type ListMergeRequestsOptions struct {
 	TargetBranch           *string    `url:"target_branch,omitempty" json:"target_branch,omitempty"`
 	Search                 *string    `url:"search,omitempty" json:"search,omitempty"`
 	In                     *string    `url:"in,omitempty" json:"in,omitempty"`
+	Draft                  *bool      `url:"draft,omitempty" json:"draft,omitempty"`
 	WIP                    *string    `url:"wip,omitempty" json:"wip,omitempty"`
 }
 
@@ -219,6 +220,7 @@ type ListGroupMergeRequestsOptions struct {
 	TargetBranch           *string    `url:"target_branch,omitempty" json:"target_branch,omitempty"`
 	Search                 *string    `url:"search,omitempty" json:"search,omitempty"`
 	In                     *string    `url:"in,omitempty" json:"in,omitempty"`
+	Draft                  *bool      `url:"draft,omitempty" json:"draft,omitempty"`
 	WIP                    *string    `url:"wip,omitempty" json:"wip,omitempty"`
 }
 
@@ -278,6 +280,7 @@ type ListProjectMergeRequestsOptions struct {
 	SourceBranch           *string    `url:"source_branch,omitempty" json:"source_branch,omitempty"`
 	TargetBranch           *string    `url:"target_branch,omitempty" json:"target_branch,omitempty"`
 	Search                 *string    `url:"search,omitempty" json:"search,omitempty"`
+	Draft                  *bool      `url:"draft,omitempty" json:"draft,omitempty"`
 	WIP                    *string    `url:"wip,omitempty" json:"wip,omitempty"`
 }
 
