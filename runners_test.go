@@ -40,13 +40,87 @@ func TestDisableRunner(t *testing.T) {
 	}
 }
 
+func stringToTime(date string, t *testing.T) *time.Time {
+	d, err := time.Parse(timeLayout, date)
+	if err != nil {
+		t.Errorf("Unable to parse date [%s]: %v", d, err)
+	}
+	return &d
+}
+
+func expectedRunnerJobs(t *testing.T) []*Job {
+	pipeline := struct {
+		ID     int    `json:"id"`
+		Ref    string `json:"ref"`
+		Sha    string `json:"sha"`
+		Status string `json:"status"`
+	}{
+		ID:     8777,
+		Ref:    "master",
+		Sha:    "6c016b801a88f4bd31f927fc045b5c746a6f823e",
+		Status: "failed",
+	}
+
+	return []*Job{
+		&Job{
+			ID:             1,
+			Status:         "failed",
+			Stage:          "test",
+			Name:           "run_tests",
+			Ref:            "master",
+			Tag:            false,
+			Coverage:       0,
+			AllowFailure:   false,
+			CreatedAt:      stringToTime("2021-10-22T11:59:25.201Z", t),
+			StartedAt:      stringToTime("2021-10-22T11:59:33.660Z", t),
+			FinishedAt:     stringToTime("2021-10-22T15:59:25.201Z", t),
+			Duration:       171.540594,
+			QueuedDuration: 2.535766,
+			User: &User{
+				ID:          368,
+				Name:        "John SMITH",
+				Username:    "john.smith",
+				AvatarURL:   "https://gitlab.example.com/uploads/-/system/user/avatar/368/avatar.png",
+				State:       "blocked",
+				WebURL:      "https://gitlab.example.com/john.smith",
+				PublicEmail: "john.smith@example.com",
+			},
+			Commit: &Commit{
+				ID:             "6c016b801a88f4bd31f927fc045b5c746a6f823e",
+				ShortID:        "6c016b80",
+				CreatedAt:      stringToTime("2018-03-21T14:41:00.000+01:00", t),
+				ParentIDs:      []string{"6008b4902d40799ab11688e502d9f1f27f6d2e18"},
+				Title:          "Update env for specific runner",
+				Message:        "Update env for specific runner\n",
+				AuthorName:     "John SMITH",
+				AuthorEmail:    "john.smith@example.com",
+				AuthoredDate:   stringToTime("2018-03-21T14:41:00.000+01:00", t),
+				CommitterName:  "John SMITH",
+				CommitterEmail: "john.smith@example.com",
+				CommittedDate:  stringToTime("2018-03-21T14:41:00.000+01:00", t),
+				WebURL:         "https://gitlab.example.com/awesome/packages/common/-/commit/6c016b801a88f4bd31f927fc045b5c746a6f823e",
+			},
+			Pipeline: pipeline,
+			WebURL:   "https://gitlab.example.com/awesome/packages/common/-/jobs/14606",
+			Project: &Project{
+				ID:                3252,
+				Description:       "Common nodejs paquet for producer",
+				Name:              "common",
+				NameWithNamespace: "awesome",
+				Path:              "common",
+				PathWithNamespace: "awesome",
+				CreatedAt:         stringToTime("2018-02-13T09:21:48.107Z", t),
+			},
+		},
+	}
+}
 func TestListRunnersJobs(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
 
 	mux.HandleFunc("/api/v4/runners/1/jobs", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
-		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
+		fmt.Fprint(w, exampleListRunnerJobs)
 	})
 
 	opt := &ListRunnerJobsOptions{}
@@ -56,7 +130,7 @@ func TestListRunnersJobs(t *testing.T) {
 		t.Fatalf("Runners.ListRunnersJobs returns an error: %v", err)
 	}
 
-	want := []*Job{{ID: 1}, {ID: 2}}
+	want := expectedRunnerJobs(t)
 	if !reflect.DeepEqual(want, jobs) {
 		t.Errorf("Runners.ListRunnersJobs returned %+v, want %+v", jobs, want)
 	}

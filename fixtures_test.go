@@ -93,6 +93,86 @@ const (
 		"token": "6337ff461c94fd3fa32ba3b1ff4125"
 	}`
 
+	// exampleRunnerJob provides fixture for ListRunnerJobs test
+	exampleListRunnerJobs = `
+  [
+    {
+      "id": 1,
+      "status": "failed",
+      "stage": "test",
+      "name": "run_tests",
+      "ref": "master",
+      "tag": false,
+      "coverage": null,
+      "allow_failure": false,
+      "created_at": "2021-10-22T11:59:25.201Z",
+      "started_at": "2021-10-22T11:59:33.660Z",
+      "finished_at": "2021-10-22T15:59:25.201Z",
+      "duration": 171.540594,
+      "queued_duration": 2.535766,
+      "user": {
+        "id": 368,
+        "name": "John SMITH",
+        "username": "john.smith",
+        "state": "blocked",
+        "avatar_url": "https://gitlab.example.com/uploads/-/system/user/avatar/368/avatar.png",
+        "web_url": "https://gitlab.example.com/john.smith",
+        "bio": "",
+        "location": "",
+        "public_email": "john.smith@example.com",
+        "skype": "",
+        "linkedin": "",
+        "twitter": "",
+        "website_url": "",
+        "organization": "",
+        "job_title": "",
+        "pronouns": null,
+        "bot": false,
+        "work_information": null,
+        "bio_html": ""
+      },
+      "commit": {
+        "id": "6c016b801a88f4bd31f927fc045b5c746a6f823e",
+        "short_id": "6c016b80",
+        "created_at": "2018-03-21T14:41:00.000+01:00",
+        "parent_ids": [
+          "6008b4902d40799ab11688e502d9f1f27f6d2e18"
+        ],
+        "title": "Update env for specific runner",
+        "message": "Update env for specific runner\n",
+        "author_name": "John SMITH",
+        "author_email": "john.smith@example.com",
+        "authored_date": "2018-03-21T14:41:00.000+01:00",
+        "committer_name": "John SMITH",
+        "committer_email": "john.smith@example.com",
+        "committed_date": "2018-03-21T14:41:00.000+01:00",
+        "trailers": {},
+        "web_url": "https://gitlab.example.com/awesome/packages/common/-/commit/6c016b801a88f4bd31f927fc045b5c746a6f823e"
+      },
+      "pipeline": {
+        "id": 8777,
+        "project_id": 3252,
+        "sha": "6c016b801a88f4bd31f927fc045b5c746a6f823e",
+        "ref": "master",
+        "status": "failed",
+        "source": "push",
+        "created_at": "2018-03-21T13:41:15.356Z",
+        "updated_at": "2018-03-21T15:12:52.021Z",
+        "web_url": "https://gitlab.example.com/awesome/packages/common/-/pipelines/8777"
+      },
+      "web_url": "https://gitlab.example.com/awesome/packages/common/-/jobs/14606",
+      "project": {
+        "id": 3252,
+        "description": "Common nodejs paquet for producer",
+        "name": "common",
+        "name_with_namespace": "awesome",
+        "path": "common",
+        "path_with_namespace": "awesome",
+        "created_at": "2018-02-13T09:21:48.107Z"
+      }
+    }
+  ]`
+
 	// exampleReleaseLink provides fixture for Release Links tests.
 	exampleReleaseLink = `{
 		"id":1,
