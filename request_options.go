@@ -18,8 +18,6 @@ package gitlab
 
 import (
 	"context"
-	"io"
-	"net/http"
 
 	retryablehttp "github.com/hashicorp/go-retryablehttp"
 )
@@ -58,14 +56,6 @@ func WithToken(authType AuthType, token string) RequestOptionFunc {
 		case PrivateToken:
 			req.Header.Set("PRIVATE-TOKEN", token)
 		}
-		return nil
-	}
-}
-
-func WithUploadFile(content io.ReadCloser) RequestOptionFunc {
-	return func(req *retryablehttp.Request) error {
-		req.Body = content
-		req.Method = http.MethodPut
 		return nil
 	}
 }

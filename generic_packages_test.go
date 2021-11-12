@@ -17,14 +17,31 @@
 package gitlab
 
 import (
-	"encoding/json"
 	"fmt"
-	"io"
 	"net/http"
 	"reflect"
 	"strings"
 	"testing"
 )
+
+func TestPublishPackageFile(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1234/packages/generic/foo/0.1.2/bar-baz.txt", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPut)
+		fmt.Fprint(w, `
+		{
+			"message": "201 Created"
+		}
+	`)
+	})
+
+	_, err := client.GenericPackages.PublishPackageFile(1234, "foo", "0.1.2", "bar-baz.txt", strings.NewReader("bar = baz"), &PublishPackageFileOptions{})
+	if err != nil {
+		t.Errorf("GenericPackages.PublishPackageFile returned error: %v", err)
+	}
+}
 
 func TestDownloadPackageFile(t *testing.T) {
 	mux, server, client := setup(t)
@@ -45,39 +62,5 @@ func TestDownloadPackageFile(t *testing.T) {
 	want := []byte("bar = baz")
 	if !reflect.DeepEqual(want, packageBytes) {
 		t.Errorf("GenericPackages.DownloadPackageFile returned %+v, want %+v", packageBytes, want)
-	}
-}
-
-func TestPublishPackageFile(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
-
-	mux.HandleFunc("/api/v4/projects/1234/packages/generic/foo/0.1.2/bar-baz.txt", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, http.MethodPut)
-		fmt.Fprint(w, `
-		{
-			"message": "201 Created"
-		}
-	`)
-	})
-
-	url, result, _, err := client.GenericPackages.PublishPackageFile(1234, "foo", "0.1.2", "bar-baz.txt", io.NopCloser(strings.NewReader("bar = baz")), &PublishPackageFileOptions{})
-	if err != nil {
-		t.Errorf("GenericPackages.PublishPackageFile returned error: %v", err)
-	}
-
-	goldenURL := client.BaseURL().String() + "projects/1234/packages/generic/foo/0%2E1%2E2/bar-baz%2Etxt"
-	if url != goldenURL {
-		t.Errorf("GenericPackages.PublishPackageFile URL was %+v, want %+v", url, goldenURL)
-	}
-
-	body := map[string]interface{}{}
-	if err := json.Unmarshal(result, &body); err != nil {
-		t.Errorf("Error decoding body: %v", err)
-	}
-
-	want := map[string]interface{}{"message": "201 Created"}
-	if !reflect.DeepEqual(body, want) {
-		t.Errorf("GenericPackages.PublishPackageFile response code was %+v, want %+v", body, want)
 	}
 }
