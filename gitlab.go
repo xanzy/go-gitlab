@@ -48,19 +48,19 @@ const (
 	headerRateReset = "RateLimit-Reset"
 )
 
-// authType represents an authentication type within GitLab.
+// AuthType represents an authentication type within GitLab.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/
-type authType int
+type AuthType int
 
 // List of available authentication types.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/
 const (
-	basicAuth authType = iota
-	jobToken
-	oAuthToken
-	privateToken
+	BasicAuth AuthType = iota
+	JobToken
+	OAuthToken
+	PrivateToken
 )
 
 // A Client manages communication with the GitLab API.
@@ -84,7 +84,7 @@ type Client struct {
 	limiter RateLimiter
 
 	// Token type used to make authenticated API calls.
-	authType authType
+	authType AuthType
 
 	// Username and password used for basix authentication.
 	username, password string
@@ -214,7 +214,7 @@ func NewClient(token string, options ...ClientOptionFunc) (*Client, error) {
 	if err != nil {
 		return nil, err
 	}
-	client.authType = privateToken
+	client.authType = PrivateToken
 	client.token = token
 	return client, nil
 }
@@ -227,7 +227,7 @@ func NewBasicAuthClient(username, password string, options ...ClientOptionFunc) 
 		return nil, err
 	}
 
-	client.authType = basicAuth
+	client.authType = BasicAuth
 	client.username = username
 	client.password = password
 
@@ -241,7 +241,7 @@ func NewJobClient(token string, options ...ClientOptionFunc) (*Client, error) {
 	if err != nil {
 		return nil, err
 	}
-	client.authType = jobToken
+	client.authType = JobToken
 	client.token = token
 	return client, nil
 }
@@ -253,7 +253,7 @@ func NewOAuthClient(token string, options ...ClientOptionFunc) (*Client, error) 
 	if err != nil {
 		return nil, err
 	}
-	client.authType = oAuthToken
+	client.authType = OAuthToken
 	client.token = token
 	return client, nil
 }
@@ -614,22 +614,22 @@ const (
 // populatePageValues parses the HTTP Link response headers and populates the
 // various pagination link values in the Response.
 func (r *Response) populatePageValues() {
-	if totalItems := r.Response.Header.Get(xTotal); totalItems != "" {
+	if totalItems := r.Header.Get(xTotal); totalItems != "" {
 		r.TotalItems, _ = strconv.Atoi(totalItems)
 	}
-	if totalPages := r.Response.Header.Get(xTotalPages); totalPages != "" {
+	if totalPages := r.Header.Get(xTotalPages); totalPages != "" {
 		r.TotalPages, _ = strconv.Atoi(totalPages)
 	}
-	if itemsPerPage := r.Response.Header.Get(xPerPage); itemsPerPage != "" {
+	if itemsPerPage := r.Header.Get(xPerPage); itemsPerPage != "" {
 		r.ItemsPerPage, _ = strconv.Atoi(itemsPerPage)
 	}
-	if currentPage := r.Response.Header.Get(xPage); currentPage != "" {
+	if currentPage := r.Header.Get(xPage); currentPage != "" {
 		r.CurrentPage, _ = strconv.Atoi(currentPage)
 	}
-	if nextPage := r.Response.Header.Get(xNextPage); nextPage != "" {
+	if nextPage := r.Header.Get(xNextPage); nextPage != "" {
 		r.NextPage, _ = strconv.Atoi(nextPage)
 	}
-	if previousPage := r.Response.Header.Get(xPrevPage); previousPage != "" {
+	if previousPage := r.Header.Get(xPrevPage); previousPage != "" {
 		r.PreviousPage, _ = strconv.Atoi(previousPage)
 	}
 }
@@ -654,7 +654,7 @@ func (c *Client) Do(req *retryablehttp.Request, v interface{}) (*Response, error
 	// if we already have a token and if not first authenticate and get one.
 	var basicAuthToken string
 	switch c.authType {
-	case basicAuth:
+	case BasicAuth:
 		c.tokenLock.RLock()
 		basicAuthToken = c.token
 		c.tokenLock.RUnlock()
@@ -666,12 +666,18 @@ func (c *Client) Do(req *retryablehttp.Request, v interface{}) (*Response, error
 			}
 		}
 		req.Header.Set("Authorization", "Bearer "+basicAuthToken)
-	case jobToken:
-		req.Header.Set("JOB-TOKEN", c.token)
-	case oAuthToken:
-		req.Header.Set("Authorization", "Bearer "+c.token)
-	case privateToken:
-		req.Header.Set("PRIVATE-TOKEN", c.token)
+	case JobToken:
+		if values := req.Header.Values("JOB-TOKEN"); len(values) == 0 {
+			req.Header.Set("JOB-TOKEN", c.token)
+		}
+	case OAuthToken:
+		if values := req.Header.Values("Authorization"); len(values) == 0 {
+			req.Header.Set("Authorization", "Bearer "+c.token)
+		}
+	case PrivateToken:
+		if values := req.Header.Values("PRIVATE-TOKEN"); len(values) == 0 {
+			req.Header.Set("PRIVATE-TOKEN", c.token)
+		}
 	}
 
 	resp, err := c.client.Do(req)
@@ -679,7 +685,7 @@ func (c *Client) Do(req *retryablehttp.Request, v interface{}) (*Response, error
 		return nil, err
 	}
 
-	if resp.StatusCode == http.StatusUnauthorized && c.authType == basicAuth {
+	if resp.StatusCode == http.StatusUnauthorized && c.authType == BasicAuth {
 		resp.Body.Close()
 		// The token most likely expired, so we need to request a new one and try again.
 		if _, err := c.requestOAuthToken(req.Context(), basicAuthToken); err != nil {
@@ -750,7 +756,7 @@ func parseID(id interface{}) (string, error) {
 
 // Helper function to escape a project identifier.
 func pathEscape(s string) string {
-	return strings.Replace(url.PathEscape(s), ".", "%2E", -1)
+	return strings.ReplaceAll(url.PathEscape(s), ".", "%2E")
 }
 
 // An ErrorResponse reports one or more errors caused by an API request.
