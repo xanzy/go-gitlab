@@ -39,6 +39,7 @@ type GenericPackagesService struct {
 // https://docs.gitlab.com/ee/user/packages/generic_packages/index.html#download-package-file
 type PublishPackageFileOptions struct {
 	Status *GenericPackageStatusValue `url:"status,omitempty" json:"status,omitempty"`
+	Select *GenericPackageSelectValue `url:"select,omitempty" json:"select,omitempty"`
 }
 
 // PublishPackageFile uploads a file to a project's package registry.
