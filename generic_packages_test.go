@@ -37,7 +37,7 @@ func TestPublishPackageFile(t *testing.T) {
 	`)
 	})
 
-	_, err := client.GenericPackages.PublishPackageFile(1234, "foo", "0.1.2", "bar-baz.txt", strings.NewReader("bar = baz"), &PublishPackageFileOptions{})
+	_, _, err := client.GenericPackages.PublishPackageFile(1234, "foo", "0.1.2", "bar-baz.txt", strings.NewReader("bar = baz"), &PublishPackageFileOptions{})
 	if err != nil {
 		t.Errorf("GenericPackages.PublishPackageFile returned error: %v", err)
 	}

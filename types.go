@@ -199,23 +199,23 @@ func FileAction(v FileActionValue) *FileActionValue {
 	return p
 }
 
-// GenericPackageSelectValue represents a GitLab Package Status.
+// GenericPackageSelectValue represents a generic package select value.
 type GenericPackageSelectValue string
 
-// The available generic package statuses.
+// The available generic package select values.
 const (
 	SelectPackageFile GenericPackageSelectValue = "package_file"
 )
 
-// GenericPackageStatus is a helper routine that allocates a new GenericPackageStatusValue
-// value to store v and returns a pointer to it.
+// GenericPackageSelect is a helper routine that allocates a new
+// GenericPackageSelectValue value to store v and returns a pointer to it.
 func GenericPackageSelect(v GenericPackageSelectValue) *GenericPackageSelectValue {
 	p := new(GenericPackageSelectValue)
 	*p = v
 	return p
 }
 
-// GenericPackageStatusValue represents a GitLab Package Status.
+// GenericPackageStatusValue represents a generic package status.
 type GenericPackageStatusValue string
 
 // The available generic package statuses.
@@ -224,8 +224,8 @@ const (
 	PackageHidden  GenericPackageStatusValue = "hidden"
 )
 
-// GenericPackageStatus is a helper routine that allocates a new GenericPackageStatusValue
-// value to store v and returns a pointer to it.
+// GenericPackageStatus is a helper routine that allocates a new
+// GenericPackageStatusValue value to store v and returns a pointer to it.
 func GenericPackageStatus(v GenericPackageStatusValue) *GenericPackageStatusValue {
 	p := new(GenericPackageStatusValue)
 	*p = v
