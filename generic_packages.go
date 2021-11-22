@@ -61,6 +61,23 @@ type GenericPackagesFile struct {
 	NewFilePath            string     `json:"new_file_path"`
 }
 
+// FormatPackageURL returns the GitLab Package Registry URL for the given artifact metadata, without the BaseURL.
+// This does not make a GitLab API request, but rather computes it based on their documentation.
+func (s *GenericPackagesService) FormatPackageURL(pid interface{}, packageName, packageVersion, fileName string) (string, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return "", err
+	}
+	u := fmt.Sprintf(
+		"projects/%s/packages/generic/%s/%s/%s",
+		pathEscape(project),
+		pathEscape(packageName),
+		pathEscape(packageVersion),
+		pathEscape(fileName),
+	)
+	return u, nil
+}
+
 // PublishPackageFileOptions represents the available PublishPackageFile()
 // options.
 //
