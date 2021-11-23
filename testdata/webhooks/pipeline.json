@@ -90,7 +90,12 @@
         "artifacts_file":{
            "filename": null,
            "size": null
-        }
+        },
+        "environment": {
+             "name": "production",
+             "action": "start",
+             "deployment_tier": "production"
+         }
      },
      {
         "id": 377,
