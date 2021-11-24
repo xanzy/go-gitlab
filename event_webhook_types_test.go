@@ -339,6 +339,10 @@ func TestPipelineEventUnmarshal(t *testing.T) {
 	if event.Builds[0].AllowFailure != true {
 		t.Errorf("Builds.0.AllowFailure is %v, want %v", event.Builds[0].AllowFailure, true)
 	}
+	
+	if event.Builds[0].Environment.Name != "production" {
+		t.Errorf("Builds.0.Environment.Name is %v, want %v", event.Builds[0].Environment.Name, "production")
+	}
 }
 
 func TestPushEventUnmarshal(t *testing.T) {

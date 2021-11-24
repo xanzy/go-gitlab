@@ -698,15 +698,22 @@ type PipelineEvent struct {
 		AllowFailure bool       `json:"allow_failure"`
 		User         *EventUser `json:"user"`
 		Runner       struct {
-			ID          int    `json:"id"`
-			Description string `json:"description"`
-			Active      bool   `json:"active"`
-			IsShared    bool   `json:"is_shared"`
+			ID          int      `json:"id"`
+			Description string   `json:"description"`
+			Active      bool     `json:"active"`
+			IsShared    bool     `json:"is_shared"`
+			RunnerType  bool     `json:"runner_type"`
+			Tags        []string `json:"tags"`
 		} `json:"runner"`
 		ArtifactsFile struct {
 			Filename string `json:"filename"`
 			Size     int    `json:"size"`
 		} `json:"artifacts_file"`
+		Environment struct {
+			Name           string `json:"name"`
+			Action         string `json:"action"`
+			DeploymentTier string `json:"deployment_tier"`
+		} `json:"environment"`
 	} `json:"builds"`
 }
 
