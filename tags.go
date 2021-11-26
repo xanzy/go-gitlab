@@ -99,7 +99,7 @@ func (s *TagsService) GetTag(pid interface{}, tag string, options ...RequestOpti
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/repository/tags/%s", pathEscape(project), url.PathEscape(tag))
+	u := fmt.Sprintf("projects/%s/repository/tags/%s", url.QueryEscape(project), url.PathEscape(tag))
 
 	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
