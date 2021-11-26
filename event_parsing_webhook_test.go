@@ -272,6 +272,10 @@ func TestParsePipelineHook(t *testing.T) {
 	if event.Builds[0].ID != 380 {
 		t.Errorf("Builds[0] ID is %v, want %v", event.Builds[0].ID, 380)
 	}
+
+	if event.Builds[0].Runner.RunnerType != "instance_type" {
+		t.Errorf("Builds[0] Runner RunnerType is %v, want %v", event.Builds[0].Runner.RunnerType, "instance_type")
+	}
 }
 
 func TestParsePushHook(t *testing.T) {
