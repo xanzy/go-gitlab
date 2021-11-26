@@ -86,7 +86,17 @@
            "email": "user1@example.com",
            "avatar_url": "http://www.gravatar.com/avatar/e32bd13e2add097461cb96824b7a829c?s=80\u0026d=identicon"
         },
-        "runner": null,
+        "runner": {
+            "id": 42,
+            "description": "shared-runners-manager-1.gitlab.com",
+            "runner_type": "instance_type",
+            "active": true,
+            "is_shared": true,
+            "tags": [
+                "docker",
+                "gce"
+            ]
+        },
         "artifacts_file":{
            "filename": null,
            "size": null

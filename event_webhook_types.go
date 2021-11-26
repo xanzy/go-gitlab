@@ -702,7 +702,7 @@ type PipelineEvent struct {
 			Description string   `json:"description"`
 			Active      bool     `json:"active"`
 			IsShared    bool     `json:"is_shared"`
-			RunnerType  bool     `json:"runner_type"`
+			RunnerType  string   `json:"runner_type"`
 			Tags        []string `json:"tags"`
 		} `json:"runner"`
 		ArtifactsFile struct {
