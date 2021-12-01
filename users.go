@@ -19,6 +19,7 @@ package gitlab
 import (
 	"errors"
 	"fmt"
+	"net"
 	"net/http"
 	"time"
 )
@@ -85,7 +86,9 @@ type User struct {
 	CanCreateProject               bool               `json:"can_create_project"`
 	ProjectsLimit                  int                `json:"projects_limit"`
 	CurrentSignInAt                *time.Time         `json:"current_sign_in_at"`
+	CurrentSignInIP                *net.IP            `json:"current_sign_in_ip"`
 	LastSignInAt                   *time.Time         `json:"last_sign_in_at"`
+	LastSignInIP                   *net.IP            `json:"last_sign_in_ip"`
 	ConfirmedAt                    *time.Time         `json:"confirmed_at"`
 	TwoFactorEnabled               bool               `json:"two_factor_enabled"`
 	Note                           string             `json:"note"`
