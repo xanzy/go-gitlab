@@ -145,7 +145,7 @@ func TestReleasesService_CreateReleaseWithAsset(t *testing.T) {
 		Description: String("Description"),
 		Assets: &ReleaseAssets{
 			Links: []*ReleaseAssetLink{
-				{"sldkf", "sldkfj"},
+				{"sldkf", "sldkfj", String("sldkfh"), LinkType(OtherLinkType)},
 			},
 		},
 	}
@@ -195,7 +195,7 @@ func TestReleasesService_CreateReleaseWithAssetAndNameMetadata(t *testing.T) {
 		Description: String("Description"),
 		Assets: &ReleaseAssets{
 			Links: []*ReleaseAssetLink{
-				{"sldkf", "sldkfj"},
+				{"sldkf", "sldkfj", String("sldkfh"), LinkType(OtherLinkType)},
 			},
 		},
 	}
