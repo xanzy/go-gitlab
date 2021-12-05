@@ -6,35 +6,36 @@ import (
 	"testing"
 )
 
-func TestMarkdown(t *testing.T) {
+const markdownHTMLResponse = "<h1>Testing</h1>"
+
+func TestRender(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
-
-	const htmlResponse = "<h1>Testing</h1>"
 
 	mux.HandleFunc("/api/v4/markdown", func(writer http.ResponseWriter, request *http.Request) {
 		testMethod(t, request, http.MethodPost)
 		writer.WriteHeader(http.StatusOK)
-		markdown := Markdown{HTML: htmlResponse}
+		markdown := Markdown{HTML: markdownHTMLResponse}
 		resp, _ := json.Marshal(markdown)
 		_, _ = writer.Write(resp)
 	})
 
-	opt := &MarkdownOptions{
-		Text:                    "# Testing",
-		GitlabFlavouredMarkdown: true,
-		Project:                 "some/sub/group/project",
+	opt := &RenderOptions{
+		Text:                    String("# Testing"),
+		GitlabFlavouredMarkdown: Bool(true),
+		Project:                 String("some/sub/group/project"),
 	}
-	markdown, resp, err := client.Markdown.Markdown(opt)
+	markdown, resp, err := client.Markdown.Render(opt)
 	if err != nil {
-		t.Fatalf("GetMarkdown returned error: %v", err)
+		t.Fatalf("Render returned error: %v", err)
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		t.Fatalf("GetMarkdown retruned status expected %q but was %q", http.StatusOK, resp.Status)
+		t.Fatalf("Render returned status, expected %q but got %q", http.StatusOK, resp.Status)
 	}
 
-	if markdown.HTML != htmlResponse {
-		t.Fatalf("GetMarkdown returned wrong response, expected HTML to be %q but was %q", htmlResponse, markdown.HTML)
+	if markdown.HTML != markdownHTMLResponse {
+		t.Fatalf("Render returned wrong response, expected %q but got %q",
+			markdownHTMLResponse, markdown.HTML)
 	}
 }
