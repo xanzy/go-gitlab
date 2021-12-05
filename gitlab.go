@@ -147,6 +147,7 @@ type Client struct {
 	License               *LicenseService
 	LicenseTemplates      *LicenseTemplatesService
 	ManagedLicenses       *ManagedLicensesService
+	Markdown              *MarkdownService
 	MergeRequestApprovals *MergeRequestApprovalsService
 	MergeRequests         *MergeRequestsService
 	Milestones            *MilestonesService
@@ -338,6 +339,7 @@ func newClient(options ...ClientOptionFunc) (*Client, error) {
 	c.License = &LicenseService{client: c}
 	c.LicenseTemplates = &LicenseTemplatesService{client: c}
 	c.ManagedLicenses = &ManagedLicensesService{client: c}
+	c.Markdown = &MarkdownService{client: c}
 	c.MergeRequestApprovals = &MergeRequestApprovalsService{client: c}
 	c.MergeRequests = &MergeRequestsService{client: c, timeStats: timeStats}
 	c.Milestones = &MilestonesService{client: c}
