@@ -32,7 +32,7 @@ const (
 		"id": 6,
 		"is_shared": false,
 		"runner_type": "project_type",
-		"contacted_at": "2016-01-25T16:39:48.066Z",
+		"contacted_at": "2016-01-25T16:39:48.166Z",
 		"name": null,
 		"online": true,
 		"status": "online",
@@ -64,36 +64,7 @@ const (
 	// exampleEventUserUsername provides a ficture for the event username.
 	exampleEventUserUsername = "jsmith"
 
-	// exampleProjectName provides a fixture for a project name.
-	exampleProjectName = "example-project"
-
-	// exampleProjectStatusChecks provides a fixture for a project status checks.
-	exampleProjectStatusChecks = `[
-		{
-			"id": 1,
-			"name": "Compliance Check",
-			"project_id": 6,
-			"external_url": "https://gitlab.com/example/test.json",
-			"protected_branches": [
-				{
-					"id": 14,
-					"project_id": 6,
-					"name": "master",
-					"created_at": "2020-10-12T14:04:50.787Z",
-					"updated_at": "2020-10-12T14:04:50.787Z",
-					"code_owner_approval_required": false
-				}
-			]
-		}
-	]`
-
-	// exampleRegisterNewRunner provides fixture for Runners tests.
-	exampleRegisterNewRunner = `{
-		"id": 12345,
-		"token": "6337ff461c94fd3fa32ba3b1ff4125"
-	}`
-
-	// exampleRunnerJob provides fixture for ListRunnerJobs test
+	// exampleRunnerJob provides fixture for the list runner jobs test.
 	exampleListRunnerJobs = `
   [
     {
@@ -134,7 +105,7 @@ const (
       "commit": {
         "id": "6c016b801a88f4bd31f927fc045b5c746a6f823e",
         "short_id": "6c016b80",
-        "created_at": "2018-03-21T14:41:00.000+01:00",
+        "created_at": "2018-03-21T14:41:00.000Z",
         "parent_ids": [
           "6008b4902d40799ab11688e502d9f1f27f6d2e18"
         ],
@@ -142,10 +113,10 @@ const (
         "message": "Update env for specific runner\n",
         "author_name": "John SMITH",
         "author_email": "john.smith@example.com",
-        "authored_date": "2018-03-21T14:41:00.000+01:00",
+        "authored_date": "2018-03-21T14:41:00.000Z",
         "committer_name": "John SMITH",
         "committer_email": "john.smith@example.com",
-        "committed_date": "2018-03-21T14:41:00.000+01:00",
+        "committed_date": "2018-03-21T14:41:00.000Z",
         "trailers": {},
         "web_url": "https://gitlab.example.com/awesome/packages/common/-/commit/6c016b801a88f4bd31f927fc045b5c746a6f823e"
       },
@@ -172,6 +143,35 @@ const (
       }
     }
   ]`
+
+	// exampleProjectName provides a fixture for a project name.
+	exampleProjectName = "example-project"
+
+	// exampleProjectStatusChecks provides a fixture for a project status checks.
+	exampleProjectStatusChecks = `[
+		{
+			"id": 1,
+			"name": "Compliance Check",
+			"project_id": 6,
+			"external_url": "https://gitlab.com/example/test.json",
+			"protected_branches": [
+				{
+					"id": 14,
+					"project_id": 6,
+					"name": "master",
+					"created_at": "2020-10-12T14:04:50.787Z",
+					"updated_at": "2020-10-12T14:04:50.787Z",
+					"code_owner_approval_required": false
+				}
+			]
+		}
+	]`
+
+	// exampleRegisterNewRunner provides fixture for Runners tests.
+	exampleRegisterNewRunner = `{
+		"id": 12345,
+		"token": "6337ff461c94fd3fa32ba3b1ff4125"
+	}`
 
 	// exampleReleaseLink provides fixture for Release Links tests.
 	exampleReleaseLink = `{

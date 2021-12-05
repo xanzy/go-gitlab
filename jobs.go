@@ -75,8 +75,8 @@ type Job struct {
 	Status  string   `json:"status"`
 	Tag     bool     `json:"tag"`
 	WebURL  string   `json:"web_url"`
-	User    *User    `json:"user"`
 	Project *Project `json:"project"`
+	User    *User    `json:"user"`
 }
 
 // Bridge represents a pipeline bridge.
