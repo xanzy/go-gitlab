@@ -143,9 +143,9 @@ func TestReleasesService_CreateReleaseWithAsset(t *testing.T) {
 		Name:        String("name"),
 		TagName:     String(exampleTagName),
 		Description: String("Description"),
-		Assets: &ReleaseAssets{
-			Links: []*ReleaseAssetLink{
-				{"sldkf", "sldkfj", String("sldkfh"), LinkType(OtherLinkType)},
+		Assets: &ReleaseAssetsOptions{
+			Links: []*ReleaseAssetLinkOptions{
+				{String("sldkf"), String("sldkfj"), String("sldkfh"), LinkType(OtherLinkType)},
 			},
 		},
 	}
@@ -193,9 +193,9 @@ func TestReleasesService_CreateReleaseWithAssetAndNameMetadata(t *testing.T) {
 		Name:        String("name"),
 		TagName:     String(exampleTagNameWithMetadata),
 		Description: String("Description"),
-		Assets: &ReleaseAssets{
-			Links: []*ReleaseAssetLink{
-				{"sldkf", "sldkfj", String("sldkfh"), LinkType(OtherLinkType)},
+		Assets: &ReleaseAssetsOptions{
+			Links: []*ReleaseAssetLinkOptions{
+				{String("sldkf"), String("sldkfj"), String("sldkfh"), LinkType(OtherLinkType)},
 			},
 		},
 	}

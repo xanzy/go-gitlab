@@ -116,37 +116,38 @@ func (s *ReleasesService) GetRelease(pid interface{}, tagName string, options ..
 	return r, resp, err
 }
 
-// ReleaseAssets represents release assets in CreateRelease() options
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ce/api/releases/index.html#create-a-release
-type ReleaseAssets struct {
-	Links []*ReleaseAssetLink `url:"links" json:"links"`
-}
-
-// ReleaseAssetLink represents release asset link in CreateRelease() options
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ce/api/releases/index.html#create-a-release
-type ReleaseAssetLink struct {
-	Name     string         `url:"name" json:"name"`
-	URL      string         `url:"url" json:"url"`
-	FilePath *string        `url:"filepath,omitempty" json:"filepath,omitempty"`
-	LinkType *LinkTypeValue `url:"link_type,omitempty" json:"link_type,omitempty"`
-}
-
 // CreateReleaseOptions represents CreateRelease() options.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/releases/index.html#create-a-release
 type CreateReleaseOptions struct {
-	Name        *string        `url:"name" json:"name"`
-	TagName     *string        `url:"tag_name" json:"tag_name"`
-	Description *string        `url:"description" json:"description"`
-	Ref         *string        `url:"ref,omitempty" json:"ref,omitempty"`
-	Milestones  []string       `url:"milestones,omitempty" json:"milestones,omitempty"`
-	Assets      *ReleaseAssets `url:"assets,omitempty" json:"assets,omitempty"`
-	ReleasedAt  *time.Time     `url:"released_at,omitempty" json:"released_at,omitempty"`
+	Name        *string               `url:"name" json:"name"`
+	TagName     *string               `url:"tag_name" json:"tag_name"`
+	Description *string               `url:"description" json:"description"`
+	Ref         *string               `url:"ref,omitempty" json:"ref,omitempty"`
+	Milestones  []string              `url:"milestones,omitempty" json:"milestones,omitempty"`
+	Assets      *ReleaseAssetsOptions `url:"assets,omitempty" json:"assets,omitempty"`
+	ReleasedAt  *time.Time            `url:"released_at,omitempty" json:"released_at,omitempty"`
+}
+
+// ReleaseAssetsOptions represents release assets in CreateRelease() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/releases/index.html#create-a-release
+type ReleaseAssetsOptions struct {
+	Links []*ReleaseAssetLinkOptions `url:"links,omitempty" json:"links,omitempty"`
+}
+
+// ReleaseAssetLinkOptions represents release asset link in CreateRelease()
+// options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/releases/index.html#create-a-release
+type ReleaseAssetLinkOptions struct {
+	Name     *string        `url:"name,omitempty" json:"name,omitempty"`
+	URL      *string        `url:"url,omitempty" json:"url,omitempty"`
+	FilePath *string        `url:"filepath,omitempty" json:"filepath,omitempty"`
+	LinkType *LinkTypeValue `url:"link_type,omitempty" json:"link_type,omitempty"`
 }
 
 // CreateRelease creates a release.
