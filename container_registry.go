@@ -77,51 +77,16 @@ type ListRegistryRepositoriesOptions struct {
 	TagsCount *bool `url:"tags_count,omitempty" json:"tags_count,omitempty"`
 }
 
-// ListRegistryRepositoriesOptions represents the available
-// ListRegistryRepositories() options.
+// ListProjectRegistryRepositories gets a list of registry repositories in a project.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/container_registry.html#list-registry-repositories
-type GetSingleRegistryRepositoryOptions struct {
-	Tags      *bool `url:"tags,omitempty" json:"tags,omitempty"`
-	TagsCount *bool `url:"tags_count,omitempty" json:"tags_count,omitempty"`
-}
-
-// ListRegistryRepositories gets a list of registry repositories in a project.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ee/api/container_registry.html#list-registry-repositories
-func (s *ContainerRegistryService) ListRegistryRepositories(pid interface{}, opt *ListRegistryRepositoriesOptions, options ...RequestOptionFunc) ([]*RegistryRepository, *Response, error) {
+func (s *ContainerRegistryService) ListProjectRegistryRepositories(pid interface{}, opt *ListRegistryRepositoriesOptions, options ...RequestOptionFunc) ([]*RegistryRepository, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/registry/repositories", pathEscape(project))
-
-	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	var repos []*RegistryRepository
-	resp, err := s.client.Do(req, &repos)
-	if err != nil {
-		return nil, resp, err
-	}
-
-	return repos, resp, err
-}
-
-// GetSingleRegistryRepository gets a detail of single registry repository
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ee/api/container_registry.html#get-details-of-a-single-repository
-func (s *ContainerRegistryService) GetSingleRegistryRepository(rid interface{}, opt *GetSingleRegistryRepositoryOptions, options ...RequestOptionFunc) ([]*RegistryRepository, *Response, error) {
-	project, err := parseID(rid)
-	if err != nil {
-		return nil, nil, err
-	}
-	u := fmt.Sprintf("registry/repositories/%s", pathEscape(project))
 
 	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
@@ -160,6 +125,41 @@ func (s *ContainerRegistryService) ListGroupRegistryRepositories(gid interface{}
 	}
 
 	return repos, resp, err
+}
+
+// GetSingleRegistryRepositoryOptions represents the available
+// GetSingleRegistryRepository() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/container_registry.html#get-details-of-a-single-repository
+type GetSingleRegistryRepositoryOptions struct {
+	Tags      *bool `url:"tags,omitempty" json:"tags,omitempty"`
+	TagsCount *bool `url:"tags_count,omitempty" json:"tags_count,omitempty"`
+}
+
+// GetSingleRegistryRepository gets the details of single registry repository.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/container_registry.html#get-details-of-a-single-repository
+func (s *ContainerRegistryService) GetSingleRegistryRepository(pid interface{}, opt *GetSingleRegistryRepositoryOptions, options ...RequestOptionFunc) (*RegistryRepository, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("registry/repositories/%s", pathEscape(project))
+
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	repo := new(RegistryRepository)
+	resp, err := s.client.Do(req, repo)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return repo, resp, err
 }
 
 // DeleteRegistryRepository deletes a repository in a registry.

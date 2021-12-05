@@ -24,7 +24,7 @@ import (
 	"time"
 )
 
-func TestListRegistryRepositories(t *testing.T) {
+func TestListProjectRegistryRepositories(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
 
@@ -52,30 +52,29 @@ func TestListRegistryRepositories(t *testing.T) {
 		  ]`)
 	})
 
-	repositories, _, err := client.ContainerRegistry.ListRegistryRepositories(5, &ListRegistryRepositoriesOptions{})
+	repositories, _, err := client.ContainerRegistry.ListProjectRegistryRepositories(5, &ListRegistryRepositoriesOptions{})
 	if err != nil {
-		t.Errorf("ContainerRegistry.ListRegistryRepositories returned error: %v", err)
+		t.Errorf("ContainerRegistry.ListProjectRegistryRepositories returned error: %v", err)
 	}
 
-	timeLayout := "2006-01-02T15:04:05.000Z"
-	createdAt1, err := time.Parse(timeLayout, "2019-01-10T13:38:57.391Z")
+	createdAt1, err := time.Parse(time.RFC3339, "2019-01-10T13:38:57.391Z")
 	if err != nil {
-		t.Errorf("ContainerRepository.ListRegistryRepositories error while parsing time: %v", err)
+		t.Errorf("ContainerRepository.ListProjectRegistryRepositories error while parsing time: %v", err)
 	}
 
-	createdAt2, err := time.Parse(timeLayout, "2019-01-10T13:39:08.229Z")
+	createdAt2, err := time.Parse(time.RFC3339, "2019-01-10T13:39:08.229Z")
 	if err != nil {
-		t.Errorf("ContainerRepository.ListRegistryRepositories error while parsing time: %v", err)
+		t.Errorf("ContainerRepository.ListProjectRegistryRepositories error while parsing time: %v", err)
 	}
 
-	cleanupPolicyStartedAt1, err := time.Parse(timeLayout, "2020-01-10T15:40:57.391Z")
+	cleanupPolicyStartedAt1, err := time.Parse(time.RFC3339, "2020-01-10T15:40:57.391Z")
 	if err != nil {
-		t.Errorf("ContainerRepository.ListRegistryRepositories error while parsing time: %v", err)
+		t.Errorf("ContainerRepository.ListProjectRegistryRepositories error while parsing time: %v", err)
 	}
 
-	cleanupPolicyStartedAt2, err := time.Parse(timeLayout, "2020-08-17T03:12:35.489Z")
+	cleanupPolicyStartedAt2, err := time.Parse(time.RFC3339, "2020-08-17T03:12:35.489Z")
 	if err != nil {
-		t.Errorf("ContainerRepository.ListRegistryRepositories error while parsing time: %v", err)
+		t.Errorf("ContainerRepository.ListProjectRegistryRepositories error while parsing time: %v", err)
 	}
 
 	want := []*RegistryRepository{
@@ -97,7 +96,7 @@ func TestListRegistryRepositories(t *testing.T) {
 		},
 	}
 	if !reflect.DeepEqual(want, repositories) {
-		t.Errorf("ContainerRepository.ListRegistryRepositories returned %+v, want %+v", repositories, want)
+		t.Errorf("ContainerRepository.ListProjectRegistryRepositories returned %+v, want %+v", repositories, want)
 	}
 }
 
@@ -131,28 +130,27 @@ func TestListGroupRegistryRepositories(t *testing.T) {
 
 	repositories, _, err := client.ContainerRegistry.ListGroupRegistryRepositories(5, &ListRegistryRepositoriesOptions{})
 	if err != nil {
-		t.Errorf("ContainerRegistry.ListRegistryRepositories returned error: %v", err)
+		t.Errorf("ContainerRegistry.ListGroupRegistryRepositories returned error: %v", err)
 	}
 
-	timeLayout := "2006-01-02T15:04:05.000Z"
-	createdAt1, err := time.Parse(timeLayout, "2019-01-10T13:38:57.391Z")
+	createdAt1, err := time.Parse(time.RFC3339, "2019-01-10T13:38:57.391Z")
 	if err != nil {
-		t.Errorf("ContainerRepository.ListRegistryRepositories error while parsing time: %v", err)
+		t.Errorf("ContainerRepository.ListGroupRegistryRepositories error while parsing time: %v", err)
 	}
 
-	createdAt2, err := time.Parse(timeLayout, "2019-01-10T13:39:08.229Z")
+	createdAt2, err := time.Parse(time.RFC3339, "2019-01-10T13:39:08.229Z")
 	if err != nil {
-		t.Errorf("ContainerRepository.ListRegistryRepositories error while parsing time: %v", err)
+		t.Errorf("ContainerRepository.ListGroupRegistryRepositories error while parsing time: %v", err)
 	}
 
-	cleanupPolicyStartedAt1, err := time.Parse(timeLayout, "2020-01-10T15:40:57.391Z")
+	cleanupPolicyStartedAt1, err := time.Parse(time.RFC3339, "2020-01-10T15:40:57.391Z")
 	if err != nil {
-		t.Errorf("ContainerRepository.ListRegistryRepositories error while parsing time: %v", err)
+		t.Errorf("ContainerRepository.ListGroupRegistryRepositories error while parsing time: %v", err)
 	}
 
-	cleanupPolicyStartedAt2, err := time.Parse(timeLayout, "2020-08-17T03:12:35.489Z")
+	cleanupPolicyStartedAt2, err := time.Parse(time.RFC3339, "2020-08-17T03:12:35.489Z")
 	if err != nil {
-		t.Errorf("ContainerRepository.ListRegistryRepositories error while parsing time: %v", err)
+		t.Errorf("ContainerRepository.ListGroupRegistryRepositories error while parsing time: %v", err)
 	}
 
 	want := []*RegistryRepository{
@@ -174,7 +172,7 @@ func TestListGroupRegistryRepositories(t *testing.T) {
 		},
 	}
 	if !reflect.DeepEqual(want, repositories) {
-		t.Errorf("ContainerRepository.ListRegistryRepositories returned %+v, want %+v", repositories, want)
+		t.Errorf("ContainerRepository.ListGroupRegistryRepositories returned %+v, want %+v", repositories, want)
 	}
 }
 
@@ -184,8 +182,7 @@ func TestGetSingleRegistryRepository(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/registry/repositories/5", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
-		fmt.Fprintf(w, `[
-			{
+		fmt.Fprintf(w, `{
 			  "id": 1,
 			  "name": "",
 			  "path": "group/project",
@@ -193,65 +190,33 @@ func TestGetSingleRegistryRepository(t *testing.T) {
 			  "location": "gitlab.example.com:5000/group/project",
 			  "created_at": "2019-01-10T13:38:57.391Z",
 			  "cleanup_policy_started_at": "2020-01-10T15:40:57.391Z"
-			},
-			{
-			  "id": 2,
-			  "name": "releases",
-			  "path": "group/project/releases",
-			  "project_id": 9,
-			  "location": "gitlab.example.com:5000/group/project/releases",
-			  "created_at": "2019-01-10T13:39:08.229Z",
-			  "cleanup_policy_started_at": "2020-08-17T03:12:35.489Z"
-			}
-		  ]`)
+		  }`)
 	})
 
-	repositories, _, err := client.ContainerRegistry.GetSingleRegistryRepository(5, &GetSingleRegistryRepositoryOptions{})
+	repository, _, err := client.ContainerRegistry.GetSingleRegistryRepository(5, &GetSingleRegistryRepositoryOptions{})
 	if err != nil {
-		t.Errorf("ContainerRegistry.ListRegistryRepositories returned error: %v", err)
+		t.Errorf("ContainerRegistry.GetSingleRegistryRepository returned error: %v", err)
 	}
 
-	timeLayout := "2006-01-02T15:04:05.000Z"
-	createdAt1, err := time.Parse(timeLayout, "2019-01-10T13:38:57.391Z")
+	createdAt, err := time.Parse(time.RFC3339, "2019-01-10T13:38:57.391Z")
 	if err != nil {
-		t.Errorf("ContainerRepository.ListRegistryRepositories error while parsing time: %v", err)
+		t.Errorf("ContainerRepository.GetSingleRegistryRepository error while parsing time: %v", err)
+	}
+	cleanupPolicyStartedAt, err := time.Parse(time.RFC3339, "2020-01-10T15:40:57.391Z")
+	if err != nil {
+		t.Errorf("ContainerRepository.GetSingleRegistryRepository error while parsing time: %v", err)
 	}
 
-	createdAt2, err := time.Parse(timeLayout, "2019-01-10T13:39:08.229Z")
-	if err != nil {
-		t.Errorf("ContainerRepository.ListRegistryRepositories error while parsing time: %v", err)
+	want := &RegistryRepository{
+		ID:                     1,
+		Name:                   "",
+		Path:                   "group/project",
+		Location:               "gitlab.example.com:5000/group/project",
+		CreatedAt:              &createdAt,
+		CleanupPolicyStartedAt: &cleanupPolicyStartedAt,
 	}
-
-	cleanupPolicyStartedAt1, err := time.Parse(timeLayout, "2020-01-10T15:40:57.391Z")
-	if err != nil {
-		t.Errorf("ContainerRepository.ListRegistryRepositories error while parsing time: %v", err)
-	}
-
-	cleanupPolicyStartedAt2, err := time.Parse(timeLayout, "2020-08-17T03:12:35.489Z")
-	if err != nil {
-		t.Errorf("ContainerRepository.ListRegistryRepositories error while parsing time: %v", err)
-	}
-
-	want := []*RegistryRepository{
-		{
-			ID:                     1,
-			Name:                   "",
-			Path:                   "group/project",
-			Location:               "gitlab.example.com:5000/group/project",
-			CreatedAt:              &createdAt1,
-			CleanupPolicyStartedAt: &cleanupPolicyStartedAt1,
-		},
-		{
-			ID:                     2,
-			Name:                   "releases",
-			Path:                   "group/project/releases",
-			Location:               "gitlab.example.com:5000/group/project/releases",
-			CreatedAt:              &createdAt2,
-			CleanupPolicyStartedAt: &cleanupPolicyStartedAt2,
-		},
-	}
-	if !reflect.DeepEqual(want, repositories) {
-		t.Errorf("ContainerRepository.ListRegistryRepositories returned %+v, want %+v", repositories, want)
+	if !reflect.DeepEqual(want, repository) {
+		t.Errorf("ContainerRepository.GetSingleRegistryRepository returned %+v, want %+v", repository, want)
 	}
 }
 
