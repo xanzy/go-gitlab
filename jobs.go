@@ -71,11 +71,12 @@ type Job struct {
 		IsShared    bool   `json:"is_shared"`
 		Name        string `json:"name"`
 	} `json:"runner"`
-	Stage  string `json:"stage"`
-	Status string `json:"status"`
-	Tag    bool   `json:"tag"`
-	WebURL string `json:"web_url"`
-	User   *User  `json:"user"`
+	Stage   string   `json:"stage"`
+	Status  string   `json:"status"`
+	Tag     bool     `json:"tag"`
+	WebURL  string   `json:"web_url"`
+	Project *Project `json:"project"`
+	User    *User    `json:"user"`
 }
 
 // Bridge represents a pipeline bridge.

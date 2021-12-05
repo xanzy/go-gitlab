@@ -17,7 +17,6 @@
 package gitlab
 
 import (
-	"encoding/json"
 	"fmt"
 	"net/http"
 	"reflect"
@@ -46,7 +45,7 @@ func TestListRunnersJobs(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/runners/1/jobs", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
-		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
+		fmt.Fprint(w, exampleListRunnerJobs)
 	})
 
 	opt := &ListRunnerJobsOptions{}
@@ -56,9 +55,69 @@ func TestListRunnersJobs(t *testing.T) {
 		t.Fatalf("Runners.ListRunnersJobs returns an error: %v", err)
 	}
 
-	want := []*Job{{ID: 1}, {ID: 2}}
-	if !reflect.DeepEqual(want, jobs) {
-		t.Errorf("Runners.ListRunnersJobs returned %+v, want %+v", jobs, want)
+	pipeline := struct {
+		ID     int    `json:"id"`
+		Ref    string `json:"ref"`
+		Sha    string `json:"sha"`
+		Status string `json:"status"`
+	}{
+		ID:     8777,
+		Ref:    "master",
+		Sha:    "6c016b801a88f4bd31f927fc045b5c746a6f823e",
+		Status: "failed",
+	}
+
+	want := []*Job{
+		&Job{
+			ID:             1,
+			Status:         "failed",
+			Stage:          "test",
+			Name:           "run_tests",
+			Ref:            "master",
+			CreatedAt:      Time(time.Date(2021, time.October, 22, 11, 59, 25, 201000000, time.UTC)),
+			StartedAt:      Time(time.Date(2021, time.October, 22, 11, 59, 33, 660000000, time.UTC)),
+			FinishedAt:     Time(time.Date(2021, time.October, 22, 15, 59, 25, 201000000, time.UTC)),
+			Duration:       171.540594,
+			QueuedDuration: 2.535766,
+			User: &User{
+				ID:          368,
+				Name:        "John SMITH",
+				Username:    "john.smith",
+				AvatarURL:   "https://gitlab.example.com/uploads/-/system/user/avatar/368/avatar.png",
+				State:       "blocked",
+				WebURL:      "https://gitlab.example.com/john.smith",
+				PublicEmail: "john.smith@example.com",
+			},
+			Commit: &Commit{
+				ID:             "6c016b801a88f4bd31f927fc045b5c746a6f823e",
+				ShortID:        "6c016b80",
+				CreatedAt:      Time(time.Date(2018, time.March, 21, 14, 41, 0, 0, time.UTC)),
+				ParentIDs:      []string{"6008b4902d40799ab11688e502d9f1f27f6d2e18"},
+				Title:          "Update env for specific runner",
+				Message:        "Update env for specific runner\n",
+				AuthorName:     "John SMITH",
+				AuthorEmail:    "john.smith@example.com",
+				AuthoredDate:   Time(time.Date(2018, time.March, 21, 14, 41, 0, 0, time.UTC)),
+				CommitterName:  "John SMITH",
+				CommitterEmail: "john.smith@example.com",
+				CommittedDate:  Time(time.Date(2018, time.March, 21, 14, 41, 0, 0, time.UTC)),
+				WebURL:         "https://gitlab.example.com/awesome/packages/common/-/commit/6c016b801a88f4bd31f927fc045b5c746a6f823e",
+			},
+			Pipeline: pipeline,
+			WebURL:   "https://gitlab.example.com/awesome/packages/common/-/jobs/14606",
+			Project: &Project{
+				ID:                3252,
+				Description:       "Common nodejs paquet for producer",
+				Name:              "common",
+				NameWithNamespace: "awesome",
+				Path:              "common",
+				PathWithNamespace: "awesome",
+				CreatedAt:         Time(time.Date(2018, time.February, 13, 9, 21, 48, 107000000, time.UTC)),
+			},
+		},
+	}
+	if !reflect.DeepEqual(want[0], jobs[0]) {
+		t.Errorf("Runners.ListRunnersJobs returned %+v, want %+v", jobs[0], want[0])
 	}
 }
 
@@ -93,7 +152,37 @@ func TestUpdateRunnersDetails(t *testing.T) {
 		t.Fatalf("Runners.UpdateRunnersDetails returns an error: %v", err)
 	}
 
-	want := expectedParsedDetails()
+	projects := []struct {
+		ID                int    `json:"id"`
+		Name              string `json:"name"`
+		NameWithNamespace string `json:"name_with_namespace"`
+		Path              string `json:"path"`
+		PathWithNamespace string `json:"path_with_namespace"`
+	}{{
+		ID:                1,
+		Name:              "GitLab Community Edition",
+		NameWithNamespace: "GitLab.org / GitLab Community Edition",
+		Path:              "gitlab-ce",
+		PathWithNamespace: "gitlab-org/gitlab-ce",
+	}}
+
+	want := &RunnerDetails{
+		Active:         true,
+		Description:    "test-1-20150125-test",
+		ID:             6,
+		IsShared:       false,
+		RunnerType:     "project_type",
+		ContactedAt:    Time(time.Date(2016, time.January, 25, 16, 39, 48, 166000000, time.UTC)),
+		Online:         true,
+		Status:         "online",
+		Token:          "205086a8e3b9a2b818ffac9b89d102",
+		TagList:        []string{"ruby", "mysql"},
+		RunUntagged:    true,
+		AccessLevel:    "ref_protected",
+		Projects:       projects,
+		MaximumTimeout: 3600,
+		Locked:         false,
+	}
 	if !reflect.DeepEqual(want, details) {
 		t.Errorf("Runners.UpdateRunnersDetails returned %+v, want %+v", details, want)
 	}
@@ -113,52 +202,39 @@ func TestGetRunnerDetails(t *testing.T) {
 		t.Fatalf("Runners.GetRunnerDetails returns an error: %v", err)
 	}
 
-	want := expectedParsedDetails()
-	if !reflect.DeepEqual(want, details) {
-		t.Errorf("Runners.UpdateRunnersDetails returned %+v, want %+v", details, want)
-	}
-}
-
-// helper function returning expected result for string: &exampleDetailRsp
-func expectedParsedDetails() *RunnerDetails {
-	proj := struct {
+	projects := []struct {
 		ID                int    `json:"id"`
 		Name              string `json:"name"`
 		NameWithNamespace string `json:"name_with_namespace"`
 		Path              string `json:"path"`
 		PathWithNamespace string `json:"path_with_namespace"`
-	}{ID: 1, Name: "GitLab Community Edition", NameWithNamespace: "GitLab.org / GitLab Community Edition", Path: "gitlab-ce", PathWithNamespace: "gitlab-org/gitlab-ce"}
-	timestamp, _ := time.Parse("2006-01-02T15:04:05.000Z", "2016-01-25T16:39:48.066Z")
-	return &RunnerDetails{
-		Active:      true,
-		Description: "test-1-20150125-test",
-		ID:          6,
-		IsShared:    false,
-		RunnerType:  "project_type",
-		ContactedAt: &timestamp,
-		Online:      true,
-		Status:      "online",
-		Token:       "205086a8e3b9a2b818ffac9b89d102",
-		TagList:     []string{"ruby", "mysql"},
-		RunUntagged: true,
-		AccessLevel: "ref_protected",
-		Projects: []struct {
-			ID                int    `json:"id"`
-			Name              string `json:"name"`
-			NameWithNamespace string `json:"name_with_namespace"`
-			Path              string `json:"path"`
-			PathWithNamespace string `json:"path_with_namespace"`
-		}{proj},
+	}{{
+		ID:                1,
+		Name:              "GitLab Community Edition",
+		NameWithNamespace: "GitLab.org / GitLab Community Edition",
+		Path:              "gitlab-ce",
+		PathWithNamespace: "gitlab-org/gitlab-ce",
+	}}
+
+	want := &RunnerDetails{
+		Active:         true,
+		Description:    "test-1-20150125-test",
+		ID:             6,
+		IsShared:       false,
+		RunnerType:     "project_type",
+		ContactedAt:    Time(time.Date(2016, time.January, 25, 16, 39, 48, 166000000, time.UTC)),
+		Online:         true,
+		Status:         "online",
+		Token:          "205086a8e3b9a2b818ffac9b89d102",
+		TagList:        []string{"ruby", "mysql"},
+		RunUntagged:    true,
+		AccessLevel:    "ref_protected",
+		Projects:       projects,
 		MaximumTimeout: 3600,
 		Locked:         false,
 	}
-}
-
-// helper function returning expected result for string: &exampleRegisterNewRunner
-func expectedParsedNewRunner() *Runner {
-	return &Runner{
-		ID:    12345,
-		Token: "6337ff461c94fd3fa32ba3b1ff4125",
+	if !reflect.DeepEqual(want, details) {
+		t.Errorf("Runners.UpdateRunnersDetails returned %+v, want %+v", details, want)
 	}
 }
 
@@ -179,7 +255,10 @@ func TestRegisterNewRunner(t *testing.T) {
 		t.Fatalf("Runners.RegisterNewRunner returns an error: %v", err)
 	}
 
-	want := expectedParsedNewRunner()
+	want := &Runner{
+		ID:    12345,
+		Token: "6337ff461c94fd3fa32ba3b1ff4125",
+	}
 	if !reflect.DeepEqual(want, runner) {
 		t.Errorf("Runners.RegisterNewRunner returned %+v, want %+v", runner, want)
 	}
@@ -196,63 +275,51 @@ func TestRegisterNewRunnerInfo(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
 
-	Token := "6337ff461c94fd3fa32ba3b1ff4125"
-	Description := "some_description"
-	Name := "some_name"
-	Version := "13.7.0"
-	Revision := "943fc252"
-	Platform := "linux"
-	Architecture := "amd64"
-	Info := RegisterNewRunnerInfoOptions{
-		&Name,
-		&Version,
-		&Revision,
-		&Platform,
-		&Architecture,
-	}
-	Active := true
-	Locked := true
-	RunUntagged := false
-	TagList := []string{"tag1", "tag2"}
-	MaximumTimeout := 45
-	opt := RegisterNewRunnerOptions{
-		&Token,
-		&Description,
-		&Info,
-		&Active,
-		&Locked,
-		&RunUntagged,
-		TagList,
-		&MaximumTimeout,
-	}
-
-	want := &Runner{
-		ID:          53,
-		Description: Description,
-		Active:      Active,
-		IsShared:    false,
-		IPAddress:   "1.2.3.4",
-		Name:        Name,
-		Online:      true,
-		Status:      "online",
-		Token:       "1111122222333333444444",
-	}
-
 	mux.HandleFunc("/api/v4/runners", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
 		w.WriteHeader(http.StatusCreated)
-		j, err := json.Marshal(want)
-		if err != nil {
-			t.Fatalf("Failed to convert expected reply to JSON: %v", err)
-		}
-		fmt.Fprint(w, string(j))
+		fmt.Fprint(w, `{
+			"id": 53,
+			"description": "some description",
+			"active": true,
+			"ip_address": "1.2.3.4",
+			"name": "some name",
+			"online": true,
+			"status": "online",
+			"token": "1111122222333333444444"
+		  }`)
 	})
 
-	runner, resp, err := client.Runners.RegisterNewRunner(&opt, nil)
+	opt := &RegisterNewRunnerOptions{
+		Token:       String("6337ff461c94fd3fa32ba3b1ff4125"),
+		Description: String("some description"),
+		Info: &RegisterNewRunnerInfoOptions{
+			String("some name"),
+			String("13.7.0"),
+			String("943fc252"),
+			String("linux"),
+			String("amd64"),
+		},
+		Active:         Bool(true),
+		Locked:         Bool(true),
+		RunUntagged:    Bool(false),
+		MaximumTimeout: Int(45),
+	}
+	runner, resp, err := client.Runners.RegisterNewRunner(opt, nil)
 	if err != nil {
 		t.Fatalf("Runners.RegisterNewRunner returns an error: %v", err)
 	}
 
+	want := &Runner{
+		ID:          53,
+		Description: "some description",
+		Active:      true,
+		IPAddress:   "1.2.3.4",
+		Name:        "some name",
+		Online:      true,
+		Status:      "online",
+		Token:       "1111122222333333444444",
+	}
 	if !reflect.DeepEqual(want, runner) {
 		t.Errorf("Runners.RegisterNewRunner returned %+v, want %+v", runner, want)
 	}
