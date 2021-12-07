@@ -84,7 +84,7 @@ var (
 		StartedAt:  &pipelineStarted,
 		FinishedAt: &pipelineFinished,
 		Duration:   4916,
-		Coverage:   "82.68",
+		Coverage:   82.68,
 		DetailedStatus: &DetailedStatus{
 			Icon:        "status_warning",
 			Text:        "passed",

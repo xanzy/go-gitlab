@@ -59,7 +59,7 @@ type Pipeline struct {
 	CommittedAt    *time.Time      `json:"committed_at"`
 	Duration       int             `json:"duration"`
 	QueuedDuration int             `json:"queued_duration"`
-	Coverage       string          `json:"coverage"`
+	Coverage       float64         `json:"coverage"`
 	WebURL         string          `json:"web_url"`
 	DetailedStatus *DetailedStatus `json:"detailed_status"`
 }

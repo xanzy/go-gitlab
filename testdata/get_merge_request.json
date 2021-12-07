@@ -136,7 +136,7 @@
     "finished_at": "2019-08-19T19:22:29.632Z",
     "committed_at": null,
     "duration": 4916,
-    "coverage": "82.68",
+    "coverage": 82.68,
     "detailed_status": {
       "icon": "status_warning",
       "text": "passed",
