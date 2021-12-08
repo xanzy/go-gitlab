@@ -188,6 +188,7 @@ type Client struct {
 	SystemHooks           *SystemHooksService
 	Tags                  *TagsService
 	Todos                 *TodosService
+	Topics                *TopicsService
 	Users                 *UsersService
 	Validate              *ValidateService
 	Version               *VersionService

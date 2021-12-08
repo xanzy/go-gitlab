@@ -1,0 +1,186 @@
+//
+// Copyright 2021, Sander van Harmelen
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+
+package gitlab
+
+import "errors"
+
+// TopicsService handles communication with the topics related methods
+// of the GitLab API.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/topics.html
+type TopicsService struct {
+	client *Client
+}
+
+// Topic represents a GitLab project topic.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/topics.html
+type Topic struct {
+	ID                 int    `json:"id"`
+	Name               string `json:"name"`
+	Description        string `json:"description"`
+	TotalProjectsCount uint64 `json:"total_projects_count"`
+	AvatarURL          string `json:"avatar_url"`
+}
+
+func (t Topic) String() string {
+	return Stringify(t)
+}
+
+// ListTopicsOptions represents the available ListTopics() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/topics.html#list-topics
+type ListTopicsOptions struct {
+	ListOptions
+	Search *string `url:"search,omitempty" json:"search,omitempty"`
+}
+
+// ListTopics Returns a list of project topics in the GitLab instance ordered by
+// number of associated projects.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/topics.html#list-topics
+func (s *TopicsService) ListTopics(opt *ListTopicsOptions, options ...RequestOptionFunc) ([]*Topic, *Response, error) {
+	/*
+		project, err := parseID(pid)
+		if err != nil {
+			return nil, nil, err
+		}
+		u := fmt.Sprintf("projects/%s/repository/tags", pathEscape(project))
+
+		req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
+		if err != nil {
+			return nil, nil, err
+		}
+
+		var t []*Tag
+		resp, err := s.client.Do(req, &t)
+		if err != nil {
+			return nil, resp, err
+		}
+
+		return t, resp, err
+
+	*/
+	return nil, nil, errors.New("not yet implemented")
+}
+
+// GetTopic Get a project topic by ID. It returns 200 together
+// with the topic information if the topic exists. It returns 404 if the tag does not exist.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/topics.html#get-a-topic
+func (s *TopicsService) GetTopic(tid interface{}, options ...RequestOptionFunc) (*Topic, *Response, error) {
+	/*
+		project, err := parseID(tid)
+		if err != nil {
+			return nil, nil, err
+		}
+		u := fmt.Sprintf("projects/%s/repository/tags/%s", pathEscape(project), url.PathEscape(tag))
+
+		req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
+		if err != nil {
+			return nil, nil, err
+		}
+
+		var t *Tag
+		resp, err := s.client.Do(req, &t)
+		if err != nil {
+			return nil, resp, err
+		}
+
+		return t, resp, err
+
+	*/
+	return nil, nil, errors.New("not yet implemented")
+
+}
+
+// CreateTopicOptions represents the available CreateTopic() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/tags.html#create-a-new-tag
+type CreateTopicOptions struct {
+	Name        *string `url:"name,omitempty" json:"name,omitempty"`
+	Avatar      *string `url:"avatar,omitempty" json:"avatar,omitempty"`
+	Description *string `url:"description,omitempty" json:"description,omitempty"`
+}
+
+// CreateTopic creates a new project topic. Only available to administrators.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/topics.html#create-a-project-topic
+func (s *TopicsService) CreateTopic(opt *CreateTopicOptions, options ...RequestOptionFunc) (*Topic, *Response, error) {
+	/*
+		project, err := parseID(pid)
+		if err != nil {
+			return nil, nil, err
+		}
+		u := fmt.Sprintf("projects/%s/repository/tags", pathEscape(project))
+
+		req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
+		if err != nil {
+			return nil, nil, err
+		}
+
+		t := new(Tag)
+		resp, err := s.client.Do(req, t)
+		if err != nil {
+			return nil, resp, err
+		}
+
+		return t, resp, err
+
+	*/
+	return nil, nil, errors.New("not yet implemented")
+
+}
+
+// UpdateTopicOptions represents the available CreateTopic() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/tags.html#create-a-new-tag
+type UpdateTopicOptions struct {
+	Name        *string `url:"name,omitempty" json:"name,omitempty"`
+	Avatar      *string `url:"avatar,omitempty" json:"avatar,omitempty"`
+	Description *string `url:"description,omitempty" json:"description,omitempty"`
+}
+
+// UpdateTopic updates a project topic. Only available to administrators.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/topics.html#update-a-project-topic
+func (s *TopicsService) UpdateTopic(tid interface{}, opt *UpdateTopicOptions, options ...RequestOptionFunc) (*Topic, *Response, error) {
+	/*
+		project, err := parseID(tid)
+		if err != nil {
+			return nil, err
+		}
+		u := fmt.Sprintf("projects/%s/repository/tags/%s", pathEscape(project), url.PathEscape(tid))
+
+		req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
+		if err != nil {
+			return nil, err
+		}
+
+		return s.client.Do(req, nil)
+
+	*/
+	return nil, nil, errors.New("not yet implemented")
+
+}
