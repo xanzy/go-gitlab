@@ -133,8 +133,8 @@ func (s *TopicsService) CreateTopic(opt *CreateTopicOptions, options ...RequestO
 // https://docs.gitlab.com/ce/api/tags.html#create-a-new-tag
 type UpdateTopicOptions struct {
 	Name        *string `url:"name,omitempty" json:"name,omitempty"`
-	Avatar      *string `url:"avatar,omitempty" json:"avatar,omitempty"`
 	Description *string `url:"description,omitempty" json:"description,omitempty"`
+	// Avatar      *string `url:"avatar,omitempty" json:"avatar,omitempty"`
 }
 
 // UpdateTopic updates a project topic. Only available to administrators.
