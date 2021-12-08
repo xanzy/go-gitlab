@@ -16,7 +16,10 @@
 
 package gitlab
 
-import "errors"
+import (
+	"fmt"
+	"net/http"
+)
 
 // TopicsService handles communication with the topics related methods
 // of the GitLab API.
@@ -56,28 +59,19 @@ type ListTopicsOptions struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/topics.html#list-topics
 func (s *TopicsService) ListTopics(opt *ListTopicsOptions, options ...RequestOptionFunc) ([]*Topic, *Response, error) {
-	/*
-		project, err := parseID(pid)
-		if err != nil {
-			return nil, nil, err
-		}
-		u := fmt.Sprintf("projects/%s/repository/tags", pathEscape(project))
 
-		req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
-		if err != nil {
-			return nil, nil, err
-		}
+	req, err := s.client.NewRequest(http.MethodGet, "topics", opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
 
-		var t []*Tag
-		resp, err := s.client.Do(req, &t)
-		if err != nil {
-			return nil, resp, err
-		}
+	var t []*Topic
+	resp, err := s.client.Do(req, &t)
+	if err != nil {
+		return nil, resp, err
+	}
 
-		return t, resp, err
-
-	*/
-	return nil, nil, errors.New("not yet implemented")
+	return t, resp, err
 }
 
 // GetTopic Get a project topic by ID. It returns 200 together
@@ -85,30 +79,22 @@ func (s *TopicsService) ListTopics(opt *ListTopicsOptions, options ...RequestOpt
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/topics.html#get-a-topic
-func (s *TopicsService) GetTopic(tid interface{}, options ...RequestOptionFunc) (*Topic, *Response, error) {
-	/*
-		project, err := parseID(tid)
-		if err != nil {
-			return nil, nil, err
-		}
-		u := fmt.Sprintf("projects/%s/repository/tags/%s", pathEscape(project), url.PathEscape(tag))
+func (s *TopicsService) GetTopic(tid int, options ...RequestOptionFunc) (*Topic, *Response, error) {
 
-		req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
-		if err != nil {
-			return nil, nil, err
-		}
+	u := fmt.Sprintf("topics/%d", tid)
 
-		var t *Tag
-		resp, err := s.client.Do(req, &t)
-		if err != nil {
-			return nil, resp, err
-		}
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
 
-		return t, resp, err
+	var t *Topic
+	resp, err := s.client.Do(req, &t)
+	if err != nil {
+		return nil, resp, err
+	}
 
-	*/
-	return nil, nil, errors.New("not yet implemented")
-
+	return t, resp, err
 }
 
 // CreateTopicOptions represents the available CreateTopic() options.
@@ -126,29 +112,19 @@ type CreateTopicOptions struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/topics.html#create-a-project-topic
 func (s *TopicsService) CreateTopic(opt *CreateTopicOptions, options ...RequestOptionFunc) (*Topic, *Response, error) {
-	/*
-		project, err := parseID(pid)
-		if err != nil {
-			return nil, nil, err
-		}
-		u := fmt.Sprintf("projects/%s/repository/tags", pathEscape(project))
 
-		req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
-		if err != nil {
-			return nil, nil, err
-		}
+	req, err := s.client.NewRequest(http.MethodPost, "topics", opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
 
-		t := new(Tag)
-		resp, err := s.client.Do(req, t)
-		if err != nil {
-			return nil, resp, err
-		}
+	t := new(Topic)
+	resp, err := s.client.Do(req, t)
+	if err != nil {
+		return nil, resp, err
+	}
 
-		return t, resp, err
-
-	*/
-	return nil, nil, errors.New("not yet implemented")
-
+	return t, resp, err
 }
 
 // UpdateTopicOptions represents the available CreateTopic() options.
@@ -165,22 +141,20 @@ type UpdateTopicOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/topics.html#update-a-project-topic
-func (s *TopicsService) UpdateTopic(tid interface{}, opt *UpdateTopicOptions, options ...RequestOptionFunc) (*Topic, *Response, error) {
-	/*
-		project, err := parseID(tid)
-		if err != nil {
-			return nil, err
-		}
-		u := fmt.Sprintf("projects/%s/repository/tags/%s", pathEscape(project), url.PathEscape(tid))
+func (s *TopicsService) UpdateTopic(tid int, opt *UpdateTopicOptions, options ...RequestOptionFunc) (*Topic, *Response, error) {
 
-		req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
-		if err != nil {
-			return nil, err
-		}
+	u := fmt.Sprintf("topics/%d", tid)
 
-		return s.client.Do(req, nil)
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
 
-	*/
-	return nil, nil, errors.New("not yet implemented")
+	topic := new(Topic)
+	resp, err := s.client.Do(req, topic)
+	if err != nil {
+		return nil, resp, err
+	}
 
+	return topic, resp, err
 }

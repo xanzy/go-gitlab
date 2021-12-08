@@ -27,7 +27,7 @@ func TestTopicsService_ListTopics(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
 
-	mux.HandleFunc("/api/v4/topics?search=git", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v4/topics", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
 		fmt.Fprint(w, `[
   {
@@ -89,7 +89,7 @@ func TestTopicsService_GetTopic(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/topics/1",
 		func(w http.ResponseWriter, r *http.Request) {
-			testMethod(t, r, http.MethodPost)
+			testMethod(t, r, http.MethodGet)
 			fmt.Fprint(w, `{
   "id": 1,
   "name": "GitLab",
@@ -101,7 +101,7 @@ func TestTopicsService_GetTopic(t *testing.T) {
 
 	release, _, err := client.Topics.GetTopic(1)
 	if err != nil {
-		t.Errorf("Tags.CreateRelease returned error: %v", err)
+		t.Errorf("Topics.GetTopic returned error: %v", err)
 	}
 
 	want := &Topic{
@@ -122,7 +122,7 @@ func TestTopicsService_CreateTopic(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/topics",
 		func(w http.ResponseWriter, r *http.Request) {
-			testMethod(t, r, http.MethodPut)
+			testMethod(t, r, http.MethodPost)
 			fmt.Fprint(w, `{
   "id": 1,
   "name": "topic1",
@@ -141,7 +141,7 @@ func TestTopicsService_CreateTopic(t *testing.T) {
 		t.Errorf("Topics.CreateTopic returned error: %v", err)
 	}
 
-	want := &Topic{Name: "topic1"}
+	want := &Topic{ID: 1, Name: "topic1"}
 	if !reflect.DeepEqual(want, release) {
 		t.Errorf("Topics.CreateTopic returned %+v, want %+v", release, want)
 	}
@@ -170,7 +170,7 @@ func TestTopicsService_UpdateTopic(t *testing.T) {
 		t.Errorf("Topics.UpdateTopic returned error: %v", err)
 	}
 
-	want := &Topic{Name: "topic1"}
+	want := &Topic{ID: 1, Name: "topic1"}
 	if !reflect.DeepEqual(want, release) {
 		t.Errorf("Topics.UpdateTopic returned %+v, want %+v", release, want)
 	}
