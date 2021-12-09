@@ -79,9 +79,13 @@ func (s *TopicsService) ListTopics(opt *ListTopicsOptions, options ...RequestOpt
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/topics.html#get-a-topic
-func (s *TopicsService) GetTopic(tid int, options ...RequestOptionFunc) (*Topic, *Response, error) {
+func (s *TopicsService) GetTopic(tid interface{}, options ...RequestOptionFunc) (*Topic, *Response, error) {
 
-	u := fmt.Sprintf("topics/%d", tid)
+	group, err := parseID(tid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("topics/%s", pathEscape(group))
 
 	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
@@ -141,20 +145,44 @@ type UpdateTopicOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/topics.html#update-a-project-topic
-func (s *TopicsService) UpdateTopic(tid int, opt *UpdateTopicOptions, options ...RequestOptionFunc) (*Topic, *Response, error) {
+func (s *TopicsService) UpdateTopic(tid interface{}, opt *UpdateTopicOptions, options ...RequestOptionFunc) (*Topic, *Response, error) {
 
-	u := fmt.Sprintf("topics/%d", tid)
+	topic, err := parseID(tid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("topics/%s", pathEscape(topic))
 
 	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	topic := new(Topic)
-	resp, err := s.client.Do(req, topic)
+	t := new(Topic)
+	resp, err := s.client.Do(req, t)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return topic, resp, err
+	return t, resp, err
+}
+
+// DeleteTopic deletes a project topic. Only available to administrators.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/topics.html#update-a-project-topic
+func (s *TopicsService) DeleteTopic(tid interface{}, options ...RequestOptionFunc) (*Response, error) {
+
+	topic, err := parseID(tid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("topics/%s", pathEscape(topic))
+
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
 }
