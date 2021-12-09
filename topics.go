@@ -138,7 +138,7 @@ func (s *TopicsService) CreateTopic(opt *CreateTopicOptions, options ...RequestO
 type UpdateTopicOptions struct {
 	Name        *string `url:"name,omitempty" json:"name,omitempty"`
 	Description *string `url:"description,omitempty" json:"description,omitempty"`
-	// Avatar      *string `url:"avatar,omitempty" json:"avatar,omitempty"`
+	//	Avatar      *string `url:"avatar,omitempty" json:"avatar,omitempty"`
 }
 
 // UpdateTopic updates a project topic. Only available to administrators.
@@ -167,6 +167,7 @@ func (s *TopicsService) UpdateTopic(tid interface{}, opt *UpdateTopicOptions, op
 	return t, resp, err
 }
 
+/*
 // DeleteTopic deletes a project topic. Only available to administrators.
 //
 // GitLab API docs:
@@ -186,3 +187,4 @@ func (s *TopicsService) DeleteTopic(tid interface{}, options ...RequestOptionFun
 
 	return s.client.Do(req, nil)
 }
+*/
