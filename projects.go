@@ -65,6 +65,7 @@ type Project struct {
 	ResolveOutdatedDiffDiscussions            bool                       `json:"resolve_outdated_diff_discussions"`
 	ContainerExpirationPolicy                 *ContainerExpirationPolicy `json:"container_expiration_policy,omitempty"`
 	ContainerRegistryEnabled                  bool                       `json:"container_registry_enabled"`
+	ContainerRegistryAccessLevel              AccessControlValue         `json:"container_registry_access_level"`
 	CreatedAt                                 *time.Time                 `json:"created_at,omitempty"`
 	LastActivityAt                            *time.Time                 `json:"last_activity_at,omitempty"`
 	CreatorID                                 int                        `json:"creator_id"`
