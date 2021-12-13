@@ -759,7 +759,7 @@ func parseID(id interface{}) (string, error) {
 }
 
 // Helper function to escape a project identifier.
-func pathEscape(s string) string {
+func PathEscape(s string) string {
 	return strings.ReplaceAll(url.PathEscape(s), ".", "%2E")
 }
 

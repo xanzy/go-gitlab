@@ -122,7 +122,7 @@ func (s *IssuesStatisticsService) GetGroupIssuesStatistics(gid interface{}, opt 
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s/issues_statistics", pathEscape(group))
+	u := fmt.Sprintf("groups/%s/issues_statistics", PathEscape(group))
 
 	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
@@ -170,7 +170,7 @@ func (s *IssuesStatisticsService) GetProjectIssuesStatistics(pid interface{}, op
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/issues_statistics", pathEscape(project))
+	u := fmt.Sprintf("projects/%s/issues_statistics", PathEscape(project))
 
 	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {

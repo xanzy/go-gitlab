@@ -73,7 +73,7 @@ func (s *ProtectedBranchesService) ListProtectedBranches(pid interface{}, opt *L
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/protected_branches", pathEscape(project))
+	u := fmt.Sprintf("projects/%s/protected_branches", PathEscape(project))
 
 	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
@@ -98,7 +98,7 @@ func (s *ProtectedBranchesService) GetProtectedBranch(pid interface{}, branch st
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/protected_branches/%s", pathEscape(project), url.PathEscape(branch))
+	u := fmt.Sprintf("projects/%s/protected_branches/%s", PathEscape(project), url.PathEscape(branch))
 
 	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
@@ -152,7 +152,7 @@ func (s *ProtectedBranchesService) ProtectRepositoryBranches(pid interface{}, op
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/protected_branches", pathEscape(project))
+	u := fmt.Sprintf("projects/%s/protected_branches", PathEscape(project))
 
 	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
@@ -178,7 +178,7 @@ func (s *ProtectedBranchesService) UnprotectRepositoryBranches(pid interface{}, 
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/protected_branches/%s", pathEscape(project), url.PathEscape(branch))
+	u := fmt.Sprintf("projects/%s/protected_branches/%s", PathEscape(project), url.PathEscape(branch))
 
 	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
@@ -206,7 +206,7 @@ func (s *ProtectedBranchesService) RequireCodeOwnerApprovals(pid interface{}, br
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/protected_branches/%s", pathEscape(project), url.PathEscape(branch))
+	u := fmt.Sprintf("projects/%s/protected_branches/%s", PathEscape(project), url.PathEscape(branch))
 
 	req, err := s.client.NewRequest(http.MethodPatch, u, opt, options)
 	if err != nil {

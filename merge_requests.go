@@ -234,7 +234,7 @@ func (s *MergeRequestsService) ListGroupMergeRequests(gid interface{}, opt *List
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s/merge_requests", pathEscape(group))
+	u := fmt.Sprintf("groups/%s/merge_requests", PathEscape(group))
 
 	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
@@ -294,7 +294,7 @@ func (s *MergeRequestsService) ListProjectMergeRequests(pid interface{}, opt *Li
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/merge_requests", pathEscape(project))
+	u := fmt.Sprintf("projects/%s/merge_requests", PathEscape(project))
 
 	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
@@ -330,7 +330,7 @@ func (s *MergeRequestsService) GetMergeRequest(pid interface{}, mergeRequest int
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/merge_requests/%d", pathEscape(project), mergeRequest)
+	u := fmt.Sprintf("projects/%s/merge_requests/%d", PathEscape(project), mergeRequest)
 
 	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
@@ -355,7 +355,7 @@ func (s *MergeRequestsService) GetMergeRequestApprovals(pid interface{}, mergeRe
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/merge_requests/%d/approvals", pathEscape(project), mergeRequest)
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/approvals", PathEscape(project), mergeRequest)
 
 	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
@@ -387,7 +387,7 @@ func (s *MergeRequestsService) GetMergeRequestCommits(pid interface{}, mergeRequ
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/merge_requests/%d/commits", pathEscape(project), mergeRequest)
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/commits", PathEscape(project), mergeRequest)
 
 	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
@@ -422,7 +422,7 @@ func (s *MergeRequestsService) GetMergeRequestChanges(pid interface{}, mergeRequ
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/merge_requests/%d/changes", pathEscape(project), mergeRequest)
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/changes", PathEscape(project), mergeRequest)
 
 	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
@@ -447,7 +447,7 @@ func (s *MergeRequestsService) GetMergeRequestParticipants(pid interface{}, merg
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/merge_requests/%d/participants", pathEscape(project), mergeRequest)
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/participants", PathEscape(project), mergeRequest)
 
 	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
@@ -472,7 +472,7 @@ func (s *MergeRequestsService) ListMergeRequestPipelines(pid interface{}, mergeR
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/merge_requests/%d/pipelines", pathEscape(project), mergeRequest)
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/pipelines", PathEscape(project), mergeRequest)
 
 	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
@@ -497,7 +497,7 @@ func (s *MergeRequestsService) CreateMergeRequestPipeline(pid interface{}, merge
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/merge_requests/%d/pipelines", pathEscape(project), mergeRequest)
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/pipelines", PathEscape(project), mergeRequest)
 
 	req, err := s.client.NewRequest(http.MethodPost, u, nil, options)
 	if err != nil {
@@ -530,7 +530,7 @@ func (s *MergeRequestsService) GetIssuesClosedOnMerge(pid interface{}, mergeRequ
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/merge_requests/%d/closes_issues", pathEscape(project), mergeRequest)
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/closes_issues", PathEscape(project), mergeRequest)
 
 	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
@@ -576,7 +576,7 @@ func (s *MergeRequestsService) CreateMergeRequest(pid interface{}, opt *CreateMe
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/merge_requests", pathEscape(project))
+	u := fmt.Sprintf("projects/%s/merge_requests", PathEscape(project))
 
 	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
@@ -624,7 +624,7 @@ func (s *MergeRequestsService) UpdateMergeRequest(pid interface{}, mergeRequest 
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/merge_requests/%d", pathEscape(project), mergeRequest)
+	u := fmt.Sprintf("projects/%s/merge_requests/%d", PathEscape(project), mergeRequest)
 
 	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
@@ -649,7 +649,7 @@ func (s *MergeRequestsService) DeleteMergeRequest(pid interface{}, mergeRequest 
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/merge_requests/%d", pathEscape(project), mergeRequest)
+	u := fmt.Sprintf("projects/%s/merge_requests/%d", PathEscape(project), mergeRequest)
 
 	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
@@ -685,7 +685,7 @@ func (s *MergeRequestsService) AcceptMergeRequest(pid interface{}, mergeRequest 
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/merge_requests/%d/merge", pathEscape(project), mergeRequest)
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/merge", PathEscape(project), mergeRequest)
 
 	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
@@ -714,7 +714,7 @@ func (s *MergeRequestsService) CancelMergeWhenPipelineSucceeds(pid interface{}, 
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/merge_requests/%d/cancel_merge_when_pipeline_succeeds", pathEscape(project), mergeRequest)
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/cancel_merge_when_pipeline_succeeds", PathEscape(project), mergeRequest)
 
 	req, err := s.client.NewRequest(http.MethodPost, u, nil, options)
 	if err != nil {
@@ -741,7 +741,7 @@ func (s *MergeRequestsService) RebaseMergeRequest(pid interface{}, mergeRequest 
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/merge_requests/%d/rebase", pathEscape(project), mergeRequest)
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/rebase", PathEscape(project), mergeRequest)
 
 	req, err := s.client.NewRequest(http.MethodPut, u, nil, options)
 	if err != nil {
@@ -767,7 +767,7 @@ func (s *MergeRequestsService) GetMergeRequestDiffVersions(pid interface{}, merg
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/merge_requests/%d/versions", pathEscape(project), mergeRequest)
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/versions", PathEscape(project), mergeRequest)
 
 	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
@@ -792,7 +792,7 @@ func (s *MergeRequestsService) GetSingleMergeRequestDiffVersion(pid interface{},
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/merge_requests/%d/versions/%d", pathEscape(project), mergeRequest, version)
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/versions/%d", PathEscape(project), mergeRequest, version)
 
 	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
@@ -819,7 +819,7 @@ func (s *MergeRequestsService) SubscribeToMergeRequest(pid interface{}, mergeReq
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/merge_requests/%d/subscribe", pathEscape(project), mergeRequest)
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/subscribe", PathEscape(project), mergeRequest)
 
 	req, err := s.client.NewRequest(http.MethodPost, u, nil, options)
 	if err != nil {
@@ -847,7 +847,7 @@ func (s *MergeRequestsService) UnsubscribeFromMergeRequest(pid interface{}, merg
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/merge_requests/%d/unsubscribe", pathEscape(project), mergeRequest)
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/unsubscribe", PathEscape(project), mergeRequest)
 
 	req, err := s.client.NewRequest(http.MethodPost, u, nil, options)
 	if err != nil {
@@ -874,7 +874,7 @@ func (s *MergeRequestsService) CreateTodo(pid interface{}, mergeRequest int, opt
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/merge_requests/%d/todo", pathEscape(project), mergeRequest)
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/todo", PathEscape(project), mergeRequest)
 
 	req, err := s.client.NewRequest(http.MethodPost, u, nil, options)
 	if err != nil {

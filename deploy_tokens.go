@@ -79,7 +79,7 @@ func (s *DeployTokensService) ListProjectDeployTokens(pid interface{}, opt *List
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/deploy_tokens", pathEscape(project))
+	u := fmt.Sprintf("projects/%s/deploy_tokens", PathEscape(project))
 
 	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
@@ -115,7 +115,7 @@ func (s *DeployTokensService) CreateProjectDeployToken(pid interface{}, opt *Cre
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/deploy_tokens", pathEscape(project))
+	u := fmt.Sprintf("projects/%s/deploy_tokens", PathEscape(project))
 
 	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
@@ -140,7 +140,7 @@ func (s *DeployTokensService) DeleteProjectDeployToken(pid interface{}, deployTo
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/deploy_tokens/%d", pathEscape(project), deployToken)
+	u := fmt.Sprintf("projects/%s/deploy_tokens/%d", PathEscape(project), deployToken)
 
 	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
@@ -166,7 +166,7 @@ func (s *DeployTokensService) ListGroupDeployTokens(gid interface{}, opt *ListGr
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s/deploy_tokens", pathEscape(group))
+	u := fmt.Sprintf("groups/%s/deploy_tokens", PathEscape(group))
 
 	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
@@ -202,7 +202,7 @@ func (s *DeployTokensService) CreateGroupDeployToken(gid interface{}, opt *Creat
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s/deploy_tokens", pathEscape(group))
+	u := fmt.Sprintf("groups/%s/deploy_tokens", PathEscape(group))
 
 	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
@@ -227,7 +227,7 @@ func (s *DeployTokensService) DeleteGroupDeployToken(gid interface{}, deployToke
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("groups/%s/deploy_tokens/%d", pathEscape(group), deployToken)
+	u := fmt.Sprintf("groups/%s/deploy_tokens/%d", PathEscape(group), deployToken)
 
 	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {

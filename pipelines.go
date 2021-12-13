@@ -172,7 +172,7 @@ func (s *PipelinesService) ListProjectPipelines(pid interface{}, opt *ListProjec
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/pipelines", pathEscape(project))
+	u := fmt.Sprintf("projects/%s/pipelines", PathEscape(project))
 
 	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
@@ -196,7 +196,7 @@ func (s *PipelinesService) GetPipeline(pid interface{}, pipeline int, options ..
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/pipelines/%d", pathEscape(project), pipeline)
+	u := fmt.Sprintf("projects/%s/pipelines/%d", PathEscape(project), pipeline)
 
 	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
@@ -220,7 +220,7 @@ func (s *PipelinesService) GetPipelineVariables(pid interface{}, pipeline int, o
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/pipelines/%d/variables", pathEscape(project), pipeline)
+	u := fmt.Sprintf("projects/%s/pipelines/%d/variables", PathEscape(project), pipeline)
 
 	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
@@ -244,7 +244,7 @@ func (s *PipelinesService) GetPipelineTestReport(pid interface{}, pipeline int) 
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/pipelines/%d/test_report", pathEscape(project), pipeline)
+	u := fmt.Sprintf("projects/%s/pipelines/%d/test_report", PathEscape(project), pipeline)
 
 	req, err := s.client.NewRequest(http.MethodGet, u, nil, nil)
 	if err != nil {
@@ -276,7 +276,7 @@ func (s *PipelinesService) CreatePipeline(pid interface{}, opt *CreatePipelineOp
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/pipeline", pathEscape(project))
+	u := fmt.Sprintf("projects/%s/pipeline", PathEscape(project))
 
 	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
@@ -301,7 +301,7 @@ func (s *PipelinesService) RetryPipelineBuild(pid interface{}, pipeline int, opt
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/pipelines/%d/retry", pathEscape(project), pipeline)
+	u := fmt.Sprintf("projects/%s/pipelines/%d/retry", PathEscape(project), pipeline)
 
 	req, err := s.client.NewRequest(http.MethodPost, u, nil, options)
 	if err != nil {
@@ -326,7 +326,7 @@ func (s *PipelinesService) CancelPipelineBuild(pid interface{}, pipeline int, op
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/pipelines/%d/cancel", pathEscape(project), pipeline)
+	u := fmt.Sprintf("projects/%s/pipelines/%d/cancel", PathEscape(project), pipeline)
 
 	req, err := s.client.NewRequest(http.MethodPost, u, nil, options)
 	if err != nil {
@@ -351,7 +351,7 @@ func (s *PipelinesService) DeletePipeline(pid interface{}, pipeline int, options
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/pipelines/%d", pathEscape(project), pipeline)
+	u := fmt.Sprintf("projects/%s/pipelines/%d", PathEscape(project), pipeline)
 
 	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {

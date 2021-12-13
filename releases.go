@@ -75,7 +75,7 @@ func (s *ReleasesService) ListReleases(pid interface{}, opt *ListReleasesOptions
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/releases", pathEscape(project))
+	u := fmt.Sprintf("projects/%s/releases", PathEscape(project))
 
 	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
@@ -100,7 +100,7 @@ func (s *ReleasesService) GetRelease(pid interface{}, tagName string, options ..
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/releases/%s", pathEscape(project), pathEscape(tagName))
+	u := fmt.Sprintf("projects/%s/releases/%s", PathEscape(project), PathEscape(tagName))
 
 	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
@@ -159,7 +159,7 @@ func (s *ReleasesService) CreateRelease(pid interface{}, opts *CreateReleaseOpti
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/releases", pathEscape(project))
+	u := fmt.Sprintf("projects/%s/releases", PathEscape(project))
 
 	req, err := s.client.NewRequest(http.MethodPost, u, opts, options)
 	if err != nil {
@@ -195,7 +195,7 @@ func (s *ReleasesService) UpdateRelease(pid interface{}, tagName string, opts *U
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/releases/%s", pathEscape(project), pathEscape(tagName))
+	u := fmt.Sprintf("projects/%s/releases/%s", PathEscape(project), PathEscape(tagName))
 
 	req, err := s.client.NewRequest(http.MethodPut, u, opts, options)
 	if err != nil {
@@ -220,7 +220,7 @@ func (s *ReleasesService) DeleteRelease(pid interface{}, tagName string, options
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/releases/%s", pathEscape(project), pathEscape(tagName))
+	u := fmt.Sprintf("projects/%s/releases/%s", PathEscape(project), PathEscape(tagName))
 
 	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {

@@ -96,7 +96,7 @@ func (s *ProjectImportExportService) ScheduleExport(pid interface{}, opt *Schedu
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/export", pathEscape(project))
+	u := fmt.Sprintf("projects/%s/export", PathEscape(project))
 
 	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
@@ -115,7 +115,7 @@ func (s *ProjectImportExportService) ExportStatus(pid interface{}, options ...Re
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/export", pathEscape(project))
+	u := fmt.Sprintf("projects/%s/export", PathEscape(project))
 
 	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
@@ -140,7 +140,7 @@ func (s *ProjectImportExportService) ExportDownload(pid interface{}, options ...
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/export/download", pathEscape(project))
+	u := fmt.Sprintf("projects/%s/export/download", PathEscape(project))
 
 	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
@@ -196,7 +196,7 @@ func (s *ProjectImportExportService) ImportStatus(pid interface{}, options ...Re
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/import", pathEscape(project))
+	u := fmt.Sprintf("projects/%s/import", PathEscape(project))
 
 	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
