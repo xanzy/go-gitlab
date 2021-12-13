@@ -85,6 +85,7 @@ func TestGetApprovalState(t *testing.T) {
 					}
 				],
 				"contains_hidden_groups": false,
+				"section": "test",
 				"approved_by": [
 					{
 						"id": 5,
@@ -157,6 +158,7 @@ func TestGetApprovalState(t *testing.T) {
 						FullPath:             "group1",
 					},
 				},
+				Section: "test",
 				ApprovedBy: []*BasicUser{
 					{
 						ID:        5,
@@ -236,7 +238,8 @@ func TestGetApprovalRules(t *testing.T) {
 						"ldap_access": null
 					}
 				],
-				"contains_hidden_groups": false
+				"contains_hidden_groups": false,
+				"section": "test"
 			}
 		]`)
 	})
@@ -295,6 +298,7 @@ func TestGetApprovalRules(t *testing.T) {
 					FullPath:             "group1",
 				},
 			},
+			Section: "test",
 		},
 	}
 
