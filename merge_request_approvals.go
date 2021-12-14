@@ -144,7 +144,7 @@ func (s *MergeRequestApprovalsService) ApproveMergeRequest(pid interface{}, mr i
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/merge_requests/%d/approve", pathEscape(project), mr)
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/approve", PathEscape(project), mr)
 
 	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
@@ -169,7 +169,7 @@ func (s *MergeRequestApprovalsService) UnapproveMergeRequest(pid interface{}, mr
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/merge_requests/%d/unapprove", pathEscape(project), mr)
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/unapprove", PathEscape(project), mr)
 
 	req, err := s.client.NewRequest(http.MethodPost, u, nil, options)
 	if err != nil {
@@ -197,7 +197,7 @@ func (s *MergeRequestApprovalsService) GetConfiguration(pid interface{}, mr int,
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/merge_requests/%d/approvals", pathEscape(project), mr)
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/approvals", PathEscape(project), mr)
 
 	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
@@ -222,7 +222,7 @@ func (s *MergeRequestApprovalsService) ChangeApprovalConfiguration(pid interface
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/merge_requests/%d/approvals", pathEscape(project), mergeRequest)
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/approvals", PathEscape(project), mergeRequest)
 
 	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
@@ -257,7 +257,7 @@ func (s *MergeRequestApprovalsService) ChangeAllowedApprovers(pid interface{}, m
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/merge_requests/%d/approvers", pathEscape(project), mergeRequest)
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/approvers", PathEscape(project), mergeRequest)
 
 	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
@@ -282,7 +282,7 @@ func (s *MergeRequestApprovalsService) GetApprovalRules(pid interface{}, mergeRe
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/merge_requests/%d/approval_rules", pathEscape(project), mergeRequest)
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/approval_rules", PathEscape(project), mergeRequest)
 
 	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
@@ -307,7 +307,7 @@ func (s *MergeRequestApprovalsService) GetApprovalState(pid interface{}, mergeRe
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/merge_requests/%d/approval_state", pathEscape(project), mergeRequest)
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/approval_state", PathEscape(project), mergeRequest)
 
 	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
@@ -345,7 +345,7 @@ func (s *MergeRequestApprovalsService) CreateApprovalRule(pid interface{}, merge
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/merge_requests/%d/approval_rules", pathEscape(project), mergeRequest)
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/approval_rules", PathEscape(project), mergeRequest)
 
 	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
@@ -382,7 +382,7 @@ func (s *MergeRequestApprovalsService) UpdateApprovalRule(pid interface{}, merge
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/merge_requests/%d/approval_rules/%d", pathEscape(project), mergeRequest, approvalRule)
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/approval_rules/%d", PathEscape(project), mergeRequest, approvalRule)
 
 	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
@@ -407,7 +407,7 @@ func (s *MergeRequestApprovalsService) DeleteApprovalRule(pid interface{}, merge
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/merge_requests/%d/approval_rules/%d", pathEscape(project), mergeRequest, approvalRule)
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/approval_rules/%d", PathEscape(project), mergeRequest, approvalRule)
 
 	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {

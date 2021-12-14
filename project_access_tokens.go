@@ -67,7 +67,7 @@ func (s *ProjectAccessTokensService) ListProjectAccessTokens(pid interface{}, op
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/access_tokens", pathEscape(project))
+	u := fmt.Sprintf("projects/%s/access_tokens", PathEscape(project))
 
 	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
@@ -104,7 +104,7 @@ func (s *ProjectAccessTokensService) CreateProjectAccessToken(pid interface{}, o
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/access_tokens", pathEscape(project))
+	u := fmt.Sprintf("projects/%s/access_tokens", PathEscape(project))
 
 	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
@@ -129,7 +129,7 @@ func (s *ProjectAccessTokensService) DeleteProjectAccessToken(pid interface{}, i
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/access_tokens/%d", pathEscape(project), id)
+	u := fmt.Sprintf("projects/%s/access_tokens/%d", PathEscape(project), id)
 
 	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {

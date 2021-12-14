@@ -199,3 +199,11 @@ func loadFixture(filePath string) []byte {
 
 	return content
 }
+
+func TestPathEscape(t *testing.T) {
+	want := "diaspora%2Fdiaspora"
+	got := PathEscape("diaspora/diaspora")
+	if want != got {
+		t.Errorf("Expected: %s, got %s", want, got)
+	}
+}

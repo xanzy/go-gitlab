@@ -104,7 +104,7 @@ func (s *EpicsService) ListGroupEpics(gid interface{}, opt *ListGroupEpicsOption
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s/epics", pathEscape(group))
+	u := fmt.Sprintf("groups/%s/epics", PathEscape(group))
 
 	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
@@ -128,7 +128,7 @@ func (s *EpicsService) GetEpic(gid interface{}, epic int, options ...RequestOpti
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s/epics/%d", pathEscape(group), epic)
+	u := fmt.Sprintf("groups/%s/epics/%d", PathEscape(group), epic)
 
 	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
@@ -152,7 +152,7 @@ func (s *EpicsService) GetEpicLinks(gid interface{}, epic int, options ...Reques
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s/epics/%d/epics", pathEscape(group), epic)
+	u := fmt.Sprintf("groups/%s/epics/%d/epics", PathEscape(group), epic)
 
 	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
@@ -189,7 +189,7 @@ func (s *EpicsService) CreateEpic(gid interface{}, opt *CreateEpicOptions, optio
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s/epics", pathEscape(group))
+	u := fmt.Sprintf("groups/%s/epics", PathEscape(group))
 
 	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
@@ -228,7 +228,7 @@ func (s *EpicsService) UpdateEpic(gid interface{}, epic int, opt *UpdateEpicOpti
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s/epics/%d", pathEscape(group), epic)
+	u := fmt.Sprintf("groups/%s/epics/%d", PathEscape(group), epic)
 
 	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
@@ -252,7 +252,7 @@ func (s *EpicsService) DeleteEpic(gid interface{}, epic int, options ...RequestO
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("groups/%s/epics/%d", pathEscape(group), epic)
+	u := fmt.Sprintf("groups/%s/epics/%d", PathEscape(group), epic)
 
 	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {

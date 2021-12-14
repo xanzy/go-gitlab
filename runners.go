@@ -271,7 +271,7 @@ func (s *RunnersService) ListProjectRunners(pid interface{}, opt *ListProjectRun
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/runners", pathEscape(project))
+	u := fmt.Sprintf("projects/%s/runners", PathEscape(project))
 
 	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
@@ -305,7 +305,7 @@ func (s *RunnersService) EnableProjectRunner(pid interface{}, opt *EnableProject
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/runners", pathEscape(project))
+	u := fmt.Sprintf("projects/%s/runners", PathEscape(project))
 
 	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
@@ -330,7 +330,7 @@ func (s *RunnersService) DisableProjectRunner(pid interface{}, runner int, optio
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/runners/%d", pathEscape(project), runner)
+	u := fmt.Sprintf("projects/%s/runners/%d", PathEscape(project), runner)
 
 	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
@@ -362,7 +362,7 @@ func (s *RunnersService) ListGroupsRunners(gid interface{}, opt *ListGroupsRunne
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s/runners", pathEscape(group))
+	u := fmt.Sprintf("groups/%s/runners", PathEscape(group))
 
 	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {

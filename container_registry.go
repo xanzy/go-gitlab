@@ -86,7 +86,7 @@ func (s *ContainerRegistryService) ListProjectRegistryRepositories(pid interface
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/registry/repositories", pathEscape(project))
+	u := fmt.Sprintf("projects/%s/registry/repositories", PathEscape(project))
 
 	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
@@ -111,7 +111,7 @@ func (s *ContainerRegistryService) ListGroupRegistryRepositories(gid interface{}
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s/registry/repositories", pathEscape(group))
+	u := fmt.Sprintf("groups/%s/registry/repositories", PathEscape(group))
 
 	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
@@ -146,7 +146,7 @@ func (s *ContainerRegistryService) GetSingleRegistryRepository(pid interface{}, 
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("registry/repositories/%s", pathEscape(project))
+	u := fmt.Sprintf("registry/repositories/%s", PathEscape(project))
 
 	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
@@ -171,7 +171,7 @@ func (s *ContainerRegistryService) DeleteRegistryRepository(pid interface{}, rep
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/registry/repositories/%d", pathEscape(project), repository)
+	u := fmt.Sprintf("projects/%s/registry/repositories/%d", PathEscape(project), repository)
 
 	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
@@ -198,7 +198,7 @@ func (s *ContainerRegistryService) ListRegistryRepositoryTags(pid interface{}, r
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/registry/repositories/%d/tags",
-		pathEscape(project),
+		PathEscape(project),
 		repository,
 	)
 
@@ -226,7 +226,7 @@ func (s *ContainerRegistryService) GetRegistryRepositoryTagDetail(pid interface{
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/registry/repositories/%d/tags/%s",
-		pathEscape(project),
+		PathEscape(project),
 		repository,
 		tagName,
 	)
@@ -255,7 +255,7 @@ func (s *ContainerRegistryService) DeleteRegistryRepositoryTag(pid interface{}, 
 		return nil, err
 	}
 	u := fmt.Sprintf("projects/%s/registry/repositories/%d/tags/%s",
-		pathEscape(project),
+		PathEscape(project),
 		repository,
 		tagName,
 	)
@@ -294,7 +294,7 @@ func (s *ContainerRegistryService) DeleteRegistryRepositoryTags(pid interface{},
 		return nil, err
 	}
 	u := fmt.Sprintf("projects/%s/registry/repositories/%d/tags",
-		pathEscape(project),
+		PathEscape(project),
 		repository,
 	)
 

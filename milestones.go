@@ -73,7 +73,7 @@ func (s *MilestonesService) ListMilestones(pid interface{}, opt *ListMilestonesO
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/milestones", pathEscape(project))
+	u := fmt.Sprintf("projects/%s/milestones", PathEscape(project))
 
 	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
@@ -98,7 +98,7 @@ func (s *MilestonesService) GetMilestone(pid interface{}, milestone int, options
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/milestones/%d", pathEscape(project), milestone)
+	u := fmt.Sprintf("projects/%s/milestones/%d", PathEscape(project), milestone)
 
 	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
@@ -134,7 +134,7 @@ func (s *MilestonesService) CreateMilestone(pid interface{}, opt *CreateMileston
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/milestones", pathEscape(project))
+	u := fmt.Sprintf("projects/%s/milestones", PathEscape(project))
 
 	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
@@ -171,7 +171,7 @@ func (s *MilestonesService) UpdateMilestone(pid interface{}, milestone int, opt 
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/milestones/%d", pathEscape(project), milestone)
+	u := fmt.Sprintf("projects/%s/milestones/%d", PathEscape(project), milestone)
 
 	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
@@ -196,7 +196,7 @@ func (s *MilestonesService) DeleteMilestone(pid interface{}, milestone int, opti
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/milestones/%d", pathEscape(project), milestone)
+	u := fmt.Sprintf("projects/%s/milestones/%d", PathEscape(project), milestone)
 
 	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
@@ -220,7 +220,7 @@ func (s *MilestonesService) GetMilestoneIssues(pid interface{}, milestone int, o
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/milestones/%d/issues", pathEscape(project), milestone)
+	u := fmt.Sprintf("projects/%s/milestones/%d/issues", PathEscape(project), milestone)
 
 	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
@@ -253,7 +253,7 @@ func (s *MilestonesService) GetMilestoneMergeRequests(pid interface{}, milestone
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/milestones/%d/merge_requests", pathEscape(project), milestone)
+	u := fmt.Sprintf("projects/%s/milestones/%d/merge_requests", PathEscape(project), milestone)
 
 	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {

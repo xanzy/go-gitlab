@@ -293,7 +293,7 @@ func (s *IssuesService) ListGroupIssues(pid interface{}, opt *ListGroupIssuesOpt
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s/issues", pathEscape(group))
+	u := fmt.Sprintf("groups/%s/issues", PathEscape(group))
 
 	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
@@ -351,7 +351,7 @@ func (s *IssuesService) ListProjectIssues(pid interface{}, opt *ListProjectIssue
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/issues", pathEscape(project))
+	u := fmt.Sprintf("projects/%s/issues", PathEscape(project))
 
 	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
@@ -375,7 +375,7 @@ func (s *IssuesService) GetIssue(pid interface{}, issue int, options ...RequestO
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/issues/%d", pathEscape(project), issue)
+	u := fmt.Sprintf("projects/%s/issues/%d", PathEscape(project), issue)
 
 	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
@@ -418,7 +418,7 @@ func (s *IssuesService) CreateIssue(pid interface{}, opt *CreateIssueOptions, op
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/issues", pathEscape(project))
+	u := fmt.Sprintf("projects/%s/issues", PathEscape(project))
 
 	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
@@ -463,7 +463,7 @@ func (s *IssuesService) UpdateIssue(pid interface{}, issue int, opt *UpdateIssue
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/issues/%d", pathEscape(project), issue)
+	u := fmt.Sprintf("projects/%s/issues/%d", PathEscape(project), issue)
 
 	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
@@ -487,7 +487,7 @@ func (s *IssuesService) DeleteIssue(pid interface{}, issue int, options ...Reque
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/issues/%d", pathEscape(project), issue)
+	u := fmt.Sprintf("projects/%s/issues/%d", PathEscape(project), issue)
 
 	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
@@ -513,7 +513,7 @@ func (s *IssuesService) MoveIssue(pid interface{}, issue int, opt *MoveIssueOpti
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/issues/%d/move", pathEscape(project), issue)
+	u := fmt.Sprintf("projects/%s/issues/%d/move", PathEscape(project), issue)
 
 	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
@@ -540,7 +540,7 @@ func (s *IssuesService) SubscribeToIssue(pid interface{}, issue int, options ...
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/issues/%d/subscribe", pathEscape(project), issue)
+	u := fmt.Sprintf("projects/%s/issues/%d/subscribe", PathEscape(project), issue)
 
 	req, err := s.client.NewRequest(http.MethodPost, u, nil, options)
 	if err != nil {
@@ -567,7 +567,7 @@ func (s *IssuesService) UnsubscribeFromIssue(pid interface{}, issue int, options
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/issues/%d/unsubscribe", pathEscape(project), issue)
+	u := fmt.Sprintf("projects/%s/issues/%d/unsubscribe", PathEscape(project), issue)
 
 	req, err := s.client.NewRequest(http.MethodPost, u, nil, options)
 	if err != nil {
@@ -594,7 +594,7 @@ func (s *IssuesService) CreateTodo(pid interface{}, issue int, options ...Reques
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/issues/%d/todo", pathEscape(project), issue)
+	u := fmt.Sprintf("projects/%s/issues/%d/todo", PathEscape(project), issue)
 
 	req, err := s.client.NewRequest(http.MethodPost, u, nil, options)
 	if err != nil {
@@ -627,7 +627,7 @@ func (s *IssuesService) ListMergeRequestsClosingIssue(pid interface{}, issue int
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("/projects/%s/issues/%d/closed_by", pathEscape(project), issue)
+	u := fmt.Sprintf("/projects/%s/issues/%d/closed_by", PathEscape(project), issue)
 
 	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
@@ -661,7 +661,7 @@ func (s *IssuesService) ListMergeRequestsRelatedToIssue(pid interface{}, issue i
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("/projects/%s/issues/%d/related_merge_requests",
-		pathEscape(project),
+		PathEscape(project),
 		issue,
 	)
 
@@ -728,7 +728,7 @@ func (s *IssuesService) GetParticipants(pid interface{}, issue int, options ...R
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/issues/%d/participants", pathEscape(project), issue)
+	u := fmt.Sprintf("projects/%s/issues/%d/participants", PathEscape(project), issue)
 
 	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
