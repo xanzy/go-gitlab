@@ -390,10 +390,10 @@ func TestUploadFile(t *testing.T) {
 	mux.HandleFunc("/api/v4/projects/1/uploads", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
 		if false == strings.Contains(r.Header.Get("Content-Type"), "multipart/form-data;") {
-			t.Fatalf("Prokects.UploadFile request content-type %+v want multipart/form-data;", r.Header.Get("Content-Type"))
+			t.Fatalf("Projects.UploadFile request content-type %+v want multipart/form-data;", r.Header.Get("Content-Type"))
 		}
 		if r.ContentLength == -1 {
-			t.Fatalf("Prokects.UploadFile request content-length is -1")
+			t.Fatalf("Projects.UploadFile request content-length is -1")
 		}
 		fmt.Fprint(w, `{
 		  "alt": "dk",
@@ -411,11 +411,11 @@ func TestUploadFile(t *testing.T) {
 	file, _, err := client.Projects.UploadFile(1, tf.Name())
 
 	if err != nil {
-		t.Fatalf("Prokects.UploadFile returns an error: %v", err)
+		t.Fatalf("Projects.UploadFile returns an error: %v", err)
 	}
 
 	if !reflect.DeepEqual(want, file) {
-		t.Errorf("Prokects.UploadFile returned %+v, want %+v", file, want)
+		t.Errorf("Projects.UploadFile returned %+v, want %+v", file, want)
 	}
 }
 
@@ -434,10 +434,10 @@ func TestUploadFile_Retry(t *testing.T) {
 			return
 		}
 		if false == strings.Contains(r.Header.Get("Content-Type"), "multipart/form-data;") {
-			t.Fatalf("Prokects.UploadFile request content-type %+v want multipart/form-data;", r.Header.Get("Content-Type"))
+			t.Fatalf("Projects.UploadFile request content-type %+v want multipart/form-data;", r.Header.Get("Content-Type"))
 		}
 		if r.ContentLength == -1 {
-			t.Fatalf("Prokects.UploadFile request content-length is -1")
+			t.Fatalf("Projects.UploadFile request content-length is -1")
 		}
 		fmt.Fprint(w, `{
                   "alt": "dk",
@@ -455,11 +455,11 @@ func TestUploadFile_Retry(t *testing.T) {
 	file, _, err := client.Projects.UploadFile(1, tf.Name())
 
 	if err != nil {
-		t.Fatalf("Prokects.UploadFile returns an error: %v", err)
+		t.Fatalf("Projects.UploadFile returns an error: %v", err)
 	}
 
 	if !reflect.DeepEqual(want, file) {
-		t.Errorf("Prokects.UploadFile returned %+v, want %+v", file, want)
+		t.Errorf("Projects.UploadFile returned %+v, want %+v", file, want)
 	}
 }
 
