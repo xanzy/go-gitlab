@@ -100,6 +100,7 @@ type MergeRequestApprovalRule struct {
 	Users                []*BasicUser         `json:"users"`
 	Groups               []*Group             `json:"groups"`
 	ContainsHiddenGroups bool                 `json:"contains_hidden_groups"`
+	Section              string               `json:"section"`
 	ApprovedBy           []*BasicUser         `json:"approved_by"`
 	Approved             bool                 `json:"approved"`
 }
