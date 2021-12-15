@@ -1238,8 +1238,12 @@ type ProjectForkRelation struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/projects.html#create-a-forked-fromto-relation-between-existing-projects.
-func (s *ProjectsService) CreateProjectForkRelation(pid int, fork int, options ...RequestOptionFunc) (*ProjectForkRelation, *Response, error) {
-	u := fmt.Sprintf("projects/%d/fork/%d", pid, fork)
+func (s *ProjectsService) CreateProjectForkRelation(pid interface{}, fork int, options ...RequestOptionFunc) (*ProjectForkRelation, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/fork/%d", PathEscape(project), fork)
 
 	req, err := s.client.NewRequest(http.MethodPost, u, nil, options)
 	if err != nil {
@@ -1259,8 +1263,12 @@ func (s *ProjectsService) CreateProjectForkRelation(pid int, fork int, options .
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/projects.html#delete-an-existing-forked-from-relationship
-func (s *ProjectsService) DeleteProjectForkRelation(pid int, options ...RequestOptionFunc) (*Response, error) {
-	u := fmt.Sprintf("projects/%d/fork", pid)
+func (s *ProjectsService) DeleteProjectForkRelation(pid interface{}, options ...RequestOptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/fork", PathEscape(project))
 
 	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
