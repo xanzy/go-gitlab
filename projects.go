@@ -1808,3 +1808,50 @@ func (s *ProjectsService) TransferProject(pid interface{}, opt *TransferProjectO
 
 	return p, resp, err
 }
+
+// UploadAvatar uploads an avatar for the project
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/projects.html#upload-a-project-avatar
+func (s *ProjectsService) UploadAvatar(pid interface{}, avatar io.Reader, filename string, options ...RequestOptionFunc) (*Project, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s", PathEscape(project))
+
+	b := &bytes.Buffer{}
+	w := multipart.NewWriter(b)
+
+	_, filename = filepath.Split(filename)
+	fw, err := w.CreateFormFile("avatar", filename)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	_, err = io.Copy(fw, avatar)
+	if err != nil {
+		return nil, nil, err
+	}
+	w.Close()
+
+	req, err := s.client.NewRequest(http.MethodPut, u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	// Set the buffer as the request body.
+	if err = req.SetBody(b); err != nil {
+		return nil, nil, err
+	}
+
+	// Overwrite the default content type.
+	req.Header.Set("Content-Type", w.FormDataContentType())
+
+	p := new(Project)
+	resp, err := s.client.Do(req, p)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return p, resp, err
+}
