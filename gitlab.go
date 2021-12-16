@@ -177,6 +177,7 @@ type Client struct {
 	Releases              *ReleasesService
 	Repositories          *RepositoriesService
 	RepositoryFiles       *RepositoryFilesService
+	RepositorySubmodules  *RepositorySubmodulesService
 	ResourceLabelEvents   *ResourceLabelEventsService
 	ResourceStateEvents   *ResourceStateEventsService
 	Runners               *RunnersService
@@ -369,6 +370,7 @@ func newClient(options ...ClientOptionFunc) (*Client, error) {
 	c.Releases = &ReleasesService{client: c}
 	c.Repositories = &RepositoriesService{client: c}
 	c.RepositoryFiles = &RepositoryFilesService{client: c}
+	c.RepositorySubmodules = &RepositorySubmodulesService{client: c}
 	c.ResourceLabelEvents = &ResourceLabelEventsService{client: c}
 	c.ResourceStateEvents = &ResourceStateEventsService{client: c}
 	c.Runners = &RunnersService{client: c}

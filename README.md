@@ -81,6 +81,7 @@ to add new and/or missing endpoints. Currently the following services are suppor
 - [x] Protected Tags
 - [x] Repositories
 - [x] Repository Files
+- [x] Repository Submodules
 - [x] Runners
 - [x] Search
 - [x] Services
