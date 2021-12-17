@@ -46,20 +46,17 @@ func (t Topic) String() string {
 
 // ListTopicsOptions represents the available ListTopics() options.
 //
-// GitLab API docs:
-// https://docs.gitlab.com/ee/api/topics.html#list-topics
+// GitLab API docs: https://docs.gitlab.com/ee/api/topics.html#list-topics
 type ListTopicsOptions struct {
 	ListOptions
 	Search *string `url:"search,omitempty" json:"search,omitempty"`
 }
 
-// ListTopics Returns a list of project topics in the GitLab instance ordered by
-// number of associated projects.
+// ListTopics returns a list of project topics in the GitLab instance ordered
+// by number of associated projects.
 //
-// GitLab API docs:
-// https://docs.gitlab.com/ee/api/topics.html#list-topics
+// GitLab API docs: https://docs.gitlab.com/ee/api/topics.html#list-topics
 func (s *TopicsService) ListTopics(opt *ListTopicsOptions, options ...RequestOptionFunc) ([]*Topic, *Response, error) {
-
 	req, err := s.client.NewRequest(http.MethodGet, "topics", opt, options)
 	if err != nil {
 		return nil, nil, err
@@ -74,26 +71,19 @@ func (s *TopicsService) ListTopics(opt *ListTopicsOptions, options ...RequestOpt
 	return t, resp, err
 }
 
-// GetTopic Get a project topic by ID. It returns 200 together
-// with the topic information if the topic exists. It returns 404 if the tag does not exist.
+// GetTopic gets a project topic by ID.
 //
-// GitLab API docs:
-// https://docs.gitlab.com/ee/api/topics.html#get-a-topic
-func (s *TopicsService) GetTopic(tid interface{}, options ...RequestOptionFunc) (*Topic, *Response, error) {
-
-	group, err := parseID(tid)
-	if err != nil {
-		return nil, nil, err
-	}
-	u := fmt.Sprintf("topics/%s", pathEscape(group))
+// GitLab API docs: https://docs.gitlab.com/ee/api/topics.html#get-a-topic
+func (s *TopicsService) GetTopic(topic int, options ...RequestOptionFunc) (*Topic, *Response, error) {
+	u := fmt.Sprintf("topics/%d", topic)
 
 	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	var t *Topic
-	resp, err := s.client.Do(req, &t)
+	t := new(Topic)
+	resp, err := s.client.Do(req, t)
 	if err != nil {
 		return nil, resp, err
 	}
@@ -104,19 +94,18 @@ func (s *TopicsService) GetTopic(tid interface{}, options ...RequestOptionFunc) 
 // CreateTopicOptions represents the available CreateTopic() options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/tags.html#create-a-new-tag
+// https://docs.gitlab.com/ee/api/topics.html#create-a-project-topic
 type CreateTopicOptions struct {
 	Name        *string `url:"name,omitempty" json:"name,omitempty"`
 	Description *string `url:"description,omitempty" json:"description,omitempty"`
 	//	Avatar      *string `url:"avatar,omitempty" json:"avatar,omitempty"`
 }
 
-// CreateTopic creates a new project topic. Only available to administrators.
+// CreateTopic creates a new project topic.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/topics.html#create-a-project-topic
 func (s *TopicsService) CreateTopic(opt *CreateTopicOptions, options ...RequestOptionFunc) (*Topic, *Response, error) {
-
 	req, err := s.client.NewRequest(http.MethodPost, "topics", opt, options)
 	if err != nil {
 		return nil, nil, err
@@ -131,10 +120,10 @@ func (s *TopicsService) CreateTopic(opt *CreateTopicOptions, options ...RequestO
 	return t, resp, err
 }
 
-// UpdateTopicOptions represents the available CreateTopic() options.
+// UpdateTopicOptions represents the available UpdateTopic() options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/tags.html#create-a-new-tag
+// https://docs.gitlab.com/ee/api/topics.html#update-a-project-topic
 type UpdateTopicOptions struct {
 	Name        *string `url:"name,omitempty" json:"name,omitempty"`
 	Description *string `url:"description,omitempty" json:"description,omitempty"`
@@ -145,13 +134,8 @@ type UpdateTopicOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/topics.html#update-a-project-topic
-func (s *TopicsService) UpdateTopic(tid interface{}, opt *UpdateTopicOptions, options ...RequestOptionFunc) (*Topic, *Response, error) {
-
-	topic, err := parseID(tid)
-	if err != nil {
-		return nil, nil, err
-	}
-	u := fmt.Sprintf("topics/%s", pathEscape(topic))
+func (s *TopicsService) UpdateTopic(topic int, opt *UpdateTopicOptions, options ...RequestOptionFunc) (*Topic, *Response, error) {
+	u := fmt.Sprintf("topics/%d", topic)
 
 	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
@@ -166,25 +150,3 @@ func (s *TopicsService) UpdateTopic(tid interface{}, opt *UpdateTopicOptions, op
 
 	return t, resp, err
 }
-
-/*
-// DeleteTopic deletes a project topic. Only available to administrators.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ee/api/topics.html#update-a-project-topic
-func (s *TopicsService) DeleteTopic(tid interface{}, options ...RequestOptionFunc) (*Response, error) {
-
-	topic, err := parseID(tid)
-	if err != nil {
-		return nil, err
-	}
-	u := fmt.Sprintf("topics/%s", pathEscape(topic))
-
-	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
-	if err != nil {
-		return nil, err
-	}
-
-	return s.client.Do(req, nil)
-}
-*/

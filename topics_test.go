@@ -30,32 +30,31 @@ func TestTopicsService_ListTopics(t *testing.T) {
 	mux.HandleFunc("/api/v4/topics", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
 		fmt.Fprint(w, `[
-  {
-    "id": 1,
-    "name": "GitLab",
-    "description": "GitLab is an open source end-to-end software development platform with built-in version control, issue tracking, code review, CI/CD, and more.",
-    "total_projects_count": 1000,
-    "avatar_url": "http://www.gravatar.com/avatar/a0d477b3ea21970ce6ffcbb817b0b435?s=80&d=identicon"
-  },
-  {
-    "id": 3,
-    "name": "Git",
-    "description": "Git is a free and open source distributed version control system designed to handle everything from small to very large projects with speed and efficiency.",
-    "total_projects_count": 900,
-    "avatar_url": "http://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=80&d=identicon"
-  },
-  {
-    "id": 2,
-    "name": "Git LFS",
-    "description": null,
-    "total_projects_count": 300,
-    "avatar_url": null
-  }
-]`)
+      {
+        "id": 1,
+        "name": "GitLab",
+        "description": "GitLab is a version control system",
+        "total_projects_count": 1000,
+        "avatar_url": "http://www.gravatar.com/avatar/a0d477b3ea21970ce6ffcbb817b0b435?s=80&d=identicon"
+      },
+      {
+        "id": 3,
+        "name": "Git",
+        "description": "Git is free and open source",
+        "total_projects_count": 900,
+        "avatar_url": "http://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=80&d=identicon"
+      },
+      {
+        "id": 2,
+        "name": "Git LFS",
+        "description": null,
+        "total_projects_count": 300,
+        "avatar_url": null
+      }
+    ]`)
 	})
 
-	opt := &ListTopicsOptions{ListOptions: ListOptions{Page: 2, PerPage: 3}, Search: String("git")}
-
+	opt := &ListTopicsOptions{Search: String("git")}
 	topics, _, err := client.Topics.ListTopics(opt)
 	if err != nil {
 		t.Errorf("Tags.ListTags returned error: %v", err)
@@ -64,13 +63,13 @@ func TestTopicsService_ListTopics(t *testing.T) {
 	want := []*Topic{{
 		ID:                 1,
 		Name:               "GitLab",
-		Description:        "GitLab is an open source end-to-end software development platform with built-in version control, issue tracking, code review, CI/CD, and more.",
+		Description:        "GitLab is a version control system",
 		TotalProjectsCount: 1000,
 		AvatarURL:          "http://www.gravatar.com/avatar/a0d477b3ea21970ce6ffcbb817b0b435?s=80&d=identicon",
 	}, {
 		ID:                 3,
 		Name:               "Git",
-		Description:        "Git is a free and open source distributed version control system designed to handle everything from small to very large projects with speed and efficiency.",
+		Description:        "Git is free and open source",
 		TotalProjectsCount: 900,
 		AvatarURL:          "http://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=80&d=identicon",
 	}, {
@@ -87,17 +86,16 @@ func TestTopicsService_GetTopic(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
 
-	mux.HandleFunc("/api/v4/topics/1",
-		func(w http.ResponseWriter, r *http.Request) {
-			testMethod(t, r, http.MethodGet)
-			fmt.Fprint(w, `{
-  "id": 1,
-  "name": "GitLab",
-  "description": "GitLab is an open source end-to-end software development platform with built-in version control, issue tracking, code review, CI/CD, and more.",
-  "total_projects_count": 1000,
-  "avatar_url": "http://www.gravatar.com/avatar/a0d477b3ea21970ce6ffcbb817b0b435?s=80&d=identicon"
-}`)
-		})
+	mux.HandleFunc("/api/v4/topics/1", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		fmt.Fprint(w, `{
+      "id": 1,
+      "name": "GitLab",
+      "Description": "GitLab is a version control system",
+      "total_projects_count": 1000,
+      "avatar_url": "http://www.gravatar.com/avatar/a0d477b3ea21970ce6ffcbb817b0b435?s=80&d=identicon"
+    }`)
+	})
 
 	release, _, err := client.Topics.GetTopic(1)
 	if err != nil {
@@ -107,7 +105,7 @@ func TestTopicsService_GetTopic(t *testing.T) {
 	want := &Topic{
 		ID:                 1,
 		Name:               "GitLab",
-		Description:        "GitLab is an open source end-to-end software development platform with built-in version control, issue tracking, code review, CI/CD, and more.",
+		Description:        "GitLab is a version control system",
 		TotalProjectsCount: 1000,
 		AvatarURL:          "http://www.gravatar.com/avatar/a0d477b3ea21970ce6ffcbb817b0b435?s=80&d=identicon",
 	}
@@ -120,22 +118,18 @@ func TestTopicsService_CreateTopic(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
 
-	mux.HandleFunc("/api/v4/topics",
-		func(w http.ResponseWriter, r *http.Request) {
-			testMethod(t, r, http.MethodPost)
-			fmt.Fprint(w, `{
-  "id": 1,
-  "name": "topic1",
-  "description": null,
-  "total_projects_count": 0,
-  "avatar_url": null
-}`)
-		})
+	mux.HandleFunc("/api/v4/topics", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPost)
+		fmt.Fprint(w, `{
+      "id": 1,
+      "name": "topic1",
+      "description": null,
+      "total_projects_count": 0,
+      "avatar_url": null
+    }`)
+	})
 
-	opt := &CreateTopicOptions{
-		Name: String("topic1"),
-	}
-
+	opt := &CreateTopicOptions{Name: String("topic1")}
 	release, _, err := client.Topics.CreateTopic(opt)
 	if err != nil {
 		t.Errorf("Topics.CreateTopic returned error: %v", err)
@@ -151,20 +145,18 @@ func TestTopicsService_UpdateTopic(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
 
-	mux.HandleFunc("/api/v4/topics/1",
-		func(w http.ResponseWriter, r *http.Request) {
-			testMethod(t, r, http.MethodPut)
-			fmt.Fprint(w, `{
-  "id": 1,
-  "name": "topic1",
-  "description": null,
-  "total_projects_count": 0,
-  "avatar_url": null
-}`)
-		})
+	mux.HandleFunc("/api/v4/topics/1", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPut)
+		fmt.Fprint(w, `{
+      "id": 1,
+      "name": "topic1",
+      "description": null,
+      "total_projects_count": 0,
+      "avatar_url": null
+    }`)
+	})
 
 	opt := &UpdateTopicOptions{Name: String("topic1")}
-
 	release, _, err := client.Topics.UpdateTopic(1, opt)
 	if err != nil {
 		t.Errorf("Topics.UpdateTopic returned error: %v", err)
