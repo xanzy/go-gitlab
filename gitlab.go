@@ -520,11 +520,11 @@ func (c *Client) setBaseURL(urlStr string) error {
 	return nil
 }
 
-// NewRequest creates an API request. A relative URL path can be provided in
-// path, in which case it is resolved relative to the base URL of the Client.
-// Relative URL paths should always be specified without a preceding slash. If
-// specified, the value pointed to by body is JSON encoded and included as the
-// request body.
+// NewRequest creates an API request. An optional relative URL path can be
+// provided in path, in which case it is resolved relative to the base URL
+// of the Client.
+// Paths should always be specified without a preceding slash. If specified,
+// the value pointed to by body is JSON encoded and included as request body.
 func (c *Client) NewRequest(method, path string, opt interface{}, options []RequestOptionFunc) (*retryablehttp.Request, error) {
 	u := *c.baseURL
 	unescaped, err := url.PathUnescape(path)
