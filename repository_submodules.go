@@ -22,8 +22,8 @@ import (
 	"time"
 )
 
-// RepositorySubmodulesService handles communication with the repository submodules
-// related methods of the GitLab API.
+// RepositorySubmodulesService handles communication with the repository
+// submodules related methods of the GitLab API.
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/repository_submodules.html
 type RepositorySubmodulesService struct {
@@ -39,13 +39,13 @@ type SubmoduleCommit struct {
 	Title          string           `json:"title"`
 	AuthorName     string           `json:"author_name"`
 	AuthorEmail    string           `json:"author_email"`
-	AuthoredDate   *time.Time       `json:"authored_date"`
 	CommitterName  string           `json:"committer_name"`
 	CommitterEmail string           `json:"committer_email"`
-	CommittedDate  *time.Time       `json:"committed_date"`
 	CreatedAt      *time.Time       `json:"created_at"`
 	Message        string           `json:"message"`
 	ParentIDs      []string         `json:"parent_ids"`
+	CommittedDate  *time.Time       `json:"committed_date"`
+	AuthoredDate   *time.Time       `json:"authored_date"`
 	Status         *BuildStateValue `json:"status"`
 }
 
@@ -53,17 +53,20 @@ func (r SubmoduleCommit) String() string {
 	return Stringify(r)
 }
 
-// UpdateSubmoduleOptions represents the available ListCommits() options.
+// UpdateSubmoduleOptions represents the available UpdateSubmodule() options.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/repository_submodules.html#update-existing-submodule-reference-in-repository
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/repository_submodules.html#update-existing-submodule-reference-in-repository
 type UpdateSubmoduleOptions struct {
 	Branch        *string `url:"branch,omitempty" json:"branch,omitempty"`
 	CommitSHA     *string `url:"commit_sha,omitempty" json:"commit_sha,omitempty"`
 	CommitMessage *string `url:"commit_message,omitempty" json:"commit_message,omitempty"`
 }
 
-// UpdateSubmodule updates a submodule reference.
-// Note that submodule is a URL-encoded full path to the submodule.
+// UpdateSubmodule updates an existing submodule reference.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/repository_submodules.html#update-existing-submodule-reference-in-repository
 func (s *RepositorySubmodulesService) UpdateSubmodule(pid interface{}, submodule string, opt *UpdateSubmoduleOptions, options ...RequestOptionFunc) (*SubmoduleCommit, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -80,11 +83,11 @@ func (s *RepositorySubmodulesService) UpdateSubmodule(pid interface{}, submodule
 		return nil, nil, err
 	}
 
-	c := new(SubmoduleCommit)
-	resp, err := s.client.Do(req, c)
+	sc := new(SubmoduleCommit)
+	resp, err := s.client.Do(req, sc)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return c, resp, err
+	return sc, resp, err
 }

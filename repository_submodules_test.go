@@ -2,9 +2,10 @@ package gitlab
 
 import (
 	"fmt"
-	"github.com/stretchr/testify/require"
 	"net/http"
 	"testing"
+
+	"github.com/stretchr/testify/require"
 )
 
 func TestRepositorySubmodulesService_UpdateSubmodule(t *testing.T) {
@@ -44,8 +45,8 @@ func TestRepositorySubmodulesService_UpdateSubmodule(t *testing.T) {
 		Status:         BuildState(Running),
 	}
 
-	submoduleCommit, resp, err := client.RepositorySubmodules.UpdateSubmodule(13083, "app%2Fproject", nil)
+	sc, resp, err := client.RepositorySubmodules.UpdateSubmodule(13083, "app%2Fproject", nil)
 	require.NoError(t, err)
 	require.NotNil(t, resp)
-	require.Equal(t, want, submoduleCommit)
+	require.Equal(t, want, sc)
 }
