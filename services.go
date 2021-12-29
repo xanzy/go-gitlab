@@ -38,6 +38,7 @@ type ServicesService struct {
 type Service struct {
 	ID                       int        `json:"id"`
 	Title                    string     `json:"title"`
+	Slug                     string     `json:"slug"`
 	CreatedAt                *time.Time `json:"created_at"`
 	UpdatedAt                *time.Time `json:"updated_at"`
 	Active                   bool       `json:"active"`
@@ -1379,7 +1380,7 @@ func (s *ServicesService) GetSlackSlashCommandsService(pid interface{}, options 
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/services.html#createedit-slack-slash-command-service
 type SetSlackSlashCommandsServiceOptions struct {
-	Token *string `json:"token"`
+	Token *string `url:"token,omitempty" json:"token,omitempty"`
 }
 
 // SetSlackSlashCommandsService sets Slack slash commands service for a project
