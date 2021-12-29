@@ -1,6 +1,7 @@
 package gitlab
 
 import (
+	"bytes"
 	"fmt"
 	"net/http"
 	"testing"
@@ -159,30 +160,16 @@ func TestProjectImportExportService_ImportFile(t *testing.T) {
 		ImportStatus:      "scheduled",
 	}
 
-	es, resp, err := client.ProjectImportExport.ImportFile(nil, nil)
+	file := bytes.NewBufferString("dummy")
+	es, resp, err := client.ProjectImportExport.ImportFromFile(file, nil, nil)
 	require.NoError(t, err)
 	require.NotNil(t, resp)
 	require.Equal(t, want, es)
 
-	es, resp, err = client.ProjectImportExport.ImportFile(nil, errorOption)
+	es, resp, err = client.ProjectImportExport.ImportFromFile(file, nil, errorOption)
 	require.EqualError(t, err, "RequestOptionFunc returns an error")
 	require.Nil(t, resp)
 	require.Nil(t, es)
-}
-
-func TestProjectImportExportService_ImportFile_NotFound(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
-
-	mux.HandleFunc("/api/v4/projects/import", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, http.MethodPost)
-		w.WriteHeader(http.StatusNotFound)
-	})
-
-	es, resp, err := client.ProjectImportExport.ImportFile(nil, nil)
-	require.Error(t, err)
-	require.Nil(t, es)
-	require.Equal(t, http.StatusNotFound, resp.StatusCode)
 }
 
 func TestProjectImportExportService_ImportStatus(t *testing.T) {
