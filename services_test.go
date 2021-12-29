@@ -524,3 +524,54 @@ func TestDeleteYouTrackService(t *testing.T) {
 		t.Fatalf("Services.DeleteYouTrackService returns an error: %v", err)
 	}
 }
+
+func TestGetSlackSlashCommandsService(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/services/slack-slash-commands", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		fmt.Fprint(w, `{"id":1}`)
+	})
+	want := &SlackSlashCommandsService{Service: Service{ID: 1}}
+
+	service, _, err := client.Services.GetSlackSlashCommandsService(1)
+	if err != nil {
+		t.Fatalf("Services.GetSlackSlashCommandsService returns an error: %v", err)
+	}
+	if !reflect.DeepEqual(want, service) {
+		t.Errorf("Services.GetSlackSlashCommandsService returned %+v, want %+v", service, want)
+	}
+}
+
+func TestSetSlackSlashCommandsService(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/services/slack-slash-commands", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPut)
+	})
+
+	opt := &SetSlackSlashCommandsServiceOptions{
+		Token: String("token"),
+	}
+
+	_, err := client.Services.SetSlackSlashCommandsService(1, opt)
+	if err != nil {
+		t.Fatalf("Services.SetSlackSlashCommandsService returns an error: %v", err)
+	}
+}
+
+func TestDeleteSlackSlashCommandsService(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/services/slack-slash-commands", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodDelete)
+	})
+
+	_, err := client.Services.DeleteSlackSlashCommandsService(1)
+	if err != nil {
+		t.Fatalf("Services.DeleteSlackSlashCommandsService returns an error: %v", err)
+	}
+}

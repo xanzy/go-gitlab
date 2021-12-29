@@ -38,6 +38,7 @@ type ServicesService struct {
 type Service struct {
 	ID                       int        `json:"id"`
 	Title                    string     `json:"title"`
+	Slug                     string     `json:"slug"`
 	CreatedAt                *time.Time `json:"created_at"`
 	UpdatedAt                *time.Time `json:"updated_at"`
 	Active                   bool       `json:"active"`
@@ -1322,6 +1323,95 @@ func (s *ServicesService) DeleteSlackService(pid interface{}, options ...Request
 		return nil, err
 	}
 	u := fmt.Sprintf("projects/%s/services/slack", PathEscape(project))
+
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
+
+// SlackSlashCommandsService represents Slack slash commands settings.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/integrations.html#slack-slash-commands
+type SlackSlashCommandsService struct {
+	Service
+	Properties *SlackSlashCommandsProperties `json:"properties"`
+}
+
+// SlackSlashCommandsProperties represents Slack slash commands specific properties.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/integrations.html#slack-slash-commands
+type SlackSlashCommandsProperties struct {
+	Token string `json:"token"`
+}
+
+// GetSlackSlashCommandsService gets Slack slash commands service settings for a project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/integrations.html#get-slack-slash-command-integration-settings
+func (s *ServicesService) GetSlackSlashCommandsService(pid interface{}, options ...RequestOptionFunc) (*SlackSlashCommandsService, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/services/slack-slash-commands", PathEscape(project))
+
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	svc := new(SlackSlashCommandsService)
+	resp, err := s.client.Do(req, svc)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return svc, resp, err
+}
+
+// SetSlackSlashCommandsServiceOptions represents the available SetSlackSlashCommandsService()
+// options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/services.html#createedit-slack-slash-command-service
+type SetSlackSlashCommandsServiceOptions struct {
+	Token *string `url:"token,omitempty" json:"token,omitempty"`
+}
+
+// SetSlackSlashCommandsService sets Slack slash commands service for a project
+//
+// GitLab API docs:
+// https://docs.gitlab.com/13.12/ee/api/services.html#createedit-slack-slash-command-service
+func (s *ServicesService) SetSlackSlashCommandsService(pid interface{}, opt *SetSlackSlashCommandsServiceOptions, options ...RequestOptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/services/slack-slash-commands", PathEscape(project))
+
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
+
+// DeleteSlackSlashCommandsService deletes Slack slash commands service for project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/13.12/ee/api/services.html#delete-slack-slash-command-service
+func (s *ServicesService) DeleteSlackSlashCommandsService(pid interface{}, options ...RequestOptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/services/slack-slash-commands", PathEscape(project))
 
 	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
