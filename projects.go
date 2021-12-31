@@ -343,6 +343,31 @@ func (s *ProjectsService) ListUserProjects(uid interface{}, opt *ListProjectsOpt
 	return p, resp, err
 }
 
+// ListUserStarredProjects gets a list of projects starred by the given user.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/projects.html#list-projects-starred-by-a-user
+func (s *ProjectsService) ListUserStarredProjects(uid interface{}, opt *ListProjectsOptions, options ...RequestOptionFunc) ([]*Project, *Response, error) {
+	user, err := parseID(uid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("users/%s/starred_projects", user)
+
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var p []*Project
+	resp, err := s.client.Do(req, &p)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return p, resp, err
+}
+
 // ProjectUser represents a GitLab project user.
 type ProjectUser struct {
 	ID        int    `json:"id"`
