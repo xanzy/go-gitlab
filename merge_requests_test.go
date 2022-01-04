@@ -24,6 +24,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/google/go-querystring/query"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -244,4 +245,29 @@ func TestGetIssuesClosedOnMerge_Jira(t *testing.T) {
 	assert.Len(t, issues, 1)
 	assert.Equal(t, "PROJECT-123", issues[0].ExternalID)
 	assert.Equal(t, "Title of this issue", issues[0].Title)
+}
+
+func TestIntSliceOrString(t *testing.T) {
+	t.Run("any", func(t *testing.T) {
+		opts := &ListMergeRequestsOptions{}
+		opts.ApprovedByIDs = ApproverIDs(ApproverIDAny)
+		q, err := query.Values(opts)
+		assert.NoError(t, err)
+		assert.Equal(t, "Any", q.Get("approved_by_ids"))
+	})
+	t.Run("none", func(t *testing.T) {
+		opts := &ListMergeRequestsOptions{}
+		opts.ApprovedByIDs = ApproverIDs(ApproverIDNone)
+		q, err := query.Values(opts)
+		assert.NoError(t, err)
+		assert.Equal(t, "None", q.Get("approved_by_ids"))
+	})
+	t.Run("ids", func(t *testing.T) {
+		opts := &ListMergeRequestsOptions{}
+		opts.ApprovedByIDs = ApproverIDs([]int{1, 2, 3})
+		q, err := query.Values(opts)
+		assert.NoError(t, err)
+		includedIDs := q["approved_by_ids[]"]
+		assert.Equal(t, []string{"1", "2", "3"}, includedIDs)
+	})
 }

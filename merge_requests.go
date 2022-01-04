@@ -140,32 +140,33 @@ func (m MergeRequestDiffVersion) String() string {
 // https://docs.gitlab.com/ce/api/merge_requests.html#list-merge-requests
 type ListMergeRequestsOptions struct {
 	ListOptions
-	State                  *string    `url:"state,omitempty" json:"state,omitempty"`
-	OrderBy                *string    `url:"order_by,omitempty" json:"order_by,omitempty"`
-	Sort                   *string    `url:"sort,omitempty" json:"sort,omitempty"`
-	Milestone              *string    `url:"milestone,omitempty" json:"milestone,omitempty"`
-	View                   *string    `url:"view,omitempty" json:"view,omitempty"`
-	Labels                 Labels     `url:"labels,comma,omitempty" json:"labels,omitempty"`
-	NotLabels              Labels     `url:"not[labels],comma,omitempty" json:"not[labels],omitempty"`
-	WithLabelsDetails      *bool      `url:"with_labels_details,omitempty" json:"with_labels_details,omitempty"`
-	WithMergeStatusRecheck *bool      `url:"with_merge_status_recheck,omitempty" json:"with_merge_status_recheck,omitempty"`
-	CreatedAfter           *time.Time `url:"created_after,omitempty" json:"created_after,omitempty"`
-	CreatedBefore          *time.Time `url:"created_before,omitempty" json:"created_before,omitempty"`
-	UpdatedAfter           *time.Time `url:"updated_after,omitempty" json:"updated_after,omitempty"`
-	UpdatedBefore          *time.Time `url:"updated_before,omitempty" json:"updated_before,omitempty"`
-	Scope                  *string    `url:"scope,omitempty" json:"scope,omitempty"`
-	AuthorID               *int       `url:"author_id,omitempty" json:"author_id,omitempty"`
-	AuthorUsername         *string    `url:"author_username,omitempty" json:"author_username,omitempty"`
-	AssigneeID             *int       `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
-	ReviewerID             *int       `url:"reviewer_id,omitempty" json:"reviewer_id,omitempty"`
-	ReviewerUsername       *string    `url:"reviewer_username,omitempty" json:"reviewer_username,omitempty"`
-	MyReactionEmoji        *string    `url:"my_reaction_emoji,omitempty" json:"my_reaction_emoji,omitempty"`
-	SourceBranch           *string    `url:"source_branch,omitempty" json:"source_branch,omitempty"`
-	TargetBranch           *string    `url:"target_branch,omitempty" json:"target_branch,omitempty"`
-	Search                 *string    `url:"search,omitempty" json:"search,omitempty"`
-	In                     *string    `url:"in,omitempty" json:"in,omitempty"`
-	Draft                  *bool      `url:"draft,omitempty" json:"draft,omitempty"`
-	WIP                    *string    `url:"wip,omitempty" json:"wip,omitempty"`
+	State                  *string           `url:"state,omitempty" json:"state,omitempty"`
+	OrderBy                *string           `url:"order_by,omitempty" json:"order_by,omitempty"`
+	Sort                   *string           `url:"sort,omitempty" json:"sort,omitempty"`
+	Milestone              *string           `url:"milestone,omitempty" json:"milestone,omitempty"`
+	View                   *string           `url:"view,omitempty" json:"view,omitempty"`
+	Labels                 Labels            `url:"labels,comma,omitempty" json:"labels,omitempty"`
+	NotLabels              Labels            `url:"not[labels],comma,omitempty" json:"not[labels],omitempty"`
+	WithLabelsDetails      *bool             `url:"with_labels_details,omitempty" json:"with_labels_details,omitempty"`
+	WithMergeStatusRecheck *bool             `url:"with_merge_status_recheck,omitempty" json:"with_merge_status_recheck,omitempty"`
+	CreatedAfter           *time.Time        `url:"created_after,omitempty" json:"created_after,omitempty"`
+	CreatedBefore          *time.Time        `url:"created_before,omitempty" json:"created_before,omitempty"`
+	UpdatedAfter           *time.Time        `url:"updated_after,omitempty" json:"updated_after,omitempty"`
+	UpdatedBefore          *time.Time        `url:"updated_before,omitempty" json:"updated_before,omitempty"`
+	Scope                  *string           `url:"scope,omitempty" json:"scope,omitempty"`
+	AuthorID               *int              `url:"author_id,omitempty" json:"author_id,omitempty"`
+	AuthorUsername         *string           `url:"author_username,omitempty" json:"author_username,omitempty"`
+	AssigneeID             *int              `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
+	ApprovedByIDs          *ApproverIDsValue `url:"approved_by_ids,omitempty" json:"approved_by_ids,omitempty"`
+	ReviewerID             *int              `url:"reviewer_id,omitempty" json:"reviewer_id,omitempty"`
+	ReviewerUsername       *string           `url:"reviewer_username,omitempty" json:"reviewer_username,omitempty"`
+	MyReactionEmoji        *string           `url:"my_reaction_emoji,omitempty" json:"my_reaction_emoji,omitempty"`
+	SourceBranch           *string           `url:"source_branch,omitempty" json:"source_branch,omitempty"`
+	TargetBranch           *string           `url:"target_branch,omitempty" json:"target_branch,omitempty"`
+	Search                 *string           `url:"search,omitempty" json:"search,omitempty"`
+	In                     *string           `url:"in,omitempty" json:"in,omitempty"`
+	Draft                  *bool             `url:"draft,omitempty" json:"draft,omitempty"`
+	WIP                    *string           `url:"wip,omitempty" json:"wip,omitempty"`
 }
 
 // ListMergeRequests gets all merge requests. The state parameter can be used
