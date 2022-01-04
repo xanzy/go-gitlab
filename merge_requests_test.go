@@ -250,21 +250,21 @@ func TestGetIssuesClosedOnMerge_Jira(t *testing.T) {
 func TestIntSliceOrString(t *testing.T) {
 	t.Run("any", func(t *testing.T) {
 		opts := &ListMergeRequestsOptions{}
-		opts.ApprovedByIDs = NewIntSliceOrString().WithAny()
+		opts.ApprovedByIDs = ApproverIDs(ApproverIDAny)
 		q, err := query.Values(opts)
 		assert.NoError(t, err)
 		assert.Equal(t, "Any", q.Get("approved_by_ids"))
 	})
 	t.Run("none", func(t *testing.T) {
 		opts := &ListMergeRequestsOptions{}
-		opts.ApprovedByIDs = NewIntSliceOrString().WithNone()
+		opts.ApprovedByIDs = ApproverIDs(ApproverIDNone)
 		q, err := query.Values(opts)
 		assert.NoError(t, err)
 		assert.Equal(t, "None", q.Get("approved_by_ids"))
 	})
 	t.Run("ids", func(t *testing.T) {
 		opts := &ListMergeRequestsOptions{}
-		opts.ApprovedByIDs = NewIntSliceOrString().WithInts(1, 2, 3)
+		opts.ApprovedByIDs = ApproverIDs([]int{1, 2, 3})
 		q, err := query.Values(opts)
 		assert.NoError(t, err)
 		includedIDs := q["approved_by_ids[]"]

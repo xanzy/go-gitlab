@@ -19,8 +19,6 @@ package gitlab
 import (
 	"fmt"
 	"net/http"
-	"net/url"
-	"strconv"
 	"time"
 )
 
@@ -159,6 +157,7 @@ type ListMergeRequestsOptions struct {
 	AuthorID               *int              `url:"author_id,omitempty" json:"author_id,omitempty"`
 	AuthorUsername         *string           `url:"author_username,omitempty" json:"author_username,omitempty"`
 	AssigneeID             *int              `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
+	ApprovedByIDs          *ApproverIDsValue `url:"approved_by_ids,omitempty" json:"approved_by_ids,omitempty"`
 	ReviewerID             *int              `url:"reviewer_id,omitempty" json:"reviewer_id,omitempty"`
 	ReviewerUsername       *string           `url:"reviewer_username,omitempty" json:"reviewer_username,omitempty"`
 	MyReactionEmoji        *string           `url:"my_reaction_emoji,omitempty" json:"my_reaction_emoji,omitempty"`
@@ -168,57 +167,6 @@ type ListMergeRequestsOptions struct {
 	In                     *string           `url:"in,omitempty" json:"in,omitempty"`
 	Draft                  *bool             `url:"draft,omitempty" json:"draft,omitempty"`
 	WIP                    *string           `url:"wip,omitempty" json:"wip,omitempty"`
-	ApprovedByIDs          *IntSliceOrString `url:"approved_by_ids,omitempty" json:"approved_by_ids,omitempty"`
-}
-
-// IntSliceOrString implements the various options for the fields like
-// ListMergeRequestsOptions.ApprovedByIDs. Use this in combination with the
-// WithAny, WithNone, and WithInts methods to construct either `Any`, `None`, or
-// an array of integers as value.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ee/api/merge_requests.html#list-merge-requests
-type IntSliceOrString struct {
-	ids []int
-	str string
-}
-
-func NewIntSliceOrString() *IntSliceOrString {
-	return &IntSliceOrString{}
-}
-
-func (o *IntSliceOrString) WithInts(ids ...int) *IntSliceOrString {
-	o.ids = ids
-	o.str = ""
-	return o
-}
-
-func (o *IntSliceOrString) WithStr(s string) *IntSliceOrString {
-	o.str = s
-	o.ids = nil
-	return o
-}
-
-func (o *IntSliceOrString) WithNone() *IntSliceOrString {
-	return o.WithStr("None")
-}
-
-func (o *IntSliceOrString) WithAny() *IntSliceOrString {
-	return o.WithStr("Any")
-}
-
-func (o *IntSliceOrString) EncodeValues(key string, v *url.Values) error {
-	if o.str != "" {
-		v.Set(key, o.str)
-	} else {
-		v.Del(key)
-		skey := key + "[]"
-		v.Del(skey)
-		for _, id := range o.ids {
-			v.Add(skey, strconv.Itoa(id))
-		}
-	}
-	return nil
 }
 
 // ListMergeRequests gets all merge requests. The state parameter can be used
