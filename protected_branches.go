@@ -120,15 +120,15 @@ func (s *ProtectedBranchesService) GetProtectedBranch(pid interface{}, branch st
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/protected_branches.html#protect-repository-branches
 type ProtectRepositoryBranchesOptions struct {
-	Name                      *string                    `url:"name,omitempty" json:"name,omitempty"`
-	PushAccessLevel           *AccessLevelValue          `url:"push_access_level,omitempty" json:"push_access_level,omitempty"`
-	MergeAccessLevel          *AccessLevelValue          `url:"merge_access_level,omitempty" json:"merge_access_level,omitempty"`
-	UnprotectAccessLevel      *AccessLevelValue          `url:"unprotect_access_level,omitempty" json:"unprotect_access_level,omitempty"`
-	AllowForcePush            *bool                      `url:"allow_force_push,omitempty" json:"allow_force_push,omitempty"`
-	AllowedToPush             []*BranchPermissionOptions `url:"allowed_to_push,omitempty" json:"allowed_to_push,omitempty"`
-	AllowedToMerge            []*BranchPermissionOptions `url:"allowed_to_merge,omitempty" json:"allowed_to_merge,omitempty"`
-	AllowedToUnprotect        []*BranchPermissionOptions `url:"allowed_to_unprotect,omitempty" json:"allowed_to_unprotect,omitempty"`
-	CodeOwnerApprovalRequired *bool                      `url:"code_owner_approval_required,omitempty" json:"code_owner_approval_required,omitempty"`
+	Name                      *string                     `url:"name,omitempty" json:"name,omitempty"`
+	PushAccessLevel           *AccessLevelValue           `url:"push_access_level,omitempty" json:"push_access_level,omitempty"`
+	MergeAccessLevel          *AccessLevelValue           `url:"merge_access_level,omitempty" json:"merge_access_level,omitempty"`
+	UnprotectAccessLevel      *AccessLevelValue           `url:"unprotect_access_level,omitempty" json:"unprotect_access_level,omitempty"`
+	AllowForcePush            *bool                       `url:"allow_force_push,omitempty" json:"allow_force_push,omitempty"`
+	AllowedToPush             *[]*BranchPermissionOptions `url:"allowed_to_push,omitempty" json:"allowed_to_push,omitempty"`
+	AllowedToMerge            *[]*BranchPermissionOptions `url:"allowed_to_merge,omitempty" json:"allowed_to_merge,omitempty"`
+	AllowedToUnprotect        *[]*BranchPermissionOptions `url:"allowed_to_unprotect,omitempty" json:"allowed_to_unprotect,omitempty"`
+	CodeOwnerApprovalRequired *bool                       `url:"code_owner_approval_required,omitempty" json:"code_owner_approval_required,omitempty"`
 }
 
 // BranchPermissionOptions represents a branch permission option.

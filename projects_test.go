@@ -704,8 +704,8 @@ func TestChangeAllowedApprovers(t *testing.T) {
 	})
 
 	opt := &ChangeAllowedApproversOptions{
-		ApproverGroupIDs: []int{1},
-		ApproverIDs:      []int{2},
+		ApproverGroupIDs: &[]int{1},
+		ApproverIDs:      &[]int{2},
 	}
 
 	approvals, _, err := client.Projects.ChangeAllowedApprovers(1, opt)
@@ -1041,8 +1041,8 @@ func TestCreateProjectApprovalRule(t *testing.T) {
 	opt := &CreateProjectLevelRuleOptions{
 		Name:              String("security"),
 		ApprovalsRequired: Int(3),
-		UserIDs:           []int{5, 50},
-		GroupIDs:          []int{5},
+		UserIDs:           &[]int{5, 50},
+		GroupIDs:          &[]int{5},
 	}
 
 	rule, _, err := client.Projects.CreateProjectApprovalRule(1, opt)

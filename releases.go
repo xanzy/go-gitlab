@@ -125,7 +125,7 @@ type CreateReleaseOptions struct {
 	TagName     *string               `url:"tag_name" json:"tag_name"`
 	Description *string               `url:"description" json:"description"`
 	Ref         *string               `url:"ref,omitempty" json:"ref,omitempty"`
-	Milestones  []string              `url:"milestones,omitempty" json:"milestones,omitempty"`
+	Milestones  *[]string             `url:"milestones,omitempty" json:"milestones,omitempty"`
 	Assets      *ReleaseAssetsOptions `url:"assets,omitempty" json:"assets,omitempty"`
 	ReleasedAt  *time.Time            `url:"released_at,omitempty" json:"released_at,omitempty"`
 }
@@ -182,7 +182,7 @@ func (s *ReleasesService) CreateRelease(pid interface{}, opts *CreateReleaseOpti
 type UpdateReleaseOptions struct {
 	Name        *string    `url:"name" json:"name"`
 	Description *string    `url:"description" json:"description"`
-	Milestones  []string   `url:"milestones,omitempty" json:"milestones,omitempty"`
+	Milestones  *[]string  `url:"milestones,omitempty" json:"milestones,omitempty"`
 	ReleasedAt  *time.Time `url:"released_at,omitempty" json:"released_at,omitempty"`
 }
 

@@ -264,8 +264,8 @@ func (s *PipelinesService) GetPipelineTestReport(pid interface{}, pipeline int) 
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/pipelines.html#create-a-new-pipeline
 type CreatePipelineOptions struct {
-	Ref       *string             `url:"ref" json:"ref"`
-	Variables []*PipelineVariable `url:"variables,omitempty" json:"variables,omitempty"`
+	Ref       *string              `url:"ref" json:"ref"`
+	Variables *[]*PipelineVariable `url:"variables,omitempty" json:"variables,omitempty"`
 }
 
 // CreatePipeline creates a new project pipeline.

@@ -302,7 +302,7 @@ func (s *RepositoriesService) Contributors(pid interface{}, opt *ListContributor
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/repositories.html#merge-base
 type MergeBaseOptions struct {
-	Ref []string `url:"refs[],omitempty" json:"refs,omitempty"`
+	Ref *[]string `url:"refs[],omitempty" json:"refs,omitempty"`
 }
 
 // MergeBase gets the common ancestor for 2 refs (commit SHAs, branch
