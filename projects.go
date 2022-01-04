@@ -17,14 +17,12 @@
 package gitlab
 
 import (
-	"bytes"
 	"fmt"
 	"io"
-	"mime/multipart"
 	"net/http"
-	"os"
-	"path/filepath"
 	"time"
+
+	retryablehttp "github.com/hashicorp/go-retryablehttp"
 )
 
 // ProjectsService handles communication with the repositories related methods
@@ -593,6 +591,7 @@ type CreateProjectOptions struct {
 	AutoDevopsDeployStrategy                  *string                              `url:"auto_devops_deploy_strategy,omitempty" json:"auto_devops_deploy_strategy,omitempty"`
 	AutoDevopsEnabled                         *bool                                `url:"auto_devops_enabled,omitempty" json:"auto_devops_enabled,omitempty"`
 	AutocloseReferencedIssues                 *bool                                `url:"autoclose_referenced_issues,omitempty" json:"autoclose_referenced_issues,omitempty"`
+	Avatar                                    *ProjectAvatar                       `url:"-" json:"-"`
 	BuildCoverageRegex                        *string                              `url:"build_coverage_regex,omitempty" json:"build_coverage_regex,omitempty"`
 	BuildGitStrategy                          *string                              `url:"build_git_strategy,omitempty" json:"build_git_strategy,omitempty"`
 	BuildTimeout                              *int                                 `url:"build_timeout,omitempty" json:"build_timeout,omitempty"`
@@ -672,6 +671,11 @@ type ContainerExpirationPolicyAttributes struct {
 	NameRegex *string `url:"name_regex,omitempty" json:"name_regex,omitempty"`
 }
 
+type ProjectAvatar struct {
+	Filename string
+	Image    io.Reader
+}
+
 // CreateProject creates a new project owned by the authenticated user.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#create-project
@@ -683,7 +687,22 @@ func (s *ProjectsService) CreateProject(opt *CreateProjectOptions, options ...Re
 			opt.ContainerExpirationPolicyAttributes.NameRegexDelete
 	}
 
-	req, err := s.client.NewRequest(http.MethodPost, "projects", opt, options)
+	var err error
+	var req *retryablehttp.Request
+
+	if opt.Avatar == nil {
+		req, err = s.client.NewRequest(http.MethodPost, "projects", opt, options)
+	} else {
+		req, err = s.client.UploadRequest(
+			http.MethodPost,
+			"projects",
+			opt.Avatar.Image,
+			opt.Avatar.Filename,
+			UploadAvatar,
+			opt,
+			options,
+		)
+	}
 	if err != nil {
 		return nil, nil, err
 	}
@@ -717,8 +736,23 @@ func (s *ProjectsService) CreateProjectForUser(user int, opt *CreateProjectForUs
 			opt.ContainerExpirationPolicyAttributes.NameRegexDelete
 	}
 
+	var err error
+	var req *retryablehttp.Request
 	u := fmt.Sprintf("projects/user/%d", user)
-	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
+
+	if opt.Avatar == nil {
+		req, err = s.client.NewRequest(http.MethodPost, u, opt, options)
+	} else {
+		req, err = s.client.UploadRequest(
+			http.MethodPost,
+			u,
+			opt.Avatar.Image,
+			opt.Avatar.Filename,
+			UploadAvatar,
+			opt,
+			options,
+		)
+	}
 	if err != nil {
 		return nil, nil, err
 	}
@@ -742,6 +776,7 @@ type EditProjectOptions struct {
 	AutoDevopsDeployStrategy                  *string                              `url:"auto_devops_deploy_strategy,omitempty" json:"auto_devops_deploy_strategy,omitempty"`
 	AutoDevopsEnabled                         *bool                                `url:"auto_devops_enabled,omitempty" json:"auto_devops_enabled,omitempty"`
 	AutocloseReferencedIssues                 *bool                                `url:"autoclose_referenced_issues,omitempty" json:"autoclose_referenced_issues,omitempty"`
+	Avatar                                    *ProjectAvatar                       `url:"-" json:"-"`
 	BuildCoverageRegex                        *string                              `url:"build_coverage_regex,omitempty" json:"build_coverage_regex,omitempty"`
 	BuildGitStrategy                          *string                              `url:"build_git_strategy,omitempty" json:"build_git_strategy,omitempty"`
 	BuildTimeout                              *int                                 `url:"build_timeout,omitempty" json:"build_timeout,omitempty"`
@@ -819,7 +854,21 @@ func (s *ProjectsService) EditProject(pid interface{}, opt *EditProjectOptions, 
 	}
 	u := fmt.Sprintf("projects/%s", PathEscape(project))
 
-	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
+	var req *retryablehttp.Request
+
+	if opt.Avatar == nil {
+		req, err = s.client.NewRequest(http.MethodPost, u, opt, options)
+	} else {
+		req, err = s.client.UploadRequest(
+			http.MethodPost,
+			u,
+			opt.Avatar.Image,
+			opt.Avatar.Filename,
+			UploadAvatar,
+			opt,
+			options,
+		)
+	}
 	if err != nil {
 		return nil, nil, err
 	}
@@ -1303,7 +1352,7 @@ func (s *ProjectsService) DeleteProjectForkRelation(pid interface{}, options ...
 	return s.client.Do(req, nil)
 }
 
-// ProjectFile represents an uploaded project file
+// ProjectFile represents an uploaded project file.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#upload-a-file
 type ProjectFile struct {
@@ -1312,57 +1361,69 @@ type ProjectFile struct {
 	Markdown string `json:"markdown"`
 }
 
-// UploadFile upload a file from disk
+// UploadFile uploads a file.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#upload-a-file
-func (s *ProjectsService) UploadFile(pid interface{}, file string, options ...RequestOptionFunc) (*ProjectFile, *Response, error) {
+func (s *ProjectsService) UploadFile(pid interface{}, content io.Reader, filename string, options ...RequestOptionFunc) (*ProjectFile, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/uploads", PathEscape(project))
 
-	f, err := os.Open(file)
-	if err != nil {
-		return nil, nil, err
-	}
-	defer f.Close()
-
-	b := &bytes.Buffer{}
-	w := multipart.NewWriter(b)
-
-	_, filename := filepath.Split(file)
-	fw, err := w.CreateFormFile("file", filename)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	_, err = io.Copy(fw, f)
-	if err != nil {
-		return nil, nil, err
-	}
-	w.Close()
-
-	req, err := s.client.NewRequest(http.MethodPost, u, nil, options)
+	req, err := s.client.UploadRequest(
+		http.MethodPost,
+		u,
+		content,
+		filename,
+		UploadFile,
+		nil,
+		options,
+	)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	// Set the buffer as the request body.
-	if err = req.SetBody(b); err != nil {
-		return nil, nil, err
-	}
-
-	// Overwrite the default content type.
-	req.Header.Set("Content-Type", w.FormDataContentType())
-
-	uf := &ProjectFile{}
-	resp, err := s.client.Do(req, uf)
+	pf := new(ProjectFile)
+	resp, err := s.client.Do(req, pf)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return uf, resp, nil
+	return pf, resp, nil
+}
+
+// UploadAvatar uploads an avatar.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/projects.html#upload-a-project-avatar
+func (s *ProjectsService) UploadAvatar(pid interface{}, avatar io.Reader, filename string, options ...RequestOptionFunc) (*Project, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s", PathEscape(project))
+
+	req, err := s.client.UploadRequest(
+		http.MethodPut,
+		u,
+		avatar,
+		filename,
+		UploadAvatar,
+		nil,
+		options,
+	)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	p := new(Project)
+	resp, err := s.client.Do(req, p)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return p, resp, err
 }
 
 // ListProjectForks gets a list of project forks.

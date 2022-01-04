@@ -603,6 +603,15 @@ const (
 	TodoTargetMergeRequest     TodoTargetType = "MergeRequest"
 )
 
+// UploadType represents the available upload types.
+type UploadType string
+
+// The available upload types.
+const (
+	UploadAvatar UploadType = "avatar"
+	UploadFile   UploadType = "file"
+)
+
 // VariableTypeValue represents a variable type within GitLab.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/

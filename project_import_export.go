@@ -19,6 +19,7 @@ package gitlab
 import (
 	"bytes"
 	"fmt"
+	"io"
 	"net/http"
 	"time"
 )
@@ -162,18 +163,26 @@ func (s *ProjectImportExportService) ExportDownload(pid interface{}, options ...
 // https://docs.gitlab.com/ce/api/project_import_export.html#import-a-file
 type ImportFileOptions struct {
 	Namespace      *string               `url:"namespace,omitempty" json:"namespace,omitempty"`
-	File           *string               `url:"file,omitempty" json:"file,omitempty"`
+	Name           *string               `url:"name,omitempty" json:"name,omitempty"`
 	Path           *string               `url:"path,omitempty" json:"path,omitempty"`
 	Overwrite      *bool                 `url:"overwrite,omitempty" json:"overwrite,omitempty"`
 	OverrideParams *CreateProjectOptions `url:"override_params,omitempty" json:"override_params,omitempty"`
 }
 
-// ImportFile import a file.
+// Import a project from an archive file.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/project_import_export.html#import-a-file
-func (s *ProjectImportExportService) ImportFile(opt *ImportFileOptions, options ...RequestOptionFunc) (*ImportStatus, *Response, error) {
-	req, err := s.client.NewRequest(http.MethodPost, "projects/import", opt, options)
+func (s *ProjectImportExportService) ImportFromFile(archive io.Reader, opt *ImportFileOptions, options ...RequestOptionFunc) (*ImportStatus, *Response, error) {
+	req, err := s.client.UploadRequest(
+		http.MethodPost,
+		"projects/import",
+		archive,
+		"archive.tar.gz",
+		UploadFile,
+		opt,
+		options,
+	)
 	if err != nil {
 		return nil, nil, err
 	}
