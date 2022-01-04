@@ -427,7 +427,7 @@ type ListProjectGroupOptions struct {
 	Search               *string           `url:"search,omitempty" json:"search,omitempty"`
 	SharedMinAccessLevel *AccessLevelValue `url:"shared_min_access_level,omitempty" json:"shared_min_access_level,omitempty"`
 	SharedVisiableOnly   *bool             `url:"shared_visible_only,omitempty" json:"shared_visible_only,omitempty"`
-	SkipGroups           []int             `url:"skip_groups,omitempty" json:"skip_groups,omitempty"`
+	SkipGroups           *[]int            `url:"skip_groups,omitempty" json:"skip_groups,omitempty"`
 	WithShared           *bool             `url:"with_shared,omitempty" json:"with_shared,omitempty"`
 }
 
@@ -1717,10 +1717,10 @@ func (s *ProjectsService) GetProjectApprovalRules(pid interface{}, options ...Re
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#create-project-level-rules
 type CreateProjectLevelRuleOptions struct {
 	ApprovalsRequired  *int    `url:"approvals_required,omitempty" json:"approvals_required,omitempty"`
-	GroupIDs           []int   `url:"group_ids,omitempty" json:"group_ids,omitempty"`
+	GroupIDs           *[]int  `url:"group_ids,omitempty" json:"group_ids,omitempty"`
 	Name               *string `url:"name,omitempty" json:"name,omitempty"`
-	ProtectedBranchIDs []int   `url:"protected_branch_ids,omitempty" json:"protected_branch_ids,omitempty"`
-	UserIDs            []int   `url:"user_ids,omitempty" json:"user_ids,omitempty"`
+	ProtectedBranchIDs *[]int  `url:"protected_branch_ids,omitempty" json:"protected_branch_ids,omitempty"`
+	UserIDs            *[]int  `url:"user_ids,omitempty" json:"user_ids,omitempty"`
 }
 
 // CreateProjectApprovalRule creates a new project-level approval rule.
@@ -1755,10 +1755,10 @@ func (s *ProjectsService) CreateProjectApprovalRule(pid interface{}, opt *Create
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#update-project-level-rules
 type UpdateProjectLevelRuleOptions struct {
 	ApprovalsRequired  *int    `url:"approvals_required,omitempty" json:"approvals_required,omitempty"`
-	GroupIDs           []int   `url:"group_ids,omitempty" json:"group_ids,omitempty"`
+	GroupIDs           *[]int  `url:"group_ids,omitempty" json:"group_ids,omitempty"`
 	Name               *string `url:"name,omitempty" json:"name,omitempty"`
-	ProtectedBranchIDs []int   `url:"protected_branch_ids,omitempty" json:"protected_branch_ids,omitempty"`
-	UserIDs            []int   `url:"user_ids,omitempty" json:"user_ids,omitempty"`
+	ProtectedBranchIDs *[]int  `url:"protected_branch_ids,omitempty" json:"protected_branch_ids,omitempty"`
+	UserIDs            *[]int  `url:"user_ids,omitempty" json:"user_ids,omitempty"`
 }
 
 // UpdateProjectApprovalRule updates an existing approval rule with new options.
@@ -1811,8 +1811,8 @@ func (s *ProjectsService) DeleteProjectApprovalRule(pid interface{}, approvalRul
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#change-allowed-approvers
 type ChangeAllowedApproversOptions struct {
-	ApproverGroupIDs []int `url:"approver_group_ids,omitempty" json:"approver_group_ids,omitempty"`
-	ApproverIDs      []int `url:"approver_ids,omitempty" json:"approver_ids,omitempty"`
+	ApproverGroupIDs *[]int `url:"approver_group_ids,omitempty" json:"approver_group_ids,omitempty"`
+	ApproverIDs      *[]int `url:"approver_ids,omitempty" json:"approver_ids,omitempty"`
 }
 
 // ChangeAllowedApprovers updates the list of approvers and approver groups.

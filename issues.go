@@ -207,20 +207,20 @@ type LabelDetails struct {
 type ListIssuesOptions struct {
 	ListOptions
 	State              *string    `url:"state,omitempty" json:"state,omitempty"`
-	Labels             Labels     `url:"labels,comma,omitempty" json:"labels,omitempty"`
-	NotLabels          Labels     `url:"not[labels],comma,omitempty" json:"not[labels],omitempty"`
+	Labels             *Labels    `url:"labels,comma,omitempty" json:"labels,omitempty"`
+	NotLabels          *Labels    `url:"not[labels],comma,omitempty" json:"not[labels],omitempty"`
 	WithLabelDetails   *bool      `url:"with_labels_details,omitempty" json:"with_labels_details,omitempty"`
 	Milestone          *string    `url:"milestone,omitempty" json:"milestone,omitempty"`
 	NotMilestone       *string    `url:"not[milestone],omitempty" json:"not[milestone],omitempty"`
 	Scope              *string    `url:"scope,omitempty" json:"scope,omitempty"`
 	AuthorID           *int       `url:"author_id,omitempty" json:"author_id,omitempty"`
-	NotAuthorID        []int      `url:"not[author_id],omitempty" json:"not[author_id],omitempty"`
+	NotAuthorID        *[]int     `url:"not[author_id],omitempty" json:"not[author_id],omitempty"`
 	AssigneeID         *int       `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
-	NotAssigneeID      []int      `url:"not[assignee_id],omitempty" json:"not[assignee_id],omitempty"`
+	NotAssigneeID      *[]int     `url:"not[assignee_id],omitempty" json:"not[assignee_id],omitempty"`
 	AssigneeUsername   *string    `url:"assignee_username,omitempty" json:"assignee_username,omitempty"`
 	MyReactionEmoji    *string    `url:"my_reaction_emoji,omitempty" json:"my_reaction_emoji,omitempty"`
-	NotMyReactionEmoji []string   `url:"not[my_reaction_emoji],omitempty" json:"not[my_reaction_emoji],omitempty"`
-	IIDs               []int      `url:"iids[],omitempty" json:"iids,omitempty"`
+	NotMyReactionEmoji *[]string  `url:"not[my_reaction_emoji],omitempty" json:"not[my_reaction_emoji],omitempty"`
+	IIDs               *[]int     `url:"iids[],omitempty" json:"iids,omitempty"`
 	In                 *string    `url:"in,omitempty" json:"in,omitempty"`
 	OrderBy            *string    `url:"order_by,omitempty" json:"order_by,omitempty"`
 	Sort               *string    `url:"sort,omitempty" json:"sort,omitempty"`
@@ -258,21 +258,21 @@ func (s *IssuesService) ListIssues(opt *ListIssuesOptions, options ...RequestOpt
 type ListGroupIssuesOptions struct {
 	ListOptions
 	State              *string    `url:"state,omitempty" json:"state,omitempty"`
-	Labels             Labels     `url:"labels,comma,omitempty" json:"labels,omitempty"`
-	NotLabels          Labels     `url:"not[labels],comma,omitempty" json:"not[labels],omitempty"`
+	Labels             *Labels    `url:"labels,comma,omitempty" json:"labels,omitempty"`
+	NotLabels          *Labels    `url:"not[labels],comma,omitempty" json:"not[labels],omitempty"`
 	WithLabelDetails   *bool      `url:"with_labels_details,omitempty" json:"with_labels_details,omitempty"`
-	IIDs               []int      `url:"iids[],omitempty" json:"iids,omitempty"`
+	IIDs               *[]int     `url:"iids[],omitempty" json:"iids,omitempty"`
 	Milestone          *string    `url:"milestone,omitempty" json:"milestone,omitempty"`
 	NotMilestone       *string    `url:"not[milestone],omitempty" json:"not[milestone],omitempty"`
 	Scope              *string    `url:"scope,omitempty" json:"scope,omitempty"`
 	AuthorID           *int       `url:"author_id,omitempty" json:"author_id,omitempty"`
-	NotAuthorID        []int      `url:"not[author_id],omitempty" json:"not[author_id],omitempty"`
+	NotAuthorID        *[]int     `url:"not[author_id],omitempty" json:"not[author_id],omitempty"`
 	AuthorUsername     *string    `url:"author_username,omitempty" json:"author_username,omitempty"`
 	AssigneeID         *int       `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
-	NotAssigneeID      []int      `url:"not[assignee_id],omitempty" json:"not[assignee_id],omitempty"`
+	NotAssigneeID      *[]int     `url:"not[assignee_id],omitempty" json:"not[assignee_id],omitempty"`
 	AssigneeUsername   *string    `url:"assignee_username,omitempty" json:"assignee_username,omitempty"`
 	MyReactionEmoji    *string    `url:"my_reaction_emoji,omitempty" json:"my_reaction_emoji,omitempty"`
-	NotMyReactionEmoji []string   `url:"not[my_reaction_emoji],omitempty" json:"not[my_reaction_emoji],omitempty"`
+	NotMyReactionEmoji *[]string  `url:"not[my_reaction_emoji],omitempty" json:"not[my_reaction_emoji],omitempty"`
 	OrderBy            *string    `url:"order_by,omitempty" json:"order_by,omitempty"`
 	Sort               *string    `url:"sort,omitempty" json:"sort,omitempty"`
 	Search             *string    `url:"search,omitempty" json:"search,omitempty"`
@@ -314,21 +314,21 @@ func (s *IssuesService) ListGroupIssues(pid interface{}, opt *ListGroupIssuesOpt
 // GitLab API docs: https://docs.gitlab.com/ce/api/issues.html#list-project-issues
 type ListProjectIssuesOptions struct {
 	ListOptions
-	IIDs               []int      `url:"iids[],omitempty" json:"iids,omitempty"`
+	IIDs               *[]int     `url:"iids[],omitempty" json:"iids,omitempty"`
 	State              *string    `url:"state,omitempty" json:"state,omitempty"`
-	Labels             Labels     `url:"labels,comma,omitempty" json:"labels,omitempty"`
-	NotLabels          Labels     `url:"not[labels],comma,omitempty" json:"not[labels],omitempty"`
+	Labels             *Labels    `url:"labels,comma,omitempty" json:"labels,omitempty"`
+	NotLabels          *Labels    `url:"not[labels],comma,omitempty" json:"not[labels],omitempty"`
 	WithLabelDetails   *bool      `url:"with_labels_details,omitempty" json:"with_labels_details,omitempty"`
 	Milestone          *string    `url:"milestone,omitempty" json:"milestone,omitempty"`
-	NotMilestone       []string   `url:"not[milestone],omitempty" json:"not[milestone],omitempty"`
+	NotMilestone       *[]string  `url:"not[milestone],omitempty" json:"not[milestone],omitempty"`
 	Scope              *string    `url:"scope,omitempty" json:"scope,omitempty"`
 	AuthorID           *int       `url:"author_id,omitempty" json:"author_id,omitempty"`
-	NotAuthorID        []int      `url:"not[author_id],omitempty" json:"not[author_id],omitempty"`
+	NotAuthorID        *[]int     `url:"not[author_id],omitempty" json:"not[author_id],omitempty"`
 	AssigneeID         *int       `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
-	NotAssigneeID      []int      `url:"not[assignee_id],omitempty" json:"not[assignee_id],omitempty"`
+	NotAssigneeID      *[]int     `url:"not[assignee_id],omitempty" json:"not[assignee_id],omitempty"`
 	AssigneeUsername   *string    `url:"assignee_username,omitempty" json:"assignee_username,omitempty"`
 	MyReactionEmoji    *string    `url:"my_reaction_emoji,omitempty" json:"my_reaction_emoji,omitempty"`
-	NotMyReactionEmoji []string   `url:"not[my_reaction_emoji],omitempty" json:"not[my_reaction_emoji],omitempty"`
+	NotMyReactionEmoji *[]string  `url:"not[my_reaction_emoji],omitempty" json:"not[my_reaction_emoji],omitempty"`
 	OrderBy            *string    `url:"order_by,omitempty" json:"order_by,omitempty"`
 	Sort               *string    `url:"sort,omitempty" json:"sort,omitempty"`
 	Search             *string    `url:"search,omitempty" json:"search,omitempty"`
@@ -399,9 +399,9 @@ type CreateIssueOptions struct {
 	Title                              *string    `url:"title,omitempty" json:"title,omitempty"`
 	Description                        *string    `url:"description,omitempty" json:"description,omitempty"`
 	Confidential                       *bool      `url:"confidential,omitempty" json:"confidential,omitempty"`
-	AssigneeIDs                        []int      `url:"assignee_ids,omitempty" json:"assignee_ids,omitempty"`
+	AssigneeIDs                        *[]int     `url:"assignee_ids,omitempty" json:"assignee_ids,omitempty"`
 	MilestoneID                        *int       `url:"milestone_id,omitempty" json:"milestone_id,omitempty"`
-	Labels                             Labels     `url:"labels,comma,omitempty" json:"labels,omitempty"`
+	Labels                             *Labels    `url:"labels,comma,omitempty" json:"labels,omitempty"`
 	CreatedAt                          *time.Time `url:"created_at,omitempty" json:"created_at,omitempty"`
 	DueDate                            *ISOTime   `url:"due_date,omitempty" json:"due_date,omitempty"`
 	MergeRequestToResolveDiscussionsOf *int       `url:"merge_request_to_resolve_discussions_of,omitempty" json:"merge_request_to_resolve_discussions_of,omitempty"`
@@ -441,11 +441,11 @@ type UpdateIssueOptions struct {
 	Title            *string    `url:"title,omitempty" json:"title,omitempty"`
 	Description      *string    `url:"description,omitempty" json:"description,omitempty"`
 	Confidential     *bool      `url:"confidential,omitempty" json:"confidential,omitempty"`
-	AssigneeIDs      []int      `url:"assignee_ids,omitempty" json:"assignee_ids,omitempty"`
+	AssigneeIDs      *[]int     `url:"assignee_ids,omitempty" json:"assignee_ids,omitempty"`
 	MilestoneID      *int       `url:"milestone_id,omitempty" json:"milestone_id,omitempty"`
-	Labels           Labels     `url:"labels,comma,omitempty" json:"labels,omitempty"`
-	AddLabels        Labels     `url:"add_labels,comma,omitempty" json:"add_labels,omitempty"`
-	RemoveLabels     Labels     `url:"remove_labels,comma,omitempty" json:"remove_labels,omitempty"`
+	Labels           *Labels    `url:"labels,comma,omitempty" json:"labels,omitempty"`
+	AddLabels        *Labels    `url:"add_labels,comma,omitempty" json:"add_labels,omitempty"`
+	RemoveLabels     *Labels    `url:"remove_labels,comma,omitempty" json:"remove_labels,omitempty"`
 	StateEvent       *string    `url:"state_event,omitempty" json:"state_event,omitempty"`
 	UpdatedAt        *time.Time `url:"updated_at,omitempty" json:"updated_at,omitempty"`
 	DueDate          *ISOTime   `url:"due_date,omitempty" json:"due_date,omitempty"`

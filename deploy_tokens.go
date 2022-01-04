@@ -103,7 +103,7 @@ type CreateProjectDeployTokenOptions struct {
 	Name      *string    `url:"name,omitempty" json:"name,omitempty"`
 	ExpiresAt *time.Time `url:"expires_at,omitempty" json:"expires_at,omitempty"`
 	Username  *string    `url:"username,omitempty" json:"username,omitempty"`
-	Scopes    []string   `url:"scopes,omitempty" json:"scopes,omitempty"`
+	Scopes    *[]string  `url:"scopes,omitempty" json:"scopes,omitempty"`
 }
 
 // CreateProjectDeployToken creates a new deploy token for a project.
@@ -190,7 +190,7 @@ type CreateGroupDeployTokenOptions struct {
 	Name      *string    `url:"name,omitempty" json:"name,omitempty"`
 	ExpiresAt *time.Time `url:"expires_at,omitempty" json:"expires_at,omitempty"`
 	Username  *string    `url:"username,omitempty" json:"username,omitempty"`
-	Scopes    []string   `url:"scopes,omitempty" json:"scopes,omitempty"`
+	Scopes    *[]string  `url:"scopes,omitempty" json:"scopes,omitempty"`
 }
 
 // CreateGroupDeployToken creates a new deploy token for a group.

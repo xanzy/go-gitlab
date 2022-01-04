@@ -144,7 +144,7 @@ func TestCreateProjectDeployToken(t *testing.T) {
 		Name:      String("My deploy token"),
 		Username:  String("custom-user"),
 		ExpiresAt: &expiresAt,
-		Scopes: []string{
+		Scopes: &[]string{
 			"read_repository",
 		},
 	})
@@ -263,7 +263,7 @@ func TestCreateGroupDeployToken(t *testing.T) {
 		Name:      String("My deploy token"),
 		Username:  String("custom-user"),
 		ExpiresAt: &expiresAt,
-		Scopes: []string{
+		Scopes: &[]string{
 			"read_repository",
 		},
 	})

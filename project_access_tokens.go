@@ -90,7 +90,7 @@ func (s *ProjectAccessTokensService) ListProjectAccessTokens(pid interface{}, op
 // https://docs.gitlab.com/ee/api/resource_access_tokens.html#create-a-project-access-token
 type CreateProjectAccessTokenOptions struct {
 	Name        *string           `url:"name,omitempty" json:"name,omitempty"`
-	Scopes      []string          `url:"scopes,omitempty" json:"scopes,omitempty"`
+	Scopes      *[]string         `url:"scopes,omitempty" json:"scopes,omitempty"`
 	AccessLevel *AccessLevelValue `url:"access_level,omitempty" json:"access_level,omitempty"`
 	ExpiresAt   *ISOTime          `url:"expires_at,omitempty" json:"expires_at,omitempty"`
 }

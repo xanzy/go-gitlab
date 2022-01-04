@@ -333,8 +333,8 @@ type CreateMergeRequestApprovalRuleOptions struct {
 	Name                  *string `url:"name,omitempty" json:"name,omitempty"`
 	ApprovalsRequired     *int    `url:"approvals_required,omitempty" json:"approvals_required,omitempty"`
 	ApprovalProjectRuleID *int    `url:"approval_project_rule_id,omitempty" json:"approval_project_rule_id,omitempty"`
-	UserIDs               []int   `url:"user_ids,omitempty" json:"user_ids,omitempty"`
-	GroupIDs              []int   `url:"group_ids,omitempty" json:"group_ids,omitempty"`
+	UserIDs               *[]int  `url:"user_ids,omitempty" json:"user_ids,omitempty"`
+	GroupIDs              *[]int  `url:"group_ids,omitempty" json:"group_ids,omitempty"`
 }
 
 // CreateApprovalRule creates a new MR level approval rule.
@@ -370,8 +370,8 @@ func (s *MergeRequestApprovalsService) CreateApprovalRule(pid interface{}, merge
 type UpdateMergeRequestApprovalRuleOptions struct {
 	Name              *string `url:"name,omitempty" json:"name,omitempty"`
 	ApprovalsRequired *int    `url:"approvals_required,omitempty" json:"approvals_required,omitempty"`
-	UserIDs           []int   `url:"user_ids,omitempty" json:"user_ids,omitempty"`
-	GroupIDs          []int   `url:"group_ids,omitempty" json:"group_ids,omitempty"`
+	UserIDs           *[]int  `url:"user_ids,omitempty" json:"user_ids,omitempty"`
+	GroupIDs          *[]int  `url:"group_ids,omitempty" json:"group_ids,omitempty"`
 }
 
 // UpdateApprovalRule updates an existing approval rule with new options.

@@ -80,7 +80,7 @@ func (e Epic) String() string {
 type ListGroupEpicsOptions struct {
 	ListOptions
 	AuthorID                *int       `url:"author_id,omitempty" json:"author_id,omitempty"`
-	Labels                  Labels     `url:"labels,comma,omitempty" json:"labels,omitempty"`
+	Labels                  *Labels    `url:"labels,comma,omitempty" json:"labels,omitempty"`
 	WithLabelDetails        *bool      `url:"with_labels_details,omitempty" json:"with_labels_details,omitempty"`
 	OrderBy                 *string    `url:"order_by,omitempty" json:"order_by,omitempty"`
 	Sort                    *string    `url:"sort,omitempty" json:"sort,omitempty"`
@@ -174,7 +174,7 @@ func (s *EpicsService) GetEpicLinks(gid interface{}, epic int, options ...Reques
 type CreateEpicOptions struct {
 	Title            *string  `url:"title,omitempty" json:"title,omitempty"`
 	Description      *string  `url:"description,omitempty" json:"description,omitempty"`
-	Labels           Labels   `url:"labels,comma,omitempty" json:"labels,omitempty"`
+	Labels           *Labels  `url:"labels,comma,omitempty" json:"labels,omitempty"`
 	StartDateIsFixed *bool    `url:"start_date_is_fixed,omitempty" json:"start_date_is_fixed,omitempty"`
 	StartDateFixed   *ISOTime `url:"start_date_fixed,omitempty" json:"start_date_fixed,omitempty"`
 	DueDateIsFixed   *bool    `url:"due_date_is_fixed,omitempty" json:"due_date_is_fixed,omitempty"`
@@ -211,7 +211,7 @@ func (s *EpicsService) CreateEpic(gid interface{}, opt *CreateEpicOptions, optio
 type UpdateEpicOptions struct {
 	Title            *string  `url:"title,omitempty" json:"title,omitempty"`
 	Description      *string  `url:"description,omitempty" json:"description,omitempty"`
-	Labels           Labels   `url:"labels,comma,omitempty" json:"labels,omitempty"`
+	Labels           *Labels  `url:"labels,comma,omitempty" json:"labels,omitempty"`
 	StartDateIsFixed *bool    `url:"start_date_is_fixed,omitempty" json:"start_date_is_fixed,omitempty"`
 	StartDateFixed   *ISOTime `url:"start_date_fixed,omitempty" json:"start_date_fixed,omitempty"`
 	DueDateIsFixed   *bool    `url:"due_date_is_fixed,omitempty" json:"due_date_is_fixed,omitempty"`

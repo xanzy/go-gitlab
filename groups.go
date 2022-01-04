@@ -97,7 +97,7 @@ type ListGroupsOptions struct {
 	OrderBy              *string           `url:"order_by,omitempty" json:"order_by,omitempty"`
 	Owned                *bool             `url:"owned,omitempty" json:"owned,omitempty"`
 	Search               *string           `url:"search,omitempty" json:"search,omitempty"`
-	SkipGroups           []int             `url:"skip_groups,omitempty" json:"skip_groups,omitempty"`
+	SkipGroups           *[]int            `url:"skip_groups,omitempty" json:"skip_groups,omitempty"`
 	Sort                 *string           `url:"sort,omitempty" json:"sort,omitempty"`
 	Statistics           *bool             `url:"statistics,omitempty" json:"statistics,omitempty"`
 	TopLevelOnly         *bool             `url:"top_level_only,omitempty" json:"top_level_only,omitempty"`
