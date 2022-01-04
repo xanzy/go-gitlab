@@ -737,3 +737,44 @@ func (t *BoolValue) UnmarshalJSON(b []byte) error {
 		return err
 	}
 }
+
+// AssigneeIDStringValue is a type to represent valid assignee id string values
+type AssigneeIDStringValue string
+
+// List of available assignee ID string values.
+const (
+	AssigneeIDDAny  AssigneeIDStringValue = "Any"
+	AssigneeIDDNone AssigneeIDStringValue = "None"
+)
+
+// AssigneeIDValue represents an assignee ID value within GitLab.
+type AssigneeIDValue struct {
+	value interface{}
+}
+
+func (a *AssigneeIDValue) UnmarshalJSON(bytes []byte) error {
+	return json.Unmarshal(bytes, a.value)
+}
+
+func (a *AssigneeIDValue) MarshalJSON() ([]byte, error) {
+	return json.Marshal(a.value)
+}
+
+func AssigneeID(v interface{}) *AssigneeIDValue {
+	switch v.(type) {
+	case AssigneeIDStringValue, int:
+		return &AssigneeIDValue{value: v}
+	default:
+		panic("Unsupported value passed as assignee ID")
+	}
+}
+
+func (a *AssigneeIDValue) EncodeValues(key string, v *url.Values) error {
+	switch value := a.value.(type) {
+	case AssigneeIDStringValue:
+		v.Set(key, string(value))
+	case int:
+		v.Set(key, strconv.Itoa(value))
+	}
+	return nil
+}
