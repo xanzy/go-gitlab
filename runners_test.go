@@ -68,7 +68,7 @@ func TestListRunnersJobs(t *testing.T) {
 	}
 
 	want := []*Job{
-		&Job{
+		{
 			ID:             1,
 			Status:         "failed",
 			Stage:          "test",
