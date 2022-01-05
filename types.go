@@ -79,41 +79,34 @@ func AccessLevel(v AccessLevelValue) *AccessLevelValue {
 	return p
 }
 
-// ApproverIDValue represents an approver ID value within GitLab.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ee/api/merge_requests.html#list-merge-requests
-type ApproverIDValue string
+// UserIDValue represents a user ID value within GitLab.
+type UserIDValue string
 
-// List of available approver ID values.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ee/api/merge_requests.html#list-merge-requests
+// List of available user ID values.
 const (
-	ApproverIDAny  ApproverIDValue = "Any"
-	ApproverIDNone ApproverIDValue = "None"
+	UserIDAny  UserIDValue = "Any"
+	UserIDNone UserIDValue = "None"
 )
 
-// ApproverIDsValue represents an approvers ID value within GitLab.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ee/api/merge_requests.html#list-merge-requests
+// ApproverIDsValue represents an approver ID value within GitLab.
 type ApproverIDsValue struct {
 	value interface{}
 }
 
+// ApproverIDs is a helper routine that creates a new ApproverIDsValue.
 func ApproverIDs(v interface{}) *ApproverIDsValue {
 	switch v.(type) {
-	case ApproverIDValue, []int:
+	case UserIDValue, []int:
 		return &ApproverIDsValue{value: v}
 	default:
 		panic("Unsupported value passed as approver ID")
 	}
 }
 
+// EncodeValues implements the query.Encoder interface
 func (a *ApproverIDsValue) EncodeValues(key string, v *url.Values) error {
 	switch value := a.value.(type) {
-	case ApproverIDValue:
+	case UserIDValue:
 		v.Set(key, string(value))
 	case []int:
 		v.Del(key)
@@ -123,6 +116,88 @@ func (a *ApproverIDsValue) EncodeValues(key string, v *url.Values) error {
 		}
 	}
 	return nil
+}
+
+// MarshalJSON implements the json.Marshaler interface
+func (a *ApproverIDsValue) MarshalJSON() ([]byte, error) {
+	return json.Marshal(a.value)
+}
+
+// UnmarshalJSON implements the json.Unmarshaler interface
+func (a *ApproverIDsValue) UnmarshalJSON(bytes []byte) error {
+	return json.Unmarshal(bytes, a.value)
+}
+
+// AssigneeIDValue represents an assignee ID value within GitLab.
+type AssigneeIDValue struct {
+	value interface{}
+}
+
+// AssigneeID is a helper routine that creates a new AssigneeIDValue.
+func AssigneeID(v interface{}) *AssigneeIDValue {
+	switch v.(type) {
+	case UserIDValue, int:
+		return &AssigneeIDValue{value: v}
+	default:
+		panic("Unsupported value passed as assignee ID")
+	}
+}
+
+// EncodeValues implements the query.Encoder interface
+func (a *AssigneeIDValue) EncodeValues(key string, v *url.Values) error {
+	switch value := a.value.(type) {
+	case UserIDValue:
+		v.Set(key, string(value))
+	case int:
+		v.Set(key, strconv.Itoa(value))
+	}
+	return nil
+}
+
+// MarshalJSON implements the json.Marshaler interface
+func (a *AssigneeIDValue) MarshalJSON() ([]byte, error) {
+	return json.Marshal(a.value)
+}
+
+// UnmarshalJSON implements the json.Unmarshaler interface
+func (a *AssigneeIDValue) UnmarshalJSON(bytes []byte) error {
+	return json.Unmarshal(bytes, a.value)
+}
+
+// ReviewerIDValue represents a reviewer ID value within GitLab.
+type ReviewerIDValue struct {
+	value interface{}
+}
+
+// ReviewerID is a helper routine that creates a new ReviewerIDValue.
+func ReviewerID(v interface{}) *ReviewerIDValue {
+	switch v.(type) {
+	case UserIDValue, int:
+		return &ReviewerIDValue{value: v}
+	default:
+		panic("Unsupported value passed as reviewer ID")
+	}
+}
+
+// EncodeValues implements the query.Encoder interface
+func (a *ReviewerIDValue) EncodeValues(key string, v *url.Values) error {
+	switch value := a.value.(type) {
+	case UserIDValue:
+		v.Set(key, string(value))
+	case int:
+		v.Set(key, strconv.Itoa(value))
+	}
+	return nil
+}
+
+// MarshalJSON implements the json.Marshaler interface
+func (a *ReviewerIDValue) MarshalJSON() ([]byte, error) {
+	return json.Marshal(a.value)
+}
+
+// UnmarshalJSON implements the json.Unmarshaler interface
+func (a *ReviewerIDValue) UnmarshalJSON(bytes []byte) error {
+	return json.Unmarshal(bytes, a.value)
 }
 
 // AvailabilityValue represents an availability value within GitLab.
