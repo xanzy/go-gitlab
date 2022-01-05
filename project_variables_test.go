@@ -61,6 +61,7 @@ func TestProjectVariablesService_GetVariable(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/variables/TEST_VARIABLE_1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
+		testParams(t, r, "filter%5Benvironment_scope%5D=prod")
 		fmt.Fprintf(w, `
 			{
 				"key": "TEST_VARIABLE_1",
@@ -81,7 +82,7 @@ func TestProjectVariablesService_GetVariable(t *testing.T) {
 		EnvironmentScope: "",
 	}
 
-	pv, resp, err := client.ProjectVariables.GetVariable(1, "TEST_VARIABLE_1", nil, nil)
+	pv, resp, err := client.ProjectVariables.GetVariable(1, "TEST_VARIABLE_1", &GetProjectVariableOptions{Filter: &VariableFilter{EnvironmentScope: "prod"}}, nil)
 	require.NoError(t, err)
 	require.NotNil(t, resp)
 	require.Equal(t, want, pv)
@@ -156,6 +157,7 @@ func TestProjectVariablesService_UpdateVariable(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/variables/NEW_VARIABLE", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
+		testBody(t, r, `{"filter":{"environment_scope":"prod"}}`)
 		fmt.Fprintf(w, `
 			{
 				"key": "NEW_VARIABLE",
@@ -177,7 +179,7 @@ func TestProjectVariablesService_UpdateVariable(t *testing.T) {
 		EnvironmentScope: "*",
 	}
 
-	pv, resp, err := client.ProjectVariables.UpdateVariable(1, "NEW_VARIABLE", nil, nil)
+	pv, resp, err := client.ProjectVariables.UpdateVariable(1, "NEW_VARIABLE", &UpdateProjectVariableOptions{Filter: &VariableFilter{EnvironmentScope: "prod"}}, nil)
 	require.NoError(t, err)
 	require.NotNil(t, resp)
 	require.Equal(t, want, pv)
@@ -204,9 +206,10 @@ func TestProjectVariablesService_RemoveVariable(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/variables/VARIABLE_1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)
+		testParams(t, r, "filter%5Benvironment_scope%5D=prod")
 	})
 
-	resp, err := client.ProjectVariables.RemoveVariable(1, "VARIABLE_1", nil, nil)
+	resp, err := client.ProjectVariables.RemoveVariable(1, "VARIABLE_1", &RemoveProjectVariableOptions{Filter: &VariableFilter{EnvironmentScope: "prod"}}, nil)
 	require.NoError(t, err)
 	require.NotNil(t, resp)
 
