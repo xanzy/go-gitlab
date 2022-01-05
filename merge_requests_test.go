@@ -159,9 +159,9 @@ func TestListProjectMergeRequests(t *testing.T) {
 	})
 
 	opts := ListProjectMergeRequestsOptions{
+		AssigneeID:             AssigneeID(UserIDAny),
 		WithLabelsDetails:      Bool(true),
 		WithMergeStatusRecheck: Bool(true),
-		AssigneeID:             AssigneeID(AssigneeIDDAny),
 	}
 
 	mergeRequests, _, err := client.MergeRequests.ListProjectMergeRequests(278964, &opts)
@@ -252,14 +252,14 @@ func TestGetIssuesClosedOnMerge_Jira(t *testing.T) {
 func TestIntSliceOrString(t *testing.T) {
 	t.Run("any", func(t *testing.T) {
 		opts := &ListMergeRequestsOptions{}
-		opts.ApprovedByIDs = ApproverIDs(ApproverIDAny)
+		opts.ApprovedByIDs = ApproverIDs(UserIDAny)
 		q, err := query.Values(opts)
 		assert.NoError(t, err)
 		assert.Equal(t, "Any", q.Get("approved_by_ids"))
 	})
 	t.Run("none", func(t *testing.T) {
 		opts := &ListMergeRequestsOptions{}
-		opts.ApprovedByIDs = ApproverIDs(ApproverIDNone)
+		opts.ApprovedByIDs = ApproverIDs(UserIDNone)
 		q, err := query.Values(opts)
 		assert.NoError(t, err)
 		assert.Equal(t, "None", q.Get("approved_by_ids"))
@@ -277,7 +277,7 @@ func TestIntSliceOrString(t *testing.T) {
 func TestAssigneeIDMarshalling(t *testing.T) {
 	t.Run("any", func(t *testing.T) {
 		opts := &ListMergeRequestsOptions{}
-		opts.AssigneeID = AssigneeID(AssigneeIDDAny)
+		opts.AssigneeID = AssigneeID(UserIDAny)
 		q, err := query.Values(opts)
 		assert.NoError(t, err)
 		assert.Equal(t, "Any", q.Get("assignee_id"))
@@ -286,7 +286,7 @@ func TestAssigneeIDMarshalling(t *testing.T) {
 	})
 	t.Run("none", func(t *testing.T) {
 		opts := &ListMergeRequestsOptions{}
-		opts.AssigneeID = AssigneeID(AssigneeIDDNone)
+		opts.AssigneeID = AssigneeID(UserIDNone)
 		q, err := query.Values(opts)
 		assert.NoError(t, err)
 		assert.Equal(t, "None", q.Get("assignee_id"))
