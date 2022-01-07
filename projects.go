@@ -857,7 +857,7 @@ func (s *ProjectsService) EditProject(pid interface{}, opt *EditProjectOptions, 
 	var req *retryablehttp.Request
 
 	if opt.Avatar == nil {
-		req, err = s.client.NewRequest(http.MethodPost, u, opt, options)
+		req, err = s.client.NewRequest(http.MethodPut, u, opt, options)
 	} else {
 		req, err = s.client.UploadRequest(
 			http.MethodPost,
