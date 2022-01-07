@@ -141,8 +141,10 @@ func TestListGroupLabels(t *testing.T) {
 	})
 
 	o := &ListGroupLabelsOptions{
-		Page:    1,
-		PerPage: 10,
+		ListOptions: ListOptions{
+			Page:    1,
+			PerPage: 10,
+		},
 	}
 	label, _, err := client.GroupLabels.ListGroupLabels("1", o)
 	if err != nil {

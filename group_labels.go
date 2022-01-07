@@ -40,8 +40,15 @@ func (l GroupLabel) String() string {
 
 // ListGroupLabelsOptions represents the available ListGroupLabels() options.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/labels.html#list-labels
-type ListGroupLabelsOptions ListOptions
+// GitLab API docs: https://docs.gitlab.com/ee/api/group_labels.html#list-group-labels
+type ListGroupLabelsOptions struct {
+	ListOptions
+	WithCounts               *bool   `url:"with_counts,omitempty" json:"with_counts,omitempty"`
+	IncludeAncestorGroups    *bool   `url:"include_ancestor_groups,omitempty" json:"include_ancestor_groups,omitempty"`
+	IncludeDescendantGrouops *bool   `url:"include_descendant_groups,omitempty" json:"include_descendant_groups,omitempty"`
+	OnlyGroupLabels          *bool   `url:"only_group_labels,omitempty" json:"only_group_labels,omitempty"`
+	Search                   *string `url:"search,omitempty" json:"search,omitempty"`
+}
 
 // ListGroupLabels gets all labels for given group.
 //
