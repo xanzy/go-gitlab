@@ -35,31 +35,36 @@ type MergeRequestApprovalsService struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#merge-request-level-mr-approvals
+// https://docs.gitlab.com/ee/api/merge_request_approvals.html#change-configuration
 type MergeRequestApprovals struct {
-	ID                             int                          `json:"id"`
-	IID                            int                          `json:"iid"`
-	ProjectID                      int                          `json:"project_id"`
-	Title                          string                       `json:"title"`
-	Description                    string                       `json:"description"`
-	State                          string                       `json:"state"`
-	CreatedAt                      *time.Time                   `json:"created_at"`
-	UpdatedAt                      *time.Time                   `json:"updated_at"`
-	MergeStatus                    string                       `json:"merge_status"`
-	Approved                       bool                         `json:"approved"`
-	ApprovalsBeforeMerge           int                          `json:"approvals_before_merge"`
-	ApprovalsRequired              int                          `json:"approvals_required"`
-	ApprovalsLeft                  int                          `json:"approvals_left"`
-	RequirePasswordToApprove       bool                         `json:"require_password_to_approve"`
-	ApprovedBy                     []*MergeRequestApproverUser  `json:"approved_by"`
-	SuggestedApprovers             []*BasicUser                 `json:"suggested_approvers"`
-	Approvers                      []*MergeRequestApproverUser  `json:"approvers"`
-	ApproverGroups                 []*MergeRequestApproverGroup `json:"approver_groups"`
-	UserHasApproved                bool                         `json:"user_has_approved"`
-	UserCanApprove                 bool                         `json:"user_can_approve"`
-	ApprovalRulesLeft              []*MergeRequestApprovalRule  `json:"approval_rules_left"`
-	HasApprovalRules               bool                         `json:"has_approval_rules"`
-	MergeRequestApproversAvailable bool                         `json:"merge_request_approvers_available"`
-	MultipleApprovalRulesAvailable bool                         `json:"multiple_approval_rules_available"`
+	ID                                        int                          `json:"id"`
+	IID                                       int                          `json:"iid"`
+	ProjectID                                 int                          `json:"project_id"`
+	Title                                     string                       `json:"title"`
+	Description                               string                       `json:"description"`
+	State                                     string                       `json:"state"`
+	CreatedAt                                 *time.Time                   `json:"created_at"`
+	UpdatedAt                                 *time.Time                   `json:"updated_at"`
+	MergeStatus                               string                       `json:"merge_status"`
+	Approved                                  bool                         `json:"approved"`
+	ApprovalsBeforeMerge                      int                          `json:"approvals_before_merge"`
+	ApprovalsRequired                         int                          `json:"approvals_required"`
+	ApprovalsLeft                             int                          `json:"approvals_left"`
+	RequirePasswordToApprove                  bool                         `json:"require_password_to_approve"`
+	ApprovedBy                                []*MergeRequestApproverUser  `json:"approved_by"`
+	SuggestedApprovers                        []*BasicUser                 `json:"suggested_approvers"`
+	Approvers                                 []*MergeRequestApproverUser  `json:"approvers"`
+	ApproverGroups                            []*MergeRequestApproverGroup `json:"approver_groups"`
+	UserHasApproved                           bool                         `json:"user_has_approved"`
+	UserCanApprove                            bool                         `json:"user_can_approve"`
+	ApprovalRulesLeft                         []*MergeRequestApprovalRule  `json:"approval_rules_left"`
+	HasApprovalRules                          bool                         `json:"has_approval_rules"`
+	MergeRequestApproversAvailable            bool                         `json:"merge_request_approvers_available"`
+	MultipleApprovalRulesAvailable            bool                         `json:"multiple_approval_rules_available"`
+	ResetApprovalsOnPush                      bool                         `json:"reset_approvals_on_push,omitempty"`
+	DisableOverridingApproversPerMergeRequest bool                         `json:"disable_overriding_approvers_per_merge_request,omitempty"`
+	MergeRequestsAuthorApproval               bool                         `json:"merge_requests_author_approval,omitempty"`
+	MergeRequestsDisableCommittersApproval    bool                         `json:"merge_requests_disable_committers_approval,omitempty"`
 }
 
 func (m MergeRequestApprovals) String() string {
@@ -416,4 +421,29 @@ func (s *MergeRequestApprovalsService) DeleteApprovalRule(pid interface{}, merge
 	}
 
 	return s.client.Do(req, nil)
+}
+
+// ChangeProjectMergeRequestApprovalConfiguration updates the merge request approval configuration of a project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/merge_request_approvals.html#change-configuration
+func (s *MergeRequestApprovalsService) ChangeProjectApprovalConfiguration(pid interface{}, opt *MergeRequestApprovals, options ...RequestOptionFunc) (*MergeRequestApprovals, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/approvals", PathEscape(project))
+
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	o := new(MergeRequestApprovals)
+	resp, err := s.client.Do(req, o)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return o, resp, err
 }
