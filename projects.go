@@ -108,6 +108,7 @@ type Project struct {
 	SnippetsAccessLevel                       AccessControlValue         `json:"snippets_access_level"`
 	PagesAccessLevel                          AccessControlValue         `json:"pages_access_level"`
 	OperationsAccessLevel                     AccessControlValue         `json:"operations_access_level"`
+	AnalyticsAccessLevel                      AccessControlValue         `json:"analytics_access_level"`
 	AutocloseReferencedIssues                 bool                       `json:"autoclose_referenced_issues"`
 	SuggestionCommitMessage                   string                     `json:"suggestion_commit_message"`
 	CIForwardDeploymentEnabled                bool                       `json:"ci_forward_deployment_enabled"`
@@ -117,15 +118,21 @@ type Project struct {
 		GroupName        string `json:"group_name"`
 		GroupAccessLevel int    `json:"group_access_level"`
 	} `json:"shared_with_groups"`
-	Statistics            *ProjectStatistics `json:"statistics"`
-	Links                 *Links             `json:"_links,omitempty"`
-	CIConfigPath          string             `json:"ci_config_path"`
-	CIDefaultGitDepth     int                `json:"ci_default_git_depth"`
-	CustomAttributes      []*CustomAttribute `json:"custom_attributes"`
-	ComplianceFrameworks  []string           `json:"compliance_frameworks"`
-	BuildCoverageRegex    string             `json:"build_coverage_regex"`
-	IssuesTemplate        string             `json:"issues_template"`
-	MergeRequestsTemplate string             `json:"merge_requests_template"`
+	Statistics                   *ProjectStatistics `json:"statistics"`
+	Links                        *Links             `json:"_links,omitempty"`
+	CIConfigPath                 string             `json:"ci_config_path"`
+	CIDefaultGitDepth            int                `json:"ci_default_git_depth"`
+	CustomAttributes             []*CustomAttribute `json:"custom_attributes"`
+	ComplianceFrameworks         []string           `json:"compliance_frameworks"`
+	BuildCoverageRegex           string             `json:"build_coverage_regex"`
+	IssuesTemplate               string             `json:"issues_template"`
+	MergeRequestsTemplate        string             `json:"merge_requests_template"`
+	KeepLatestArtifact           bool               `json:"keep_latest_artifact"`
+	MergePipelinesEnabled        bool               `json:"merge_pipelines_enabled"`
+	MergeTrainsEnabled           bool               `json:"merge_trains_enabled"`
+	RestrictUserDefinedVariables bool               `json:"restrict_user_defined_variables"`
+	MergeCommitTemplate          string             `json:"merge_commit_template"`
+	SquashCommitTemplate         string             `json:"squash_commit_template"`
 }
 
 // BasicProject included in other service responses (such as todos).
@@ -586,6 +593,7 @@ func (s *ProjectsService) GetProjectEvents(pid interface{}, opt *GetProjectEvent
 // GitLab API docs: https://docs.gitlab.com/ee/api/projects.html#create-project
 type CreateProjectOptions struct {
 	AllowMergeOnSkippedPipeline               *bool                                `url:"allow_merge_on_skipped_pipeline,omitempty" json:"allow_merge_on_skipped_pipeline,omitempty"`
+	AnalyticsAccessLevel                      *AccessControlValue                  `url:"analytics_access_level,omitempty" json:"analytics_access_level,omitempty"`
 	ApprovalsBeforeMerge                      *int                                 `url:"approvals_before_merge,omitempty" json:"approvals_before_merge,omitempty"`
 	AutoCancelPendingPipelines                *string                              `url:"auto_cancel_pending_pipelines,omitempty" json:"auto_cancel_pending_pipelines,omitempty"`
 	AutoDevopsDeployStrategy                  *string                              `url:"auto_devops_deploy_strategy,omitempty" json:"auto_devops_deploy_strategy,omitempty"`
@@ -609,8 +617,11 @@ type CreateProjectOptions struct {
 	InitializeWithReadme                      *bool                                `url:"initialize_with_readme,omitempty" json:"initialize_with_readme,omitempty"`
 	IssuesAccessLevel                         *AccessControlValue                  `url:"issues_access_level,omitempty" json:"issues_access_level,omitempty"`
 	LFSEnabled                                *bool                                `url:"lfs_enabled,omitempty" json:"lfs_enabled,omitempty"`
+	MergeCommitTemplate                       *string                              `url:"merge_commit_template,omitempty" json:"merge_commit_template,omitempty"`
 	MergeMethod                               *MergeMethodValue                    `url:"merge_method,omitempty" json:"merge_method,omitempty"`
+	MergePipelinesEnabled                     *bool                                `url:"merge_pipelines_enabled,omitempty" json:"merge_pipelines_enabled,omitempty"`
 	MergeRequestsAccessLevel                  *AccessControlValue                  `url:"merge_requests_access_level,omitempty" json:"merge_requests_access_level,omitempty"`
+	MergeTrainsEnabled                        *bool                                `url:"merge_trains_enabled,omitempty" json:"merge_trains_enabled,omitempty"`
 	Mirror                                    *bool                                `url:"mirror,omitempty" json:"mirror,omitempty"`
 	MirrorTriggerBuilds                       *bool                                `url:"mirror_trigger_builds,omitempty" json:"mirror_trigger_builds,omitempty"`
 	Name                                      *string                              `url:"name,omitempty" json:"name,omitempty"`
@@ -632,6 +643,7 @@ type CreateProjectOptions struct {
 	SharedRunnersEnabled                      *bool                                `url:"shared_runners_enabled,omitempty" json:"shared_runners_enabled,omitempty"`
 	ShowDefaultAwardEmojis                    *bool                                `url:"show_default_aware_emojis,omitempty" json:"show_default_aware_emojis,omitempty"`
 	SnippetsAccessLevel                       *AccessControlValue                  `url:"snippets_access_level,omitempty" json:"snippets_access_level,omitempty"`
+	SquashCommitTemplate                      *string                              `url:"squash_commit_template,omitempty" json:"squash_commit_template,omitempty"`
 	SquashOption                              *SquashOptionValue                   `url:"squash_option,omitempty" json:"squash_option,omitempty"`
 	SuggestionCommitMessage                   *string                              `url:"suggestion_commit_message,omitempty" json:"suggestion_commit_message,omitempty"`
 	TemplateName                              *string                              `url:"template_name,omitempty" json:"template_name,omitempty"`
@@ -771,6 +783,7 @@ func (s *ProjectsService) CreateProjectForUser(user int, opt *CreateProjectForUs
 // GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#edit-project
 type EditProjectOptions struct {
 	AllowMergeOnSkippedPipeline               *bool                                `url:"allow_merge_on_skipped_pipeline,omitempty" json:"allow_merge_on_skipped_pipeline,omitempty"`
+	AnalyticsAccessLevel                      *AccessControlValue                  `url:"analytics_access_level,omitempty" json:"analytics_access_level,omitempty"`
 	ApprovalsBeforeMerge                      *int                                 `url:"approvals_before_merge,omitempty" json:"approvals_before_merge,omitempty"`
 	AutoCancelPendingPipelines                *string                              `url:"auto_cancel_pending_pipelines,omitempty" json:"auto_cancel_pending_pipelines,omitempty"`
 	AutoDevopsDeployStrategy                  *string                              `url:"auto_devops_deploy_strategy,omitempty" json:"auto_devops_deploy_strategy,omitempty"`
@@ -792,9 +805,13 @@ type EditProjectOptions struct {
 	ForkingAccessLevel                        *AccessControlValue                  `url:"forking_access_level,omitempty" json:"forking_access_level,omitempty"`
 	ImportURL                                 *string                              `url:"import_url,omitempty" json:"import_url,omitempty"`
 	IssuesAccessLevel                         *AccessControlValue                  `url:"issues_access_level,omitempty" json:"issues_access_level,omitempty"`
+	KeepLatestArtifact                        *bool                                `url:"keep_latest_artifact,omitempty" json:"keep_latest_artifact,omitempty"`
 	LFSEnabled                                *bool                                `url:"lfs_enabled,omitempty" json:"lfs_enabled,omitempty"`
+	MergeCommitTemplate                       *string                              `url:"merge_commit_template,omitempty" json:"merge_commit_template,omitempty"`
 	MergeMethod                               *MergeMethodValue                    `url:"merge_method,omitempty" json:"merge_method,omitempty"`
+	MergePipelinesEnabled                     *bool                                `url:"merge_pipelines_enabled,omitempty" json:"merge_pipelines_enabled,omitempty"`
 	MergeRequestsAccessLevel                  *AccessControlValue                  `url:"merge_requests_access_level,omitempty" json:"merge_requests_access_level,omitempty"`
+	MergeTrainsEnabled                        *bool                                `url:"merge_trains_enabled,omitempty" json:"merge_trains_enabled,omitempty"`
 	Mirror                                    *bool                                `url:"mirror,omitempty" json:"mirror,omitempty"`
 	MirrorOverwritesDivergedBranches          *bool                                `url:"mirror_overwrites_diverged_branches,omitempty" json:"mirror_overwrites_diverged_branches,omitempty"`
 	MirrorTriggerBuilds                       *bool                                `url:"mirror_trigger_builds,omitempty" json:"mirror_trigger_builds,omitempty"`
@@ -814,9 +831,11 @@ type EditProjectOptions struct {
 	RequestAccessEnabled                      *bool                                `url:"request_access_enabled,omitempty" json:"request_access_enabled,omitempty"`
 	RequirementsAccessLevel                   *AccessControlValue                  `url:"requirements_access_level,omitempty" json:"requirements_access_level,omitempty"`
 	ResolveOutdatedDiffDiscussions            *bool                                `url:"resolve_outdated_diff_discussions,omitempty" json:"resolve_outdated_diff_discussions,omitempty"`
+	RestrictUserDefinedVariables              *bool                                `url:"restrict_user_defined_variables,omitempty" json:"restrict_user_defined_variables,omitempty"`
 	SharedRunnersEnabled                      *bool                                `url:"shared_runners_enabled,omitempty" json:"shared_runners_enabled,omitempty"`
 	ShowDefaultAwardEmojis                    *bool                                `url:"show_default_aware_emojis,omitempty" json:"show_default_aware_emojis,omitempty"`
 	SnippetsAccessLevel                       *AccessControlValue                  `url:"snippets_access_level,omitempty" json:"snippets_access_level,omitempty"`
+	SquashCommitTemplate                      *string                              `url:"squash_commit_template,omitempty" json:"squash_commit_template,omitempty"`
 	SquashOption                              *SquashOptionValue                   `url:"squash_option,omitempty" json:"squash_option,omitempty"`
 	SuggestionCommitMessage                   *string                              `url:"suggestion_commit_message,omitempty" json:"suggestion_commit_message,omitempty"`
 	Topics                                    *[]string                            `url:"topics,omitempty" json:"topics,omitempty"`
