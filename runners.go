@@ -482,3 +482,99 @@ func (s *RunnersService) VerifyRegisteredRunner(opt *VerifyRegisteredRunnerOptio
 
 	return s.client.Do(req, nil)
 }
+
+type RunnerRegistrationToken struct {
+	Token *string `url:"token" json:"token"`
+}
+
+// ResetInstanceRunnerRegistrationToken resets the instance runner registration token.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/runners.html#reset-instances-runner-registration-token
+func (s *RunnersService) ResetInstanceRunnerRegistrationToken(options ...RequestOptionFunc) (*RunnerRegistrationToken, *Response, error) {
+	req, err := s.client.NewRequest(http.MethodPost, "runners/reset_registration_token", nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var r *RunnerRegistrationToken
+	resp, err := s.client.Do(req, &r)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return r, resp, err
+}
+
+// ResetGroupRunnerRegistrationToken resets a group's runner registration token.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/runners.html#reset-groups-runner-registration-token
+func (s *RunnersService) ResetGroupRunnerRegistrationToken(gid interface{}, options ...RequestOptionFunc) (*RunnerRegistrationToken, *Response, error) {
+	group, err := parseID(gid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("groups/%s/runners/reset_registration_token", PathEscape(group))
+
+	req, err := s.client.NewRequest(http.MethodPost, u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var r *RunnerRegistrationToken
+	resp, err := s.client.Do(req, &r)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return r, resp, err
+}
+
+// ResetGroupRunnerRegistrationToken resets a projects's runner registration token.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/runners.html#reset-projects-runner-registration-token
+func (s *RunnersService) ResetProjectRunnerRegistrationToken(pid interface{}, options ...RequestOptionFunc) (*RunnerRegistrationToken, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/runners/reset_registration_token", PathEscape(project))
+	req, err := s.client.NewRequest(http.MethodPost, u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var r *RunnerRegistrationToken
+	resp, err := s.client.Do(req, &r)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return r, resp, err
+}
+
+type RunnerAuthenticationToken struct {
+	Token *string `url:"token" json:"token"`
+}
+
+// ResetRunnerAuthenticationToken resets a runner's authentication token.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/runners.html#reset-runners-authentication-token
+func (s *RunnersService) ResetRunnerAuthenticationToken(rid int, options ...RequestOptionFunc) (*RunnerAuthenticationToken, *Response, error) {
+	u := fmt.Sprintf("runners/%d/reset_authentication_token", rid)
+	req, err := s.client.NewRequest(http.MethodPost, u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var r *RunnerAuthenticationToken
+	resp, err := s.client.Do(req, &r)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return r, resp, err
+}
