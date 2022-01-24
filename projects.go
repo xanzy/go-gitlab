@@ -110,6 +110,7 @@ type Project struct {
 	OperationsAccessLevel                     AccessControlValue         `json:"operations_access_level"`
 	AutocloseReferencedIssues                 bool                       `json:"autoclose_referenced_issues"`
 	SuggestionCommitMessage                   string                     `json:"suggestion_commit_message"`
+	AutoCancelPendingPipelines                string                     `json:"auto_cancel_pending_pipelines"`
 	CIForwardDeploymentEnabled                bool                       `json:"ci_forward_deployment_enabled"`
 	SquashOption                              SquashOptionValue          `json:"squash_option"`
 	SharedWithGroups                          []struct {
