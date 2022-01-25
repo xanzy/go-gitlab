@@ -871,6 +871,24 @@ type SnippetCommentEvent struct {
 	Snippet *Snippet `json:"snippet"`
 }
 
+// SubGroupEvent represents a subgroup event.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/user/project/integrations/webhook_events.html#subgroup-events
+type SubGroupEvent struct {
+	CreatedAt      *time.Time `json:"created_at"`
+	UpdatedAt      *time.Time `json:"updated_at"`
+	EventName      string     `json:"event_name"`
+	Name           string     `json:"name"`
+	Path           string     `json:"path"`
+	FullPath       string     `json:"full_path"`
+	GroupID        int        `json:"group_id"`
+	ParentGroupID  int        `json:"parent_group_id"`
+	ParentName     string     `json:"parent_name"`
+	ParentPath     string     `json:"parent_path"`
+	ParentFullPath string     `json:"parent_full_path"`
+}
+
 // TagEvent represents a tag event.
 //
 // GitLab API docs:
