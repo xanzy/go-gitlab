@@ -333,6 +333,44 @@ func (s *JobsService) DownloadSingleArtifactsFile(pid interface{}, jobID int, ar
 	return bytes.NewReader(artifactBuf.Bytes()), resp, err
 }
 
+// DownloadSingleArtifactsFile Download a single artifact file for a specific
+// job of the latest successful pipeline for the given reference name from
+// inside the job’s artifacts archive. The file is extracted from the archive
+// and streamed to the client.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/job_artifacts.html#download-a-single-artifact-file-from-specific-tag-or-branch
+func (s *JobsService) DownloadSingleArtifactsFileByTagOrBranch(pid interface{}, refName string, jobName string, artifactPath string, options ...RequestOptionFunc) (*bytes.Reader, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	u := fmt.Sprintf(
+		"projects/%s/jobs/artifacts/%s/raw/%s",
+		PathEscape(project),
+		PathEscape(refName),
+		artifactPath,
+	)
+
+	type Job struct {
+		Job string `url:"job"`
+	}
+
+	req, err := s.client.NewRequest(http.MethodGet, u, Job{Job: jobName}, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	artifactBuf := new(bytes.Buffer)
+	resp, err := s.client.Do(req, artifactBuf)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return bytes.NewReader(artifactBuf.Bytes()), resp, err
+}
+
 // GetTraceFile gets a trace of a specific job of a project
 //
 // GitLab API docs:
