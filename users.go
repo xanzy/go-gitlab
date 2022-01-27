@@ -1248,6 +1248,34 @@ type CreatePersonalAccessTokenOptions struct {
 	Scopes    *[]string `url:"scopes,omitempty" json:"scopes,omitempty"`
 }
 
+// ListPersonalAccessTokensOptions represents the available
+// ListPersonalAccessTokens() options
+//
+// Gitlab API docs:
+// https://docs.gitlab.com/ee/api/personal_access_tokens.html#list-personal-access-tokens
+type ListPersonalAccessTokensOptions struct {
+	ListOptions
+	UserID *string `url:"user_id,omitempty" json:"user_id,omitempty"`
+}
+
+// ListPersonalAccessTokens lists personal access tokens.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/personal_access_tokens.html#list-personal-access-tokens
+func (s *UsersService) ListPersonalAccessTokens(opt *ListPersonalAccessTokensOptions, options ...RequestOptionFunc) ([]*PersonalAccessToken, *Response, error) {
+	req, err := s.client.NewRequest(http.MethodGet, "personal_access_tokens", opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var tokens []*PersonalAccessToken
+	resp, err := s.client.Do(req, &tokens)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return tokens, resp, err
+}
+
 // CreatePersonalAccessToken creates a personal access token.
 //
 // GitLab API docs:
