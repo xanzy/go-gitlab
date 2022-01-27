@@ -127,6 +127,7 @@ type Client struct {
 	GenericPackages       *GenericPackagesService
 	GeoNodes              *GeoNodesService
 	GitIgnoreTemplates    *GitIgnoreTemplatesService
+	GroupAccessTokens     *GroupAccessTokensService
 	GroupBadges           *GroupBadgesService
 	GroupCluster          *GroupClustersService
 	GroupImportExport     *GroupImportExportService
@@ -321,6 +322,7 @@ func newClient(options ...ClientOptionFunc) (*Client, error) {
 	c.GenericPackages = &GenericPackagesService{client: c}
 	c.GeoNodes = &GeoNodesService{client: c}
 	c.GitIgnoreTemplates = &GitIgnoreTemplatesService{client: c}
+	c.GroupAccessTokens = &GroupAccessTokensService{client: c}
 	c.GroupBadges = &GroupBadgesService{client: c}
 	c.GroupCluster = &GroupClustersService{client: c}
 	c.GroupImportExport = &GroupImportExportService{client: c}

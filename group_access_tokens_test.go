@@ -1,5 +1,5 @@
 //
-// Copyright 2021, Patrick Webster
+// Copyright 2022, Masahiro Yoshida
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,30 +23,30 @@ import (
 	"time"
 )
 
-func TestListProjectAccessTokens(t *testing.T) {
+func TestListGroupAccessTokens(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
 
-	mux.HandleFunc("/api/v4/projects/1/access_tokens", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v4/groups/1/access_tokens", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
-		mustWriteHTTPResponse(t, w, "testdata/list_project_access_tokens.json")
+		mustWriteHTTPResponse(t, w, "testdata/list_group_access_tokens.json")
 	})
 
-	projectAccessTokens, _, err := client.ProjectAccessTokens.ListProjectAccessTokens(1, &ListProjectAccessTokensOptions{Page: 1, PerPage: 20})
+	groupAccessTokens, _, err := client.GroupAccessTokens.ListGroupAccessTokens(1, &ListGroupAccessTokensOptions{Page: 1, PerPage: 20})
 	if err != nil {
-		t.Errorf("ProjectAccessTokens.ListProjectAccessTokens returned error: %v", err)
+		t.Errorf("GroupAccessTokens.ListGroupAccessTokens returned error: %v", err)
 	}
 
 	time1, err := time.Parse(time.RFC3339, "2021-03-09T21:11:47.271Z")
 	if err != nil {
-		t.Errorf("ProjectAccessTokens.ListProjectAccessTokens returned error: %v", err)
+		t.Errorf("GroupAccessTokens.ListGroupAccessTokens returned error: %v", err)
 	}
 	time2, err := time.Parse(time.RFC3339, "2021-03-09T21:11:47.340Z")
 	if err != nil {
-		t.Errorf("ProjectAccessTokens.ListProjectAccessTokens returned error: %v", err)
+		t.Errorf("GroupAccessTokens.ListGroupAccessTokens returned error: %v", err)
 	}
 
-	want := []*ProjectAccessToken{
+	want := []*GroupAccessToken{
 		{
 			ID:          1876,
 			UserID:      2453,
@@ -69,30 +69,30 @@ func TestListProjectAccessTokens(t *testing.T) {
 		},
 	}
 
-	if !reflect.DeepEqual(want, projectAccessTokens) {
-		t.Errorf("ProjectAccessTokens.ListProjectAccessTokens returned %+v, want %+v", projectAccessTokens, want)
+	if !reflect.DeepEqual(want, groupAccessTokens) {
+		t.Errorf("GroupAccessTokens.ListGroupAccessTokens returned %+v, want %+v", groupAccessTokens, want)
 	}
 }
 
-func TestCreateProjectAccessToken(t *testing.T) {
+func TestCreateGroupAccessToken(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
 
-	mux.HandleFunc("/api/v4/projects/1/access_tokens", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v4/groups/1/access_tokens", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
-		mustWriteHTTPResponse(t, w, "testdata/create_project_access_token.json")
+		mustWriteHTTPResponse(t, w, "testdata/create_group_access_token.json")
 	})
 
-	projectAccessToken, _, err := client.ProjectAccessTokens.CreateProjectAccessToken(1, nil)
+	groupAccessToken, _, err := client.GroupAccessTokens.CreateGroupAccessToken(1, nil)
 	if err != nil {
-		t.Errorf("ProjectAccessTokens.CreateProjectAccessToken returned error: %v", err)
+		t.Errorf("GroupAccessTokens.CreateGroupAccessToken returned error: %v", err)
 	}
 
 	time1, err := time.Parse(time.RFC3339, "2021-03-09T21:11:47.271Z")
 	if err != nil {
-		t.Errorf("ProjectAccessTokens.CreateProjectAccessToken returned error: %v", err)
+		t.Errorf("GroupAccessTokens.CreateGroupAccessToken returned error: %v", err)
 	}
-	want := &ProjectAccessToken{
+	want := &GroupAccessToken{
 		ID:          1876,
 		UserID:      2453,
 		Name:        "token 10",
@@ -105,21 +105,21 @@ func TestCreateProjectAccessToken(t *testing.T) {
 		AccessLevel: AccessLevelValue(40),
 	}
 
-	if !reflect.DeepEqual(want, projectAccessToken) {
-		t.Errorf("ProjectAccessTokens.CreateProjectAccessToken returned %+v, want %+v", projectAccessToken, want)
+	if !reflect.DeepEqual(want, groupAccessToken) {
+		t.Errorf("GroupAccessTokens.CreateGroupAccessToken returned %+v, want %+v", groupAccessToken, want)
 	}
 }
 
-func TestDeleteProjectAccessToken(t *testing.T) {
+func TestDeleteGroupAccessToken(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
 
-	mux.HandleFunc("/api/v4/projects/1/access_tokens/1234", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v4/groups/1/access_tokens/1234", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)
 	})
 
-	_, err := client.ProjectAccessTokens.DeleteProjectAccessToken("1", 1234)
+	_, err := client.GroupAccessTokens.DeleteGroupAccessToken("1", 1234)
 	if err != nil {
-		t.Errorf("ProjectAccessTokens.DeleteProjectAccessToken returned error: %v", err)
+		t.Errorf("GroupAccessTokens.DeleteGroupAccessToken returned error: %v", err)
 	}
 }
