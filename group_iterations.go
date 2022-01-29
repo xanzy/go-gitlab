@@ -38,6 +38,7 @@ type GroupIterationsService struct {
 type GroupIteration struct {
 	ID          int        `json:"id"`
 	IID         int        `json:"iid"`
+	Sequence    int        `json:"sequence"`
 	GroupID     int        `json:"group_id"`
 	Title       string     `json:"title"`
 	Description string     `json:"description"`

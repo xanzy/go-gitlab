@@ -27,13 +27,18 @@ import (
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/iterations.html
 
-type IterationsService struct {
+type ProjectIterationsService struct {
 	client *Client
 }
 
+// Iteration represents a GitLab iteration
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/iterations.html
+// CAVEAT: GitLab docu currently misses `sequence` key.
 type Iteration struct {
 	ID          int        `json:"id"`
 	IID         int        `json:"iid"`
+	Sequence    int        `json:"sequence"`
 	GroupID     int        `json:"group_id"`
 	Title       string     `json:"title"`
 	Description string     `json:"description"`
@@ -61,10 +66,10 @@ type ListProjectIterationsOptions struct {
 }
 
 //ListProjectIterations lists all iterations of the projects ancestor groups.
-//As of GitLab 13.5, there are not direct project-level iterations.
+//As of GitLab 13.5, there are no direct project-level iterations.
 
 // GitLab API docs: https://docs.gitlab.com/ee/api/iterations.html
-func (i *IterationsService) ListProjectIterations(pid interface{}, opt *ListGroupProjectsOptions, options ...RequestOptionFunc) ([]*Iteration, *Response, error) {
+func (i *ProjectIterationsService) ListProjectIterations(pid interface{}, opt *ListProjectIterationsOptions, options ...RequestOptionFunc) ([]*Iteration, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
