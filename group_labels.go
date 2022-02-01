@@ -81,7 +81,7 @@ func (s *GroupLabelsService) GetGroupLabel(gid interface{}, labelID interface{},
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s/labels/%s", PathEscape(group), label)
+	u := fmt.Sprintf("groups/%s/labels/%s", PathEscape(group), PathEscape(label))
 
 	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
@@ -200,7 +200,7 @@ func (s *GroupLabelsService) SubscribeToGroupLabel(gid interface{}, labelID inte
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s/labels/%s/subscribe", PathEscape(group), label)
+	u := fmt.Sprintf("groups/%s/labels/%s/subscribe", PathEscape(group), PathEscape(label))
 
 	req, err := s.client.NewRequest(http.MethodPost, u, nil, options)
 	if err != nil {
@@ -231,7 +231,7 @@ func (s *GroupLabelsService) UnsubscribeFromGroupLabel(gid interface{}, labelID 
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("groups/%s/labels/%s/unsubscribe", PathEscape(group), label)
+	u := fmt.Sprintf("groups/%s/labels/%s/unsubscribe", PathEscape(group), PathEscape(label))
 
 	req, err := s.client.NewRequest(http.MethodPost, u, nil, options)
 	if err != nil {
