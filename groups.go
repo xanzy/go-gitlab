@@ -803,3 +803,39 @@ func (s *GroupsService) DeleteGroupPushRule(gid interface{}, options ...RequestO
 
 	return s.client.Do(req, nil)
 }
+
+type ListProvisionedUsersOptions struct {
+	ListOptions
+	Username             *string    `url:"username,omitempty" json:"username,omitempty"`
+	Search               *string    `url:"search,omitempty" json:"search,omitempty"`
+	Active               *bool `url:"active,omitempty" json:"active,omitempty"`
+	Blocked              *bool `url:"blocked,omitempty" json:"blocked,omitempty"`
+	CreatedAfter         *time.Time `url:"created_after,omitempty" json:"created_after,omitempty"`
+	CreatedBefore        *time.Time `url:"created_before,omitempty" json:"created_before,omitempty"`
+}
+
+// ListProvisionedUsers gets a list of users provisioned by the given group.
+// Requires at least the Maintainer role on the group.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/groups.html#provisioned-users-api
+func (s *GroupsService) ListProvisionedUsers(gid interface{}, opt *ListProvisionedUsersOptions, options ...RequestOptionFunc) ([]*User, *Response, error) {
+	group, err := parseID(gid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("groups/%s/provisioned_users", PathEscape(group))
+
+	req, err := s.client.NewRequest("GET", u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var usr []*User
+	resp, err := s.client.Do(req, &usr)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return usr, resp, err
+}
