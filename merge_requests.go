@@ -54,6 +54,7 @@ type MergeRequest struct {
 	TargetProjectID           int              `json:"target_project_id"`
 	Labels                    Labels           `json:"labels"`
 	Description               string           `json:"description"`
+	Draft                     bool             `json:"draft"`
 	WorkInProgress            bool             `json:"work_in_progress"`
 	Milestone                 *Milestone       `json:"milestone"`
 	MergeWhenPipelineSucceeds bool             `json:"merge_when_pipeline_succeeds"`
@@ -106,7 +107,6 @@ type MergeRequest struct {
 	HasConflicts                bool                   `json:"has_conflicts"`
 	BlockingDiscussionsResolved bool                   `json:"blocking_discussions_resolved"`
 	Overflow                    bool                   `json:"overflow"`
-	Draft                       bool                   `json:"draft"`
 }
 
 func (m MergeRequest) String() string {
