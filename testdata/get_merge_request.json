@@ -160,5 +160,6 @@
   },
   "first_contribution": true,
   "approvals_before_merge": 1,
-  "has_conflicts": true
+  "has_conflicts": true,
+  "draft": true
 }

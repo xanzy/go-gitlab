@@ -144,6 +144,7 @@ func TestGetMergeRequest(t *testing.T) {
 	require.Equal(t, mergeRequest.UpdatedAt, &mrUpdate)
 	require.Equal(t, mergeRequest.FirstContribution, true)
 	require.Equal(t, mergeRequest.HasConflicts, true)
+	require.Equal(t, mergeRequest.Draft, true)
 }
 
 func TestListProjectMergeRequests(t *testing.T) {
