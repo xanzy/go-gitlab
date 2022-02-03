@@ -806,12 +806,12 @@ func (s *GroupsService) DeleteGroupPushRule(gid interface{}, options ...RequestO
 
 type ListProvisionedUsersOptions struct {
 	ListOptions
-	Username             *string    `url:"username,omitempty" json:"username,omitempty"`
-	Search               *string    `url:"search,omitempty" json:"search,omitempty"`
-	Active               *bool `url:"active,omitempty" json:"active,omitempty"`
-	Blocked              *bool `url:"blocked,omitempty" json:"blocked,omitempty"`
-	CreatedAfter         *time.Time `url:"created_after,omitempty" json:"created_after,omitempty"`
-	CreatedBefore        *time.Time `url:"created_before,omitempty" json:"created_before,omitempty"`
+	Username      *string    `url:"username,omitempty" json:"username,omitempty"`
+	Search        *string    `url:"search,omitempty" json:"search,omitempty"`
+	Active        *bool      `url:"active,omitempty" json:"active,omitempty"`
+	Blocked       *bool      `url:"blocked,omitempty" json:"blocked,omitempty"`
+	CreatedAfter  *time.Time `url:"created_after,omitempty" json:"created_after,omitempty"`
+	CreatedBefore *time.Time `url:"created_before,omitempty" json:"created_before,omitempty"`
 }
 
 // ListProvisionedUsers gets a list of users provisioned by the given group.
@@ -826,7 +826,7 @@ func (s *GroupsService) ListProvisionedUsers(gid interface{}, opt *ListProvision
 	}
 	u := fmt.Sprintf("groups/%s/provisioned_users", PathEscape(group))
 
-	req, err := s.client.NewRequest("GET", u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
