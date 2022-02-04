@@ -90,3 +90,19 @@ func WithoutRetries() ClientOptionFunc {
 		return nil
 	}
 }
+
+// WithRequestLogHook uses the specified RequestLogHook on all requests
+func WithRequestLogHook(hook retryablehttp.RequestLogHook) ClientOptionFunc {
+	return func(c *Client) error {
+		c.client.RequestLogHook = hook
+		return nil
+	}
+}
+
+// WithResponseLogHook uses the specified ResponseLogHook on all responses
+func WithResponseLogHook(hook retryablehttp.ResponseLogHook) ClientOptionFunc {
+	return func(c *Client) error {
+		c.client.ResponseLogHook = hook
+		return nil
+	}
+}
