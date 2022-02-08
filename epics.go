@@ -63,6 +63,7 @@ type Epic struct {
 	DueDateFromMilestones   *ISOTime    `json:"due_date_from_milestones"`
 	CreatedAt               *time.Time  `json:"created_at"`
 	UpdatedAt               *time.Time  `json:"updated_at"`
+	ClosedAt                *time.Time  `json:"closed_at"`
 	Labels                  []string    `json:"labels"`
 	Upvotes                 int         `json:"upvotes"`
 	Downvotes               int         `json:"downvotes"`
