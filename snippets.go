@@ -216,7 +216,7 @@ type ExploreSnippetsOptions ListOptions
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/snippets.html#explore-all-public-snippets
 func (s *SnippetsService) ExploreSnippets(opt *ExploreSnippetsOptions, options ...RequestOptionFunc) ([]*Snippet, *Response, error) {
-	req, err := s.client.NewRequest(http.MethodGet, "snippets/public", nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, "snippets/public", opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
