@@ -53,7 +53,7 @@ func (s *GroupsService) ListGroupHooks(gid interface{}) ([]*GroupHook, *Response
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s/hooks", pathEscape(group))
+	u := fmt.Sprintf("groups/%s/hooks", PathEscape(group))
 
 	req, err := s.client.NewRequest(http.MethodGet, u, nil, nil)
 	if err != nil {
@@ -77,7 +77,7 @@ func (s *GroupsService) GetGroupHook(pid interface{}, hook int, options ...Reque
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s/hooks/%d", pathEscape(group), hook)
+	u := fmt.Sprintf("groups/%s/hooks/%d", PathEscape(group), hook)
 
 	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
@@ -122,7 +122,7 @@ func (s *GroupsService) AddGroupHook(gid interface{}, opt *AddGroupHookOptions, 
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s/hooks", pathEscape(group))
+	u := fmt.Sprintf("groups/%s/hooks", PathEscape(group))
 
 	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
@@ -169,7 +169,7 @@ func (s *GroupsService) EditGroupHook(pid interface{}, hook int, opt *EditGroupH
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s/hooks/%d", pathEscape(group), hook)
+	u := fmt.Sprintf("groups/%s/hooks/%d", PathEscape(group), hook)
 
 	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
@@ -195,7 +195,7 @@ func (s *GroupsService) DeleteGroupHook(pid interface{}, hook int, options ...Re
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("groups/%s/hooks/%d", pathEscape(group), hook)
+	u := fmt.Sprintf("groups/%s/hooks/%d", PathEscape(group), hook)
 
 	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {

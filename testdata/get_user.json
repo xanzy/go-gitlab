@@ -1,0 +1,21 @@
+{
+  "id": 1,
+  "username": "john_smith",
+  "name": "John Smith",
+  "state": "active",
+  "avatar_url": "http://localhost:3000/uploads/user/avatar/1/cd8.jpeg",
+  "web_url": "http://localhost:3000/john_smith",
+  "created_at": "2012-05-23T08:00:58Z",
+  "bio": "Bio of John Smith",
+  "bot": false,
+  "location": "USA",
+  "public_email": "john@example.com",
+  "skype": "john_smith",
+  "linkedin": "john_smith",
+  "twitter": "john_smith",
+  "website_url": "john_smith.example.com",
+  "organization": "Smith Inc",
+  "job_title": "Operations Specialist",
+  "followers": 1,
+  "following": 1
+}

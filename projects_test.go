@@ -17,6 +17,7 @@
 package gitlab
 
 import (
+	"bytes"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -84,6 +85,36 @@ func TestListUserProjects(t *testing.T) {
 	want := []*Project{{ID: 1}, {ID: 2}}
 	if !reflect.DeepEqual(want, projects) {
 		t.Errorf("Projects.ListUserProjects returned %+v, want %+v", projects, want)
+	}
+}
+
+func TestListUserStarredProjects(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/users/1/starred_projects", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
+	})
+
+	opt := &ListProjectsOptions{
+		ListOptions: ListOptions{2, 3},
+		Archived:    Bool(true),
+		OrderBy:     String("name"),
+		Sort:        String("asc"),
+		Search:      String("query"),
+		Simple:      Bool(true),
+		Visibility:  Visibility(PublicVisibility),
+	}
+
+	projects, _, err := client.Projects.ListUserStarredProjects(1, opt)
+	if err != nil {
+		t.Errorf("Projects.ListUserStarredProjects returned error: %v", err)
+	}
+
+	want := []*Project{{ID: 1}, {ID: 2}}
+	if !reflect.DeepEqual(want, projects) {
+		t.Errorf("Projects.ListUserStarredProjects returned %+v, want %+v", projects, want)
 	}
 }
 
@@ -384,16 +415,13 @@ func TestUploadFile(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
 
-	tf, _ := ioutil.TempFile(os.TempDir(), "test")
-	defer os.Remove(tf.Name())
-
 	mux.HandleFunc("/api/v4/projects/1/uploads", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
-		if false == strings.Contains(r.Header.Get("Content-Type"), "multipart/form-data;") {
-			t.Fatalf("Prokects.UploadFile request content-type %+v want multipart/form-data;", r.Header.Get("Content-Type"))
+		if !strings.Contains(r.Header.Get("Content-Type"), "multipart/form-data;") {
+			t.Fatalf("Projects.UploadFile request content-type %+v want multipart/form-data;", r.Header.Get("Content-Type"))
 		}
 		if r.ContentLength == -1 {
-			t.Fatalf("Prokects.UploadFile request content-length is -1")
+			t.Fatalf("Projects.UploadFile request content-length is -1")
 		}
 		fmt.Fprint(w, `{
 		  "alt": "dk",
@@ -408,14 +436,15 @@ func TestUploadFile(t *testing.T) {
 		Markdown: "![dk](/uploads/66dbcd21ec5d24ed6ea225176098d52b/dk.png)",
 	}
 
-	file, _, err := client.Projects.UploadFile(1, tf.Name())
+	file := bytes.NewBufferString("dummy")
+	projectFile, _, err := client.Projects.UploadFile(1, file, "test.txt")
 
 	if err != nil {
-		t.Fatalf("Prokects.UploadFile returns an error: %v", err)
+		t.Fatalf("Projects.UploadFile returns an error: %v", err)
 	}
 
-	if !reflect.DeepEqual(want, file) {
-		t.Errorf("Prokects.UploadFile returned %+v, want %+v", file, want)
+	if !reflect.DeepEqual(want, projectFile) {
+		t.Errorf("Projects.UploadFile returned %+v, want %+v", projectFile, want)
 	}
 }
 
@@ -433,11 +462,11 @@ func TestUploadFile_Retry(t *testing.T) {
 			isFirstRequest = false
 			return
 		}
-		if false == strings.Contains(r.Header.Get("Content-Type"), "multipart/form-data;") {
-			t.Fatalf("Prokects.UploadFile request content-type %+v want multipart/form-data;", r.Header.Get("Content-Type"))
+		if !strings.Contains(r.Header.Get("Content-Type"), "multipart/form-data;") {
+			t.Fatalf("Projects.UploadFile request content-type %+v want multipart/form-data;", r.Header.Get("Content-Type"))
 		}
 		if r.ContentLength == -1 {
-			t.Fatalf("Prokects.UploadFile request content-length is -1")
+			t.Fatalf("Projects.UploadFile request content-length is -1")
 		}
 		fmt.Fprint(w, `{
                   "alt": "dk",
@@ -452,14 +481,66 @@ func TestUploadFile_Retry(t *testing.T) {
 		Markdown: "![dk](/uploads/66dbcd21ec5d24ed6ea225176098d52b/dk.png)",
 	}
 
-	file, _, err := client.Projects.UploadFile(1, tf.Name())
+	file := bytes.NewBufferString("dummy")
+	projectFile, _, err := client.Projects.UploadFile(1, file, "test.txt")
 
 	if err != nil {
-		t.Fatalf("Prokects.UploadFile returns an error: %v", err)
+		t.Fatalf("Projects.UploadFile returns an error: %v", err)
 	}
 
-	if !reflect.DeepEqual(want, file) {
-		t.Errorf("Prokects.UploadFile returned %+v, want %+v", file, want)
+	if !reflect.DeepEqual(want, projectFile) {
+		t.Errorf("Projects.UploadFile returned %+v, want %+v", projectFile, want)
+	}
+}
+
+func TestUploadAvatar(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPut)
+		if !strings.Contains(r.Header.Get("Content-Type"), "multipart/form-data;") {
+			t.Fatalf("Projects.UploadAvatar request content-type %+v want multipart/form-data;", r.Header.Get("Content-Type"))
+		}
+		if r.ContentLength == -1 {
+			t.Fatalf("Projects.UploadAvatar request content-length is -1")
+		}
+		fmt.Fprint(w, `{}`)
+	})
+
+	avatar := new(bytes.Buffer)
+	_, _, err := client.Projects.UploadAvatar(1, avatar, "avatar.png")
+
+	if err != nil {
+		t.Fatalf("Projects.UploadAvatar returns an error: %v", err)
+	}
+}
+
+func TestUploadAvatar_Retry(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	isFirstRequest := true
+	mux.HandleFunc("/api/v4/projects/1", func(w http.ResponseWriter, r *http.Request) {
+		if isFirstRequest {
+			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			isFirstRequest = false
+			return
+		}
+		if !strings.Contains(r.Header.Get("Content-Type"), "multipart/form-data;") {
+			t.Fatalf("Projects.UploadAvatar request content-type %+v want multipart/form-data;", r.Header.Get("Content-Type"))
+		}
+		if r.ContentLength == -1 {
+			t.Fatalf("Projects.UploadAvatar request content-length is -1")
+		}
+		fmt.Fprint(w, `{}`)
+	})
+
+	avatar := new(bytes.Buffer)
+	_, _, err := client.Projects.UploadAvatar(1, avatar, "avatar.png")
+
+	if err != nil {
+		t.Fatalf("Projects.UploadAvatar returns an error: %v", err)
 	}
 }
 
@@ -623,8 +704,8 @@ func TestChangeAllowedApprovers(t *testing.T) {
 	})
 
 	opt := &ChangeAllowedApproversOptions{
-		ApproverGroupIDs: []int{1},
-		ApproverIDs:      []int{2},
+		ApproverGroupIDs: &[]int{1},
+		ApproverIDs:      &[]int{2},
 	}
 
 	approvals, _, err := client.Projects.ChangeAllowedApprovers(1, opt)
@@ -960,8 +1041,8 @@ func TestCreateProjectApprovalRule(t *testing.T) {
 	opt := &CreateProjectLevelRuleOptions{
 		Name:              String("security"),
 		ApprovalsRequired: Int(3),
-		UserIDs:           []int{5, 50},
-		GroupIDs:          []int{5},
+		UserIDs:           &[]int{5, 50},
+		GroupIDs:          &[]int{5},
 	}
 
 	rule, _, err := client.Projects.CreateProjectApprovalRule(1, opt)

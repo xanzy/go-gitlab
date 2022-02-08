@@ -59,7 +59,7 @@ func (s *ProjectBadgesService) ListProjectBadges(pid interface{}, opt *ListProje
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/badges", pathEscape(project))
+	u := fmt.Sprintf("projects/%s/badges", PathEscape(project))
 
 	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
@@ -84,7 +84,7 @@ func (s *ProjectBadgesService) GetProjectBadge(pid interface{}, badge int, optio
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/badges/%d", pathEscape(project), badge)
+	u := fmt.Sprintf("projects/%s/badges/%d", PathEscape(project), badge)
 
 	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
@@ -118,7 +118,7 @@ func (s *ProjectBadgesService) AddProjectBadge(pid interface{}, opt *AddProjectB
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/badges", pathEscape(project))
+	u := fmt.Sprintf("projects/%s/badges", PathEscape(project))
 
 	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
@@ -152,7 +152,7 @@ func (s *ProjectBadgesService) EditProjectBadge(pid interface{}, badge int, opt 
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/badges/%d", pathEscape(project), badge)
+	u := fmt.Sprintf("projects/%s/badges/%d", PathEscape(project), badge)
 
 	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
@@ -178,7 +178,7 @@ func (s *ProjectBadgesService) DeleteProjectBadge(pid interface{}, badge int, op
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/badges/%d", pathEscape(project), badge)
+	u := fmt.Sprintf("projects/%s/badges/%d", PathEscape(project), badge)
 
 	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
@@ -207,7 +207,7 @@ func (s *ProjectBadgesService) PreviewProjectBadge(pid interface{}, opt *Project
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/badges/render", pathEscape(project))
+	u := fmt.Sprintf("projects/%s/badges/render", PathEscape(project))
 
 	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {

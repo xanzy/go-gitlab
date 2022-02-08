@@ -107,14 +107,14 @@ func TestSubscribeToLabel(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/labels/5/subscribe", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
-		fmt.Fprint(w, `{  "id" : 5, "name" : "bug", "color" : "#d9534f", "description": "Bug reported by user", "open_issues_count": 1, "closed_issues_count": 0, "open_merge_requests_count": 1, "subscribed": true,"priority": null}`)
+		fmt.Fprint(w, `{  "id" : 5, "name" : "kind/bug", "color" : "#d9534f", "description": "Bug reported by user", "open_issues_count": 1, "closed_issues_count": 0, "open_merge_requests_count": 1, "subscribed": true,"priority": null}`)
 	})
 
 	label, _, err := client.Labels.SubscribeToLabel("1", "5")
 	if err != nil {
 		log.Fatal(err)
 	}
-	want := &Label{ID: 5, Name: "bug", Color: "#d9534f", Description: "Bug reported by user", OpenIssuesCount: 1, ClosedIssuesCount: 0, OpenMergeRequestsCount: 1, Subscribed: true}
+	want := &Label{ID: 5, Name: "kind/bug", Color: "#d9534f", Description: "Bug reported by user", OpenIssuesCount: 1, ClosedIssuesCount: 0, OpenMergeRequestsCount: 1, Subscribed: true}
 	if !reflect.DeepEqual(want, label) {
 		t.Errorf("Labels.SubscribeToLabel returned %+v, want %+v", label, want)
 	}
@@ -140,7 +140,7 @@ func TestListLabels(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/labels", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
-		fmt.Fprint(w, `[{  "id" : 5, "name" : "bug", "color" : "#d9534f", "description": "Bug reported by user", "open_issues_count": 1, "closed_issues_count": 0, "open_merge_requests_count": 1, "subscribed": true,"priority": null}]`)
+		fmt.Fprint(w, `[{  "id" : 5, "name" : "kind/bug", "color" : "#d9534f", "description": "Bug reported by user", "open_issues_count": 1, "closed_issues_count": 0, "open_merge_requests_count": 1, "subscribed": true,"priority": null}]`)
 	})
 
 	o := &ListLabelsOptions{
@@ -153,7 +153,7 @@ func TestListLabels(t *testing.T) {
 	if err != nil {
 		t.Log(err.Error() == "invalid ID type 1.1, the ID must be an int or a string")
 	}
-	want := []*Label{{ID: 5, Name: "bug", Color: "#d9534f", Description: "Bug reported by user", OpenIssuesCount: 1, ClosedIssuesCount: 0, OpenMergeRequestsCount: 1, Subscribed: true}}
+	want := []*Label{{ID: 5, Name: "kind/bug", Color: "#d9534f", Description: "Bug reported by user", OpenIssuesCount: 1, ClosedIssuesCount: 0, OpenMergeRequestsCount: 1, Subscribed: true}}
 	if !reflect.DeepEqual(want, label) {
 		t.Errorf("Labels.ListLabels returned %+v, want %+v", label, want)
 	}
@@ -165,14 +165,14 @@ func TestGetLabel(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/labels/5", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
-		fmt.Fprint(w, `{  "id" : 5, "name" : "bug", "color" : "#d9534f", "description": "Bug reported by user", "open_issues_count": 1, "closed_issues_count": 0, "open_merge_requests_count": 1, "subscribed": true,"priority": null}`)
+		fmt.Fprint(w, `{  "id" : 5, "name" : "kind/bug", "color" : "#d9534f", "description": "Bug reported by user", "open_issues_count": 1, "closed_issues_count": 0, "open_merge_requests_count": 1, "subscribed": true,"priority": null}`)
 	})
 
 	label, _, err := client.Labels.GetLabel("1", 5)
 	if err != nil {
 		t.Log(err)
 	}
-	want := &Label{ID: 5, Name: "bug", Color: "#d9534f", Description: "Bug reported by user", OpenIssuesCount: 1, ClosedIssuesCount: 0, OpenMergeRequestsCount: 1, Subscribed: true}
+	want := &Label{ID: 5, Name: "kind/bug", Color: "#d9534f", Description: "Bug reported by user", OpenIssuesCount: 1, ClosedIssuesCount: 0, OpenMergeRequestsCount: 1, Subscribed: true}
 	if !reflect.DeepEqual(want, label) {
 		t.Errorf("Labels.GetLabel returned %+v, want %+v", label, want)
 	}

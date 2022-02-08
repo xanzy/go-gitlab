@@ -17,6 +17,7 @@
 package gitlab
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -24,6 +25,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/google/go-querystring/query"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -142,6 +144,7 @@ func TestGetMergeRequest(t *testing.T) {
 	require.Equal(t, mergeRequest.UpdatedAt, &mrUpdate)
 	require.Equal(t, mergeRequest.FirstContribution, true)
 	require.Equal(t, mergeRequest.HasConflicts, true)
+	require.Equal(t, mergeRequest.Draft, true)
 }
 
 func TestListProjectMergeRequests(t *testing.T) {
@@ -152,11 +155,12 @@ func TestListProjectMergeRequests(t *testing.T) {
 
 	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
-		testParams(t, r, "with_labels_details=true&with_merge_status_recheck=true")
+		testParams(t, r, "assignee_id=Any&with_labels_details=true&with_merge_status_recheck=true")
 		mustWriteHTTPResponse(t, w, "testdata/get_merge_requests.json")
 	})
 
 	opts := ListProjectMergeRequestsOptions{
+		AssigneeID:             AssigneeID(UserIDAny),
 		WithLabelsDetails:      Bool(true),
 		WithMergeStatusRecheck: Bool(true),
 	}
@@ -244,4 +248,59 @@ func TestGetIssuesClosedOnMerge_Jira(t *testing.T) {
 	assert.Len(t, issues, 1)
 	assert.Equal(t, "PROJECT-123", issues[0].ExternalID)
 	assert.Equal(t, "Title of this issue", issues[0].Title)
+}
+
+func TestIntSliceOrString(t *testing.T) {
+	t.Run("any", func(t *testing.T) {
+		opts := &ListMergeRequestsOptions{}
+		opts.ApprovedByIDs = ApproverIDs(UserIDAny)
+		q, err := query.Values(opts)
+		assert.NoError(t, err)
+		assert.Equal(t, "Any", q.Get("approved_by_ids"))
+	})
+	t.Run("none", func(t *testing.T) {
+		opts := &ListMergeRequestsOptions{}
+		opts.ApprovedByIDs = ApproverIDs(UserIDNone)
+		q, err := query.Values(opts)
+		assert.NoError(t, err)
+		assert.Equal(t, "None", q.Get("approved_by_ids"))
+	})
+	t.Run("ids", func(t *testing.T) {
+		opts := &ListMergeRequestsOptions{}
+		opts.ApprovedByIDs = ApproverIDs([]int{1, 2, 3})
+		q, err := query.Values(opts)
+		assert.NoError(t, err)
+		includedIDs := q["approved_by_ids[]"]
+		assert.Equal(t, []string{"1", "2", "3"}, includedIDs)
+	})
+}
+
+func TestAssigneeIDMarshalling(t *testing.T) {
+	t.Run("any", func(t *testing.T) {
+		opts := &ListMergeRequestsOptions{}
+		opts.AssigneeID = AssigneeID(UserIDAny)
+		q, err := query.Values(opts)
+		assert.NoError(t, err)
+		assert.Equal(t, "Any", q.Get("assignee_id"))
+		js, _ := json.Marshal(opts)
+		assert.Equal(t, `{"assignee_id":"Any"}`, string(js))
+	})
+	t.Run("none", func(t *testing.T) {
+		opts := &ListMergeRequestsOptions{}
+		opts.AssigneeID = AssigneeID(UserIDNone)
+		q, err := query.Values(opts)
+		assert.NoError(t, err)
+		assert.Equal(t, "None", q.Get("assignee_id"))
+		js, _ := json.Marshal(opts)
+		assert.Equal(t, `{"assignee_id":"None"}`, string(js))
+	})
+	t.Run("id", func(t *testing.T) {
+		opts := &ListMergeRequestsOptions{}
+		opts.AssigneeID = AssigneeID(5)
+		q, err := query.Values(opts)
+		assert.NoError(t, err)
+		assert.Equal(t, "5", q.Get("assignee_id"))
+		js, _ := json.Marshal(opts)
+		assert.Equal(t, `{"assignee_id":5}`, string(js))
+	})
 }

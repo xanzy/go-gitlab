@@ -19,12 +19,104 @@ package gitlab
 import (
 	"errors"
 	"fmt"
+	"net"
 	"net/http"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
+
+func TestGetUser(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	path := "/api/v4/users/1"
+
+	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		mustWriteHTTPResponse(t, w, "testdata/get_user.json")
+	})
+
+	user, _, err := client.Users.GetUser(1, GetUsersOptions{})
+	require.NoError(t, err)
+
+	want := &User{
+		ID:           1,
+		Username:     "john_smith",
+		Name:         "John Smith",
+		State:        "active",
+		WebURL:       "http://localhost:3000/john_smith",
+		CreatedAt:    Time(time.Date(2012, time.May, 23, 8, 00, 58, 0, time.UTC)),
+		Bio:          "Bio of John Smith",
+		Location:     "USA",
+		PublicEmail:  "john@example.com",
+		Skype:        "john_smith",
+		Linkedin:     "john_smith",
+		Twitter:      "john_smith",
+		WebsiteURL:   "john_smith.example.com",
+		Organization: "Smith Inc",
+		JobTitle:     "Operations Specialist",
+		AvatarURL:    "http://localhost:3000/uploads/user/avatar/1/cd8.jpeg",
+	}
+	require.Equal(t, want, user)
+}
+
+func TestGetUserAdmin(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	path := "/api/v4/users/1"
+
+	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		mustWriteHTTPResponse(t, w, "testdata/get_user_admin.json")
+	})
+
+	user, _, err := client.Users.GetUser(1, GetUsersOptions{})
+	require.NoError(t, err)
+
+	lastActivityOn := ISOTime(time.Date(2012, time.May, 23, 0, 0, 0, 0, time.UTC))
+	currentSignInIP := net.ParseIP("8.8.8.8")
+	lastSignInIP := net.ParseIP("2001:db8::68")
+
+	want := &User{
+		ID:               1,
+		Username:         "john_smith",
+		Email:            "john@example.com",
+		Name:             "John Smith",
+		State:            "active",
+		WebURL:           "http://localhost:3000/john_smith",
+		CreatedAt:        Time(time.Date(2012, time.May, 23, 8, 0, 58, 0, time.UTC)),
+		Bio:              "Bio of John Smith",
+		Location:         "USA",
+		PublicEmail:      "john@example.com",
+		Skype:            "john_smith",
+		Linkedin:         "john_smith",
+		Twitter:          "john_smith",
+		WebsiteURL:       "john_smith.example.com",
+		Organization:     "Smith Inc",
+		JobTitle:         "Operations Specialist",
+		ThemeID:          1,
+		LastActivityOn:   &lastActivityOn,
+		ColorSchemeID:    2,
+		IsAdmin:          true,
+		AvatarURL:        "http://localhost:3000/uploads/user/avatar/1/index.jpg",
+		CanCreateGroup:   true,
+		CanCreateProject: true,
+		ProjectsLimit:    100,
+		CurrentSignInAt:  Time(time.Date(2012, time.June, 2, 6, 36, 55, 0, time.UTC)),
+		CurrentSignInIP:  &currentSignInIP,
+		LastSignInAt:     Time(time.Date(2012, time.June, 1, 11, 41, 1, 0, time.UTC)),
+		LastSignInIP:     &lastSignInIP,
+		ConfirmedAt:      Time(time.Date(2012, time.May, 23, 9, 05, 22, 0, time.UTC)),
+		TwoFactorEnabled: true,
+		Note:             "DMCA Request: 2018-11-05 | DMCA Violation | Abuse | https://gitlab.zendesk.com/agent/tickets/123",
+		Identities:       []*UserIdentity{{Provider: "github", ExternUID: "2435223452345"}},
+	}
+	require.Equal(t, want, user)
+}
 
 func TestBlockUser(t *testing.T) {
 	mux, server, client := setup(t)

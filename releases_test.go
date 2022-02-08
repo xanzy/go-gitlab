@@ -143,9 +143,9 @@ func TestReleasesService_CreateReleaseWithAsset(t *testing.T) {
 		Name:        String("name"),
 		TagName:     String(exampleTagName),
 		Description: String("Description"),
-		Assets: &ReleaseAssets{
-			Links: []*ReleaseAssetLink{
-				{"sldkf", "sldkfj"},
+		Assets: &ReleaseAssetsOptions{
+			Links: []*ReleaseAssetLinkOptions{
+				{String("sldkf"), String("sldkfj"), String("sldkfh"), LinkType(OtherLinkType)},
 			},
 		},
 	}
@@ -193,9 +193,9 @@ func TestReleasesService_CreateReleaseWithAssetAndNameMetadata(t *testing.T) {
 		Name:        String("name"),
 		TagName:     String(exampleTagNameWithMetadata),
 		Description: String("Description"),
-		Assets: &ReleaseAssets{
-			Links: []*ReleaseAssetLink{
-				{"sldkf", "sldkfj"},
+		Assets: &ReleaseAssetsOptions{
+			Links: []*ReleaseAssetLinkOptions{
+				{String("sldkf"), String("sldkfj"), String("sldkfh"), LinkType(OtherLinkType)},
 			},
 		},
 	}
@@ -243,7 +243,7 @@ func TestReleasesService_CreateReleaseWithMilestones(t *testing.T) {
 		Name:        String("name"),
 		TagName:     String(exampleTagName),
 		Description: String("Description"),
-		Milestones:  []string{exampleTagName, "v0.1.0"},
+		Milestones:  &[]string{exampleTagName, "v0.1.0"},
 	}
 
 	release, _, err := client.Releases.CreateRelease(1, opts)
@@ -362,7 +362,7 @@ func TestReleasesService_UpdateReleaseWithMilestones(t *testing.T) {
 	opts := &UpdateReleaseOptions{
 		Name:        String("name"),
 		Description: String("Description"),
-		Milestones:  []string{exampleTagName, "v0.1.0"},
+		Milestones:  &[]string{exampleTagName, "v0.1.0"},
 	}
 
 	release, _, err := client.Releases.UpdateRelease(1, exampleTagName, opts)

@@ -545,9 +545,172 @@ func (s *UsersService) DeleteSSHKeyForUser(user, key int, options ...RequestOpti
 	return s.client.Do(req, nil)
 }
 
+// GPGKey represents a GPG key.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/users.html#list-all-gpg-keys
+type GPGKey struct {
+	ID        int        `json:"id"`
+	Key       string     `json:"key"`
+	CreatedAt *time.Time `json:"created_at"`
+}
+
+// ListGPGKeys gets a list of currently authenticated user’s GPG keys.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/users.html#list-all-gpg-keys
+func (s *UsersService) ListGPGKeys(options ...RequestOptionFunc) ([]*GPGKey, *Response, error) {
+	req, err := s.client.NewRequest(http.MethodGet, "user/gpg_keys", nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var ks []*GPGKey
+	resp, err := s.client.Do(req, &ks)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return ks, resp, err
+}
+
+// GetGPGKey gets a specific GPG key of currently authenticated user.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/users.html#get-a-specific-gpg-key
+func (s *UsersService) GetGPGKey(key int, options ...RequestOptionFunc) (*GPGKey, *Response, error) {
+	u := fmt.Sprintf("users/gpg_keys/%d", key)
+
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	k := new(GPGKey)
+	resp, err := s.client.Do(req, k)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return k, resp, err
+}
+
+// AddGPGKeyOptions represents the available AddGPGKey() options.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/users.html#add-a-gpg-key
+type AddGPGKeyOptions struct {
+	Key *string `url:"key,omitempty" json:"key,omitempty"`
+}
+
+// AddGPGKey creates a new GPG key owned by the currently authenticated user.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/users.html#add-a-gpg-key
+func (s *UsersService) AddGPGKey(opt *AddGPGKeyOptions, options ...RequestOptionFunc) (*GPGKey, *Response, error) {
+	req, err := s.client.NewRequest(http.MethodPost, "user/gpg_keys", opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	k := new(GPGKey)
+	resp, err := s.client.Do(req, k)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return k, resp, err
+}
+
+// DeleteGPGKey deletes a GPG key owned by currently authenticated user.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/users.html#delete-a-gpg-key
+func (s *UsersService) DeleteGPGKey(key int, options ...RequestOptionFunc) (*Response, error) {
+	u := fmt.Sprintf("users/gpg_keys/%d", key)
+
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
+
+// ListGPGKeysForUser gets a list of a specified user’s GPG keys.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/users.html#list-all-gpg-keys-for-given-user
+func (s *UsersService) ListGPGKeysForUser(user int, options ...RequestOptionFunc) ([]*GPGKey, *Response, error) {
+	u := fmt.Sprintf("users/%d/gpg_keys", user)
+
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var ks []*GPGKey
+	resp, err := s.client.Do(req, &ks)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return ks, resp, err
+}
+
+// GetGPGKeyForUser gets a specific GPG key for a given user.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/users.html#get-a-specific-gpg-key-for-a-given-user
+func (s *UsersService) GetGPGKeyForUser(user, key int, options ...RequestOptionFunc) (*GPGKey, *Response, error) {
+	u := fmt.Sprintf("users/%d/gpg_keys/%d", user, key)
+
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	k := new(GPGKey)
+	resp, err := s.client.Do(req, k)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return k, resp, err
+}
+
+// AddGPGKeyForUser creates new GPG key owned by the specified user.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/users.html#add-a-gpg-key-for-a-given-user
+func (s *UsersService) AddGPGKeyForUser(user int, options ...RequestOptionFunc) (*GPGKey, *Response, error) {
+	u := fmt.Sprintf("users/%d/gpg_keys", user)
+
+	req, err := s.client.NewRequest(http.MethodPost, u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	k := new(GPGKey)
+	resp, err := s.client.Do(req, k)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return k, resp, err
+}
+
+// DeleteGPGKeyForUser deletes a GPG key owned by a specified user.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/users.html#delete-a-gpg-key-for-a-given-user
+func (s *UsersService) DeleteGPGKeyForUser(user, key int, options ...RequestOptionFunc) (*Response, error) {
+	u := fmt.Sprintf("users/%d/gpg_keys/%d", user, key)
+
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
+
 // Email represents an Email.
 //
-// GitLab API docs: https://doc.gitlab.com/ce/api/users.html#list-emails
+// GitLab API docs: https://docs.gitlab.com/ce/api/users.html#list-emails
 type Email struct {
 	ID    int    `json:"id"`
 	Email string `json:"email"`
@@ -1004,9 +1167,9 @@ type PersonalAccessToken struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/users.html#create-a-personal-access-token
 type CreatePersonalAccessTokenOptions struct {
-	Name      *string  `url:"name,omitempty" json:"name,omitempty"`
-	ExpiresAt *ISOTime `url:"expires_at,omitempty" json:"expires_at,omitempty"`
-	Scopes    []string `url:"scopes,omitempty" json:"scopes,omitempty"`
+	Name      *string   `url:"name,omitempty" json:"name,omitempty"`
+	ExpiresAt *ISOTime  `url:"expires_at,omitempty" json:"expires_at,omitempty"`
+	Scopes    *[]string `url:"scopes,omitempty" json:"scopes,omitempty"`
 }
 
 // CreatePersonalAccessToken creates a personal access token.
