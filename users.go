@@ -432,7 +432,7 @@ func (s *UsersService) ListSSHKeysForUser(uid interface{}, opt *ListSSHKeysForUs
 		return nil, nil, err
 	}
 
-	u := fmt.Sprintf("users/%d/keys", user)
+	u := fmt.Sprintf("users/%s/keys", user)
 
 	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
