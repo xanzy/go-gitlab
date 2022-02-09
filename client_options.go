@@ -91,7 +91,7 @@ func WithoutRetries() ClientOptionFunc {
 	}
 }
 
-// WithRequestLogHook uses the specified RequestLogHook on all requests
+// WithRequestLogHook can be used to configure a custom request log hook.
 func WithRequestLogHook(hook retryablehttp.RequestLogHook) ClientOptionFunc {
 	return func(c *Client) error {
 		c.client.RequestLogHook = hook
