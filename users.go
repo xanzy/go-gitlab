@@ -392,11 +392,11 @@ func (s *UsersService) SetUserStatus(opt *UserStatusOptions, options ...RequestO
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/users.html#list-ssh-keys
 type SSHKey struct {
-	ID        int        `json:"id"`
-	Title     string     `json:"title"`
-	Key       string     `json:"key"`
-	CreatedAt *time.Time `json:"created_at"`
-	ExpiresAt *time.Time `json:"expires_at"`
+	ID        int      `json:"id"`
+	Title     string   `json:"title"`
+	Key       string   `json:"key"`
+	CreatedAt *ISOTime `json:"created_at"`
+	ExpiresAt *ISOTime `json:"expires_at"`
 }
 
 // ListSSHKeys gets a list of currently authenticated user's SSH keys.
