@@ -99,7 +99,7 @@ func WithRequestLogHook(hook retryablehttp.RequestLogHook) ClientOptionFunc {
 	}
 }
 
-// WithResponseLogHook uses the specified ResponseLogHook on all responses
+// WithResponseLogHook can be used to configure a custom response log hook.
 func WithResponseLogHook(hook retryablehttp.ResponseLogHook) ClientOptionFunc {
 	return func(c *Client) error {
 		c.client.ResponseLogHook = hook
