@@ -422,7 +422,7 @@ func (s *UsersService) ListSSHKeys(options ...RequestOptionFunc) ([]*SSHKey, *Re
 // https://docs.gitlab.com/ce/api/users.html#list-ssh-keys-for-user
 type ListSSHKeysForUserOptions ListOptions
 
-// ListSSHKeysForUser gets a list of a specified user's SSH keys. A
+// ListSSHKeysForUser gets a list of a specified user's SSH keys.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/users.html#list-ssh-keys-for-user
