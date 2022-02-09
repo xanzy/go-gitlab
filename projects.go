@@ -127,6 +127,7 @@ type Project struct {
 	CustomAttributes             []*CustomAttribute `json:"custom_attributes"`
 	ComplianceFrameworks         []string           `json:"compliance_frameworks"`
 	BuildCoverageRegex           string             `json:"build_coverage_regex"`
+	BuildTimeout                 int                `json:"build_timeout"`
 	IssuesTemplate               string             `json:"issues_template"`
 	MergeRequestsTemplate        string             `json:"merge_requests_template"`
 	KeepLatestArtifact           bool               `json:"keep_latest_artifact"`
