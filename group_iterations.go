@@ -26,7 +26,6 @@ import (
 // of the GitLab API
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/group_iterations.html
-
 type GroupIterationsService struct {
 	client *Client
 }
@@ -34,7 +33,6 @@ type GroupIterationsService struct {
 // GroupInteration represents a GitLab iteration.
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/group_iterations.html
-
 type GroupIteration struct {
 	ID          int        `json:"id"`
 	IID         int        `json:"iid"`
@@ -54,11 +52,11 @@ func (i GroupIteration) String() string {
 	return Stringify(i)
 }
 
-// ListGroupIterationsOptions contains the available
-// ListGroupIterations() options
+// ListGroupIterationsOptions contains the available ListGroupIterations()
+// options
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/group_iterations.html#list-group-iterations
-
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/group_iterations.html#list-group-iterations
 type ListGroupIterationsOptions struct {
 	ListOptions
 	State            *string `url:"state,omitempty" json:"state,omitempty"`
@@ -66,10 +64,10 @@ type ListGroupIterationsOptions struct {
 	IncludeAncestors *bool   `url:"include_ancestors,omitempty" json:"include_ancestors,omitempty"`
 }
 
-// ListGroupIterations returns alist of group iterations.
+// ListGroupIterations returns a list of group iterations.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/group_iterations.html#list-group-iterations
-
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/group_iterations.html#list-group-iterations
 func (s *GroupIterationsService) ListGroupIterations(gid interface{}, opt *ListGroupIterationsOptions, options ...RequestOptionFunc) ([]*GroupIteration, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
@@ -82,12 +80,11 @@ func (s *GroupIterationsService) ListGroupIterations(gid interface{}, opt *ListG
 		return nil, nil, err
 	}
 
-	var i []*GroupIteration
-	resp, err := s.client.Do(req, &i)
+	var gis []*GroupIteration
+	resp, err := s.client.Do(req, &gis)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	return i, resp, err
-
+	return gis, resp, err
 }

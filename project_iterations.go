@@ -22,20 +22,18 @@ import (
 	"time"
 )
 
-// IterationsAPI handles communication with the iterations related methods
-// of the GitLab API
+// IterationsAPI handles communication with the project iterations related
+// methods of the GitLab API
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/iterations.html
-
 type ProjectIterationsService struct {
 	client *Client
 }
 
-// Iteration represents a GitLab iteration
+// ProjectIteration represents a GitLab project iteration.
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/iterations.html
-// CAVEAT: GitLab docu currently misses `sequence` key.
-type Iteration struct {
+type ProjectIteration struct {
 	ID          int        `json:"id"`
 	IID         int        `json:"iid"`
 	Sequence    int        `json:"sequence"`
@@ -50,14 +48,15 @@ type Iteration struct {
 	WebURL      string     `json:"web_url"`
 }
 
-func (i Iteration) String() string {
+func (i ProjectIteration) String() string {
 	return Stringify(i)
 }
 
-// ListGroupIterationsOptions contains the available
-// ListGroupIterations() options
+// ListProjectIterationsOptions contains the available ListProjectIterations()
+// options
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/group_iterations.html#list-project-iterations
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/group_iterations.html#list-project-iterations
 type ListProjectIterationsOptions struct {
 	ListOptions
 	State            *string `url:"state,omitempty" json:"state,omitempty"`
@@ -65,11 +64,11 @@ type ListProjectIterationsOptions struct {
 	IncludeAncestors *bool   `url:"include_ancestors,omitempty" json:"include_ancestors,omitempty"`
 }
 
-//ListProjectIterations lists all iterations of the projects ancestor groups.
-//As of GitLab 13.5, there are no direct project-level iterations.
-
-// GitLab API docs: https://docs.gitlab.com/ee/api/iterations.html
-func (i *ProjectIterationsService) ListProjectIterations(pid interface{}, opt *ListProjectIterationsOptions, options ...RequestOptionFunc) ([]*Iteration, *Response, error) {
+// ListProjectIterations returns a list of projects iterations.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/group_iterations.html#list-project-iterations
+func (i *ProjectIterationsService) ListProjectIterations(pid interface{}, opt *ListProjectIterationsOptions, options ...RequestOptionFunc) ([]*ProjectIteration, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -81,11 +80,11 @@ func (i *ProjectIterationsService) ListProjectIterations(pid interface{}, opt *L
 		return nil, nil, err
 	}
 
-	var it []*Iteration
-	resp, err := i.client.Do(req, &it)
+	var pis []*ProjectIteration
+	resp, err := i.client.Do(req, &pis)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return it, resp, err
+	return pis, resp, err
 }

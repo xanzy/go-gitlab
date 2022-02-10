@@ -14,17 +14,18 @@ func TestListGroupIterations(t *testing.T) {
 	mux.HandleFunc("/api/v4/groups/5/iterations",
 		func(w http.ResponseWriter, r *http.Request) {
 			testMethod(t, r, http.MethodGet)
-			fmt.Fprintf(w, `[{
-								"id": 53,
-								"iid": 13,
-								"sequence": 1,
-								"group_id": 5,
-								"title": "Iteration II",
-								"description": "Ipsum Lorem ipsum",
-								"state": 2,
-								"web_url": "http://gitlab.example.com/groups/my-group/-/iterations/13"
-								}
-							]`)
+			fmt.Fprintf(w, `[
+        {
+          "id": 53,
+          "iid": 13,
+          "sequence": 1,
+          "group_id": 5,
+          "title": "Iteration II",
+          "description": "Ipsum Lorem ipsum",
+          "state": 2,
+          "web_url": "http://gitlab.example.com/groups/my-group/-/iterations/13"
+        }
+      ]`)
 		})
 
 	iterations, _, err := client.GroupIterations.ListGroupIterations(5, &ListGroupIterationsOptions{})
