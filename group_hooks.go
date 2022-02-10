@@ -48,14 +48,14 @@ type GroupHook struct {
 // ListGroupHooks gets a list of group hooks.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/groups.html#list-group-hooks
-func (s *GroupsService) ListGroupHooks(gid interface{}) ([]*GroupHook, *Response, error) {
+func (s *GroupsService) ListGroupHooks(gid interface{}, options ...RequestOptionFunc) ([]*GroupHook, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("groups/%s/hooks", PathEscape(group))
 
-	req, err := s.client.NewRequest(http.MethodGet, u, nil, nil)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}

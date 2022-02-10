@@ -242,14 +242,14 @@ func (s *PipelinesService) GetPipelineVariables(pid interface{}, pipeline int, o
 // GetPipelineTestReport gets the test report of a single project pipeline.
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/pipelines.html#get-a-pipelines-test-report
-func (s *PipelinesService) GetPipelineTestReport(pid interface{}, pipeline int) (*PipelineTestReport, *Response, error) {
+func (s *PipelinesService) GetPipelineTestReport(pid interface{}, pipeline int, options ...RequestOptionFunc) (*PipelineTestReport, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/pipelines/%d/test_report", PathEscape(project), pipeline)
 
-	req, err := s.client.NewRequest(http.MethodGet, u, nil, nil)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
