@@ -1,0 +1,16 @@
+[
+    {
+      "id": 53,
+      "iid": 13,
+      "sequence": 1,
+      "group_id": 5,
+      "title": "Iteration II",
+      "description": "Ipsum Lorem ipsum",
+      "state": 2,
+      "created_at": "2020-01-27T05:07:12.573Z",
+      "updated_at": "2020-01-27T05:07:12.573Z",
+      "due_date": "2020-02-01",
+      "start_date": "2020-02-14",
+      "web_url": "http://gitlab.example.com/groups/my-group/-/iterations/13"
+    }
+]
