@@ -94,6 +94,7 @@ type CreateProjectSnippetOptions struct {
 	Description *string          `url:"description,omitempty" json:"description,omitempty"`
 	Content     *string          `url:"content,omitempty" json:"content,omitempty"`
 	Visibility  *VisibilityValue `url:"visibility,omitempty" json:"visibility,omitempty"`
+	Files       *[]*SnippetFile  `url:"files,omitempty" json:"files,omitempty"`
 }
 
 // CreateSnippet creates a new project snippet. The user must have permission
