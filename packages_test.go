@@ -41,6 +41,7 @@ func TestPackagesService_ListProjectPackages(t *testing.T) {
 			WebPath:       "/foo/bar/-/packages/3",
 			DeleteAPIPath: "https://gitlab.example.com/api/v4/projects/1/packages/3",
 		},
+		Tags: []string{},
 	}}
 
 	ps, resp, err := client.Packages.ListProjectPackages(3, nil)
