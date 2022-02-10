@@ -30,7 +30,7 @@ type PackagesService struct {
 	client *Client
 }
 
-// Package represents a GitLab single package.
+// Package represents a GitLab package.
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/packages.html
 type Package struct {
@@ -44,7 +44,11 @@ type Package struct {
 	Tags        []string      `json:"tags"`
 }
 
-// GroupPackage represents a GitLab single package with project reference.
+func (s Package) String() string {
+	return Stringify(s)
+}
+
+// GroupPackage represents a GitLab group package.
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/packages.html
 type GroupPackage struct {
@@ -53,7 +57,7 @@ type GroupPackage struct {
 	ProjectPath string `json:"project_path"`
 }
 
-func (s Package) String() string {
+func (s GroupPackage) String() string {
 	return Stringify(s)
 }
 
@@ -85,7 +89,8 @@ func (s PackageFile) String() string {
 	return Stringify(s)
 }
 
-// ListProjectPackagesOptions are the parameters available in a ListProjectPackages() Operation.
+// ListProjectPackagesOptions represents the available ListProjectPackages()
+// options.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/packages.html#within-a-project
@@ -124,7 +129,8 @@ func (s *PackagesService) ListProjectPackages(pid interface{}, opt *ListProjectP
 	return ps, resp, err
 }
 
-// ListGroupPackagesOptions are the parameters available in a ListGroupPackages() Operation.
+// ListGroupPackagesOptions represents the available ListGroupPackages()
+// options.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/packages.html#within-a-group
@@ -148,7 +154,7 @@ func (s *PackagesService) ListGroupPackages(gid interface{}, opt *ListGroupPacka
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s/packages", pathEscape(group))
+	u := fmt.Sprintf("groups/%s/packages", PathEscape(group))
 
 	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
@@ -164,8 +170,8 @@ func (s *PackagesService) ListGroupPackages(gid interface{}, opt *ListGroupPacka
 	return ps, resp, err
 }
 
-// ListPackageFilesOptions represents the available
-// ListPackageFiles() options.
+// ListPackageFilesOptions represents the available ListPackageFiles()
+// options.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/packages.html#list-package-files
