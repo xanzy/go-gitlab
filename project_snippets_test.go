@@ -172,7 +172,13 @@ func TestProjectSnippetsService_CreateSnippet(t *testing.T) {
 			  },
 			  "project_id": 1,
 			  "web_url": "http://example.com/example/example/snippets/1",
-			  "raw_url": "http://example.com/example/example/snippets/1/raw"
+			  "raw_url": "http://example.com/example/example/snippets/1/raw",
+			  "files": [
+				{
+					"path": "add.rb",
+					"raw_url": "http://example.com/example/example/-/snippets/1/raw/main/add.rb"
+				}
+	   		  ]
 			}
 		`)
 	})
@@ -198,6 +204,15 @@ func TestProjectSnippetsService_CreateSnippet(t *testing.T) {
 		},
 		WebURL: "http://example.com/example/example/snippets/1",
 		RawURL: "http://example.com/example/example/snippets/1/raw",
+		Files: []struct {
+			Path   string `json:"path"`
+			RawURL string `json:"raw_url"`
+		}{
+			{
+				Path:   "add.rb",
+				RawURL: "http://example.com/example/example/-/snippets/1/raw/main/add.rb",
+			},
+		},
 	}
 
 	s, resp, err := client.ProjectSnippets.CreateSnippet(1, nil, nil, nil)
