@@ -31,6 +31,7 @@ func TestProjectBadgesService_ListProjectBadges(t *testing.T) {
 
 	want := []*ProjectBadge{{
 		ID:               1,
+		Name:             "Coverage",
 		LinkURL:          "http://example.com/ci_status.svg?project={project_path}&ref={default_branch}",
 		ImageURL:         "https://shields.io/my/badge",
 		RenderedLinkURL:  "http://example.com/ci_status.svg?project=example-org/example-project&ref=master",
@@ -80,6 +81,7 @@ func TestProjectBadgesService_GetProjectBadge(t *testing.T) {
 
 	want := &ProjectBadge{
 		ID:               1,
+		Name:             "Coverage",
 		LinkURL:          "http://example.com/ci_status.svg?project={project_path}&ref={default_branch}",
 		ImageURL:         "https://shields.io/my/badge",
 		RenderedLinkURL:  "http://example.com/ci_status.svg?project=example-org/example-project&ref=master",
@@ -129,6 +131,7 @@ func TestProjectBadgesService_AddProjectBadge(t *testing.T) {
 
 	want := &ProjectBadge{
 		ID:               1,
+		Name:             "mybadge",
 		LinkURL:          "http://example.com/ci_status.svg?project={project_path}&ref={default_branch}",
 		ImageURL:         "https://shields.io/my/badge",
 		RenderedLinkURL:  "http://example.com/ci_status.svg?project=example-org/example-project&ref=master",
@@ -178,6 +181,7 @@ func TestProjectBadgesService_EditProjectBadge(t *testing.T) {
 
 	want := &ProjectBadge{
 		ID:               1,
+		Name:             "mybadge",
 		LinkURL:          "http://example.com/ci_status.svg?project={project_path}&ref={default_branch}",
 		ImageURL:         "https://shields.io/my/badge",
 		RenderedLinkURL:  "http://example.com/ci_status.svg?project=example-org/example-project&ref=master",
