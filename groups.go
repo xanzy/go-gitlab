@@ -201,6 +201,7 @@ type ListGroupProjectsOptions struct {
 	Simple                   *bool             `url:"simple,omitempty" json:"simple,omitempty"`
 	Sort                     *string           `url:"sort,omitempty" json:"sort,omitempty"`
 	Starred                  *bool             `url:"starred,omitempty" json:"starred,omitempty"`
+	Topic                    *string           `url:"topic,omitempty" json:"topic,omitempty"`
 	Visibility               *VisibilityValue  `url:"visibility,omitempty" json:"visibility,omitempty"`
 	WithCustomAttributes     *bool             `url:"with_custom_attributes,omitempty" json:"with_custom_attributes,omitempty"`
 	WithIssuesEnabled        *bool             `url:"with_issues_enabled,omitempty" json:"with_issues_enabled,omitempty"`
