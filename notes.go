@@ -53,6 +53,7 @@ type Note struct {
 	ExpiresAt    *time.Time    `json:"expires_at"`
 	UpdatedAt    *time.Time    `json:"updated_at"`
 	CreatedAt    *time.Time    `json:"created_at"`
+	ResolvedAt   *time.Time    `json:"resolved_at"`
 	NoteableID   int           `json:"noteable_id"`
 	NoteableType string        `json:"noteable_type"`
 	CommitID     string        `json:"commit_id"`
