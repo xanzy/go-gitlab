@@ -43,17 +43,56 @@ func (k DeployKey) String() string {
 	return Stringify(k)
 }
 
+// InstaceDeployKey represents a GitLab deploy key with the associated projects with it has write access to.
+type InstanceDeployKey struct {
+	ID                      int                         `json:"id"`
+	Title                   string                      `json:"title"`
+	CreatedAt               time.Time                   `json:"created_at"`
+	Key                     string                      `json:"key"`
+	Fingerprint             string                      `json:"fingerprint"`
+	ProjectsWithWriteAccess []*InstanceDeployKeyProject `json:"projects_with_write_access"`
+}
+
+func (k InstanceDeployKey) String() string {
+	return Stringify(k)
+}
+
+// InstanceDeployKeyProject represents a Project to which an InstanceDeployKey has write access to.
+type InstanceDeployKeyProject struct {
+	ID                int       `json:"id"`
+	Description       string    `json:"description"`
+	Name              string    `json:"name"`
+	NameWithNamespace string    `json:"name_with_namespace"`
+	Path              string    `json:"path"`
+	PathWithNamespace string    `json:"path_with_namespace"`
+	CreatedAt         time.Time `json:"created_at"`
+}
+
+func (k InstanceDeployKeyProject) String() string {
+	return Stringify(k)
+}
+
+// ListProjectDeployKeysOptions represents the available ListAllDeployKeys()
+// options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/deploy_keys.html#list-all-deploy-keys
+type ListInstanceDeployKeysOptions struct {
+	ListOptions
+	Public *bool `url:"public,omitempty" json:"public,omitempty"`
+}
+
 // ListAllDeployKeys gets a list of all deploy keys
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/deploy_keys.html#list-all-deploy-keys
-func (s *DeployKeysService) ListAllDeployKeys(options ...RequestOptionFunc) ([]*DeployKey, *Response, error) {
-	req, err := s.client.NewRequest(http.MethodGet, "deploy_keys", nil, options)
+func (s *DeployKeysService) ListAllDeployKeys(opt *ListInstanceDeployKeysOptions, options ...RequestOptionFunc) ([]*InstanceDeployKey, *Response, error) {
+	req, err := s.client.NewRequest(http.MethodGet, "deploy_keys", opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	var ks []*DeployKey
+	var ks []*InstanceDeployKey
 	resp, err := s.client.Do(req, &ks)
 	if err != nil {
 		return nil, resp, err
