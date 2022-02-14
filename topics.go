@@ -18,7 +18,10 @@ package gitlab
 
 import (
 	"fmt"
+	"io"
 	"net/http"
+
+	retryablehttp "github.com/hashicorp/go-retryablehttp"
 )
 
 // TopicsService handles communication with the topics related methods
@@ -91,14 +94,20 @@ func (s *TopicsService) GetTopic(topic int, options ...RequestOptionFunc) (*Topi
 	return t, resp, err
 }
 
+// TopicAvatar represents a GitLab topic avatar.
+type TopicAvatar struct {
+	Filename *string
+	Image    io.Reader
+}
+
 // CreateTopicOptions represents the available CreateTopic() options.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/topics.html#create-a-project-topic
 type CreateTopicOptions struct {
-	Name        *string `url:"name,omitempty" json:"name,omitempty"`
-	Description *string `url:"description,omitempty" json:"description,omitempty"`
-	//	Avatar      *string `url:"avatar,omitempty" json:"avatar,omitempty"`
+	Name        *string      `url:"name,omitempty" json:"name,omitempty"`
+	Description *string      `url:"description,omitempty" json:"description,omitempty"`
+	Avatar      *TopicAvatar `url:"-" json:"-"`
 }
 
 // CreateTopic creates a new project topic.
@@ -106,7 +115,22 @@ type CreateTopicOptions struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/topics.html#create-a-project-topic
 func (s *TopicsService) CreateTopic(opt *CreateTopicOptions, options ...RequestOptionFunc) (*Topic, *Response, error) {
-	req, err := s.client.NewRequest(http.MethodPost, "topics", opt, options)
+	var err error
+	var req *retryablehttp.Request
+
+	if opt.Avatar == nil {
+		req, err = s.client.NewRequest(http.MethodPost, "topics", opt, options)
+	} else {
+		req, err = s.client.UploadRequest(
+			http.MethodPost,
+			"topics",
+			opt.Avatar.Image,
+			*opt.Avatar.Filename,
+			UploadAvatar,
+			opt,
+			options,
+		)
+	}
 	if err != nil {
 		return nil, nil, err
 	}
@@ -125,19 +149,49 @@ func (s *TopicsService) CreateTopic(opt *CreateTopicOptions, options ...RequestO
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/topics.html#update-a-project-topic
 type UpdateTopicOptions struct {
+	Name        *string      `url:"name,omitempty" json:"name,omitempty"`
+	Description *string      `url:"description,omitempty" json:"description,omitempty"`
+	Avatar      *TopicAvatar `url:"-" json:"-"`
+}
+
+type RemoveAvatarUpdateTopicOptions struct {
 	Name        *string `url:"name,omitempty" json:"name,omitempty"`
 	Description *string `url:"description,omitempty" json:"description,omitempty"`
-	//	Avatar      *string `url:"avatar,omitempty" json:"avatar,omitempty"`
+	Avatar      *string `url:"avatar,omitempty" json:"avatar,omitempty"`
 }
 
 // UpdateTopic updates a project topic. Only available to administrators.
+//
+// To remove a topic avatar (see https://docs.gitlab.com/ee/api/topics.html#remove-a-topic-avatar),
+// set the TopicAvatar.Filename to an empty string and set TopicAvatar.Image to nil.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/topics.html#update-a-project-topic
 func (s *TopicsService) UpdateTopic(topic int, opt *UpdateTopicOptions, options ...RequestOptionFunc) (*Topic, *Response, error) {
 	u := fmt.Sprintf("topics/%d", topic)
 
-	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
+	var err error
+	var req *retryablehttp.Request
+
+	if opt.Avatar == nil {
+		req, err = s.client.NewRequest(http.MethodPut, u, opt, options)
+	} else if (TopicAvatar{}) == *opt.Avatar {
+		req, err = s.client.NewRequest(http.MethodPut, u, &RemoveAvatarUpdateTopicOptions{
+			Name:        opt.Name,
+			Description: opt.Description,
+			Avatar:      String(""),
+		}, options)
+	} else {
+		req, err = s.client.UploadRequest(
+			http.MethodPut,
+			u,
+			opt.Avatar.Image,
+			*opt.Avatar.Filename,
+			UploadAvatar,
+			opt,
+			options,
+		)
+	}
 	if err != nil {
 		return nil, nil, err
 	}
