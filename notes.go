@@ -53,7 +53,6 @@ type Note struct {
 	ExpiresAt    *time.Time    `json:"expires_at"`
 	UpdatedAt    *time.Time    `json:"updated_at"`
 	CreatedAt    *time.Time    `json:"created_at"`
-	ResolvedAt   *time.Time    `json:"resolved_at"`
 	NoteableID   int           `json:"noteable_id"`
 	NoteableType string        `json:"noteable_type"`
 	CommitID     string        `json:"commit_id"`
@@ -69,7 +68,8 @@ type Note struct {
 		AvatarURL string `json:"avatar_url"`
 		WebURL    string `json:"web_url"`
 	} `json:"resolved_by"`
-	NoteableIID int `json:"noteable_iid"`
+	ResolvedAt  *time.Time `json:"resolved_at"`
+	NoteableIID int        `json:"noteable_iid"`
 }
 
 // NotePosition represents the position attributes of a note.
