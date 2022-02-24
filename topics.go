@@ -150,3 +150,18 @@ func (s *TopicsService) UpdateTopic(topic int, opt *UpdateTopicOptions, options 
 
 	return t, resp, err
 }
+
+// DeleteTopic deletes a project topic. Only available to administrators.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/topics.html#delete-a-project-topic
+func (s *TopicsService) DeleteTopic(topic int, ...RequestOptionFunc) (*Response, error) {
+	u := fmt.Sprintf("topics/%d", topic)
+
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
