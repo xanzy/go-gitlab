@@ -155,7 +155,7 @@ func (s *TopicsService) UpdateTopic(topic int, opt *UpdateTopicOptions, options 
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/topics.html#delete-a-project-topic
-func (s *TopicsService) DeleteTopic(topic int, ...RequestOptionFunc) (*Response, error) {
+func (s *TopicsService) DeleteTopic(topic int, options ...RequestOptionFunc) (*Response, error) {
 	u := fmt.Sprintf("topics/%d", topic)
 
 	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
