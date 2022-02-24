@@ -75,6 +75,7 @@ type Group struct {
 	ExtraSharedRunnersMinutesLimit int              `json:"extra_shared_runners_minutes_limit"`
 	MarkedForDeletionOn            *ISOTime         `json:"marked_for_deletion_on"`
 	CreatedAt                      *time.Time       `json:"created_at"`
+	PreventForkingOutsideGroup     bool             `json:"prevent_forking_outside_group"`
 }
 
 // LDAPGroupLink represents a GitLab LDAP group link.
