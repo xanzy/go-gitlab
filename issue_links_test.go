@@ -49,7 +49,7 @@ func TestIssueLinksService_ListIssueRelations(t *testing.T) {
 		`)
 	})
 
-	want := []*Issue{{
+	want := []*IssueRelation{{
 		ID:          84,
 		IID:         14,
 		ExternalID:  "",
@@ -78,6 +78,7 @@ func TestIssueLinksService_ListIssueRelations(t *testing.T) {
 		IssueLinkID:       1,
 		MergeRequestCount: 0,
 		EpicIssueID:       0,
+		LinkType:          "relates_to",
 	}}
 
 	is, resp, err := client.IssueLinks.ListIssueRelations(4, 14, nil)

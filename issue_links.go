@@ -19,6 +19,7 @@ package gitlab
 import (
 	"fmt"
 	"net/http"
+	"time"
 )
 
 // IssueLinksService handles communication with the issue relations related methods
@@ -38,6 +39,52 @@ type IssueLink struct {
 	LinkType    string `json:"link_type"`
 }
 
+// IssueRelation gets a relation between two issues.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/issue_links.html#list-issue-relations
+type IssueRelation struct {
+	ID                   int                    `json:"id"`
+	IID                  int                    `json:"iid"`
+	ExternalID           string                 `json:"external_id"`
+	State                string                 `json:"state"`
+	Description          string                 `json:"description"`
+	Author               *IssueAuthor           `json:"author"`
+	Milestone            *Milestone             `json:"milestone"`
+	ProjectID            int                    `json:"project_id"`
+	Assignees            []*IssueAssignee       `json:"assignees"`
+	Assignee             *IssueAssignee         `json:"assignee"`
+	UpdatedAt            *time.Time             `json:"updated_at"`
+	ClosedAt             *time.Time             `json:"closed_at"`
+	ClosedBy             *IssueCloser           `json:"closed_by"`
+	Title                string                 `json:"title"`
+	CreatedAt            *time.Time             `json:"created_at"`
+	MovedToID            int                    `json:"moved_to_id"`
+	Labels               Labels                 `json:"labels"`
+	LabelDetails         []*LabelDetails        `json:"label_details"`
+	Upvotes              int                    `json:"upvotes"`
+	Downvotes            int                    `json:"downvotes"`
+	DueDate              *ISOTime               `json:"due_date"`
+	WebURL               string                 `json:"web_url"`
+	References           *IssueReferences       `json:"references"`
+	TimeStats            *TimeStats             `json:"time_stats"`
+	Confidential         bool                   `json:"confidential"`
+	Weight               int                    `json:"weight"`
+	DiscussionLocked     bool                   `json:"discussion_locked"`
+	IssueType            *string                `json:"issue_type,omitempty"`
+	Subscribed           bool                   `json:"subscribed"`
+	UserNotesCount       int                    `json:"user_notes_count"`
+	Links                *IssueLinks            `json:"_links"`
+	IssueLinkID          int                    `json:"issue_link_id"`
+	MergeRequestCount    int                    `json:"merge_requests_count"`
+	EpicIssueID          int                    `json:"epic_issue_id"`
+	Epic                 *Epic                  `json:"epic"`
+	TaskCompletionStatus *TasksCompletionStatus `json:"task_completion_status"`
+	LinkType             string                 `json:"link_type"`
+	LinkCreatedAt        *time.Time             `json:"link_created_at"`
+	LinkUpdatedAt        *time.Time             `json:"link_updated_at"`
+}
+
 // ListIssueRelations gets a list of related issues of a given issue,
 // sorted by the relationship creation datetime (ascending).
 //
@@ -45,7 +92,7 @@ type IssueLink struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/issue_links.html#list-issue-relations
-func (s *IssueLinksService) ListIssueRelations(pid interface{}, issueIID int, options ...RequestOptionFunc) ([]*Issue, *Response, error) {
+func (s *IssueLinksService) ListIssueRelations(pid interface{}, issueIID int, options ...RequestOptionFunc) ([]*IssueRelation, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -57,7 +104,7 @@ func (s *IssueLinksService) ListIssueRelations(pid interface{}, issueIID int, op
 		return nil, nil, err
 	}
 
-	var is []*Issue
+	var is []*IssueRelation
 	resp, err := s.client.Do(req, &is)
 	if err != nil {
 		return nil, resp, err
