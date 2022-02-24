@@ -909,9 +909,16 @@ func (s *ProjectsService) EditProject(pid interface{}, opt *EditProjectOptions, 
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#fork-project
 type ForkProjectOptions struct {
-	Name      *string `url:"name,omitempty" json:"name,omitempty" `
+	Description                   *string          `url:"description,omitempty" json:"description,omitempty"`
+	MergeRequestDefaultTargetSelf *bool            `url:"mr_default_target_self,omitempty" json:"mr_default_target_self,omitempty"`
+	Name                          *string          `url:"name,omitempty" json:"name,omitempty"`
+	NamespaceID                   *int             `url:"namespace_id,omitempty" json:"namespace_id,omitempty"`
+	NamespacePath                 *string          `url:"namespace_path,omitempty" json:"namespace_path,omitempty"`
+	Path                          *string          `url:"path,omitempty" json:"path,omitempty"`
+	Visibility                    *VisibilityValue `url:"visibility,omitempty" json:"visibility,omitempty"`
+
+	// Deprecated members
 	Namespace *string `url:"namespace,omitempty" json:"namespace,omitempty"`
-	Path      *string `url:"path,omitempty" json:"path,omitempty"`
 }
 
 // ForkProject forks a project into the user namespace of the authenticated

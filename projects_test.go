@@ -751,20 +751,20 @@ func TestForkProject(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
 
-	namespace := "mynamespace"
+	namespaceID := 42
 	name := "myreponame"
 	path := "myrepopath"
 
 	mux.HandleFunc("/api/v4/projects/1/fork", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
-		testBody(t, r, fmt.Sprintf(`{"name":"%s","namespace":"%s","path":"%s"}`, name, namespace, path))
+		testBody(t, r, fmt.Sprintf(`{"name":"%s","namespace_id":%d,"path":"%s"}`, name, namespaceID, path))
 		fmt.Fprint(w, `{"id":2}`)
 	})
 
 	project, _, err := client.Projects.ForkProject(1, &ForkProjectOptions{
-		Namespace: String(namespace),
-		Name:      String(name),
-		Path:      String(path),
+		NamespaceID: Int(namespaceID),
+		Name:        String(name),
+		Path:        String(path),
 	})
 	if err != nil {
 		t.Errorf("Projects.ForkProject returned error: %v", err)
