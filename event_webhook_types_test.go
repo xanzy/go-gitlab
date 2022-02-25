@@ -19,6 +19,7 @@ package gitlab
 import (
 	"encoding/json"
 	"testing"
+	"time"
 )
 
 const (
@@ -339,7 +340,7 @@ func TestPipelineEventUnmarshal(t *testing.T) {
 	if event.Builds[0].AllowFailure != true {
 		t.Errorf("Builds.0.AllowFailure is %v, want %v", event.Builds[0].AllowFailure, true)
 	}
-	
+
 	if event.Builds[0].Environment.Name != "production" {
 		t.Errorf("Builds.0.Environment.Name is %v, want %v", event.Builds[0].Environment.Name, "production")
 	}
@@ -383,44 +384,6 @@ func TestPushEventUnmarshal(t *testing.T) {
 	}
 }
 
-func TestTagEventUnmarshal(t *testing.T) {
-	jsonObject := loadFixture("testdata/webhooks/tag_push.json")
-	var event *TagEvent
-	err := json.Unmarshal(jsonObject, &event)
-
-	if err != nil {
-		t.Errorf("Tag Event can not unmarshaled: %v\n ", err.Error())
-	}
-
-	if event == nil {
-		t.Errorf("Tag Event is null")
-	}
-
-	if event.ProjectID != 1 {
-		t.Errorf("ProjectID is %v, want %v", event.ProjectID, 1)
-	}
-
-	if event.UserName != exampleEventUserName {
-		t.Errorf("Username is %s, want %s", event.UserName, exampleEventUserName)
-	}
-
-	if event.Commits[0] == nil || event.Commits[0].Timestamp == nil {
-		t.Errorf("Commit Timestamp isn't nil")
-	}
-
-	if event.Commits[0] == nil || event.Commits[0].Message != exampleCommitMessage {
-		t.Errorf("Commit Message is %s, want %s", event.Commits[0].Message, exampleCommitMessage)
-	}
-
-	if event.Commits[0] == nil || event.Commits[0].Title != exampleCommitTitle {
-		t.Errorf("Commit Title is %s, want %s", event.Commits[0].Title, exampleCommitTitle)
-	}
-
-	if event.Commits[0] == nil || event.Commits[0].Author.Name != exampleEventUserName {
-		t.Errorf("Commit Username is %s, want %s", event.UserName, exampleEventUserName)
-	}
-}
-
 func TestReleaseEventUnmarshal(t *testing.T) {
 	jsonObject := loadFixture("testdata/webhooks/release.json")
 
@@ -461,5 +424,74 @@ func TestReleaseEventUnmarshal(t *testing.T) {
 
 	if event.Commit.Author.Name != "User" {
 		t.Errorf("Commit author name is %s, want %s", event.Commit.Author.Name, "User")
+	}
+}
+
+func TestSubGroupEventUnmarshal(t *testing.T) {
+	jsonObject := loadFixture("testdata/webhooks/subgroup.json")
+
+	var event *SubGroupEvent
+	err := json.Unmarshal(jsonObject, &event)
+
+	if err != nil {
+		t.Errorf("SubGroup Event can not unmarshaled: %v\n ", err.Error())
+	}
+
+	if event == nil {
+		t.Errorf("SubGroup Event is null")
+	}
+
+	if event.Name != "Subgroup 1" {
+		t.Errorf("Name is %v, want %v", event.Name, "Subgroup 1")
+	}
+
+	if event.GroupID != 2 {
+		t.Errorf("GroupID is %v, want %v", event.GroupID, 2)
+	}
+
+	if event.ParentGroupID != 1 {
+		t.Errorf("ParentGroupID is %v, want %v", event.ParentGroupID, 1)
+	}
+
+	if event.CreatedAt.Format(time.RFC3339) != "2022-01-24T14:23:59Z" {
+		t.Errorf("CreatedAt is %v, want %v", event.CreatedAt.Format(time.RFC3339), "2022-01-24T14:23:59Z")
+	}
+}
+
+func TestTagEventUnmarshal(t *testing.T) {
+	jsonObject := loadFixture("testdata/webhooks/tag_push.json")
+	var event *TagEvent
+	err := json.Unmarshal(jsonObject, &event)
+
+	if err != nil {
+		t.Errorf("Tag Event can not unmarshaled: %v\n ", err.Error())
+	}
+
+	if event == nil {
+		t.Errorf("Tag Event is null")
+	}
+
+	if event.ProjectID != 1 {
+		t.Errorf("ProjectID is %v, want %v", event.ProjectID, 1)
+	}
+
+	if event.UserName != exampleEventUserName {
+		t.Errorf("Username is %s, want %s", event.UserName, exampleEventUserName)
+	}
+
+	if event.Commits[0] == nil || event.Commits[0].Timestamp == nil {
+		t.Errorf("Commit Timestamp isn't nil")
+	}
+
+	if event.Commits[0] == nil || event.Commits[0].Message != exampleCommitMessage {
+		t.Errorf("Commit Message is %s, want %s", event.Commits[0].Message, exampleCommitMessage)
+	}
+
+	if event.Commits[0] == nil || event.Commits[0].Title != exampleCommitTitle {
+		t.Errorf("Commit Title is %s, want %s", event.Commits[0].Title, exampleCommitTitle)
+	}
+
+	if event.Commits[0] == nil || event.Commits[0].Author.Name != exampleEventUserName {
+		t.Errorf("Commit Username is %s, want %s", event.UserName, exampleEventUserName)
 	}
 }
