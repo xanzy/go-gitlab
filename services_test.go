@@ -575,3 +575,55 @@ func TestDeleteSlackSlashCommandsService(t *testing.T) {
 		t.Fatalf("Services.DeleteSlackSlashCommandsService returns an error: %v", err)
 	}
 }
+
+func TestGetMattermostSlashCommandsService(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/services/mattermost-slash-commands", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		fmt.Fprint(w, `{"id":1}`)
+	})
+	want := &MattermostSlashCommandsService{Service: Service{ID: 1}}
+
+	service, _, err := client.Services.GetMattermostSlashCommandsService(1)
+	if err != nil {
+		t.Fatalf("Services.mattermost-slash-commands returns an error: %v", err)
+	}
+	if !reflect.DeepEqual(want, service) {
+		t.Errorf("Services.mattermost-slash-commands returned %+v, want %+v", service, want)
+	}
+}
+
+func TestSetMattermostSlashCommandsService(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/services/mattermost-slash-commands", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPut)
+	})
+
+	opt := &SetMattermostSlashCommandsServiceOptions{
+		Token:    String("token"),
+		Username: String("username"),
+	}
+
+	_, err := client.Services.SetMattermostSlashCommandsService(1, opt)
+	if err != nil {
+		t.Fatalf("Services.SetMattermostSlashCommandsService returns an error: %v", err)
+	}
+}
+
+func TestDeleteMattermostSlashCommandsService(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/services/mattermost-slash-commands", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodDelete)
+	})
+
+	_, err := client.Services.DeleteMattermostSlashCommandsService(1)
+	if err != nil {
+		t.Fatalf("Services.DeleteMattermostSlashCommandsService returns an error: %v", err)
+	}
+}
