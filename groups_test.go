@@ -64,7 +64,7 @@ func TestGetGroupWithFileTemplateId(t *testing.T) {
 		t.Errorf("Groups.GetGroup returned error: %v", err)
 	}
 
-	want := &Group{ID: 1, Name: "g", FileTemplateProjectId: 12345}
+	want := &Group{ID: 1, Name: "g", FileTemplateProjectID: 12345}
 	if !reflect.DeepEqual(want, group) {
 		t.Errorf("Groups.GetGroup returned %+v, want %+v", group, want)
 	}

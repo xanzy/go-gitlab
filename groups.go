@@ -47,6 +47,7 @@ type Group struct {
 	RequestAccessEnabled    bool                       `json:"request_access_enabled"`
 	FullName                string                     `json:"full_name"`
 	FullPath                string                     `json:"full_path"`
+	FileTemplateProjectID   int                        `json:"file_template_project_id"`
 	ParentID                int                        `json:"parent_id"`
 	Projects                []*Project                 `json:"projects"`
 	Statistics              *StorageStatistics         `json:"statistics"`
@@ -71,7 +72,6 @@ type Group struct {
 	LDAPCN                         string           `json:"ldap_cn"`
 	LDAPAccess                     AccessLevelValue `json:"ldap_access"`
 	LDAPGroupLinks                 []*LDAPGroupLink `json:"ldap_group_links"`
-	FileTemplateProjectId          int              `json:"file_template_project_id"`
 	SharedRunnersMinutesLimit      int              `json:"shared_runners_minutes_limit"`
 	ExtraSharedRunnersMinutesLimit int              `json:"extra_shared_runners_minutes_limit"`
 	PreventForkingOutsideGroup     bool             `json:"prevent_forking_outside_group"`
