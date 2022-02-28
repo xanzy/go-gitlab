@@ -1130,3 +1130,48 @@ func TestCreateProjectApprovalRule(t *testing.T) {
 		t.Errorf("Projects.CreateProjectApprovalRule returned %+v, want %+v", rule, want)
 	}
 }
+
+func TestCreateProjectApprovalRuleEligibleApprovers(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/approval_rules", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPost)
+		fmt.Fprint(w, `{
+			"id": 1,
+			"name": "Any name",
+			"rule_type": "any_approver",
+			"eligible_approvers": [],
+			"approvals_required": 1,
+			"users": [],
+			"groups": [],
+			"contains_hidden_groups": false,
+			"protected_branches": []
+		}`)
+	})
+
+	opt := &CreateProjectLevelRuleOptions{
+		Name:              String("Any name"),
+		ApprovalsRequired: Int(1),
+	}
+
+	rule, _, err := client.Projects.CreateProjectApprovalRule(1, opt)
+	if err != nil {
+		t.Errorf("Projects.CreateProjectApprovalRule returned error: %v", err)
+	}
+
+	want := &ProjectApprovalRule{
+		ID:       1,
+		Name:     "Any name",
+		RuleType: "any_approver",
+		EligibleApprovers: []*BasicUser{},
+		ApprovalsRequired: 1,
+		Users: []*BasicUser{},
+		Groups: []*Group{},
+		ProtectedBranches: []*ProtectedBranch{},
+	}
+
+	if !reflect.DeepEqual(want, rule) {
+		t.Errorf("Projects.CreateProjectApprovalRule returned %+v, want %+v", rule, want)
+	}
+}

@@ -1743,6 +1743,7 @@ type CreateProjectLevelRuleOptions struct {
 	GroupIDs           *[]int  `url:"group_ids,omitempty" json:"group_ids,omitempty"`
 	Name               *string `url:"name,omitempty" json:"name,omitempty"`
 	ProtectedBranchIDs *[]int  `url:"protected_branch_ids,omitempty" json:"protected_branch_ids,omitempty"`
+	RuleType           *string `url:"rule_type,omitempty" json:"rule_type,omitempty"`
 	UserIDs            *[]int  `url:"user_ids,omitempty" json:"user_ids,omitempty"`
 }
 
@@ -1781,6 +1782,7 @@ type UpdateProjectLevelRuleOptions struct {
 	GroupIDs           *[]int  `url:"group_ids,omitempty" json:"group_ids,omitempty"`
 	Name               *string `url:"name,omitempty" json:"name,omitempty"`
 	ProtectedBranchIDs *[]int  `url:"protected_branch_ids,omitempty" json:"protected_branch_ids,omitempty"`
+	RuleType           *string `url:"rule_type,omitempty" json:"rule_type,omitempty"`
 	UserIDs            *[]int  `url:"user_ids,omitempty" json:"user_ids,omitempty"`
 }
 
