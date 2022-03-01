@@ -1746,11 +1746,12 @@ func (s *ProjectsService) GetProjectApprovalRules(pid interface{}, options ...Re
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#create-project-level-rules
 type CreateProjectLevelRuleOptions struct {
-	ApprovalsRequired  *int    `url:"approvals_required,omitempty" json:"approvals_required,omitempty"`
-	GroupIDs           *[]int  `url:"group_ids,omitempty" json:"group_ids,omitempty"`
 	Name               *string `url:"name,omitempty" json:"name,omitempty"`
-	ProtectedBranchIDs *[]int  `url:"protected_branch_ids,omitempty" json:"protected_branch_ids,omitempty"`
+	ApprovalsRequired  *int    `url:"approvals_required,omitempty" json:"approvals_required,omitempty"`
+	RuleType           *string `url:"rule_type,omitempty" json:"rule_type,omitempty"`
 	UserIDs            *[]int  `url:"user_ids,omitempty" json:"user_ids,omitempty"`
+	GroupIDs           *[]int  `url:"group_ids,omitempty" json:"group_ids,omitempty"`
+	ProtectedBranchIDs *[]int  `url:"protected_branch_ids,omitempty" json:"protected_branch_ids,omitempty"`
 }
 
 // CreateProjectApprovalRule creates a new project-level approval rule.
@@ -1784,11 +1785,11 @@ func (s *ProjectsService) CreateProjectApprovalRule(pid interface{}, opt *Create
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#update-project-level-rules
 type UpdateProjectLevelRuleOptions struct {
-	ApprovalsRequired  *int    `url:"approvals_required,omitempty" json:"approvals_required,omitempty"`
-	GroupIDs           *[]int  `url:"group_ids,omitempty" json:"group_ids,omitempty"`
 	Name               *string `url:"name,omitempty" json:"name,omitempty"`
-	ProtectedBranchIDs *[]int  `url:"protected_branch_ids,omitempty" json:"protected_branch_ids,omitempty"`
+	ApprovalsRequired  *int    `url:"approvals_required,omitempty" json:"approvals_required,omitempty"`
 	UserIDs            *[]int  `url:"user_ids,omitempty" json:"user_ids,omitempty"`
+	GroupIDs           *[]int  `url:"group_ids,omitempty" json:"group_ids,omitempty"`
+	ProtectedBranchIDs *[]int  `url:"protected_branch_ids,omitempty" json:"protected_branch_ids,omitempty"`
 }
 
 // UpdateProjectApprovalRule updates an existing approval rule with new options.
