@@ -68,7 +68,6 @@ func TestGetGroupWithFileTemplateId(t *testing.T) {
 	if !reflect.DeepEqual(want, group) {
 		t.Errorf("Groups.GetGroup returned %+v, want %+v", group, want)
 	}
-
 }
 
 func TestCreateGroup(t *testing.T) {
