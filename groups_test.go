@@ -49,6 +49,27 @@ func TestGetGroup(t *testing.T) {
 	}
 }
 
+func TestGetGroupWithFileTemplateId(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/groups/g",
+		func(w http.ResponseWriter, r *http.Request) {
+			testMethod(t, r, http.MethodGet)
+			fmt.Fprint(w, `{"id": 1, "name": "g","file_template_project_id": 12345}`)
+		})
+
+	group, _, err := client.Groups.GetGroup("g", &GetGroupOptions{})
+	if err != nil {
+		t.Errorf("Groups.GetGroup returned error: %v", err)
+	}
+
+	want := &Group{ID: 1, Name: "g", FileTemplateProjectID: 12345}
+	if !reflect.DeepEqual(want, group) {
+		t.Errorf("Groups.GetGroup returned %+v, want %+v", group, want)
+	}
+}
+
 func TestCreateGroup(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
