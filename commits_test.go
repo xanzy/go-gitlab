@@ -103,42 +103,66 @@ func TestGetCommitStatuses(t *testing.T) {
 }
 
 func TestSetCommitStatus(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
-
-	mux.HandleFunc("/api/v4/projects/1/statuses/b0b3a907f41409829b307a28b82fdbd552ee5a27", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, http.MethodPost)
-		body, err := ioutil.ReadAll(r.Body)
-		require.NoError(t, err)
-
-		var content SetCommitStatusOptions
-		err = json.Unmarshal(body, &content)
-		require.NoError(t, err)
-
-		assert.Equal(t, "ci/jenkins", *content.Name)
-		assert.Equal(t, 99.9, *content.Coverage)
-		fmt.Fprint(w, `{"id":1}`)
-	})
-
-	cov := 99.9
-	opt := &SetCommitStatusOptions{
-		State:       Running,
-		Ref:         String("master"),
-		Name:        String("ci/jenkins"),
-		Context:     String(""),
-		TargetURL:   String("http://abc"),
-		Description: String("build"),
-		Coverage:    &cov,
-	}
-	status, _, err := client.Commits.SetCommitStatus("1", "b0b3a907f41409829b307a28b82fdbd552ee5a27", opt)
-
-	if err != nil {
-		t.Errorf("Commits.SetCommitStatus returned error: %v", err)
+	cases := []struct {
+		name     string
+		coverage *float64
+		want     *CommitStatus
+	}{
+		{
+			name:     "null coverage",
+			coverage: nil,
+			want:     &CommitStatus{ID: 1, Coverage: nil},
+		},
+		{
+			name:     "99.9 coverage",
+			coverage: Float64(99.9),
+			want:     &CommitStatus{ID: 1, Coverage: Float64(99.9)},
+		},
 	}
 
-	want := &CommitStatus{ID: 1}
-	if !reflect.DeepEqual(want, status) {
-		t.Errorf("Commits.SetCommitStatus returned %+v, want %+v", status, want)
+	for _, tt := range cases {
+		t.Run(tt.name, func(t *testing.T) {
+			mux, server, client := setup(t)
+			defer teardown(server)
+
+			mux.HandleFunc("/api/v4/projects/1/statuses/b0b3a907f41409829b307a28b82fdbd552ee5a27", func(w http.ResponseWriter, r *http.Request) {
+				testMethod(t, r, http.MethodPost)
+				body, err := ioutil.ReadAll(r.Body)
+				require.NoError(t, err)
+
+				var content SetCommitStatusOptions
+				err = json.Unmarshal(body, &content)
+				require.NoError(t, err)
+
+				assert.Equal(t, "ci/jenkins", *content.Name)
+				assert.Equal(t, tt.coverage, content.Coverage)
+
+				coverageJSONValue := "null"
+				if tt.coverage != nil {
+					coverageJSONValue = fmt.Sprintf("%f", *tt.coverage)
+				}
+				fmt.Fprintf(w, `{"id":1, "coverage": %s}`, coverageJSONValue)
+			})
+
+			opt := &SetCommitStatusOptions{
+				State:       Running,
+				Ref:         String("master"),
+				Name:        String("ci/jenkins"),
+				Context:     String(""),
+				TargetURL:   String("http://abc"),
+				Description: String("build"),
+				Coverage:    tt.coverage,
+			}
+			status, _, err := client.Commits.SetCommitStatus("1", "b0b3a907f41409829b307a28b82fdbd552ee5a27", opt)
+
+			if err != nil {
+				t.Errorf("Commits.SetCommitStatus returned error: %v", err)
+			}
+
+			if !reflect.DeepEqual(tt.want, status) {
+				t.Errorf("Commits.SetCommitStatus returned %+v, want %+v", status, tt.want)
+			}
+		})
 	}
 }
 

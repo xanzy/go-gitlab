@@ -767,6 +767,14 @@ func Int(v int) *int {
 	return p
 }
 
+// Float64 is a helper routine that allocates a new float64 value
+// to store v and returns a pointer to it.
+func Float64(v float64) *float64 {
+	p := new(float64)
+	*p = v
+	return p
+}
+
 // String is a helper routine that allocates a new string value
 // to store v and returns a pointer to it.
 func String(v string) *string {
