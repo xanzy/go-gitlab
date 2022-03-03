@@ -29,7 +29,17 @@ func TestTagsService_ListTags(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/repository/tags", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
-		fmt.Fprint(w, `[{"name": "1.0.0"},{"name": "1.0.1"}]`)
+		fmt.Fprint(w, `[
+      {
+        "name": "1.0.0",
+        "message": "test",
+        "target": "fffff",
+        "protected": false
+      },{
+        "name": "1.0.1",
+        "protected": true
+      }
+    ]`)
 	})
 
 	opt := &ListTagsOptions{ListOptions: ListOptions{Page: 2, PerPage: 3}}
@@ -39,7 +49,18 @@ func TestTagsService_ListTags(t *testing.T) {
 		t.Errorf("Tags.ListTags returned error: %v", err)
 	}
 
-	want := []*Tag{{Name: "1.0.0"}, {Name: "1.0.1"}}
+	want := []*Tag{
+		{
+			Name:      "1.0.0",
+			Message:   "test",
+			Target:    "fffff",
+			Protected: false,
+		},
+		{
+			Name:      "1.0.1",
+			Protected: true,
+		},
+	}
 	if !reflect.DeepEqual(want, tags) {
 		t.Errorf("Tags.ListTags returned %+v, want %+v", tags, want)
 	}
