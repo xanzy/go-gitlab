@@ -120,22 +120,29 @@ type Project struct {
 		GroupName        string `json:"group_name"`
 		GroupAccessLevel int    `json:"group_access_level"`
 	} `json:"shared_with_groups"`
-	Statistics                   *ProjectStatistics `json:"statistics"`
-	Links                        *Links             `json:"_links,omitempty"`
-	CIConfigPath                 string             `json:"ci_config_path"`
-	CIDefaultGitDepth            int                `json:"ci_default_git_depth"`
-	CustomAttributes             []*CustomAttribute `json:"custom_attributes"`
-	ComplianceFrameworks         []string           `json:"compliance_frameworks"`
-	BuildCoverageRegex           string             `json:"build_coverage_regex"`
-	BuildTimeout                 int                `json:"build_timeout"`
-	IssuesTemplate               string             `json:"issues_template"`
-	MergeRequestsTemplate        string             `json:"merge_requests_template"`
-	KeepLatestArtifact           bool               `json:"keep_latest_artifact"`
-	MergePipelinesEnabled        bool               `json:"merge_pipelines_enabled"`
-	MergeTrainsEnabled           bool               `json:"merge_trains_enabled"`
-	RestrictUserDefinedVariables bool               `json:"restrict_user_defined_variables"`
-	MergeCommitTemplate          string             `json:"merge_commit_template"`
-	SquashCommitTemplate         string             `json:"squash_commit_template"`
+	Statistics                               *ProjectStatistics `json:"statistics"`
+	Links                                    *Links             `json:"_links,omitempty"`
+	CIConfigPath                             string             `json:"ci_config_path"`
+	CIDefaultGitDepth                        int                `json:"ci_default_git_depth"`
+	CustomAttributes                         []*CustomAttribute `json:"custom_attributes"`
+	ComplianceFrameworks                     []string           `json:"compliance_frameworks"`
+	BuildCoverageRegex                       string             `json:"build_coverage_regex"`
+	BuildTimeout                             int                `json:"build_timeout"`
+	IssuesTemplate                           string             `json:"issues_template"`
+	MergeRequestsTemplate                    string             `json:"merge_requests_template"`
+	KeepLatestArtifact                       bool               `json:"keep_latest_artifact"`
+	MergePipelinesEnabled                    bool               `json:"merge_pipelines_enabled"`
+	MergeTrainsEnabled                       bool               `json:"merge_trains_enabled"`
+	RestrictUserDefinedVariables             bool               `json:"restrict_user_defined_variables"`
+	MergeCommitTemplate                      string             `json:"merge_commit_template"`
+	SquashCommitTemplate                     string             `json:"squash_commit_template"`
+	AutoDevopsDeployStrategy                 string             `json:"auto_devops_deploy_strategy"`
+	AutoDevopsEnabled                        bool               `json:"auto_devops_enabled"`
+	BuildGitStrategy                         string             `json:"build_git_strategy"`
+	EmailsDisabled                           bool               `json:"emails_disabled"`
+	ExternalAuthorizationClassificationLabel string             `json:"external_authorization_classification_label"`
+	RequirementsAccessLevel                  AccessControlValue `json:"requirements_access_level"`
+	SecurityAndComplianceAccessLevel         AccessControlValue `json:"security_and_compliance_access_level"`
 }
 
 // BasicProject included in other service responses (such as todos).
@@ -643,6 +650,7 @@ type CreateProjectOptions struct {
 	RequestAccessEnabled                      *bool                                `url:"request_access_enabled,omitempty" json:"request_access_enabled,omitempty"`
 	RequirementsAccessLevel                   *AccessControlValue                  `url:"requirements_access_level,omitempty" json:"requirements_access_level,omitempty"`
 	ResolveOutdatedDiffDiscussions            *bool                                `url:"resolve_outdated_diff_discussions,omitempty" json:"resolve_outdated_diff_discussions,omitempty"`
+	SecurityAndComplianceAccessLevel          *AccessControlValue                  `url:"security_and_compliance_access_level,omitempty" json:"security_and_compliance_access_level,omitempty"`
 	SharedRunnersEnabled                      *bool                                `url:"shared_runners_enabled,omitempty" json:"shared_runners_enabled,omitempty"`
 	ShowDefaultAwardEmojis                    *bool                                `url:"show_default_award_emojis,omitempty" json:"show_default_award_emojis,omitempty"`
 	SnippetsAccessLevel                       *AccessControlValue                  `url:"snippets_access_level,omitempty" json:"snippets_access_level,omitempty"`
@@ -836,6 +844,7 @@ type EditProjectOptions struct {
 	RequirementsAccessLevel                   *AccessControlValue                  `url:"requirements_access_level,omitempty" json:"requirements_access_level,omitempty"`
 	ResolveOutdatedDiffDiscussions            *bool                                `url:"resolve_outdated_diff_discussions,omitempty" json:"resolve_outdated_diff_discussions,omitempty"`
 	RestrictUserDefinedVariables              *bool                                `url:"restrict_user_defined_variables,omitempty" json:"restrict_user_defined_variables,omitempty"`
+	SecurityAndComplianceAccessLevel          *AccessControlValue                  `url:"security_and_compliance_access_level,omitempty" json:"security_and_compliance_access_level,omitempty"`
 	SharedRunnersEnabled                      *bool                                `url:"shared_runners_enabled,omitempty" json:"shared_runners_enabled,omitempty"`
 	ShowDefaultAwardEmojis                    *bool                                `url:"show_default_award_emojis,omitempty" json:"show_default_award_emojis,omitempty"`
 	SnippetsAccessLevel                       *AccessControlValue                  `url:"snippets_access_level,omitempty" json:"snippets_access_level,omitempty"`
