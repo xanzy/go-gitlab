@@ -69,7 +69,7 @@ func TestListAllDeployKeys(t *testing.T) {
 		  ]`)
 	})
 
-	deployKeys, _, err := client.DeployKeys.ListAllDeployKeys()
+	deployKeys, _, err := client.DeployKeys.ListAllDeployKeys(&ListInstanceDeployKeysOptions{})
 	if err != nil {
 		t.Errorf("DeployKeys.ListAllDeployKeys returned error: %v", err)
 	}
@@ -84,9 +84,9 @@ func TestListAllDeployKeys(t *testing.T) {
 			ID:          1,
 			Title:       "Public key",
 			Key:         "ssh-rsa AAAA...",
-			CreatedAt:   createdAtKey1,
+			CreatedAt:   &createdAtKey1,
 			Fingerprint: "7f:72:08:7d:0e:47:48:ec:37:79:b2:76:68:b5:87:65",
-			ProjectsWithWriteAccess: []*InstanceDeployKeyProject{
+			ProjectsWithWriteAccess: []*DeployKeyProject{
 				{
 					ID:                73,
 					Description:       "",
@@ -94,7 +94,7 @@ func TestListAllDeployKeys(t *testing.T) {
 					NameWithNamespace: "Sidney Jones / project2",
 					Path:              "project2",
 					PathWithNamespace: "sidney_jones/project2",
-					CreatedAt:         createdAtKey1Enable1,
+					CreatedAt:         &createdAtKey1Enable1,
 				},
 				{
 					ID:                74,
@@ -103,7 +103,7 @@ func TestListAllDeployKeys(t *testing.T) {
 					NameWithNamespace: "Sidney Jones / project3",
 					Path:              "project3",
 					PathWithNamespace: "sidney_jones/project3",
-					CreatedAt:         createdAtKey1Enable2,
+					CreatedAt:         &createdAtKey1Enable2,
 				},
 			},
 		},
@@ -112,8 +112,8 @@ func TestListAllDeployKeys(t *testing.T) {
 			Title:                   "Another Public key",
 			Key:                     "ssh-rsa AAAA...",
 			Fingerprint:             "64:d3:73:d4:83:70:ab:41:96:68:d5:3d:a5:b0:34:ea",
-			CreatedAt:               createdAtKey2,
-			ProjectsWithWriteAccess: []*InstanceDeployKeyProject{},
+			CreatedAt:               &createdAtKey2,
+			ProjectsWithWriteAccess: []*DeployKeyProject{},
 		},
 	}
 	if !reflect.DeepEqual(want, deployKeys) {
@@ -160,20 +160,20 @@ func TestListProjectDeployKeys(t *testing.T) {
 		t.Errorf("DeployKeys.ListAllDeployKeys returned an error while parsing time: %v", err)
 	}
 
-	want := []*DeployKey{
+	want := []*ProjectDeployKey{
 		{
 			ID:        1,
 			Title:     "Public key",
 			Key:       "ssh-rsa AAAA...",
 			CreatedAt: &createdAt,
-			CanPush:   Bool(false),
+			CanPush:   false,
 		},
 		{
 			ID:        3,
 			Title:     "Another Public key",
 			Key:       "ssh-rsa AAAA...",
 			CreatedAt: &createdAt2,
-			CanPush:   Bool(false),
+			CanPush:   false,
 		},
 	}
 	if !reflect.DeepEqual(want, deployKeys) {
@@ -206,12 +206,12 @@ func TestGetDeployKey(t *testing.T) {
 		t.Errorf("DeployKeys.ListAllDeployKeys returned an error while parsing time: %v", err)
 	}
 
-	want := &DeployKey{
+	want := &ProjectDeployKey{
 		ID:        1,
 		Title:     "Public key",
 		Key:       "ssh-rsa AAAA...",
 		CreatedAt: &createdAt,
-		CanPush:   Bool(false),
+		CanPush:   false,
 	}
 	if !reflect.DeepEqual(want, deployKey) {
 		t.Errorf("DeployKeys.GetDeployKey returned %+v, want %+v", deployKey, want)
@@ -248,12 +248,12 @@ func TestAddDeployKey(t *testing.T) {
 		t.Errorf("DeployKeys.ListAllDeployKeys returned an error while parsing time: %v", err)
 	}
 
-	want := &DeployKey{
+	want := &ProjectDeployKey{
 		Title:     *String("My deploy key"),
 		ID:        12,
 		Key:       *String("ssh-rsa AAAA..."),
-		CanPush:   Bool(true),
 		CreatedAt: &createdAt,
+		CanPush:   true,
 	}
 	if !reflect.DeepEqual(want, deployKey) {
 		t.Errorf("DeployKeys.AddDeployKey returned %+v, want %+v", deployKey, want)
@@ -298,7 +298,7 @@ func TestEnableDeployKey(t *testing.T) {
 		t.Errorf("DeployKeys.ListAllDeployKeys returned an error while parsing time: %v", err)
 	}
 
-	want := &DeployKey{
+	want := &ProjectDeployKey{
 		ID:        12,
 		Title:     "My deploy key",
 		Key:       "ssh-rsa AAAA...",
@@ -338,12 +338,12 @@ func TestUpdateDeployKey(t *testing.T) {
 		t.Errorf("DeployKeys.ListAllDeployKeys returned an error while parsing time: %v", err)
 	}
 
-	want := &DeployKey{
+	want := &ProjectDeployKey{
 		ID:        11,
 		Title:     *String("New deploy key"),
 		Key:       "ssh-rsa AAAA...",
-		CanPush:   Bool(true),
 		CreatedAt: &createdAt,
+		CanPush:   true,
 	}
 	if !reflect.DeepEqual(want, deployKey) {
 		t.Errorf("DeployKeys.UpdateDeployKey returned %+v, want %+v", deployKey, want)
