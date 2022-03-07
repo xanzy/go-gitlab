@@ -250,6 +250,106 @@ func TestUnblockUser_UnknownError(t *testing.T) {
 	}
 }
 
+func TestBanUser(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	path := fmt.Sprintf("/%susers/1/block", apiVersionPath)
+	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPost)
+		w.WriteHeader(http.StatusCreated)
+	})
+
+	err := client.Users.BlockUser(1)
+	if err != nil {
+		t.Errorf("Users.BlockUser returned error: %v", err)
+	}
+}
+
+func TestBanUser_UserNotFound(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	path := fmt.Sprintf("/%susers/1/ban", apiVersionPath)
+	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPost)
+		w.WriteHeader(http.StatusNotFound)
+	})
+
+	err := client.Users.BanUser(1)
+	if !errors.Is(err, ErrUserNotFound) {
+		t.Errorf("Users.BanUser error.\nExpected: %+v\nGot: %+v", ErrUserNotFound, err)
+	}
+}
+
+func TestBanUser_UnknownError(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	path := fmt.Sprintf("/%susers/1/ban", apiVersionPath)
+	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPost)
+		w.WriteHeader(http.StatusTeapot)
+	})
+
+	want := fmt.Sprintf("Received unexpected result code: %d", http.StatusTeapot)
+
+	err := client.Users.BanUser(1)
+	if err.Error() != want {
+		t.Errorf("Users.BanUSer error.\nExpected: %s\nGot: %v", want, err)
+	}
+}
+
+func TestUnbanUser(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	path := fmt.Sprintf("/%susers/1/unban", apiVersionPath)
+	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPost)
+		w.WriteHeader(http.StatusCreated)
+	})
+
+	err := client.Users.UnbanUser(1)
+	if err != nil {
+		t.Errorf("Users.UnbanUser returned error: %v", err)
+	}
+}
+
+func TestUnbanUser_UserNotFound(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	path := fmt.Sprintf("/%susers/1/unban", apiVersionPath)
+	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPost)
+		w.WriteHeader(http.StatusNotFound)
+	})
+
+	err := client.Users.UnbanUser(1)
+	if !errors.Is(err, ErrUserNotFound) {
+		t.Errorf("Users.UnbanUser error.\nExpected: %v\nGot: %v", ErrUserNotFound, err)
+	}
+}
+
+func TestUnbanUser_UnknownError(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	path := fmt.Sprintf("/%susers/1/unban", apiVersionPath)
+	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPost)
+		w.WriteHeader(http.StatusTeapot)
+	})
+
+	want := fmt.Sprintf("Received unexpected result code: %d", http.StatusTeapot)
+
+	err := client.Users.UnbanUser(1)
+	if err.Error() != want {
+		t.Errorf("Users.UnbanUser error.\nExpected: %s\n\tGot: %v", want, err)
+	}
+}
+
 func TestDeactivateUser(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
