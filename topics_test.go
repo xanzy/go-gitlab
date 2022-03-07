@@ -123,19 +123,19 @@ func TestTopicsService_CreateTopic(t *testing.T) {
 		fmt.Fprint(w, `{
       "id": 1,
       "name": "topic1",
-      "description": null,
+      "description": "description",
       "total_projects_count": 0,
       "avatar_url": null
     }`)
 	})
 
-	opt := &CreateTopicOptions{Name: String("topic1")}
+	opt := &CreateTopicOptions{Name: String("topic1"), Description: String("description")}
 	release, _, err := client.Topics.CreateTopic(opt)
 	if err != nil {
 		t.Errorf("Topics.CreateTopic returned error: %v", err)
 	}
 
-	want := &Topic{ID: 1, Name: "topic1"}
+	want := &Topic{ID: 1, Name: "topic1", Description: "description", TotalProjectsCount: 0}
 	if !reflect.DeepEqual(want, release) {
 		t.Errorf("Topics.CreateTopic returned %+v, want %+v", release, want)
 	}
@@ -150,19 +150,19 @@ func TestTopicsService_UpdateTopic(t *testing.T) {
 		fmt.Fprint(w, `{
       "id": 1,
       "name": "topic1",
-      "description": null,
+      "description": "description",
       "total_projects_count": 0,
       "avatar_url": null
     }`)
 	})
 
-	opt := &UpdateTopicOptions{Name: String("topic1")}
+	opt := &UpdateTopicOptions{Name: String("topic1"), Description: String("description")}
 	release, _, err := client.Topics.UpdateTopic(1, opt)
 	if err != nil {
 		t.Errorf("Topics.UpdateTopic returned error: %v", err)
 	}
 
-	want := &Topic{ID: 1, Name: "topic1"}
+	want := &Topic{ID: 1, Name: "topic1", Description: "description", TotalProjectsCount: 0}
 	if !reflect.DeepEqual(want, release) {
 		t.Errorf("Topics.UpdateTopic returned %+v, want %+v", release, want)
 	}
