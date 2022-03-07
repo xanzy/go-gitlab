@@ -48,7 +48,7 @@ func topicExample() {
 	}
 	topic, _, err = git.Topics.UpdateTopic(topic.ID, &gitlab.UpdateTopicOptions{
 		Avatar: &gitlab.TopicAvatar{
-			Filename: gitlab.String("5746961_detect_direction_gps_location_map_icon.png"),
+			Filename: "5746961_detect_direction_gps_location_map_icon.png",
 			Image:    avatarFile,
 		},
 	})

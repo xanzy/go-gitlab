@@ -17,6 +17,7 @@
 package gitlab
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
@@ -94,12 +95,6 @@ func (s *TopicsService) GetTopic(topic int, options ...RequestOptionFunc) (*Topi
 	return t, resp, err
 }
 
-// TopicAvatar represents a GitLab topic avatar.
-type TopicAvatar struct {
-	Filename *string
-	Image    io.Reader
-}
-
 // CreateTopicOptions represents the available CreateTopic() options.
 //
 // GitLab API docs:
@@ -108,6 +103,21 @@ type CreateTopicOptions struct {
 	Name        *string      `url:"name,omitempty" json:"name,omitempty"`
 	Description *string      `url:"description,omitempty" json:"description,omitempty"`
 	Avatar      *TopicAvatar `url:"-" json:"-"`
+}
+
+// TopicAvatar represents a GitLab topic avatar.
+type TopicAvatar struct {
+	Filename string
+	Image    io.Reader
+}
+
+// MarshalJSON implements the json.Marshaler interface.
+func (a *TopicAvatar) MarshalJSON() ([]byte, error) {
+	if a.Filename == "" && a.Image == nil {
+		return []byte(`""`), nil
+	}
+	type alias TopicAvatar
+	return json.Marshal((*alias)(a))
 }
 
 // CreateTopic creates a new project topic.
@@ -125,7 +135,7 @@ func (s *TopicsService) CreateTopic(opt *CreateTopicOptions, options ...RequestO
 			http.MethodPost,
 			"topics",
 			opt.Avatar.Image,
-			*opt.Avatar.Filename,
+			opt.Avatar.Filename,
 			UploadAvatar,
 			opt,
 			options,
@@ -151,19 +161,13 @@ func (s *TopicsService) CreateTopic(opt *CreateTopicOptions, options ...RequestO
 type UpdateTopicOptions struct {
 	Name        *string      `url:"name,omitempty" json:"name,omitempty"`
 	Description *string      `url:"description,omitempty" json:"description,omitempty"`
-	Avatar      *TopicAvatar `url:"-" json:"-"`
-}
-
-type RemoveAvatarUpdateTopicOptions struct {
-	Name        *string `url:"name,omitempty" json:"name,omitempty"`
-	Description *string `url:"description,omitempty" json:"description,omitempty"`
-	Avatar      *string `url:"avatar,omitempty" json:"avatar,omitempty"`
+	Avatar      *TopicAvatar `url:"-" json:"avatar,omitempty"`
 }
 
 // UpdateTopic updates a project topic. Only available to administrators.
 //
-// To remove a topic avatar (see https://docs.gitlab.com/ee/api/topics.html#remove-a-topic-avatar),
-// set the TopicAvatar.Filename to an empty string and set TopicAvatar.Image to nil.
+// To remove a topic avatar set the TopicAvatar.Filename to an empty string
+// and set TopicAvatar.Image to nil.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/topics.html#update-a-project-topic
@@ -173,20 +177,14 @@ func (s *TopicsService) UpdateTopic(topic int, opt *UpdateTopicOptions, options 
 	var err error
 	var req *retryablehttp.Request
 
-	if opt.Avatar == nil {
+	if opt.Avatar == nil || (opt.Avatar.Filename == "" && opt.Avatar.Image == nil) {
 		req, err = s.client.NewRequest(http.MethodPut, u, opt, options)
-	} else if (TopicAvatar{}) == *opt.Avatar {
-		req, err = s.client.NewRequest(http.MethodPut, u, &RemoveAvatarUpdateTopicOptions{
-			Name:        opt.Name,
-			Description: opt.Description,
-			Avatar:      String(""),
-		}, options)
 	} else {
 		req, err = s.client.UploadRequest(
 			http.MethodPut,
 			u,
 			opt.Avatar.Image,
-			*opt.Avatar.Filename,
+			opt.Avatar.Filename,
 			UploadAvatar,
 			opt,
 			options,
