@@ -44,7 +44,7 @@ func TestCreateLabel(t *testing.T) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	want := &Label{ID: 1, Name: "My Label", Color: "#11FF22", Priority: 2}
+	want := &Label{ID: 1, Name: "My Label", Color: "#11FF22", Priority: Int(2)}
 	if !reflect.DeepEqual(want, label) {
 		t.Errorf("Labels.CreateLabel returned %+v, want %+v", label, want)
 	}
@@ -96,7 +96,7 @@ func TestUpdateLabel(t *testing.T) {
 		log.Fatal(err)
 	}
 
-	want := &Label{ID: 1, Name: "New Label", Color: "#11FF23", Description: "This is updated label", Priority: 42}
+	want := &Label{ID: 1, Name: "New Label", Color: "#11FF23", Description: "This is updated label", Priority: Int(42)}
 
 	if !reflect.DeepEqual(want, label) {
 		t.Errorf("Labels.UpdateLabel returned %+v, want %+v", label, want)

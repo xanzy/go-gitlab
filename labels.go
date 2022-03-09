@@ -43,7 +43,7 @@ type Label struct {
 	ClosedIssuesCount      int    `json:"closed_issues_count"`
 	OpenMergeRequestsCount int    `json:"open_merge_requests_count"`
 	Subscribed             bool   `json:"subscribed"`
-	Priority               int    `json:"priority"`
+	Priority               *int   `json:"priority"`
 	IsProjectLabel         bool   `json:"is_project_label"`
 }
 
