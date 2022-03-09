@@ -207,6 +207,11 @@ func TestParseMergeRequestCommentHook(t *testing.T) {
 	if event.MergeRequest.ID != 7 {
 		t.Errorf("MergeRequest ID is %v, want %v", event.MergeRequest.ID, 7)
 	}
+
+	expectedTitle := "Merge branch 'another-branch' into 'master'"
+	if event.MergeRequest.LastCommit.Title != expectedTitle {
+		t.Errorf("MergeRequest Title is %v, want %v", event.MergeRequest.Title, expectedTitle)
+	}
 }
 
 func TestParseMergeRequestHook(t *testing.T) {

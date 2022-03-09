@@ -430,6 +430,7 @@ type MergeCommentEvent struct {
 		Target                    *Repository  `json:"target"`
 		LastCommit                struct {
 			ID        string     `json:"id"`
+			Title     string     `json:"title"`
 			Message   string     `json:"message"`
 			Timestamp *time.Time `json:"timestamp"`
 			URL       string     `json:"url"`
