@@ -152,7 +152,7 @@ func TestListIssues(t *testing.T) {
 
 	listProjectIssue := &ListIssuesOptions{
 		AuthorID:   Int(01),
-		AssigneeID: Int(02),
+		AssigneeID: AssigneeID(02),
 	}
 
 	issues, _, err := client.Issues.ListIssues(listProjectIssue)
@@ -220,7 +220,7 @@ func TestListIssuesWithLabelDetails(t *testing.T) {
 
 	listProjectIssue := &ListIssuesOptions{
 		AuthorID:   Int(01),
-		AssigneeID: Int(02),
+		AssigneeID: AssigneeID(02),
 	}
 
 	issues, _, err := client.Issues.ListIssues(listProjectIssue)
