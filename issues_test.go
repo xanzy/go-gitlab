@@ -336,7 +336,7 @@ func TestListProjectIssues(t *testing.T) {
 
 	listProjectIssue := &ListProjectIssuesOptions{
 		AuthorID:   Int(01),
-		AssigneeID: Int(02),
+		AssigneeID: AssigneeID(02),
 	}
 	issues, _, err := client.Issues.ListProjectIssues("1", listProjectIssue)
 	if err != nil {
@@ -368,7 +368,7 @@ func TestListGroupIssues(t *testing.T) {
 	listGroupIssue := &ListGroupIssuesOptions{
 		State:      String("Open"),
 		AuthorID:   Int(01),
-		AssigneeID: Int(02),
+		AssigneeID: AssigneeID(02),
 	}
 
 	issues, _, err := client.Issues.ListGroupIssues("1", listGroupIssue)
