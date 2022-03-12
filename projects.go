@@ -1749,6 +1749,31 @@ func (s *ProjectsService) GetProjectApprovalRules(pid interface{}, options ...Re
 	return par, resp, err
 }
 
+// GetProjectApprovalRule gets the project level approvers.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/merge_request_approvals.html#get-a-single-project-level-rule
+func (s *ProjectsService) GetProjectApprovalRule(pid interface{}, ruleID int, options ...RequestOptionFunc) (*ProjectApprovalRule, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/approval_rules/%d", PathEscape(project), ruleID)
+
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	par := new(ProjectApprovalRule)
+	resp, err := s.client.Do(req, &par)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return par, resp, err
+}
+
 // CreateProjectLevelRuleOptions represents the available CreateProjectApprovalRule()
 // options.
 //
