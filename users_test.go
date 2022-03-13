@@ -21,6 +21,7 @@ import (
 	"fmt"
 	"net"
 	"net/http"
+	"reflect"
 	"testing"
 	"time"
 
@@ -611,4 +612,39 @@ func TestGetMemberships(t *testing.T) {
 
 	want := []*UserMembership{{SourceID: 1, SourceName: "Project one", SourceType: "Project", AccessLevel: 20}, {SourceID: 3, SourceName: "Group three", SourceType: "Namespace", AccessLevel: 20}}
 	assert.Equal(t, want, memberships)
+}
+
+func TestGetSingleSSHKeyForUser(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/users/1/keys/1", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		fmt.Fprint(w, `
+		{
+			"id": 1,
+			"title": "Public key",
+			"key": "ssh-rsa AAAA...",
+			"created_at": "2014-08-01T14:47:39.080Z"
+		  }
+`)
+	})
+
+	sshKey, _, err := client.Users.GetSSHKeyForUser(1, 1)
+	if err != nil {
+		t.Errorf("Users.GetSSHKeyForUser returned an error: %v", err)
+	}
+
+	wantCreatedAt := time.Date(2014, 8, 1, 14, 47, 39, 80000000, time.UTC)
+
+	want := &SSHKey{
+		ID:        1,
+		Title:     "Public key",
+		Key:       "ssh-rsa AAAA...",
+		CreatedAt: &wantCreatedAt,
+	}
+
+	if !reflect.DeepEqual(want, sshKey) {
+		t.Errorf("Users.GetSSHKeyForUser returned %+v, want %+v", sshKey, want)
+	}
 }
