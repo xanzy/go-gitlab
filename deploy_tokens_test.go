@@ -118,6 +118,49 @@ func TestListProjectDeployTokens(t *testing.T) {
 	}
 }
 
+func TestGetProjectDeployTokens(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/deploy_tokens/1", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		fmt.Fprint(w, `
+{
+  "id": 1,
+  "name": "MyToken",
+  "username": "gitlab+deploy-token-1",
+  "expires_at": "2020-02-14T00:00:00.000Z",
+  "scopes": [
+    "read_repository",
+    "read_registry"
+  ]
+}
+`)
+	})
+
+	deployToken, _, err := client.DeployTokens.GetProjectDeployToken(1, 1)
+	if err != nil {
+		t.Errorf("DeployTokens.GetProjectDeployToken returned an error: %v", err)
+	}
+
+	wantExpiresAt := time.Date(2020, 02, 14, 0, 0, 0, 0, time.UTC)
+
+	want := &DeployToken{
+		ID:        1,
+		Name:      "MyToken",
+		Username:  "gitlab+deploy-token-1",
+		ExpiresAt: &wantExpiresAt,
+		Scopes: []string{
+			"read_repository",
+			"read_registry",
+		},
+	}
+
+	if !reflect.DeepEqual(want, deployToken) {
+		t.Errorf("DeployTokens.GetProjectDeployToken returned %+v, want %+v", deployToken, want)
+	}
+}
+
 func TestCreateProjectDeployToken(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
@@ -234,6 +277,49 @@ func TestListGroupDeployTokens(t *testing.T) {
 
 	if !reflect.DeepEqual(want, deployTokens) {
 		t.Errorf("DeployTokens.ListGroupDeployTokens returned %+v, want %+v", deployTokens, want)
+	}
+}
+
+func TestGetGroupDeployTokens(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/groups/1/deploy_tokens/1", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		fmt.Fprint(w, `
+{
+  "id": 1,
+  "name": "MyToken",
+  "username": "gitlab+deploy-token-1",
+  "expires_at": "2020-02-14T00:00:00.000Z",
+  "scopes": [
+    "read_repository",
+    "read_registry"
+  ]
+}
+`)
+	})
+
+	deployToken, _, err := client.DeployTokens.GetGroupDeployToken(1, 1)
+	if err != nil {
+		t.Errorf("DeployTokens.GetGroupDeployToken returned an error: %v", err)
+	}
+
+	wantExpiresAt := time.Date(2020, 02, 14, 0, 0, 0, 0, time.UTC)
+
+	want := &DeployToken{
+		ID:        1,
+		Name:      "MyToken",
+		Username:  "gitlab+deploy-token-1",
+		ExpiresAt: &wantExpiresAt,
+		Scopes: []string{
+			"read_repository",
+			"read_registry",
+		},
+	}
+
+	if !reflect.DeepEqual(want, deployToken) {
+		t.Errorf("DeployTokens.GetGroupDeployToken returned %+v, want %+v", deployToken, want)
 	}
 }
 
