@@ -468,6 +468,26 @@ func (s *UsersService) GetSSHKey(key int, options ...RequestOptionFunc) (*SSHKey
 	return k, resp, err
 }
 
+// GetSSHKeyForUser gets a single key for a given user.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/users.html#single-ssh-key-for-given-user
+func (s *UsersService) GetSSHKeyForUser(user int, key int, options ...RequestOptionFunc) (*SSHKey, *Response, error) {
+	u := fmt.Sprintf("users/%d/keys/%d", user, key)
+
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	k := new(SSHKey)
+	resp, err := s.client.Do(req, k)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return k, resp, err
+}
+
 // AddSSHKeyOptions represents the available AddSSHKey() options.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#add-ssh-key
