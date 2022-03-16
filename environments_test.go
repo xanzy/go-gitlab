@@ -23,6 +23,7 @@ import (
 	"net/http"
 	"reflect"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -34,7 +35,17 @@ func TestListEnvironments(t *testing.T) {
 	mux.HandleFunc("/api/v4/projects/1/environments", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
 		testURL(t, r, "/api/v4/projects/1/environments?name=review%2Ffix-foo&page=1&per_page=10")
-		fmt.Fprint(w, `[{"id": 1,"name": "review/fix-foo", "slug": "review-fix-foo-dfjre3", "external_url": "https://review-fix-foo-dfjre3.example.gitlab.com"}]`)
+		fmt.Fprint(w, `[
+			{
+				"id": 1,
+				"name": "review/fix-foo",
+				"slug": "review-fix-foo-dfjre3",
+				"external_url": "https://review-fix-foo-dfjre3.example.gitlab.com",
+				"state": "stopped",
+				"created_at": "2013-10-02T10:12:29Z",
+				"updated_at": "2013-12-02T10:12:29Z"
+			}
+		]`)
 	})
 
 	envs, _, err := client.Environments.ListEnvironments(1, &ListEnvironmentsOptions{Name: String("review/fix-foo"), ListOptions: ListOptions{Page: 1, PerPage: 10}})
@@ -42,7 +53,17 @@ func TestListEnvironments(t *testing.T) {
 		log.Fatal(err)
 	}
 
-	want := []*Environment{{ID: 1, Name: "review/fix-foo", Slug: "review-fix-foo-dfjre3", ExternalURL: "https://review-fix-foo-dfjre3.example.gitlab.com"}}
+	createdAtWant, _ := time.Parse(timeLayout, "2013-10-02T10:12:29Z")
+	updatedAtWant, _ := time.Parse(timeLayout, "2013-12-02T10:12:29Z")
+	want := []*Environment{{
+		ID:          1,
+		Name:        "review/fix-foo",
+		Slug:        "review-fix-foo-dfjre3",
+		ExternalURL: "https://review-fix-foo-dfjre3.example.gitlab.com",
+		State:       "stopped",
+		CreatedAt:   &createdAtWant,
+		UpdatedAt:   &updatedAtWant,
+	}}
 	if !reflect.DeepEqual(want, envs) {
 		t.Errorf("Environments.ListEnvironments returned %+v, want %+v", envs, want)
 	}
@@ -54,7 +75,15 @@ func TestGetEnvironment(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/environments/5949167", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
-		fmt.Fprint(w, `{"id":1,"name":"test/test"}`)
+		fmt.Fprint(w, `{
+			"id": 1,
+			"name": "review/fix-foo",
+			"slug": "review-fix-foo-dfjre3",
+			"external_url": "https://review-fix-foo-dfjre3.example.gitlab.com",
+			"state": "stopped",
+			"created_at": "2013-10-02T10:12:29Z",
+			"updated_at": "2013-12-02T10:12:29Z"
+		}`)
 	})
 
 	env, _, err := client.Environments.GetEnvironment(1, 5949167)
@@ -62,7 +91,17 @@ func TestGetEnvironment(t *testing.T) {
 		t.Errorf("Environemtns.GetEnvironment returned error: %v", err)
 	}
 
-	want := &Environment{ID: 1, Name: "test/test"}
+	createdAtWant, _ := time.Parse(timeLayout, "2013-10-02T10:12:29Z")
+	updatedAtWant, _ := time.Parse(timeLayout, "2013-12-02T10:12:29Z")
+	want := &Environment{
+		ID:          1,
+		Name:        "review/fix-foo",
+		Slug:        "review-fix-foo-dfjre3",
+		ExternalURL: "https://review-fix-foo-dfjre3.example.gitlab.com",
+		State:       "stopped",
+		CreatedAt:   &createdAtWant,
+		UpdatedAt:   &updatedAtWant,
+	}
 	if !reflect.DeepEqual(want, env) {
 		t.Errorf("Environments.GetEnvironment returned %+v, want %+v", env, want)
 	}
