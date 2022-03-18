@@ -952,6 +952,178 @@ func TestGetProjectApprovalRules(t *testing.T) {
 	}
 }
 
+func TestGetProjectApprovalRule(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/approval_rules/1", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		fmt.Fprint(w, `{
+			"id": 1,
+			"name": "security",
+			"rule_type": "regular",
+			"eligible_approvers": [
+				{
+					"id": 5,
+					"name": "John Doe",
+					"username": "jdoe",
+					"state": "active",
+					"avatar_url": "https://www.gravatar.com/avatar/0?s=80&d=identicon",
+					"web_url": "http://localhost/jdoe"
+				},
+				{
+					"id": 50,
+					"name": "Group Member 1",
+					"username": "group_member_1",
+					"state": "active",
+					"avatar_url": "https://www.gravatar.com/avatar/0?s=80&d=identicon",
+					"web_url": "http://localhost/group_member_1"
+				}
+			],
+			"approvals_required": 3,
+			"users": [
+				{
+					"id": 5,
+					"name": "John Doe",
+					"username": "jdoe",
+					"state": "active",
+					"avatar_url": "https://www.gravatar.com/avatar/0?s=80&d=identicon",
+					"web_url": "http://localhost/jdoe"
+				}
+			],
+			"groups": [
+				{
+					"id": 5,
+					"name": "group1",
+					"path": "group1",
+					"description": "",
+					"visibility": "public",
+					"lfs_enabled": false,
+					"avatar_url": null,
+					"web_url": "http://localhost/groups/group1",
+					"request_access_enabled": false,
+					"full_name": "group1",
+					"full_path": "group1",
+					"parent_id": null,
+					"ldap_cn": null,
+					"ldap_access": null
+				}
+			],
+			"protected_branches": [
+					{
+					"id": 1,
+					"name": "master",
+					"push_access_levels": [
+						{
+						"access_level": 30,
+						"access_level_description": "Developers + Maintainers"
+						}
+					],
+					"merge_access_levels": [
+						{
+						"access_level": 30,
+						"access_level_description": "Developers + Maintainers"
+						}
+					],
+					"unprotect_access_levels": [
+						{
+						"access_level": 40,
+						"access_level_description": "Maintainers"
+						}
+					],
+					"code_owner_approval_required": false
+					}
+			],
+			"contains_hidden_groups": false
+		}`)
+	})
+
+	approvals, _, err := client.Projects.GetProjectApprovalRule(1, 1)
+	if err != nil {
+		t.Errorf("Projects.GetProjectApprovalRule returned error: %v", err)
+	}
+
+	want := &ProjectApprovalRule{
+		ID:       1,
+		Name:     "security",
+		RuleType: "regular",
+		EligibleApprovers: []*BasicUser{
+			{
+				ID:        5,
+				Name:      "John Doe",
+				Username:  "jdoe",
+				State:     "active",
+				AvatarURL: "https://www.gravatar.com/avatar/0?s=80&d=identicon",
+				WebURL:    "http://localhost/jdoe",
+			},
+			{
+				ID:        50,
+				Name:      "Group Member 1",
+				Username:  "group_member_1",
+				State:     "active",
+				AvatarURL: "https://www.gravatar.com/avatar/0?s=80&d=identicon",
+				WebURL:    "http://localhost/group_member_1",
+			},
+		},
+		ApprovalsRequired: 3,
+		Users: []*BasicUser{
+			{
+				ID:        5,
+				Name:      "John Doe",
+				Username:  "jdoe",
+				State:     "active",
+				AvatarURL: "https://www.gravatar.com/avatar/0?s=80&d=identicon",
+				WebURL:    "http://localhost/jdoe",
+			},
+		},
+		Groups: []*Group{
+			{
+				ID:                   5,
+				Name:                 "group1",
+				Path:                 "group1",
+				Description:          "",
+				Visibility:           PublicVisibility,
+				LFSEnabled:           false,
+				AvatarURL:            "",
+				WebURL:               "http://localhost/groups/group1",
+				RequestAccessEnabled: false,
+				FullName:             "group1",
+				FullPath:             "group1",
+			},
+		},
+		ProtectedBranches: []*ProtectedBranch{
+			{
+				ID:   1,
+				Name: "master",
+				PushAccessLevels: []*BranchAccessDescription{
+					{
+						AccessLevel:            30,
+						AccessLevelDescription: "Developers + Maintainers",
+					},
+				},
+				MergeAccessLevels: []*BranchAccessDescription{
+					{
+						AccessLevel:            30,
+						AccessLevelDescription: "Developers + Maintainers",
+					},
+				},
+				UnprotectAccessLevels: []*BranchAccessDescription{
+					{
+						AccessLevel:            40,
+						AccessLevelDescription: "Maintainers",
+					},
+				},
+				AllowForcePush:            false,
+				CodeOwnerApprovalRequired: false,
+			},
+		},
+	}
+
+	if !reflect.DeepEqual(want, approvals) {
+		t.Errorf("Projects.GetProjectApprovalRule returned %+v, want %+v", approvals, want)
+	}
+}
+
 func TestCreateProjectApprovalRule(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
@@ -1161,13 +1333,13 @@ func TestCreateProjectApprovalRuleEligibleApprovers(t *testing.T) {
 	}
 
 	want := &ProjectApprovalRule{
-		ID:       1,
-		Name:     "Any name",
-		RuleType: "any_approver",
+		ID:                1,
+		Name:              "Any name",
+		RuleType:          "any_approver",
 		EligibleApprovers: []*BasicUser{},
 		ApprovalsRequired: 1,
-		Users: []*BasicUser{},
-		Groups: []*Group{},
+		Users:             []*BasicUser{},
+		Groups:            []*Group{},
 		ProtectedBranches: []*ProtectedBranch{},
 	}
 
