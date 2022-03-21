@@ -95,6 +95,34 @@ to add new and/or missing endpoints. Currently, the following services are suppo
 - [x] Version
 - [x] Wikis
 
+## Development
+
+### Use a Remote Environment via GitPod
+
+You can choose to use your own development environment if desired, however a `.gitpod.yml` file is included within the repository to allow the use of [GitPod](https://gitpod.io/) easily.
+This will allow you to use GitPod's integration with GitHub to quickly start a web-based development environment including Go and Docker, which are necessary
+for running tests. To use GitPod's integration, you have two different options described below. After you've completed one of the two options, your development environment
+will be ready within a minute or two. As part of starting up, your development environment will automatically start up the `gitlab-ce` container necessary for running
+tests.
+
+#### Option 1: Manually navigate to GitPod
+
+You can manually sign in and open your workspace within GitPod by following these steps:
+
+1. Navigate to [GitPod](https://gitpod.io/)
+1. Click [Login](https://gitpod.io/login/) if you have an account, or [Sign Up](https://www.gitpod.io/#get-started) if you do not.
+1. Click on "Continue with GitHub" and authorize GitPod to access your account.
+1. After you've signed in, select "Projects" along the top menu, click on your forked `go-gitlab` project
+1. Hover over either the main branch for your fork or the branch you created for your fork, and click "New Workspace"
+
+#### Option 2: Open your GitPod Workspace directly via URL
+
+1. Navigate to your fork of the `go-gitlab` project in GitHub
+1. Select the branch you want to develop
+1. Add `https://gitpod.io/#` to the front of your URL
+
+Your workspace will automatically open the repository and branch that you selected in GitHub.
+
 ## Usage
 
 ```go

@@ -1,0 +1,53 @@
+version: '3'
+
+# Functional tests depend on a running GitLab instance.
+# Only one of these services should be run at a time.
+services:
+  gitlab-ce:
+    image: gitlab/gitlab-ce
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      GITLAB_ROOT_PASSWORD: adminadmin
+    labels:
+      go-gitlab: ''
+    volumes:
+      - config-ce:/etc/gitlab
+      - logs-ce:/var/log/gitlab
+      - data-ce:/var/opt/gitlab
+      - ${PWD}/scripts/healthcheck-and-setup.sh:/healthcheck-and-setup.sh:Z
+    healthcheck:
+      test: /healthcheck-and-setup.sh
+      interval: 10s
+      timeout: 2m
+
+# Valid license file must be provided in order to utilize this service
+  gitlab-ee:
+    image: gitlab/gitlab-ee
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      GITLAB_ROOT_PASSWORD: adminadmin
+      GITLAB_LICENSE_FILE: /Gitlab-license.txt
+    labels:
+      go-gitlab: ''
+    volumes:
+      - config-ee:/etc/gitlab
+      - logs-ee:/var/log/gitlab
+      - data-ee:/var/opt/gitlab
+      - ${PWD}/scripts/healthcheck-and-setup.sh:/healthcheck-and-setup.sh:Z
+      - ${PWD}/Gitlab-license.txt:/Gitlab-license.txt:Z
+    healthcheck:
+      test: /healthcheck-and-setup.sh
+      interval: 10s
+      timeout: 2m
+
+volumes:
+  config-ce:
+  logs-ce:
+  data-ce:
+  config-ee:
+  logs-ee:
+  data-ee:
