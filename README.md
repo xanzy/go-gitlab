@@ -123,6 +123,19 @@ You can manually sign in and open your workspace within GitPod by following thes
 
 Your workspace will automatically open the repository and branch that you selected in GitHub.
 
+### Testing individual go-gitlab services with GitPods
+
+Once a GitPod has started up with the gitlab-ce container service running, port 8080 will be exposed for API calls where each individual go-gitlab service can be tested against. Please note that the `ce` container service is started by default and to test any `ee` go-gitlab service you will need to have a valid license file provided in the top level directory named `Gitlab-license.txt`. Then modify the `GNUmakefile` to set the `SERVICE` variable to `gitlab-ee` instead of `gitlab-ce`. Once these modifications are done run `make testacc-down` to stop the current ce container service and then run `make testacc-up` to start the new ee container service
+
+- Connection Information
+  - PAT/API Token: `ACCTEST1234567890123`
+  - API URL: `http://127.0.0.1:8080/api/v4/`
+
+1. Create a dummy testing file (something.go, main.go, etc.) where you will be testing the services you are developing
+2. Follow the format of one of the services under the examples folder
+3. Set the connection information to the above for the GitLab client
+4. On the terminal enter `go run <filename.go>` to run the test file that was created against the local gitlab container service
+
 ## Usage
 
 ```go
@@ -170,41 +183,41 @@ contains a couple for clear examples, of which one is partially listed here as w
 package main
 
 import (
-	"log"
+  "log"
 
-	"github.com/xanzy/go-gitlab"
+  "github.com/xanzy/go-gitlab"
 )
 
 func main() {
-	git, err := gitlab.NewClient("yourtokengoeshere")
-	if err != nil {
-		log.Fatalf("Failed to create client: %v", err)
-	}
+  git, err := gitlab.NewClient("yourtokengoeshere")
+  if err != nil {
+    log.Fatalf("Failed to create client: %v", err)
+  }
 
-	// Create new project
-	p := &gitlab.CreateProjectOptions{
-		Name:                 gitlab.String("My Project"),
-		Description:          gitlab.String("Just a test project to play with"),
-		MergeRequestsEnabled: gitlab.Bool(true),
-		SnippetsEnabled:      gitlab.Bool(true),
-		Visibility:           gitlab.Visibility(gitlab.PublicVisibility),
-	}
-	project, _, err := git.Projects.CreateProject(p)
-	if err != nil {
-		log.Fatal(err)
-	}
+  // Create new project
+  p := &gitlab.CreateProjectOptions{
+    Name:                 gitlab.String("My Project"),
+    Description:          gitlab.String("Just a test project to play with"),
+    MergeRequestsEnabled: gitlab.Bool(true),
+    SnippetsEnabled:      gitlab.Bool(true),
+    Visibility:           gitlab.Visibility(gitlab.PublicVisibility),
+  }
+  project, _, err := git.Projects.CreateProject(p)
+  if err != nil {
+    log.Fatal(err)
+  }
 
-	// Add a new snippet
-	s := &gitlab.CreateProjectSnippetOptions{
-		Title:           gitlab.String("Dummy Snippet"),
-		FileName:        gitlab.String("snippet.go"),
-		Content:         gitlab.String("package main...."),
-		Visibility:      gitlab.Visibility(gitlab.PublicVisibility),
-	}
-	_, _, err = git.ProjectSnippets.CreateSnippet(project.ID, s)
-	if err != nil {
-		log.Fatal(err)
-	}
+  // Add a new snippet
+  s := &gitlab.CreateProjectSnippetOptions{
+    Title:           gitlab.String("Dummy Snippet"),
+    FileName:        gitlab.String("snippet.go"),
+    Content:         gitlab.String("package main...."),
+    Visibility:      gitlab.Visibility(gitlab.PublicVisibility),
+  }
+  _, _, err = git.ProjectSnippets.CreateSnippet(project.ID, s)
+  if err != nil {
+    log.Fatal(err)
+  }
 }
 ```
 
