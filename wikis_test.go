@@ -30,21 +30,22 @@ func TestListWikis(t *testing.T) {
 		testMethod(t, r, http.MethodGet)
 		fmt.Fprintf(w, `[
 			{
-			  "content" : "Here is an instruction how to deploy this project.",
-			  "format" : "markdown",
-			  "slug" : "deploy",
-			  "title" : "deploy"
+			  "content": "Here is an instruction how to deploy this project.",
+			  "format": "markdown",
+			  "slug": "deploy",
+			  "title": "deploy"
 			},
 			{
-			  "content" : "Our development process is described here.",
-			  "format" : "markdown",
-			  "slug" : "development",
-			  "title" : "development"
-			},{
-			  "content" : "*  [Deploy](deploy)\n*  [Development](development)",
-			  "format" : "markdown",
-			  "slug" : "home",
-			  "title" : "home"
+			  "content": "Our development process is described here.",
+			  "format": "markdown",
+			  "slug": "development",
+			  "title": "development"
+			},
+			{
+			  "content": "*  [Deploy](deploy)\n*  [Development](development)",
+			  "format": "markdown",
+			  "slug": "home",
+			  "title": "home"
 			}
 		  ]`)
 	})
@@ -87,23 +88,25 @@ func TestGetWikiPage(t *testing.T) {
 	mux.HandleFunc("/api/v4/projects/1/wikis/home", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
 		fmt.Fprintf(w, `{
-			"content" : "home page",
-			"format" : "markdown",
-			"slug" : "home",
-			"title" : "home"
+			"content": "home page",
+			"format": "markdown",
+			"slug": "home",
+			"title": "home",
+			"encoding": "UTF-8"
 		  }`)
 	})
 
-	wiki, _, err := client.Wikis.GetWikiPage(1, "home")
+	wiki, _, err := client.Wikis.GetWikiPage(1, "home", &GetWikiPageOptions{})
 	if err != nil {
 		t.Errorf("Wiki.GetWikiPage returned error: %v", err)
 	}
 
 	want := &Wiki{
-		Content: "home page",
-		Format:  "markdown",
-		Slug:    "home",
-		Title:   "home",
+		Content:  "home page",
+		Encoding: "UTF-8",
+		Format:   "markdown",
+		Slug:     "home",
+		Title:    "home",
 	}
 
 	if !reflect.DeepEqual(want, wiki) {
@@ -118,10 +121,10 @@ func TestCreateWikiPage(t *testing.T) {
 	mux.HandleFunc("/api/v4/projects/1/wikis", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
 		fmt.Fprintf(w, `{
-			"content" : "Hello world",
-			"format" : "markdown",
-			"slug" : "Hello",
-			"title" : "Hello"
+			"content": "Hello world",
+			"format": "markdown",
+			"slug": "Hello",
+			"title": "Hello"
 		  }`)
 	})
 
@@ -154,10 +157,10 @@ func TestEditWikiPage(t *testing.T) {
 	mux.HandleFunc("/api/v4/projects/1/wikis/foo", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
 		fmt.Fprintf(w, `{
-			"content" : "documentation",
-			"format" : "markdown",
-			"slug" : "Docs",
-			"title" : "Docs"
+			"content": "documentation",
+			"format": "markdown",
+			"slug": "Docs",
+			"title": "Docs"
 		  }`)
 	})
 
