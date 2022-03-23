@@ -887,11 +887,11 @@ type SnippetCommentEvent struct {
 	} `json:"snippet"`
 }
 
-// SubGroupEvent represents a subgroup event.
+// SubgroupEvent represents a subgroup event.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/user/project/integrations/webhook_events.html#subgroup-events
-type SubGroupEvent struct {
+type SubgroupEvent struct {
 	CreatedAt      *time.Time `json:"created_at"`
 	UpdatedAt      *time.Time `json:"updated_at"`
 	EventName      string     `json:"event_name"`
