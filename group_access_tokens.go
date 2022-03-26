@@ -57,8 +57,7 @@ func (v GroupAccessToken) String() string {
 // https://docs.gitlab.com/ee/api/group_access_tokens.html#list-group-access-tokens
 type ListGroupAccessTokensOptions ListOptions
 
-// ListGroupAccessTokens gets a list of all Group Access Tokens in a
-// group.
+// ListGroupAccessTokens gets a list of all Group Access Tokens in a group.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/group_access_tokens.html#list-group-access-tokens
@@ -81,6 +80,31 @@ func (s *GroupAccessTokensService) ListGroupAccessTokens(gid interface{}, opt *L
 	}
 
 	return gats, resp, err
+}
+
+// GetGroupAccessToken gets a single Group Access Tokens in a group.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/group_access_tokens.html#get-a-group-access-token
+func (s *GroupAccessTokensService) GetGroupAccessToken(gid interface{}, id int, options ...RequestOptionFunc) (*GroupAccessToken, *Response, error) {
+	groups, err := parseID(gid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("groups/%s/access_tokens/%d", PathEscape(groups), id)
+
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	gat := new(GroupAccessToken)
+	resp, err := s.client.Do(req, &gat)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return gat, resp, err
 }
 
 // CreateGroupAccessTokenOptions represents the available CreateVariable()

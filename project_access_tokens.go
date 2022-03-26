@@ -83,6 +83,31 @@ func (s *ProjectAccessTokensService) ListProjectAccessTokens(pid interface{}, op
 	return pats, resp, err
 }
 
+// GetProjectAccessToken gets a single Project Access Tokens in a project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/project_access_tokens.html#get-a-project-access-token
+func (s *ProjectAccessTokensService) GetProjectAccessToken(pid interface{}, id int, options ...RequestOptionFunc) (*ProjectAccessToken, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/access_tokens/%d", PathEscape(project), id)
+
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	pat := new(ProjectAccessToken)
+	resp, err := s.client.Do(req, &pat)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return pat, resp, err
+}
+
 // CreateProjectAccessTokenOptions represents the available CreateVariable()
 // options.
 //

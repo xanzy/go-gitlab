@@ -74,6 +74,41 @@ func TestListProjectAccessTokens(t *testing.T) {
 	}
 }
 
+func TestGetProjectAccessToken(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/access_tokens/1", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		mustWriteHTTPResponse(t, w, "testdata/get_project_access_token.json")
+	})
+
+	projectAccessToken, _, err := client.ProjectAccessTokens.GetProjectAccessToken(1, 1)
+	if err != nil {
+		t.Errorf("ProjectAccessTokens.GetProjectAccessToken returned error: %v", err)
+	}
+
+	createdAt, err := time.Parse(time.RFC3339, "2021-03-09T21:11:47.271Z")
+	if err != nil {
+		t.Errorf("ProjectAccessTokens.GetProjectAccessToken returned error: %v", err)
+	}
+
+	want := &ProjectAccessToken{
+		ID:          1,
+		UserID:      2453,
+		Name:        "token 10",
+		Scopes:      []string{"api", "read_api", "read_repository", "write_repository"},
+		CreatedAt:   &createdAt,
+		Active:      true,
+		Revoked:     false,
+		AccessLevel: AccessLevelValue(40),
+	}
+
+	if !reflect.DeepEqual(want, projectAccessToken) {
+		t.Errorf("ProjectAccessTokens.GetProjectAccessToken returned %+v, want %+v", projectAccessToken, want)
+	}
+}
+
 func TestCreateProjectAccessToken(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
