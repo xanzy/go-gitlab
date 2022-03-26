@@ -60,6 +60,41 @@ func TestProjectMirrorService_ListProjectMirror(t *testing.T) {
 	require.Equal(t, http.StatusNotFound, resp.StatusCode)
 }
 
+func TestProjectMirrorService_GetProjectMirror(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/42/remote_mirrors/1", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		fmt.Fprintf(w, `
+			{
+				"enabled": true,
+				"id": 101486,
+				"last_error": null,
+				"only_protected_branches": true,
+				"keep_divergent_refs": true,
+				"update_status": "finished",
+				"url": "https://*****:*****@gitlab.com/gitlab-org/security/gitlab.git"
+			}
+		`)
+	})
+
+	want := &ProjectMirror{
+		Enabled:               true,
+		ID:                    101486,
+		LastError:             "",
+		OnlyProtectedBranches: true,
+		KeepDivergentRefs:     true,
+		UpdateStatus:          "finished",
+		URL:                   "https://*****:*****@gitlab.com/gitlab-org/security/gitlab.git",
+	}
+
+	pm, resp, err := client.ProjectMirrors.GetProjectMirror(42, 1, nil)
+	require.NoError(t, err)
+	require.NotNil(t, resp)
+	require.Equal(t, want, pm)
+}
+
 func TestProjectMirrorService_AddProjectMirror(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
