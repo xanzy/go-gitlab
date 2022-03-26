@@ -117,6 +117,7 @@ type Client struct {
 	DeployKeys              *DeployKeysService
 	DeployTokens            *DeployTokensService
 	Deployments             *DeploymentsService
+	DeploymentMergeRequests *DeploymentMergeRequestsService
 	Discussions             *DiscussionsService
 	Environments            *EnvironmentsService
 	EpicIssues              *EpicIssuesService
@@ -319,6 +320,7 @@ func newClient(options ...ClientOptionFunc) (*Client, error) {
 	c.DeployKeys = &DeployKeysService{client: c}
 	c.DeployTokens = &DeployTokensService{client: c}
 	c.Deployments = &DeploymentsService{client: c}
+	c.DeploymentMergeRequests = &DeploymentMergeRequestsService{client: c}
 	c.Discussions = &DiscussionsService{client: c}
 	c.Environments = &EnvironmentsService{client: c}
 	c.EpicIssues = &EpicIssuesService{client: c}
