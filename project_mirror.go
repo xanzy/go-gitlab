@@ -74,7 +74,7 @@ func (s *ProjectMirrorService) ListProjectMirror(pid interface{}, opt *ListProje
 	return pm, resp, err
 }
 
-// GetProjectMirror gets a single mirrors configured on the project.
+// GetProjectMirror gets a single mirror configured on the project.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/remote_mirrors.html#get-a-single-projects-remote-mirror
