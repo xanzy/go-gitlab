@@ -1221,22 +1221,6 @@ func (s *UsersService) RevokeImpersonationToken(user, token int, options ...Requ
 	return s.client.Do(req, nil)
 }
 
-// PersonalAccessToken represents a personal access token.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ee/api/users.html#create-a-personal-access-token
-type PersonalAccessToken struct {
-	ID        int        `json:"id"`
-	Name      string     `json:"name"`
-	Revoked   bool       `json:"revoked"`
-	CreatedAt *time.Time `json:"created_at"`
-	Scopes    []string   `json:"scopes"`
-	UserID    int        `json:"user_id"`
-	Active    bool       `json:"active"`
-	ExpiresAt *ISOTime   `json:"expires_at"`
-	Token     string     `json:"token"`
-}
-
 // CreatePersonalAccessTokenOptions represents the available
 // CreatePersonalAccessToken() options.
 //

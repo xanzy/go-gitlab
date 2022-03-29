@@ -51,7 +51,7 @@ func (v ProjectAccessToken) String() string {
 }
 
 // ListProjectAccessTokensOptions represents the available options for
-// listing variables in a project.
+// listing Project Access Tokens in a project.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/resource_access_tokens.html#list-project-access-tokens

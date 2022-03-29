@@ -161,6 +161,7 @@ type Client struct {
 	Packages              *PackagesService
 	Pages                 *PagesService
 	PagesDomains          *PagesDomainsService
+	PersonalAccessTokens  *PersonalAccessTokensService
 	PipelineSchedules     *PipelineSchedulesService
 	PipelineTriggers      *PipelineTriggersService
 	Pipelines             *PipelinesService
@@ -358,6 +359,7 @@ func newClient(options ...ClientOptionFunc) (*Client, error) {
 	c.Packages = &PackagesService{client: c}
 	c.Pages = &PagesService{client: c}
 	c.PagesDomains = &PagesDomainsService{client: c}
+	c.PersonalAccessTokens = &PersonalAccessTokensService{client: c}
 	c.PipelineSchedules = &PipelineSchedulesService{client: c}
 	c.PipelineTriggers = &PipelineTriggersService{client: c}
 	c.Pipelines = &PipelinesService{client: c}
