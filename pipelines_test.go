@@ -194,8 +194,12 @@ func TestCreatePipeline(t *testing.T) {
 		testMethod(t, r, http.MethodPost)
 		fmt.Fprint(w, `{"id":1, "status":"pending"}`)
 	})
-
-	opt := &CreatePipelineOptions{Ref: String("master")}
+	pipelineVariable := []PipelineVariable{{
+		Key:          "TestVariable",
+		Value:        "TestValue",
+		VariableType: "env_var",
+	}}
+	opt := &CreatePipelineOptions{Ref: String("master"), Variables: &pipelineVariable}
 	pipeline, _, err := client.Pipelines.CreatePipeline(1, opt)
 
 	if err != nil {
