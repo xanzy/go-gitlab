@@ -19,9 +19,7 @@
       "short_id": "7b5c3cc",
       "title": "add projects API",
       "message": "add projects API",
-      "parent_ids": [
-        "4ad91d3c1144c406e50c7b33bae684bd6837faf8"
-      ]
+      "parent_ids": ["4ad91d3c1144c406e50c7b33bae684bd6837faf8"]
     }
   }
 ]

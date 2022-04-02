@@ -1,7 +1,8 @@
 [
   {
     "id": 35385049,
-    "iid": 15442, "project_id": 278964,
+    "iid": 15442,
+    "project_id": 278964,
     "title": "Draft: Use structured logging for DB load balancer",
     "description": "## What does this MR do?\r\n\r\n<!--\r\n\r\nDescribe in detail what your merge request does and why.\r\n\r\nAre there any risks involved with the proposed change? What additional\r\ntest coverage is introduced to offset the risk?\r\n\r\nPlease keep this description up-to-date with any discussion that takes\r\nplace so that reviewers can understand your intent. This is especially\r\nimportant if they didn't participate in the discussion.\r\n\r\n-->\r\n\r\nRelates to https://gitlab.com/gitlab-org/gitlab-ee/issues/13547 and https://gitlab.com/gitlab-org/gitlab-ee/issues/13548\r\n\r\n## Does this MR meet the acceptance criteria?\r\n\r\n### Conformity\r\n\r\n- [ ] [Changelog entry](https://docs.gitlab.com/ee/development/changelog.html) \r\n- [ ] [Documentation created/updated](https://docs.gitlab.com/ee/development/documentation/feature-change-workflow.html) or [follow-up review issue created](https://gitlab.com/gitlab-org/gitlab-ce/issues/new?issuable_template=Doc%20Review)\r\n- [ ] [Code review guidelines](https://docs.gitlab.com/ee/development/code_review.html)\r\n- [ ] [Merge request performance guidelines](https://docs.gitlab.com/ee/development/merge_request_performance_guidelines.html)\r\n- [ ] [Style guides](https://gitlab.com/gitlab-org/gitlab-ee/blob/master/doc/development/contributing/style_guides.md)\r\n- [ ] [Database guides](https://docs.gitlab.com/ee/development/README.html#databases-guides)\r\n- [ ] [Separation of EE specific content](https://docs.gitlab.com/ee/development/ee_features.html#separation-of-ee-code)\r\n\r\n### Performance and Testing\r\n\r\n<!-- What risks does this change pose? How might it affect the quality/performance of the product?\r\nWhat additional test coverage or changes to tests will be needed?\r\nWill it require cross-browser testing?\r\nSee the test engineering process for further guidelines: https://about.gitlab.com/handbook/engineering/quality/test-engineering/ -->\r\n\r\n<!-- If cross-browser testing is not required, please remove the relevant item, or mark it as not needed: [-] -->\r\n\r\n- [ ] [Review and add/update tests for this feature/bug](https://docs.gitlab.com/ee/development/testing_guide/index.html). Consider [all test levels](https://docs.gitlab.com/ee/development/testing_guide/testing_levels.html). See the [Test Planning Process](https://about.gitlab.com/handbook/engineering/quality/guidelines/test-engineering/).\r\n- [ ] [Tested in all supported browsers](https://docs.gitlab.com/ee/install/requirements.html#supported-web-browsers)\r\n\r\n### Security\r\n\r\nIf this MR contains changes to processing or storing of credentials or tokens, authorization and authentication methods and other items described in [the security review guidelines](https://about.gitlab.com/handbook/engineering/security/#when-to-request-a-security-review):\r\n\r\n- [ ] Label as ~security and @ mention `@gitlab-com/gl-security/appsec`\r\n- [ ] The MR includes necessary changes to maintain consistency between UI, API, email, or other methods\r\n- [ ] Security reports checked/validated by a reviewer from the AppSec team",
     "state": "opened",
@@ -43,14 +44,14 @@
       }
     ],
     "reviewers": [
-        {
+      {
         "id": 2535118,
         "name": "Thong Kuah",
         "username": "tkuah",
         "state": "active",
         "avatar_url": "https://secure.gravatar.com/avatar/f7b51bdd49a4914d29504d7ff4c3f7b9?s=80&d=identicon",
         "web_url": "https://gitlab.com/tkuah"
-        }
+      }
     ],
     "source_project_id": 278964,
     "target_project_id": 278964,
@@ -499,10 +500,7 @@
     ],
     "source_project_id": 278964,
     "target_project_id": 278964,
-    "labels": [
-      "Community contribution",
-      "devops::plan"
-    ],
+    "labels": ["Community contribution", "devops::plan"],
     "work_in_progress": false,
     "milestone": {
       "id": 693521,
@@ -690,11 +688,7 @@
     ],
     "source_project_id": 11495811,
     "target_project_id": 278964,
-    "labels": [
-      "devops::verify",
-      "feature",
-      "group::continuous integration"
-    ],
+    "labels": ["devops::verify", "feature", "group::continuous integration"],
     "work_in_progress": false,
     "milestone": {
       "id": 693521,
@@ -963,11 +957,7 @@
     "assignees": [],
     "source_project_id": 278964,
     "target_project_id": 278964,
-    "labels": [
-      "QA",
-      "Quality",
-      "backstage"
-    ],
+    "labels": ["QA", "Quality", "backstage"],
     "work_in_progress": false,
     "milestone": {
       "id": 693521,
@@ -1247,10 +1237,7 @@
     ],
     "source_project_id": 278964,
     "target_project_id": 278964,
-    "labels": [
-      "internationalization",
-      "master:broken"
-    ],
+    "labels": ["internationalization", "master:broken"],
     "work_in_progress": false,
     "milestone": null,
     "merge_when_pipeline_succeeds": true,
@@ -1417,11 +1404,7 @@
     ],
     "source_project_id": 278964,
     "target_project_id": 278964,
-    "labels": [
-      "backend",
-      "devops::release",
-      "feature"
-    ],
+    "labels": ["backend", "devops::release", "feature"],
     "work_in_progress": false,
     "milestone": {
       "id": 731038,
@@ -1747,11 +1730,7 @@
     ],
     "source_project_id": 278964,
     "target_project_id": 278964,
-    "labels": [
-      "bug",
-      "devops::secure",
-      "group::static analysis"
-    ],
+    "labels": ["bug", "devops::secure", "group::static analysis"],
     "work_in_progress": false,
     "milestone": {
       "id": 731038,

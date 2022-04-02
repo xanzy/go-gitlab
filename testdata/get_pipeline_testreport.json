@@ -1,85 +1,85 @@
 {
-    "total_time": 61.502,
-    "total_count": 9,
-    "success_count": 5,
-    "failed_count": 0,
-    "skipped_count": 0,
-    "error_count": 4,
-    "test_suites": [
+  "total_time": 61.502,
+  "total_count": 9,
+  "success_count": 5,
+  "failed_count": 0,
+  "skipped_count": 0,
+  "error_count": 4,
+  "test_suites": [
+    {
+      "name": "Failing",
+      "total_time": 60.494,
+      "total_count": 8,
+      "success_count": 4,
+      "failed_count": 0,
+      "skipped_count": 0,
+      "error_count": 4,
+      "suite_error": null,
+      "test_cases": [
         {
-            "name": "Failing",
-            "total_time": 60.494,
-            "total_count": 8,
-            "success_count": 4,
-            "failed_count": 0,
-            "skipped_count": 0,
-            "error_count": 4,
-            "suite_error": null,
-            "test_cases": [
-                {
-                    "status": "error",
-                    "name": "Error testcase 1",
-                    "classname": "MyClassOne",
-                    "file": "/path/file.ext",
-                    "execution_time": 19.987,
-                    "system_output": "output message\n\noutput message 2",
-                    "stack_trace": "java.lang.Exception: Stack trace\nat java.base/java.lang.Thread.dumpStack(Thread.java:1383)",
-                    "attachment_url": "http://foo.bar",
-                    "recent_failures": {
-                        "count": 10,
-                        "base_branch": "master"
-                    }
-                },
-                {
-                    "status": "error",
-                    "name": "Error testcase 2",
-                    "classname": "MyClass",
-                    "file": null,
-                    "execution_time": 19.984,
-                    "system_output": null,
-                    "stack_trace": null,
-                    "attachment_url": null,
-                    "recent_failures": null
-                },
-                {
-                    "status": "error",
-                    "name": "Error testcase 3",
-                    "classname": "MyClass",
-                    "file": null,
-                    "execution_time": 0.0,
-                    "system_output": "Undefined message"
-                },
-                {
-                    "status": "success",
-                    "name": "Succes full testcase",
-                    "classname": "MyClass",
-                    "file": null,
-                    "execution_time": 19.7799999999999985,
-                    "system_output": null,
-                    "stack_trace": null
-                }
-            ]
+          "status": "error",
+          "name": "Error testcase 1",
+          "classname": "MyClassOne",
+          "file": "/path/file.ext",
+          "execution_time": 19.987,
+          "system_output": "output message\n\noutput message 2",
+          "stack_trace": "java.lang.Exception: Stack trace\nat java.base/java.lang.Thread.dumpStack(Thread.java:1383)",
+          "attachment_url": "http://foo.bar",
+          "recent_failures": {
+            "count": 10,
+            "base_branch": "master"
+          }
         },
         {
-            "name": "Succes suite",
-            "total_time": 1.008,
-            "total_count": 1,
-            "success_count": 1,
-            "failed_count": 0,
-            "skipped_count": 0,
-            "error_count": 0,
-            "suite_error": null,
-            "test_cases": [
-                {
-                    "status": "success",
-                    "name": "Succesfull testcase",
-                    "classname": "MyClass",
-                    "file": null,
-                    "execution_time": 1.008,
-                    "system_output": null,
-                    "stack_trace": null
-                }
-            ]
+          "status": "error",
+          "name": "Error testcase 2",
+          "classname": "MyClass",
+          "file": null,
+          "execution_time": 19.984,
+          "system_output": null,
+          "stack_trace": null,
+          "attachment_url": null,
+          "recent_failures": null
+        },
+        {
+          "status": "error",
+          "name": "Error testcase 3",
+          "classname": "MyClass",
+          "file": null,
+          "execution_time": 0.0,
+          "system_output": "Undefined message"
+        },
+        {
+          "status": "success",
+          "name": "Succes full testcase",
+          "classname": "MyClass",
+          "file": null,
+          "execution_time": 19.7799999999999985,
+          "system_output": null,
+          "stack_trace": null
         }
-    ]
+      ]
+    },
+    {
+      "name": "Succes suite",
+      "total_time": 1.008,
+      "total_count": 1,
+      "success_count": 1,
+      "failed_count": 0,
+      "skipped_count": 0,
+      "error_count": 0,
+      "suite_error": null,
+      "test_cases": [
+        {
+          "status": "success",
+          "name": "Succesfull testcase",
+          "classname": "MyClass",
+          "file": null,
+          "execution_time": 1.008,
+          "system_output": null,
+          "stack_trace": null
+        }
+      ]
+    }
+  ]
 }

@@ -50,14 +50,14 @@ func (v ProjectAccessToken) String() string {
 	return Stringify(v)
 }
 
-// ListProjectAccessTokensOptions represents the available options for
-// listing variables in a project.
+// ListProjectAccessTokensOptions represents the available
+// ListProjectAccessTokens() options.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/resource_access_tokens.html#list-project-access-tokens
 type ListProjectAccessTokensOptions ListOptions
 
-// ListProjectAccessTokens gets a list of all Project Access Tokens in a
+// ListProjectAccessTokens gets a list of all project access tokens in a
 // project.
 //
 // GitLab API docs:
@@ -95,7 +95,7 @@ type CreateProjectAccessTokenOptions struct {
 	ExpiresAt   *ISOTime          `url:"expires_at,omitempty" json:"expires_at,omitempty"`
 }
 
-// CreateProjectAccessToken creates a new Project Access Token.
+// CreateProjectAccessToken creates a new project access token.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/resource_access_tokens.html#create-a-project-access-token
@@ -120,11 +120,11 @@ func (s *ProjectAccessTokensService) CreateProjectAccessToken(pid interface{}, o
 	return pat, resp, err
 }
 
-// DeleteProjectAccessToken deletes a Project Access Token.
+// RevokeProjectAccessToken revokes a project access token.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/resource_access_tokens.html#revoke-a-project-access-token
-func (s *ProjectAccessTokensService) DeleteProjectAccessToken(pid interface{}, id int, options ...RequestOptionFunc) (*Response, error) {
+func (s *ProjectAccessTokensService) RevokeProjectAccessToken(pid interface{}, id int, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, err
