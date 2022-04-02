@@ -79,6 +79,41 @@ func TestListGroupAccessTokens(t *testing.T) {
 	}
 }
 
+func TestGetGroupAccessToken(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/groups/1/access_tokens/1", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		mustWriteHTTPResponse(t, w, "testdata/get_group_access_token.json")
+	})
+
+	groupAccessToken, _, err := client.GroupAccessTokens.GetGroupAccessToken(1, 1)
+	if err != nil {
+		t.Errorf("GroupAccessTokens.GetGroupAccessToken returned error: %v", err)
+	}
+
+	createdAt, err := time.Parse(time.RFC3339, "2021-03-09T21:11:47.271Z")
+	if err != nil {
+		t.Errorf("GroupAccessTokens.GetGroupAccessToken returned error: %v", err)
+	}
+
+	want := &GroupAccessToken{
+		ID:          1,
+		UserID:      2453,
+		Name:        "token 10",
+		Scopes:      []string{"api", "read_api", "read_repository", "write_repository"},
+		CreatedAt:   &createdAt,
+		Active:      true,
+		Revoked:     false,
+		AccessLevel: AccessLevelValue(40),
+	}
+
+	if !reflect.DeepEqual(want, groupAccessToken) {
+		t.Errorf("GroupAccessTokens.GetGroupAccessToken returned %+v, want %+v", groupAccessToken, want)
+	}
+}
+
 func TestCreateGroupAccessToken(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
@@ -115,7 +150,7 @@ func TestCreateGroupAccessToken(t *testing.T) {
 	}
 }
 
-func TestDeleteGroupAccessToken(t *testing.T) {
+func TestRevokeGroupAccessToken(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
 
@@ -123,8 +158,8 @@ func TestDeleteGroupAccessToken(t *testing.T) {
 		testMethod(t, r, http.MethodDelete)
 	})
 
-	_, err := client.GroupAccessTokens.DeleteGroupAccessToken("1", 1234)
+	_, err := client.GroupAccessTokens.RevokeGroupAccessToken("1", 1234)
 	if err != nil {
-		t.Errorf("GroupAccessTokens.DeleteGroupAccessToken returned error: %v", err)
+		t.Errorf("GroupAccessTokens.RevokeGroupAccessToken returned error: %v", err)
 	}
 }

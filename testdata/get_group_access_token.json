@@ -1,0 +1,11 @@
+{
+  "id": 1,
+  "name": "token 10",
+  "revoked": false,
+  "created_at": "2021-03-09T21:11:47.271Z",
+  "scopes": ["api", "read_api", "read_repository", "write_repository"],
+  "user_id": 2453,
+  "active": true,
+  "expires_at": null,
+  "access_level": 40
+}
