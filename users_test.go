@@ -115,6 +115,7 @@ func TestGetUserAdmin(t *testing.T) {
 		TwoFactorEnabled: true,
 		Note:             "DMCA Request: 2018-11-05 | DMCA Violation | Abuse | https://gitlab.zendesk.com/agent/tickets/123",
 		Identities:       []*UserIdentity{{Provider: "github", ExternUID: "2435223452345"}},
+		NamespaceID:      42,
 	}
 	require.Equal(t, want, user)
 }

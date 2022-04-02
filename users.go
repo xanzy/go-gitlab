@@ -99,6 +99,7 @@ type User struct {
 	ExtraSharedRunnersMinutesLimit int                `json:"extra_shared_runners_minutes_limit"`
 	UsingLicenseSeat               bool               `json:"using_license_seat"`
 	CustomAttributes               []*CustomAttribute `json:"custom_attributes"`
+	NamespaceID                    int                `json:"namespace_id"`
 }
 
 // UserIdentity represents a user identity.

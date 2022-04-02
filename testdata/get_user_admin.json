@@ -36,5 +36,6 @@
   "last_sign_in_ip": "2001:db8::68",
   "plan": "gold",
   "trial": true,
-  "sign_in_count": 1337
+  "sign_in_count": 1337,
+  "namespace_id": 42
 }
