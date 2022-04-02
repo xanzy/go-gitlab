@@ -45,6 +45,10 @@ func TestListGroupAccessTokens(t *testing.T) {
 	if err != nil {
 		t.Errorf("GroupAccessTokens.ListGroupAccessTokens returned error: %v", err)
 	}
+	time3, err := time.Parse(time.RFC3339, "2021-03-10T21:11:47.271Z")
+	if err != nil {
+		t.Errorf("GroupAccessTokens.ListGroupAccessTokens returned error: %v", err)
+	}
 
 	want := []*GroupAccessToken{
 		{
@@ -53,6 +57,7 @@ func TestListGroupAccessTokens(t *testing.T) {
 			Name:        "token 10",
 			Scopes:      []string{"api", "read_api", "read_repository", "write_repository"},
 			CreatedAt:   &time1,
+			LastUsedAt:  &time3,
 			Active:      true,
 			Revoked:     false,
 			AccessLevel: AccessLevelValue(40),
