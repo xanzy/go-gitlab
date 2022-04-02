@@ -42,7 +42,7 @@ type GroupHook struct {
 	WikiPageEvents           bool       `json:"wiki_page_events"`
 	DeploymentEvents         bool       `json:"deployment_events"`
 	ReleasesEvents           bool       `json:"releases_events"`
-	SubgroupEvents           bool       `json:"subgroup_events"`
+	SubGroupEvents           bool       `json:"subgroup_events"`
 	EnableSSLVerification    bool       `json:"enable_ssl_verification"`
 	CreatedAt                *time.Time `json:"created_at"`
 }
@@ -113,7 +113,7 @@ type AddGroupHookOptions struct {
 	WikiPageEvents           *bool   `url:"wiki_page_events,omitempty"  json:"wiki_page_events,omitempty"`
 	DeploymentEvents         *bool   `url:"deployment_events,omitempty" json:"deployment_events,omitempty"`
 	ReleasesEvents           *bool   `url:"releases_events,omitempty" json:"releases_events,omitempty"`
-	SubgroupEvents           *bool   `url:"subgroup_events,omitempty" json:"subgroup_events,omitempty"`
+	SubGroupEvents           *bool   `url:"subgroup_events,omitempty" json:"subgroup_events,omitempty"`
 	EnableSSLVerification    *bool   `url:"enable_ssl_verification,omitempty"  json:"enable_ssl_verification,omitempty"`
 	Token                    *string `url:"token,omitempty" json:"token,omitempty"`
 }
@@ -161,7 +161,7 @@ type EditGroupHookOptions struct {
 	WikiPageEvents           *bool   `url:"wiki_page_events,omitempty" json:"wiki_page_events,omitempty"`
 	DeploymentEvents         *bool   `url:"deployment_events,omitempty" json:"deployment_events,omitempty"`
 	ReleasesEvents           *bool   `url:"releases_events,omitempty" json:"releases_events,omitempty"`
-	SubgroupEvents           *bool   `url:"subgroup_events,omitempty" json:"subgroup_events,omitempty"`
+	SubGroupEvents           *bool   `url:"subgroup_events,omitempty" json:"subgroup_events,omitempty"`
 	EnableSSLVerification    *bool   `url:"enable_ssl_verification,omitempty" json:"enable_ssl_verification,omitempty"`
 	Token                    *string `url:"token,omitempty" json:"token,omitempty"`
 }

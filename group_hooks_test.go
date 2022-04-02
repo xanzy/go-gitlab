@@ -77,7 +77,7 @@ func TestListGroupHooks(t *testing.T) {
 		WikiPageEvents:           true,
 		DeploymentEvents:         true,
 		ReleasesEvents:           true,
-		SubgroupEvents:           true,
+		SubGroupEvents:           true,
 		EnableSSLVerification:    true,
 		CreatedAt:                &datePointer,
 	}}
@@ -138,7 +138,7 @@ func TestGetGroupHook(t *testing.T) {
 		WikiPageEvents:           true,
 		DeploymentEvents:         true,
 		ReleasesEvents:           true,
-		SubgroupEvents:           true,
+		SubGroupEvents:           true,
 		EnableSSLVerification:    true,
 		CreatedAt:                &datePointer,
 	}
@@ -205,7 +205,7 @@ func TestAddGroupHook(t *testing.T) {
 		WikiPageEvents:           true,
 		DeploymentEvents:         true,
 		ReleasesEvents:           true,
-		SubgroupEvents:           true,
+		SubGroupEvents:           true,
 		EnableSSLVerification:    true,
 		CreatedAt:                &datePointer,
 	}
@@ -272,7 +272,7 @@ func TestEditGroupHook(t *testing.T) {
 		WikiPageEvents:           true,
 		DeploymentEvents:         true,
 		ReleasesEvents:           true,
-		SubgroupEvents:           true,
+		SubGroupEvents:           true,
 		EnableSSLVerification:    true,
 		CreatedAt:                &datePointer,
 	}

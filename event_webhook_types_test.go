@@ -427,22 +427,22 @@ func TestReleaseEventUnmarshal(t *testing.T) {
 	}
 }
 
-func TestSubgroupEventUnmarshal(t *testing.T) {
+func TestSubGroupEventUnmarshal(t *testing.T) {
 	jsonObject := loadFixture("testdata/webhooks/subgroup.json")
 
-	var event *SubgroupEvent
+	var event *SubGroupEvent
 	err := json.Unmarshal(jsonObject, &event)
 
 	if err != nil {
-		t.Errorf("Subgroup Event can not unmarshaled: %v\n ", err.Error())
+		t.Errorf("SubGroup Event can not unmarshaled: %v\n ", err.Error())
 	}
 
 	if event == nil {
-		t.Errorf("Subgroup Event is null")
+		t.Errorf("SubGroup Event is null")
 	}
 
-	if event.Name != "Subgroup 1" {
-		t.Errorf("Name is %v, want %v", event.Name, "Subgroup 1")
+	if event.Name != "SubGroup 1" {
+		t.Errorf("Name is %v, want %v", event.Name, "SubGroup 1")
 	}
 
 	if event.GroupID != 2 {

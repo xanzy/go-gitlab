@@ -392,7 +392,7 @@ func TestParseSnippetCommentHook(t *testing.T) {
 	}
 }
 
-func TestParseSubgroupHook(t *testing.T) {
+func TestParseSubGroupHook(t *testing.T) {
 	raw := loadFixture("testdata/webhooks/subgroup.json")
 
 	parsedEvent, err := ParseWebhook("Subgroup Hook", raw)
@@ -400,9 +400,9 @@ func TestParseSubgroupHook(t *testing.T) {
 		t.Errorf("Error parsing subgroup hook: %s", err)
 	}
 
-	event, ok := parsedEvent.(*SubgroupEvent)
+	event, ok := parsedEvent.(*SubGroupEvent)
 	if !ok {
-		t.Errorf("Expected SubgroupEvent, but parsing produced %T", parsedEvent)
+		t.Errorf("Expected SubGroupEvent, but parsing produced %T", parsedEvent)
 	}
 
 	if event.EventName != "subgroup_create" {
