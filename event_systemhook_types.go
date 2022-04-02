@@ -147,8 +147,8 @@ type PushSystemEvent struct {
 		Description       string `json:"description"`
 		WebURL            string `json:"web_url"`
 		AvatarURL         string `json:"avatar_url"`
-		GitHttpURL        string `json:"git_http_url"`
-		GitSshURL         string `json:"git_ssh_url"`
+		GitHTTPURL        string `json:"git_http_url"`
+		GitSSHURL         string `json:"git_ssh_url"`
 		Namespace         string `json:"namespace"`
 		VisibilityLevel   int    `json:"visibility_level"`
 		PathWithNamespace string `json:"path_with_namespace"`
@@ -157,10 +157,10 @@ type PushSystemEvent struct {
 		URL               string `json:"url"`
 	} `json:"project"`
 	Commits []struct {
-		ID        string `json:"id"`
-		Message   string `json:"message"`
+		ID        string    `json:"id"`
+		Message   string    `json:"message"`
 		Timestamp time.Time `json:"timestamp"`
-		URL       string `json:"url"`
+		URL       string    `json:"url"`
 		Author    struct {
 			Name  string `json:"name"`
 			Email string `json:"email"`
@@ -190,8 +190,8 @@ type TagPushSystemEvent struct {
 		Description       string `json:"description"`
 		WebURL            string `json:"web_url"`
 		AvatarURL         string `json:"avatar_url"`
-		GitHttpURL        string `json:"git_http_url"`
-		GitSshURL         string `json:"git_ssh_url"`
+		GitHTTPURL        string `json:"git_http_url"`
+		GitSSHURL         string `json:"git_ssh_url"`
 		Namespace         string `json:"namespace"`
 		VisibilityLevel   int    `json:"visibility_level"`
 		PathWithNamespace string `json:"path_with_namespace"`
@@ -200,10 +200,10 @@ type TagPushSystemEvent struct {
 		URL               string `json:"url"`
 	} `json:"project"`
 	Commits []struct {
-		ID        string `json:"id"`
-		Message   string `json:"message"`
+		ID        string    `json:"id"`
+		Message   string    `json:"message"`
 		Timestamp time.Time `json:"timestamp"`
-		URL       string `json:"url"`
+		URL       string    `json:"url"`
 		Author    struct {
 			Name  string `json:"name"`
 			Email string `json:"email"`
@@ -229,8 +229,8 @@ type RepositoryUpdateSystemEvent struct {
 		Description       string `json:"description"`
 		WebURL            string `json:"web_url"`
 		AvatarURL         string `json:"avatar_url"`
-		GitSshURL         string `json:"git_ssh_url"`
-		GitHttpURL        string `json:"git_http_url"`
+		GitHTTPURL        string `json:"git_http_url"`
+		GitSSHURL         string `json:"git_ssh_url"`
 		Namespace         string `json:"namespace"`
 		VisibilityLevel   int    `json:"visibility_level"`
 		PathWithNamespace string `json:"path_with_namespace"`
