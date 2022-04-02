@@ -186,22 +186,16 @@ func TestDownloadSingleArtifactsFileByTagOrBranch(t *testing.T) {
 	defer teardown(server)
 
 	wantContent := []byte("This is the file content")
-	var jobName string
 	mux.HandleFunc("/api/v4/projects/9/jobs/artifacts/abranch/raw/foo/bar.pdf", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
-		jobName = r.URL.Query().Get("job")
 		w.WriteHeader(http.StatusOK)
 		w.Write(wantContent)
 	})
 
-	wantJobName := "publish"
-	reader, resp, err := client.Jobs.DownloadSingleArtifactsFileByTagOrBranch(9, "abranch", wantJobName, "foo/bar.pdf", nil)
+	opt := &DownloadArtifactsFileOptions{Job: String("publish")}
+	reader, resp, err := client.Jobs.DownloadSingleArtifactsFileByTagOrBranch(9, "abranch", "foo/bar.pdf", opt)
 	if err != nil {
 		t.Fatalf("Jobs.DownloadSingleArtifactsFileByTagOrBranch returns an error: %v", err)
-	}
-
-	if jobName != wantJobName {
-		t.Errorf("Jobs.DownloadSingleArtifactsFileByTagOrBranch set job name %+v, want %+v", jobName, wantJobName)
 	}
 
 	content, err := ioutil.ReadAll(reader)
