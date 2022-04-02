@@ -214,6 +214,7 @@ type ListIssuesOptions struct {
 	NotMilestone       *string		`url:"not[milestone],omitempty" json:"not[milestone],omitempty"`
 	Scope              *string		`url:"scope,omitempty" json:"scope,omitempty"`
 	AuthorID           *int			`url:"author_id,omitempty" json:"author_id,omitempty"`
+	AuthorUsername     *string		`url:"author_username,omitempty" json:"author_username,omitempty"`
 	NotAuthorID        *[]int		`url:"not[author_id],omitempty" json:"not[author_id],omitempty"`
 	AssigneeID         *AssigneeIDValue	`url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
 	NotAssigneeID      *[]int		`url:"not[assignee_id],omitempty" json:"not[assignee_id],omitempty"`
@@ -324,6 +325,7 @@ type ListProjectIssuesOptions struct {
 	NotMilestone       *[]string	    `url:"not[milestone],omitempty" json:"not[milestone],omitempty"`
 	Scope              *string	    `url:"scope,omitempty" json:"scope,omitempty"`
 	AuthorID           *int		    `url:"author_id,omitempty" json:"author_id,omitempty"`
+	AuthorUsername     *string	    `url:"author_username,omitempty" json:"author_username,omitempty"`
 	NotAuthorID        *[]int	    `url:"not[author_id],omitempty" json:"not[author_id],omitempty"`
 	AssigneeID         *AssigneeIDValue `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
 	NotAssigneeID      *[]int	    `url:"not[assignee_id],omitempty" json:"not[assignee_id],omitempty"`
