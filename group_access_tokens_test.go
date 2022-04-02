@@ -145,7 +145,7 @@ func TestCreateGroupAccessToken(t *testing.T) {
 	}
 }
 
-func TestDeleteGroupAccessToken(t *testing.T) {
+func TestRevokeGroupAccessToken(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
 
@@ -153,8 +153,8 @@ func TestDeleteGroupAccessToken(t *testing.T) {
 		testMethod(t, r, http.MethodDelete)
 	})
 
-	_, err := client.GroupAccessTokens.DeleteGroupAccessToken("1", 1234)
+	_, err := client.GroupAccessTokens.RevokeGroupAccessToken("1", 1234)
 	if err != nil {
-		t.Errorf("GroupAccessTokens.DeleteGroupAccessToken returned error: %v", err)
+		t.Errorf("GroupAccessTokens.RevokeGroupAccessToken returned error: %v", err)
 	}
 }

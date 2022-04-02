@@ -30,7 +30,7 @@ type ProjectAccessTokensService struct {
 	client *Client
 }
 
-// ProjectAccessToken represents a GitLab Project Access Token.
+// ProjectAccessToken represents a GitLab project access token.
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/resource_access_tokens.html
 type ProjectAccessToken struct {
@@ -57,7 +57,7 @@ func (v ProjectAccessToken) String() string {
 // https://docs.gitlab.com/ee/api/resource_access_tokens.html#list-project-access-tokens
 type ListProjectAccessTokensOptions ListOptions
 
-// ListProjectAccessTokens gets a list of all Project Access Tokens in a
+// ListProjectAccessTokens gets a list of all project access tokens in a
 // project.
 //
 // GitLab API docs:
@@ -83,7 +83,7 @@ func (s *ProjectAccessTokensService) ListProjectAccessTokens(pid interface{}, op
 	return pats, resp, err
 }
 
-// GetProjectAccessToken gets a single Project Access Tokens in a project.
+// GetProjectAccessToken gets a single project access tokens in a project.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/project_access_tokens.html#get-a-project-access-token
@@ -145,11 +145,11 @@ func (s *ProjectAccessTokensService) CreateProjectAccessToken(pid interface{}, o
 	return pat, resp, err
 }
 
-// DeleteProjectAccessToken deletes a Project Access Token.
+// RevokeProjectAccessToken revokes a project access token.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/resource_access_tokens.html#revoke-a-project-access-token
-func (s *ProjectAccessTokensService) DeleteProjectAccessToken(pid interface{}, id int, options ...RequestOptionFunc) (*Response, error) {
+func (s *ProjectAccessTokensService) RevokeProjectAccessToken(pid interface{}, id int, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, err

@@ -30,7 +30,7 @@ type GroupAccessTokensService struct {
 	client *Client
 }
 
-// GroupAccessToken represents a GitLab Group Access Token.
+// GroupAccessToken represents a GitLab group access token.
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/group_access_tokens.html
 type GroupAccessToken struct {
@@ -57,7 +57,7 @@ func (v GroupAccessToken) String() string {
 // https://docs.gitlab.com/ee/api/group_access_tokens.html#list-group-access-tokens
 type ListGroupAccessTokensOptions ListOptions
 
-// ListGroupAccessTokens gets a list of all Group Access Tokens in a group.
+// ListGroupAccessTokens gets a list of all group access tokens in a group.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/group_access_tokens.html#list-group-access-tokens
@@ -82,7 +82,7 @@ func (s *GroupAccessTokensService) ListGroupAccessTokens(gid interface{}, opt *L
 	return gats, resp, err
 }
 
-// GetGroupAccessToken gets a single Group Access Tokens in a group.
+// GetGroupAccessToken gets a single group access tokens in a group.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/group_access_tokens.html#get-a-group-access-token
@@ -119,7 +119,7 @@ type CreateGroupAccessTokenOptions struct {
 	ExpiresAt   *ISOTime          `url:"expires_at,omitempty" json:"expires_at,omitempty"`
 }
 
-// CreateGroupAccessToken creates a new Group Access Token.
+// CreateGroupAccessToken creates a new group access token.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/group_access_tokens.html#create-a-group-access-token
@@ -144,11 +144,11 @@ func (s *GroupAccessTokensService) CreateGroupAccessToken(gid interface{}, opt *
 	return pat, resp, err
 }
 
-// DeleteGroupAccessToken deletes a Group Access Token.
+// RevokeGroupAccessToken revokes a group access token.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/group_access_tokens.html#revoke-a-group-access-token
-func (s *GroupAccessTokensService) DeleteGroupAccessToken(gid interface{}, id int, options ...RequestOptionFunc) (*Response, error) {
+func (s *GroupAccessTokensService) RevokeGroupAccessToken(gid interface{}, id int, options ...RequestOptionFunc) (*Response, error) {
 	groups, err := parseID(gid)
 	if err != nil {
 		return nil, err
