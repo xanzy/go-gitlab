@@ -395,3 +395,123 @@ func TestVerifyRegisteredRunner(t *testing.T) {
 		t.Errorf("Runners.VerifyRegisteredRunner returned returned status code  %+v, want %+v", resp.StatusCode, want)
 	}
 }
+
+func TestResetInstanceRunnerRegistrationToken(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/runners/reset_registration_token", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPost)
+		w.WriteHeader(http.StatusCreated)
+		fmt.Fprint(w, `{
+			"token": "6337ff461c94fd3fa32ba3b1ff4125"
+		}`)
+	})
+
+	token, resp, err := client.Runners.ResetInstanceRunnerRegistrationToken(nil)
+	if err != nil {
+		t.Fatalf("Runners.ResetInstanceRunnerRegistrationToken returns an error: %v", err)
+	}
+
+	want := &RunnerRegistrationToken{
+		Token: String("6337ff461c94fd3fa32ba3b1ff4125"),
+	}
+	if !reflect.DeepEqual(want, token) {
+		t.Errorf("Runners.ResetInstanceRunnerRegistrationToken returned %+v, want %+v", token, want)
+	}
+
+	wantCode := 201
+	if !reflect.DeepEqual(wantCode, resp.StatusCode) {
+		t.Errorf("Runners.ResetInstanceRunnerRegistrationToken returned returned status code  %+v, want %+v", resp.StatusCode, wantCode)
+	}
+}
+
+func TestResetGroupRunnerRegistrationToken(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/groups/foobar/runners/reset_registration_token", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPost)
+		w.WriteHeader(http.StatusCreated)
+		fmt.Fprint(w, `{
+			"token": "6337ff461c94fd3fa32ba3b1ff4125"
+		}`)
+	})
+
+	token, resp, err := client.Runners.ResetGroupRunnerRegistrationToken("foobar", nil)
+	if err != nil {
+		t.Fatalf("Runners.ResetGroupRunnerRegistrationToken returns an error: %v", err)
+	}
+
+	want := &RunnerRegistrationToken{
+		Token: String("6337ff461c94fd3fa32ba3b1ff4125"),
+	}
+	if !reflect.DeepEqual(want, token) {
+		t.Errorf("Runners.ResetGroupRunnerRegistrationToken returned %+v, want %+v", token, want)
+	}
+
+	wantCode := 201
+	if !reflect.DeepEqual(wantCode, resp.StatusCode) {
+		t.Errorf("Runners.ResetGroupRunnerRegistrationToken returned returned status code  %+v, want %+v", resp.StatusCode, wantCode)
+	}
+}
+
+func TestResetProjectRunnerRegistrationToken(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/9/runners/reset_registration_token", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPost)
+		w.WriteHeader(http.StatusCreated)
+		fmt.Fprint(w, `{
+			"token": "6337ff461c94fd3fa32ba3b1ff4125"
+		}`)
+	})
+
+	token, resp, err := client.Runners.ResetProjectRunnerRegistrationToken("9", nil)
+	if err != nil {
+		t.Fatalf("Runners.ResetProjectRunnerRegistrationToken returns an error: %v", err)
+	}
+
+	want := &RunnerRegistrationToken{
+		Token: String("6337ff461c94fd3fa32ba3b1ff4125"),
+	}
+	if !reflect.DeepEqual(want, token) {
+		t.Errorf("Runners.ResetProjectRunnerRegistrationToken returned %+v, want %+v", token, want)
+	}
+
+	wantCode := 201
+	if !reflect.DeepEqual(wantCode, resp.StatusCode) {
+		t.Errorf("Runners.ResetProjectRunnerRegistrationToken returned returned status code  %+v, want %+v", resp.StatusCode, wantCode)
+	}
+}
+
+func TestResetRunnerAuthenticationToken(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/runners/42/reset_authentication_token", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPost)
+		w.WriteHeader(http.StatusCreated)
+		fmt.Fprint(w, `{
+			"token": "6337ff461c94fd3fa32ba3b1ff4125"
+		}`)
+	})
+
+	token, resp, err := client.Runners.ResetRunnerAuthenticationToken(42, nil)
+	if err != nil {
+		t.Fatalf("Runners.ResetRunnerAuthenticationToken returns an error: %v", err)
+	}
+
+	want := &RunnerAuthenticationToken{
+		Token: String("6337ff461c94fd3fa32ba3b1ff4125"),
+	}
+	if !reflect.DeepEqual(want, token) {
+		t.Errorf("Runners.ResetRunnerAuthenticationToken returned %+v, want %+v", token, want)
+	}
+
+	wantCode := 201
+	if !reflect.DeepEqual(wantCode, resp.StatusCode) {
+		t.Errorf("Runners.ResetRunnerAuthenticationToken returned returned status code  %+v, want %+v", resp.StatusCode, wantCode)
+	}
+}
