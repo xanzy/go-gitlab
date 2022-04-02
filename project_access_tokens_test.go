@@ -118,8 +118,8 @@ func TestDeleteProjectAccessToken(t *testing.T) {
 		testMethod(t, r, http.MethodDelete)
 	})
 
-	_, err := client.ProjectAccessTokens.DeleteProjectAccessToken("1", 1234)
+	_, err := client.ProjectAccessTokens.RevokeProjectAccessToken("1", 1234)
 	if err != nil {
-		t.Errorf("ProjectAccessTokens.DeleteProjectAccessToken returned error: %v", err)
+		t.Errorf("ProjectAccessTokens.RevokeProjectAccessToken returned error: %v", err)
 	}
 }

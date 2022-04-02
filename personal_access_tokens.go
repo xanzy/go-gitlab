@@ -19,22 +19,39 @@ package gitlab
 import (
 	"fmt"
 	"net/http"
+	"time"
 )
 
-// PersonalAccessTokensService handles communication with the Personal Access Tokens related methods
-// of the GitLab API.
+// PersonalAccessTokensService handles communication with the personal access
+// tokens related methods of the GitLab API.
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/personal_access_tokens.html
 type PersonalAccessTokensService struct {
 	client *Client
 }
 
+// PersonalAccessToken represents a personal access token.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/personal_access_tokens.html
+type PersonalAccessToken struct {
+	ID         int        `json:"id"`
+	Name       string     `json:"name"`
+	Revoked    bool       `json:"revoked"`
+	CreatedAt  *time.Time `json:"created_at"`
+	Scopes     []string   `json:"scopes"`
+	UserID     int        `json:"user_id"`
+	LastUsedAt *time.Time `json:"last_used_at,omitempty"`
+	Active     bool       `json:"active"`
+	ExpiresAt  *ISOTime   `json:"expires_at"`
+	Token      string     `json:"token,omitempty"`
+}
+
 func (p PersonalAccessToken) String() string {
 	return Stringify(p)
 }
 
-// ListPersonalAccessTokensOptions represents the available options for
-// listing Personal Access Tokens across a GitLab instance or for a specific user.
+// ListPersonalAccessTokensOptions represents the available
+// ListPersonalAccessTokens() options.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/personal_access_tokens.html#list-personal-access-tokens
@@ -43,15 +60,12 @@ type ListPersonalAccessTokensOptions struct {
 	UserID *int `url:"user_id,omitempty" json:"user_id,omitempty"`
 }
 
-// ListPersonalAccessTokens gets a list of all Personal Access Tokens in a
-// GitLab instance optionally scoped down to a single users tokens.
+// ListPersonalAccessTokens gets a list of all personal access tokens.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/personal_access_tokens.html#list-personal-access-tokens
 func (s *PersonalAccessTokensService) ListPersonalAccessTokens(opt *ListPersonalAccessTokensOptions, options ...RequestOptionFunc) ([]*PersonalAccessToken, *Response, error) {
-	u := "personal_access_tokens"
-
-	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
+	req, err := s.client.NewRequest(http.MethodGet, "personal_access_tokens", opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -65,13 +79,12 @@ func (s *PersonalAccessTokensService) ListPersonalAccessTokens(opt *ListPersonal
 	return pats, resp, err
 }
 
-// DeletePersonalAccessToken deletes a Personal Access Token.
+// RevokePersonalAccessToken revokes a personal access token.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/personal_access_tokens.html#revoke-a-personal-access-token
-func (s *PersonalAccessTokensService) DeletePersonalAccessToken(id int, options ...RequestOptionFunc) (*Response, error) {
-
-	u := fmt.Sprintf("personal_access_tokens/%d", id)
+func (s *PersonalAccessTokensService) RevokePersonalAccessToken(token int, options ...RequestOptionFunc) (*Response, error) {
+	u := fmt.Sprintf("personal_access_tokens/%d", token)
 
 	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {

@@ -14,14 +14,16 @@
   "downvotes": 0,
   "merge_requests_count": 0,
   "milestone": null,
-  "assignees": [{
-    "name": "Miss Monserrate Beier",
-    "username": "axel.block",
-    "id": 12,
-    "state": "active",
-    "avatar_url": "http://www.gravatar.com/avatar/46f6f7dc858ada7be1853f7fb96e81da?s=80&d=identicon",
-    "web_url": "https://gitlab.example.com/axel.block"
-  }],
+  "assignees": [
+    {
+      "name": "Miss Monserrate Beier",
+      "username": "axel.block",
+      "id": 12,
+      "state": "active",
+      "avatar_url": "http://www.gravatar.com/avatar/46f6f7dc858ada7be1853f7fb96e81da?s=80&d=identicon",
+      "web_url": "https://gitlab.example.com/axel.block"
+    }
+  ],
   "assignee": {
     "name": "Miss Monserrate Beier",
     "username": "axel.block",
@@ -54,8 +56,8 @@
     "award_emoji": "http://example.com/api/v4/projects/1/issues/2/award_emoji",
     "project": "http://example.com/api/v4/projects/1"
   },
-  "task_completion_status":{
-    "count":0,
-    "completed_count":0
+  "task_completion_status": {
+    "count": 0,
+    "completed_count": 0
   }
 }

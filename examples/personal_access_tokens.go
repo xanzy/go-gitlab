@@ -30,7 +30,7 @@ func patRevokeExample() {
 		log.Fatal(err)
 	}
 
-	resp, err := git.PersonalAccessTokens.DeletePersonalAccessToken(99999999)
+	resp, err := git.PersonalAccessTokens.RevokePersonalAccessToken(99999999)
 	if err != nil {
 		log.Fatal(err)
 	}

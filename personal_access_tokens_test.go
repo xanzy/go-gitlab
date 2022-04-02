@@ -157,8 +157,8 @@ func TestDeletePersonalAccessToken(t *testing.T) {
 		testMethod(t, r, http.MethodDelete)
 	})
 
-	_, err := client.PersonalAccessTokens.DeletePersonalAccessToken(1)
+	_, err := client.PersonalAccessTokens.RevokePersonalAccessToken(1)
 	if err != nil {
-		t.Errorf("PersonalAccessTokens.DeletePersonalAccessToken returned error: %v", err)
+		t.Errorf("PersonalAccessTokens.RevokePersonalAccessToken returned error: %v", err)
 	}
 }
