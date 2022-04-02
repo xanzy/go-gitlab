@@ -144,8 +144,7 @@ func TestProjectImportExportService_ImportFile(t *testing.T) {
 			  "path": "api-project",
 			  "path_with_namespace": "root/api-project",
 			  "import_status": "scheduled",
-			  "correlation_id": "mezklWso3Za",
-			  "failed_relations": []
+			  "correlation_id": "mezklWso3Za"
 			}
 		`)
 	})
@@ -158,6 +157,7 @@ func TestProjectImportExportService_ImportFile(t *testing.T) {
 		Path:              "api-project",
 		PathWithNamespace: "root/api-project",
 		ImportStatus:      "scheduled",
+		CorrelationID:     "mezklWso3Za",
 	}
 
 	file := bytes.NewBufferString("dummy")
@@ -187,16 +187,7 @@ func TestProjectImportExportService_ImportStatus(t *testing.T) {
 			  "path": "gitlab-test",
 			  "path_with_namespace": "gitlab-org/gitlab-test",
 			  "import_status": "started",
-			  "correlation_id": "mezklWso3Za",
-			  "failed_relations": [
-				{
-				  "id": 42,
-				  "exception_class": "RuntimeError",
-				  "exception_message": "A failure occurred",
-				  "source": "custom error context",
-				  "relation_name": "merge_requests"
-				}
-			  ]
+			  "correlation_id": "mezklWso3Za"
 			}
 		`)
 	})
@@ -209,6 +200,7 @@ func TestProjectImportExportService_ImportStatus(t *testing.T) {
 		Path:              "gitlab-test",
 		PathWithNamespace: "gitlab-org/gitlab-test",
 		ImportStatus:      "started",
+		CorrelationID:     "mezklWso3Za",
 	}
 
 	es, resp, err := client.ProjectImportExport.ImportStatus(1, nil)

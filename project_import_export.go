@@ -46,6 +46,8 @@ type ImportStatus struct {
 	PathWithNamespace string     `json:"path_with_namespace"`
 	CreateAt          *time.Time `json:"create_at"`
 	ImportStatus      string     `json:"import_status"`
+	ImportType        string     `json:"import_type"`
+	CorrelationID     string     `json:"correlation_id"`
 	ImportError       string     `json:"import_error"`
 }
 
