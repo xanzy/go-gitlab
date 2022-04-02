@@ -249,6 +249,7 @@ type ModifyUserOptions struct {
 	External           *bool   `url:"external,omitempty" json:"external,omitempty"`
 	PrivateProfile     *bool   `url:"private_profile,omitempty" json:"private_profile,omitempty"`
 	Note               *string `url:"note,omitempty" json:"note,omitempty"`
+	PublicEmail        *string `url:"public_email,omitempty" json:"public_email,omitempty"`
 }
 
 // ModifyUser modifies an existing user. Only administrators can change attributes
