@@ -203,7 +203,7 @@ func TestListGroupProjects(t *testing.T) {
 	}
 }
 
-func TestListSubgroups(t *testing.T) {
+func TestListSubGroups(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
 
@@ -213,14 +213,14 @@ func TestListSubgroups(t *testing.T) {
 			fmt.Fprint(w, `[{"id": 1}, {"id": 2}]`)
 		})
 
-	groups, _, err := client.Groups.ListSubgroups(1, &ListSubgroupsOptions{})
+	groups, _, err := client.Groups.ListSubGroups(1, &ListSubGroupsOptions{})
 	if err != nil {
-		t.Errorf("Groups.ListSubgroups returned error: %v", err)
+		t.Errorf("Groups.ListSubGroups returned error: %v", err)
 	}
 
 	want := []*Group{{ID: 1}, {ID: 2}}
 	if !reflect.DeepEqual(want, groups) {
-		t.Errorf("Groups.ListSubgroups returned %+v, want %+v", groups, want)
+		t.Errorf("Groups.ListSubGroups returned %+v, want %+v", groups, want)
 	}
 }
 

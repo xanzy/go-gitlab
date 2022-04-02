@@ -441,8 +441,8 @@ func TestSubGroupEventUnmarshal(t *testing.T) {
 		t.Errorf("SubGroup Event is null")
 	}
 
-	if event.Name != "Subgroup 1" {
-		t.Errorf("Name is %v, want %v", event.Name, "Subgroup 1")
+	if event.Name != "SubGroup 1" {
+		t.Errorf("Name is %v, want %v", event.Name, "SubGroup 1")
 	}
 
 	if event.GroupID != 2 {

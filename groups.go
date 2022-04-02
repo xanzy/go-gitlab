@@ -125,17 +125,17 @@ func (s *GroupsService) ListGroups(opt *ListGroupsOptions, options ...RequestOpt
 	return gs, resp, err
 }
 
-// ListSubgroupsOptions represents the available ListSubgroups() options.
+// ListSubGroupsOptions represents the available ListSubGroups() options.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/groups.html#list-a-groups-s-subgroups
-type ListSubgroupsOptions ListGroupsOptions
+type ListSubGroupsOptions ListGroupsOptions
 
-// ListSubgroups gets a list of subgroups for a given group.
+// ListSubGroups gets a list of subgroups for a given group.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/groups.html#list-a-groups-s-subgroups
-func (s *GroupsService) ListSubgroups(gid interface{}, opt *ListSubgroupsOptions, options ...RequestOptionFunc) ([]*Group, *Response, error) {
+func (s *GroupsService) ListSubGroups(gid interface{}, opt *ListSubGroupsOptions, options ...RequestOptionFunc) ([]*Group, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
 		return nil, nil, err
@@ -195,7 +195,7 @@ func (s *GroupsService) ListDescendantGroups(gid interface{}, opt *ListDescendan
 type ListGroupProjectsOptions struct {
 	ListOptions
 	Archived                 *bool             `url:"archived,omitempty" json:"archived,omitempty"`
-	IncludeSubgroups         *bool             `url:"include_subgroups,omitempty" json:"include_subgroups,omitempty"`
+	IncludeSubGroups         *bool             `url:"include_subgroups,omitempty" json:"include_subgroups,omitempty"`
 	MinAccessLevel           *AccessLevelValue `url:"min_access_level,omitempty" json:"min_access_level,omitempty"`
 	OrderBy                  *string           `url:"order_by,omitempty" json:"order_by,omitempty"`
 	Owned                    *bool             `url:"owned,omitempty" json:"owned,omitempty"`

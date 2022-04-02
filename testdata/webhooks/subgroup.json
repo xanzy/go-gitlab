@@ -2,7 +2,7 @@
   "created_at": "2022-01-24T14:23:59Z",
   "updated_at": "2022-01-24T14:23:59Z",
   "event_name": "subgroup_create",
-  "name": "Subgroup 1",
+  "name": "SubGroup 1",
   "path": "subgroup-1",
   "full_path": "group-1/subgroup-1",
   "group_id": 2,

@@ -37,6 +37,7 @@ func TestListGroupHooks(t *testing.T) {
 		"url": "http://example.com/hook",
 		"group_id": 3,
 		"push_events": true,
+		"push_events_branch_filter": "main",
 		"issues_events": true,
 		"confidential_issues_events": true,
 		"merge_requests_events": true,
@@ -47,6 +48,7 @@ func TestListGroupHooks(t *testing.T) {
 		"wiki_page_events": true,
 		"deployment_events": true,
 		"releases_events": true,
+		"subgroup_events": true,
 		"enable_ssl_verification": true,
 		"created_at": "2012-10-12T17:04:47Z"
 	}
@@ -64,6 +66,7 @@ func TestListGroupHooks(t *testing.T) {
 		URL:                      "http://example.com/hook",
 		GroupID:                  3,
 		PushEvents:               true,
+		PushEventsBranchFilter:   "main",
 		IssuesEvents:             true,
 		ConfidentialIssuesEvents: true,
 		MergeRequestsEvents:      true,
@@ -74,6 +77,7 @@ func TestListGroupHooks(t *testing.T) {
 		WikiPageEvents:           true,
 		DeploymentEvents:         true,
 		ReleasesEvents:           true,
+		SubGroupEvents:           true,
 		EnableSSLVerification:    true,
 		CreatedAt:                &datePointer,
 	}}
@@ -95,6 +99,7 @@ func TestGetGroupHook(t *testing.T) {
 	"url": "http://example.com/hook",
 	"group_id": 3,
 	"push_events": true,
+	"push_events_branch_filter": "main",
 	"issues_events": true,
 	"confidential_issues_events": true,
 	"merge_requests_events": true,
@@ -105,6 +110,7 @@ func TestGetGroupHook(t *testing.T) {
 	"wiki_page_events": true,
 	"deployment_events": true,
 	"releases_events": true,
+	"subgroup_events": true,
 	"enable_ssl_verification": true,
 	"created_at": "2012-10-12T17:04:47Z"
 }`)
@@ -121,6 +127,7 @@ func TestGetGroupHook(t *testing.T) {
 		URL:                      "http://example.com/hook",
 		GroupID:                  3,
 		PushEvents:               true,
+		PushEventsBranchFilter:   "main",
 		IssuesEvents:             true,
 		ConfidentialIssuesEvents: true,
 		MergeRequestsEvents:      true,
@@ -131,6 +138,7 @@ func TestGetGroupHook(t *testing.T) {
 		WikiPageEvents:           true,
 		DeploymentEvents:         true,
 		ReleasesEvents:           true,
+		SubGroupEvents:           true,
 		EnableSSLVerification:    true,
 		CreatedAt:                &datePointer,
 	}
@@ -152,6 +160,7 @@ func TestAddGroupHook(t *testing.T) {
 	"url": "http://example.com/hook",
 	"group_id": 3,
 	"push_events": true,
+	"push_events_branch_filter": "main",
 	"issues_events": true,
 	"confidential_issues_events": true,
 	"merge_requests_events": true,
@@ -162,6 +171,7 @@ func TestAddGroupHook(t *testing.T) {
 	"wiki_page_events": true,
 	"deployment_events": true,
 	"releases_events": true,
+	"subgroup_events": true,
 	"enable_ssl_verification": true,
 	"created_at": "2012-10-12T17:04:47Z"
 }`)
@@ -183,6 +193,7 @@ func TestAddGroupHook(t *testing.T) {
 		URL:                      "http://example.com/hook",
 		GroupID:                  3,
 		PushEvents:               true,
+		PushEventsBranchFilter:   "main",
 		IssuesEvents:             true,
 		ConfidentialIssuesEvents: true,
 		ConfidentialNoteEvents:   false,
@@ -194,6 +205,7 @@ func TestAddGroupHook(t *testing.T) {
 		WikiPageEvents:           true,
 		DeploymentEvents:         true,
 		ReleasesEvents:           true,
+		SubGroupEvents:           true,
 		EnableSSLVerification:    true,
 		CreatedAt:                &datePointer,
 	}
@@ -215,6 +227,7 @@ func TestEditGroupHook(t *testing.T) {
 	"url": "http://example.com/hook",
 	"group_id": 3,
 	"push_events": true,
+	"push_events_branch_filter": "main",
 	"issues_events": true,
 	"confidential_issues_events": true,
 	"merge_requests_events": true,
@@ -225,6 +238,7 @@ func TestEditGroupHook(t *testing.T) {
 	"wiki_page_events": true,
 	"deployment_events": true,
 	"releases_events": true,
+	"subgroup_events": true,
 	"enable_ssl_verification": true,
 	"created_at": "2012-10-12T17:04:47Z"
 }`)
@@ -246,6 +260,7 @@ func TestEditGroupHook(t *testing.T) {
 		URL:                      "http://example.com/hook",
 		GroupID:                  3,
 		PushEvents:               true,
+		PushEventsBranchFilter:   "main",
 		IssuesEvents:             true,
 		ConfidentialIssuesEvents: true,
 		ConfidentialNoteEvents:   false,
@@ -257,6 +272,7 @@ func TestEditGroupHook(t *testing.T) {
 		WikiPageEvents:           true,
 		DeploymentEvents:         true,
 		ReleasesEvents:           true,
+		SubGroupEvents:           true,
 		EnableSSLVerification:    true,
 		CreatedAt:                &datePointer,
 	}

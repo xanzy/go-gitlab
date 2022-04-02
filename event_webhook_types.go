@@ -870,20 +870,20 @@ type SnippetCommentEvent struct {
 		URL          string `json:"url"`
 	} `json:"object_attributes"`
 	Snippet *struct {
-		ID                 int        `json:"id"`
-		Title              string     `json:"title"`
-		Content            string     `json:"content"`
-		AuthorID           int        `json:"author_id"`
-		ProjectID          int        `json:"project_id"`
-		CreatedAt          string     `json:"created_at"`
-		UpdatedAt          string     `json:"updated_at"`
-		Filename           string     `json:"file_name"`
-		ExpiresAt          string     `json:"expires_at"`
-		Type               string     `json:"type"`
-		VisibilityLevel    int        `json:"visibility_level"`
-		Description        string     `json:"description"`
-		Secret             bool       `json:"secret"`
-		RepositoryReadOnly bool       `json:"repository_read_only"`
+		ID                 int    `json:"id"`
+		Title              string `json:"title"`
+		Content            string `json:"content"`
+		AuthorID           int    `json:"author_id"`
+		ProjectID          int    `json:"project_id"`
+		CreatedAt          string `json:"created_at"`
+		UpdatedAt          string `json:"updated_at"`
+		Filename           string `json:"file_name"`
+		ExpiresAt          string `json:"expires_at"`
+		Type               string `json:"type"`
+		VisibilityLevel    int    `json:"visibility_level"`
+		Description        string `json:"description"`
+		Secret             bool   `json:"secret"`
+		RepositoryReadOnly bool   `json:"repository_read_only"`
 	} `json:"snippet"`
 }
 
