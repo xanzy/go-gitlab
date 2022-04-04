@@ -75,6 +75,7 @@ type User struct {
 	WebsiteURL                     string             `json:"website_url"`
 	Organization                   string             `json:"organization"`
 	JobTitle                       string             `json:"job_title"`
+	Bot                            bool               `json:"bot"`
 	ExternUID                      string             `json:"extern_uid"`
 	Provider                       string             `json:"provider"`
 	ThemeID                        int                `json:"theme_id"`
@@ -131,6 +132,7 @@ type ListUsersOptions struct {
 	External             *bool      `url:"external,omitempty" json:"external,omitempty"`
 	WithoutProjects      *bool      `url:"without_projects,omitempty" json:"without_projects,omitempty"`
 	WithCustomAttributes *bool      `url:"with_custom_attributes,omitempty" json:"with_custom_attributes,omitempty"`
+	WithoutProjectBots   *bool      `url:"without_project_bots,omitempty" json:"without_project_bots,omitempty"`
 }
 
 // ListUsers gets a list of users.
