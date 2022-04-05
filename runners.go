@@ -168,7 +168,7 @@ func (s *RunnersService) GetRunnerDetails(rid interface{}, options ...RequestOpt
 
 // UpdateRunnerDetailsOptions represents the available UpdateRunnerDetails() options.
 //
-// "Active" in deprecated, use "Paused" instead. "Active" will be removed in GitLab 16.0
+// "Active" is deprecated, use "Paused" instead. "Active" will be removed in GitLab 16.0
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/runners.html#update-runner-39-s-details
