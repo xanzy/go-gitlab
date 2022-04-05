@@ -37,6 +37,7 @@ type Runner struct {
 	ID          int    `json:"id"`
 	Description string `json:"description"`
 	Active      bool   `json:"active"`
+	Paused      bool   `json:"paused"`
 	IsShared    bool   `json:"is_shared"`
 	IPAddress   string `json:"ip_address"`
 	RunnerType  string `json:"runner_type"`
@@ -50,7 +51,7 @@ type Runner struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/runners.html
 type RunnerDetails struct {
-	Active       bool       `json:"active"`
+	Paused       bool       `json:"paused"`
 	Architecture string     `json:"architecture"`
 	Description  string     `json:"description"`
 	ID           int        `json:"id"`
@@ -82,6 +83,9 @@ type RunnerDetails struct {
 		Name   string `json:"name"`
 		WebURL string `json:"web_url"`
 	} `json:"groups"`
+
+	// Deprecated members
+	Active bool `json:"active"`
 }
 
 // ListRunnersOptions represents the available ListRunners() options.
@@ -90,10 +94,13 @@ type RunnerDetails struct {
 // https://docs.gitlab.com/ce/api/runners.html#list-owned-runners
 type ListRunnersOptions struct {
 	ListOptions
-	Scope   *string   `url:"scope,omitempty" json:"scope,omitempty"`
 	Type    *string   `url:"type,omitempty" json:"type,omitempty"`
 	Status  *string   `url:"status,omitempty" json:"status,omitempty"`
+	Paused  *bool     `url:"paused,omitempty" json:"paused,omitempty"`
 	TagList *[]string `url:"tag_list,comma,omitempty" json:"tag_list,omitempty"`
+
+	// Deprecated members
+	Scope *string `url:"scope,omitempty" json:"scope,omitempty"`
 }
 
 // ListRunners gets a list of runners accessible by the authenticated user.
@@ -166,12 +173,15 @@ func (s *RunnersService) GetRunnerDetails(rid interface{}, options ...RequestOpt
 // https://docs.gitlab.com/ce/api/runners.html#update-runner-39-s-details
 type UpdateRunnerDetailsOptions struct {
 	Description    *string   `url:"description,omitempty" json:"description,omitempty"`
-	Active         *bool     `url:"active,omitempty" json:"active,omitempty"`
+	Paused         *bool     `url:"paused,omitempty" json:"paused,omitempty"`
 	TagList        *[]string `url:"tag_list[],omitempty" json:"tag_list,omitempty"`
 	RunUntagged    *bool     `url:"run_untagged,omitempty" json:"run_untagged,omitempty"`
 	Locked         *bool     `url:"locked,omitempty" json:"locked,omitempty"`
 	AccessLevel    *string   `url:"access_level,omitempty" json:"access_level,omitempty"`
 	MaximumTimeout *int      `url:"maximum_timeout,omitempty" json:"maximum_timeout,omitempty"`
+
+	// Deprecated members
+	Active *bool `url:"active,omitempty" json:"active,omitempty"`
 }
 
 // UpdateRunnerDetails updates details for a given runner.
@@ -384,14 +394,17 @@ func (s *RunnersService) ListGroupsRunners(gid interface{}, opt *ListGroupsRunne
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/runners.html#register-a-new-runner
 type RegisterNewRunnerOptions struct {
-	Token          *string                       `url:"token" json:"token"`
-	Description    *string                       `url:"description,omitempty" json:"description,omitempty"`
-	Info           *RegisterNewRunnerInfoOptions `url:"info,omitempty" json:"info,omitempty"`
-	Active         *bool                         `url:"active,omitempty" json:"active,omitempty"`
-	Locked         *bool                         `url:"locked,omitempty" json:"locked,omitempty"`
-	RunUntagged    *bool                         `url:"run_untagged,omitempty" json:"run_untagged,omitempty"`
-	TagList        *[]string                     `url:"tag_list[],omitempty" json:"tag_list,omitempty"`
-	MaximumTimeout *int                          `url:"maximum_timeout,omitempty" json:"maximum_timeout,omitempty"`
+	Token           *string                       `url:"token" json:"token"`
+	Description     *string                       `url:"description,omitempty" json:"description,omitempty"`
+	Info            *RegisterNewRunnerInfoOptions `url:"info,omitempty" json:"info,omitempty"`
+	Active          *bool                         `url:"active,omitempty" json:"active,omitempty"`
+	Paused          *bool                         `url:"paused,omitempty" json:"paused,omitempty"`
+	Locked          *bool                         `url:"locked,omitempty" json:"locked,omitempty"`
+	RunUntagged     *bool                         `url:"run_untagged,omitempty" json:"run_untagged,omitempty"`
+	TagList         *[]string                     `url:"tag_list[],omitempty" json:"tag_list,omitempty"`
+	AccessLevel     *string                       `url:"access_level,omitempty" json:"access_level,omitempty"`
+	MaximumTimeout  *int                          `url:"maximum_timeout,omitempty" json:"maximum_timeout,omitempty"`
+	MaintenanceNote *string                       `url:"maintenance_note,omitempty" json:"maintenance_note,omitempty"`
 }
 
 // RegisterNewRunnerInfoOptions represents the info hashmap parameter in
