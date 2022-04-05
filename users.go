@@ -67,6 +67,7 @@ type User struct {
 	WebURL                         string             `json:"web_url"`
 	CreatedAt                      *time.Time         `json:"created_at"`
 	Bio                            string             `json:"bio"`
+	Bot                            bool               `json:"bot"`
 	Location                       string             `json:"location"`
 	PublicEmail                    string             `json:"public_email"`
 	Skype                          string             `json:"skype"`
@@ -75,7 +76,6 @@ type User struct {
 	WebsiteURL                     string             `json:"website_url"`
 	Organization                   string             `json:"organization"`
 	JobTitle                       string             `json:"job_title"`
-	Bot                            bool               `json:"bot"`
 	ExternUID                      string             `json:"extern_uid"`
 	Provider                       string             `json:"provider"`
 	ThemeID                        int                `json:"theme_id"`
