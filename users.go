@@ -67,6 +67,7 @@ type User struct {
 	WebURL                         string             `json:"web_url"`
 	CreatedAt                      *time.Time         `json:"created_at"`
 	Bio                            string             `json:"bio"`
+	Bot                            bool               `json:"bot"`
 	Location                       string             `json:"location"`
 	PublicEmail                    string             `json:"public_email"`
 	Skype                          string             `json:"skype"`
@@ -131,6 +132,7 @@ type ListUsersOptions struct {
 	External             *bool      `url:"external,omitempty" json:"external,omitempty"`
 	WithoutProjects      *bool      `url:"without_projects,omitempty" json:"without_projects,omitempty"`
 	WithCustomAttributes *bool      `url:"with_custom_attributes,omitempty" json:"with_custom_attributes,omitempty"`
+	WithoutProjectBots   *bool      `url:"without_project_bots,omitempty" json:"without_project_bots,omitempty"`
 }
 
 // ListUsers gets a list of users.
