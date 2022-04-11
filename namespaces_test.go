@@ -21,11 +21,15 @@ import (
 	"net/http"
 	"reflect"
 	"testing"
+	"time"
 )
 
 func TestListNamespaces(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
+
+	trialEndsOn, _ := time.Parse(time.RFC3339, "2022-05-08T00:00:00Z")
+	trialEndsOnISOTime := ISOTime(trialEndsOn)
 
 	mux.HandleFunc("/api/v4/namespaces", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -69,7 +73,20 @@ func TestListNamespaces(t *testing.T) {
 			  "plan": "default",
 			  "trial_ends_on": null,
 			  "trial": false
-			}
+			},
+			{
+				"id": 4,
+				"name": "group2",
+				"path": "group2",
+				"kind": "group",
+				"full_path": "group2",
+				"avatar_url": "https://gitlab.example.com/groups/group2",
+				"web_url": "https://gitlab.example.com/group2",
+				"billable_members_count": 1,
+				"plan": "default",
+				"trial_ends_on": "2022-05-08",
+				"trial": true
+			  }
 		  ]`)
 	})
 
@@ -132,6 +149,19 @@ func TestListNamespaces(t *testing.T) {
 					Plan:                        "default",
 					TrialEndsOn:                 nil,
 					Trial:                       false,
+				},
+				{
+					ID:                   4,
+					Name:                 "group2",
+					Path:                 "group2",
+					Kind:                 "group",
+					FullPath:             "group2",
+					AvatarURL:            String("https://gitlab.example.com/groups/group2"),
+					WebURL:               "https://gitlab.example.com/group2",
+					Plan:                 "default",
+					BillableMembersCount: 1,
+					TrialEndsOn:          &trialEndsOnISOTime,
+					Trial:                true,
 				},
 			}
 
