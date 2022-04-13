@@ -3,7 +3,9 @@ name: Lint and Test
 on:
   pull_request:
   push:
-    branches: [master]
+    branches:
+      - master
+  workflow_dispatch:
 
 jobs:
   lint_and_test:
@@ -28,4 +30,6 @@ jobs:
           version: latest
 
       - name: Test package
-        run: go test -v ./...
+        run: |
+          go test -v ./... -coverprofile=coverage.txt -covermode count
+          go tool cover -func coverage.txt
