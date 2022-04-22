@@ -43,8 +43,6 @@ type SettingsService struct {
 // https://gitlab.com/gitlab-org/gitlab/-/blob/v14.9.3-ee/ee/app/helpers/ee/application_settings_helper.rb#L20
 type Settings struct {
 	ID                                                    int               `json:"id"`
-	CreatedAt                                             *time.Time        `json:"created_at"`
-	UpdatedAt                                             *time.Time        `json:"updated_at"`
 	AbuseNotificationEmail                                string            `json:"abuse_notification_email"`
 	AdminMode                                             bool              `json:"admin_mode"`
 	AdminNotificationEmail                                string            `json:"admin_notification_email"` // deprecated
@@ -79,7 +77,10 @@ type Settings struct {
 	ContainerRegistryImportStartMaxRetries                int               `json:"container_registry_import_start_max_retries"`
 	ContainerRegistryImportTargetPlan                     string            `json:"container_registry_import_target_plan"`
 	ContainerRegistryTokenExpireDelay                     int               `json:"container_registry_token_expire_delay"`
+	CreatedAt                                             *time.Time        `json:"created_at"`
 	CustomHTTPCloneURLRoot                                string            `json:"custom_http_clone_url_root"`
+	DNSRebindingProtectionEnabled                         bool              `json:"dns_rebinding_protection_enabled"`
+	DSAKeyRestriction                                     int               `json:"dsa_key_restriction"`
 	DeactivateDormantUsers                                bool              `json:"deactivate_dormant_users"`
 	DefaultArtifactsExpireIn                              string            `json:"default_artifacts_expire_in"`
 	DefaultBranchName                                     string            `json:"default_branch_name"`
@@ -88,36 +89,34 @@ type Settings struct {
 	DefaultGroupVisibility                                VisibilityValue   `json:"default_group_visibility"`
 	DefaultProjectCreation                                int               `json:"default_project_creation"`
 	DefaultProjectDeletionProtection                      bool              `json:"default_project_deletion_protection"`
-	DefaultProjectsLimit                                  int               `json:"default_projects_limit"`
 	DefaultProjectVisibility                              VisibilityValue   `json:"default_project_visibility"`
+	DefaultProjectsLimit                                  int               `json:"default_projects_limit"`
 	DefaultSnippetVisibility                              VisibilityValue   `json:"default_snippet_visibility"`
 	DelayedProjectDeletion                                bool              `json:"delayed_project_deletion"`
 	DeletionAdjournedPeriod                               int               `json:"deletion_adjourned_period"`
 	DiffMaxFiles                                          int               `json:"diff_max_files"`
 	DiffMaxLines                                          int               `json:"diff_max_lines"`
 	DiffMaxPatchBytes                                     int               `json:"diff_max_patch_bytes"`
-	DisabledOauthSignInSources                            []string          `json:"disabled_oauth_sign_in_sources"`
 	DisableFeedToken                                      bool              `json:"disable_feed_token"`
 	DisableOverridingApproversPerMergeRequest             bool              `json:"disable_overriding_approvers_per_merge_request"`
-	DNSRebindingProtectionEnabled                         bool              `json:"dns_rebinding_protection_enabled"`
+	DisabledOauthSignInSources                            []string          `json:"disabled_oauth_sign_in_sources"`
 	DomainAllowlist                                       []string          `json:"domain_allowlist"`
 	DomainDenylist                                        []string          `json:"domain_denylist"`
 	DomainDenylistEnabled                                 bool              `json:"domain_denylist_enabled"`
-	DSAKeyRestriction                                     int               `json:"dsa_key_restriction"`
 	ECDSAKeyRestriction                                   int               `json:"ecdsa_key_restriction"`
 	ECDSASKKeyRestriction                                 int               `json:"ecdsa_sk_key_restriction"`
-	Ed25519KeyRestriction                                 int               `json:"ed25519_key_restriction"`
-	Ed25519SKKeyRestriction                               int               `json:"ed25519_sk_key_restriction"`
 	EKSAccessKeyID                                        string            `json:"eks_access_key_id"`
 	EKSAccountID                                          string            `json:"eks_account_id"`
 	EKSIntegrationEnabled                                 bool              `json:"eks_integration_enabled"`
+	Ed25519KeyRestriction                                 int               `json:"ed25519_key_restriction"`
+	Ed25519SKKeyRestriction                               int               `json:"ed25519_sk_key_restriction"`
+	ElasticsearchAWS                                      bool              `json:"elasticsearch_aws"`
+	ElasticsearchAWSAccessKey                             string            `json:"elasticsearch_aws_access_key"`
+	ElasticsearchAWSRegion                                string            `json:"elasticsearch_aws_region"`
 	ElasticsearchAnalyzersKuromojiEnabled                 bool              `json:"elasticsearch_analyzers_kuromoji_enabled"`
 	ElasticsearchAnalyzersKuromojiSearch                  bool              `json:"elasticsearch_analyzers_kuromoji_search"`
 	ElasticsearchAnalyzersSmartCNEnabled                  bool              `json:"elasticsearch_analyzers_smartcn_enabled"`
 	ElasticsearchAnalyzersSmartCNSearch                   bool              `json:"elasticsearch_analyzers_smartcn_search"`
-	ElasticsearchAWS                                      bool              `json:"elasticsearch_aws"`
-	ElasticsearchAWSAccessKey                             string            `json:"elasticsearch_aws_access_key"`
-	ElasticsearchAWSRegion                                string            `json:"elasticsearch_aws_region"`
 	ElasticsearchClientRequestTimeout                     int               `json:"elasticsearch_client_request_timeout"`
 	ElasticsearchIndexedFieldLengthLimit                  int               `json:"elasticsearch_indexed_field_length_limit"`
 	ElasticsearchIndexedFileSizeLimitKB                   int               `json:"elasticsearch_indexed_file_size_limit_kb"`
@@ -158,12 +157,12 @@ type Settings struct {
 	FlocEnabled                                           bool              `json:"floc_enabled"`
 	GeoNodeAllowedIPs                                     string            `json:"geo_node_allowed_ips"`
 	GeoStatusTimeout                                      int               `json:"geo_status_timeout"`
+	GitTwoFactorSessionExpiry                             int               `json:"git_two_factor_session_expiry"`
 	GitalyTimeoutDefault                                  int               `json:"gitaly_timeout_default"`
 	GitalyTimeoutFast                                     int               `json:"gitaly_timeout_fast"`
 	GitalyTimeoutMedium                                   int               `json:"gitaly_timeout_medium"`
 	GitpodEnabled                                         bool              `json:"gitpod_enabled"`
 	GitpodURL                                             string            `json:"gitpod_url"`
-	GitTwoFactorSessionExpiry                             int               `json:"git_two_factor_session_expiry"`
 	GrafanaEnabled                                        bool              `json:"grafana_enabled"`
 	GrafanaURL                                            string            `json:"grafana_url"`
 	GravatarEnabled                                       bool              `json:"gravatar_enabled"`
@@ -172,6 +171,7 @@ type Settings struct {
 	GroupImportLimit                                      int               `json:"group_import_limit"`
 	GroupOwnersCanManageDefaultBranchProtection           bool              `json:"group_owners_can_manage_default_branch_protection"`
 	GroupRunnerTokenExpirationInterval                    int               `json:"group_runner_token_expiration_interval"`
+	HTMLEmailsEnabled                                     bool              `json:"html_emails_enabled"`
 	HashedStorageEnabled                                  bool              `json:"hashed_storage_enabled"`
 	HelpPageDocumentationBaseURL                          string            `json:"help_page_documentation_base_url"`
 	HelpPageHideCommercialContent                         bool              `json:"help_page_hide_commercial_content"`
@@ -185,7 +185,6 @@ type Settings struct {
 	HousekeepingFullRepackPeriod                          int               `json:"housekeeping_full_repack_period"`
 	HousekeepingGcPeriod                                  int               `json:"housekeeping_gc_period"`
 	HousekeepingIncrementalRepackPeriod                   int               `json:"housekeeping_incremental_repack_period"`
-	HTMLEmailsEnabled                                     bool              `json:"html_emails_enabled"`
 	ImportSources                                         []string          `json:"import_sources"`
 	InProductMarketingEmailsEnabled                       bool              `json:"in_product_marketing_emails_enabled"`
 	InvisibleCaptchaEnabled                               bool              `json:"invisible_captcha_enabled"`
@@ -215,9 +214,9 @@ type Settings struct {
 	MirrorCapacityThreshold                               int               `json:"mirror_capacity_threshold"`
 	MirrorMaxCapacity                                     int               `json:"mirror_max_capacity"`
 	MirrorMaxDelay                                        int               `json:"mirror_max_delay"`
+	NPMPackageRequestsForwarding                          bool              `json:"npm_package_requests_forwarding"`
 	NotesCreateLimit                                      int               `json:"notes_create_limit"`
 	NotifyOnUnknownSignIn                                 bool              `json:"notify_on_unknown_sign_in"`
-	NPMPackageRequestsForwarding                          bool              `json:"npm_package_requests_forwarding"`
 	OutboundLocalRequestsAllowlistRaw                     string            `json:"outbound_local_requests_allowlist_raw"`
 	PagesDomainVerificationEnabled                        bool              `json:"pages_domain_verification_enabled"`
 	PasswordAuthenticationEnabledForGit                   bool              `json:"password_authentication_enabled_for_git"`
@@ -242,6 +241,7 @@ type Settings struct {
 	PushEventActivitiesLimit                              int               `json:"push_event_activities_limit"`
 	PushEventHooksLimit                                   int               `json:"push_event_hooks_limit"`
 	PyPIPackageRequestsForwarding                         bool              `json:"pypi_package_requests_forwarding"`
+	RSAKeyRestriction                                     int               `json:"rsa_key_restriction"`
 	RateLimitingResponseText                              string            `json:"rate_limiting_response_text"`
 	RawBlobRequestLimit                                   int               `json:"raw_blob_request_limit"`
 	RecaptchaEnabled                                      bool              `json:"recaptcha_enabled"`
@@ -254,7 +254,6 @@ type Settings struct {
 	RequireAdminApprovalAfterUserSignup                   bool              `json:"require_admin_approval_after_user_signup"`
 	RequireTwoFactorAuthentication                        bool              `json:"require_two_factor_authentication"`
 	RestrictedVisibilityLevels                            []VisibilityValue `json:"restricted_visibility_levels"`
-	RSAKeyRestriction                                     int               `json:"rsa_key_restriction"`
 	RunnerTokenExpirationInterval                         int               `json:"runner_token_expiration_interval"`
 	SearchRateLimit                                       int               `json:"search_rate_limit"`
 	SearchRateLimitUnauthenticated                        int               `json:"search_rate_limit_unauthenticated"`
@@ -313,8 +312,8 @@ type Settings struct {
 	ThrottleAuthenticatedWebPeriodInSeconds               int               `json:"throttle_authenticated_web_period_in_seconds"`
 	ThrottleAuthenticatedWebRequestsPerPeriod             int               `json:"throttle_authenticated_web_requests_per_period"`
 	ThrottleIncidentManagementNotificationEnabled         bool              `json:"throttle_incident_management_notification_enabled"`
-	ThrottleIncidentManagementNotificationPeriodInSeconds int               `json:"throttle_incident_management_notification_period_in_seconds"`
 	ThrottleIncidentManagementNotificationPerPeriod       int               `json:"throttle_incident_management_notification_per_period"`
+	ThrottleIncidentManagementNotificationPeriodInSeconds int               `json:"throttle_incident_management_notification_period_in_seconds"`
 	ThrottleProtectedPathsEnabled                         bool              `json:"throttle_protected_paths_enabled"`
 	ThrottleProtectedPathsPeriodInSeconds                 int               `json:"throttle_protected_paths_period_in_seconds"`
 	ThrottleProtectedPathsRequestsPerPeriod               int               `json:"throttle_protected_paths_requests_per_period"`
@@ -344,6 +343,7 @@ type Settings struct {
 	UniqueIPsLimitEnabled                                 bool              `json:"unique_ips_limit_enabled"`
 	UniqueIPsLimitPerUser                                 int               `json:"unique_ips_limit_per_user"`
 	UniqueIPsLimitTimeWindow                              int               `json:"unique_ips_limit_time_window"`
+	UpdatedAt                                             *time.Time        `json:"updated_at"`
 	UpdatingNameDisabledForUsers                          bool              `json:"updating_name_disabled_for_users"`
 	UsagePingEnabled                                      bool              `json:"usage_ping_enabled"`
 	UsagePingFeaturesEnabled                              bool              `json:"usage_ping_features_enabled"`
@@ -352,9 +352,9 @@ type Settings struct {
 	UserDefaultInternalRegex                              string            `json:"user_default_internal_regex"`
 	UserEmailLookupLimit                                  int               `json:"user_email_lookup_limit"` // deprecated
 	UserOauthApplications                                 bool              `json:"user_oauth_applications"`
+	UserShowAddSSHKeyMessage                              bool              `json:"user_show_add_ssh_key_message"`
 	UsersGetByIDLimit                                     int               `json:"users_get_by_id_limit"`
 	UsersGetByIDLimitAllowlistRaw                         string            `json:"users_get_by_id_limit_allowlist_raw"`
-	UserShowAddSSHKeyMessage                              bool              `json:"user_show_add_ssh_key_message"`
 	VersionCheckEnabled                                   bool              `json:"version_check_enabled"`
 	WebIDEClientsidePreviewEnabled                        bool              `json:"web_ide_clientside_preview_enabled"`
 	WhatsNewVariant                                       string            `json:"whats_new_variant"`
@@ -425,6 +425,8 @@ type UpdateSettingsOptions struct {
 	ContainerRegistryImportTargetPlan                     *string            `url:"container_registry_import_target_plan,omitempty" json:"container_registry_import_target_plan,omitempty"`
 	ContainerRegistryTokenExpireDelay                     *int               `url:"container_registry_token_expire_delay,omitempty" json:"container_registry_token_expire_delay,omitempty"`
 	CustomHTTPCloneURLRoot                                *string            `url:"custom_http_clone_url_root,omitempty" json:"custom_http_clone_url_root,omitempty"`
+	DNSRebindingProtectionEnabled                         *bool              `url:"dns_rebinding_protection_enabled,omitempty" json:"dns_rebinding_protection_enabled,omitempty"`
+	DSAKeyRestriction                                     *int               `url:"dsa_key_restriction,omitempty" json:"dsa_key_restriction,omitempty"`
 	DeactivateDormantUsers                                *bool              `url:"deactivate_dormant_users,omitempty" json:"deactivate_dormant_users,omitempty"`
 	DefaultArtifactsExpireIn                              *string            `url:"default_artifacts_expire_in,omitempty" json:"default_artifacts_expire_in,omitempty"`
 	DefaultBranchName                                     *string            `url:"default_branch_name,omitempty" json:"default_branch_name,omitempty"`
@@ -433,38 +435,36 @@ type UpdateSettingsOptions struct {
 	DefaultGroupVisibility                                *VisibilityValue   `url:"default_group_visibility,omitempty" json:"default_group_visibility,omitempty"`
 	DefaultProjectCreation                                *int               `url:"default_project_creation,omitempty" json:"default_project_creation,omitempty"`
 	DefaultProjectDeletionProtection                      *bool              `url:"default_project_deletion_protection,omitempty" json:"default_project_deletion_protection,omitempty"`
-	DefaultProjectsLimit                                  *int               `url:"default_projects_limit,omitempty" json:"default_projects_limit,omitempty"`
 	DefaultProjectVisibility                              *VisibilityValue   `url:"default_project_visibility,omitempty" json:"default_project_visibility,omitempty"`
+	DefaultProjectsLimit                                  *int               `url:"default_projects_limit,omitempty" json:"default_projects_limit,omitempty"`
 	DefaultSnippetVisibility                              *VisibilityValue   `url:"default_snippet_visibility,omitempty" json:"default_snippet_visibility,omitempty"`
 	DelayedProjectDeletion                                *bool              `url:"delayed_project_deletion,omitempty" json:"delayed_project_deletion,omitempty"`
 	DeletionAdjournedPeriod                               *int               `url:"deletion_adjourned_period,omitempty" json:"deletion_adjourned_period,omitempty"`
 	DiffMaxFiles                                          *int               `url:"diff_max_files,omitempty" json:"diff_max_files,omitempty"`
 	DiffMaxLines                                          *int               `url:"diff_max_lines,omitempty" json:"diff_max_lines,omitempty"`
 	DiffMaxPatchBytes                                     *int               `url:"diff_max_patch_bytes,omitempty" json:"diff_max_patch_bytes,omitempty"`
-	DisabledOauthSignInSources                            *[]string          `url:"disabled_oauth_sign_in_sources,omitempty" json:"disabled_oauth_sign_in_sources,omitempty"`
 	DisableFeedToken                                      *bool              `url:"disable_feed_token,omitempty" json:"disable_feed_token,omitempty"`
 	DisableOverridingApproversPerMergeRequest             *bool              `url:"disable_overriding_approvers_per_merge_request,omitempty" json:"disable_overriding_approvers_per_merge_request,omitempty"`
-	DNSRebindingProtectionEnabled                         *bool              `url:"dns_rebinding_protection_enabled,omitempty" json:"dns_rebinding_protection_enabled,omitempty"`
+	DisabledOauthSignInSources                            *[]string          `url:"disabled_oauth_sign_in_sources,omitempty" json:"disabled_oauth_sign_in_sources,omitempty"`
 	DomainAllowlist                                       *[]string          `url:"domain_allowlist,omitempty" json:"domain_allowlist,omitempty"`
 	DomainDenylist                                        *[]string          `url:"domain_denylist,omitempty" json:"domain_denylist,omitempty"`
 	DomainDenylistEnabled                                 *bool              `url:"domain_denylist_enabled,omitempty" json:"domain_denylist_enabled,omitempty"`
-	DSAKeyRestriction                                     *int               `url:"dsa_key_restriction,omitempty" json:"dsa_key_restriction,omitempty"`
 	ECDSAKeyRestriction                                   *int               `url:"ecdsa_key_restriction,omitempty" json:"ecdsa_key_restriction,omitempty"`
 	ECDSASKKeyRestriction                                 *int               `url:"ecdsa_sk_key_restriction,omitempty" json:"ecdsa_sk_key_restriction,omitempty"`
-	Ed25519KeyRestriction                                 *int               `url:"ed25519_key_restriction,omitempty" json:"ed25519_key_restriction,omitempty"`
-	Ed25519SKKeyRestriction                               *int               `url:"ed25519_sk_key_restriction,omitempty" json:"ed25519_sk_key_restriction,omitempty"`
 	EKSAccessKeyID                                        *string            `url:"eks_access_key_id,omitempty" json:"eks_access_key_id,omitempty"`
 	EKSAccountID                                          *string            `url:"eks_account_id,omitempty" json:"eks_account_id,omitempty"`
 	EKSIntegrationEnabled                                 *bool              `url:"eks_integration_enabled,omitempty" json:"eks_integration_enabled,omitempty"`
 	EKSSecretAccessKey                                    *string            `url:"eks_secret_access_key,omitempty" json:"eks_secret_access_key,omitempty"`
-	ElasticsearchAnalyzersKuromojiEnabled                 *bool              `url:"elasticsearch_analyzers_kuromoji_enabled,omitempty" json:"elasticsearch_analyzers_kuromoji_enabled,omitempty"`
-	ElasticsearchAnalyzersKuromojiSearch                  *int               `url:"elasticsearch_analyzers_kuromoji_search,omitempty" json:"elasticsearch_analyzers_kuromoji_search,omitempty"`
-	ElasticsearchAnalyzersSmartCNEnabled                  *bool              `url:"elasticsearch_analyzers_smartcn_enabled,omitempty" json:"elasticsearch_analyzers_smartcn_enabled,omitempty"`
-	ElasticsearchAnalyzersSmartCNSearch                   *int               `url:"elasticsearch_analyzers_smartcn_search,omitempty" json:"elasticsearch_analyzers_smartcn_search,omitempty"`
+	Ed25519KeyRestriction                                 *int               `url:"ed25519_key_restriction,omitempty" json:"ed25519_key_restriction,omitempty"`
+	Ed25519SKKeyRestriction                               *int               `url:"ed25519_sk_key_restriction,omitempty" json:"ed25519_sk_key_restriction,omitempty"`
 	ElasticsearchAWS                                      *bool              `url:"elasticsearch_aws,omitempty" json:"elasticsearch_aws,omitempty"`
 	ElasticsearchAWSAccessKey                             *string            `url:"elasticsearch_aws_access_key,omitempty" json:"elasticsearch_aws_access_key,omitempty"`
 	ElasticsearchAWSRegion                                *string            `url:"elasticsearch_aws_region,omitempty" json:"elasticsearch_aws_region,omitempty"`
 	ElasticsearchAWSSecretAccessKey                       *string            `url:"elasticsearch_aws_secret_access_key,omitempty" json:"elasticsearch_aws_secret_access_key,omitempty"`
+	ElasticsearchAnalyzersKuromojiEnabled                 *bool              `url:"elasticsearch_analyzers_kuromoji_enabled,omitempty" json:"elasticsearch_analyzers_kuromoji_enabled,omitempty"`
+	ElasticsearchAnalyzersKuromojiSearch                  *int               `url:"elasticsearch_analyzers_kuromoji_search,omitempty" json:"elasticsearch_analyzers_kuromoji_search,omitempty"`
+	ElasticsearchAnalyzersSmartCNEnabled                  *bool              `url:"elasticsearch_analyzers_smartcn_enabled,omitempty" json:"elasticsearch_analyzers_smartcn_enabled,omitempty"`
+	ElasticsearchAnalyzersSmartCNSearch                   *int               `url:"elasticsearch_analyzers_smartcn_search,omitempty" json:"elasticsearch_analyzers_smartcn_search,omitempty"`
 	ElasticsearchClientRequestTimeout                     *int               `url:"elasticsearch_client_request_timeout,omitempty" json:"elasticsearch_client_request_timeout,omitempty"`
 	ElasticsearchIndexedFieldLengthLimit                  *int               `url:"elasticsearch_indexed_field_length_limit,omitempty" json:"elasticsearch_indexed_field_length_limit,omitempty"`
 	ElasticsearchIndexedFileSizeLimitKB                   *int               `url:"elasticsearch_indexed_file_size_limit_kb,omitempty" json:"elasticsearch_indexed_file_size_limit_kb,omitempty"`
@@ -505,12 +505,12 @@ type UpdateSettingsOptions struct {
 	FlocEnabled                                           *bool              `url:"floc_enabled,omitempty" json:"floc_enabled,omitempty"`
 	GeoNodeAllowedIPs                                     *string            `url:"geo_node_allowed_ips,omitempty" json:"geo_node_allowed_ips,omitempty"`
 	GeoStatusTimeout                                      *int               `url:"geo_status_timeout,omitempty" json:"geo_status_timeout,omitempty"`
+	GitTwoFactorSessionExpiry                             *int               `url:"git_two_factor_session_expiry,omitempty" json:"git_two_factor_session_expiry,omitempty"`
 	GitalyTimeoutDefault                                  *int               `url:"gitaly_timeout_default,omitempty" json:"gitaly_timeout_default,omitempty"`
 	GitalyTimeoutFast                                     *int               `url:"gitaly_timeout_fast,omitempty" json:"gitaly_timeout_fast,omitempty"`
 	GitalyTimeoutMedium                                   *int               `url:"gitaly_timeout_medium,omitempty" json:"gitaly_timeout_medium,omitempty"`
 	GitpodEnabled                                         *bool              `url:"gitpod_enabled,omitempty" json:"gitpod_enabled,omitempty"`
 	GitpodURL                                             *string            `url:"gitpod_url,omitempty" json:"gitpod_url,omitempty"`
-	GitTwoFactorSessionExpiry                             *int               `url:"git_two_factor_session_expiry,omitempty" json:"git_two_factor_session_expiry,omitempty"`
 	GrafanaEnabled                                        *bool              `url:"grafana_enabled,omitempty" json:"grafana_enabled,omitempty"`
 	GrafanaURL                                            *string            `url:"grafana_url,omitempty" json:"grafana_url,omitempty"`
 	GravatarEnabled                                       *bool              `url:"gravatar_enabled,omitempty" json:"gravatar_enabled,omitempty"`
@@ -519,6 +519,7 @@ type UpdateSettingsOptions struct {
 	GroupImportLimit                                      *int               `url:"group_import_limit,omitempty" json:"group_import_limit,omitempty"`
 	GroupOwnersCanManageDefaultBranchProtection           *bool              `url:"group_owners_can_manage_default_branch_protection,omitempty" json:"group_owners_can_manage_default_branch_protection,omitempty"`
 	GroupRunnerTokenExpirationInterval                    *int               `url:"group_runner_token_expiration_interval,omitempty" json:"group_runner_token_expiration_interval,omitempty"`
+	HTMLEmailsEnabled                                     *bool              `url:"html_emails_enabled,omitempty" json:"html_emails_enabled,omitempty"`
 	HashedStorageEnabled                                  *bool              `url:"hashed_storage_enabled,omitempty" json:"hashed_storage_enabled,omitempty"`
 	HelpPageDocumentationBaseURL                          *string            `url:"help_page_documentation_base_url,omitempty" json:"help_page_documentation_base_url,omitempty"`
 	HelpPageHideCommercialContent                         *bool              `url:"help_page_hide_commercial_content,omitempty" json:"help_page_hide_commercial_content,omitempty"`
@@ -532,7 +533,6 @@ type UpdateSettingsOptions struct {
 	HousekeepingFullRepackPeriod                          *int               `url:"housekeeping_full_repack_period,omitempty" json:"housekeeping_full_repack_period,omitempty"`
 	HousekeepingGcPeriod                                  *int               `url:"housekeeping_gc_period,omitempty" json:"housekeeping_gc_period,omitempty"`
 	HousekeepingIncrementalRepackPeriod                   *int               `url:"housekeeping_incremental_repack_period,omitempty" json:"housekeeping_incremental_repack_period,omitempty"`
-	HTMLEmailsEnabled                                     *bool              `url:"html_emails_enabled,omitempty" json:"html_emails_enabled,omitempty"`
 	ImportSources                                         *[]string          `url:"import_sources,omitempty" json:"import_sources,omitempty"`
 	InProductMarketingEmailsEnabled                       *bool              `url:"in_product_marketing_emails_enabled,omitempty" json:"in_product_marketing_emails_enabled,omitempty"`
 	InvisibleCaptchaEnabled                               *bool              `url:"invisible_captcha_enabled,omitempty" json:"invisible_captcha_enabled,omitempty"`
@@ -562,9 +562,9 @@ type UpdateSettingsOptions struct {
 	MirrorCapacityThreshold                               *int               `url:"mirror_capacity_threshold,omitempty" json:"mirror_capacity_threshold,omitempty"`
 	MirrorMaxCapacity                                     *int               `url:"mirror_max_capacity,omitempty" json:"mirror_max_capacity,omitempty"`
 	MirrorMaxDelay                                        *int               `url:"mirror_max_delay,omitempty" json:"mirror_max_delay,omitempty"`
+	NPMPackageRequestsForwarding                          *bool              `url:"npm_package_requests_forwarding,omitempty" json:"npm_package_requests_forwarding,omitempty"`
 	NotesCreateLimit                                      *int               `url:"notes_create_limit,omitempty" json:"notes_create_limit,omitempty"`
 	NotifyOnUnknownSignIn                                 *bool              `url:"notify_on_unknown_sign_in,omitempty" json:"notify_on_unknown_sign_in,omitempty"`
-	NPMPackageRequestsForwarding                          *bool              `url:"npm_package_requests_forwarding,omitempty" json:"npm_package_requests_forwarding,omitempty"`
 	OutboundLocalRequestsAllowlistRaw                     *string            `url:"outbound_local_requests_allowlist_raw,omitempty" json:"outbound_local_requests_allowlist_raw,omitempty"`
 	PagesDomainVerificationEnabled                        *bool              `url:"pages_domain_verification_enabled,omitempty" json:"pages_domain_verification_enabled,omitempty"`
 	PasswordAuthenticationEnabledForGit                   *bool              `url:"password_authentication_enabled_for_git,omitempty" json:"password_authentication_enabled_for_git,omitempty"`
@@ -589,6 +589,7 @@ type UpdateSettingsOptions struct {
 	PushEventActivitiesLimit                              *int               `url:"push_event_activities_limit,omitempty" json:"push_event_activities_limit,omitempty"`
 	PushEventHooksLimit                                   *int               `url:"push_event_hooks_limit,omitempty" json:"push_event_hooks_limit,omitempty"`
 	PyPIPackageRequestsForwarding                         *bool              `url:"pypi_package_requests_forwarding,omitempty" json:"pypi_package_requests_forwarding,omitempty"`
+	RSAKeyRestriction                                     *int               `url:"rsa_key_restriction,omitempty" json:"rsa_key_restriction,omitempty"`
 	RateLimitingResponseText                              *string            `url:"rate_limiting_response_text,omitempty" json:"rate_limiting_response_text,omitempty"`
 	RawBlobRequestLimit                                   *int               `url:"raw_blob_request_limit,omitempty" json:"raw_blob_request_limit,omitempty"`
 	RecaptchaEnabled                                      *bool              `url:"recaptcha_enabled,omitempty" json:"recaptcha_enabled,omitempty"`
@@ -601,7 +602,6 @@ type UpdateSettingsOptions struct {
 	RequireAdminApprovalAfterUserSignup                   *bool              `url:"require_admin_approval_after_user_signup,omitempty" json:"require_admin_approval_after_user_signup,omitempty"`
 	RequireTwoFactorAuthentication                        *bool              `url:"require_two_factor_authentication,omitempty" json:"require_two_factor_authentication,omitempty"`
 	RestrictedVisibilityLevels                            *[]VisibilityValue `url:"restricted_visibility_levels,omitempty" json:"restricted_visibility_levels,omitempty"`
-	RSAKeyRestriction                                     *int               `url:"rsa_key_restriction,omitempty" json:"rsa_key_restriction,omitempty"`
 	RunnerTokenExpirationInterval                         *int               `url:"runner_token_expiration_interval,omitempty" json:"runner_token_expiration_interval,omitempty"`
 	SearchRateLimit                                       *int               `url:"search_rate_limit,omitempty" json:"search_rate_limit,omitempty"`
 	SearchRateLimitUnauthenticated                        *int               `url:"search_rate_limit_unauthenticated,omitempty" json:"search_rate_limit_unauthenticated,omitempty"`
@@ -660,8 +660,8 @@ type UpdateSettingsOptions struct {
 	ThrottleAuthenticatedWebPeriodInSeconds               *int               `url:"throttle_authenticated_web_period_in_seconds,omitempty" json:"throttle_authenticated_web_period_in_seconds,omitempty"`
 	ThrottleAuthenticatedWebRequestsPerPeriod             *int               `url:"throttle_authenticated_web_requests_per_period,omitempty" json:"throttle_authenticated_web_requests_per_period,omitempty"`
 	ThrottleIncidentManagementNotificationEnabled         *bool              `url:"throttle_incident_management_notification_enabled,omitempty" json:"throttle_incident_management_notification_enabled,omitempty"`
-	ThrottleIncidentManagementNotificationPeriodInSeconds *int               `url:"throttle_incident_management_notification_period_in_seconds,omitempty" json:"throttle_incident_management_notification_period_in_seconds,omitempty"`
 	ThrottleIncidentManagementNotificationPerPeriod       *int               `url:"throttle_incident_management_notification_per_period,omitempty" json:"throttle_incident_management_notification_per_period,omitempty"`
+	ThrottleIncidentManagementNotificationPeriodInSeconds *int               `url:"throttle_incident_management_notification_period_in_seconds,omitempty" json:"throttle_incident_management_notification_period_in_seconds,omitempty"`
 	ThrottleProtectedPathsEnabled                         *bool              `url:"throttle_protected_paths_enabled_enabled,omitempty" json:"throttle_protected_paths_enabled,omitempty"`
 	ThrottleProtectedPathsPeriodInSeconds                 *int               `url:"throttle_protected_paths_enabled_period_in_seconds,omitempty" json:"throttle_protected_paths_period_in_seconds,omitempty"`
 	ThrottleProtectedPathsRequestsPerPeriod               *int               `url:"throttle_protected_paths_enabled_requests_per_period,omitempty" json:"throttle_protected_paths_per_period,omitempty"`
@@ -699,9 +699,9 @@ type UpdateSettingsOptions struct {
 	UserDefaultInternalRegex                              *string            `url:"user_default_internal_regex,omitempty" json:"user_default_internal_regex,omitempty"`
 	UserEmailLookupLimit                                  *int               `url:"user_email_lookup_limit,omitempty" json:"user_email_lookup_limit,omitempty"`
 	UserOauthApplications                                 *bool              `url:"user_oauth_applications,omitempty" json:"user_oauth_applications,omitempty"`
+	UserShowAddSSHKeyMessage                              *bool              `url:"user_show_add_ssh_key_message,omitempty" json:"user_show_add_ssh_key_message,omitempty"`
 	UsersGetByIDLimit                                     *int               `url:"users_get_by_id_limit,omitempty" json:"users_get_by_id_limit,omitempty"`
 	UsersGetByIDLimitAllowlistRaw                         *string            `url:"users_get_by_id_limit_allowlist_raw,omitempty" json:"users_get_by_id_limit_allowlist_raw,omitempty"`
-	UserShowAddSSHKeyMessage                              *bool              `url:"user_show_add_ssh_key_message,omitempty" json:"user_show_add_ssh_key_message,omitempty"`
 	VersionCheckEnabled                                   *bool              `url:"version_check_enabled,omitempty" json:"version_check_enabled,omitempty"`
 	WebIDEClientsidePreviewEnabled                        *bool              `url:"web_ide_clientside_preview_enabled,omitempty" json:"web_ide_clientside_preview_enabled,omitempty"`
 	WhatsNewVariant                                       *string            `url:"whats_new_variant,omitempty" json:"whats_new_variant,omitempty"`
