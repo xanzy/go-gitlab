@@ -20,12 +20,10 @@ import (
 	"fmt"
 	"net/http"
 	"time"
-
-	retryablehttp "github.com/hashicorp/go-retryablehttp"
 )
 
-// ProjectVulnerabilitiesService handles communication with the projects vulnerabilities
-// related methods of the GitLab API.
+// ProjectVulnerabilitiesService handles communication with the projects
+// vulnerabilities related methods of the GitLab API.
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/project_vulnerabilities.html
 type ProjectVulnerabilitiesService struct {
@@ -43,11 +41,11 @@ type ProjectVulnerability struct {
 	DismissedAt             *time.Time `json:"dismissed_at"`
 	DismissedByID           int        `json:"dismissed_by_id"`
 	DueDate                 *time.Time `json:"due_date"`
-	Finding                 Finding    `json:"finding"`
+	Finding                 *Finding   `json:"finding"`
 	ID                      int        `json:"id"`
 	LastEditedAt            *time.Time `json:"last_edited_at"`
 	LastEditedByID          int        `json:"last_edited_by_id"`
-	Project                 Project    `json:"project"`
+	Project                 *Project   `json:"project"`
 	ProjectDefaultBranch    string     `json:"project_default_branch"`
 	ReportType              string     `json:"report_type"`
 	ResolvedAt              *time.Time `json:"resolved_at"`
@@ -83,16 +81,19 @@ type Finding struct {
 	VulnerabilityID     int        `json:"vulnerability_id"`
 }
 
-// ListProjectVulnerabilitiesOptions represents the available ListProjectVulnerabilities() options.
+// ListProjectVulnerabilitiesOptions represents the available
+// ListProjectVulnerabilities() options.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/project_vulnerabilities.html#list-project-vulnerabilities
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/project_vulnerabilities.html#list-project-vulnerabilities
 type ListProjectVulnerabilitiesOptions struct {
 	ListOptions
 }
 
-// ListProjectVulnerabilities gets a list of all project vulnerabilities
+// ListProjectVulnerabilities gets a list of all project vulnerabilities.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/project_vulnerabilities.html#list-project-vulnerabilities
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/project_vulnerabilities.html#list-project-vulnerabilities
 func (s *ProjectVulnerabilitiesService) ListProjectVulnerabilities(pid interface{}, opt *ListProjectVulnerabilitiesOptions, options ...RequestOptionFunc) ([]*ProjectVulnerability, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -114,27 +115,27 @@ func (s *ProjectVulnerabilitiesService) ListProjectVulnerabilities(pid interface
 	return p, resp, err
 }
 
-// CreateVulnerabilityOptions represents the available CreateVulnerability() options.
+// CreateVulnerabilityOptions represents the available CreateVulnerability()
+// options.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/project_vulnerabilities.html#new-vulnerability
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/project_vulnerabilities.html#new-vulnerability
 type CreateVulnerabilityOptions struct {
-	FindingID string `url:"finding_id,omitempty" json:"finding_id,omitempty"`
+	FindingID *int `url:"finding_id,omitempty" json:"finding_id,omitempty"`
 }
 
-// CreateVulnerability creates a new vulnerability on the selected project
+// CreateVulnerability creates a new vulnerability on the selected project.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/project_vulnerabilities.html#new-vulnerability
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/project_vulnerabilities.html#new-vulnerability
 func (s *ProjectVulnerabilitiesService) CreateVulnerability(pid interface{}, opt *CreateVulnerabilityOptions, options ...RequestOptionFunc) (*ProjectVulnerability, *Response, error) {
-	var err error
-	var req *retryablehttp.Request
-
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/vulnerabilities", PathEscape(project))
 
-	req, err = s.client.NewRequest(http.MethodPost, u, opt, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
