@@ -90,6 +90,7 @@ to add new and/or missing endpoints. Currently, the following services are suppo
 - [x] System Hooks
 - [x] Tags
 - [x] Todos
+- [x] Topics
 - [x] Users
 - [x] Validate CI Configuration
 - [x] Version

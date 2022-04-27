@@ -32,21 +32,24 @@ func TestTopicsService_ListTopics(t *testing.T) {
 		fmt.Fprint(w, `[
       {
         "id": 1,
-        "name": "GitLab",
+        "name": "gitlab",
+        "title": "GitLab",
         "description": "GitLab is a version control system",
         "total_projects_count": 1000,
         "avatar_url": "http://www.gravatar.com/avatar/a0d477b3ea21970ce6ffcbb817b0b435?s=80&d=identicon"
       },
       {
         "id": 3,
-        "name": "Git",
+        "name": "git",
+        "title": "Git",
         "description": "Git is free and open source",
         "total_projects_count": 900,
         "avatar_url": "http://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=80&d=identicon"
       },
       {
         "id": 2,
-        "name": "Git LFS",
+        "name": "git-lfs",
+        "title": "Git LFS",
         "description": null,
         "total_projects_count": 300,
         "avatar_url": null
@@ -62,19 +65,22 @@ func TestTopicsService_ListTopics(t *testing.T) {
 
 	want := []*Topic{{
 		ID:                 1,
-		Name:               "GitLab",
+		Name:               "gitlab",
+		Title:              "GitLab",
 		Description:        "GitLab is a version control system",
 		TotalProjectsCount: 1000,
 		AvatarURL:          "http://www.gravatar.com/avatar/a0d477b3ea21970ce6ffcbb817b0b435?s=80&d=identicon",
 	}, {
 		ID:                 3,
-		Name:               "Git",
+		Name:               "git",
+		Title:              "Git",
 		Description:        "Git is free and open source",
 		TotalProjectsCount: 900,
 		AvatarURL:          "http://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=80&d=identicon",
 	}, {
 		ID:                 2,
-		Name:               "Git LFS",
+		Name:               "git-lfs",
+		Title:              "Git LFS",
 		TotalProjectsCount: 300,
 	}}
 	if !reflect.DeepEqual(want, topics) {
@@ -90,7 +96,8 @@ func TestTopicsService_GetTopic(t *testing.T) {
 		testMethod(t, r, http.MethodGet)
 		fmt.Fprint(w, `{
       "id": 1,
-      "name": "GitLab",
+      "name": "gitlab",
+      "title": "GitLab",
       "Description": "GitLab is a version control system",
       "total_projects_count": 1000,
       "avatar_url": "http://www.gravatar.com/avatar/a0d477b3ea21970ce6ffcbb817b0b435?s=80&d=identicon"
@@ -104,7 +111,8 @@ func TestTopicsService_GetTopic(t *testing.T) {
 
 	want := &Topic{
 		ID:                 1,
-		Name:               "GitLab",
+		Name:               "gitlab",
+		Title:              "GitLab",
 		Description:        "GitLab is a version control system",
 		TotalProjectsCount: 1000,
 		AvatarURL:          "http://www.gravatar.com/avatar/a0d477b3ea21970ce6ffcbb817b0b435?s=80&d=identicon",
@@ -123,19 +131,20 @@ func TestTopicsService_CreateTopic(t *testing.T) {
 		fmt.Fprint(w, `{
       "id": 1,
       "name": "topic1",
+      "title": "Topic 1",
       "description": "description",
       "total_projects_count": 0,
       "avatar_url": null
     }`)
 	})
 
-	opt := &CreateTopicOptions{Name: String("topic1"), Description: String("description")}
+	opt := &CreateTopicOptions{Name: String("topic1"), Title: String("Topic 1"), Description: String("description")}
 	release, _, err := client.Topics.CreateTopic(opt)
 	if err != nil {
 		t.Errorf("Topics.CreateTopic returned error: %v", err)
 	}
 
-	want := &Topic{ID: 1, Name: "topic1", Description: "description", TotalProjectsCount: 0}
+	want := &Topic{ID: 1, Name: "topic1", Title: "Topic 1", Description: "description", TotalProjectsCount: 0}
 	if !reflect.DeepEqual(want, release) {
 		t.Errorf("Topics.CreateTopic returned %+v, want %+v", release, want)
 	}
@@ -150,19 +159,20 @@ func TestTopicsService_UpdateTopic(t *testing.T) {
 		fmt.Fprint(w, `{
       "id": 1,
       "name": "topic1",
+      "title": "Topic 1",
       "description": "description",
       "total_projects_count": 0,
       "avatar_url": null
     }`)
 	})
 
-	opt := &UpdateTopicOptions{Name: String("topic1"), Description: String("description")}
+	opt := &UpdateTopicOptions{Name: String("topic1"), Title: String("Topic 1"), Description: String("description")}
 	release, _, err := client.Topics.UpdateTopic(1, opt)
 	if err != nil {
 		t.Errorf("Topics.UpdateTopic returned error: %v", err)
 	}
 
-	want := &Topic{ID: 1, Name: "topic1", Description: "description", TotalProjectsCount: 0}
+	want := &Topic{ID: 1, Name: "topic1", Title: "Topic 1", Description: "description", TotalProjectsCount: 0}
 	if !reflect.DeepEqual(want, release) {
 		t.Errorf("Topics.UpdateTopic returned %+v, want %+v", release, want)
 	}
