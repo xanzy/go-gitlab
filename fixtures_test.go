@@ -170,7 +170,8 @@ const (
 	// exampleRegisterNewRunner provides fixture for Runners tests.
 	exampleRegisterNewRunner = `{
 		"id": 12345,
-		"token": "6337ff461c94fd3fa32ba3b1ff4125"
+		"token": "6337ff461c94fd3fa32ba3b1ff4125",
+		"token_expires_at": "2016-01-25T16:39:48.166Z"
 	}`
 
 	// exampleReleaseLink provides fixture for Release Links tests.

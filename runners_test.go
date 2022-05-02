@@ -256,8 +256,9 @@ func TestRegisterNewRunner(t *testing.T) {
 	}
 
 	want := &Runner{
-		ID:    12345,
-		Token: "6337ff461c94fd3fa32ba3b1ff4125",
+		ID:             12345,
+		Token:          "6337ff461c94fd3fa32ba3b1ff4125",
+		TokenExpiresAt: Time(time.Date(2016, time.January, 25, 16, 39, 48, 166000000, time.UTC)),
 	}
 	if !reflect.DeepEqual(want, runner) {
 		t.Errorf("Runners.RegisterNewRunner returned %+v, want %+v", runner, want)
@@ -286,7 +287,8 @@ func TestRegisterNewRunnerInfo(t *testing.T) {
 			"name": "some name",
 			"online": true,
 			"status": "online",
-			"token": "1111122222333333444444"
+			"token": "1111122222333333444444",
+			"token_expires_at": "2016-01-25T16:39:48.166Z"
 		  }`)
 	})
 
@@ -311,14 +313,15 @@ func TestRegisterNewRunnerInfo(t *testing.T) {
 	}
 
 	want := &Runner{
-		ID:          53,
-		Description: "some description",
-		Active:      true,
-		IPAddress:   "1.2.3.4",
-		Name:        "some name",
-		Online:      true,
-		Status:      "online",
-		Token:       "1111122222333333444444",
+		ID:             53,
+		Description:    "some description",
+		Active:         true,
+		IPAddress:      "1.2.3.4",
+		Name:           "some name",
+		Online:         true,
+		Status:         "online",
+		Token:          "1111122222333333444444",
+		TokenExpiresAt: Time(time.Date(2016, time.January, 25, 16, 39, 48, 166000000, time.UTC)),
 	}
 	if !reflect.DeepEqual(want, runner) {
 		t.Errorf("Runners.RegisterNewRunner returned %+v, want %+v", runner, want)
@@ -404,7 +407,8 @@ func TestResetInstanceRunnerRegistrationToken(t *testing.T) {
 		testMethod(t, r, http.MethodPost)
 		w.WriteHeader(http.StatusCreated)
 		fmt.Fprint(w, `{
-			"token": "6337ff461c94fd3fa32ba3b1ff4125"
+			"token": "6337ff461c94fd3fa32ba3b1ff4125",
+			"token_expires_at": "2016-01-25T16:39:48.166Z"
 		}`)
 	})
 
@@ -414,7 +418,8 @@ func TestResetInstanceRunnerRegistrationToken(t *testing.T) {
 	}
 
 	want := &RunnerRegistrationToken{
-		Token: String("6337ff461c94fd3fa32ba3b1ff4125"),
+		Token:          String("6337ff461c94fd3fa32ba3b1ff4125"),
+		TokenExpiresAt: Time(time.Date(2016, time.January, 25, 16, 39, 48, 166000000, time.UTC)),
 	}
 	if !reflect.DeepEqual(want, token) {
 		t.Errorf("Runners.ResetInstanceRunnerRegistrationToken returned %+v, want %+v", token, want)
@@ -434,7 +439,8 @@ func TestResetGroupRunnerRegistrationToken(t *testing.T) {
 		testMethod(t, r, http.MethodPost)
 		w.WriteHeader(http.StatusCreated)
 		fmt.Fprint(w, `{
-			"token": "6337ff461c94fd3fa32ba3b1ff4125"
+			"token": "6337ff461c94fd3fa32ba3b1ff4125",
+			"token_expires_at": "2016-01-25T16:39:48.166Z"
 		}`)
 	})
 
@@ -444,7 +450,8 @@ func TestResetGroupRunnerRegistrationToken(t *testing.T) {
 	}
 
 	want := &RunnerRegistrationToken{
-		Token: String("6337ff461c94fd3fa32ba3b1ff4125"),
+		Token:          String("6337ff461c94fd3fa32ba3b1ff4125"),
+		TokenExpiresAt: Time(time.Date(2016, time.January, 25, 16, 39, 48, 166000000, time.UTC)),
 	}
 	if !reflect.DeepEqual(want, token) {
 		t.Errorf("Runners.ResetGroupRunnerRegistrationToken returned %+v, want %+v", token, want)
@@ -464,7 +471,8 @@ func TestResetProjectRunnerRegistrationToken(t *testing.T) {
 		testMethod(t, r, http.MethodPost)
 		w.WriteHeader(http.StatusCreated)
 		fmt.Fprint(w, `{
-			"token": "6337ff461c94fd3fa32ba3b1ff4125"
+			"token": "6337ff461c94fd3fa32ba3b1ff4125",
+			"token_expires_at": "2016-01-25T16:39:48.166Z"
 		}`)
 	})
 
@@ -474,7 +482,8 @@ func TestResetProjectRunnerRegistrationToken(t *testing.T) {
 	}
 
 	want := &RunnerRegistrationToken{
-		Token: String("6337ff461c94fd3fa32ba3b1ff4125"),
+		Token:          String("6337ff461c94fd3fa32ba3b1ff4125"),
+		TokenExpiresAt: Time(time.Date(2016, time.January, 25, 16, 39, 48, 166000000, time.UTC)),
 	}
 	if !reflect.DeepEqual(want, token) {
 		t.Errorf("Runners.ResetProjectRunnerRegistrationToken returned %+v, want %+v", token, want)
@@ -494,7 +503,8 @@ func TestResetRunnerAuthenticationToken(t *testing.T) {
 		testMethod(t, r, http.MethodPost)
 		w.WriteHeader(http.StatusCreated)
 		fmt.Fprint(w, `{
-			"token": "6337ff461c94fd3fa32ba3b1ff4125"
+			"token": "6337ff461c94fd3fa32ba3b1ff4125",
+			"token_expires_at": "2016-01-25T16:39:48.166Z"
 		}`)
 	})
 
@@ -504,7 +514,8 @@ func TestResetRunnerAuthenticationToken(t *testing.T) {
 	}
 
 	want := &RunnerAuthenticationToken{
-		Token: String("6337ff461c94fd3fa32ba3b1ff4125"),
+		Token:          String("6337ff461c94fd3fa32ba3b1ff4125"),
+		TokenExpiresAt: Time(time.Date(2016, time.January, 25, 16, 39, 48, 166000000, time.UTC)),
 	}
 	if !reflect.DeepEqual(want, token) {
 		t.Errorf("Runners.ResetRunnerAuthenticationToken returned %+v, want %+v", token, want)
