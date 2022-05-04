@@ -109,6 +109,7 @@ type Client struct {
 	Boards                 *IssueBoardsService
 	Branches               *BranchesService
 	BroadcastMessage       *BroadcastMessagesService
+	ClusterAgents          *ClusterAgentsService
 	CIYMLTemplate          *CIYMLTemplatesService
 	Commits                *CommitsService
 	ContainerRegistry      *ContainerRegistryService
@@ -308,6 +309,7 @@ func newClient(options ...ClientOptionFunc) (*Client, error) {
 	c.Boards = &IssueBoardsService{client: c}
 	c.Branches = &BranchesService{client: c}
 	c.BroadcastMessage = &BroadcastMessagesService{client: c}
+	c.ClusterAgents = &ClusterAgentsService{client: c}
 	c.CIYMLTemplate = &CIYMLTemplatesService{client: c}
 	c.Commits = &CommitsService{client: c}
 	c.ContainerRegistry = &ContainerRegistryService{client: c}
