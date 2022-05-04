@@ -273,6 +273,10 @@ type IssueEvent struct {
 	Assignees *[]EventUser `json:"assignees"`
 	Labels    []Label      `json:"labels"`
 	Changes   struct {
+		Assignees struct {
+			Previous []*EventUser `json:"previous"`
+			Current  []*EventUser `json:"current"`
+		} `json:"assignees"`
 		Description struct {
 			Previous string `json:"previous"`
 			Current  string `json:"current"`
