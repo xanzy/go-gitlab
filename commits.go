@@ -35,23 +35,24 @@ type CommitsService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/commits.html
 type Commit struct {
-	ID             string           `json:"id"`
-	ShortID        string           `json:"short_id"`
-	Title          string           `json:"title"`
-	AuthorName     string           `json:"author_name"`
-	AuthorEmail    string           `json:"author_email"`
-	AuthoredDate   *time.Time       `json:"authored_date"`
-	CommitterName  string           `json:"committer_name"`
-	CommitterEmail string           `json:"committer_email"`
-	CommittedDate  *time.Time       `json:"committed_date"`
-	CreatedAt      *time.Time       `json:"created_at"`
-	Message        string           `json:"message"`
-	ParentIDs      []string         `json:"parent_ids"`
-	Stats          *CommitStats     `json:"stats"`
-	Status         *BuildStateValue `json:"status"`
-	LastPipeline   *PipelineInfo    `json:"last_pipeline"`
-	ProjectID      int              `json:"project_id"`
-	WebURL         string           `json:"web_url"`
+	ID             string            `json:"id"`
+	ShortID        string            `json:"short_id"`
+	Title          string            `json:"title"`
+	AuthorName     string            `json:"author_name"`
+	AuthorEmail    string            `json:"author_email"`
+	AuthoredDate   *time.Time        `json:"authored_date"`
+	CommitterName  string            `json:"committer_name"`
+	CommitterEmail string            `json:"committer_email"`
+	CommittedDate  *time.Time        `json:"committed_date"`
+	CreatedAt      *time.Time        `json:"created_at"`
+	Message        string            `json:"message"`
+	ParentIDs      []string          `json:"parent_ids"`
+	Stats          *CommitStats      `json:"stats"`
+	Status         *BuildStateValue  `json:"status"`
+	LastPipeline   *PipelineInfo     `json:"last_pipeline"`
+	ProjectID      int               `json:"project_id"`
+	WebURL         string            `json:"web_url"`
+	Trailers       map[string]string `json:"trailers"`
 }
 
 // CommitStats represents the number of added and deleted files in a commit.
@@ -79,6 +80,7 @@ type ListCommitsOptions struct {
 	All         *bool      `url:"all,omitempty" json:"all,omitempty"`
 	WithStats   *bool      `url:"with_stats,omitempty" json:"with_stats,omitempty"`
 	FirstParent *bool      `url:"first_parent,omitempty" json:"first_parent,omitempty"`
+	Trailers    *bool      `url:"trailers,omitempty" json:"trailers,omitempty"`
 }
 
 // ListCommits gets a list of repository commits in a project.
