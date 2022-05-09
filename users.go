@@ -207,6 +207,7 @@ type CreateUserOptions struct {
 	External            *bool   `url:"external,omitempty" json:"external,omitempty"`
 	PrivateProfile      *bool   `url:"private_profile,omitempty" json:"private_profile,omitempty"`
 	Note                *string `url:"note,omitempty" json:"note,omitempty"`
+	ThemeID             *int    `url:"theme_id,omitempty" json:"theme_id,omitempty"`
 }
 
 // CreateUser creates a new user. Note only administrators can create new users.
@@ -252,6 +253,7 @@ type ModifyUserOptions struct {
 	External           *bool   `url:"external,omitempty" json:"external,omitempty"`
 	PrivateProfile     *bool   `url:"private_profile,omitempty" json:"private_profile,omitempty"`
 	Note               *string `url:"note,omitempty" json:"note,omitempty"`
+	ThemeID            *int    `url:"theme_id,omitempty" json:"theme_id,omitempty"`
 	PublicEmail        *string `url:"public_email,omitempty" json:"public_email,omitempty"`
 }
 
