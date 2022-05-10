@@ -350,7 +350,7 @@ func (s *GroupsService) TransferGroup(gid interface{}, pid interface{}, options 
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/groups.html#transfer-a-group-to-a-new-parent-group--turn-a-subgroup-to-a-top-level-group
 type TransferSubGroupOptions struct {
-	ParentID *int `url:"group_id,omitempty" json:"group_id,omitempty"`
+	GroupID *int `url:"group_id,omitempty" json:"group_id,omitempty"`
 }
 
 // TransferSubGroup transfers a group to a new parent group or turn a subgroup to a top-level group.
