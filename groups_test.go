@@ -117,6 +117,31 @@ func TestTransferGroup(t *testing.T) {
 	}
 }
 
+func TestTransferSubGroup(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/groups/1/transfer",
+		func(w http.ResponseWriter, r *http.Request) {
+			testMethod(t, r, http.MethodPost)
+			fmt.Fprintf(w, `{"id": 1, "parent_id": 2}`)
+		})
+
+	opt := &TransferSubGroupOptions{
+		GroupID: Int(2),
+	}
+
+	group, _, err := client.Groups.TransferSubGroup(1, opt)
+	if err != nil {
+		t.Errorf("Groups.TransferSubGroup returned error: %v", err)
+	}
+
+	want := &Group{ID: 1, ParentID: 2}
+	if !reflect.DeepEqual(group, want) {
+		t.Errorf("Groups.TransferSubGroup returned %+v, want %+v", group, want)
+	}
+}
+
 func TestDeleteGroup(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)

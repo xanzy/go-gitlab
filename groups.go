@@ -345,6 +345,40 @@ func (s *GroupsService) TransferGroup(gid interface{}, pid interface{}, options 
 	return g, resp, err
 }
 
+// TransferSubGroupOptions represents the available TransferSubGroup() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/groups.html#transfer-a-group-to-a-new-parent-group--turn-a-subgroup-to-a-top-level-group
+type TransferSubGroupOptions struct {
+	GroupID *int `url:"group_id,omitempty" json:"group_id,omitempty"`
+}
+
+// TransferSubGroup transfers a group to a new parent group or turn a subgroup
+// to a top-level group. Available to administrators and users.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/groups.html#transfer-a-group-to-a-new-parent-group--turn-a-subgroup-to-a-top-level-group
+func (s *GroupsService) TransferSubGroup(gid interface{}, opt *TransferSubGroupOptions, options ...RequestOptionFunc) (*Group, *Response, error) {
+	group, err := parseID(gid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("groups/%s/transfer", PathEscape(group))
+
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	g := new(Group)
+	resp, err := s.client.Do(req, g)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return g, resp, err
+}
+
 // UpdateGroupOptions represents the available UpdateGroup() options.
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/groups.html#update-group
