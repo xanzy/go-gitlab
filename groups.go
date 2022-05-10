@@ -354,7 +354,7 @@ type TransferSubGroupOptions struct {
 }
 
 // TransferSubGroup transfers a group to a new parent group or turn a subgroup
-//  to a top-level group. Available to administrators and users.
+// to a top-level group. Available to administrators and users.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/groups.html#transfer-a-group-to-a-new-parent-group--turn-a-subgroup-to-a-top-level-group
