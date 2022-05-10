@@ -102,6 +102,7 @@ func TestListRunnersJobs(t *testing.T) {
 				CommitterEmail: "john.smith@example.com",
 				CommittedDate:  Time(time.Date(2018, time.March, 21, 14, 41, 0, 0, time.UTC)),
 				WebURL:         "https://gitlab.example.com/awesome/packages/common/-/commit/6c016b801a88f4bd31f927fc045b5c746a6f823e",
+				Trailers:       map[string]string{},
 			},
 			Pipeline: pipeline,
 			WebURL:   "https://gitlab.example.com/awesome/packages/common/-/jobs/14606",
