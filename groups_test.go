@@ -128,7 +128,7 @@ func TestTransferSubGroup(t *testing.T) {
 		})
 
 	opt := &TransferSubGroupOptions{
-		ParentID: Int(2),
+		GroupID: Int(2),
 	}
 
 	group, _, err := client.Groups.TransferSubGroup(1, opt)
