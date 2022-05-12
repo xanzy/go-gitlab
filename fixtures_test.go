@@ -117,7 +117,6 @@ const (
         "committer_name": "John SMITH",
         "committer_email": "john.smith@example.com",
         "committed_date": "2018-03-21T14:41:00.000Z",
-        "trailers": {},
         "web_url": "https://gitlab.example.com/awesome/packages/common/-/commit/6c016b801a88f4bd31f927fc045b5c746a6f823e"
       },
       "pipeline": {

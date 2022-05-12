@@ -51,8 +51,8 @@ type Commit struct {
 	Status         *BuildStateValue  `json:"status"`
 	LastPipeline   *PipelineInfo     `json:"last_pipeline"`
 	ProjectID      int               `json:"project_id"`
-	WebURL         string            `json:"web_url"`
 	Trailers       map[string]string `json:"trailers"`
+	WebURL         string            `json:"web_url"`
 }
 
 // CommitStats represents the number of added and deleted files in a commit.
