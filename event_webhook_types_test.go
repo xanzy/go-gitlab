@@ -55,6 +55,10 @@ func TestBuildEventUnmarshal(t *testing.T) {
 	if event.User.Name != expectedName {
 		t.Errorf("Username is %s, want %s", event.User.Name, expectedName)
 	}
+
+	if event.BuildCreatedAt != "2021-02-23T02:41:37.886Z" {
+		t.Errorf("BuildCreatedAt is %s, want %s", event.User.Name, expectedName)
+	}
 }
 
 func TestDeploymentEventUnmarshal(t *testing.T) {

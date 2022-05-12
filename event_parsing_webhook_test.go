@@ -65,6 +65,10 @@ func TestParseBuildHook(t *testing.T) {
 	if event.Commit.SHA != "2293ada6b400935a1378653304eaf6221e0fdb8f" {
 		t.Errorf("Commit SHA is %v, want %v", event.Commit.SHA, "2293ada6b400935a1378653304eaf6221e0fdb8f")
 	}
+
+	if event.BuildCreatedAt != "2021-02-23T02:41:37.886Z" {
+		t.Errorf("BuildCreatedAt is %s, want %s", event.User.Name, expectedName)
+	}
 }
 
 func TestParseCommitCommentHook(t *testing.T) {
