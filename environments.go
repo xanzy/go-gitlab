@@ -38,6 +38,7 @@ type Environment struct {
 	Name           string      `json:"name"`
 	Slug           string      `json:"slug"`
 	State          string      `json:"state"`
+	Tier           string      `json:"tier"`
 	ExternalURL    string      `json:"external_url"`
 	Project        *Project    `json:"project"`
 	CreatedAt      *time.Time  `json:"created_at"`
@@ -118,6 +119,7 @@ func (s *EnvironmentsService) GetEnvironment(pid interface{}, environment int, o
 type CreateEnvironmentOptions struct {
 	Name        *string `url:"name,omitempty" json:"name,omitempty"`
 	ExternalURL *string `url:"external_url,omitempty" json:"external_url,omitempty"`
+	Tier        *string `url:"tier,omitempty" json:"tier,omitempty"`
 }
 
 // CreateEnvironment adds an environment to a project. This is an idempotent
@@ -155,6 +157,7 @@ func (s *EnvironmentsService) CreateEnvironment(pid interface{}, opt *CreateEnvi
 type EditEnvironmentOptions struct {
 	Name        *string `url:"name,omitempty" json:"name,omitempty"`
 	ExternalURL *string `url:"external_url,omitempty" json:"external_url,omitempty"`
+	Tier        *string `url:"tier,omitempty" json:"tier,omitempty"`
 }
 
 // EditEnvironment updates a project team environment to a specified access level..

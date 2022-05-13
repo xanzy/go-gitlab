@@ -114,15 +114,15 @@ func TestCreateEnvironment(t *testing.T) {
 	mux.HandleFunc("/api/v4/projects/1/environments", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
 		testURL(t, r, "/api/v4/projects/1/environments")
-		fmt.Fprint(w, `{"id": 1,"name": "deploy", "slug": "deploy", "external_url": "https://deploy.example.gitlab.com"}`)
+		fmt.Fprint(w, `{"id": 1,"name": "deploy", "slug": "deploy", "external_url": "https://deploy.example.gitlab.com", "tier": "production"}`)
 	})
 
-	envs, _, err := client.Environments.CreateEnvironment(1, &CreateEnvironmentOptions{Name: String("deploy"), ExternalURL: String("https://deploy.example.gitlab.com")})
+	envs, _, err := client.Environments.CreateEnvironment(1, &CreateEnvironmentOptions{Name: String("deploy"), ExternalURL: String("https://deploy.example.gitlab.com"), Tier: String("production")})
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	want := &Environment{ID: 1, Name: "deploy", Slug: "deploy", ExternalURL: "https://deploy.example.gitlab.com"}
+	want := &Environment{ID: 1, Name: "deploy", Slug: "deploy", ExternalURL: "https://deploy.example.gitlab.com", Tier: "production"}
 	if !reflect.DeepEqual(want, envs) {
 		t.Errorf("Environments.CreateEnvironment returned %+v, want %+v", envs, want)
 	}
@@ -135,15 +135,15 @@ func TestEditEnvironment(t *testing.T) {
 	mux.HandleFunc("/api/v4/projects/1/environments/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
 		testURL(t, r, "/api/v4/projects/1/environments/1")
-		fmt.Fprint(w, `{"id": 1,"name": "staging", "slug": "staging", "external_url": "https://staging.example.gitlab.com"}`)
+		fmt.Fprint(w, `{"id": 1,"name": "staging", "slug": "staging", "external_url": "https://staging.example.gitlab.com", "tier": "staging"}`)
 	})
 
-	envs, _, err := client.Environments.EditEnvironment(1, 1, &EditEnvironmentOptions{Name: String("staging"), ExternalURL: String("https://staging.example.gitlab.com")})
+	envs, _, err := client.Environments.EditEnvironment(1, 1, &EditEnvironmentOptions{Name: String("staging"), ExternalURL: String("https://staging.example.gitlab.com"), Tier: String("staging")})
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	want := &Environment{ID: 1, Name: "staging", Slug: "staging", ExternalURL: "https://staging.example.gitlab.com"}
+	want := &Environment{ID: 1, Name: "staging", Slug: "staging", ExternalURL: "https://staging.example.gitlab.com", Tier: "staging"}
 	if !reflect.DeepEqual(want, envs) {
 		t.Errorf("Environments.EditEnvironment returned %+v, want %+v", envs, want)
 	}
