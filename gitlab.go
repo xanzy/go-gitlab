@@ -88,7 +88,7 @@ type Client struct {
 	// Token type used to make authenticated API calls.
 	authType AuthType
 
-	// Username and password used for basix authentication.
+	// Username and password used for basic authentication.
 	username, password string
 
 	// Token used to make authenticated API calls.
