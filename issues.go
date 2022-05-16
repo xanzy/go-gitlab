@@ -322,7 +322,7 @@ type ListProjectIssuesOptions struct {
 	NotLabels          *Labels          `url:"not[labels],comma,omitempty" json:"not[labels],omitempty"`
 	WithLabelDetails   *bool            `url:"with_labels_details,omitempty" json:"with_labels_details,omitempty"`
 	Milestone          *string          `url:"milestone,omitempty" json:"milestone,omitempty"`
-	NotMilestone       *[]string        `url:"not[milestone],omitempty" json:"not[milestone],omitempty"`
+	NotMilestone       *string          `url:"not[milestone],omitempty" json:"not[milestone],omitempty"`
 	Scope              *string          `url:"scope,omitempty" json:"scope,omitempty"`
 	AuthorID           *int             `url:"author_id,omitempty" json:"author_id,omitempty"`
 	AuthorUsername     *string          `url:"author_username,omitempty" json:"author_username,omitempty"`
