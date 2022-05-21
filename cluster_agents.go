@@ -75,17 +75,17 @@ func (a AgentToken) String() string {
 	return Stringify(a)
 }
 
-// ListProjectAgentsOptions represents the available ListProjectAgents() options.
+// ListAgentsOptions represents the available ListAgents() options.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/cluster_agents.html#list-the-agents-for-a-project
-type ListProjectAgentsOptions ListOptions
+type ListAgentsOptions ListOptions
 
-// ListProjectAgents returns a list of agents registered for the project.
+// ListAgents returns a list of agents registered for the project.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/cluster_agents.html#list-the-agents-for-a-project
-func (s *ClusterAgentsService) ListProjectAgents(pid interface{}, opt *ListProjectAgentsOptions, options ...RequestOptionFunc) ([]*Agent, *Response, error) {
+func (s *ClusterAgentsService) ListAgents(pid interface{}, opt *ListAgentsOptions, options ...RequestOptionFunc) ([]*Agent, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -131,20 +131,20 @@ func (s *ClusterAgentsService) GetAgent(pid interface{}, id int, options ...Requ
 	return a, resp, err
 }
 
-// RegisterProjectAgentOptions represents the available RegisterProjectAgent()
+// RegisterAgentOptions represents the available RegisterAgent()
 // options.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/cluster_agents.html#register-an-agent-with-a-project
-type RegisterProjectAgentOptions struct {
+type RegisterAgentOptions struct {
 	Name *string `url:"name,omitempty" json:"name,omitempty"`
 }
 
-// RegisterProjectAgent registers an agent to the project.
+// RegisterAgent registers an agent to the project.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/cluster_agents.html#register-an-agent-with-a-project
-func (s *ClusterAgentsService) RegisterProjectAgent(pid interface{}, opt *RegisterProjectAgentOptions, options ...RequestOptionFunc) (*Agent, *Response, error) {
+func (s *ClusterAgentsService) RegisterAgent(pid interface{}, opt *RegisterAgentOptions, options ...RequestOptionFunc) (*Agent, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err

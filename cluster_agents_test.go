@@ -66,8 +66,8 @@ func ListClusterAgents(t *testing.T) {
 		`)
 	})
 
-	opt := &ListProjectAgentsOptions{}
-	clusterAgents, _, err := client.ClusterAgents.ListProjectAgents(20, opt)
+	opt := &ListAgentsOptions{}
+	clusterAgents, _, err := client.ClusterAgents.ListAgents(20, opt)
 	if err != nil {
 		t.Errorf("ClusterAgents.ListClusterAgents returned error: %v", err)
 	}
@@ -185,8 +185,8 @@ func RegisterClusterAgent(t *testing.T) {
     	`)
 	})
 
-	opt := &RegisterProjectAgentOptions{Name: String("agent-1")}
-	clusterAgent, _, err := client.ClusterAgents.RegisterProjectAgent(20, opt)
+	opt := &RegisterAgentOptions{Name: String("agent-1")}
+	clusterAgent, _, err := client.ClusterAgents.RegisterAgent(20, opt)
 	if err != nil {
 		t.Errorf("ClusterAgents.RegisterClusterAgent returned error: %v", err)
 	}
