@@ -27,5 +27,5 @@ jobs:
         with:
           version: latest
 
-      - name: Test package
-        run: go test -v ./...
+      - name: Unit Test package
+        run: go test -v .

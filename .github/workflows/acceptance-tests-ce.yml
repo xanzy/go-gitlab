@@ -1,0 +1,50 @@
+# This workflow runs acceptance tests on pull requests (CE)
+
+name: acceptance-tests-ce
+
+on:
+  push: {}
+  pull_request:
+    # Acceptance tests are unnecessary to run on some types of PRs.
+    paths-ignore:
+      - 'examples/**'
+      - '*.md'
+  # The workflow_dispatch event type is for manual workflow execution.
+  workflow_dispatch: {}
+  # In addition to pushes, run the workflow weekly to detect issues with the latest GitLab version.
+  schedule:
+    #         ┌───────────── minute (0 - 59)
+    #         │ ┌───────────── hour (0 - 23)
+    #         │ │ ┌───────────── day of the month (1 - 31)
+    #         │ │ │ ┌───────────── month (1 - 12 or JAN-DEC)
+    #         │ │ │ │ ┌───────────── day of the week (0 - 6 or SUN-SAT)
+    #         * * * * *
+    - cron:  '0 0 * * 3'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  acceptance-ce:
+    name: Acceptance Tests
+    strategy:
+      matrix:
+        go-version: [1.x]
+        platform: [ubuntu-latest]
+    runs-on: ${{ matrix.platform }}
+    timeout-minutes: 60
+    steps:
+      - name: Install Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: ${{ matrix.go-version }}
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Start GitLab CE instance
+        run: make testacc-up
+
+      - name: Run Acceptance Tests
+        run: make testacc

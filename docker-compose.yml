@@ -1,0 +1,52 @@
+version: '3'
+
+# Acceptance tests depend on a running GitLab instance.
+# Only one of these services should be run at a time.
+services:
+  gitlab-ce:
+    image: gitlab/gitlab-ce
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      GITLAB_ROOT_PASSWORD: adminadmin
+    labels:
+      terraform-provider-gitlab/owned: ''
+    volumes:
+      - config-ce:/etc/gitlab
+      - logs-ce:/var/log/gitlab
+      - data-ce:/var/opt/gitlab
+      - ${PWD}/scripts/healthcheck-and-setup.sh:/healthcheck-and-setup.sh
+    healthcheck:
+      test: /healthcheck-and-setup.sh
+      interval: 10s
+      timeout: 2m
+
+  gitlab-ee:
+    image: gitlab/gitlab-ee
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      GITLAB_ROOT_PASSWORD: adminadmin
+      GITLAB_LICENSE_FILE: /Gitlab-license.txt
+    labels:
+      terraform-provider-gitlab/owned: ''
+    volumes:
+      - config-ee:/etc/gitlab
+      - logs-ee:/var/log/gitlab
+      - data-ee:/var/opt/gitlab
+      - ${PWD}/scripts/healthcheck-and-setup.sh:/healthcheck-and-setup.sh
+      - ${PWD}/Gitlab-license.txt:/Gitlab-license.txt
+    healthcheck:
+      test: /healthcheck-and-setup.sh
+      interval: 10s
+      timeout: 2m
+
+volumes:
+  config-ce:
+  logs-ce:
+  data-ce:
+  config-ee:
+  logs-ee:
+  data-ee:
