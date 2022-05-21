@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestResourceMilestoneEventsService_ListIssueMilestoneEvents(t *testing.T) {
+func ListIssueMilestoneEvents(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
 
@@ -72,7 +72,7 @@ func TestResourceMilestoneEventsService_ListIssueMilestoneEvents(t *testing.T) {
 	require.Equal(t, want, mes)
 }
 
-func TestResourceMilestoneEventsService_GetIssueMilestoneEvent(t *testing.T) {
+func GetIssueMilestoneEvent(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
 
@@ -134,7 +134,7 @@ func TestResourceMilestoneEventsService_GetIssueMilestoneEvent(t *testing.T) {
 	require.Equal(t, want, me)
 }
 
-func TestResourceMilestoneEventsService_ListMergeMilestoneEvents(t *testing.T) {
+func ListMergeMilestoneEvents(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
 
@@ -198,7 +198,7 @@ func TestResourceMilestoneEventsService_ListMergeMilestoneEvents(t *testing.T) {
 	require.Equal(t, want, ses)
 }
 
-func TestResourceMilestoneEventsService_GetMergeRequestMilestoneEvent(t *testing.T) {
+func GetMergeRequestMilestoneEvent(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
 
