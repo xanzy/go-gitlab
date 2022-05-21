@@ -78,7 +78,7 @@ func (s *ResourceMilestoneEventsService) ListIssueMilestoneEvents(pid interface{
 	return mes, resp, err
 }
 
-// GetIssueMilestoneEvent gets a single issue-milestone-event.
+// GetIssueMilestoneEvent gets a single issue milestone event.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/resource_milestone_events.html#get-single-issue-milestone-event
