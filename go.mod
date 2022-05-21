@@ -1,5 +1,7 @@
 module github.com/xanzy/go-gitlab
 
+go 1.18
+
 require (
 	github.com/google/go-querystring v1.1.0
 	github.com/hashicorp/go-cleanhttp v0.5.2
@@ -13,10 +15,8 @@ require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
-	golang.org/x/net v0.0.0-20220421235706-1d1ef9303861 // indirect
+	golang.org/x/net v0.0.0-20220520000938-2e3eb7b945c2 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
 	google.golang.org/protobuf v1.28.0 // indirect
 	gopkg.in/yaml.v2 v2.2.2 // indirect
 )
-
-go 1.18
