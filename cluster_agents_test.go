@@ -24,7 +24,7 @@ import (
 	"time"
 )
 
-func TestClusterAgentsService_ListClusterAgents(t *testing.T) {
+func ListClusterAgents(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
 
@@ -66,13 +66,13 @@ func TestClusterAgentsService_ListClusterAgents(t *testing.T) {
 		`)
 	})
 
-	opt := &ListClusterAgentsOptions{}
-	clusterAgents, _, err := client.ClusterAgents.ListClusterAgents(20, opt)
+	opt := &ListProjectAgentsOptions{}
+	clusterAgents, _, err := client.ClusterAgents.ListProjectAgents(20, opt)
 	if err != nil {
 		t.Errorf("ClusterAgents.ListClusterAgents returned error: %v", err)
 	}
 
-	want := []*ClusterAgent{
+	want := []*Agent{
 		{
 			ID:   1,
 			Name: "agent-1",
@@ -110,7 +110,7 @@ func TestClusterAgentsService_ListClusterAgents(t *testing.T) {
 	}
 }
 
-func TestClusterAgentsService_GetClusterAgent(t *testing.T) {
+func GetClusterAgent(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
 
@@ -135,12 +135,12 @@ func TestClusterAgentsService_GetClusterAgent(t *testing.T) {
     	`)
 	})
 
-	clusterAgent, _, err := client.ClusterAgents.GetClusterAgent(20, 1)
+	clusterAgent, _, err := client.ClusterAgents.GetAgent(20, 1)
 	if err != nil {
 		t.Errorf("ClusterAgents.GetClusterAgent returned error: %v", err)
 	}
 
-	want := &ClusterAgent{
+	want := &Agent{
 		ID:   1,
 		Name: "agent-1",
 		ConfigProject: ConfigProject{
@@ -160,7 +160,7 @@ func TestClusterAgentsService_GetClusterAgent(t *testing.T) {
 	}
 }
 
-func TestClusterAgentsService_RegisterClusterAgent(t *testing.T) {
+func RegisterClusterAgent(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
 
@@ -185,13 +185,13 @@ func TestClusterAgentsService_RegisterClusterAgent(t *testing.T) {
     	`)
 	})
 
-	opt := &RegisterClusterAgentOptions{Name: String("agent-1")}
-	clusterAgent, _, err := client.ClusterAgents.RegisterClusterAgent(20, opt)
+	opt := &RegisterProjectAgentOptions{Name: String("agent-1")}
+	clusterAgent, _, err := client.ClusterAgents.RegisterProjectAgent(20, opt)
 	if err != nil {
 		t.Errorf("ClusterAgents.RegisterClusterAgent returned error: %v", err)
 	}
 
-	want := &ClusterAgent{
+	want := &Agent{
 		ID:   1,
 		Name: "agent-1",
 		ConfigProject: ConfigProject{
@@ -208,5 +208,150 @@ func TestClusterAgentsService_RegisterClusterAgent(t *testing.T) {
 	}
 	if !reflect.DeepEqual(want, clusterAgent) {
 		t.Errorf("ClusterAgents.RegisterClusterAgent returned %+v, want %+v", clusterAgent, want)
+	}
+}
+
+func ListAgentTokens(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/20/cluster_agents/5/tokens", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		fmt.Fprint(w, `
+		[
+			{
+			  "id": 1,
+			  "name": "abcd",
+			  "description": "Some token",
+			  "agent_id": 5,
+			  "status": "active",
+			  "created_at": "2022-03-25T14:12:11.497Z",
+			  "created_by_user_id": 1
+			},
+			{
+			  "id": 2,
+			  "name": "foobar",
+			  "description": null,
+			  "agent_id": 5,
+			  "status": "active",
+			  "created_at": "2022-03-25T14:12:11.497Z",
+			  "created_by_user_id": 1
+			}
+		]
+		`)
+	})
+
+	opt := &ListAgentTokensOptions{}
+	clusterAgentTokens, _, err := client.ClusterAgents.ListAgentTokens(20, 5, opt)
+	if err != nil {
+		t.Errorf("ClusterAgents.ListAgentTokens returned error: %v", err)
+	}
+
+	want := []*AgentToken{
+		{
+			ID:              1,
+			Name:            "abcd",
+			Description:     "Some token",
+			AgentID:         5,
+			Status:          "active",
+			CreatedAt:       Time(time.Date(2022, time.March, 25, 14, 12, 11, 497000000, time.UTC)),
+			CreatedByUserID: 1,
+		},
+		{
+			ID:              2,
+			Name:            "foobar",
+			Description:     "",
+			AgentID:         5,
+			Status:          "active",
+			CreatedAt:       Time(time.Date(2022, time.March, 25, 14, 12, 11, 497000000, time.UTC)),
+			CreatedByUserID: 1,
+		},
+	}
+
+	if !reflect.DeepEqual(want, clusterAgentTokens) {
+		t.Errorf("ClusterAgents.ListAgentTokens returned %+v, want %+v", clusterAgentTokens, want)
+	}
+}
+
+func GetAgentToken(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/20/cluster_agents/5/tokens/1", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		fmt.Fprint(w, `
+		{
+			"id": 1,
+			"name": "abcd",
+			"description": "Some token",
+			"agent_id": 5,
+			"status": "active",
+			"created_at": "2022-03-25T14:12:11.497Z",
+			"created_by_user_id": 1,
+			"last_used_at": null
+		 }
+    	`)
+	})
+
+	clusterAgentToken, _, err := client.ClusterAgents.GetAgentToken(20, 5, 1)
+	if err != nil {
+		t.Errorf("ClusterAgents.GetAgentToken returned error: %v", err)
+	}
+
+	want := &AgentToken{
+		ID:              1,
+		Name:            "abcd",
+		Description:     "Some token",
+		AgentID:         5,
+		Status:          "active",
+		CreatedAt:       Time(time.Date(2022, time.March, 25, 14, 12, 11, 497000000, time.UTC)),
+		CreatedByUserID: 1,
+		LastUsedAt:      nil,
+	}
+	if !reflect.DeepEqual(want, clusterAgentToken) {
+		t.Errorf("ClusterAgents.GetAgentToken returned %+v, want %+v", clusterAgentToken, want)
+	}
+}
+
+func RegisterAgentToken(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/20/cluster_agents/5/tokens", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPost)
+		fmt.Fprint(w, `
+		{
+			"id": 1,
+			"name": "abcd",
+			"description": "Some token",
+			"agent_id": 5,
+			"status": "active",
+			"created_at": "2022-03-25T14:12:11.497Z",
+			"created_by_user_id": 1,
+			"last_used_at": null,
+			"token": "qeY8UVRisx9y3Loxo1scLxFuRxYcgeX3sxsdrpP_fR3Loq4xyg"
+		}
+    	`)
+	})
+
+	opt := &CreateAgentTokenOptions{Name: String("abcd"), Description: String("Some token")}
+	clusterAgentToken, _, err := client.ClusterAgents.CreateAgentToken(20, 5, opt)
+	if err != nil {
+		t.Errorf("ClusterAgents.CreateAgentToken returned error: %v", err)
+	}
+
+	want := &AgentToken{
+		ID:              1,
+		Name:            "abcd",
+		Description:     "Some token",
+		AgentID:         5,
+		Status:          "active",
+		CreatedAt:       Time(time.Date(2022, time.March, 25, 14, 12, 11, 497000000, time.UTC)),
+		CreatedByUserID: 1,
+		LastUsedAt:      nil,
+		Token:           "qeY8UVRisx9y3Loxo1scLxFuRxYcgeX3sxsdrpP_fR3Loq4xyg",
+	}
+	if !reflect.DeepEqual(want, clusterAgentToken) {
+		t.Errorf("ClusterAgents.CreateAgentToken returned %+v, want %+v", clusterAgentToken, want)
 	}
 }

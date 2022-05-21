@@ -32,7 +32,7 @@ func clusterAgentsExample() {
 	projectID := 33
 
 	// Register Cluster Agent
-	clusterAgent, _, err := git.ClusterAgents.RegisterClusterAgent(projectID, &gitlab.RegisterClusterAgentOptions{
+	clusterAgent, _, err := git.ClusterAgents.RegisterProjectAgent(projectID, &gitlab.RegisterProjectAgentOptions{
 		Name: gitlab.String("agent-2"),
 	})
 	if err != nil {
@@ -42,7 +42,7 @@ func clusterAgentsExample() {
 	fmt.Printf("Cluster Agent: %+v\n", clusterAgent)
 
 	// List Cluster Agents
-	clusterAgents, _, err := git.ClusterAgents.ListClusterAgents(projectID, nil)
+	clusterAgents, _, err := git.ClusterAgents.ListProjectAgents(projectID, nil)
 	if err != nil {
 		panic(err)
 	}
