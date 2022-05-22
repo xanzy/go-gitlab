@@ -438,6 +438,8 @@ type LicenseApprovalStatusValue string
 const (
 	LicenseApproved    LicenseApprovalStatusValue = "approved"
 	LicenseBlacklisted LicenseApprovalStatusValue = "blacklisted"
+	LicenseAllowed     LicenseApprovalStatusValue = "allowed"
+	LicenseDenied      LicenseApprovalStatusValue = "denied"
 )
 
 // LicenseApprovalStatus is a helper routine that allocates a new license
