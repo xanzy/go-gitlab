@@ -71,7 +71,7 @@ func TestDisableErrorTracking(t *testing.T) {
 		}`)
 	})
 
-	ET, _, err := client.ErrorTracking.EnableDisableErrorTracking(&ConfigureErrorTrackingOptions{ID: Int(1), Active: Bool(false), Integrated: Bool(false)})
+	ET, _, err := client.ErrorTracking.EnableDisableErrorTracking(1, &ConfigureErrorTrackingOptions{Active: Bool(false), Integrated: Bool(false)})
 	if err != nil {
 		t.Errorf("ErrorTracking.EnableDisableErrorTracking returned error: %v", err)
 	}

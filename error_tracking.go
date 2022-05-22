@@ -82,7 +82,7 @@ func (s *ErrorTrackingService) EnableDisableErrorTracking(pid interface{}, opt *
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%d/error_tracking/settings", PathEscape(project))
+	u := fmt.Sprintf("projects/%s/error_tracking/settings", PathEscape(project))
 
 	req, err := s.client.NewRequest(http.MethodPatch, u, opt, options)
 	if err != nil {
