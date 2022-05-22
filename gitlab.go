@@ -121,6 +121,7 @@ type Client struct {
 	Environments            *EnvironmentsService
 	EpicIssues              *EpicIssuesService
 	Epics                   *EpicsService
+	ErrorTracking           *ErrorTrackingService
 	Events                  *EventsService
 	ExternalStatusChecks    *ExternalStatusChecksService
 	Features                *FeaturesService
@@ -322,6 +323,7 @@ func newClient(options ...ClientOptionFunc) (*Client, error) {
 	c.Environments = &EnvironmentsService{client: c}
 	c.EpicIssues = &EpicIssuesService{client: c}
 	c.Epics = &EpicsService{client: c}
+	c.ErrorTracking = &ErrorTrackingService{client: c}
 	c.Events = &EventsService{client: c}
 	c.ExternalStatusChecks = &ExternalStatusChecksService{client: c}
 	c.Features = &FeaturesService{client: c}
