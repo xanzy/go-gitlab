@@ -38,12 +38,12 @@ func TestGetErrorTracking(t *testing.T) {
 		}`)
 	})
 
-	ET, _, err := client.ErrorTracking.GetErrorTracking(1)
+	et, _, err := client.ErrorTracking.GetErrorTrackingSettings(1)
 	if err != nil {
 		t.Errorf("ErrorTracking.GetErrorTracking returned error: %v", err)
 	}
 
-	want := &ErrorTracking{
+	want := &ErrorTrackingSettings{
 		Active:            true,
 		ProjectName:       "sample sentry project",
 		SentryExternalURL: "https://sentry.io/myawesomeproject/project",
@@ -51,8 +51,8 @@ func TestGetErrorTracking(t *testing.T) {
 		Integrated:        false,
 	}
 
-	if !reflect.DeepEqual(want, ET) {
-		t.Errorf("ErrorTracking.GetErrorTracking returned %+v, want %+v", ET, want)
+	if !reflect.DeepEqual(want, et) {
+		t.Errorf("ErrorTracking.GetErrorTracking returned %+v, want %+v", et, want)
 	}
 }
 
@@ -71,12 +71,18 @@ func TestDisableErrorTracking(t *testing.T) {
 		}`)
 	})
 
-	ET, _, err := client.ErrorTracking.EnableDisableErrorTracking(1, &ConfigureErrorTrackingOptions{Active: Bool(false), Integrated: Bool(false)})
+	et, _, err := client.ErrorTracking.EnableDisableErrorTracking(
+		1,
+		&EnableDisableErrorTrackingOptions{
+			Active:     Bool(false),
+			Integrated: Bool(false),
+		},
+	)
 	if err != nil {
 		t.Errorf("ErrorTracking.EnableDisableErrorTracking returned error: %v", err)
 	}
 
-	want := &ErrorTracking{
+	want := &ErrorTrackingSettings{
 		Active:            false,
 		ProjectName:       "sample sentry project",
 		SentryExternalURL: "https://sentry.io/myawesomeproject/project",
@@ -84,8 +90,8 @@ func TestDisableErrorTracking(t *testing.T) {
 		Integrated:        false,
 	}
 
-	if !reflect.DeepEqual(want, ET) {
-		t.Errorf("ErrorTracking.EnableDisableErrorTracking returned %+v, want %+v", ET, want)
+	if !reflect.DeepEqual(want, et) {
+		t.Errorf("ErrorTracking.EnableDisableErrorTracking returned %+v, want %+v", et, want)
 	}
 }
 
@@ -105,20 +111,20 @@ func TestListErrorTrackingClientKeys(t *testing.T) {
 		]`)
 	})
 
-	CKS, _, err := client.ErrorTracking.ListErrorTrackingClientKeys(1, &ListErrorTrackingClientKeysOptions{Page: 1, PerPage: 10})
+	cks, _, err := client.ErrorTracking.ListClientKeys(1, &ListClientKeysOptions{Page: 1, PerPage: 10})
 	if err != nil {
 		t.Errorf("ErrorTracking.ListErrorTrackingClientKeys returned error: %v", err)
 	}
 
-	want := []*ProjectClientKey{{
+	want := []*ErrorTrackingClientKey{{
 		ID:        1,
 		Active:    true,
 		PublicKey: "glet_aa77551d849c083f76d0bc545ed053a3",
 		SentryDsn: "https://glet_aa77551d849c083f76d0bc545ed053a3@gitlab.example.com/api/v4/error_tracking/collector/5",
 	}}
 
-	if !reflect.DeepEqual(want, CKS) {
-		t.Errorf("ErrorTracking.ListErrorTrackingClientKeys returned %+v, want %+v", CKS, want)
+	if !reflect.DeepEqual(want, cks) {
+		t.Errorf("ErrorTracking.ListErrorTrackingClientKeys returned %+v, want %+v", cks, want)
 	}
 }
 
@@ -136,20 +142,20 @@ func TestCreateClientKey(t *testing.T) {
 		}`)
 	})
 
-	CK, _, err := client.ErrorTracking.CreateClientKey(1)
+	ck, _, err := client.ErrorTracking.CreateClientKey(1)
 	if err != nil {
 		t.Errorf("ErrorTracking.CreateClientKey returned error: %v", err)
 	}
 
-	want := &ProjectClientKey{
+	want := &ErrorTrackingClientKey{
 		ID:        1,
 		Active:    true,
 		PublicKey: "glet_aa77551d849c083f76d0bc545ed053a3",
 		SentryDsn: "https://glet_aa77551d849c083f76d0bc545ed053a3@gitlab.example.com/api/v4/error_tracking/collector/5",
 	}
 
-	if !reflect.DeepEqual(want, CK) {
-		t.Errorf("ErrorTracking.CreateClientKey returned %+v, want %+v", CK, want)
+	if !reflect.DeepEqual(want, ck) {
+		t.Errorf("ErrorTracking.CreateClientKey returned %+v, want %+v", ck, want)
 	}
 }
 
