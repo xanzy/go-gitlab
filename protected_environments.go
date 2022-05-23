@@ -115,8 +115,9 @@ func (s *ProtectedEnvironmentsService) GetProtectedEnvironment(pid interface{}, 
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/protected_environments.html#protect-repository-environments
 type ProtectRepositoryEnvironmentsOptions struct {
-	Name               *string                      `url:"name,omitempty" json:"name,omitempty"`
-	DeployAccessLevels *[]*EnvironmentAccessOptions `url:"deploy_access_levels,omitempty" json:"deploy_access_levels,omitempty"`
+	Name                  *string                      `url:"name,omitempty" json:"name,omitempty"`
+	RequiredApprovalCount *int                         `url:"required_approval_count,omitempty" json:"required_approval_count,omitempty"`
+	DeployAccessLevels    *[]*EnvironmentAccessOptions `url:"deploy_access_levels,omitempty" json:"deploy_access_levels,omitempty"`
 }
 
 // EnvironmentAccessOptions represents the options for an access decription for
