@@ -17,6 +17,7 @@
 package gitlab
 
 import (
+	"bytes"
 	"fmt"
 	"io"
 	"net/http"
@@ -888,7 +889,7 @@ type GroupAvatar struct {
 	Image    io.Reader
 }
 
-// UploadAvatar uploads an avatar.
+// UploadAvatar upload a group avatar.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/groups.html#upload-a-group-avatar
@@ -919,4 +920,29 @@ func (s *GroupsService) UploadAvatar(gid interface{}, avatar io.Reader, filename
 	}
 
 	return g, resp, err
+}
+
+// DownloadAvatar download a group avatar.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/groups.html#download-a-group-avatar
+func (s *GroupsService) DownloadAvatar(gid interface{}, options ...RequestOptionFunc) ([]byte, *Response, error) {
+	group, err := parseID(gid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("groups/%s/avatar", PathEscape(group))
+
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var b bytes.Buffer
+	resp, err := s.client.Do(req, &b)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return b.Bytes(), resp, err
 }
