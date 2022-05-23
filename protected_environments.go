@@ -35,8 +35,9 @@ type ProtectedEnvironmentsService struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/protected_environments.html
 type ProtectedEnvironment struct {
-	Name               string                          `json:"name"`
-	DeployAccessLevels []*EnvironmentAccessDescription `json:"deploy_access_levels"`
+	Name                  string                          `json:"name"`
+	RequiredApprovalCount int                             `json:"required_approval_count"`
+	DeployAccessLevels    []*EnvironmentAccessDescription `json:"deploy_access_levels"`
 }
 
 // EnvironmentAccessDescription represents the access decription for a protected
