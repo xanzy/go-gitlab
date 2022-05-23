@@ -18,6 +18,7 @@ package gitlab
 
 import (
 	"fmt"
+	"io"
 	"net/http"
 	"time"
 )
@@ -880,4 +881,42 @@ func (s *GroupsService) DeleteGroupPushRule(gid interface{}, options ...RequestO
 	}
 
 	return s.client.Do(req, nil)
+}
+
+type GroupAvatar struct {
+	Filename string
+	Image    io.Reader
+}
+
+// UploadAvatar uploads an avatar.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/groups.html#upload-a-group-avatar
+func (s *GroupsService) UploadAvatar(gid interface{}, avatar io.Reader, filename string, options ...RequestOptionFunc) (*Group, *Response, error) {
+	group, err := parseID(gid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("groups/%s", PathEscape(group))
+
+	req, err := s.client.UploadRequest(
+		http.MethodPut,
+		u,
+		avatar,
+		filename,
+		UploadAvatar,
+		nil,
+		options,
+	)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	g := new(Group)
+	resp, err := s.client.Do(req, g)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return g, resp, err
 }
