@@ -31,6 +31,7 @@ to add new and/or missing endpoints. Currently, the following services are suppo
 - [x] Environments
 - [x] Epic Issues
 - [x] Epics
+- [x] Error Tracking
 - [x] Events
 - [x] Feature Flags
 - [x] Geo Nodes
