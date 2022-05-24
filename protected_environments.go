@@ -36,8 +36,8 @@ type ProtectedEnvironmentsService struct {
 // https://docs.gitlab.com/ee/api/protected_environments.html
 type ProtectedEnvironment struct {
 	Name                  string                          `json:"name"`
-	RequiredApprovalCount int                             `json:"required_approval_count"`
 	DeployAccessLevels    []*EnvironmentAccessDescription `json:"deploy_access_levels"`
+	RequiredApprovalCount int                             `json:"required_approval_count"`
 }
 
 // EnvironmentAccessDescription represents the access decription for a protected
@@ -116,8 +116,8 @@ func (s *ProtectedEnvironmentsService) GetProtectedEnvironment(pid interface{}, 
 // https://docs.gitlab.com/ee/api/protected_environments.html#protect-repository-environments
 type ProtectRepositoryEnvironmentsOptions struct {
 	Name                  *string                      `url:"name,omitempty" json:"name,omitempty"`
-	RequiredApprovalCount *int                         `url:"required_approval_count,omitempty" json:"required_approval_count,omitempty"`
 	DeployAccessLevels    *[]*EnvironmentAccessOptions `url:"deploy_access_levels,omitempty" json:"deploy_access_levels,omitempty"`
+	RequiredApprovalCount *int                         `url:"required_approval_count,omitempty" json:"required_approval_count,omitempty"`
 }
 
 // EnvironmentAccessOptions represents the options for an access decription for
