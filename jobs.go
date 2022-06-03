@@ -47,6 +47,7 @@ type Job struct {
 	TagList           []string   `json:"tag_list"`
 	ID                int        `json:"id"`
 	Name              string     `json:"name"`
+	FailureReason     string     `json:"failure_reason"`
 	Pipeline          struct {
 		ID     int    `json:"id"`
 		Ref    string `json:"ref"`

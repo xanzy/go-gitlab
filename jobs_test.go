@@ -78,7 +78,8 @@ func TestJobsService_ListProjectJobs(t *testing.T) {
     "stage": "test",
     "status": "failed",
     "tag": false,
-    "web_url": "https://example.com/foo/bar/-/jobs/7"
+    "web_url": "https://example.com/foo/bar/-/jobs/7",
+	"failure_reason": "script_failure"
   },
   {
     "commit": {
@@ -141,11 +142,12 @@ func TestJobsService_ListProjectJobs(t *testing.T) {
 			Sha:    "0ff3ae198f8601a285adcf5c0fff204ee6fba5fd",
 			Status: "pending",
 		},
-		Ref:    "master",
-		Stage:  "test",
-		Status: "failed",
-		Tag:    false,
-		WebURL: "https://example.com/foo/bar/-/jobs/7",
+		Ref:           "master",
+		Stage:         "test",
+		Status:        "failed",
+		Tag:           false,
+		WebURL:        "https://example.com/foo/bar/-/jobs/7",
+		FailureReason: "script_failure",
 	},
 		{
 			Commit: &Commit{
@@ -172,11 +174,12 @@ func TestJobsService_ListProjectJobs(t *testing.T) {
 				Sha:    "0ff3ae198f8601a285adcf5c0fff204ee6fba5fd",
 				Status: "pending",
 			},
-			Ref:    "master",
-			Stage:  "test",
-			Status: "failed",
-			Tag:    false,
-			WebURL: "https://example.com/foo/bar/-/jobs/6",
+			Ref:           "master",
+			Stage:         "test",
+			Status:        "failed",
+			Tag:           false,
+			WebURL:        "https://example.com/foo/bar/-/jobs/6",
+			FailureReason: "",
 		}}
 	assert.Equal(t, want, jobs)
 }
