@@ -19,6 +19,7 @@ package gitlab
 import (
 	"bytes"
 	"fmt"
+	"io"
 	"net/http"
 	"time"
 )
@@ -297,6 +298,33 @@ func (s *JobsService) DownloadArtifactsFile(pid interface{}, refName string, opt
 	}
 
 	return bytes.NewReader(artifactsBuf.Bytes()), resp, err
+}
+
+// DownloadArtifactsFileWriter download the artifacts file from the given
+// reference name and job provided the job finished successfully.
+//
+// with write callback
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/job_artifacts.html#download-the-artifacts-archive
+func (s *JobsService) DownloadArtifactsFileWriter(pid interface{}, refName string, w io.Writer, opt *DownloadArtifactsFileOptions, options ...RequestOptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/jobs/artifacts/%s/download", PathEscape(project), refName)
+
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := s.client.Do(req, w)
+	if err != nil {
+		return resp, err
+	}
+
+	return resp, err
 }
 
 // DownloadSingleArtifactsFile download a file from the artifacts from the

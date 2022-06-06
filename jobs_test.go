@@ -17,6 +17,7 @@
 package gitlab
 
 import (
+	"bytes"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -179,6 +180,38 @@ func TestJobsService_ListProjectJobs(t *testing.T) {
 			WebURL: "https://example.com/foo/bar/-/jobs/6",
 		}}
 	assert.Equal(t, want, jobs)
+}
+
+func TestDownloadArtifactsFileWriter(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	wantContent := []byte("This is the file content")
+	mux.HandleFunc("/api/v4/projects/9/jobs/artifacts/foo/download", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		testParams(t, r, "job=bar")
+		w.WriteHeader(http.StatusOK)
+		w.Write(wantContent)
+	})
+
+	artifactBuffer := new(bytes.Buffer)
+	opt := &DownloadArtifactsFileOptions{Job: String("bar")}
+	resp, err := client.Jobs.DownloadArtifactsFileWriter(9, "foo", artifactBuffer, opt)
+	if err != nil {
+		t.Fatalf("Jobs.DownloadSingleArtifactsFileByTagOrBranch returns an error: %v", err)
+	}
+	content, err := ioutil.ReadAll(artifactBuffer)
+	if err != nil {
+		t.Fatalf("Jobs.DownloadSingleArtifactsFileByTagOrBranch error reading: %v", err)
+	}
+	if !reflect.DeepEqual(content, wantContent) {
+		t.Errorf("Jobs.DownloadSingleArtifactsFileByTagOrBranch returned %+v, want %+v", content, wantContent)
+	}
+
+	wantCode := 200
+	if !reflect.DeepEqual(wantCode, resp.StatusCode) {
+		t.Errorf("Jobs.DownloadSingleArtifactsFileByTagOrBranch returned returned status code  %+v, want %+v", resp.StatusCode, wantCode)
+	}
 }
 
 func TestDownloadSingleArtifactsFileByTagOrBranch(t *testing.T) {
