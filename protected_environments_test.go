@@ -30,7 +30,24 @@ func TestListProtectedEnvironments(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/protected_environments", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
-		fmt.Fprint(w, `[{"name":"1.0.0", "deploy_access_levels": [{"access_level": 40, "access_level_description": "Maintainers"}]},{"name":"*-release", "deploy_access_levels": [{"access_level": 30, "access_level_description": "Developers + Maintainers"}]}]`)
+		fmt.Fprint(w, `[{
+      "name":"1.0.0",
+      "deploy_access_levels": [
+        {
+          "access_level": 40,
+          "access_level_description": "Maintainers"
+        }
+      ],
+      "required_approval_count": 1
+    },{
+      "name":"*-release",
+      "deploy_access_levels": [
+        {
+          "access_level": 30,
+          "access_level_description": "Developers + Maintainers"
+        }
+      ]
+    }]`)
 	})
 
 	expected := []*ProtectedEnvironment{
@@ -42,6 +59,7 @@ func TestListProtectedEnvironments(t *testing.T) {
 					AccessLevelDescription: "Maintainers",
 				},
 			},
+			RequiredApprovalCount: 1,
 		},
 		{
 			Name: "*-release",
@@ -64,11 +82,21 @@ func TestGetProtectedEnvironment(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
 
+	// Test with RequiredApprovalCount
 	environmentName := "my-awesome-environment"
 
 	mux.HandleFunc(fmt.Sprintf("/api/v4/projects/1/protected_environments/%s", environmentName), func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
-		fmt.Fprint(w, `{"name":"my-awesome-environment", "deploy_access_levels": [{"access_level": 30, "access_level_description": "Developers + Maintainers"}]}`)
+		fmt.Fprint(w, `{
+      "name":"my-awesome-environment",
+      "deploy_access_levels": [
+        {
+          "access_level": 30,
+          "access_level_description": "Developers + Maintainers"
+        }
+      ],
+      "required_approval_count": 1
+    }`)
 	})
 
 	expected := &ProtectedEnvironment{
@@ -79,10 +107,40 @@ func TestGetProtectedEnvironment(t *testing.T) {
 				AccessLevelDescription: "Developers + Maintainers",
 			},
 		},
+		RequiredApprovalCount: 1,
 	}
 
 	environment, _, err := client.ProtectedEnvironments.GetProtectedEnvironment(1, environmentName)
+	assert.NoError(t, err, "failed to get response")
+	assert.Equal(t, expected, environment)
 
+	// Test without RequiredApprovalCount
+	environmentName = "my-awesome-environment2"
+
+	mux.HandleFunc(fmt.Sprintf("/api/v4/projects/2/protected_environments/%s", environmentName), func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		fmt.Fprint(w, `{
+      "name":"my-awesome-environment2",
+      "deploy_access_levels": [
+        {
+          "access_level": 30,
+          "access_level_description": "Developers + Maintainers"
+        }
+      ]
+    }`)
+	})
+
+	expected = &ProtectedEnvironment{
+		Name: environmentName,
+		DeployAccessLevels: []*EnvironmentAccessDescription{
+			{
+				AccessLevel:            30,
+				AccessLevelDescription: "Developers + Maintainers",
+			},
+		},
+	}
+
+	environment, _, err = client.ProtectedEnvironments.GetProtectedEnvironment(2, environmentName)
 	assert.NoError(t, err, "failed to get response")
 	assert.Equal(t, expected, environment)
 }
@@ -91,9 +149,19 @@ func TestProtectRepositoryEnvironments(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
 
+	// Test with RequiredApprovalCount
 	mux.HandleFunc("/api/v4/projects/1/protected_environments", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
-		fmt.Fprint(w, `{"name":"my-awesome-environment", "deploy_access_levels": [{"access_level": 30, "access_level_description": "Developers + Maintainers"}]}`)
+		fmt.Fprint(w, `{
+      "name":"my-awesome-environment",
+      "deploy_access_levels": [
+        {
+          "access_level": 30,
+          "access_level_description": "Developers + Maintainers"
+        }
+      ],
+      "required_approval_count": 2
+    }`)
 	})
 
 	expected := &ProtectedEnvironment{
@@ -104,11 +172,52 @@ func TestProtectRepositoryEnvironments(t *testing.T) {
 				AccessLevelDescription: "Developers + Maintainers",
 			},
 		},
+		RequiredApprovalCount: 2,
 	}
 
-	opt := &ProtectRepositoryEnvironmentsOptions{Name: String("my-awesome-environment"), DeployAccessLevels: &[]*EnvironmentAccessOptions{{AccessLevel: AccessLevel(30)}}}
-	environment, _, err := client.ProtectedEnvironments.ProtectRepositoryEnvironments(1, opt)
+	opt := &ProtectRepositoryEnvironmentsOptions{
+		Name: String("my-awesome-environment"),
+		DeployAccessLevels: &[]*EnvironmentAccessOptions{
+			{AccessLevel: AccessLevel(30)},
+		},
+		RequiredApprovalCount: Int(2),
+	}
 
+	environment, _, err := client.ProtectedEnvironments.ProtectRepositoryEnvironments(1, opt)
+	assert.NoError(t, err, "failed to get response")
+	assert.Equal(t, expected, environment)
+
+	// Test without RequiredApprovalCount
+	mux.HandleFunc("/api/v4/projects/2/protected_environments", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPost)
+		fmt.Fprint(w, `{
+      "name":"my-awesome-environment2",
+      "deploy_access_levels": [
+        {
+          "access_level": 30,
+          "access_level_description": "Developers + Maintainers"
+        }
+      ]
+    }`)
+	})
+
+	expected = &ProtectedEnvironment{
+		Name: "my-awesome-environment2",
+		DeployAccessLevels: []*EnvironmentAccessDescription{
+			{
+				AccessLevel:            30,
+				AccessLevelDescription: "Developers + Maintainers",
+			},
+		},
+	}
+
+	opt = &ProtectRepositoryEnvironmentsOptions{
+		Name: String("my-awesome-environment2"),
+		DeployAccessLevels: &[]*EnvironmentAccessOptions{
+			{AccessLevel: AccessLevel(30)},
+		},
+	}
+	environment, _, err = client.ProtectedEnvironments.ProtectRepositoryEnvironments(2, opt)
 	assert.NoError(t, err, "failed to get response")
 	assert.Equal(t, expected, environment)
 }
