@@ -59,7 +59,8 @@ type EnvironmentAccessDescription struct {
 // https://docs.gitlab.com/ee/api/protected_environments.html#list-protected-environments
 type ListProtectedEnvironmentsOptions ListOptions
 
-// ListProtectedEnvironments returns a list of protected environments from a project.
+// ListProtectedEnvironments returns a list of protected environments from a
+// project.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/protected_environments.html#list-protected-environments
@@ -84,7 +85,8 @@ func (s *ProtectedEnvironmentsService) ListProtectedEnvironments(pid interface{}
 	return pes, resp, err
 }
 
-// GetProtectedEnvironment returns a single protected environment or wildcard protected environment.
+// GetProtectedEnvironment returns a single protected environment or wildcard
+// protected environment.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/protected_environments.html#get-a-single-protected-environment-or-wildcard-protected-environment
@@ -131,8 +133,8 @@ type EnvironmentAccessOptions struct {
 	GroupID     *int              `url:"group_id,omitempty" json:"group_id,omitempty"`
 }
 
-// ProtectRepositoryEnvironments protects a single repository environment or several project
-// repository environments using a wildcard protected environment.
+// ProtectRepositoryEnvironments protects a single repository environment or
+// several project repository environments using wildcard protected environment.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/protected_environments.html#protect-repository-environments
