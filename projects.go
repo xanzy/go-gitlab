@@ -695,6 +695,9 @@ type ContainerExpirationPolicyAttributes struct {
 	NameRegex *string `url:"name_regex,omitempty" json:"name_regex,omitempty"`
 }
 
+// ProjectAvatar represents a GitLab project avatar.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/projects.html#create-project
 type ProjectAvatar struct {
 	Filename string
 	Image    io.Reader

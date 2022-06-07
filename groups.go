@@ -82,6 +82,14 @@ type Group struct {
 	CreatedAt                      *time.Time       `json:"created_at"`
 }
 
+// GroupAvatar represents a GitLab group avatar.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/groups.html
+type GroupAvatar struct {
+	Filename string
+	Image    io.Reader
+}
+
 // LDAPGroupLink represents a GitLab LDAP group link.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/groups.html#ldap-group-links
@@ -273,6 +281,31 @@ func (s *GroupsService) GetGroup(gid interface{}, opt *GetGroupOptions, options 
 	return g, resp, err
 }
 
+// DownloadAvatar downloads a group avatar.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/groups.html#download-a-group-avatar
+func (s *GroupsService) DownloadAvatar(gid interface{}, options ...RequestOptionFunc) (*bytes.Reader, *Response, error) {
+	group, err := parseID(gid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("groups/%s/avatar", PathEscape(group))
+
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	avatar := new(bytes.Buffer)
+	resp, err := s.client.Do(req, avatar)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return bytes.NewReader(avatar.Bytes()), resp, err
+}
+
 // CreateGroupOptions represents the available CreateGroup() options.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/groups.html#new-group
@@ -421,6 +454,39 @@ func (s *GroupsService) UpdateGroup(gid interface{}, opt *UpdateGroupOptions, op
 	u := fmt.Sprintf("groups/%s", PathEscape(group))
 
 	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	g := new(Group)
+	resp, err := s.client.Do(req, g)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return g, resp, err
+}
+
+// UploadAvatar uploads a group avatar.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/groups.html#upload-a-group-avatar
+func (s *GroupsService) UploadAvatar(gid interface{}, avatar io.Reader, filename string, options ...RequestOptionFunc) (*Group, *Response, error) {
+	group, err := parseID(gid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("groups/%s", PathEscape(group))
+
+	req, err := s.client.UploadRequest(
+		http.MethodPut,
+		u,
+		avatar,
+		filename,
+		UploadAvatar,
+		nil,
+		options,
+	)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -882,67 +948,4 @@ func (s *GroupsService) DeleteGroupPushRule(gid interface{}, options ...RequestO
 	}
 
 	return s.client.Do(req, nil)
-}
-
-type GroupAvatar struct {
-	Filename string
-	Image    io.Reader
-}
-
-// UploadAvatar upload a group avatar.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ee/api/groups.html#upload-a-group-avatar
-func (s *GroupsService) UploadAvatar(gid interface{}, avatar io.Reader, filename string, options ...RequestOptionFunc) (*Group, *Response, error) {
-	group, err := parseID(gid)
-	if err != nil {
-		return nil, nil, err
-	}
-	u := fmt.Sprintf("groups/%s", PathEscape(group))
-
-	req, err := s.client.UploadRequest(
-		http.MethodPut,
-		u,
-		avatar,
-		filename,
-		UploadAvatar,
-		nil,
-		options,
-	)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	g := new(Group)
-	resp, err := s.client.Do(req, g)
-	if err != nil {
-		return nil, resp, err
-	}
-
-	return g, resp, err
-}
-
-// DownloadAvatar download a group avatar.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ee/api/groups.html#download-a-group-avatar
-func (s *GroupsService) DownloadAvatar(gid interface{}, options ...RequestOptionFunc) ([]byte, *Response, error) {
-	group, err := parseID(gid)
-	if err != nil {
-		return nil, nil, err
-	}
-	u := fmt.Sprintf("groups/%s/avatar", PathEscape(group))
-
-	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	var b bytes.Buffer
-	resp, err := s.client.Do(req, &b)
-	if err != nil {
-		return nil, resp, err
-	}
-
-	return b.Bytes(), resp, err
 }
