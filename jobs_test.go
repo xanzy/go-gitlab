@@ -77,9 +77,9 @@ func TestJobsService_ListProjectJobs(t *testing.T) {
     "ref": "master",
     "stage": "test",
     "status": "failed",
+	  "failure_reason": "script_failure",
     "tag": false,
-    "web_url": "https://example.com/foo/bar/-/jobs/7",
-	"failure_reason": "script_failure"
+    "web_url": "https://example.com/foo/bar/-/jobs/7"
   },
   {
     "commit": {
@@ -119,36 +119,37 @@ func TestJobsService_ListProjectJobs(t *testing.T) {
 		t.Errorf("Jobs.ListProjectJobs returned error: %v", err)
 	}
 
-	want := []*Job{{
-		Commit: &Commit{
-			ID:          "0ff3ae198f8601a285adcf5c0fff204ee6fba5fd",
-			ShortID:     "0ff3ae19",
-			Title:       "Test the CI integration.",
-			AuthorName:  "Administrator",
-			AuthorEmail: "admin@example.com",
+	want := []*Job{
+		{
+			Commit: &Commit{
+				ID:          "0ff3ae198f8601a285adcf5c0fff204ee6fba5fd",
+				ShortID:     "0ff3ae19",
+				Title:       "Test the CI integration.",
+				AuthorName:  "Administrator",
+				AuthorEmail: "admin@example.com",
+			},
+			AllowFailure: false,
+			ID:           7,
+			Name:         "teaspoon",
+			TagList:      []string{"docker runner", "ubuntu18"},
+			Pipeline: struct {
+				ID     int    `json:"id"`
+				Ref    string `json:"ref"`
+				Sha    string `json:"sha"`
+				Status string `json:"status"`
+			}{
+				ID:     6,
+				Ref:    "master",
+				Sha:    "0ff3ae198f8601a285adcf5c0fff204ee6fba5fd",
+				Status: "pending",
+			},
+			Ref:           "master",
+			Stage:         "test",
+			Status:        "failed",
+			FailureReason: "script_failure",
+			Tag:           false,
+			WebURL:        "https://example.com/foo/bar/-/jobs/7",
 		},
-		AllowFailure: false,
-		ID:           7,
-		Name:         "teaspoon",
-		TagList:      []string{"docker runner", "ubuntu18"},
-		Pipeline: struct {
-			ID     int    `json:"id"`
-			Ref    string `json:"ref"`
-			Sha    string `json:"sha"`
-			Status string `json:"status"`
-		}{
-			ID:     6,
-			Ref:    "master",
-			Sha:    "0ff3ae198f8601a285adcf5c0fff204ee6fba5fd",
-			Status: "pending",
-		},
-		Ref:           "master",
-		Stage:         "test",
-		Status:        "failed",
-		Tag:           false,
-		WebURL:        "https://example.com/foo/bar/-/jobs/7",
-		FailureReason: "script_failure",
-	},
 		{
 			Commit: &Commit{
 				ID:          "0ff3ae198f8601a285adcf5c0fff204ee6fba5fd",
@@ -174,13 +175,13 @@ func TestJobsService_ListProjectJobs(t *testing.T) {
 				Sha:    "0ff3ae198f8601a285adcf5c0fff204ee6fba5fd",
 				Status: "pending",
 			},
-			Ref:           "master",
-			Stage:         "test",
-			Status:        "failed",
-			Tag:           false,
-			WebURL:        "https://example.com/foo/bar/-/jobs/6",
-			FailureReason: "",
-		}}
+			Ref:    "master",
+			Stage:  "test",
+			Status: "failed",
+			Tag:    false,
+			WebURL: "https://example.com/foo/bar/-/jobs/6",
+		},
+	}
 	assert.Equal(t, want, jobs)
 }
 

@@ -224,8 +224,8 @@ type ProjectNamespace struct {
 	Name      string `json:"name"`
 	Path      string `json:"path"`
 	Kind      string `json:"kind"`
-	ParentID  int    `json:"parent_id"`
 	FullPath  string `json:"full_path"`
+	ParentID  int    `json:"parent_id"`
 	AvatarURL string `json:"avatar_url"`
 	WebURL    string `json:"web_url"`
 }

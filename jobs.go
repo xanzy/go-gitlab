@@ -47,7 +47,6 @@ type Job struct {
 	TagList           []string   `json:"tag_list"`
 	ID                int        `json:"id"`
 	Name              string     `json:"name"`
-	FailureReason     string     `json:"failure_reason"`
 	Pipeline          struct {
 		ID     int    `json:"id"`
 		Ref    string `json:"ref"`
@@ -72,12 +71,13 @@ type Job struct {
 		IsShared    bool   `json:"is_shared"`
 		Name        string `json:"name"`
 	} `json:"runner"`
-	Stage   string   `json:"stage"`
-	Status  string   `json:"status"`
-	Tag     bool     `json:"tag"`
-	WebURL  string   `json:"web_url"`
-	Project *Project `json:"project"`
-	User    *User    `json:"user"`
+	Stage         string   `json:"stage"`
+	Status        string   `json:"status"`
+	FailureReason string   `json:"failure_reason"`
+	Tag           bool     `json:"tag"`
+	WebURL        string   `json:"web_url"`
+	Project       *Project `json:"project"`
+	User          *User    `json:"user"`
 }
 
 // Bridge represents a pipeline bridge.
