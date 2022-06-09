@@ -335,6 +335,30 @@ func (s *ProjectsService) ListProjects(opt *ListProjectsOptions, options ...Requ
 	return p, resp, err
 }
 
+func (s *ProjectsService) StreamProjects(opt *ListProjectsOptions, projectChan chan<- *Project, options ...RequestOptionFunc) error {
+	nextPage := 1
+
+	for nextPage != 0 {
+		opt.Page = nextPage
+		page, resp, err := s.ListProjects(opt, options...)
+		if err != nil {
+			return fmt.Errorf("failed to get page %d, stopping project stream: %w", nextPage, err)
+		}
+
+		if resp.StatusCode > 299 {
+			return fmt.Errorf("got non 2xx response: %d, stopping project stream", resp.StatusCode)
+		}
+
+		for _, p := range page {
+			projectChan <- p
+		}
+
+		nextPage = resp.NextPage
+	}
+
+	return nil
+}
+
 // ListUserProjects gets a list of projects for the given user.
 //
 // GitLab API docs:
