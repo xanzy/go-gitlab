@@ -17,6 +17,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/xanzy/go-gitlab"
@@ -61,5 +62,31 @@ func projectExample() {
 
 	for _, snippet := range snippets {
 		log.Printf("Found snippet: %s", snippet.Title)
+	}
+}
+
+func streamProjectExample() {
+	git, err := gitlab.NewClient("yourtokengoeshere")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// create channel to listen on for twice the page size to buffer
+	projectChan := make(chan *gitlab.Project, 100)
+
+	go func() {
+		err = git.Projects.StreamProjects(&gitlab.ListProjectsOptions{
+			ListOptions: gitlab.ListOptions{
+				PerPage: 50,
+			},
+		}, projectChan)
+		if err != nil {
+			log.Printf("project streaming stopped: %s", err)
+		}
+		close(projectChan)
+	}()
+
+	for p := range projectChan {
+		fmt.Println(p.ID)
 	}
 }
