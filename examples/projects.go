@@ -83,7 +83,6 @@ func streamProjectExample() {
 		if err != nil {
 			log.Printf("project streaming stopped: %s", err)
 		}
-		close(projectChan)
 	}()
 
 	for p := range projectChan {

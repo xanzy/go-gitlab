@@ -335,7 +335,10 @@ func (s *ProjectsService) ListProjects(opt *ListProjectsOptions, options ...Requ
 	return p, resp, err
 }
 
+// StreamProjects is a function that manages pagination and streams back all projects accessible to the authenticated
+// user into the supplied `projectChan`. It always closes the channel given when done paginating.
 func (s *ProjectsService) StreamProjects(opt *ListProjectsOptions, projectChan chan<- *Project, options ...RequestOptionFunc) error {
+	defer close(projectChan)
 	nextPage := 1
 
 	for nextPage != 0 {
