@@ -73,6 +73,31 @@ func (s *ValidateService) Lint(content string, options ...RequestOptionFunc) (*L
 	return l, resp, nil
 }
 
+// LintWithMergedYAML validates .gitlab-ci.yml content and returns the merged YAML
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/lint.html
+func (s *ValidateService) LintWithMergedYAML(content string, options ...RequestOptionFunc) (*LintResult, *Response, error) {
+	var opts struct {
+		Content           string `url:"content,omitempty" json:"content,omitempty"`
+		IncludeMergedYAML bool   `url:"include_merged_yaml,omitempty" json:"include_merged_yaml,omitempty"`
+	}
+	opts.Content = content
+	opts.IncludeMergedYAML = true
+
+	req, err := s.client.NewRequest(http.MethodPost, "ci/lint", &opts, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	l := new(LintResult)
+	resp, err := s.client.Do(req, l)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return l, resp, nil
+}
+
 // ProjectNamespaceLintOptions represents the available ProjectNamespaceLint() options.
 //
 // GitLab API docs:
