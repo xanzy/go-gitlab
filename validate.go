@@ -29,6 +29,15 @@ type ValidateService struct {
 	client *Client
 }
 
+// LintOptions represent options for the lint API
+//
+// Gitlab API docs: https://docs.gitlab.com/ee/api/lint.html#validate-the-ci-yaml-configuration
+type LintOptions struct {
+	Content           string `url:"content,omitempty" json:"content,omitempty"`
+	IncludeMergedYAML bool   `url:"include_merged_yaml,omitempty" json:"include_merged_yaml,omitempty"`
+	IncludeJobs       bool   `url:"include_jobs,omitempty" json:"include_jobs,omitempty"`
+}
+
 // LintResult represents the linting results.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/lint.html
@@ -59,6 +68,24 @@ func (s *ValidateService) Lint(content string, options ...RequestOptionFunc) (*L
 	}
 	opts.Content = content
 
+	req, err := s.client.NewRequest(http.MethodPost, "ci/lint", &opts, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	l := new(LintResult)
+	resp, err := s.client.Do(req, l)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return l, resp, nil
+}
+
+// LintWithOptions validates .gitlab-ci.yml content with API Options
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/lint.html
+func (s *ValidateService) LintWithOptions(opts *LintOptions, options ...RequestOptionFunc) (*LintResult, *Response, error) {
 	req, err := s.client.NewRequest(http.MethodPost, "ci/lint", &opts, options)
 	if err != nil {
 		return nil, nil, err
