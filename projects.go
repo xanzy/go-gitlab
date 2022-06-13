@@ -316,6 +316,13 @@ type ListProjectsOptions struct {
 	WithMergeRequestsEnabled *bool             `url:"with_merge_requests_enabled,omitempty" json:"with_merge_requests_enabled,omitempty"`
 	WithProgrammingLanguage  *string           `url:"with_programming_language,omitempty" json:"with_programming_language,omitempty"`
 }
+func (o *ListProjectsOptions) GetPage() int {
+	return o.ListOptions.Page
+}
+
+func (o *ListProjectsOptions) SetPage(p int) {
+	o.ListOptions.Page = p
+}
 
 // ListProjects gets a list of projects accessible by the authenticated user.
 //

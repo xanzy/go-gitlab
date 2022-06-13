@@ -54,6 +54,14 @@ func (v InstanceVariable) String() string {
 // https://docs.gitlab.com/ee/api/instance_level_ci_variables.html#list-all-instance-variables
 type ListInstanceVariablesOptions ListOptions
 
+func (o *ListInstanceVariablesOptions) GetPage() int {
+	return o.Page
+}
+
+func (o *ListInstanceVariablesOptions) SetPage(page int) {
+	o.Page = page
+}
+
 // ListVariables gets a list of all variables for an instance.
 //
 // GitLab API docs:
