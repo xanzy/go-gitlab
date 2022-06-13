@@ -85,20 +85,24 @@ func TestValidate(t *testing.T) {
 	}
 }
 
-func TestValidateWithMergedYAML(t *testing.T) {
+func TestValidateWithOptions(t *testing.T) {
 	testCases := []struct {
 		description string
-		content     string
+		opts        *LintOptions
 		response    string
 		want        *LintResult
 	}{
 		{
 			description: "valid",
-			content: `
+			opts: &LintOptions{
+				Content: `
 				build1:
 					stage: build
 					script:
 						- echo "Do your build here"`,
+				IncludeMergedYAML: true,
+				IncludeJobs:       false,
+			},
 			response: `{
 				"status": "valid",
 				"errors": [],
@@ -112,9 +116,11 @@ func TestValidateWithMergedYAML(t *testing.T) {
 		},
 		{
 			description: "invalid",
-			content: `
-				build1:
-					- echo "Do your build here"`,
+			opts: &LintOptions{
+				Content: `
+					build1:
+						- echo "Do your build here"`,
+			},
 			response: `{
 				"status": "invalid",
 				"errors": ["error message when content is invalid"]
@@ -136,7 +142,7 @@ func TestValidateWithMergedYAML(t *testing.T) {
 				fmt.Fprint(w, tc.response)
 			})
 
-			got, _, err := client.Validate.LintWithMergedYAML(tc.content)
+			got, _, err := client.Validate.LintWithOptions(tc.opts)
 			if err != nil {
 				t.Errorf("Validate returned error: %v", err)
 			}
