@@ -26,31 +26,39 @@ import (
 func TestValidate(t *testing.T) {
 	testCases := []struct {
 		description string
-		content     string
+		opts        *LintOptions
 		response    string
 		want        *LintResult
 	}{
 		{
 			description: "valid",
-			content: `
+			opts: &LintOptions{
+				Content: `
 				build1:
 					stage: build
 					script:
 						- echo "Do your build here"`,
+				IncludeMergedYAML: true,
+				IncludeJobs:       false,
+			},
 			response: `{
 				"status": "valid",
-				"errors": []
+				"errors": [],
+				"merged_yaml":"---\nbuild1:\n    stage: build\n    script:\n    - echo\"Do your build here\""
 			}`,
 			want: &LintResult{
-				Status: "valid",
-				Errors: []string{},
+				Status:     "valid",
+				MergedYaml: "---\nbuild1:\n    stage: build\n    script:\n    - echo\"Do your build here\"",
+				Errors:     []string{},
 			},
 		},
 		{
 			description: "invalid",
-			content: `
-				build1:
-					- echo "Do your build here"`,
+			opts: &LintOptions{
+				Content: `
+					build1:
+						- echo "Do your build here"`,
+			},
 			response: `{
 				"status": "invalid",
 				"errors": ["error message when content is invalid"]
@@ -72,8 +80,7 @@ func TestValidate(t *testing.T) {
 				fmt.Fprint(w, tc.response)
 			})
 
-			got, _, err := client.Validate.Lint(tc.content)
-
+			got, _, err := client.Validate.Lint(tc.opts)
 			if err != nil {
 				t.Errorf("Validate returned error: %v", err)
 			}
@@ -136,7 +143,6 @@ func TestValidateProject(t *testing.T) {
 
 			opt := &ProjectLintOptions{}
 			got, _, err := client.Validate.ProjectLint(1, opt)
-
 			if err != nil {
 				t.Errorf("Validate returned error: %v", err)
 			}
@@ -207,7 +213,6 @@ func TestValidateProjectNamespace(t *testing.T) {
 			})
 
 			got, _, err := client.Validate.ProjectNamespaceLint(1, tc.request)
-
 			if err != nil {
 				t.Errorf("Validate returned error: %v", err)
 			}
