@@ -126,6 +126,7 @@ func (s *ReleasesService) GetRelease(pid interface{}, tagName string, options ..
 type CreateReleaseOptions struct {
 	Name        *string               `url:"name" json:"name"`
 	TagName     *string               `url:"tag_name" json:"tag_name"`
+	TagMessage  *string               `url:"tag_message" json:"tag_message"`
 	Description *string               `url:"description" json:"description"`
 	Ref         *string               `url:"ref,omitempty" json:"ref,omitempty"`
 	Milestones  *[]string             `url:"milestones,omitempty" json:"milestones,omitempty"`
