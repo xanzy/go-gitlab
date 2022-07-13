@@ -583,6 +583,14 @@ func TestGroupIssueBoardsService_CreateGroupIssueBoardList(t *testing.T) {
 		ID:       9,
 		Label:    nil,
 		Position: 0,
+		Milestone: &Milestone{
+			ID:          7,
+			IID:         3,
+			Title:       "Milestone with due date",
+			Description: "",
+			State:       "active",
+			WebURL:      "https://gitlab.example.com/groups/issue-reproduce/-/milestones/3",
+		},
 	}
 
 	bl, resp, err := client.GroupIssueBoards.CreateGroupIssueBoardList(5, 1, nil, nil)
