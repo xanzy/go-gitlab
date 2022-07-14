@@ -324,6 +324,62 @@ func TestListIssuesSearchInDescription(t *testing.T) {
 		t.Errorf("Issues.ListIssues returned %+v, want %+v", issues, want)
 	}
 }
+
+func TestListIssuesSearchByIterationID(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/issues", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		testURL(t, r, "/api/v4/issues?iteration_id=90")
+		fmt.Fprint(w, `
+			[
+				{
+					"id": 1,
+					"title": "A Test Issue Title",
+					"description": "This is the description for the issue",
+					"iteration": {
+						"id":90,
+						"iid":4,
+						"sequence":2,
+						"group_id":162,
+						"state":2,
+						"web_url":"https://gitlab.com/groups/my-group/-/iterations/90"
+					}
+				}
+			]`,
+		)
+	})
+
+	listProjectIssue := &ListIssuesOptions{
+		IterationID: Int(90),
+	}
+
+	issues, _, err := client.Issues.ListIssues(listProjectIssue)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	want := []*Issue{{
+		ID:          1,
+		Title:       "A Test Issue Title",
+		Description: "This is the description for the issue",
+		Iteration: &GroupIteration{
+			ID:       90,
+			IID:      4,
+			Sequence: 2,
+			GroupID:  162,
+			State:    2,
+			WebURL:   "https://gitlab.com/groups/my-group/-/iterations/90",
+		},
+	}}
+
+	if !reflect.DeepEqual(want, issues) {
+		t.Errorf("Issues.ListIssues returned %+v, want %+v", issues, want)
+	}
+ }
+
 func TestListProjectIssues(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
@@ -354,6 +410,61 @@ func TestListProjectIssues(t *testing.T) {
 		t.Errorf("Issues.ListProjectIssues returned %+v, want %+v", issues, want)
 	}
 }
+
+func TestListProjectIssuesSearchByIterationID(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/issues", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		testURL(t, r, "/api/v4/projects/1/issues?iteration_id=90")
+		fmt.Fprint(w, `
+			[
+				{
+					"id": 1,
+					"title": "A Test Issue Title",
+					"description": "This is the description for the issue",
+					"iteration": {
+						"id":90,
+						"iid":4,
+						"sequence":2,
+						"group_id":162,
+						"state":2,
+						"web_url":"https://gitlab.com/groups/my-group/-/iterations/90"
+					}
+				}
+			]`,
+		)
+	})
+
+	listProjectIssue := &ListProjectIssuesOptions{
+		IterationID: Int(90),
+	}
+
+	issues, _, err := client.Issues.ListProjectIssues(1 ,listProjectIssue)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	want := []*Issue{{
+		ID:          1,
+		Title:       "A Test Issue Title",
+		Description: "This is the description for the issue",
+		Iteration: &GroupIteration{
+			ID:       90,
+			IID:      4,
+			Sequence: 2,
+			GroupID:  162,
+			State:    2,
+			WebURL:   "https://gitlab.com/groups/my-group/-/iterations/90",
+		},
+	}}
+
+	if !reflect.DeepEqual(want, issues) {
+		t.Errorf("Issues.ListIssues returned %+v, want %+v", issues, want)
+	}
+ }
 
 func TestListGroupIssues(t *testing.T) {
 	mux, server, client := setup(t)
@@ -387,6 +498,61 @@ func TestListGroupIssues(t *testing.T) {
 		t.Errorf("Issues.ListGroupIssues returned %+v, want %+v", issues, want)
 	}
 }
+
+func TestListGroupIssuesSearchByIterationID(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/groups/1/issues", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		testURL(t, r, "/api/v4/groups/1/issues?iteration_id=90")
+		fmt.Fprint(w, `
+			[
+				{
+					"id": 1,
+					"title": "A Test Issue Title",
+					"description": "This is the description for the issue",
+					"iteration": {
+						"id":90,
+						"iid":4,
+						"sequence":2,
+						"group_id":162,
+						"state":2,
+						"web_url":"https://gitlab.com/groups/my-group/-/iterations/90"
+					}
+				}
+			]`,
+		)
+	})
+
+	listProjectIssue := &ListGroupIssuesOptions{
+		IterationID: Int(90),
+	}
+
+	issues, _, err := client.Issues.ListGroupIssues(1, listProjectIssue)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	want := []*Issue{{
+		ID:          1,
+		Title:       "A Test Issue Title",
+		Description: "This is the description for the issue",
+		Iteration: &GroupIteration{
+			ID:       90,
+			IID:      4,
+			Sequence: 2,
+			GroupID:  162,
+			State:    2,
+			WebURL:   "https://gitlab.com/groups/my-group/-/iterations/90",
+		},
+	}}
+
+	if !reflect.DeepEqual(want, issues) {
+		t.Errorf("Issues.ListIssues returned %+v, want %+v", issues, want)
+	}
+ }
 
 func TestCreateIssue(t *testing.T) {
 	mux, server, client := setup(t)
