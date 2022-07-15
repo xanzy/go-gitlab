@@ -897,7 +897,7 @@ func (s *ProjectsService) EditProject(pid interface{}, opt *EditProjectOptions, 
 		req, err = s.client.NewRequest(http.MethodPut, u, opt, options)
 	} else {
 		req, err = s.client.UploadRequest(
-			http.MethodPost,
+			http.MethodPut,
 			u,
 			opt.Avatar.Image,
 			opt.Avatar.Filename,
