@@ -49,7 +49,8 @@ func TestIssueBoardsService_CreateIssueBoard(t *testing.T) {
 			Path:              "diaspora-project-site",
 			PathWithNamespace: "diaspora/diaspora-project-site",
 		},
-		Lists: []*BoardList{},
+		Lists:  []*BoardList{},
+		Labels: []*LabelDetails{},
 	}
 
 	ib, resp, err := client.Boards.CreateIssueBoard(5, nil, nil)
@@ -114,7 +115,8 @@ func TestIssueBoardsService_UpdateIssueBoard(t *testing.T) {
 			Path:              "diaspora-project-site",
 			PathWithNamespace: "diaspora/diaspora-project-site",
 		},
-		Lists: []*BoardList{},
+		Lists:  []*BoardList{},
+		Labels: []*LabelDetails{},
 	}
 
 	ib, resp, err := client.Boards.UpdateIssueBoard(5, 1, nil, nil)
