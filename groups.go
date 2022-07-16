@@ -18,10 +18,13 @@ package gitlab
 
 import (
 	"bytes"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
 	"time"
+
+	retryablehttp "github.com/hashicorp/go-retryablehttp"
 )
 
 // GroupsService handles communication with the group related methods of
@@ -88,6 +91,15 @@ type Group struct {
 type GroupAvatar struct {
 	Filename string
 	Image    io.Reader
+}
+
+// MarshalJSON implements the json.Marshaler interface.
+func (a *GroupAvatar) MarshalJSON() ([]byte, error) {
+	if a.Filename == "" && a.Image == nil {
+		return []byte(`""`), nil
+	}
+	type alias GroupAvatar
+	return json.Marshal((*alias)(a))
 }
 
 // LDAPGroupLink represents a GitLab LDAP group link.
@@ -312,6 +324,7 @@ func (s *GroupsService) DownloadAvatar(gid interface{}, options ...RequestOption
 type CreateGroupOptions struct {
 	Name                           *string                     `url:"name,omitempty" json:"name,omitempty"`
 	Path                           *string                     `url:"path,omitempty" json:"path,omitempty"`
+	Avatar                         *GroupAvatar                `url:"-" json:"-"`
 	Description                    *string                     `url:"description,omitempty" json:"description,omitempty"`
 	MembershipLock                 *bool                       `url:"membership_lock,omitempty" json:"membership_lock,omitempty"`
 	Visibility                     *VisibilityValue            `url:"visibility,omitempty" json:"visibility,omitempty"`
@@ -336,7 +349,22 @@ type CreateGroupOptions struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/groups.html#new-group
 func (s *GroupsService) CreateGroup(opt *CreateGroupOptions, options ...RequestOptionFunc) (*Group, *Response, error) {
-	req, err := s.client.NewRequest(http.MethodPost, "groups", opt, options)
+	var err error
+	var req *retryablehttp.Request
+
+	if opt.Avatar == nil {
+		req, err = s.client.NewRequest(http.MethodPost, "groups", opt, options)
+	} else {
+		req, err = s.client.UploadRequest(
+			http.MethodPost,
+			"groups",
+			opt.Avatar.Image,
+			opt.Avatar.Filename,
+			UploadAvatar,
+			opt,
+			options,
+		)
+	}
 	if err != nil {
 		return nil, nil, err
 	}
@@ -420,6 +448,7 @@ func (s *GroupsService) TransferSubGroup(gid interface{}, opt *TransferSubGroupO
 type UpdateGroupOptions struct {
 	Name                                 *string                     `url:"name,omitempty" json:"name,omitempty"`
 	Path                                 *string                     `url:"path,omitempty" json:"path,omitempty"`
+	Avatar                               *GroupAvatar                `url:"-" json:"avatar,omitempty"`
 	Description                          *string                     `url:"description,omitempty" json:"description,omitempty"`
 	MembershipLock                       *bool                       `url:"membership_lock,omitempty" json:"membership_lock,omitempty"`
 	Visibility                           *VisibilityValue            `url:"visibility,omitempty" json:"visibility,omitempty"`
@@ -453,7 +482,21 @@ func (s *GroupsService) UpdateGroup(gid interface{}, opt *UpdateGroupOptions, op
 	}
 	u := fmt.Sprintf("groups/%s", PathEscape(group))
 
-	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
+	var req *retryablehttp.Request
+
+	if opt.Avatar == nil || (opt.Avatar.Filename == "" && opt.Avatar.Image == nil) {
+		req, err = s.client.NewRequest(http.MethodPut, u, opt, options)
+	} else {
+		req, err = s.client.UploadRequest(
+			http.MethodPut,
+			u,
+			opt.Avatar.Image,
+			opt.Avatar.Filename,
+			UploadAvatar,
+			opt,
+			options,
+		)
+	}
 	if err != nil {
 		return nil, nil, err
 	}

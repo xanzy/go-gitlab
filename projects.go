@@ -17,6 +17,7 @@
 package gitlab
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
@@ -704,6 +705,15 @@ type ProjectAvatar struct {
 	Image    io.Reader
 }
 
+// MarshalJSON implements the json.Marshaler interface.
+func (a *ProjectAvatar) MarshalJSON() ([]byte, error) {
+	if a.Filename == "" && a.Image == nil {
+		return []byte(`""`), nil
+	}
+	type alias ProjectAvatar
+	return json.Marshal((*alias)(a))
+}
+
 // CreateProject creates a new project owned by the authenticated user.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/projects.html#create-project
@@ -805,7 +815,7 @@ type EditProjectOptions struct {
 	AutoDevopsDeployStrategy                  *string                              `url:"auto_devops_deploy_strategy,omitempty" json:"auto_devops_deploy_strategy,omitempty"`
 	AutoDevopsEnabled                         *bool                                `url:"auto_devops_enabled,omitempty" json:"auto_devops_enabled,omitempty"`
 	AutocloseReferencedIssues                 *bool                                `url:"autoclose_referenced_issues,omitempty" json:"autoclose_referenced_issues,omitempty"`
-	Avatar                                    *ProjectAvatar                       `url:"-" json:"-"`
+	Avatar                                    *ProjectAvatar                       `url:"-" json:"avatar,omitempty"`
 	BuildCoverageRegex                        *string                              `url:"build_coverage_regex,omitempty" json:"build_coverage_regex,omitempty"`
 	BuildGitStrategy                          *string                              `url:"build_git_strategy,omitempty" json:"build_git_strategy,omitempty"`
 	BuildTimeout                              *int                                 `url:"build_timeout,omitempty" json:"build_timeout,omitempty"`
@@ -893,7 +903,7 @@ func (s *ProjectsService) EditProject(pid interface{}, opt *EditProjectOptions, 
 
 	var req *retryablehttp.Request
 
-	if opt.Avatar == nil {
+	if opt.Avatar == nil || (opt.Avatar.Filename == "" && opt.Avatar.Image == nil) {
 		req, err = s.client.NewRequest(http.MethodPut, u, opt, options)
 	} else {
 		req, err = s.client.UploadRequest(
