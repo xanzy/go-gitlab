@@ -218,6 +218,7 @@ type UpdateEpicOptions struct {
 	DueDateIsFixed   *bool    `url:"due_date_is_fixed,omitempty" json:"due_date_is_fixed,omitempty"`
 	DueDateFixed     *ISOTime `url:"due_date_fixed,omitempty" json:"due_date_fixed,omitempty"`
 	StateEvent       *string  `url:"state_event,omitempty" json:"state_event,omitempty"`
+	Confidential     *bool    `url:"confidential" json:"confidential"`
 }
 
 // UpdateEpic updates an existing group epic. This function is also used
