@@ -256,10 +256,15 @@ type Repository struct {
 
 // StorageStatistics represents a statistics record for a group or project.
 type StorageStatistics struct {
-	StorageSize      int64 `json:"storage_size"`
-	RepositorySize   int64 `json:"repository_size"`
-	LfsObjectsSize   int64 `json:"lfs_objects_size"`
-	JobArtifactsSize int64 `json:"job_artifacts_size"`
+	StorageSize           int64 `json:"storage_size"`
+	RepositorySize        int64 `json:"repository_size"`
+	LfsObjectsSize        int64 `json:"lfs_objects_size"`
+	JobArtifactsSize      int64 `json:"job_artifacts_size"`
+	WikiSize              int64 `json:"wiki_size"`
+	PipelineArtifactsSize int64 `json:"pipeline_artifacts_size"`
+	PackagesSize          int64 `json:"packages_size"`
+	SnippetsSize          int64 `json:"snippets_size"`
+	UploadsSize           int64 `json:"uploads_size"`
 }
 
 func (s Project) String() string {
