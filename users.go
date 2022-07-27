@@ -606,7 +606,7 @@ func (s *UsersService) ListGPGKeys(options ...RequestOptionFunc) ([]*GPGKey, *Re
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/users.html#get-a-specific-gpg-key
 func (s *UsersService) GetGPGKey(key int, options ...RequestOptionFunc) (*GPGKey, *Response, error) {
-	u := fmt.Sprintf("users/gpg_keys/%d", key)
+	u := fmt.Sprintf("user/gpg_keys/%d", key)
 
 	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
