@@ -230,6 +230,10 @@ func TestMergeEventUnmarshal(t *testing.T) {
 	if event.Assignees[0].Email != expectedEmail {
 		t.Errorf("Assignees[0].Email is %v, want %v", event.Assignees[0].Email, expectedEmail)
 	}
+
+	if event.ObjectAttributes.BlockingDiscussionsResolved != true {
+		t.Errorf("BlockingDiscussionsResolved isn't true")
+	}
 }
 
 func TestMergeEventUnmarshalFromGroup(t *testing.T) {

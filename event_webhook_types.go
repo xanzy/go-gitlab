@@ -520,11 +520,12 @@ type MergeEvent struct {
 				Email string `json:"email"`
 			} `json:"author"`
 		} `json:"last_commit"`
-		WorkInProgress bool       `json:"work_in_progress"`
-		URL            string     `json:"url"`
-		Action         string     `json:"action"`
-		OldRev         string     `json:"oldrev"`
-		Assignee       *EventUser `json:"assignee"`
+		WorkInProgress              bool       `json:"work_in_progress"`
+		URL                         string     `json:"url"`
+		Action                      string     `json:"action"`
+		OldRev                      string     `json:"oldrev"`
+		Assignee                    *EventUser `json:"assignee"`
+		BlockingDiscussionsResolved bool       `json:"blocking_discussions_resolved"`
 	} `json:"object_attributes"`
 	Repository *Repository  `json:"repository"`
 	Assignee   *EventUser   `json:"assignee"`
