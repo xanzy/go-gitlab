@@ -56,15 +56,17 @@ func TestListRunnersJobs(t *testing.T) {
 	}
 
 	pipeline := struct {
-		ID     int    `json:"id"`
-		Ref    string `json:"ref"`
-		Sha    string `json:"sha"`
-		Status string `json:"status"`
+		ID        int    `json:"id"`
+		ProjectID int    `json:"project_id"`
+		Ref       string `json:"ref"`
+		Sha       string `json:"sha"`
+		Status    string `json:"status"`
 	}{
-		ID:     8777,
-		Ref:    "master",
-		Sha:    "6c016b801a88f4bd31f927fc045b5c746a6f823e",
-		Status: "failed",
+		ID:        8777,
+		ProjectID: 3252,
+		Ref:       "master",
+		Sha:       "6c016b801a88f4bd31f927fc045b5c746a6f823e",
+		Status:    "failed",
 	}
 
 	want := []*Job{
