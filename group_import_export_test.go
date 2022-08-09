@@ -2,7 +2,7 @@ package gitlab
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 	"os"
@@ -42,7 +42,7 @@ func TestGroupExportDownload(t *testing.T) {
 		t.Errorf("GroupImportExport.ExportDownload returned error: %v", err)
 	}
 
-	data, err := ioutil.ReadAll(export)
+	data, err := io.ReadAll(export)
 	if err != nil {
 		t.Errorf("Error reading export: %v", err)
 	}
@@ -58,7 +58,7 @@ func TestGroupImport(t *testing.T) {
 	defer teardown(server)
 
 	content := []byte("temporary file's content")
-	tmpfile, err := ioutil.TempFile("", "example.*.tar.gz")
+	tmpfile, err := os.CreateTemp(os.TempDir(), "example.*.tar.gz")
 	if err != nil {
 		tmpfile.Close()
 		log.Fatal(err)

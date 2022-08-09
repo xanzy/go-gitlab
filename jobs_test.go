@@ -18,7 +18,7 @@ package gitlab
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"reflect"
 	"testing"
@@ -202,7 +202,7 @@ func TestDownloadSingleArtifactsFileByTagOrBranch(t *testing.T) {
 		t.Fatalf("Jobs.DownloadSingleArtifactsFileByTagOrBranch returns an error: %v", err)
 	}
 
-	content, err := ioutil.ReadAll(reader)
+	content, err := io.ReadAll(reader)
 	if err != nil {
 		t.Fatalf("Jobs.DownloadSingleArtifactsFileByTagOrBranch error reading: %v", err)
 	}
