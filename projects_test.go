@@ -19,7 +19,6 @@ package gitlab
 import (
 	"bytes"
 	"fmt"
-	"io/ioutil"
 	"net/http"
 	"os"
 	"reflect"
@@ -452,7 +451,7 @@ func TestUploadFile_Retry(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
 
-	tf, _ := ioutil.TempFile(os.TempDir(), "test")
+	tf, _ := os.CreateTemp(os.TempDir(), "test")
 	defer os.Remove(tf.Name())
 
 	isFirstRequest := true
