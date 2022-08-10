@@ -23,7 +23,7 @@ import (
 	"time"
 )
 
-//BuildEvent represents a build event
+// BuildEvent represents a build event
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/user/project/integrations/webhooks.html#build-events
@@ -344,6 +344,26 @@ type JobEvent struct {
 		Shared      bool   `json:"is_shared"`
 		Description string `json:"description"`
 	} `json:"runner"`
+}
+
+// MemberEvent represents a member event.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/user/project/integrations/webhook_events.html#group-member-events
+type MemberEvent struct {
+	CreatedAt    *time.Time `json:"created_at"`
+	UpdatedAt    *time.Time `json:"updated_at"`
+	GroupName    string     `json:"group_name"`
+	GroupPath    string     `json:"group_path"`
+	GroupID      int        `json:"group_id"`
+	UserUsername string     `json:"user_username"`
+	UserName     string     `json:"user_name"`
+	UserEmail    string     `json:"user_email"`
+	UserID       int        `json:"user_id"`
+	GroupAccess  string     `json:"group_access"`
+	GroupPlan    string     `json:"group_plan"`
+	ExpiresAt    *time.Time `json:"expires_at"`
+	EventName    string     `json:"event_name"`
 }
 
 // MergeCommentEvent represents a comment on a merge event.

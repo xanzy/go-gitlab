@@ -232,6 +232,76 @@ func TestMergeEventUnmarshal(t *testing.T) {
 	}
 }
 
+func TestMemberEventUnmarshal(t *testing.T) {
+	jsonObject := loadFixture("testdata/webhooks/member.json")
+
+	var event *MemberEvent
+	err := json.Unmarshal(jsonObject, &event)
+
+	if err != nil {
+		t.Errorf("Member Event can not unmarshaled: %v\n ", err.Error())
+	}
+
+	if event == nil {
+		t.Errorf("Member Event is null")
+	}
+
+	if event.GroupName != "webhook-test" {
+		t.Errorf("Name is %v, want %v", event.GroupName, "webhook-test")
+	}
+
+	if event.GroupPath != "webhook-test" {
+		t.Errorf("GroupPath is %v, want %v", event.GroupPath, "webhook-test")
+	}
+
+	if event.GroupID != 100 {
+		t.Errorf(
+			"GroupID is %v, want %v", event.GroupID, 100)
+	}
+
+	if event.UserUsername != "test_user" {
+		t.Errorf(
+			"UserUsername is %v, want %v", event.UserUsername, "test_user")
+	}
+
+	if event.UserName != "Test User" {
+		t.Errorf(
+			"UserName is %v, want %v", event.UserName, "Test User")
+	}
+
+	if event.UserEmail != "testuser@webhooktest.com" {
+		t.Errorf(
+			"UserEmail is %v, want %v", event.UserEmail, "testuser@webhooktest.com")
+	}
+
+	if event.UserID != 64 {
+		t.Errorf(
+			"UserID is %v, want %v", event.UserID, 64)
+	}
+
+	if event.GroupAccess != "Guest" {
+		t.Errorf(
+			"GroupAccess is %v, want %v", event.GroupAccess, "Guest")
+	}
+
+	if event.EventName != "user_add_to_group" {
+		t.Errorf(
+			"EventName is %v, want %v", event.EventName, "user_add_to_group")
+	}
+
+	if event.CreatedAt.Format(time.RFC3339) != "2020-12-11T04:57:22Z" {
+		t.Errorf("CreatedAt is %v, want %v", event.CreatedAt.Format(time.RFC3339), "2020-12-11T04:57:22Z")
+	}
+
+	if event.UpdatedAt.Format(time.RFC3339) != "2020-12-11T04:57:22Z" {
+		t.Errorf("UpdatedAt is %v, want %v", event.UpdatedAt.Format(time.RFC3339), "2020-12-11T04:57:22Z")
+	}
+
+	if event.ExpiresAt.Format(time.RFC3339) != "2020-12-14T00:00:00Z" {
+		t.Errorf("ExpiresAt is %v, want %v", event.ExpiresAt.Format(time.RFC3339), "2020-12-14T00:00:00Z")
+	}
+}
+
 func TestMergeEventUnmarshalFromGroup(t *testing.T) {
 	jsonObject := loadFixture("testdata/webhooks/group_merge_request.json")
 
