@@ -211,6 +211,7 @@ func (s *EpicsService) CreateEpic(gid interface{}, opt *CreateEpicOptions, optio
 // GitLab API docs: https://docs.gitlab.com/ee/api/epics.html#update-epic
 type UpdateEpicOptions struct {
 	Title            *string  `url:"title,omitempty" json:"title,omitempty"`
+	Confidential     *bool    `url:"confidential,omitempty" json:"confidential,omitempty"`
 	Description      *string  `url:"description,omitempty" json:"description,omitempty"`
 	Labels           *Labels  `url:"labels,comma,omitempty" json:"labels,omitempty"`
 	StartDateIsFixed *bool    `url:"start_date_is_fixed,omitempty" json:"start_date_is_fixed,omitempty"`
@@ -218,7 +219,6 @@ type UpdateEpicOptions struct {
 	DueDateIsFixed   *bool    `url:"due_date_is_fixed,omitempty" json:"due_date_is_fixed,omitempty"`
 	DueDateFixed     *ISOTime `url:"due_date_fixed,omitempty" json:"due_date_fixed,omitempty"`
 	StateEvent       *string  `url:"state_event,omitempty" json:"state_event,omitempty"`
-	Confidential     *bool    `url:"confidential" json:"confidential"`
 }
 
 // UpdateEpic updates an existing group epic. This function is also used
