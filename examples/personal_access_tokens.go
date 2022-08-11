@@ -59,5 +59,5 @@ func patListExampleWithUserFilter() {
 		log.Fatal(err)
 	}
 
-	fmt.Printf("%s\n", data)
+	log.Printf("Found personal access tokens: %s", data)
 }

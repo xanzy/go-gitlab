@@ -1,5 +1,5 @@
 //
-// Copyright 2021, Sander van Harmelen
+// Copyright 2022, Daniela Filipe Bento
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,31 +19,22 @@ package main
 import (
 	"log"
 
-	"github.com/xanzy/go-gitlab"
+	gitlab "github.com/xanzy/go-gitlab"
 )
 
-func pipelineTestReportExample() {
+func deploymentExample() {
 	git, err := gitlab.NewClient("yourtokengoeshere")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	opt := &gitlab.ListProjectPipelinesOptions{Ref: gitlab.String("master")}
-	projectID := 1234
-
-	pipelines, _, err := git.Pipelines.ListProjectPipelines(projectID, opt)
+	opt := &gitlab.ListMergeRequestsOptions{}
+	mergeRequests, _, err := git.DeploymentMergeRequests.ListDeploymentMergeRequests(1, 1, opt)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	for _, pipeline := range pipelines {
-		log.Printf("Found pipeline: %v", pipeline)
-
-		report, _, err := git.Pipelines.GetPipelineTestReport(projectID, pipeline.ID)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		log.Printf("Found test report: %v", report)
+	for _, mergeRequest := range mergeRequests {
+		log.Printf("Found merge request: %v\n", mergeRequest)
 	}
 }

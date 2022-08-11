@@ -17,7 +17,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"os"
 
@@ -39,7 +38,7 @@ func topicExample() {
 		panic(err)
 	}
 
-	fmt.Printf("Topic: %+v\n", topic)
+	log.Printf("Topic: %+v\n", topic)
 
 	// Set topic avatar
 	avatarFile, err := os.Open("5746961_detect_direction_gps_location_map_icon.png")
@@ -55,7 +54,7 @@ func topicExample() {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Printf("Topic with Avatar: %+v\n", topic)
+	log.Printf("Topic with Avatar: %+v\n", topic)
 
 	// Remove topic avatar
 	topic, _, err = git.Topics.UpdateTopic(topic.ID, &gitlab.UpdateTopicOptions{
@@ -65,5 +64,5 @@ func topicExample() {
 		panic(err)
 	}
 
-	fmt.Printf("Topic without Avatar: %+v\n", topic)
+	log.Printf("Topic without Avatar: %+v\n", topic)
 }
