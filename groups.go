@@ -52,7 +52,7 @@ type Group struct {
 	FileTemplateProjectID   int                        `json:"file_template_project_id"`
 	ParentID                int                        `json:"parent_id"`
 	Projects                []*Project                 `json:"projects"`
-	Statistics              *StorageStatistics         `json:"statistics"`
+	Statistics              *Statistics                `json:"statistics"`
 	CustomAttributes        []*CustomAttribute         `json:"custom_attributes"`
 	ShareWithGroupLock      bool                       `json:"share_with_group_lock"`
 	RequireTwoFactorAuth    bool                       `json:"require_two_factor_authentication"`
