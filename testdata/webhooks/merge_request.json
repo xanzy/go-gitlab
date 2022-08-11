@@ -88,6 +88,7 @@
         "email": "gitlabdev@dv6700.(none)"
       }
     },
+    "blocking_discussions_resolved": true,
     "work_in_progress": false,
     "url": "http://example.com/diaspora/merge_requests/1",
     "action": "open",
@@ -95,8 +96,7 @@
       "name": "User1",
       "username": "user1",
       "avatar_url": "http://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=40\u0026d=identicon"
-    },
-    "blocking_discussions_resolved": true
+    }
   },
   "assignees": [
     {
