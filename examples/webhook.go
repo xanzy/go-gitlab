@@ -39,14 +39,14 @@ func (hook webhook) ServeHTTP(writer http.ResponseWriter, request *http.Request)
 	event, err := hook.parse(request)
 	if err != nil {
 		writer.WriteHeader(500)
-		writer.Write([]byte(fmt.Sprintf("could parse the webhook event: %v", err)))
+		fmt.Fprintf(writer, "could parse the webhook event: %v", err)
 		return
 	}
 
 	// Handle the event before we return.
 	if err := hook.handle(event); err != nil {
 		writer.WriteHeader(500)
-		writer.Write([]byte(fmt.Sprintf("error handling the event: %v", err)))
+		fmt.Fprintf(writer, "error handling the event: %v", err)
 		return
 	}
 

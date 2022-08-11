@@ -43,7 +43,7 @@ func pipelineTestReportExample() {
 		if err != nil {
 			log.Fatal(err)
 		}
-		log.Printf("Found test report: %v", report)
 
+		log.Printf("Found test report: %v", report)
 	}
 }

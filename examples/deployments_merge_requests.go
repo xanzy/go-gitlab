@@ -28,14 +28,13 @@ func deploymentExample() {
 		log.Fatal(err)
 	}
 
-	opts := &gitlab.ListMergeRequestsOptions{}
-
-	merge_requests, _, err := git.DeploymentMergeRequests.ListDeploymentMergeRequests(1, 1, opts)
+	opt := &gitlab.ListMergeRequestsOptions{}
+	mergeRequests, _, err := git.DeploymentMergeRequests.ListDeploymentMergeRequests(1, 1, opt)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	for _, merge_request := range merge_requests {
-		log.Printf("Found merge_request: %v", merge_request)
+	for _, mergeRequest := range mergeRequests {
+		log.Printf("Found merge request: %v\n", mergeRequest)
 	}
 }

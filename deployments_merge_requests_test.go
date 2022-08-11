@@ -26,7 +26,6 @@ func TestDeploymentMergeRequestsService_ListDeploymentMergeRequests(t *testing.T
 	}
 
 	mergeRequests, _, err := client.DeploymentMergeRequests.ListDeploymentMergeRequests(278964, 2, &opts)
-
 	require.NoError(t, err)
 	require.Equal(t, 20, len(mergeRequests))
 
@@ -43,6 +42,7 @@ func TestDeploymentMergeRequestsService_ListDeploymentMergeRequests(t *testing.T
 		assert.LessOrEqual(t, mr.CreatedAt.Unix(), mr.UpdatedAt.Unix())
 		assert.LessOrEqual(t, mr.TaskCompletionStatus.CompletedCount, mr.TaskCompletionStatus.Count)
 		require.Contains(t, mergeStatuses, mr.MergeStatus)
+
 		// list requests do not provide these fields:
 		assert.Nil(t, mr.Pipeline)
 		assert.Nil(t, mr.HeadPipeline)

@@ -19,37 +19,36 @@ import (
 	"net/http"
 )
 
-//DeploymentMergeRequestsService handles communication with the deployment's merge requests related methods of the GitLab API.
+// DeploymentMergeRequestsService handles communication with the deployment's
+// merge requests related methods of the GitLab API.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/deployments.html#list-of-merge-requests-associated-with-a-deployment
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/deployments.html#list-of-merge-requests-associated-with-a-deployment
 type DeploymentMergeRequestsService struct {
 	client *Client
 }
 
-//ListDeploymentMergeRequests get the merge requests associated with deployment
+// ListDeploymentMergeRequests get the merge requests associated with deployment.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/deployments.html#list-of-merge-requests-associated-with-a-deployment
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/deployments.html#list-of-merge-requests-associated-with-a-deployment
 func (s *DeploymentMergeRequestsService) ListDeploymentMergeRequests(pid interface{}, deployment int, opts *ListMergeRequestsOptions, options ...RequestOptionFunc) ([]*MergeRequest, *Response, error) {
 	project, err := parseID(pid)
-
 	if err != nil {
 		return nil, nil, err
 	}
-
 	u := fmt.Sprintf("projects/%s/deployments/%d/merge_requests", PathEscape(project), deployment)
 
 	req, err := s.client.NewRequest(http.MethodGet, u, opts, options)
-
 	if err != nil {
 		return nil, nil, err
 	}
 
-	var ds []*MergeRequest
-	resp, err := s.client.Do(req, &ds)
-
+	var mrs []*MergeRequest
+	resp, err := s.client.Do(req, &mrs)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return ds, resp, err
+	return mrs, resp, err
 }

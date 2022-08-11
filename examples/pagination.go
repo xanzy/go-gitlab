@@ -17,7 +17,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/xanzy/go-gitlab"
@@ -45,7 +44,7 @@ func pagination() {
 
 		// List all the projects we've found so far.
 		for _, p := range ps {
-			fmt.Printf("Found project: %s", p.Name)
+			log.Printf("Found project: %s", p.Name)
 		}
 
 		// Exit the loop when we've seen all pages.
