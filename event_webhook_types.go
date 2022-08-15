@@ -189,6 +189,7 @@ type IssueCommentEvent struct {
 		NoteableType string  `json:"noteable_type"`
 		AuthorID     int     `json:"author_id"`
 		CreatedAt    string  `json:"created_at"`
+		DiscussionID string  `json:"discussion_id"`
 		UpdatedAt    string  `json:"updated_at"`
 		ProjectID    int     `json:"project_id"`
 		Attachment   string  `json:"attachment"`
