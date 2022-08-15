@@ -101,6 +101,7 @@ type User struct {
 	UsingLicenseSeat               bool               `json:"using_license_seat"`
 	CustomAttributes               []*CustomAttribute `json:"custom_attributes"`
 	NamespaceID                    int                `json:"namespace_id"`
+	Page                           string             `json:"page"`
 }
 
 // UserIdentity represents a user identity.
@@ -133,6 +134,7 @@ type ListUsersOptions struct {
 	WithoutProjects      *bool      `url:"without_projects,omitempty" json:"without_projects,omitempty"`
 	WithCustomAttributes *bool      `url:"with_custom_attributes,omitempty" json:"with_custom_attributes,omitempty"`
 	WithoutProjectBots   *bool      `url:"without_project_bots,omitempty" json:"without_project_bots,omitempty"`
+	Page                 *string    `url:"per_page,omitempty" json:"page,omitempty"`
 }
 
 // ListUsers gets a list of users.
