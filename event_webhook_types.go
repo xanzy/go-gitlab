@@ -23,7 +23,7 @@ import (
 	"time"
 )
 
-//BuildEvent represents a build event
+// BuildEvent represents a build event.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/user/project/integrations/webhooks.html#build-events
@@ -189,12 +189,12 @@ type IssueCommentEvent struct {
 		NoteableType string  `json:"noteable_type"`
 		AuthorID     int     `json:"author_id"`
 		CreatedAt    string  `json:"created_at"`
-		DiscussionID string  `json:"discussion_id"`
 		UpdatedAt    string  `json:"updated_at"`
 		ProjectID    int     `json:"project_id"`
 		Attachment   string  `json:"attachment"`
 		LineCode     string  `json:"line_code"`
 		CommitID     string  `json:"commit_id"`
+		DiscussionID string  `json:"discussion_id"`
 		NoteableID   int     `json:"noteable_id"`
 		System       bool    `json:"system"`
 		StDiff       []*Diff `json:"st_diff"`
