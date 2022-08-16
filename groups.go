@@ -812,11 +812,11 @@ func (s *GroupsService) AddGroupSAMLLink(gid interface{}, opt *AddGroupSAMLLinkO
 
 	// The API returns a null response for new created objects, so we construct the result for a successfull post from the inputs.
 	gl := SAMLGroupLink{
-		AccessLevel: AddGroupSAMLLinkOptions.AccessLevel,
-		Name: AddGroupSAMLLinkOptions.SamlGroupName
+		AccessLevel: *opt.AccessLevel,
+		Name: *opt.SamlGroupName,
 	}
 
-	return gl, resp, err
+	return &gl, resp, err
 }
 
 // DeleteGroupSAMLLink deletes a group SAML link. Available only for users who
