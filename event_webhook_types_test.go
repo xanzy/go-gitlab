@@ -211,6 +211,10 @@ func TestMergeEventUnmarshal(t *testing.T) {
 		t.Errorf("Commit Username is %s, want %s", name, "GitLab dev user")
 	}
 
+	if event.ObjectAttributes.BlockingDiscussionsResolved != true {
+		t.Errorf("BlockingDiscussionsResolved isn't true")
+	}
+
 	if event.Assignees[0].ID != expectedID {
 		t.Errorf("Assignees[0].ID is %v, want %v", event.Assignees[0].ID, expectedID)
 	}

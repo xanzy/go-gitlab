@@ -55,5 +55,6 @@ func applicationsExample() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	log.Printf("Status code response : %d", resp.StatusCode)
 }

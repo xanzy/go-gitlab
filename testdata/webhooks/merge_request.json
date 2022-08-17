@@ -88,6 +88,7 @@
         "email": "gitlabdev@dv6700.(none)"
       }
     },
+    "blocking_discussions_resolved": true,
     "work_in_progress": false,
     "url": "http://example.com/diaspora/merge_requests/1",
     "action": "open",
