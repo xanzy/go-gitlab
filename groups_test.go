@@ -403,6 +403,34 @@ func TestListGroupSAMLLinks(t *testing.T) {
 	}
 }
 
+func TestGetGroupSAMLLink(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/groups/1/saml_group_links/gitlab_group_example_developer",
+		func(w http.ResponseWriter, r *http.Request) {
+			testMethod(t, r, http.MethodGet)
+			fmt.Fprint(w, `
+{
+	"access_level":"Developer",
+	"name":"gitlab_group_example_developer"
+}`)
+		})
+
+	links, _, err := client.Groups.GetGroupSAMLLink(1, "gitlab_group_example_developer")
+	if err != nil {
+		t.Errorf("Groups.GetGroupSAMLLinks returned error: %v", err)
+	}
+
+	want := &SAMLGroupLink{
+		AccessLevel: "Developer",
+		Name:        "gitlab_group_example_developer",
+	}
+	if !reflect.DeepEqual(want, links) {
+		t.Errorf("Groups.GetGroupSAMLLink returned %+v, want %+v", links, want)
+	}
+}
+
 func TestAddGroupSAMLLink(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
@@ -413,7 +441,7 @@ func TestAddGroupSAMLLink(t *testing.T) {
 			fmt.Fprint(w, `
 {
 	"access_level":"Developer",
-	"saml_group_name":"gitlab_group_example_developer"
+	"name":"gitlab_group_example_developer"
 }`)
 		})
 

@@ -779,6 +779,32 @@ func (s *GroupsService) ListGroupSAMLLinks(gid interface{}, options ...RequestOp
 	return gls, resp, nil
 }
 
+// GetGroupSAMLLink get a specific group SAML link. Available only for users who
+// can edit groups.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/groups.html#get-saml-group-link
+func (s *GroupsService) GetGroupSAMLLink(gid interface{}, saml_group_name string, options ...RequestOptionFunc) (*SAMLGroupLink, *Response, error) {
+	group, err := parseID(gid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("groups/%s/saml_group_links/%s", PathEscape(group), PathEscape(saml_group_name))
+
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	gl := new(SAMLGroupLink)
+	resp, err := s.client.Do(req, &gl)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return gl, resp, nil
+}
+
 // AddGroupSAMLLinkOptions represents the available AddGroupSAMLLink() options.
 //
 // GitLab API docs:
@@ -805,18 +831,13 @@ func (s *GroupsService) AddGroupSAMLLink(gid interface{}, opt *AddGroupSAMLLinkO
 		return nil, nil, err
 	}
 
-	resp, err := s.client.Do(req, nil)
+	gl := new(SAMLGroupLink)
+	resp, err := s.client.Do(req, &gl)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	// The API returns a null response for new created objects, so we construct the result for a successfull post from the inputs.
-	gl := SAMLGroupLink{
-		AccessLevel: *opt.AccessLevel,
-		Name: *opt.SamlGroupName,
-	}
-
-	return &gl, resp, err
+	return gl, resp, err
 }
 
 // DeleteGroupSAMLLink deletes a group SAML link. Available only for users who
