@@ -171,6 +171,7 @@ type Client struct {
 	ProjectAccessTokens     *ProjectAccessTokensService
 	ProjectBadges           *ProjectBadgesService
 	ProjectCluster          *ProjectClustersService
+	ProjectFeatureFlags     *ProjectFeatureFlagService
 	ProjectImportExport     *ProjectImportExportService
 	ProjectIterations       *ProjectIterationsService
 	ProjectMembers          *ProjectMembersService
@@ -374,6 +375,7 @@ func newClient(options ...ClientOptionFunc) (*Client, error) {
 	c.ProjectAccessTokens = &ProjectAccessTokensService{client: c}
 	c.ProjectBadges = &ProjectBadgesService{client: c}
 	c.ProjectCluster = &ProjectClustersService{client: c}
+	c.ProjectFeatureFlags = &ProjectFeatureFlagService{client: c}
 	c.ProjectImportExport = &ProjectImportExportService{client: c}
 	c.ProjectIterations = &ProjectIterationsService{client: c}
 	c.ProjectMembers = &ProjectMembersService{client: c}
