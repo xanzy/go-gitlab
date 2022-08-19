@@ -66,6 +66,31 @@ func (s *IssueLinksService) ListIssueRelations(pid interface{}, issueIID int, op
 	return is, resp, err
 }
 
+// GetIssueLink gets a specific issue link.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/issue_links.html#get-an-issue-link
+func (s *IssueLinksService) GetIssueLink(pid interface{}, issueIID int, issueLinkID int, options ...RequestOptionFunc) (*IssueLink, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/issues/%d/links/%d", PathEscape(project), issueIID, issueLinkID)
+
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	issueLink := new(IssueLink)
+	resp, err := s.client.Do(req, issueLink)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return issueLink, resp, err
+}
+
 // CreateIssueLinkOptions represents the available CreateIssueLink() options.
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/issue_links.html
