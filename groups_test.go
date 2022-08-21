@@ -446,8 +446,8 @@ func TestAddGroupSAMLLink(t *testing.T) {
 		})
 
 	opt := &AddGroupSAMLLinkOptions{
+		SAMLGroupName: String("gitlab_group_example_developer"),
 		AccessLevel:   String("Developer"),
-		SamlGroupName: String("gitlab_group_example_developer"),
 	}
 
 	link, _, err := client.Groups.AddGroupSAMLLink(1, opt)

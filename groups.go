@@ -105,8 +105,8 @@ type LDAPGroupLink struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/groups.html#saml-group-links
 type SAMLGroupLink struct {
-	AccessLevel string `json:"access_level"`
 	Name        string `json:"name"`
+	AccessLevel string `json:"access_level"`
 }
 
 // ListGroupsOptions represents the available ListGroups() options.
@@ -770,13 +770,13 @@ func (s *GroupsService) ListGroupSAMLLinks(gid interface{}, options ...RequestOp
 		return nil, nil, err
 	}
 
-	var gls []*SAMLGroupLink
-	resp, err := s.client.Do(req, &gls)
+	var gl []*SAMLGroupLink
+	resp, err := s.client.Do(req, &gl)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return gls, resp, nil
+	return gl, resp, nil
 }
 
 // GetGroupSAMLLink get a specific group SAML link. Available only for users who
@@ -784,12 +784,12 @@ func (s *GroupsService) ListGroupSAMLLinks(gid interface{}, options ...RequestOp
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/groups.html#get-saml-group-link
-func (s *GroupsService) GetGroupSAMLLink(gid interface{}, saml_group_name string, options ...RequestOptionFunc) (*SAMLGroupLink, *Response, error) {
+func (s *GroupsService) GetGroupSAMLLink(gid interface{}, samlGroupName string, options ...RequestOptionFunc) (*SAMLGroupLink, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s/saml_group_links/%s", PathEscape(group), PathEscape(saml_group_name))
+	u := fmt.Sprintf("groups/%s/saml_group_links/%s", PathEscape(group), PathEscape(samlGroupName))
 
 	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
@@ -810,8 +810,8 @@ func (s *GroupsService) GetGroupSAMLLink(gid interface{}, saml_group_name string
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/groups.html#add-saml-group-link
 type AddGroupSAMLLinkOptions struct {
+	SAMLGroupName *string `url:"saml_group_name,omitempty" json:"saml_group_name,omitempty"`
 	AccessLevel   *string `url:"access_level,omitempty" json:"access_level,omitempty"`
-	SamlGroupName *string `url:"saml_group_name,omitempty" json:"saml_group_name,omitempty"`
 }
 
 // AddGroupSAMLLink creates a new group SAML link. Available only for users who
@@ -845,12 +845,12 @@ func (s *GroupsService) AddGroupSAMLLink(gid interface{}, opt *AddGroupSAMLLinkO
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/groups.html#delete-saml-group-link
-func (s *GroupsService) DeleteGroupSAMLLink(gid interface{}, saml_group_name string, options ...RequestOptionFunc) (*Response, error) {
+func (s *GroupsService) DeleteGroupSAMLLink(gid interface{}, samlGroupName string, options ...RequestOptionFunc) (*Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("groups/%s/saml_group_links/%s", PathEscape(group), PathEscape(saml_group_name))
+	u := fmt.Sprintf("groups/%s/saml_group_links/%s", PathEscape(group), PathEscape(samlGroupName))
 
 	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
