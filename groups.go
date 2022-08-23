@@ -105,8 +105,8 @@ type LDAPGroupLink struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/groups.html#saml-group-links
 type SAMLGroupLink struct {
-	Name        string `json:"name"`
-	AccessLevel string `json:"access_level"`
+	Name        string           `json:"name"`
+	AccessLevel AccessLevelValue `json:"access_level"`
 }
 
 // ListGroupsOptions represents the available ListGroups() options.
@@ -810,8 +810,8 @@ func (s *GroupsService) GetGroupSAMLLink(gid interface{}, samlGroupName string, 
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/groups.html#add-saml-group-link
 type AddGroupSAMLLinkOptions struct {
-	SAMLGroupName *string `url:"saml_group_name,omitempty" json:"saml_group_name,omitempty"`
-	AccessLevel   *string `url:"access_level,omitempty" json:"access_level,omitempty"`
+	SAMLGroupName *string           `url:"saml_group_name,omitempty" json:"saml_group_name,omitempty"`
+	AccessLevel   *AccessLevelValue `url:"access_level,omitempty" json:"access_level,omitempty"`
 }
 
 // AddGroupSAMLLink creates a new group SAML link. Available only for users who
