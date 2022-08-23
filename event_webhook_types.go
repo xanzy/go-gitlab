@@ -537,6 +537,10 @@ type MergeEvent struct {
 			Previous []*EventUser `json:"previous"`
 			Current  []*EventUser `json:"current"`
 		} `json:"assignees"`
+		Reviewers struct {
+			Previous []*EventUser `json:"previous"`
+			Current  []*EventUser `json:"current"`
+		} `json:"reviewers"`
 		Description struct {
 			Previous string `json:"previous"`
 			Current  string `json:"current"`
