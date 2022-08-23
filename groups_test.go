@@ -373,11 +373,11 @@ func TestListGroupSAMLLinks(t *testing.T) {
 			testMethod(t, r, http.MethodGet)
 			fmt.Fprint(w, `[
 	{
-		"access_level":"Developer",
+		"access_level":30,
 		"name":"gitlab_group_example_developer"
 	},
 	{
-		"access_level":"Maintainer",
+		"access_level":40,
 		"name":"gitlab_group_example_maintainer"
 	}
 ]`)
@@ -390,11 +390,11 @@ func TestListGroupSAMLLinks(t *testing.T) {
 
 	want := []*SAMLGroupLink{
 		{
-			AccessLevel: "Developer",
+			AccessLevel: DeveloperPermissions,
 			Name:        "gitlab_group_example_developer",
 		},
 		{
-			AccessLevel: "Maintainer",
+			AccessLevel: MaintainerPermissions,
 			Name:        "gitlab_group_example_maintainer",
 		},
 	}
@@ -412,7 +412,7 @@ func TestGetGroupSAMLLink(t *testing.T) {
 			testMethod(t, r, http.MethodGet)
 			fmt.Fprint(w, `
 {
-	"access_level":"Developer",
+	"access_level":30,
 	"name":"gitlab_group_example_developer"
 }`)
 		})
@@ -423,7 +423,7 @@ func TestGetGroupSAMLLink(t *testing.T) {
 	}
 
 	want := &SAMLGroupLink{
-		AccessLevel: "Developer",
+		AccessLevel: DeveloperPermissions,
 		Name:        "gitlab_group_example_developer",
 	}
 	if !reflect.DeepEqual(want, links) {
@@ -440,14 +440,14 @@ func TestAddGroupSAMLLink(t *testing.T) {
 			testMethod(t, r, http.MethodPost)
 			fmt.Fprint(w, `
 {
-	"access_level":"Developer",
+	"access_level":30,
 	"name":"gitlab_group_example_developer"
 }`)
 		})
 
 	opt := &AddGroupSAMLLinkOptions{
 		SAMLGroupName: String("gitlab_group_example_developer"),
-		AccessLevel:   String("Developer"),
+		AccessLevel:   AccessLevel(DeveloperPermissions),
 	}
 
 	link, _, err := client.Groups.AddGroupSAMLLink(1, opt)
@@ -456,7 +456,7 @@ func TestAddGroupSAMLLink(t *testing.T) {
 	}
 
 	want := &SAMLGroupLink{
-		AccessLevel: "Developer",
+		AccessLevel: DeveloperPermissions,
 		Name:        "gitlab_group_example_developer",
 	}
 	if !reflect.DeepEqual(want, link) {
