@@ -18,7 +18,7 @@ package gitlab
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"reflect"
 	"testing"
@@ -70,6 +70,7 @@ func TestJobsService_ListProjectJobs(t *testing.T) {
     "name": "teaspoon",
     "pipeline": {
       "id": 6,
+      "project_id": 1,
       "ref": "master",
       "sha": "0ff3ae198f8601a285adcf5c0fff204ee6fba5fd",
       "status": "pending"
@@ -100,6 +101,7 @@ func TestJobsService_ListProjectJobs(t *testing.T) {
     "name": "rspec:other",
     "pipeline": {
       "id": 6,
+      "project_id": 1,
       "ref": "master",
       "sha": "0ff3ae198f8601a285adcf5c0fff204ee6fba5fd",
       "status": "pending"
@@ -133,15 +135,17 @@ func TestJobsService_ListProjectJobs(t *testing.T) {
 			Name:         "teaspoon",
 			TagList:      []string{"docker runner", "ubuntu18"},
 			Pipeline: struct {
-				ID     int    `json:"id"`
-				Ref    string `json:"ref"`
-				Sha    string `json:"sha"`
-				Status string `json:"status"`
+				ID        int    `json:"id"`
+				ProjectID int    `json:"project_id"`
+				Ref       string `json:"ref"`
+				Sha       string `json:"sha"`
+				Status    string `json:"status"`
 			}{
-				ID:     6,
-				Ref:    "master",
-				Sha:    "0ff3ae198f8601a285adcf5c0fff204ee6fba5fd",
-				Status: "pending",
+				ID:        6,
+				ProjectID: 1,
+				Ref:       "master",
+				Sha:       "0ff3ae198f8601a285adcf5c0fff204ee6fba5fd",
+				Status:    "pending",
 			},
 			Ref:           "master",
 			Stage:         "test",
@@ -165,15 +169,17 @@ func TestJobsService_ListProjectJobs(t *testing.T) {
 			Name:         "rspec:other",
 			TagList:      []string{"docker runner", "win10-2004"},
 			Pipeline: struct {
-				ID     int    `json:"id"`
-				Ref    string `json:"ref"`
-				Sha    string `json:"sha"`
-				Status string `json:"status"`
+				ID        int    `json:"id"`
+				ProjectID int    `json:"project_id"`
+				Ref       string `json:"ref"`
+				Sha       string `json:"sha"`
+				Status    string `json:"status"`
 			}{
-				ID:     6,
-				Ref:    "master",
-				Sha:    "0ff3ae198f8601a285adcf5c0fff204ee6fba5fd",
-				Status: "pending",
+				ID:        6,
+				ProjectID: 1,
+				Ref:       "master",
+				Sha:       "0ff3ae198f8601a285adcf5c0fff204ee6fba5fd",
+				Status:    "pending",
 			},
 			Ref:    "master",
 			Stage:  "test",
@@ -202,7 +208,7 @@ func TestDownloadSingleArtifactsFileByTagOrBranch(t *testing.T) {
 		t.Fatalf("Jobs.DownloadSingleArtifactsFileByTagOrBranch returns an error: %v", err)
 	}
 
-	content, err := ioutil.ReadAll(reader)
+	content, err := io.ReadAll(reader)
 	if err != nil {
 		t.Fatalf("Jobs.DownloadSingleArtifactsFileByTagOrBranch error reading: %v", err)
 	}

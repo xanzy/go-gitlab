@@ -55,7 +55,7 @@ func TestListGroupHooks(t *testing.T) {
 ]`)
 	})
 
-	groupHooks, _, err := client.Groups.ListGroupHooks(1)
+	groupHooks, _, err := client.Groups.ListGroupHooks(1, nil)
 	if err != nil {
 		t.Error(err)
 	}

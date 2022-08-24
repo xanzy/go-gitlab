@@ -211,6 +211,10 @@ func TestMergeEventUnmarshal(t *testing.T) {
 		t.Errorf("Commit Username is %s, want %s", name, "GitLab dev user")
 	}
 
+	if event.ObjectAttributes.BlockingDiscussionsResolved != true {
+		t.Errorf("BlockingDiscussionsResolved isn't true")
+	}
+
 	if event.Assignees[0].ID != expectedID {
 		t.Errorf("Assignees[0].ID is %v, want %v", event.Assignees[0].ID, expectedID)
 	}
@@ -229,6 +233,18 @@ func TestMergeEventUnmarshal(t *testing.T) {
 
 	if event.Assignees[0].Email != expectedEmail {
 		t.Errorf("Assignees[0].Email is %v, want %v", event.Assignees[0].Email, expectedEmail)
+	}
+
+	if len(event.Changes.Reviewers.Previous) != 0 {
+		t.Errorf("Changes.Reviewer.Previeous length is %d, want %d", len(event.Changes.Reviewers.Previous), 0)
+	}
+
+	if len(event.Changes.Reviewers.Current) != 1 {
+		t.Errorf("Changes.Reviewer.Current length is %d, want %d", len(event.Changes.Reviewers.Current), 1)
+	}
+
+	if event.Changes.Reviewers.Current[0].Username != expectedUsername {
+		t.Errorf("Changes.Reviewer.Current[0].Username is %v, want %v", event.Changes.Reviewers.Current[0].Username, expectedUsername)
 	}
 }
 

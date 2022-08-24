@@ -19,7 +19,6 @@ package gitlab
 import (
 	"bytes"
 	"fmt"
-	"io/ioutil"
 	"net/http"
 	"os"
 	"reflect"
@@ -362,18 +361,26 @@ func TestGetProjectWithOptions(t *testing.T) {
 				"commit_count": 37,
 				"storage_size": 1038090,
 				"repository_size": 1038090,
+				"wiki_size": 10,
 				"lfs_objects_size": 0,
-				"job_artifacts_size": 0
+				"job_artifacts_size": 0,
+				"pipeline_artifacts_size": 0,
+				"packages_size": 238906167,
+				"snippets_size": 146800,
+				"uploads_size": 6523619
 			}}`)
 	})
-	want := &Project{ID: 1, Statistics: &ProjectStatistics{
-		CommitCount: 37,
-		StorageStatistics: StorageStatistics{
-			StorageSize:      1038090,
-			RepositorySize:   1038090,
-			LfsObjectsSize:   0,
-			JobArtifactsSize: 0,
-		},
+	want := &Project{ID: 1, Statistics: &Statistics{
+		CommitCount:           37,
+		StorageSize:           1038090,
+		RepositorySize:        1038090,
+		WikiSize:              10,
+		LFSObjectsSize:        0,
+		JobArtifactsSize:      0,
+		PipelineArtifactsSize: 0,
+		PackagesSize:          238906167,
+		SnippetsSize:          146800,
+		UploadsSize:           6523619,
 	}}
 
 	project, _, err := client.Projects.GetProject(1, &GetProjectOptions{Statistics: Bool(true)})
@@ -452,7 +459,7 @@ func TestUploadFile_Retry(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
 
-	tf, _ := ioutil.TempFile(os.TempDir(), "test")
+	tf, _ := os.CreateTemp(os.TempDir(), "test")
 	defer os.Remove(tf.Name())
 
 	isFirstRequest := true

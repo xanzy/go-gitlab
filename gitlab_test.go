@@ -21,7 +21,6 @@ import (
 	"context"
 	"errors"
 	"io"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"net/http/httptest"
@@ -135,7 +134,7 @@ func TestCheckResponse(t *testing.T) {
 	resp := &http.Response{
 		Request:    req.Request,
 		StatusCode: http.StatusBadRequest,
-		Body: ioutil.NopCloser(strings.NewReader(`
+		Body: io.NopCloser(strings.NewReader(`
 		{
 			"message": {
 				"prop1": [
@@ -192,7 +191,7 @@ func TestRequestWithContext(t *testing.T) {
 }
 
 func loadFixture(filePath string) []byte {
-	content, err := ioutil.ReadFile(filePath)
+	content, err := os.ReadFile(filePath)
 	if err != nil {
 		log.Fatal(err)
 	}

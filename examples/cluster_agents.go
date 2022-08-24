@@ -17,7 +17,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/xanzy/go-gitlab"
@@ -30,22 +29,23 @@ func clusterAgentsExample() {
 	}
 
 	projectID := 33
-
-	// Register Cluster Agent
-	clusterAgent, _, err := git.ClusterAgents.RegisterAgent(projectID, &gitlab.RegisterAgentOptions{
+	opt := &gitlab.RegisterAgentOptions{
 		Name: gitlab.String("agent-2"),
-	})
-	if err != nil {
-		panic(err)
 	}
 
-	fmt.Printf("Cluster Agent: %+v\n", clusterAgent)
+	// Register Cluster Agent
+	clusterAgent, _, err := git.ClusterAgents.RegisterAgent(projectID, opt)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	log.Printf("Cluster Agent: %+v\n", clusterAgent)
 
 	// List Cluster Agents
 	clusterAgents, _, err := git.ClusterAgents.ListAgents(projectID, nil)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
-	fmt.Printf("Cluster Agents: %+v\n", clusterAgents)
+	log.Printf("Cluster Agents: %+v", clusterAgents)
 }
