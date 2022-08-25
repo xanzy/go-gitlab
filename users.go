@@ -117,6 +117,7 @@ type ListUsersOptions struct {
 	Active          *bool `url:"active,omitempty" json:"active,omitempty"`
 	Blocked         *bool `url:"blocked,omitempty" json:"blocked,omitempty"`
 	ExcludeInternal *bool `url:"exclude_internal,omitempty" json:"exclude_internal,omitempty"`
+	ExcludeExternal *bool `url:"exclude_external,omitempty" json:"exclude_external,omitempty"`
 
 	// The options below are only available for admins.
 	Search               *string    `url:"search,omitempty" json:"search,omitempty"`
