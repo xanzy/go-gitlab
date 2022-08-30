@@ -501,8 +501,9 @@ func (s *JobsService) KeepArtifacts(pid interface{}, jobID int, options ...Reque
 
 // JobVariable represents a single job variable.
 type JobVariable struct {
-	Key   string `json:"key"`
-	Value string `json:"value"`
+	Key          *string `json:"key"`
+	Value        *string `json:"value"`
+	VariableType *string `json:"variable_type,omitempty"`
 }
 
 // PlayJobOptions represents the available PlayJob() options.
