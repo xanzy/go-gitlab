@@ -83,6 +83,7 @@ type Project struct {
 	StarCount                                 int                        `json:"star_count"`
 	RunnersToken                              string                     `json:"runners_token"`
 	PublicBuilds                              bool                       `json:"public_builds"`
+	PublicJobs                                bool                       `json:"public_jobs"`
 	AllowMergeOnSkippedPipeline               bool                       `json:"allow_merge_on_skipped_pipeline"`
 	OnlyAllowMergeIfPipelineSucceeds          bool                       `json:"only_allow_merge_if_pipeline_succeeds"`
 	OnlyAllowMergeIfAllDiscussionsAreResolved bool                       `json:"only_allow_merge_if_all_discussions_are_resolved"`
