@@ -46,6 +46,8 @@ type ProtectedTag struct {
 type TagAccessDescription struct {
 	AccessLevel            AccessLevelValue `json:"access_level"`
 	AccessLevelDescription string           `json:"access_level_description"`
+	UserID                 *int             `url:"user_id,omitempty" json:"user_id,omitempty"`
+	GroupID                *int             `url:"group_id,omitempty" json:"group_id,omitempty"`
 }
 
 // ListProtectedTagsOptions represents the available ListProtectedTags()
@@ -111,8 +113,19 @@ func (s *ProtectedTagsService) GetProtectedTag(pid interface{}, tag string, opti
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/protected_tags.html#protect-repository-tags
 type ProtectRepositoryTagsOptions struct {
-	Name              *string           `url:"name" json:"name"`
-	CreateAccessLevel *AccessLevelValue `url:"create_access_level,omitempty" json:"create_access_level,omitempty"`
+	Name              *string                                   `url:"name" json:"name"`
+	CreateAccessLevel *AccessLevelValue                         `url:"create_access_level,omitempty" json:"create_access_level,omitempty"`
+	AllowedToCreate   *[]ProtectRepositoryTagsPermissionOptions `url:"allowed_to_create,omitempty" json:"allowed_to_create,omitempty"`
+}
+
+// ProtectRepositoryTagsPermissionOptions represents a protected tag permission option.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/protected_tags.html#protect-repository-tags
+type ProtectRepositoryTagsPermissionOptions struct {
+	UserID      *int              `url:"user_id,omitempty" json:"user_id,omitempty"`
+	GroupID     *int              `url:"group_id,omitempty" json:"group_id,omitempty"`
+	AccessLevel *AccessLevelValue `url:"access_level,omitempty" json:"access_level,omitempty"`
 }
 
 // ProtectRepositoryTags protects a single repository tag or several project

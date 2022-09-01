@@ -68,7 +68,7 @@ func TestGetProtectedTag(t *testing.T) {
 
 	mux.HandleFunc(fmt.Sprintf("/api/v4/projects/1/protected_tags/%s", tagName), func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
-		fmt.Fprint(w, `{"name":"my-awesome-tag", "create_access_levels": [{"access_level": 30, "access_level_description": "Developers + Maintainers"}]}`)
+		fmt.Fprint(w, `{"name":"my-awesome-tag", "create_access_levels": [{"access_level": 30, "access_level_description": "Developers + Maintainers"},{"access_level": 40, "access_level_description": "Sample Group", "group_id": 300}]}`)
 	})
 
 	expected := &ProtectedTag{
@@ -77,6 +77,11 @@ func TestGetProtectedTag(t *testing.T) {
 			{
 				AccessLevel:            30,
 				AccessLevelDescription: "Developers + Maintainers",
+			},
+			{
+				AccessLevel:            40,
+				GroupID:                Int(300),
+				AccessLevelDescription: "Sample Group",
 			},
 		},
 	}
@@ -93,7 +98,7 @@ func TestProtectRepositoryTags(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/protected_tags", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
-		fmt.Fprint(w, `{"name":"my-awesome-tag", "create_access_levels": [{"access_level": 30, "access_level_description": "Developers + Maintainers"}]}`)
+		fmt.Fprint(w, `{"name":"my-awesome-tag", "create_access_levels": [{"access_level": 30, "access_level_description": "Developers + Maintainers"},{"access_level": 40, "access_level_description": "Sample Group", "group_id": 300}]}`)
 	})
 
 	expected := &ProtectedTag{
@@ -103,10 +108,23 @@ func TestProtectRepositoryTags(t *testing.T) {
 				AccessLevel:            30,
 				AccessLevelDescription: "Developers + Maintainers",
 			},
+			{
+				AccessLevel:            40,
+				GroupID:                Int(300),
+				AccessLevelDescription: "Sample Group",
+			},
 		},
 	}
 
-	opt := &ProtectRepositoryTagsOptions{Name: String("my-awesome-tag"), CreateAccessLevel: AccessLevel(30)}
+	opt := &ProtectRepositoryTagsOptions{
+		Name:              String("my-awesome-tag"),
+		CreateAccessLevel: AccessLevel(30),
+		AllowedToCreate: &[]ProtectRepositoryTagsPermissionOptions{
+			{
+				GroupID: Int(300),
+			},
+		},
+	}
 	tag, _, err := client.ProtectedTags.ProtectRepositoryTags(1, opt)
 
 	assert.NoError(t, err, "failed to get response")
