@@ -82,7 +82,7 @@ type Project struct {
 	ForksCount                                int                        `json:"forks_count"`
 	StarCount                                 int                        `json:"star_count"`
 	RunnersToken                              string                     `json:"runners_token"`
-	PublicBuilds                              bool                       `json:"public_builds"`
+	PublicJobs                                bool                       `json:"public_jobs"`
 	AllowMergeOnSkippedPipeline               bool                       `json:"allow_merge_on_skipped_pipeline"`
 	OnlyAllowMergeIfPipelineSucceeds          bool                       `json:"only_allow_merge_if_pipeline_succeeds"`
 	OnlyAllowMergeIfAllDiscussionsAreResolved bool                       `json:"only_allow_merge_if_all_discussions_are_resolved"`
@@ -144,6 +144,9 @@ type Project struct {
 	ExternalAuthorizationClassificationLabel string             `json:"external_authorization_classification_label"`
 	RequirementsAccessLevel                  AccessControlValue `json:"requirements_access_level"`
 	SecurityAndComplianceAccessLevel         AccessControlValue `json:"security_and_compliance_access_level"`
+
+	// Deprecated members
+	PublicBuilds bool `json:"public_builds"`
 }
 
 // BasicProject included in other service responses (such as todos).
