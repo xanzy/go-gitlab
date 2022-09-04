@@ -64,6 +64,11 @@ const (
 	PrivateToken
 )
 
+// OnFinished allows running a function on each HTTP request.
+// This function will be invoked at the end of every HTTP
+// request executed whether the result succeeds or fails
+type OnFinished func(response *Response, err error)
+
 // A Client manages communication with the GitLab API.
 type Client struct {
 	// HTTP client used to communicate with the API.
@@ -98,6 +103,10 @@ type Client struct {
 
 	// User agent used when communicating with the GitLab API.
 	UserAgent string
+
+	// OnFinished allows a user-supplied function to be called
+	// with the response and error at the end of each HTTP request executed.
+	OnFinished OnFinished
 
 	// Services used for talking to different parts of the GitLab API.
 	AccessRequests          *AccessRequestsService
@@ -742,13 +751,20 @@ func (r *Response) populatePageValues() {
 // error if an API error has occurred. If v implements the io.Writer
 // interface, the raw response body will be written to v, without attempting to
 // first decode it.
-func (c *Client) Do(req *retryablehttp.Request, v interface{}) (*Response, error) {
+func (c *Client) Do(req *retryablehttp.Request, v interface{}) (response *Response, err error) {
+
+	defer func() {
+		if c.OnFinished != nil {
+			c.OnFinished(response, err)
+		}
+	}()
+
 	// If not yet configured, try to configure the rate limiter. Fail
 	// silently as the limiter will be disabled in case of an error.
 	c.configureLimiterOnce.Do(func() { c.configureLimiter(req.Context()) })
 
 	// Wait will block until the limiter can obtain a new token.
-	err := c.limiter.Wait(req.Context())
+	err = c.limiter.Wait(req.Context())
 	if err != nil {
 		return nil, err
 	}
@@ -798,7 +814,7 @@ func (c *Client) Do(req *retryablehttp.Request, v interface{}) (*Response, error
 	}
 	defer resp.Body.Close()
 
-	response := newResponse(resp)
+	response = newResponse(resp)
 
 	err = CheckResponse(resp)
 	if err != nil {
