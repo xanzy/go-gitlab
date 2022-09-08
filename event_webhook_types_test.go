@@ -25,7 +25,6 @@ import (
 const (
 	ExpectedGroup     = "webhook-test"
 	excpectedAvatar   = "http://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=40\u0026d=identicon"
-	expectedEmail     = "test.user1@example.com"
 	expectedEventName = "user_add_to_group"
 	expectedID        = 1
 	expectedName      = "User1"
@@ -193,8 +192,8 @@ func TestMergeEventUnmarshal(t *testing.T) {
 		t.Errorf("ObjectAttributes is %v, want %v", event.Assignees[0].Username, expectedUsername)
 	}
 
-	if event.User.ID != 1 {
-		t.Errorf("User ID is %d, want %d", event.User.ID, 1)
+	if event.User.ID != expectedID {
+		t.Errorf("User ID is %d, want %d", event.User.ID, expectedID)
 	}
 
 	if event.User.Name != "Administrator" {
@@ -233,8 +232,8 @@ func TestMergeEventUnmarshal(t *testing.T) {
 		t.Errorf("Assignees[0].AvatarURL is %v, want %v", event.Assignees[0].AvatarURL, excpectedAvatar)
 	}
 
-	if len(event.Reviewers) < 1 {
-		t.Errorf("Reviewers length is %d, want %d", len(event.Reviewers), 1)
+	if len(event.Reviewers) < expectedID {
+		t.Errorf("Reviewers length is %d, want %d", len(event.Reviewers), expectedID)
 	}
 
 	if event.Reviewers[0].Name != expectedName {
@@ -243,8 +242,8 @@ func TestMergeEventUnmarshal(t *testing.T) {
 
 	if event.Reviewers[0].Username != expectedUsername {
 		t.Errorf("Reviewer[0].Username is %v, want %v", event.Reviewers[0].Username, expectedUsername)
-
 	}
+
 	if event.Reviewers[0].AvatarURL != excpectedAvatar {
 		t.Errorf("Reviewers[0].AvatarURL is %v, want %v", event.Reviewers[0].AvatarURL, excpectedAvatar)
 	}
