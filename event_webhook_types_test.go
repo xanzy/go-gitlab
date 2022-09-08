@@ -185,24 +185,24 @@ func TestMergeEventUnmarshal(t *testing.T) {
 	if event.ObjectAttributes.LastCommit.ID != "da1560886d4f094c3e6c9ef40349f7d38b5d27d7" {
 		t.Errorf("ObjectAttributes.LastCommit.ID is %v, want %s", event.ObjectAttributes.LastCommit.ID, "da1560886d4f094c3e6c9ef40349f7d38b5d27d7")
 	}
-	if event.ObjectAttributes.Assignee.Name != expectedName {
-		t.Errorf("Assignee.Name is %v, want %v", event.ObjectAttributes.Assignee.Name, expectedName)
+	if event.Assignees[0].Name != expectedName {
+		t.Errorf("Assignee.Name is %v, want %v", event.Assignees[0].Name, expectedName)
 	}
 
-	if event.ObjectAttributes.Assignee.Username != expectedUsername {
-		t.Errorf("ObjectAttributes is %v, want %v", event.ObjectAttributes.Assignee.Username, expectedUsername)
+	if event.Assignees[0].Username != expectedUsername {
+		t.Errorf("ObjectAttributes is %v, want %v", event.Assignees[0].Username, expectedUsername)
 	}
 
-	if event.User.ID != 42 {
-		t.Errorf("User ID is %d, want %d", event.User.ID, 42)
+	if event.User.ID != 1 {
+		t.Errorf("User ID is %d, want %d", event.User.ID, 1)
 	}
 
-	if event.User.Name != expectedName {
-		t.Errorf("Username is %s, want %s", event.User.Name, expectedName)
+	if event.User.Name != "Administrator" {
+		t.Errorf("Username is %s, want %s", event.User.Name, "Administrator")
 	}
 
-	if event.User.Email != "user1@example.com" {
-		t.Errorf("User email is %s, want %s", event.User.Email, "user1@example.com")
+	if event.User.Email != "admin@example.com" {
+		t.Errorf("User email is %s, want %s", event.User.Email, "admin@example.com")
 	}
 
 	if event.ObjectAttributes.LastCommit.Timestamp == nil {
@@ -217,8 +217,8 @@ func TestMergeEventUnmarshal(t *testing.T) {
 		t.Errorf("BlockingDiscussionsResolved isn't true")
 	}
 
-	if event.Assignees[0].ID != expectedID {
-		t.Errorf("Assignees[0].ID is %v, want %v", event.Assignees[0].ID, expectedID)
+	if event.Assignees[0].ID != 6 {
+		t.Errorf("Assignees[0].ID is %v, want %v", event.Assignees[0].ID, 6)
 	}
 
 	if event.Assignees[0].Name != expectedName {
@@ -230,23 +230,23 @@ func TestMergeEventUnmarshal(t *testing.T) {
 	}
 
 	if event.Assignees[0].AvatarURL != excpectedAvatar {
-		t.Errorf("Assignees[0].Email is %v, want %v", event.Assignees[0].AvatarURL, excpectedAvatar)
+		t.Errorf("Assignees[0].AvatarURL is %v, want %v", event.Assignees[0].AvatarURL, excpectedAvatar)
 	}
 
-	if event.Assignees[0].Email != expectedEmail {
-		t.Errorf("Assignees[0].Email is %v, want %v", event.Assignees[0].Email, expectedEmail)
+	if len(event.Reviewers) < 1 {
+		t.Errorf("Reviewers length is %d, want %d", len(event.Reviewers), 1)
 	}
 
-	if len(event.Changes.Reviewers.Previous) != 0 {
-		t.Errorf("Changes.Reviewer.Previeous length is %d, want %d", len(event.Changes.Reviewers.Previous), 0)
+	if event.Reviewers[0].Name != expectedName {
+		t.Errorf("Reviewers[0].Name is %v, want %v", event.Reviewers[0].Name, expectedName)
 	}
 
-	if len(event.Changes.Reviewers.Current) != 1 {
-		t.Errorf("Changes.Reviewer.Current length is %d, want %d", len(event.Changes.Reviewers.Current), 1)
-	}
+	if event.Reviewers[0].Username != expectedUsername {
+		t.Errorf("Reviewer[0].Username is %v, want %v", event.Reviewers[0].Username, expectedUsername)
 
-	if event.Changes.Reviewers.Current[0].Username != expectedUsername {
-		t.Errorf("Changes.Reviewer.Current[0].Username is %v, want %v", event.Changes.Reviewers.Current[0].Username, expectedUsername)
+	}
+	if event.Reviewers[0].AvatarURL != excpectedAvatar {
+		t.Errorf("Reviewers[0].AvatarURL is %v, want %v", event.Reviewers[0].AvatarURL, excpectedAvatar)
 	}
 }
 
