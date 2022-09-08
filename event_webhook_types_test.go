@@ -23,11 +23,13 @@ import (
 )
 
 const (
-	expectedID       = 1
-	expectedName     = "User1"
-	expectedUsername = "user1"
-	excpectedAvatar  = "http://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=40\u0026d=identicon"
-	expectedEmail    = "test.user1@example.com"
+	ExpectedGroup     = "webhook-test"
+	excpectedAvatar   = "http://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=40\u0026d=identicon"
+	expectedEmail     = "test.user1@example.com"
+	expectedEventName = "user_add_to_group"
+	expectedID        = 1
+	expectedName      = "User1"
+	expectedUsername  = "user1"
 )
 
 func TestBuildEventUnmarshal(t *testing.T) {
@@ -250,12 +252,12 @@ func TestMemberEventUnmarshal(t *testing.T) {
 		t.Errorf("Member Event is null")
 	}
 
-	if event.GroupName != "webhook-test" {
-		t.Errorf("Name is %v, want %v", event.GroupName, "webhook-test")
+	if event.GroupName != ExpectedGroup {
+		t.Errorf("Name is %v, want %v", event.GroupName, ExpectedGroup)
 	}
 
-	if event.GroupPath != "webhook-test" {
-		t.Errorf("GroupPath is %v, want %v", event.GroupPath, "webhook-test")
+	if event.GroupPath != ExpectedGroup {
+		t.Errorf("GroupPath is %v, want %v", event.GroupPath, ExpectedGroup)
 	}
 
 	if event.GroupID != 100 {
@@ -263,14 +265,14 @@ func TestMemberEventUnmarshal(t *testing.T) {
 			"GroupID is %v, want %v", event.GroupID, 100)
 	}
 
-	if event.UserUsername != "test_user" {
+	if event.UserUsername != expectedUsername {
 		t.Errorf(
-			"UserUsername is %v, want %v", event.UserUsername, "test_user")
+			"UserUsername is %v, want %v", event.UserUsername, expectedUsername)
 	}
 
-	if event.UserName != "Test User" {
+	if event.UserName != expectedName {
 		t.Errorf(
-			"UserName is %v, want %v", event.UserName, "Test User")
+			"UserName is %v, want %v", event.UserName, expectedName)
 	}
 
 	if event.UserEmail != "testuser@webhooktest.com" {
@@ -288,9 +290,9 @@ func TestMemberEventUnmarshal(t *testing.T) {
 			"GroupAccess is %v, want %v", event.GroupAccess, "Guest")
 	}
 
-	if event.EventName != "user_add_to_group" {
+	if event.EventName != expectedEventName {
 		t.Errorf(
-			"EventName is %v, want %v", event.EventName, "user_add_to_group")
+			"EventName is %v, want %v", event.EventName, expectedEventName)
 	}
 
 	if event.CreatedAt.Format(time.RFC3339) != "2020-12-11T04:57:22Z" {
