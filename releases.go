@@ -67,7 +67,12 @@ type Release struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/releases/index.html#list-releases
-type ListReleasesOptions ListOptions
+type ListReleasesOptions struct {
+	ListOptions
+	OrderBy                *string `url:"order_by,omitempty" json:"order_by,omitempty"`
+	Sort                   *string `url:"sort,omitempty" json:"sort,omitempty"`
+	IncludeHTMLDescription *bool   `url:"include_html_description,omitempty" json:"include_html_description,omitempty"`	
+}
 
 // ListReleases gets a pagenated of releases accessible by the authenticated user.
 //
