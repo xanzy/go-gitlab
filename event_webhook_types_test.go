@@ -23,11 +23,13 @@ import (
 )
 
 const (
-	expectedID       = 1
-	expectedName     = "User1"
-	expectedUsername = "user1"
-	excpectedAvatar  = "http://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=40\u0026d=identicon"
-	expectedEmail    = "test.user1@example.com"
+	ExpectedGroup     = "webhook-test"
+	excpectedAvatar   = "http://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=40\u0026d=identicon"
+	expectedEmail     = "test.user1@example.com"
+	expectedEventName = "user_add_to_group"
+	expectedID        = 1
+	expectedName      = "User1"
+	expectedUsername  = "user1"
 )
 
 func TestBuildEventUnmarshal(t *testing.T) {
@@ -245,6 +247,76 @@ func TestMergeEventUnmarshal(t *testing.T) {
 
 	if event.Changes.Reviewers.Current[0].Username != expectedUsername {
 		t.Errorf("Changes.Reviewer.Current[0].Username is %v, want %v", event.Changes.Reviewers.Current[0].Username, expectedUsername)
+	}
+}
+
+func TestMemberEventUnmarshal(t *testing.T) {
+	jsonObject := loadFixture("testdata/webhooks/member.json")
+
+	var event *MemberEvent
+	err := json.Unmarshal(jsonObject, &event)
+
+	if err != nil {
+		t.Errorf("Member Event can not unmarshaled: %v\n ", err.Error())
+	}
+
+	if event == nil {
+		t.Errorf("Member Event is null")
+	}
+
+	if event.GroupName != ExpectedGroup {
+		t.Errorf("Name is %v, want %v", event.GroupName, ExpectedGroup)
+	}
+
+	if event.GroupPath != ExpectedGroup {
+		t.Errorf("GroupPath is %v, want %v", event.GroupPath, ExpectedGroup)
+	}
+
+	if event.GroupID != 100 {
+		t.Errorf(
+			"GroupID is %v, want %v", event.GroupID, 100)
+	}
+
+	if event.UserUsername != expectedUsername {
+		t.Errorf(
+			"UserUsername is %v, want %v", event.UserUsername, expectedUsername)
+	}
+
+	if event.UserName != expectedName {
+		t.Errorf(
+			"UserName is %v, want %v", event.UserName, expectedName)
+	}
+
+	if event.UserEmail != "testuser@webhooktest.com" {
+		t.Errorf(
+			"UserEmail is %v, want %v", event.UserEmail, "testuser@webhooktest.com")
+	}
+
+	if event.UserID != 64 {
+		t.Errorf(
+			"UserID is %v, want %v", event.UserID, 64)
+	}
+
+	if event.GroupAccess != "Guest" {
+		t.Errorf(
+			"GroupAccess is %v, want %v", event.GroupAccess, "Guest")
+	}
+
+	if event.EventName != expectedEventName {
+		t.Errorf(
+			"EventName is %v, want %v", event.EventName, expectedEventName)
+	}
+
+	if event.CreatedAt.Format(time.RFC3339) != "2020-12-11T04:57:22Z" {
+		t.Errorf("CreatedAt is %v, want %v", event.CreatedAt.Format(time.RFC3339), "2020-12-11T04:57:22Z")
+	}
+
+	if event.UpdatedAt.Format(time.RFC3339) != "2020-12-11T04:57:22Z" {
+		t.Errorf("UpdatedAt is %v, want %v", event.UpdatedAt.Format(time.RFC3339), "2020-12-11T04:57:22Z")
+	}
+
+	if event.ExpiresAt.Format(time.RFC3339) != "2020-12-14T00:00:00Z" {
+		t.Errorf("ExpiresAt is %v, want %v", event.ExpiresAt.Format(time.RFC3339), "2020-12-14T00:00:00Z")
 	}
 }
 
