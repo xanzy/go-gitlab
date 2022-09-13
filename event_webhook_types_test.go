@@ -29,6 +29,7 @@ const (
 	expectedID        = 1
 	expectedName      = "User1"
 	expectedUsername  = "user1"
+	expectedEmail     = "user1@example.com"
 )
 
 func TestBuildEventUnmarshal(t *testing.T) {
@@ -196,12 +197,12 @@ func TestMergeEventUnmarshal(t *testing.T) {
 		t.Errorf("User ID is %d, want %d", event.User.ID, expectedID)
 	}
 
-	if event.User.Name != "Administrator" {
-		t.Errorf("Username is %s, want %s", event.User.Name, "Administrator")
+	if event.User.Name != expectedName {
+		t.Errorf("Username is %s, want %s", event.User.Name, expectedName)
 	}
 
-	if event.User.Email != "admin@example.com" {
-		t.Errorf("User email is %s, want %s", event.User.Email, "admin@example.com")
+	if event.User.Email != expectedEmail {
+		t.Errorf("User email is %s, want %s", event.User.Email, expectedEmail)
 	}
 
 	if event.ObjectAttributes.LastCommit.Timestamp == nil {
@@ -216,8 +217,8 @@ func TestMergeEventUnmarshal(t *testing.T) {
 		t.Errorf("BlockingDiscussionsResolved isn't true")
 	}
 
-	if event.Assignees[0].ID != 6 {
-		t.Errorf("Assignees[0].ID is %v, want %v", event.Assignees[0].ID, 6)
+	if event.Assignees[0].ID != expectedID {
+		t.Errorf("Assignees[0].ID is %v, want %v", event.Assignees[0].ID, expectedID)
 	}
 
 	if event.Assignees[0].Name != expectedName {
@@ -232,8 +233,8 @@ func TestMergeEventUnmarshal(t *testing.T) {
 		t.Errorf("Assignees[0].AvatarURL is %v, want %v", event.Assignees[0].AvatarURL, excpectedAvatar)
 	}
 
-	if len(event.Reviewers) < expectedID {
-		t.Errorf("Reviewers length is %d, want %d", len(event.Reviewers), expectedID)
+	if len(event.Reviewers) < 1 {
+		t.Errorf("Reviewers length is %d, want %d", len(event.Reviewers), 1)
 	}
 
 	if event.Reviewers[0].Name != expectedName {

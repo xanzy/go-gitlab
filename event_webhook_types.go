@@ -503,7 +503,7 @@ type MergeEvent struct {
 		AuthorID                 int          `json:"author_id"`
 		AssigneeID               int          `json:"assignee_id"`
 		AssigneeIDs              []int        `json:"assignee_ids"`
-		ReviewerIds              []int        `json:"reviewer_ids"`
+		ReviewerIDs              []int        `json:"reviewer_ids"`
 		Title                    string       `json:"title"`
 		CreatedAt                string       `json:"created_at"` // Should be *time.Time (see Gitlab issue #21468)
 		UpdatedAt                string       `json:"updated_at"` // Should be *time.Time (see Gitlab issue #21468)
