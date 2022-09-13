@@ -25,11 +25,11 @@ import (
 const (
 	ExpectedGroup     = "webhook-test"
 	excpectedAvatar   = "http://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=40\u0026d=identicon"
+	expectedEmail     = "user1@example.com"
 	expectedEventName = "user_add_to_group"
 	expectedID        = 1
 	expectedName      = "User1"
 	expectedUsername  = "user1"
-	expectedEmail     = "user1@example.com"
 )
 
 func TestBuildEventUnmarshal(t *testing.T) {
