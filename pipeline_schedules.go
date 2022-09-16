@@ -110,6 +110,31 @@ func (s *PipelineSchedulesService) GetPipelineSchedule(pid interface{}, schedule
 	return p, resp, err
 }
 
+// GetPipelinesTriggeredBySchedule gets all pipelines triggered by a pipeline schedule
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/pipeline_schedules.html#get-all-pipelines-triggered-by-a-pipeline-schedule
+func (s *PipelineSchedulesService) GetPipelinesTriggeredBySchedule(pid interface{}, schedule int, options ...RequestOptionFunc) ([]*Pipeline, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/pipeline_schedules/%d/pipelines", PathEscape(project), schedule)
+
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var p []*Pipeline
+	resp, err := s.client.Do(req, &p)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return p, resp, err
+}
+
 // CreatePipelineScheduleOptions represents the available
 // CreatePipelineSchedule() options.
 //
