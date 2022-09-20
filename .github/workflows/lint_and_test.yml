@@ -11,8 +11,8 @@ permissions:
 jobs:
   lint_and_test:
     permissions:
-      contents: read # to fetch code (actions/checkout)
-      pull-requests: read # to fetch pull requests (golangci/golangci-lint-action)
+      contents: read
+      pull-requests: read
 
     name: Lint and Test - ${{ matrix.go-version }}
     strategy:
