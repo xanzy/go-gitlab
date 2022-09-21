@@ -84,7 +84,8 @@ func WithCustomRetryMax(retryMax int) ClientOptionFunc {
 	}
 }
 
-// WithCustomRetryWaitMinMax can be used to configure a custom maximum and minimum time to wait between retries.
+// WithCustomRetryWaitMinMax can be used to configure a custom minimum and
+// maximum time to wait between retries.
 func WithCustomRetryWaitMinMax(waitMin, waitMax time.Duration) ClientOptionFunc {
 	return func(c *Client) error {
 		c.client.RetryWaitMin = waitMin
