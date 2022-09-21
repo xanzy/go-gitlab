@@ -110,18 +110,24 @@ func (s *PipelineSchedulesService) GetPipelineSchedule(pid interface{}, schedule
 	return p, resp, err
 }
 
+// ListPipelinesTriggeredByScheduleOptions represents the available ListPipelinesTriggeredBySchedule() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/pipeline_schedules.html#get-all-pipelines-triggered-by-a-pipeline-schedule
+type ListPipelinesTriggeredByScheduleOptions ListOptions
+
 // ListPipelinesTriggeredBySchedule gets all pipelines triggered by a pipeline schedule
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/pipeline_schedules.html#get-all-pipelines-triggered-by-a-pipeline-schedule
-func (s *PipelineSchedulesService) ListPipelinesTriggeredBySchedule(pid interface{}, schedule int, options ...RequestOptionFunc) ([]*Pipeline, *Response, error) {
+func (s *PipelineSchedulesService) ListPipelinesTriggeredBySchedule(pid interface{}, schedule int, opt *ListPipelinesTriggeredByScheduleOptions, options ...RequestOptionFunc) ([]*Pipeline, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/pipeline_schedules/%d/pipelines", PathEscape(project), schedule)
 
-	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
