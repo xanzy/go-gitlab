@@ -110,11 +110,11 @@ func (s *PipelineSchedulesService) GetPipelineSchedule(pid interface{}, schedule
 	return p, resp, err
 }
 
-// GetPipelinesTriggeredBySchedule gets all pipelines triggered by a pipeline schedule
+// ListPipelinesTriggeredBySchedule gets all pipelines triggered by a pipeline schedule
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/pipeline_schedules.html#get-all-pipelines-triggered-by-a-pipeline-schedule
-func (s *PipelineSchedulesService) GetPipelinesTriggeredBySchedule(pid interface{}, schedule int, options ...RequestOptionFunc) ([]*Pipeline, *Response, error) {
+func (s *PipelineSchedulesService) ListPipelinesTriggeredBySchedule(pid interface{}, schedule int, options ...RequestOptionFunc) ([]*Pipeline, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
