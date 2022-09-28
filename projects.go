@@ -125,6 +125,7 @@ type Project struct {
 	Links                                    *Links             `json:"_links,omitempty"`
 	CIConfigPath                             string             `json:"ci_config_path"`
 	CIDefaultGitDepth                        int                `json:"ci_default_git_depth"`
+	CISeperateCache                          bool               `json:"ci_separated_caches"`
 	CustomAttributes                         []*CustomAttribute `json:"custom_attributes"`
 	ComplianceFrameworks                     []string           `json:"compliance_frameworks"`
 	BuildCoverageRegex                       string             `json:"build_coverage_regex"`
@@ -815,6 +816,7 @@ type EditProjectOptions struct {
 	BuildsAccessLevel                         *AccessControlValue                  `url:"builds_access_level,omitempty" json:"builds_access_level,omitempty"`
 	CIConfigPath                              *string                              `url:"ci_config_path,omitempty" json:"ci_config_path,omitempty"`
 	CIDefaultGitDepth                         *int                                 `url:"ci_default_git_depth,omitempty" json:"ci_default_git_depth,omitempty"`
+	CISeperateCache                           *bool                                `url:"ci_separated_caches,omitempty" json:"ci_separated_caches,omitempty"`
 	ContainerExpirationPolicyAttributes       *ContainerExpirationPolicyAttributes `url:"container_expiration_policy_attributes,omitempty" json:"container_expiration_policy_attributes,omitempty"`
 	ContainerRegistryAccessLevel              *AccessControlValue                  `url:"container_registry_access_level,omitempty" json:"container_registry_access_level,omitempty"`
 	DefaultBranch                             *string                              `url:"default_branch,omitempty" json:"default_branch,omitempty"`
