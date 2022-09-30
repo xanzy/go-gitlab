@@ -649,3 +649,19 @@ func TestGetSingleSSHKeyForUser(t *testing.T) {
 		t.Errorf("Users.GetSSHKeyForUser returned %+v, want %+v", sshKey, want)
 	}
 }
+
+func TestDisableUser2FA(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	path := fmt.Sprintf("/%susers/1/disable_two_factor", apiVersionPath)
+	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPatch)
+		w.WriteHeader(http.StatusNoContent)
+	})
+
+	err := client.Users.DisableTwoFactor(1)
+	if err != nil {
+		t.Errorf("Users.DisableTwoFactor returned error: %v", err)
+	}
+}
