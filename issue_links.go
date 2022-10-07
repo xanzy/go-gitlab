@@ -60,6 +60,7 @@ type IssueRelation struct {
 	Labels         Labels           `json:"labels"`
 	DueDate        *ISOTime         `json:"due_date"`
 	WebURL         string           `json:"web_url"`
+	References     *IssueReferences `json:"references"`
 	Weight         int              `json:"weight"`
 	UserNotesCount int              `json:"user_notes_count"`
 	IssueLinkID    int              `json:"issue_link_id"`
