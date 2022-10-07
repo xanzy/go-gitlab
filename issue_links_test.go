@@ -19,6 +19,7 @@ func TestIssueLinksService_ListIssueRelations(t *testing.T) {
 			  {
 				"id" : 84,
 				"iid" : 14,
+				"confidential": false,
 				"issue_link_id": 1,
 				"project_id" : 4,
 				"title" : "Issues with auth",
@@ -49,35 +50,30 @@ func TestIssueLinksService_ListIssueRelations(t *testing.T) {
 		`)
 	})
 
-	want := []*Issue{{
-		ID:          84,
-		IID:         14,
-		ExternalID:  "",
-		State:       "opened",
-		Description: "",
+	want := []*IssueRelation{{
+		ID:           84,
+		IID:          14,
+		State:        "opened",
+		Description:  "",
+		Confidential: false,
 		Author: &IssueAuthor{
 			ID:        18,
 			State:     "active",
 			WebURL:    "https://gitlab.example.com/eileen.lowe",
 			Name:      "Venkatesh Thalluri",
 			AvatarURL: "",
-			Username:  "venkatesh.thalluri"},
-		ProjectID:         4,
-		Assignees:         []*IssueAssignee{},
-		Title:             "Issues with auth",
-		MovedToID:         0,
-		Labels:            []string{"bug"},
-		Upvotes:           0,
-		Downvotes:         0,
-		WebURL:            "http://example.com/example/example/issues/14",
-		Confidential:      false,
-		Weight:            0,
-		DiscussionLocked:  false,
-		Subscribed:        false,
-		UserNotesCount:    0,
-		IssueLinkID:       1,
-		MergeRequestCount: 0,
-		EpicIssueID:       0,
+			Username:  "venkatesh.thalluri",
+		},
+		Milestone:   nil,
+		ProjectID:   4,
+		Assignees:   []*IssueAssignee{},
+		Assignee:    nil,
+		Title:       "Issues with auth",
+		Labels:      []string{"bug"},
+		WebURL:      "http://example.com/example/example/issues/14",
+		Weight:      0,
+		IssueLinkID: 1,
+		LinkType:    "relates_to",
 	}}
 
 	is, resp, err := client.IssueLinks.ListIssueRelations(4, 14, nil)
