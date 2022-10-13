@@ -172,6 +172,35 @@ func TestCheckResponse(t *testing.T) {
 	}
 }
 
+func TestCheckResponseOnUnknownErrorFormat(t *testing.T) {
+	c, err := NewClient("")
+	if err != nil {
+		t.Fatalf("Failed to create client: %v", err)
+	}
+
+	req, err := c.NewRequest(http.MethodGet, "test", nil, nil)
+	if err != nil {
+		t.Fatalf("Failed to create request: %v", err)
+	}
+
+	resp := &http.Response{
+		Request:    req.Request,
+		StatusCode: http.StatusBadRequest,
+		Body:       io.NopCloser(strings.NewReader("some error message but not JSON")),
+	}
+
+	errResp := CheckResponse(resp)
+	if errResp == nil {
+		t.Fatal("Expected error response.")
+	}
+
+	want := "GET https://gitlab.com/api/v4/test: 400 failed to parse unknown error format: some error message but not JSON"
+
+	if errResp.Error() != want {
+		t.Errorf("Expected error: %s, got %s", want, errResp.Error())
+	}
+}
+
 func TestRequestWithContext(t *testing.T) {
 	c, err := NewClient("")
 	if err != nil {
