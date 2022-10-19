@@ -151,6 +151,7 @@ type DeploymentEvent struct {
 		SSHURL            string  `json:"ssh_url"`
 		HTTPURL           string  `json:"http_url"`
 	} `json:"project"`
+	Ref         string     `json:"ref"`
 	ShortSHA    string     `json:"short_sha"`
 	User        *EventUser `json:"user"`
 	UserURL     string     `json:"user_url"`

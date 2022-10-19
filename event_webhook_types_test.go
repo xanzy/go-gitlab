@@ -92,6 +92,10 @@ func TestDeploymentEventUnmarshal(t *testing.T) {
 	if event.CommitTitle != "Add new file" {
 		t.Errorf("CommitTitle is %s, want %s", event.CommitTitle, "Add new file")
 	}
+
+	if event.Ref != "1.0.0" {
+		t.Errorf("Ref is %s, want %s", event.Ref, "1.0.0")
+	}
 }
 
 func TestIssueCommentEventUnmarshal(t *testing.T) {
