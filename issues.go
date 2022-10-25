@@ -406,6 +406,7 @@ type CreateIssueOptions struct {
 	Title                              *string    `url:"title,omitempty" json:"title,omitempty"`
 	Description                        *string    `url:"description,omitempty" json:"description,omitempty"`
 	Confidential                       *bool      `url:"confidential,omitempty" json:"confidential,omitempty"`
+	AssigneeID                         *int       `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
 	AssigneeIDs                        *[]int     `url:"assignee_ids,omitempty" json:"assignee_ids,omitempty"`
 	MilestoneID                        *int       `url:"milestone_id,omitempty" json:"milestone_id,omitempty"`
 	Labels                             *Labels    `url:"labels,comma,omitempty" json:"labels,omitempty"`
