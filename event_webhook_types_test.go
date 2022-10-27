@@ -23,11 +23,13 @@ import (
 )
 
 const (
-	expectedID       = 1
-	expectedName     = "User1"
-	expectedUsername = "user1"
-	excpectedAvatar  = "http://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=40\u0026d=identicon"
-	expectedEmail    = "test.user1@example.com"
+	ExpectedGroup     = "webhook-test"
+	excpectedAvatar   = "http://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=40\u0026d=identicon"
+	expectedEmail     = "user1@example.com"
+	expectedEventName = "user_add_to_group"
+	expectedID        = 1
+	expectedName      = "User1"
+	expectedUsername  = "user1"
 )
 
 func TestBuildEventUnmarshal(t *testing.T) {
@@ -183,24 +185,24 @@ func TestMergeEventUnmarshal(t *testing.T) {
 	if event.ObjectAttributes.LastCommit.ID != "da1560886d4f094c3e6c9ef40349f7d38b5d27d7" {
 		t.Errorf("ObjectAttributes.LastCommit.ID is %v, want %s", event.ObjectAttributes.LastCommit.ID, "da1560886d4f094c3e6c9ef40349f7d38b5d27d7")
 	}
-	if event.ObjectAttributes.Assignee.Name != expectedName {
-		t.Errorf("Assignee.Name is %v, want %v", event.ObjectAttributes.Assignee.Name, expectedName)
+	if event.Assignees[0].Name != expectedName {
+		t.Errorf("Assignee.Name is %v, want %v", event.Assignees[0].Name, expectedName)
 	}
 
-	if event.ObjectAttributes.Assignee.Username != expectedUsername {
-		t.Errorf("ObjectAttributes is %v, want %v", event.ObjectAttributes.Assignee.Username, expectedUsername)
+	if event.Assignees[0].Username != expectedUsername {
+		t.Errorf("ObjectAttributes is %v, want %v", event.Assignees[0].Username, expectedUsername)
 	}
 
-	if event.User.ID != 42 {
-		t.Errorf("User ID is %d, want %d", event.User.ID, 42)
+	if event.User.ID != expectedID {
+		t.Errorf("User ID is %d, want %d", event.User.ID, expectedID)
 	}
 
 	if event.User.Name != expectedName {
 		t.Errorf("Username is %s, want %s", event.User.Name, expectedName)
 	}
 
-	if event.User.Email != "user1@example.com" {
-		t.Errorf("User email is %s, want %s", event.User.Email, "user1@example.com")
+	if event.User.Email != expectedEmail {
+		t.Errorf("User email is %s, want %s", event.User.Email, expectedEmail)
 	}
 
 	if event.ObjectAttributes.LastCommit.Timestamp == nil {
@@ -228,23 +230,93 @@ func TestMergeEventUnmarshal(t *testing.T) {
 	}
 
 	if event.Assignees[0].AvatarURL != excpectedAvatar {
-		t.Errorf("Assignees[0].Email is %v, want %v", event.Assignees[0].AvatarURL, excpectedAvatar)
+		t.Errorf("Assignees[0].AvatarURL is %v, want %v", event.Assignees[0].AvatarURL, excpectedAvatar)
 	}
 
-	if event.Assignees[0].Email != expectedEmail {
-		t.Errorf("Assignees[0].Email is %v, want %v", event.Assignees[0].Email, expectedEmail)
+	if len(event.Reviewers) < 1 {
+		t.Errorf("Reviewers length is %d, want %d", len(event.Reviewers), 1)
 	}
 
-	if len(event.Changes.Reviewers.Previous) != 0 {
-		t.Errorf("Changes.Reviewer.Previeous length is %d, want %d", len(event.Changes.Reviewers.Previous), 0)
+	if event.Reviewers[0].Name != expectedName {
+		t.Errorf("Reviewers[0].Name is %v, want %v", event.Reviewers[0].Name, expectedName)
 	}
 
-	if len(event.Changes.Reviewers.Current) != 1 {
-		t.Errorf("Changes.Reviewer.Current length is %d, want %d", len(event.Changes.Reviewers.Current), 1)
+	if event.Reviewers[0].Username != expectedUsername {
+		t.Errorf("Reviewer[0].Username is %v, want %v", event.Reviewers[0].Username, expectedUsername)
 	}
 
-	if event.Changes.Reviewers.Current[0].Username != expectedUsername {
-		t.Errorf("Changes.Reviewer.Current[0].Username is %v, want %v", event.Changes.Reviewers.Current[0].Username, expectedUsername)
+	if event.Reviewers[0].AvatarURL != excpectedAvatar {
+		t.Errorf("Reviewers[0].AvatarURL is %v, want %v", event.Reviewers[0].AvatarURL, excpectedAvatar)
+	}
+}
+
+func TestMemberEventUnmarshal(t *testing.T) {
+	jsonObject := loadFixture("testdata/webhooks/member.json")
+
+	var event *MemberEvent
+	err := json.Unmarshal(jsonObject, &event)
+
+	if err != nil {
+		t.Errorf("Member Event can not unmarshaled: %v\n ", err.Error())
+	}
+
+	if event == nil {
+		t.Errorf("Member Event is null")
+	}
+
+	if event.GroupName != ExpectedGroup {
+		t.Errorf("Name is %v, want %v", event.GroupName, ExpectedGroup)
+	}
+
+	if event.GroupPath != ExpectedGroup {
+		t.Errorf("GroupPath is %v, want %v", event.GroupPath, ExpectedGroup)
+	}
+
+	if event.GroupID != 100 {
+		t.Errorf(
+			"GroupID is %v, want %v", event.GroupID, 100)
+	}
+
+	if event.UserUsername != expectedUsername {
+		t.Errorf(
+			"UserUsername is %v, want %v", event.UserUsername, expectedUsername)
+	}
+
+	if event.UserName != expectedName {
+		t.Errorf(
+			"UserName is %v, want %v", event.UserName, expectedName)
+	}
+
+	if event.UserEmail != "testuser@webhooktest.com" {
+		t.Errorf(
+			"UserEmail is %v, want %v", event.UserEmail, "testuser@webhooktest.com")
+	}
+
+	if event.UserID != 64 {
+		t.Errorf(
+			"UserID is %v, want %v", event.UserID, 64)
+	}
+
+	if event.GroupAccess != "Guest" {
+		t.Errorf(
+			"GroupAccess is %v, want %v", event.GroupAccess, "Guest")
+	}
+
+	if event.EventName != expectedEventName {
+		t.Errorf(
+			"EventName is %v, want %v", event.EventName, expectedEventName)
+	}
+
+	if event.CreatedAt.Format(time.RFC3339) != "2020-12-11T04:57:22Z" {
+		t.Errorf("CreatedAt is %v, want %v", event.CreatedAt.Format(time.RFC3339), "2020-12-11T04:57:22Z")
+	}
+
+	if event.UpdatedAt.Format(time.RFC3339) != "2020-12-11T04:57:22Z" {
+		t.Errorf("UpdatedAt is %v, want %v", event.UpdatedAt.Format(time.RFC3339), "2020-12-11T04:57:22Z")
+	}
+
+	if event.ExpiresAt.Format(time.RFC3339) != "2020-12-14T00:00:00Z" {
+		t.Errorf("ExpiresAt is %v, want %v", event.ExpiresAt.Format(time.RFC3339), "2020-12-14T00:00:00Z")
 	}
 }
 

@@ -82,7 +82,7 @@ type NotePosition struct {
 	NewLine      int        `json:"new_line,omitempty"`
 	OldPath      string     `json:"old_path,omitempty"`
 	OldLine      int        `json:"old_line,omitempty"`
-	LineRange    *LineRange `json:"line_range"`
+	LineRange    *LineRange `json:"line_range,omitempty"`
 }
 
 // LineRange represents the range of a note.

@@ -218,6 +218,24 @@ func TestParseMergeRequestCommentHook(t *testing.T) {
 	}
 }
 
+func TestParseMemberHook(t *testing.T) {
+	raw := loadFixture("testdata/webhooks/member.json")
+
+	parsedEvent, err := ParseWebhook("Member Hook", raw)
+	if err != nil {
+		t.Errorf("Error parsing member hook: %s", err)
+	}
+
+	event, ok := parsedEvent.(*MemberEvent)
+	if !ok {
+		t.Errorf("Expected MemberEvent, but parsing produced %T", parsedEvent)
+	}
+
+	if event.EventName != "user_add_to_group" {
+		t.Errorf("EventName is %v, want %v", event.EventName, "user_add_to_group")
+	}
+}
+
 func TestParseMergeRequestHook(t *testing.T) {
 	raw := loadFixture("testdata/webhooks/merge_request.json")
 

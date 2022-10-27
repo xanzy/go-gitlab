@@ -892,7 +892,7 @@ func CheckResponse(r *http.Response) error {
 
 		var raw interface{}
 		if err := json.Unmarshal(data, &raw); err != nil {
-			errorResponse.Message = "failed to parse unknown error format"
+			errorResponse.Message = fmt.Sprintf("failed to parse unknown error format: %s", data)
 		} else {
 			errorResponse.Message = parseError(raw)
 		}

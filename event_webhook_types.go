@@ -347,6 +347,26 @@ type JobEvent struct {
 	} `json:"runner"`
 }
 
+// MemberEvent represents a member event.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/user/project/integrations/webhook_events.html#group-member-events
+type MemberEvent struct {
+	CreatedAt    *time.Time `json:"created_at"`
+	UpdatedAt    *time.Time `json:"updated_at"`
+	GroupName    string     `json:"group_name"`
+	GroupPath    string     `json:"group_path"`
+	GroupID      int        `json:"group_id"`
+	UserUsername string     `json:"user_username"`
+	UserName     string     `json:"user_name"`
+	UserEmail    string     `json:"user_email"`
+	UserID       int        `json:"user_id"`
+	GroupAccess  string     `json:"group_access"`
+	GroupPlan    string     `json:"group_plan"`
+	ExpiresAt    *time.Time `json:"expires_at"`
+	EventName    string     `json:"event_name"`
+}
+
 // MergeCommentEvent represents a comment on a merge event.
 //
 // GitLab API docs:
@@ -483,6 +503,7 @@ type MergeEvent struct {
 		AuthorID                 int          `json:"author_id"`
 		AssigneeID               int          `json:"assignee_id"`
 		AssigneeIDs              []int        `json:"assignee_ids"`
+		ReviewerIDs              []int        `json:"reviewer_ids"`
 		Title                    string       `json:"title"`
 		CreatedAt                string       `json:"created_at"` // Should be *time.Time (see Gitlab issue #21468)
 		UpdatedAt                string       `json:"updated_at"` // Should be *time.Time (see Gitlab issue #21468)
@@ -531,6 +552,7 @@ type MergeEvent struct {
 	Repository *Repository  `json:"repository"`
 	Assignee   *EventUser   `json:"assignee"`
 	Assignees  []*EventUser `json:"assignees"`
+	Reviewers  []*EventUser `json:"reviewers"`
 	Labels     []*Label     `json:"labels"`
 	Changes    struct {
 		Assignees struct {

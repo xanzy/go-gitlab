@@ -5,8 +5,15 @@ on:
   push:
     branches: [master]
 
+permissions:
+  contents: read
+
 jobs:
   lint_and_test:
+    permissions:
+      contents: read
+      pull-requests: read
+
     name: Lint and Test - ${{ matrix.go-version }}
     strategy:
       matrix:
