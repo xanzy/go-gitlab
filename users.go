@@ -31,11 +31,11 @@ var (
 	ErrUserBlockPrevented            = errors.New("Cannot block a user that is already blocked by LDAP synchronization")
 	ErrUserConflict                  = errors.New("User does not have a pending request")
 	ErrUserDeactivatePrevented       = errors.New("Cannot deactivate a user that is blocked by admin or by LDAP synchronization")
+	ErrUserDisableTwoFactorPrevented = errors.New("Cannot disable two factor authentication if not authenticated as administrator")
 	ErrUserNotFound                  = errors.New("User does not exist")
 	ErrUserRejectPrevented           = errors.New("Cannot reject a user if not authenticated as administrator")
-	ErrUserUnblockPrevented          = errors.New("Cannot unblock a user that is blocked by LDAP synchronization")
-	ErrUserDisableTwoFactorPrevented = errors.New("Cannot disable two factor authentication if not authenticated as administrator")
 	ErrUserTwoFactorNotEnabled       = errors.New("Cannot disable two factor authentication if not enabled")
+	ErrUserUnblockPrevented          = errors.New("Cannot unblock a user that is blocked by LDAP synchronization")
 )
 
 // UsersService handles communication with the user related methods of
@@ -1341,7 +1341,7 @@ func (s *UsersService) GetUserMemberships(user int, opt *GetUserMembershipOption
 	return m, resp, err
 }
 
-// DisableTwoFactor disables one user's two factor authentication
+// DisableTwoFactor disables two factor authentication for the specified user.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/users.html#disable-two-factor-authentication
@@ -1354,6 +1354,9 @@ func (s *UsersService) DisableTwoFactor(user int, options ...RequestOptionFunc) 
 	}
 
 	resp, err := s.client.Do(req, nil)
+	if err != nil && resp == nil {
+		return err
+	}
 
 	switch resp.StatusCode {
 	case 204:
@@ -1367,6 +1370,4 @@ func (s *UsersService) DisableTwoFactor(user int, options ...RequestOptionFunc) 
 	default:
 		return fmt.Errorf("Received unexpected result code: %d", resp.StatusCode)
 	}
-
-	return err
 }
