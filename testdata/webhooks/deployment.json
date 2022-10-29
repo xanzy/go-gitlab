@@ -32,5 +32,6 @@
   },
   "user_url": "http://10.126.0.2:3000/root",
   "commit_url": "http://10.126.0.2:3000/root/test-deployment-webhooks/-/commit/279484c09fbe69ededfced8c1bb6e6d24616b468",
-  "commit_title": "Add new file"
+  "commit_title": "Add new file",
+  "ref": "1.0.0"
 }

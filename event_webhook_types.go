@@ -151,6 +151,7 @@ type DeploymentEvent struct {
 		SSHURL            string  `json:"ssh_url"`
 		HTTPURL           string  `json:"http_url"`
 	} `json:"project"`
+	Ref         string     `json:"ref"`
 	ShortSHA    string     `json:"short_sha"`
 	User        *EventUser `json:"user"`
 	UserURL     string     `json:"user_url"`
@@ -305,8 +306,7 @@ type IssueEvent struct {
 // JobEvent represents a job event.
 //
 // GitLab API docs:
-// TODO: link to docs instead of src once they are published.
-// https://gitlab.com/gitlab-org/gitlab-ce/blob/master/lib/gitlab/data_builder/build.rb
+// https://docs.gitlab.com/ee/user/project/integrations/webhook_events.html#job-events
 type JobEvent struct {
 	ObjectKind         string     `json:"object_kind"`
 	Ref                string     `json:"ref"`
