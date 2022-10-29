@@ -270,6 +270,105 @@ func (s *ServicesService) DeleteDroneCIService(pid interface{}, options ...Reque
 	return s.client.Do(req, nil)
 }
 
+// EmailsOnPushService represents Emails on Push service settings.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/integrations.html#emails-on-push
+type EmailsOnPushService struct {
+	Service
+	Properties *EmailsOnPushServiceProperties `json:"properties"`
+}
+
+// EmailsOnPushServiceProperties represents Emails on Push specific properties.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/integrations.html#emails-on-push
+type EmailsOnPushServiceProperties struct {
+	Recipients             string `json:"recipients"`
+	DisableDiffs           bool   `json:"disable_diffs"`
+	SendFromCommitterEmail bool   `json:"send_from_committer_email"`
+	PushEvents             bool   `json:"push_events"`
+	TagPushEvents          bool   `json:"tag_push_events"`
+	BranchesToBeNotified   string `json:"branches_to_be_notified"`
+}
+
+// GetEmailsOnPushService gets Emails on Push service settings for a project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/integrations.html#get-emails-on-push-integration-settings
+func (s *ServicesService) GetEmailsOnPushService(pid interface{}, options ...RequestOptionFunc) (*EmailsOnPushService, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/integrations/emails-on-push", PathEscape(project))
+
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	svc := new(EmailsOnPushService)
+	resp, err := s.client.Do(req, svc)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return svc, resp, err
+}
+
+// SetEmailsOnPushServiceOptions represents the available SetEmailsOnPushService()
+// options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/integrations.html#createedit-emails-on-push-integration
+type SetEmailsOnPushServiceOptions struct {
+	Recipients             *string `url:"recipients,omitempty" json:"recipients,omitempty"`
+	DisableDiffs           *bool   `url:"disable_diffs,omitempty" json:"disable_diffs,omitempty"`
+	SendFromCommitterEmail *bool   `url:"send_from_committer_email,omitempty" json:"send_from_committer_email,omitempty"`
+	PushEvents             *bool   `url:"push_events,omitempty" json:"push_events,omitempty"`
+	TagPushEvents          *bool   `url:"tag_push_events,omitempty" json:"tag_push_events,omitempty"`
+	BranchesToBeNotified   *string `url:"branches_to_be_notified,omitempty" json:"branches_to_be_notified,omitempty"`
+}
+
+// SetEmailsOnPushService sets Emails on Push service for a project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/integrations.html#createedit-emails-on-push-integration
+func (s *ServicesService) SetEmailsOnPushService(pid interface{}, opt *SetEmailsOnPushServiceOptions, options ...RequestOptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/integrations/emails-on-push", PathEscape(project))
+
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
+
+// DeleteEmailsOnPushService deletes Emails on Push service settings for a project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/integrations.html#disable-emails-on-push-integration
+func (s *ServicesService) DeleteEmailsOnPushService(pid interface{}, options ...RequestOptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/integrations/emails-on-push", PathEscape(project))
+
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
+
 // ExternalWikiService represents External Wiki service settings.
 //
 // GitLab API docs:

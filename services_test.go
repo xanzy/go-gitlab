@@ -158,6 +158,55 @@ func TestDeleteDroneCIService(t *testing.T) {
 	}
 }
 
+func TestGetEmailsOnPushService(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/integrations/emails-on-push", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		fmt.Fprint(w, `{"id":1}`)
+	})
+	want := &EmailsOnPushService{Service: Service{ID: 1}}
+
+	service, _, err := client.Services.GetEmailsOnPushService(1)
+	if err != nil {
+		t.Fatalf("Services.GetEmailsOnPushService returns an error: %v", err)
+	}
+	if !reflect.DeepEqual(want, service) {
+		t.Errorf("Services.GetEmailsOnPushService returned %+v, want %+v", service, want)
+	}
+}
+
+func TestSetEmailsOnPushService(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/integrations/emails-on-push", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPut)
+	})
+
+	opt := &SetEmailsOnPushServiceOptions{String("t"), Bool(true), Bool(true), Bool(true), Bool(true), String("t")}
+
+	_, err := client.Services.SetEmailsOnPushService(1, opt)
+	if err != nil {
+		t.Fatalf("Services.SetEmailsOnPushService returns an error: %v", err)
+	}
+}
+
+func TestDeleteEmailsOnPushService(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/integrations/emails-on-push", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodDelete)
+	})
+
+	_, err := client.Services.DeleteEmailsOnPushService(1)
+	if err != nil {
+		t.Fatalf("Services.DeleteEmailsOnPushService returns an error: %v", err)
+	}
+}
+
 func TestGetJiraService(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
