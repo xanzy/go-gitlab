@@ -499,19 +499,22 @@ func (s *JobsService) KeepArtifacts(pid interface{}, jobID int, options ...Reque
 	return job, resp, err
 }
 
-// JobVariable represents a single job variable.
-type JobVariable struct {
-	Key          *string `json:"key"`
-	Value        *string `json:"value"`
-	VariableType *string `json:"variable_type,omitempty"`
-}
-
 // PlayJobOptions represents the available PlayJob() options.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/jobs.html#run-a-job
 type PlayJobOptions struct {
-	JobVariablesAttributes *[]JobVariable `json:"job_variables_attributes,omitempty"`
+	JobVariablesAttributes *[]*JobVariableOptions `url:"job_variables_attributes,omitempty" json:"job_variables_attributes,omitempty"`
+}
+
+// JobVariableOptions represents a single job variable.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/jobs.html#run-a-job
+type JobVariableOptions struct {
+	Key          *string `url:"key,omitempty" json:"key,omitempty"`
+	Value        *string `url:"value,omitempty" json:"value,omitempty"`
+	VariableType *string `url:"variable_type,omitempty" json:"variable_type,omitempty"`
 }
 
 // PlayJob triggers a manual action to start a job.
