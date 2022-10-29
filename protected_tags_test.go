@@ -80,7 +80,7 @@ func TestGetProtectedTag(t *testing.T) {
 			},
 			{
 				AccessLevel:            40,
-				GroupID:                Int(300),
+				GroupID:                300,
 				AccessLevelDescription: "Sample Group",
 			},
 		},
@@ -110,7 +110,7 @@ func TestProtectRepositoryTags(t *testing.T) {
 			},
 			{
 				AccessLevel:            40,
-				GroupID:                Int(300),
+				GroupID:                300,
 				AccessLevelDescription: "Sample Group",
 			},
 		},
@@ -119,7 +119,7 @@ func TestProtectRepositoryTags(t *testing.T) {
 	opt := &ProtectRepositoryTagsOptions{
 		Name:              String("my-awesome-tag"),
 		CreateAccessLevel: AccessLevel(30),
-		AllowedToCreate: &[]ProtectRepositoryTagsPermissionOptions{
+		AllowedToCreate: &[]*TagsPermissionOptions{
 			{
 				GroupID: Int(300),
 			},
