@@ -40,7 +40,7 @@ type WeightEvent struct {
 	ResourceType string         `json:"resource_type"`
 	ResourceID   int            `json:"resource_id"`
 	State        EventTypeValue `json:"state"`
-	IssueId      int            `json:"issue_id"`
+	IssueID      int            `json:"issue_id"`
 	Weight       int            `json:"weight"`
 }
 
@@ -70,11 +70,11 @@ func (s *ResourceWeightEventsService) ListIssueWeightEvents(pid interface{}, iss
 		return nil, nil, err
 	}
 
-	var ses []*WeightEvent
-	resp, err := s.client.Do(req, &ses)
+	var wes []*WeightEvent
+	resp, err := s.client.Do(req, &wes)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return ses, resp, err
+	return wes, resp, err
 }

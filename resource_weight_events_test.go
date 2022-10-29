@@ -49,7 +49,7 @@ func TestResourceWeightEventsService_ListIssueWightEvents(t *testing.T) {
 			WebURL:    "http://gitlab.example.com/root",
 		},
 		CreatedAt: Time(time.Date(2018, time.August, 20, 13, 38, 20, 77000000, time.UTC)),
-		IssueId:   253,
+		IssueID:   253,
 		Weight:    3,
 	}}
 	require.Equal(t, want, wes)

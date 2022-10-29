@@ -904,23 +904,24 @@ func CheckResponse(r *http.Response) error {
 }
 
 // Format:
-// {
-//     "message": {
-//         "<property-name>": [
-//             "<error-message>",
-//             "<error-message>",
-//             ...
-//         ],
-//         "<embed-entity>": {
-//             "<property-name>": [
-//                 "<error-message>",
-//                 "<error-message>",
-//                 ...
-//             ],
-//         }
-//     },
-//     "error": "<error-message>"
-// }
+//
+//	{
+//	    "message": {
+//	        "<property-name>": [
+//	            "<error-message>",
+//	            "<error-message>",
+//	            ...
+//	        ],
+//	        "<embed-entity>": {
+//	            "<property-name>": [
+//	                "<error-message>",
+//	                "<error-message>",
+//	                ...
+//	            ],
+//	        }
+//	    },
+//	    "error": "<error-message>"
+//	}
 func parseError(raw interface{}) string {
 	switch raw := raw.(type) {
 	case string:
