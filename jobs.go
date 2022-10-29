@@ -499,18 +499,36 @@ func (s *JobsService) KeepArtifacts(pid interface{}, jobID int, options ...Reque
 	return job, resp, err
 }
 
+// PlayJobOptions represents the available PlayJob() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/jobs.html#run-a-job
+type PlayJobOptions struct {
+	JobVariablesAttributes *[]*JobVariableOptions `url:"job_variables_attributes,omitempty" json:"job_variables_attributes,omitempty"`
+}
+
+// JobVariableOptions represents a single job variable.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/jobs.html#run-a-job
+type JobVariableOptions struct {
+	Key          *string `url:"key,omitempty" json:"key,omitempty"`
+	Value        *string `url:"value,omitempty" json:"value,omitempty"`
+	VariableType *string `url:"variable_type,omitempty" json:"variable_type,omitempty"`
+}
+
 // PlayJob triggers a manual action to start a job.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/jobs.html#play-a-job
-func (s *JobsService) PlayJob(pid interface{}, jobID int, options ...RequestOptionFunc) (*Job, *Response, error) {
+// https://docs.gitlab.com/ce/api/jobs.html#run-a-job
+func (s *JobsService) PlayJob(pid interface{}, jobID int, opt *PlayJobOptions, options ...RequestOptionFunc) (*Job, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/jobs/%d/play", PathEscape(project), jobID)
 
-	req, err := s.client.NewRequest(http.MethodPost, u, nil, options)
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
