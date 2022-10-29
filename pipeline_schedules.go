@@ -110,13 +110,15 @@ func (s *PipelineSchedulesService) GetPipelineSchedule(pid interface{}, schedule
 	return p, resp, err
 }
 
-// ListPipelinesTriggeredByScheduleOptions represents the available ListPipelinesTriggeredBySchedule() options.
+// ListPipelinesTriggeredByScheduleOptions represents the available
+// ListPipelinesTriggeredBySchedule() options.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/pipeline_schedules.html#get-all-pipelines-triggered-by-a-pipeline-schedule
 type ListPipelinesTriggeredByScheduleOptions ListOptions
 
-// ListPipelinesTriggeredBySchedule gets all pipelines triggered by a pipeline schedule
+// ListPipelinesTriggeredBySchedule gets all pipelines triggered by a pipeline
+// schedule.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/pipeline_schedules.html#get-all-pipelines-triggered-by-a-pipeline-schedule
