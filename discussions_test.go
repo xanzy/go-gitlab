@@ -2245,7 +2245,7 @@ func TestDiscussionsService_ListCommitDiscussions(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
 
-	mux.HandleFunc("/api/v4/projects/5/repository/commits/11/discussions", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v4/projects/5/repository/commits/abc123/discussions", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
 		fmt.Fprintf(w, `
 			[
@@ -2327,22 +2327,22 @@ func TestDiscussionsService_ListCommitDiscussions(t *testing.T) {
 		}},
 	}}
 
-	ds, resp, err := client.Discussions.ListCommitDiscussions(5, 11, nil, nil)
+	ds, resp, err := client.Discussions.ListCommitDiscussions(5, "abc123", nil, nil)
 	require.NoError(t, err)
 	require.NotNil(t, resp)
 	require.Equal(t, want, ds)
 
-	ds, resp, err = client.Discussions.ListCommitDiscussions(5.01, 11, nil, nil)
+	ds, resp, err = client.Discussions.ListCommitDiscussions(5.01, "abc123", nil, nil)
 	require.EqualError(t, err, "invalid ID type 5.01, the ID must be an int or a string")
 	require.Nil(t, resp)
 	require.Nil(t, ds)
 
-	ds, resp, err = client.Discussions.ListCommitDiscussions(5, 11, nil, nil, errorOption)
+	ds, resp, err = client.Discussions.ListCommitDiscussions(5, "abc123", nil, nil, errorOption)
 	require.EqualError(t, err, "RequestOptionFunc returns an error")
 	require.Nil(t, resp)
 	require.Nil(t, ds)
 
-	ds, resp, err = client.Discussions.ListCommitDiscussions(3, 11, nil, nil)
+	ds, resp, err = client.Discussions.ListCommitDiscussions(3, "abc123", nil, nil)
 	require.Error(t, err)
 	require.Nil(t, ds)
 	require.Equal(t, http.StatusNotFound, resp.StatusCode)
@@ -2352,7 +2352,7 @@ func TestDiscussionsService_GetCommitDiscussion(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
 
-	mux.HandleFunc("/api/v4/projects/5/repository/commits/11/discussions/6a9c1750b37d513a43987b574953fceb50b03ce7", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v4/projects/5/repository/commits/abc123/discussions/6a9c1750b37d513a43987b574953fceb50b03ce7", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
 		fmt.Fprintf(w, `
 		  {
@@ -2432,22 +2432,22 @@ func TestDiscussionsService_GetCommitDiscussion(t *testing.T) {
 		}},
 	}
 
-	d, resp, err := client.Discussions.GetCommitDiscussion(5, 11, "6a9c1750b37d513a43987b574953fceb50b03ce7", nil, nil)
+	d, resp, err := client.Discussions.GetCommitDiscussion(5, "abc123", "6a9c1750b37d513a43987b574953fceb50b03ce7", nil, nil)
 	require.NoError(t, err)
 	require.NotNil(t, resp)
 	require.Equal(t, want, d)
 
-	d, resp, err = client.Discussions.GetCommitDiscussion(5.01, 11, "6a9c1750b37d513a43987b574953fceb50b03ce7", nil, nil)
+	d, resp, err = client.Discussions.GetCommitDiscussion(5.01, "abc123", "6a9c1750b37d513a43987b574953fceb50b03ce7", nil, nil)
 	require.EqualError(t, err, "invalid ID type 5.01, the ID must be an int or a string")
 	require.Nil(t, resp)
 	require.Nil(t, d)
 
-	d, resp, err = client.Discussions.GetCommitDiscussion(5, 11, "6a9c1750b37d513a43987b574953fceb50b03ce7", nil, nil, errorOption)
+	d, resp, err = client.Discussions.GetCommitDiscussion(5, "abc123", "6a9c1750b37d513a43987b574953fceb50b03ce7", nil, nil, errorOption)
 	require.EqualError(t, err, "RequestOptionFunc returns an error")
 	require.Nil(t, resp)
 	require.Nil(t, d)
 
-	d, resp, err = client.Discussions.GetCommitDiscussion(3, 11, "6a9c1750b37d513a43987b574953fceb50b03ce7", nil, nil)
+	d, resp, err = client.Discussions.GetCommitDiscussion(3, "abc123", "6a9c1750b37d513a43987b574953fceb50b03ce7", nil, nil)
 	require.Error(t, err)
 	require.Nil(t, d)
 	require.Equal(t, http.StatusNotFound, resp.StatusCode)
@@ -2457,7 +2457,7 @@ func TestDiscussionsService_CreateCommitDiscussion(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
 
-	mux.HandleFunc("/api/v4/projects/5/repository/commits/11/discussions", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v4/projects/5/repository/commits/abc123/discussions", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
 		fmt.Fprintf(w, `
 		  {
@@ -2537,22 +2537,22 @@ func TestDiscussionsService_CreateCommitDiscussion(t *testing.T) {
 		}},
 	}
 
-	d, resp, err := client.Discussions.CreateCommitDiscussion(5, 11, nil, nil)
+	d, resp, err := client.Discussions.CreateCommitDiscussion(5, "abc123", nil, nil)
 	require.NoError(t, err)
 	require.NotNil(t, resp)
 	require.Equal(t, want, d)
 
-	d, resp, err = client.Discussions.CreateCommitDiscussion(5.01, 11, nil, nil)
+	d, resp, err = client.Discussions.CreateCommitDiscussion(5.01, "abc123", nil, nil)
 	require.EqualError(t, err, "invalid ID type 5.01, the ID must be an int or a string")
 	require.Nil(t, resp)
 	require.Nil(t, d)
 
-	d, resp, err = client.Discussions.CreateCommitDiscussion(5, 11, nil, nil, errorOption)
+	d, resp, err = client.Discussions.CreateCommitDiscussion(5, "abc123", nil, nil, errorOption)
 	require.EqualError(t, err, "RequestOptionFunc returns an error")
 	require.Nil(t, resp)
 	require.Nil(t, d)
 
-	d, resp, err = client.Discussions.CreateCommitDiscussion(3, 11, nil, nil)
+	d, resp, err = client.Discussions.CreateCommitDiscussion(3, "abc123", nil, nil)
 	require.Error(t, err)
 	require.Nil(t, d)
 	require.Equal(t, http.StatusNotFound, resp.StatusCode)
@@ -2562,7 +2562,7 @@ func TestDiscussionsService_AddCommitDiscussionNote(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
 
-	mux.HandleFunc("/api/v4/projects/5/repository/commits/11/discussions/6a9c1750b37d513a43987b574953fceb50b03ce7/notes", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v4/projects/5/repository/commits/abc123/discussions/6a9c1750b37d513a43987b574953fceb50b03ce7/notes", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
 		fmt.Fprintf(w, `
 		  {
@@ -2632,22 +2632,22 @@ func TestDiscussionsService_AddCommitDiscussionNote(t *testing.T) {
 		NoteableIID: 377,
 	}
 
-	n, resp, err := client.Discussions.AddCommitDiscussionNote(5, 11, "6a9c1750b37d513a43987b574953fceb50b03ce7", nil, nil)
+	n, resp, err := client.Discussions.AddCommitDiscussionNote(5, "abc123", "6a9c1750b37d513a43987b574953fceb50b03ce7", nil, nil)
 	require.NoError(t, err)
 	require.NotNil(t, resp)
 	require.Equal(t, want, n)
 
-	n, resp, err = client.Discussions.AddCommitDiscussionNote(5.01, 11, "6a9c1750b37d513a43987b574953fceb50b03ce7", nil, nil)
+	n, resp, err = client.Discussions.AddCommitDiscussionNote(5.01, "abc123", "6a9c1750b37d513a43987b574953fceb50b03ce7", nil, nil)
 	require.EqualError(t, err, "invalid ID type 5.01, the ID must be an int or a string")
 	require.Nil(t, resp)
 	require.Nil(t, n)
 
-	n, resp, err = client.Discussions.AddCommitDiscussionNote(5, 11, "6a9c1750b37d513a43987b574953fceb50b03ce7", nil, nil, errorOption)
+	n, resp, err = client.Discussions.AddCommitDiscussionNote(5, "abc123", "6a9c1750b37d513a43987b574953fceb50b03ce7", nil, nil, errorOption)
 	require.EqualError(t, err, "RequestOptionFunc returns an error")
 	require.Nil(t, resp)
 	require.Nil(t, n)
 
-	n, resp, err = client.Discussions.AddCommitDiscussionNote(3, 11, "6a9c1750b37d513a43987b574953fceb50b03ce7", nil, nil)
+	n, resp, err = client.Discussions.AddCommitDiscussionNote(3, "abc123", "6a9c1750b37d513a43987b574953fceb50b03ce7", nil, nil)
 	require.Error(t, err)
 	require.Nil(t, n)
 	require.Equal(t, http.StatusNotFound, resp.StatusCode)
@@ -2657,7 +2657,7 @@ func TestDiscussionsService_UpdateCommitDiscussionNote(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
 
-	mux.HandleFunc("/api/v4/projects/5/repository/commits/11/discussions/6a9c1750b37d513a43987b574953fceb50b03ce7/notes/302", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v4/projects/5/repository/commits/abc123/discussions/6a9c1750b37d513a43987b574953fceb50b03ce7/notes/302", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
 		fmt.Fprintf(w, `
 		  {
@@ -2727,22 +2727,22 @@ func TestDiscussionsService_UpdateCommitDiscussionNote(t *testing.T) {
 		NoteableIID: 377,
 	}
 
-	n, resp, err := client.Discussions.UpdateCommitDiscussionNote(5, 11, "6a9c1750b37d513a43987b574953fceb50b03ce7", 302, nil, nil)
+	n, resp, err := client.Discussions.UpdateCommitDiscussionNote(5, "abc123", "6a9c1750b37d513a43987b574953fceb50b03ce7", 302, nil, nil)
 	require.NoError(t, err)
 	require.NotNil(t, resp)
 	require.Equal(t, want, n)
 
-	n, resp, err = client.Discussions.UpdateCommitDiscussionNote(5.01, 11, "6a9c1750b37d513a43987b574953fceb50b03ce7", 302, nil, nil)
+	n, resp, err = client.Discussions.UpdateCommitDiscussionNote(5.01, "abc123", "6a9c1750b37d513a43987b574953fceb50b03ce7", 302, nil, nil)
 	require.EqualError(t, err, "invalid ID type 5.01, the ID must be an int or a string")
 	require.Nil(t, resp)
 	require.Nil(t, n)
 
-	n, resp, err = client.Discussions.UpdateCommitDiscussionNote(5, 11, "6a9c1750b37d513a43987b574953fceb50b03ce7", 302, nil, nil, errorOption)
+	n, resp, err = client.Discussions.UpdateCommitDiscussionNote(5, "abc123", "6a9c1750b37d513a43987b574953fceb50b03ce7", 302, nil, nil, errorOption)
 	require.EqualError(t, err, "RequestOptionFunc returns an error")
 	require.Nil(t, resp)
 	require.Nil(t, n)
 
-	n, resp, err = client.Discussions.UpdateCommitDiscussionNote(3, 11, "6a9c1750b37d513a43987b574953fceb50b03ce7", 302, nil, nil)
+	n, resp, err = client.Discussions.UpdateCommitDiscussionNote(3, "abc123", "6a9c1750b37d513a43987b574953fceb50b03ce7", 302, nil, nil)
 	require.Error(t, err)
 	require.Nil(t, n)
 	require.Equal(t, http.StatusNotFound, resp.StatusCode)
@@ -2752,23 +2752,23 @@ func TestDiscussionsService_DeleteCommitDiscussionNote(t *testing.T) {
 	mux, server, client := setup(t)
 	defer teardown(server)
 
-	mux.HandleFunc("/api/v4/projects/5/repository/commits/11/discussions/6a9c1750b37d513a43987b574953fceb50b03ce7/notes/302", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v4/projects/5/repository/commits/abc123/discussions/6a9c1750b37d513a43987b574953fceb50b03ce7/notes/302", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)
 	})
 
-	resp, err := client.Discussions.DeleteCommitDiscussionNote(5, 11, "6a9c1750b37d513a43987b574953fceb50b03ce7", 302, nil, nil)
+	resp, err := client.Discussions.DeleteCommitDiscussionNote(5, "abc123", "6a9c1750b37d513a43987b574953fceb50b03ce7", 302, nil, nil)
 	require.NoError(t, err)
 	require.NotNil(t, resp)
 
-	resp, err = client.Discussions.DeleteCommitDiscussionNote(5.01, 11, "6a9c1750b37d513a43987b574953fceb50b03ce7", 302, nil, nil)
+	resp, err = client.Discussions.DeleteCommitDiscussionNote(5.01, "abc123", "6a9c1750b37d513a43987b574953fceb50b03ce7", 302, nil, nil)
 	require.EqualError(t, err, "invalid ID type 5.01, the ID must be an int or a string")
 	require.Nil(t, resp)
 
-	resp, err = client.Discussions.DeleteCommitDiscussionNote(5, 11, "6a9c1750b37d513a43987b574953fceb50b03ce7", 302, nil, nil, errorOption)
+	resp, err = client.Discussions.DeleteCommitDiscussionNote(5, "abc123", "6a9c1750b37d513a43987b574953fceb50b03ce7", 302, nil, nil, errorOption)
 	require.EqualError(t, err, "RequestOptionFunc returns an error")
 	require.Nil(t, resp)
 
-	resp, err = client.Discussions.DeleteCommitDiscussionNote(3, 11, "6a9c1750b37d513a43987b574953fceb50b03ce7", 302, nil, nil)
+	resp, err = client.Discussions.DeleteCommitDiscussionNote(3, "abc123", "6a9c1750b37d513a43987b574953fceb50b03ce7", 302, nil, nil)
 	require.Error(t, err)
 	require.Equal(t, http.StatusNotFound, resp.StatusCode)
 }
