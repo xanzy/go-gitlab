@@ -64,6 +64,7 @@ type Settings struct {
 	AutoDevOpsDomain                                      string            `json:"auto_devops_domain"`
 	AutoDevOpsEnabled                                     bool              `json:"auto_devops_enabled"`
 	AutomaticPurchasedStorageAllocation                   bool              `json:"automatic_purchased_storage_allocation"`
+	CanCreateGroup                                        bool              `json:"can_create_group"`
 	CheckNamespacePlan                                    bool              `json:"check_namespace_plan"`
 	CommitEmailHostname                                   string            `json:"commit_email_hostname"`
 	ContainerExpirationPoliciesEnableHistoricEntries      bool              `json:"container_expiration_policies_enable_historic_entries"`
@@ -431,6 +432,7 @@ type UpdateSettingsOptions struct {
 	AutoDevOpsDomain                                      *string            `url:"auto_devops_domain,omitempty" json:"auto_devops_domain,omitempty"`
 	AutoDevOpsEnabled                                     *bool              `url:"auto_devops_enabled,omitempty" json:"auto_devops_enabled,omitempty"`
 	AutomaticPurchasedStorageAllocation                   *bool              `url:"automatic_purchased_storage_allocation,omitempty" json:"automatic_purchased_storage_allocation,omitempty"`
+	CanCreateGroup                                        *bool              `url:"can_create_group,omitempty" json:"can_create_group,omitempty"`
 	CheckNamespacePlan                                    *bool              `url:"check_namespace_plan,omitempty" json:"check_namespace_plan,omitempty"`
 	CommitEmailHostname                                   *string            `url:"commit_email_hostname,omitempty" json:"commit_email_hostname,omitempty"`
 	ContainerExpirationPoliciesEnableHistoricEntries      *bool              `url:"container_expiration_policies_enable_historic_entries,omitempty" json:"container_expiration_policies_enable_historic_entries,omitempty"`
