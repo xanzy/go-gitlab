@@ -137,6 +137,7 @@ type CreateProjectFeatureFlagOptions struct {
 // Gitlab API docs:
 // https://docs.gitlab.com/ee/api/feature_flags.html#create-a-feature-flag
 type FeatureFlagStrategyOptions struct {
+	ID         *int                                 `url:"id,omitempty" json:"id,omitempty"`
 	Name       *string                              `url:"name,omitempty" json:"name,omitempty"`
 	Parameters *ProjectFeatureFlagStrategyParameter `url:"parameters,omitempty" json:"parameters,omitempty"`
 	Scopes     *[]*ProjectFeatureFlagScope          `url:"scopes,omitempty" json:"scopes,omitempty"`
