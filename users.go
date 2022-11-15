@@ -745,8 +745,9 @@ func (s *UsersService) DeleteGPGKeyForUser(user, key int, options ...RequestOpti
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/users.html#list-emails
 type Email struct {
-	ID    int    `json:"id"`
-	Email string `json:"email"`
+	ID          int        `json:"id"`
+	Email       string     `json:"email"`
+	ConfirmedAt *time.Time `json:"confirmed_at"`
 }
 
 // ListEmails gets a list of currently authenticated user's Emails.
