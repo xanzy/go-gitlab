@@ -300,7 +300,7 @@ func (s *GroupMembersService) DeleteShareWithGroup(gid interface{}, groupID int,
 // https://docs.gitlab.com/ce/api/members.html#edit-a-member-of-a-group-or-project
 type EditGroupMemberOptions struct {
 	AccessLevel *AccessLevelValue `url:"access_level,omitempty" json:"access_level,omitempty"`
-	ExpiresAt   *string           `url:"expires_at,omitempty" json:"expires_at"`
+	ExpiresAt   *string           `url:"expires_at,omitempty" json:"expires_at,omitempty"`
 }
 
 // EditGroupMember updates a member of a group.
