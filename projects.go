@@ -1983,3 +1983,27 @@ func (s *ProjectsService) TransferProject(pid interface{}, opt *TransferProjectO
 
 	return p, resp, err
 }
+
+// StartHousekeepingProject start the Housekeeping task for a project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/projects.html#start-the-housekeeping-task-for-a-project
+func (s *ProjectsService) StartHousekeepingProject(pid interface{}, options ...RequestOptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/housekeeping", PathEscape(project))
+
+	req, err := s.client.NewRequest(http.MethodPost, u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := s.client.Do(req, nil)
+	if err != nil {
+		return resp, err
+	}
+
+	return resp, err
+}
