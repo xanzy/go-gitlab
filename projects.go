@@ -2007,3 +2007,35 @@ func (s *ProjectsService) StartHousekeepingProject(pid interface{}, options ...R
 
 	return resp, err
 }
+
+// GetRepositoryStorage Get the path to repository storage.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/projects.html#get-the-path-to-repository-storage
+type ProjectReposityStorage struct {
+	ProjectID         int    `json:"project_id"`
+	DiskPath          string `json:"disk_path"`
+	CreatedAt         string `json:"created_at"`
+	RepositoryStorage string `json:"repository_storage"`
+}
+
+func (s *ProjectsService) GetRepositoryStorage(pid interface{}, options ...RequestOptionFunc) (*ProjectReposityStorage, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/storage", PathEscape(project))
+
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	prs := new(ProjectReposityStorage)
+	resp, err := s.client.Do(req, prs)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return prs, resp, err
+}
