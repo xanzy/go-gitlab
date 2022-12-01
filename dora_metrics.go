@@ -27,8 +27,8 @@ const (
 //
 // Gitlab API docs: https://docs.gitlab.com/ee/api/dora/metrics.html
 type DORAMetric struct {
-	Date  string `json:"date"`
-	Value int    `json:"value"`
+	Date  string  `json:"date"`
+	Value float64 `json:"value"`
 }
 
 func (m DORAMetric) String() string {
