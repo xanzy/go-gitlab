@@ -148,6 +148,7 @@ type Project struct {
 	ExternalAuthorizationClassificationLabel string             `json:"external_authorization_classification_label"`
 	RequirementsAccessLevel                  AccessControlValue `json:"requirements_access_level"`
 	SecurityAndComplianceAccessLevel         AccessControlValue `json:"security_and_compliance_access_level"`
+	MergeRequestDefaultTargetSelf            bool               `json:"mr_default_target_self"`
 
 	// Deprecated members
 	PublicBuilds bool `json:"public_builds"`
