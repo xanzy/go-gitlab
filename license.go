@@ -17,6 +17,7 @@
 package gitlab
 
 import (
+	"fmt"
 	"net/http"
 	"time"
 )
@@ -109,4 +110,19 @@ func (s *LicenseService) AddLicense(opt *AddLicenseOptions, options ...RequestOp
 	}
 
 	return l, resp, err
+}
+
+// DeleteLicense deletes an existing license.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/license.html#delete-a-license
+func (s *LicenseService) DeleteLicense(licenseID int, options ...RequestOptionFunc) (*Response, error) {
+	u := fmt.Sprintf("license/%d", licenseID)
+
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
 }
