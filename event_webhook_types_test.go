@@ -440,6 +440,14 @@ func TestPipelineEventUnmarshal(t *testing.T) {
 	if event.Builds[0].Environment.Name != "production" {
 		t.Errorf("Builds.0.Environment.Name is %v, want %v", event.Builds[0].Environment.Name, "production")
 	}
+
+	if event.Builds[0].Duration != 17.1 {
+		t.Errorf("Builds[0].Duration is %v, want %v", event.Builds[0].Duration, 17.1)
+	}
+
+	if event.Builds[0].QueuedDuration != 3.5 {
+		t.Errorf("Builds[0].QueuedDuration is %v, want %v", event.Builds[0].QueuedDuration, 3.5)
+	}
 }
 
 func TestPushEventUnmarshal(t *testing.T) {

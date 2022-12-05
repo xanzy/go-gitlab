@@ -522,3 +522,53 @@ func TestUnshareGroupFromGroup(t *testing.T) {
 		t.Errorf("Groups.UnshareGroupFromGroup returned status code %d", r.StatusCode)
 	}
 }
+
+func TestCreateGroupWithIPRestrictionRanges(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/groups",
+		func(w http.ResponseWriter, r *http.Request) {
+			testMethod(t, r, http.MethodPost)
+			fmt.Fprint(w, `{"id": 1, "name": "g", "path": "g", "ip_restriction_ranges" : "192.168.0.0/24"}`)
+		})
+
+	opt := &CreateGroupOptions{
+		Name:                String("g"),
+		Path:                String("g"),
+		IPRestrictionRanges: String("192.168.0.0/24"),
+	}
+
+	group, _, err := client.Groups.CreateGroup(opt, nil)
+	if err != nil {
+		t.Errorf("Groups.CreateGroup returned error: %v", err)
+	}
+
+	want := &Group{ID: 1, Name: "g", Path: "g", IPRestrictionRanges: "192.168.0.0/24"}
+	if !reflect.DeepEqual(want, group) {
+		t.Errorf("Groups.CreateGroup returned %+v, want %+v", group, want)
+	}
+}
+
+func TestUpdateGroupWithIPRestrictionRanges(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/groups/1",
+		func(w http.ResponseWriter, r *http.Request) {
+			testMethod(t, r, http.MethodPut)
+			fmt.Fprint(w, `{"id": 1, "ip_restriction_ranges" : "192.168.0.0/24"}`)
+		})
+
+	group, _, err := client.Groups.UpdateGroup(1, &UpdateGroupOptions{
+		IPRestrictionRanges: String("192.168.0.0/24"),
+	})
+	if err != nil {
+		t.Errorf("Groups.UpdateGroup returned error: %v", err)
+	}
+
+	want := &Group{ID: 1, IPRestrictionRanges: "192.168.0.0/24"}
+	if !reflect.DeepEqual(want, group) {
+		t.Errorf("Groups.UpdatedGroup returned %+v, want %+v", group, want)
+	}
+}

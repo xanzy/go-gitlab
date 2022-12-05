@@ -720,18 +720,20 @@ type PipelineEvent struct {
 		} `json:"author"`
 	} `json:"commit"`
 	Builds []struct {
-		ID           int        `json:"id"`
-		Stage        string     `json:"stage"`
-		Name         string     `json:"name"`
-		Status       string     `json:"status"`
-		CreatedAt    string     `json:"created_at"`
-		StartedAt    string     `json:"started_at"`
-		FinishedAt   string     `json:"finished_at"`
-		When         string     `json:"when"`
-		Manual       bool       `json:"manual"`
-		AllowFailure bool       `json:"allow_failure"`
-		User         *EventUser `json:"user"`
-		Runner       struct {
+		ID             int        `json:"id"`
+		Stage          string     `json:"stage"`
+		Name           string     `json:"name"`
+		Status         string     `json:"status"`
+		CreatedAt      string     `json:"created_at"`
+		StartedAt      string     `json:"started_at"`
+		FinishedAt     string     `json:"finished_at"`
+		Duration       float64    `json:"duration"`
+		QueuedDuration float64    `json:"queued_duration"`
+		When           string     `json:"when"`
+		Manual         bool       `json:"manual"`
+		AllowFailure   bool       `json:"allow_failure"`
+		User           *EventUser `json:"user"`
+		Runner         struct {
 			ID          int      `json:"id"`
 			Description string   `json:"description"`
 			Active      bool     `json:"active"`
