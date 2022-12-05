@@ -2010,7 +2010,7 @@ func (s *ProjectsService) StartHousekeepingProject(pid interface{}, options ...R
 type ProjectReposityStorage struct {
 	ProjectID         int    `json:"project_id"`
 	DiskPath          string `json:"disk_path"`
-	CreatedAt         string `json:"created_at"`
+	CreatedAt         *time.Time `json:"created_at"`
 	RepositoryStorage string `json:"repository_storage"`
 }
 
