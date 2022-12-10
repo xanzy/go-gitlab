@@ -203,30 +203,30 @@ type IssueCommentEvent struct {
 		URL          string  `json:"url"`
 	} `json:"object_attributes"`
 	Issue struct {
-		ID                  int      `json:"id"`
-		IID                 int      `json:"iid"`
-		ProjectID           int      `json:"project_id"`
-		MilestoneID         int      `json:"milestone_id"`
-		AuthorID            int      `json:"author_id"`
-		Description         string   `json:"description"`
-		State               string   `json:"state"`
-		Title               string   `json:"title"`
-		Labels              []Label  `json:"labels"`
-		LastEditedAt        string   `json:"last_edit_at"`
-		LastEditedByID      int      `json:"last_edited_by_id"`
-		UpdatedAt           string   `json:"updated_at"`
-		UpdatedByID         int      `json:"updated_by_id"`
-		CreatedAt           string   `json:"created_at"`
-		ClosedAt            string   `json:"closed_at"`
-		DueDate             *ISOTime `json:"due_date"`
-		URL                 string   `json:"url"`
-		TimeEstimate        int      `json:"time_estimate"`
-		Confidential        bool     `json:"confidential"`
-		TotalTimeSpent      int      `json:"total_time_spent"`
-		HumanTotalTimeSpent string   `json:"human_total_time_spent"`
-		HumanTimeEstimate   string   `json:"human_time_estimate"`
-		AssigneeIDs         []int    `json:"assignee_ids"`
-		AssigneeID          int      `json:"assignee_id"`
+		ID                  int           `json:"id"`
+		IID                 int           `json:"iid"`
+		ProjectID           int           `json:"project_id"`
+		MilestoneID         int           `json:"milestone_id"`
+		AuthorID            int           `json:"author_id"`
+		Description         string        `json:"description"`
+		State               string        `json:"state"`
+		Title               string        `json:"title"`
+		Labels              []*EventLabel `json:"labels"`
+		LastEditedAt        string        `json:"last_edit_at"`
+		LastEditedByID      int           `json:"last_edited_by_id"`
+		UpdatedAt           string        `json:"updated_at"`
+		UpdatedByID         int           `json:"updated_by_id"`
+		CreatedAt           string        `json:"created_at"`
+		ClosedAt            string        `json:"closed_at"`
+		DueDate             *ISOTime      `json:"due_date"`
+		URL                 string        `json:"url"`
+		TimeEstimate        int           `json:"time_estimate"`
+		Confidential        bool          `json:"confidential"`
+		TotalTimeSpent      int           `json:"total_time_spent"`
+		HumanTotalTimeSpent string        `json:"human_total_time_spent"`
+		HumanTimeEstimate   string        `json:"human_time_estimate"`
+		AssigneeIDs         []int         `json:"assignee_ids"`
+		AssigneeID          int           `json:"assignee_id"`
 	} `json:"issue"`
 }
 
@@ -272,9 +272,9 @@ type IssueEvent struct {
 		URL         string `json:"url"`
 		Action      string `json:"action"`
 	} `json:"object_attributes"`
-	Assignee  *EventUser   `json:"assignee"`
-	Assignees *[]EventUser `json:"assignees"`
-	Labels    []Label      `json:"labels"`
+	Assignee  *EventUser    `json:"assignee"`
+	Assignees *[]EventUser  `json:"assignees"`
+	Labels    []*EventLabel `json:"labels"`
 	Changes   struct {
 		Assignees struct {
 			Previous []*EventUser `json:"previous"`
@@ -285,8 +285,8 @@ type IssueEvent struct {
 			Current  string `json:"current"`
 		} `json:"description"`
 		Labels struct {
-			Previous []Label `json:"previous"`
-			Current  []Label `json:"current"`
+			Previous []*EventLabel `json:"previous"`
+			Current  []*EventLabel `json:"current"`
 		} `json:"labels"`
 		Title struct {
 			Previous string `json:"previous"`
@@ -549,11 +549,11 @@ type MergeEvent struct {
 		OldRev                      string     `json:"oldrev"`
 		Assignee                    *EventUser `json:"assignee"`
 	} `json:"object_attributes"`
-	Repository *Repository  `json:"repository"`
-	Assignee   *EventUser   `json:"assignee"`
-	Assignees  []*EventUser `json:"assignees"`
-	Reviewers  []*EventUser `json:"reviewers"`
-	Labels     []*Label     `json:"labels"`
+	Repository *Repository   `json:"repository"`
+	Assignee   *EventUser    `json:"assignee"`
+	Assignees  []*EventUser  `json:"assignees"`
+	Reviewers  []*EventUser  `json:"reviewers"`
+	Labels     []*EventLabel `json:"labels"`
 	Changes    struct {
 		Assignees struct {
 			Previous []*EventUser `json:"previous"`
@@ -568,8 +568,8 @@ type MergeEvent struct {
 			Current  string `json:"current"`
 		} `json:"description"`
 		Labels struct {
-			Previous []*Label `json:"previous"`
-			Current  []*Label `json:"current"`
+			Previous []*EventLabel `json:"previous"`
+			Current  []*EventLabel `json:"current"`
 		} `json:"labels"`
 		SourceBranch struct {
 			Previous string `json:"previous"`
@@ -1030,4 +1030,21 @@ type WikiPageEvent struct {
 		URL     string `json:"url"`
 		Action  string `json:"action"`
 	} `json:"object_attributes"`
+}
+
+// EventLabel represents a label inside a webhook event.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/user/project/integrations/webhook_events.html#issue-events
+type EventLabel struct {
+	ID          int    `json:"id"`
+	Title       string `json:"title"`
+	Color       string `json:"color"`
+	ProjectID   int    `json:"project_id"`
+	CreatedAt   string `json:"created_at"`
+	UpdatedAt   string `json:"updated_at"`
+	Template    bool   `json:"template"`
+	Description string `json:"description"`
+	Type        string `json:"type"`
+	GroupID     int    `json:"group_id"`
 }
