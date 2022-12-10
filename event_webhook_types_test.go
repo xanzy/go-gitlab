@@ -20,6 +20,8 @@ import (
 	"encoding/json"
 	"testing"
 	"time"
+
+	"github.com/stretchr/testify/assert"
 )
 
 const (
@@ -131,6 +133,33 @@ func TestIssueCommentEventUnmarshal(t *testing.T) {
 	if len(event.Issue.Labels) == 0 || event.Issue.Labels[0].ID != 25 {
 		t.Errorf("Label id is null")
 	}
+
+	assert.Equal(t, []*EventLabel{
+		{
+			ID:          25,
+			Title:       "Afterpod",
+			Color:       "#3e8068",
+			ProjectID:   0,
+			CreatedAt:   "2019-06-05T14:32:20.211Z",
+			UpdatedAt:   "2019-06-05T14:32:20.211Z",
+			Template:    false,
+			Description: "",
+			Type:        "GroupLabel",
+			GroupID:     4,
+		},
+		{
+			ID:          86,
+			Title:       "Element",
+			Color:       "#231afe",
+			ProjectID:   4,
+			CreatedAt:   "2019-06-05T14:32:20.637Z",
+			UpdatedAt:   "2019-06-05T14:32:20.637Z",
+			Template:    false,
+			Description: "",
+			Type:        "ProjectLabel",
+			GroupID:     0,
+		},
+	}, event.Issue.Labels)
 }
 
 func TestIssueEventUnmarshal(t *testing.T) {
@@ -162,6 +191,51 @@ func TestIssueEventUnmarshal(t *testing.T) {
 	if event.Changes.TotalTimeSpent.Current != 9900 {
 		t.Errorf("Changes.TotalTimeSpent.Current is %v , want %v", event.Changes.TotalTimeSpent.Current, 8100)
 	}
+
+	assert.Equal(t, []*EventLabel{
+		{
+			ID:          206,
+			Title:       "API",
+			Color:       "#ffffff",
+			ProjectID:   14,
+			CreatedAt:   "2013-12-03T17:15:43Z",
+			UpdatedAt:   "2013-12-03T17:15:43Z",
+			Template:    false,
+			Description: "API related issues",
+			Type:        "ProjectLabel",
+			GroupID:     41,
+		},
+	}, event.Labels)
+
+	assert.Equal(t, []*EventLabel{
+		{
+			ID:          206,
+			Title:       "API",
+			Color:       "#ffffff",
+			ProjectID:   14,
+			CreatedAt:   "2013-12-03T17:15:43Z",
+			UpdatedAt:   "2013-12-03T17:15:43Z",
+			Template:    false,
+			Description: "API related issues",
+			Type:        "ProjectLabel",
+			GroupID:     41,
+		},
+	}, event.Changes.Labels.Previous)
+
+	assert.Equal(t, []*EventLabel{
+		{
+			ID:          205,
+			Title:       "Platform",
+			Color:       "#123123",
+			ProjectID:   14,
+			CreatedAt:   "2013-12-03T17:15:43Z",
+			UpdatedAt:   "2013-12-03T17:15:43Z",
+			Template:    false,
+			Description: "Platform related issues",
+			Type:        "ProjectLabel",
+			GroupID:     41,
+		},
+	}, event.Changes.Labels.Current)
 }
 
 func TestMergeEventUnmarshal(t *testing.T) {
@@ -252,6 +326,51 @@ func TestMergeEventUnmarshal(t *testing.T) {
 	if event.Reviewers[0].AvatarURL != excpectedAvatar {
 		t.Errorf("Reviewers[0].AvatarURL is %v, want %v", event.Reviewers[0].AvatarURL, excpectedAvatar)
 	}
+
+	assert.Equal(t, []*EventLabel{
+		{
+			ID:          206,
+			Title:       "API",
+			Color:       "#ffffff",
+			ProjectID:   14,
+			CreatedAt:   "2013-12-03T17:15:43Z",
+			UpdatedAt:   "2013-12-03T17:15:43Z",
+			Template:    false,
+			Description: "API related issues",
+			Type:        "ProjectLabel",
+			GroupID:     41,
+		},
+	}, event.Labels)
+
+	assert.Equal(t, []*EventLabel{
+		{
+			ID:          206,
+			Title:       "API",
+			Color:       "#ffffff",
+			ProjectID:   14,
+			CreatedAt:   "2013-12-03T17:15:43Z",
+			UpdatedAt:   "2013-12-03T17:15:43Z",
+			Template:    false,
+			Description: "API related issues",
+			Type:        "ProjectLabel",
+			GroupID:     41,
+		},
+	}, event.Changes.Labels.Previous)
+
+	assert.Equal(t, []*EventLabel{
+		{
+			ID:          205,
+			Title:       "Platform",
+			Color:       "#123123",
+			ProjectID:   14,
+			CreatedAt:   "2013-12-03T17:15:43Z",
+			UpdatedAt:   "2013-12-03T17:15:43Z",
+			Template:    false,
+			Description: "Platform related issues",
+			Type:        "ProjectLabel",
+			GroupID:     41,
+		},
+	}, event.Changes.Labels.Current)
 }
 
 func TestMemberEventUnmarshal(t *testing.T) {
