@@ -27,6 +27,7 @@ import (
 	"os"
 	"strings"
 	"testing"
+	"time"
 
 	retryablehttp "github.com/hashicorp/go-retryablehttp"
 )
@@ -44,7 +45,13 @@ func setup(t *testing.T) (*http.ServeMux, *httptest.Server, *Client) {
 	server := httptest.NewServer(mux)
 
 	// client is the Gitlab client being tested.
-	client, err := NewClient("", WithBaseURL(server.URL))
+	client, err := NewClient("",
+		WithBaseURL(server.URL),
+		// Disable backoff to speed up tests that expect errors.
+		WithCustomBackoff(func(_, _ time.Duration, _ int, _ *http.Response) time.Duration {
+			return 0
+		}),
+	)
 	if err != nil {
 		server.Close()
 		t.Fatalf("Failed to create client: %v", err)
