@@ -21,6 +21,8 @@ import (
 	"net/http"
 	"reflect"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestListProjectPipelines(t *testing.T) {
@@ -184,6 +186,40 @@ func TestGetPipelineTestReport(t *testing.T) {
 	if !reflect.DeepEqual(want, testreport) {
 		t.Errorf("Pipelines.GetPipelineTestReport returned %+v, want %+v", testreport, want)
 	}
+}
+
+func TestGetLatestPipeline(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/pipelines/latest", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		testParams(t, r, "")
+		fmt.Fprint(w, `{"id":1,"status":"success"}`)
+	})
+
+	pipeline, _, err := client.Pipelines.GetLatestPipeline(1, nil)
+
+	assert.NoError(t, err)
+	assert.Equal(t, &Pipeline{ID: 1, Status: "success"}, pipeline)
+}
+
+func TestGetLatestPipeline_WithRef(t *testing.T) {
+	mux, server, client := setup(t)
+	defer teardown(server)
+
+	mux.HandleFunc("/api/v4/projects/1/pipelines/latest", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		testParams(t, r, "ref=abc")
+		fmt.Fprint(w, `{"id":1,"status":"success"}`)
+	})
+
+	pipeline, _, err := client.Pipelines.GetLatestPipeline(1, &GetLatestPipelineOptions{
+		Ref: String("abc"),
+	})
+
+	assert.NoError(t, err)
+	assert.Equal(t, &Pipeline{ID: 1, Status: "success"}, pipeline)
 }
 
 func TestCreatePipeline(t *testing.T) {

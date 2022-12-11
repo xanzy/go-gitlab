@@ -264,6 +264,37 @@ func (s *PipelinesService) GetPipelineTestReport(pid interface{}, pipeline int, 
 	return p, resp, err
 }
 
+// GetLatestPipelineOptions represents the available GetLatestPipeline() options.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/pipelines.html#get-the-latest-pipeline
+type GetLatestPipelineOptions struct {
+	Ref *string `url:"ref,omitempty" json:"ref,omitempty"`
+}
+
+// GetLatestPipeline gets the latest pipeline for a specific ref in a project.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/pipelines.html#get-the-latest-pipeline
+func (s *PipelinesService) GetLatestPipeline(pid interface{}, opt *GetLatestPipelineOptions, options ...RequestOptionFunc) (*Pipeline, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/pipelines/latest", PathEscape(project))
+
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	p := new(Pipeline)
+	resp, err := s.client.Do(req, p)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return p, resp, err
+}
+
 // CreatePipelineOptions represents the available CreatePipeline() options.
 //
 // GitLab API docs: https://docs.gitlab.com/ce/api/pipelines.html#create-a-new-pipeline
@@ -333,7 +364,7 @@ func (s *PipelinesService) RetryPipelineBuild(pid interface{}, pipeline int, opt
 // CancelPipelineBuild cancels a pipeline builds
 //
 // GitLab API docs:
-//https://docs.gitlab.com/ce/api/pipelines.html#cancel-a-pipelines-builds
+// https://docs.gitlab.com/ce/api/pipelines.html#cancel-a-pipelines-builds
 func (s *PipelinesService) CancelPipelineBuild(pid interface{}, pipeline int, options ...RequestOptionFunc) (*Pipeline, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
