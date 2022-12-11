@@ -43,10 +43,12 @@ func setup(t *testing.T) (*http.ServeMux, *httptest.Server, *Client) {
 	// server is a test HTTP server used to provide mock API responses.
 	server := httptest.NewServer(mux)
 
+	// TODO(asnyder): Individual tests no longer need to call `defer teardown()`.
+	t.Cleanup(server.Close)
+
 	// client is the Gitlab client being tested.
 	client, err := NewClient("", WithBaseURL(server.URL))
 	if err != nil {
-		server.Close()
 		t.Fatalf("Failed to create client: %v", err)
 	}
 
@@ -54,6 +56,8 @@ func setup(t *testing.T) (*http.ServeMux, *httptest.Server, *Client) {
 }
 
 // teardown closes the test HTTP server.
+//
+// Deprecated: The server will close itself without the need to call teardown() explicitly.
 func teardown(server *httptest.Server) {
 	server.Close()
 }
