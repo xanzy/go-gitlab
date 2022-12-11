@@ -171,6 +171,7 @@ type ContainerExpirationPolicy struct {
 	KeepN           int        `json:"keep_n"`
 	OlderThan       string     `json:"older_than"`
 	NameRegexDelete string     `json:"name_regex_delete"`
+  NameRegex       string     `json:"name_regex"`
 	NameRegexKeep   string     `json:"name_regex_keep"`
 	Enabled         bool       `json:"enabled"`
 	NextRunAt       *time.Time `json:"next_run_at"`
