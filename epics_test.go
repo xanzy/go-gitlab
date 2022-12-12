@@ -25,8 +25,7 @@ import (
 )
 
 func TestGetEpic(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/7/epics/8", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -51,8 +50,7 @@ func TestGetEpic(t *testing.T) {
 }
 
 func TestDeleteEpic(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/7/epics/8", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)
@@ -65,8 +63,7 @@ func TestDeleteEpic(t *testing.T) {
 }
 
 func TestListGroupEpics(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/7/epics", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -97,8 +94,7 @@ func TestListGroupEpics(t *testing.T) {
 }
 
 func TestCreateEpic(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/7/epics", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -128,8 +124,7 @@ func TestCreateEpic(t *testing.T) {
 }
 
 func TestUpdateEpic(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/7/epics/8", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)

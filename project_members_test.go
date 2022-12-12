@@ -9,8 +9,7 @@ import (
 )
 
 func TestProjectMembersService_ListProjectMembers(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/members", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -63,8 +62,7 @@ func TestProjectMembersService_ListProjectMembers(t *testing.T) {
 }
 
 func TestProjectMembersService_ListAllProjectMembers(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/members/all", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -117,8 +115,7 @@ func TestProjectMembersService_ListAllProjectMembers(t *testing.T) {
 }
 
 func TestProjectMembersService_GetProjectMember(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/members/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -172,8 +169,7 @@ func TestProjectMembersService_GetProjectMember(t *testing.T) {
 }
 
 func TestProjectMembersService_GetInheritedProjectMember(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/members/all/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -227,8 +223,7 @@ func TestProjectMembersService_GetInheritedProjectMember(t *testing.T) {
 }
 
 func TestProjectMembersService_AddProjectMember(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/members", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -282,8 +277,7 @@ func TestProjectMembersService_AddProjectMember(t *testing.T) {
 }
 
 func TestProjectMembersService_EditProjectMember(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/members/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
@@ -337,8 +331,7 @@ func TestProjectMembersService_EditProjectMember(t *testing.T) {
 }
 
 func TestProjectMembersService_DeleteProjectMember(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/members/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)

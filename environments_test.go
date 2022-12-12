@@ -29,8 +29,7 @@ import (
 )
 
 func TestListEnvironments(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/environments", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -70,8 +69,7 @@ func TestListEnvironments(t *testing.T) {
 }
 
 func TestGetEnvironment(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/environments/5949167", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -108,8 +106,7 @@ func TestGetEnvironment(t *testing.T) {
 }
 
 func TestCreateEnvironment(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/environments", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -129,8 +126,7 @@ func TestCreateEnvironment(t *testing.T) {
 }
 
 func TestEditEnvironment(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/environments/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
@@ -150,8 +146,7 @@ func TestEditEnvironment(t *testing.T) {
 }
 
 func TestDeleteEnvironment(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/environments/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)
@@ -164,8 +159,7 @@ func TestDeleteEnvironment(t *testing.T) {
 }
 
 func TestStopEnvironment(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/environments/1/stop", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)

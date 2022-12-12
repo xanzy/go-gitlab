@@ -25,8 +25,7 @@ import (
 )
 
 func TestDisableRunner(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/runners/2", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)
@@ -40,8 +39,7 @@ func TestDisableRunner(t *testing.T) {
 }
 
 func TestListRunnersJobs(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/runners/1/jobs", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -124,8 +122,7 @@ func TestListRunnersJobs(t *testing.T) {
 }
 
 func TestRemoveRunner(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/runners/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)
@@ -139,8 +136,7 @@ func TestRemoveRunner(t *testing.T) {
 }
 
 func TestUpdateRunnersDetails(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/runners/6", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
@@ -191,8 +187,7 @@ func TestUpdateRunnersDetails(t *testing.T) {
 }
 
 func TestGetRunnerDetails(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/runners/6", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -241,8 +236,7 @@ func TestGetRunnerDetails(t *testing.T) {
 }
 
 func TestRegisterNewRunner(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/runners", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -275,8 +269,7 @@ func TestRegisterNewRunner(t *testing.T) {
 // Similar to TestRegisterNewRunner but sends info struct and some extra other
 // fields too.
 func TestRegisterNewRunnerInfo(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/runners", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -336,8 +329,7 @@ func TestRegisterNewRunnerInfo(t *testing.T) {
 }
 
 func TestDeleteRegisteredRunner(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/runners", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)
@@ -358,8 +350,7 @@ func TestDeleteRegisteredRunner(t *testing.T) {
 }
 
 func TestDeleteRegisteredRunnerByID(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/runners/11111", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)
@@ -380,8 +371,7 @@ func TestDeleteRegisteredRunnerByID(t *testing.T) {
 }
 
 func TestVerifyRegisteredRunner(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/runners/verify", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -402,8 +392,7 @@ func TestVerifyRegisteredRunner(t *testing.T) {
 }
 
 func TestResetInstanceRunnerRegistrationToken(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/runners/reset_registration_token", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -434,8 +423,7 @@ func TestResetInstanceRunnerRegistrationToken(t *testing.T) {
 }
 
 func TestResetGroupRunnerRegistrationToken(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/foobar/runners/reset_registration_token", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -466,8 +454,7 @@ func TestResetGroupRunnerRegistrationToken(t *testing.T) {
 }
 
 func TestResetProjectRunnerRegistrationToken(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/9/runners/reset_registration_token", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -498,8 +485,7 @@ func TestResetProjectRunnerRegistrationToken(t *testing.T) {
 }
 
 func TestResetRunnerAuthenticationToken(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/runners/42/reset_authentication_token", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)

@@ -25,8 +25,7 @@ import (
 )
 
 func TestListBillableGroupMembers(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1/billable_members",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -72,8 +71,7 @@ func TestListBillableGroupMembers(t *testing.T) {
 }
 
 func TestListGroupMembersWithoutSAML(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1/members",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -123,8 +121,7 @@ func TestListGroupMembersWithoutSAML(t *testing.T) {
 }
 
 func TestListGroupMembersWithSAML(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1/members",
 		func(w http.ResponseWriter, r *http.Request) {

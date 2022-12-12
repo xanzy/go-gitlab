@@ -25,8 +25,7 @@ import (
 )
 
 func ListClusterAgents(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/20/cluster_agents", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -111,8 +110,7 @@ func ListClusterAgents(t *testing.T) {
 }
 
 func GetClusterAgent(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/20/cluster_agents/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -161,8 +159,7 @@ func GetClusterAgent(t *testing.T) {
 }
 
 func RegisterClusterAgent(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/20/cluster_agents", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -212,8 +209,7 @@ func RegisterClusterAgent(t *testing.T) {
 }
 
 func ListAgentTokens(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/20/cluster_agents/5/tokens", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -274,8 +270,7 @@ func ListAgentTokens(t *testing.T) {
 }
 
 func GetAgentToken(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/20/cluster_agents/5/tokens/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -314,8 +309,7 @@ func GetAgentToken(t *testing.T) {
 }
 
 func RegisterAgentToken(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/20/cluster_agents/5/tokens", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)

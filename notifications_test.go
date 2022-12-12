@@ -24,8 +24,7 @@ import (
 )
 
 func TestGetGlobalSettings(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/notification_settings", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)

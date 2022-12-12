@@ -8,8 +8,7 @@ import (
 )
 
 func TestListGroupWikis(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1/wikis",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -43,8 +42,7 @@ func TestListGroupWikis(t *testing.T) {
 }
 
 func TestGetGroupWikiPage(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1/wikis/deploy",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -76,8 +74,7 @@ func TestGetGroupWikiPage(t *testing.T) {
 }
 
 func TestCreateGroupWikiPage(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1/wikis",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -111,8 +108,7 @@ func TestCreateGroupWikiPage(t *testing.T) {
 }
 
 func TestEditGroupWikiPage(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1/wikis/deploy",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -146,8 +142,7 @@ func TestEditGroupWikiPage(t *testing.T) {
 }
 
 func TestDeleteGroupWikiPage(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1/wikis/deploy",
 		func(w http.ResponseWriter, r *http.Request) {

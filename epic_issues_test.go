@@ -9,8 +9,7 @@ import (
 )
 
 func TestEpicIssuesService_ListEpicIssues(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1/epics/5/issues", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -181,8 +180,7 @@ func TestEpicIssuesService_ListEpicIssues(t *testing.T) {
 }
 
 func TestEpicIssuesService_AssignEpicIssue(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1/epics/5/issues/55", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -374,8 +372,7 @@ func TestEpicIssuesService_AssignEpicIssue(t *testing.T) {
 }
 
 func TestEpicIssuesService_RemoveEpicIssue(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1/epics/5/issues/55", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)
@@ -567,8 +564,7 @@ func TestEpicIssuesService_RemoveEpicIssue(t *testing.T) {
 }
 
 func TestEpicIssuesService_UpdateEpicIssueAssignment(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1/epics/5/issues/2", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)

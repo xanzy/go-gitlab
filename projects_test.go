@@ -28,8 +28,7 @@ import (
 )
 
 func TestListProjects(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -58,8 +57,7 @@ func TestListProjects(t *testing.T) {
 }
 
 func TestListUserProjects(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/users/1/projects", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -88,8 +86,7 @@ func TestListUserProjects(t *testing.T) {
 }
 
 func TestListUserStarredProjects(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/users/1/starred_projects", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -118,8 +115,7 @@ func TestListUserStarredProjects(t *testing.T) {
 }
 
 func TestListProjectsUsersByID(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/", func(w http.ResponseWriter, r *http.Request) {
 		testURL(t, r, "/api/v4/projects/1/users?page=2&per_page=3&search=query")
@@ -144,8 +140,7 @@ func TestListProjectsUsersByID(t *testing.T) {
 }
 
 func TestListProjectsUsersByName(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/", func(w http.ResponseWriter, r *http.Request) {
 		testURL(t, r, "/api/v4/projects/namespace%2Fname/users?page=2&per_page=3&search=query")
@@ -170,8 +165,7 @@ func TestListProjectsUsersByName(t *testing.T) {
 }
 
 func TestListProjectsGroupsByID(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/", func(w http.ResponseWriter, r *http.Request) {
 		testURL(t, r, "/api/v4/projects/1/groups?page=2&per_page=3&search=query")
@@ -196,8 +190,7 @@ func TestListProjectsGroupsByID(t *testing.T) {
 }
 
 func TestListProjectsGroupsByName(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/", func(w http.ResponseWriter, r *http.Request) {
 		testURL(t, r, "/api/v4/projects/namespace%2Fname/groups?page=2&per_page=3&search=query")
@@ -222,8 +215,7 @@ func TestListProjectsGroupsByName(t *testing.T) {
 }
 
 func TestListOwnedProjects(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -253,8 +245,7 @@ func TestListOwnedProjects(t *testing.T) {
 }
 
 func TestListStarredProjects(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -284,8 +275,7 @@ func TestListStarredProjects(t *testing.T) {
 }
 
 func TestGetProjectByID(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -329,8 +319,7 @@ func TestGetProjectByID(t *testing.T) {
 }
 
 func TestGetProjectByName(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/", func(w http.ResponseWriter, r *http.Request) {
 		testURL(t, r, "/api/v4/projects/namespace%2Fname")
@@ -350,8 +339,7 @@ func TestGetProjectByName(t *testing.T) {
 }
 
 func TestGetProjectWithOptions(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -394,8 +382,7 @@ func TestGetProjectWithOptions(t *testing.T) {
 }
 
 func TestCreateProject(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -419,8 +406,7 @@ func TestCreateProject(t *testing.T) {
 }
 
 func TestUploadFile(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/uploads", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -456,8 +442,7 @@ func TestUploadFile(t *testing.T) {
 }
 
 func TestUploadFile_Retry(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	tf, _ := os.CreateTemp(os.TempDir(), "test")
 	defer os.Remove(tf.Name())
@@ -501,8 +486,7 @@ func TestUploadFile_Retry(t *testing.T) {
 }
 
 func TestUploadAvatar(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
@@ -524,8 +508,7 @@ func TestUploadAvatar(t *testing.T) {
 }
 
 func TestUploadAvatar_Retry(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	isFirstRequest := true
 	mux.HandleFunc("/api/v4/projects/1", func(w http.ResponseWriter, r *http.Request) {
@@ -552,8 +535,7 @@ func TestUploadAvatar_Retry(t *testing.T) {
 }
 
 func TestListProjectForks(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/", func(w http.ResponseWriter, r *http.Request) {
 		testURL(t, r, "/api/v4/projects/namespace%2Fname/forks?archived=true&order_by=name&page=2&per_page=3&search=query&simple=true&sort=asc&visibility=public")
@@ -582,8 +564,7 @@ func TestListProjectForks(t *testing.T) {
 }
 
 func TestShareProjectWithGroup(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/share", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -601,8 +582,7 @@ func TestShareProjectWithGroup(t *testing.T) {
 }
 
 func TestDeleteSharedProjectFromGroup(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/share/2", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)
@@ -615,8 +595,7 @@ func TestDeleteSharedProjectFromGroup(t *testing.T) {
 }
 
 func TestGetApprovalConfiguration(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/approvals", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -654,8 +633,7 @@ func TestGetApprovalConfiguration(t *testing.T) {
 }
 
 func TestChangeApprovalConfiguration(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/approvals", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -698,8 +676,7 @@ func TestChangeApprovalConfiguration(t *testing.T) {
 }
 
 func TestChangeAllowedApprovers(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/approvers", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
@@ -755,8 +732,7 @@ func TestChangeAllowedApprovers(t *testing.T) {
 }
 
 func TestForkProject(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	namespaceID := 42
 	name := "myreponame"
@@ -784,8 +760,7 @@ func TestForkProject(t *testing.T) {
 }
 
 func TestGetProjectApprovalRules(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/approval_rules", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -960,8 +935,7 @@ func TestGetProjectApprovalRules(t *testing.T) {
 }
 
 func TestGetProjectApprovalRule(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/approval_rules/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -1132,8 +1106,7 @@ func TestGetProjectApprovalRule(t *testing.T) {
 }
 
 func TestCreateProjectApprovalRule(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/approval_rules", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -1311,8 +1284,7 @@ func TestCreateProjectApprovalRule(t *testing.T) {
 }
 
 func TestCreateProjectApprovalRuleEligibleApprovers(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/approval_rules", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)

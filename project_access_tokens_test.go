@@ -24,8 +24,7 @@ import (
 )
 
 func TestListProjectAccessTokens(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/access_tokens", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -80,8 +79,7 @@ func TestListProjectAccessTokens(t *testing.T) {
 }
 
 func TestGetProjectAccessToken(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/access_tokens/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -115,8 +113,7 @@ func TestGetProjectAccessToken(t *testing.T) {
 }
 
 func TestCreateProjectAccessToken(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/access_tokens", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -151,8 +148,7 @@ func TestCreateProjectAccessToken(t *testing.T) {
 }
 
 func TestRevokeProjectAccessToken(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/access_tokens/1234", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)

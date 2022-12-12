@@ -8,8 +8,7 @@ import (
 )
 
 func TestListGroupPendingInvites(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/test/invitations", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -32,8 +31,7 @@ func TestListGroupPendingInvites(t *testing.T) {
 }
 
 func TestGroupInvites(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/test/invitations", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -56,8 +54,7 @@ func TestGroupInvites(t *testing.T) {
 }
 
 func TestGroupInvitesError(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/test/invitations", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -80,8 +77,7 @@ func TestGroupInvitesError(t *testing.T) {
 }
 
 func TestListProjectPendingInvites(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/test/invitations", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -104,8 +100,7 @@ func TestListProjectPendingInvites(t *testing.T) {
 }
 
 func TestProjectInvites(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/test/invitations", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -128,8 +123,7 @@ func TestProjectInvites(t *testing.T) {
 }
 
 func TestProjectInvitesError(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/test/invitations", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)

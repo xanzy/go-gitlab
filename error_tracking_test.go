@@ -24,8 +24,7 @@ import (
 )
 
 func TestGetErrorTracking(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/error_tracking/settings", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -57,8 +56,7 @@ func TestGetErrorTracking(t *testing.T) {
 }
 
 func TestDisableErrorTracking(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/error_tracking/settings", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPatch)
@@ -96,8 +94,7 @@ func TestDisableErrorTracking(t *testing.T) {
 }
 
 func TestListErrorTrackingClientKeys(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/error_tracking/client_keys", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -129,8 +126,7 @@ func TestListErrorTrackingClientKeys(t *testing.T) {
 }
 
 func TestCreateClientKey(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/error_tracking/client_keys", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -160,8 +156,7 @@ func TestCreateClientKey(t *testing.T) {
 }
 
 func TestDeleteClientKey(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/error_tracking/client_keys/3", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)

@@ -24,8 +24,7 @@ import (
 )
 
 func TestListAllTemplates(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/templates/gitlab_ci_ymls", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -76,8 +75,7 @@ func TestListAllTemplates(t *testing.T) {
 }
 
 func TestGetTemplate(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/templates/gitlab_ci_ymls/Ruby", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)

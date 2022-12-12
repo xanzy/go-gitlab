@@ -10,8 +10,7 @@ import (
 )
 
 func TestProjectImportExportService_ScheduleExport(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/export", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -36,8 +35,7 @@ func TestProjectImportExportService_ScheduleExport(t *testing.T) {
 }
 
 func TestProjectImportExportService_ExportStatus(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/export", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -98,8 +96,7 @@ func TestProjectImportExportService_ExportStatus(t *testing.T) {
 }
 
 func TestProjectImportExportService_ExportDownload(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/export/download", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -130,8 +127,7 @@ func TestProjectImportExportService_ExportDownload(t *testing.T) {
 }
 
 func TestProjectImportExportService_ImportFile(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/import", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -173,8 +169,7 @@ func TestProjectImportExportService_ImportFile(t *testing.T) {
 }
 
 func TestProjectImportExportService_ImportStatus(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/import", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)

@@ -27,8 +27,7 @@ import (
 )
 
 func TestListPipelineJobs(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/pipelines/1/jobs", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -47,8 +46,7 @@ func TestListPipelineJobs(t *testing.T) {
 }
 
 func TestJobsService_ListProjectJobs(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/jobs", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -192,8 +190,7 @@ func TestJobsService_ListProjectJobs(t *testing.T) {
 }
 
 func TestDownloadSingleArtifactsFileByTagOrBranch(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	wantContent := []byte("This is the file content")
 	mux.HandleFunc("/api/v4/projects/9/jobs/artifacts/abranch/raw/foo/bar.pdf", func(w http.ResponseWriter, r *http.Request) {

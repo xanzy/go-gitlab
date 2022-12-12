@@ -10,8 +10,7 @@ import (
 )
 
 func TestListMergeStatusChecks(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/merge_requests/1/status_checks", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -42,8 +41,7 @@ func TestListMergeStatusChecks(t *testing.T) {
 }
 
 func TestListProjectStatusChecks(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/external_status_checks", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)

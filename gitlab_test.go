@@ -36,26 +36,21 @@ var timeLayout = "2006-01-02T15:04:05Z07:00"
 // setup sets up a test HTTP server along with a gitlab.Client that is
 // configured to talk to that test server.  Tests should register handlers on
 // mux which provide mock responses for the API method being tested.
-func setup(t *testing.T) (*http.ServeMux, *httptest.Server, *Client) {
+func setup(t *testing.T) (*http.ServeMux, *Client) {
 	// mux is the HTTP request multiplexer used with the test server.
 	mux := http.NewServeMux()
 
 	// server is a test HTTP server used to provide mock API responses.
 	server := httptest.NewServer(mux)
+	t.Cleanup(server.Close)
 
 	// client is the Gitlab client being tested.
 	client, err := NewClient("", WithBaseURL(server.URL))
 	if err != nil {
-		server.Close()
 		t.Fatalf("Failed to create client: %v", err)
 	}
 
-	return mux, server, client
-}
-
-// teardown closes the test HTTP server.
-func teardown(server *httptest.Server) {
-	server.Close()
+	return mux, client
 }
 
 func testURL(t *testing.T, r *http.Request, want string) {

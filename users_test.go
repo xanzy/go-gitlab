@@ -30,8 +30,7 @@ import (
 )
 
 func TestGetUser(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	path := "/api/v4/users/1"
 
@@ -65,8 +64,7 @@ func TestGetUser(t *testing.T) {
 }
 
 func TestGetUserAdmin(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	path := "/api/v4/users/1"
 
@@ -121,8 +119,7 @@ func TestGetUserAdmin(t *testing.T) {
 }
 
 func TestBlockUser(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	path := fmt.Sprintf("/%susers/1/block", apiVersionPath)
 	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
@@ -137,8 +134,7 @@ func TestBlockUser(t *testing.T) {
 }
 
 func TestBlockUser_UserNotFound(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	path := fmt.Sprintf("/%susers/1/block", apiVersionPath)
 	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
@@ -153,8 +149,7 @@ func TestBlockUser_UserNotFound(t *testing.T) {
 }
 
 func TestBlockUser_BlockPrevented(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	path := fmt.Sprintf("/%susers/1/block", apiVersionPath)
 	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
@@ -169,8 +164,7 @@ func TestBlockUser_BlockPrevented(t *testing.T) {
 }
 
 func TestBlockUser_UnknownError(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	path := fmt.Sprintf("/%susers/1/block", apiVersionPath)
 	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
@@ -187,8 +181,7 @@ func TestBlockUser_UnknownError(t *testing.T) {
 }
 
 func TestUnblockUser(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	path := fmt.Sprintf("/%susers/1/unblock", apiVersionPath)
 	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
@@ -203,8 +196,7 @@ func TestUnblockUser(t *testing.T) {
 }
 
 func TestUnblockUser_UserNotFound(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	path := fmt.Sprintf("/%susers/1/unblock", apiVersionPath)
 	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
@@ -219,8 +211,7 @@ func TestUnblockUser_UserNotFound(t *testing.T) {
 }
 
 func TestUnblockUser_UnblockPrevented(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	path := fmt.Sprintf("/%susers/1/unblock", apiVersionPath)
 	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
@@ -235,8 +226,7 @@ func TestUnblockUser_UnblockPrevented(t *testing.T) {
 }
 
 func TestUnblockUser_UnknownError(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	path := fmt.Sprintf("/%susers/1/unblock", apiVersionPath)
 	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
@@ -253,8 +243,7 @@ func TestUnblockUser_UnknownError(t *testing.T) {
 }
 
 func TestBanUser(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	path := fmt.Sprintf("/%susers/1/block", apiVersionPath)
 	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
@@ -269,8 +258,7 @@ func TestBanUser(t *testing.T) {
 }
 
 func TestBanUser_UserNotFound(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	path := fmt.Sprintf("/%susers/1/ban", apiVersionPath)
 	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
@@ -285,8 +273,7 @@ func TestBanUser_UserNotFound(t *testing.T) {
 }
 
 func TestBanUser_UnknownError(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	path := fmt.Sprintf("/%susers/1/ban", apiVersionPath)
 	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
@@ -303,8 +290,7 @@ func TestBanUser_UnknownError(t *testing.T) {
 }
 
 func TestUnbanUser(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	path := fmt.Sprintf("/%susers/1/unban", apiVersionPath)
 	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
@@ -319,8 +305,7 @@ func TestUnbanUser(t *testing.T) {
 }
 
 func TestUnbanUser_UserNotFound(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	path := fmt.Sprintf("/%susers/1/unban", apiVersionPath)
 	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
@@ -335,8 +320,7 @@ func TestUnbanUser_UserNotFound(t *testing.T) {
 }
 
 func TestUnbanUser_UnknownError(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	path := fmt.Sprintf("/%susers/1/unban", apiVersionPath)
 	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
@@ -353,8 +337,7 @@ func TestUnbanUser_UnknownError(t *testing.T) {
 }
 
 func TestDeactivateUser(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	path := fmt.Sprintf("/%susers/1/deactivate", apiVersionPath)
 	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
@@ -369,8 +352,7 @@ func TestDeactivateUser(t *testing.T) {
 }
 
 func TestDeactivateUser_UserNotFound(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	path := fmt.Sprintf("/%susers/1/deactivate", apiVersionPath)
 	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
@@ -385,8 +367,7 @@ func TestDeactivateUser_UserNotFound(t *testing.T) {
 }
 
 func TestDeactivateUser_DeactivatePrevented(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	path := fmt.Sprintf("/%susers/1/deactivate", apiVersionPath)
 	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
@@ -401,8 +382,7 @@ func TestDeactivateUser_DeactivatePrevented(t *testing.T) {
 }
 
 func TestActivateUser(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	path := fmt.Sprintf("/%susers/1/activate", apiVersionPath)
 	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
@@ -417,8 +397,7 @@ func TestActivateUser(t *testing.T) {
 }
 
 func TestActivateUser_ActivatePrevented(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	path := fmt.Sprintf("/%susers/1/activate", apiVersionPath)
 	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
@@ -433,8 +412,7 @@ func TestActivateUser_ActivatePrevented(t *testing.T) {
 }
 
 func TestActivateUser_UserNotFound(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	path := fmt.Sprintf("/%susers/1/activate", apiVersionPath)
 	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
@@ -449,8 +427,7 @@ func TestActivateUser_UserNotFound(t *testing.T) {
 }
 
 func TestApproveUser(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	path := fmt.Sprintf("/%susers/1/approve", apiVersionPath)
 	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
@@ -465,8 +442,7 @@ func TestApproveUser(t *testing.T) {
 }
 
 func TestApproveUser_UserNotFound(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	path := fmt.Sprintf("/%susers/1/approve", apiVersionPath)
 	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
@@ -481,8 +457,7 @@ func TestApproveUser_UserNotFound(t *testing.T) {
 }
 
 func TestApproveUser_ApprovePrevented(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	path := fmt.Sprintf("/%susers/1/approve", apiVersionPath)
 	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
@@ -497,8 +472,7 @@ func TestApproveUser_ApprovePrevented(t *testing.T) {
 }
 
 func TestApproveUser_UnknownError(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	path := fmt.Sprintf("/%susers/1/approve", apiVersionPath)
 	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
@@ -515,8 +489,7 @@ func TestApproveUser_UnknownError(t *testing.T) {
 }
 
 func TestRejectUser(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	path := fmt.Sprintf("/%susers/1/reject", apiVersionPath)
 	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
@@ -531,8 +504,7 @@ func TestRejectUser(t *testing.T) {
 }
 
 func TestRejectUser_UserNotFound(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	path := fmt.Sprintf("/%susers/1/reject", apiVersionPath)
 	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
@@ -547,8 +519,7 @@ func TestRejectUser_UserNotFound(t *testing.T) {
 }
 
 func TestRejectUser_RejectPrevented(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	path := fmt.Sprintf("/%susers/1/reject", apiVersionPath)
 	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
@@ -563,8 +534,7 @@ func TestRejectUser_RejectPrevented(t *testing.T) {
 }
 
 func TestRejectUser_Conflict(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	path := fmt.Sprintf("/%susers/1/reject", apiVersionPath)
 	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
@@ -579,8 +549,7 @@ func TestRejectUser_Conflict(t *testing.T) {
 }
 
 func TestRejectUser_UnknownError(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	path := fmt.Sprintf("/%susers/1/reject", apiVersionPath)
 	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
@@ -597,8 +566,7 @@ func TestRejectUser_UnknownError(t *testing.T) {
 }
 
 func TestGetMemberships(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	path := fmt.Sprintf("/%susers/1/memberships", apiVersionPath)
 	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
@@ -616,8 +584,7 @@ func TestGetMemberships(t *testing.T) {
 }
 
 func TestGetSingleSSHKeyForUser(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/users/1/keys/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -651,8 +618,7 @@ func TestGetSingleSSHKeyForUser(t *testing.T) {
 }
 
 func TestDisableUser2FA(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	path := fmt.Sprintf("/%susers/1/disable_two_factor", apiVersionPath)
 	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {

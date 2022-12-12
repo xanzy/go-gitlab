@@ -22,8 +22,7 @@ import (
 )
 
 func TestUnpublishPages(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/2/pages", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)

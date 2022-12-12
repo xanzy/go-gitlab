@@ -26,8 +26,7 @@ import (
 )
 
 func TestReleaseLinksService_ListReleaseLinks(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/releases/v0.1/assets/links",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -112,8 +111,7 @@ func TestReleaseLinksService_CreateReleaseLink(t *testing.T) {
 	}
 	for _, tc := range testCases {
 		t.Run(tc.description, func(t *testing.T) {
-			mux, server, client := setup(t)
-			defer teardown(server)
+			mux, client := setup(t)
 
 			mux.HandleFunc("/api/v4/projects/1/releases/v0.1/assets/links",
 				func(w http.ResponseWriter, r *http.Request) {
@@ -130,8 +128,7 @@ func TestReleaseLinksService_CreateReleaseLink(t *testing.T) {
 }
 
 func TestReleaseLinksService_GetReleaseLink(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/releases/v0.1/assets/links/1",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -150,8 +147,7 @@ func TestReleaseLinksService_GetReleaseLink(t *testing.T) {
 }
 
 func TestReleaseLinksService_UpdateReleaseLink(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/releases/v0.1/assets/links/1",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -180,8 +176,7 @@ func TestReleaseLinksService_UpdateReleaseLink(t *testing.T) {
 }
 
 func TestReleaseLinksService_DeleteReleaseLink(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/releases/v0.1/assets/links/1",
 		func(w http.ResponseWriter, r *http.Request) {

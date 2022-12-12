@@ -24,8 +24,7 @@ import (
 )
 
 func TestListGroupAccessTokens(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1/access_tokens", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -80,8 +79,7 @@ func TestListGroupAccessTokens(t *testing.T) {
 }
 
 func TestGetGroupAccessToken(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1/access_tokens/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -115,8 +113,7 @@ func TestGetGroupAccessToken(t *testing.T) {
 }
 
 func TestCreateGroupAccessToken(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1/access_tokens", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -151,8 +148,7 @@ func TestCreateGroupAccessToken(t *testing.T) {
 }
 
 func TestRevokeGroupAccessToken(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1/access_tokens/1234", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)

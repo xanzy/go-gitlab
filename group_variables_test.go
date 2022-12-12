@@ -24,8 +24,7 @@ import (
 )
 
 func TestListGroupVariabless(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1/variables",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -53,8 +52,7 @@ func TestListGroupVariabless(t *testing.T) {
 }
 
 func TestGetGroupVariable(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1/variables/TEST_VARIABLE_1",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -75,8 +73,7 @@ func TestGetGroupVariable(t *testing.T) {
 }
 
 func TestCreateGroupVariable(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1/variables",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -103,8 +100,7 @@ func TestCreateGroupVariable(t *testing.T) {
 }
 
 func TestDeleteGroupVariable(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1/variables/TEST_VARIABLE_1",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -125,8 +121,7 @@ func TestDeleteGroupVariable(t *testing.T) {
 }
 
 func TestUpdateGroupVariable(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1/variables/TEST_VARIABLE_1",
 		func(w http.ResponseWriter, r *http.Request) {

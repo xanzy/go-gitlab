@@ -9,8 +9,7 @@ import (
 )
 
 func TestMilestonesService_ListMilestones(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/milestones", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -62,8 +61,7 @@ func TestMilestonesService_ListMilestones(t *testing.T) {
 }
 
 func TestMilestonesService_GetMilestone(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/milestones/12", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -113,8 +111,7 @@ func TestMilestonesService_GetMilestone(t *testing.T) {
 }
 
 func TestMilestonesService_CreateMilestone(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/milestones", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -164,8 +161,7 @@ func TestMilestonesService_CreateMilestone(t *testing.T) {
 }
 
 func TestMilestonesService_UpdateMilestone(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/milestones/12", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
@@ -215,8 +211,7 @@ func TestMilestonesService_UpdateMilestone(t *testing.T) {
 }
 
 func TestMilestonesService_DeleteMilestone(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/milestones/12", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)
@@ -240,8 +235,7 @@ func TestMilestonesService_DeleteMilestone(t *testing.T) {
 }
 
 func TestMilestonesService_GetMilestoneIssues(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/milestones/12/issues", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -360,8 +354,7 @@ func TestMilestonesService_GetMilestoneIssues(t *testing.T) {
 }
 
 func TestMilestonesService_GetMilestoneMergeRequests(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/3/milestones/12/merge_requests", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)

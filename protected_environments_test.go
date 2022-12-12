@@ -25,8 +25,7 @@ import (
 )
 
 func TestListProtectedEnvironments(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/protected_environments", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -79,8 +78,7 @@ func TestListProtectedEnvironments(t *testing.T) {
 }
 
 func TestGetProtectedEnvironment(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	// Test with RequiredApprovalCount
 	environmentName := "my-awesome-environment"
@@ -146,8 +144,7 @@ func TestGetProtectedEnvironment(t *testing.T) {
 }
 
 func TestProtectRepositoryEnvironments(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	// Test with RequiredApprovalCount
 	mux.HandleFunc("/api/v4/projects/1/protected_environments", func(w http.ResponseWriter, r *http.Request) {
@@ -223,8 +220,7 @@ func TestProtectRepositoryEnvironments(t *testing.T) {
 }
 
 func TestUnprotectRepositoryEnvironments(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/protected_environments/my-awesome-environment", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)

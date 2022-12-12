@@ -25,8 +25,7 @@ import (
 )
 
 func TestListBroadcastMessages(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/broadcast_messages", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -84,8 +83,7 @@ func TestListBroadcastMessages(t *testing.T) {
 }
 
 func TestGetBroadcastMessages(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/broadcast_messages/1/", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -123,8 +121,7 @@ func TestGetBroadcastMessages(t *testing.T) {
 }
 
 func TestCreateBroadcastMessages(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	wantedStartsAt := time.Date(2017, time.June, 26, 6, 0, 0, 0, time.UTC)
 	wantedEndsAt := time.Date(2017, time.June, 27, 12, 59, 0, 0, time.UTC)
@@ -171,8 +168,7 @@ func TestCreateBroadcastMessages(t *testing.T) {
 }
 
 func TestUpdateBroadcastMessages(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	wantedStartsAt := time.Date(2017, time.June, 26, 6, 0, 0, 0, time.UTC)
 	wantedEndsAt := time.Date(2017, time.June, 27, 12, 59, 0, 0, time.UTC)
@@ -219,8 +215,7 @@ func TestUpdateBroadcastMessages(t *testing.T) {
 }
 
 func TestDeleteBroadcastMessages(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/broadcast_messages/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)

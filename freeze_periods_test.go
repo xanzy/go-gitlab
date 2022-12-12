@@ -9,8 +9,7 @@ import (
 )
 
 func TestFreezePeriodsService_ListFreezePeriods(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/19/freeze_periods", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -57,8 +56,7 @@ func TestFreezePeriodsService_ListFreezePeriods(t *testing.T) {
 }
 
 func TestFreezePeriodsService_GetFreezePeriod(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/19/freeze_periods/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -101,8 +99,7 @@ func TestFreezePeriodsService_GetFreezePeriod(t *testing.T) {
 }
 
 func TestFreezePeriodsService_CreateFreezePeriodOptions(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/19/freeze_periods", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -145,8 +142,7 @@ func TestFreezePeriodsService_CreateFreezePeriodOptions(t *testing.T) {
 }
 
 func TestFreezePeriodsService_UpdateFreezePeriodOptions(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/19/freeze_periods/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
@@ -189,8 +185,7 @@ func TestFreezePeriodsService_UpdateFreezePeriodOptions(t *testing.T) {
 }
 
 func TestFreezePeriodsService_DeleteFreezePeriod(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/19/freeze_periods/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)

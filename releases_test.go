@@ -26,8 +26,7 @@ import (
 )
 
 func TestReleasesService_ListReleases(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/releases",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -46,8 +45,7 @@ func TestReleasesService_ListReleases(t *testing.T) {
 }
 
 func TestReleasesService_GetRelease(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/releases/v0.1",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -65,8 +63,7 @@ func TestReleasesService_GetRelease(t *testing.T) {
 }
 
 func TestReleasesService_CreateRelease(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/releases",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -110,8 +107,7 @@ func TestReleasesService_CreateRelease(t *testing.T) {
 }
 
 func TestReleasesService_CreateReleaseWithAsset(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/releases",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -160,8 +156,7 @@ func TestReleasesService_CreateReleaseWithAsset(t *testing.T) {
 }
 
 func TestReleasesService_CreateReleaseWithAssetAndNameMetadata(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/releases",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -210,8 +205,7 @@ func TestReleasesService_CreateReleaseWithAssetAndNameMetadata(t *testing.T) {
 }
 
 func TestReleasesService_CreateReleaseWithMilestones(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/releases",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -256,8 +250,7 @@ func TestReleasesService_CreateReleaseWithMilestones(t *testing.T) {
 }
 
 func TestReleasesService_CreateReleaseWithReleasedAt(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/releases",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -302,8 +295,7 @@ func TestReleasesService_CreateReleaseWithReleasedAt(t *testing.T) {
 }
 
 func TestReleasesService_UpdateRelease(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/releases/v0.1",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -338,8 +330,7 @@ func TestReleasesService_UpdateRelease(t *testing.T) {
 }
 
 func TestReleasesService_UpdateReleaseWithMilestones(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/releases/v0.1",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -375,8 +366,7 @@ func TestReleasesService_UpdateReleaseWithMilestones(t *testing.T) {
 }
 
 func TestReleasesService_UpdateReleaseWithReleasedAt(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/releases/v0.1",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -412,8 +402,7 @@ func TestReleasesService_UpdateReleaseWithReleasedAt(t *testing.T) {
 }
 
 func TestReleasesService_DeleteRelease(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/releases/v0.1",
 		func(w http.ResponseWriter, r *http.Request) {

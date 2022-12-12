@@ -101,8 +101,7 @@ var (
 )
 
 func TestGetMergeRequest(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	path := "/api/v4/projects/namespace/name/merge_requests/123"
 
@@ -148,8 +147,7 @@ func TestGetMergeRequest(t *testing.T) {
 }
 
 func TestListProjectMergeRequests(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	path := "/api/v4/projects/278964/merge_requests"
 
@@ -191,8 +189,7 @@ func TestListProjectMergeRequests(t *testing.T) {
 }
 
 func TestCreateMergeRequestPipeline(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/merge_requests/1/pipelines", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -210,8 +207,7 @@ func TestCreateMergeRequestPipeline(t *testing.T) {
 }
 
 func TestGetMergeRequestParticipants(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/merge_requests/5/participants", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -235,8 +231,7 @@ func TestGetMergeRequestParticipants(t *testing.T) {
 }
 
 func TestGetIssuesClosedOnMerge_Jira(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 	mux.HandleFunc("/api/v4/projects/1/merge_requests/1/closes_issues", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, "GET")
 		fmt.Fprint(w, `[{"id":"PROJECT-123","title":"Title of this issue"}]`)

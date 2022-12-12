@@ -25,8 +25,7 @@ import (
 )
 
 func TestCreateGroupGroupLabel(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1/labels", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -49,8 +48,7 @@ func TestCreateGroupGroupLabel(t *testing.T) {
 }
 
 func TestDeleteGroupLabel(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1/labels", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)
@@ -67,8 +65,7 @@ func TestDeleteGroupLabel(t *testing.T) {
 }
 
 func TestUpdateGroupLabel(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1/labels", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
@@ -99,8 +96,7 @@ func TestUpdateGroupLabel(t *testing.T) {
 }
 
 func TestSubscribeToGroupLabel(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1/labels/5/subscribe", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -118,8 +114,7 @@ func TestSubscribeToGroupLabel(t *testing.T) {
 }
 
 func TestUnsubscribeFromGroupLabel(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1/labels/5/unsubscribe", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -132,8 +127,7 @@ func TestUnsubscribeFromGroupLabel(t *testing.T) {
 }
 
 func TestListGroupLabels(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1/labels", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -157,8 +151,7 @@ func TestListGroupLabels(t *testing.T) {
 }
 
 func TestGetGroupLabel(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1/labels/5", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)

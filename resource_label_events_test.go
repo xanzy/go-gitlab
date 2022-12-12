@@ -9,8 +9,7 @@ import (
 )
 
 func TestResourceLabelEventsService_ListIssueLabelEvents(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/issues/11/resource_label_events", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -97,8 +96,7 @@ func TestResourceLabelEventsService_ListIssueLabelEvents(t *testing.T) {
 }
 
 func TestResourceLabelEventsService_GetIssueLabelEvent(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/issues/11/resource_label_events/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -183,8 +181,7 @@ func TestResourceLabelEventsService_GetIssueLabelEvent(t *testing.T) {
 }
 
 func TestResourceLabelEventsService_ListGroupEpicLabelEvents(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1/epics/11/resource_label_events", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -271,8 +268,7 @@ func TestResourceLabelEventsService_ListGroupEpicLabelEvents(t *testing.T) {
 }
 
 func TestResourceLabelEventsService_GetGroupEpicLabelEvent(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1/epics/11/resource_label_events/107", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -357,8 +353,7 @@ func TestResourceLabelEventsService_GetGroupEpicLabelEvent(t *testing.T) {
 }
 
 func TestResourceLabelEventsService_ListMergeRequestsLabelEvents(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/merge_requests/11/resource_label_events", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -445,8 +440,7 @@ func TestResourceLabelEventsService_ListMergeRequestsLabelEvents(t *testing.T) {
 }
 
 func TestResourceLabelEventsService_GetMergeRequestLabelEvent(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/merge_requests/11/resource_label_events/120", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)

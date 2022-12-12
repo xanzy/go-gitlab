@@ -9,8 +9,7 @@ import (
 )
 
 func TestPackagesService_ListProjectPackages(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/3/packages", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -66,8 +65,7 @@ func TestPackagesService_ListProjectPackages(t *testing.T) {
 }
 
 func TestPackagesService_ListPackageFiles(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/3/packages/4/package_files", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -117,8 +115,7 @@ func TestPackagesService_ListPackageFiles(t *testing.T) {
 }
 
 func TestPackagesService_DeleteProjectPackage(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/3/packages/4", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)

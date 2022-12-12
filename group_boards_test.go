@@ -9,8 +9,7 @@ import (
 )
 
 func TestGroupIssueBoardsService_ListGroupIssueBoards(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/5/boards", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -129,8 +128,7 @@ func TestGroupIssueBoardsService_ListGroupIssueBoards(t *testing.T) {
 }
 
 func TestGroupIssueBoardsService_CreateGroupIssueBoard(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/5/boards", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -187,8 +185,7 @@ func TestGroupIssueBoardsService_CreateGroupIssueBoard(t *testing.T) {
 }
 
 func TestGroupIssueBoardsService_GetGroupIssueBoard(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/5/boards/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -305,8 +302,7 @@ func TestGroupIssueBoardsService_GetGroupIssueBoard(t *testing.T) {
 }
 
 func TestGroupIssueBoardsService_UpdateIssueBoard(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/5/boards/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
@@ -391,8 +387,7 @@ func TestGroupIssueBoardsService_UpdateIssueBoard(t *testing.T) {
 }
 
 func TestGroupIssueBoardsService_DeleteIssueBoard(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/5/boards/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)
@@ -416,8 +411,7 @@ func TestGroupIssueBoardsService_DeleteIssueBoard(t *testing.T) {
 }
 
 func TestGroupIssueBoardsService_ListGroupIssueBoardLists(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/5/boards/1/lists", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -506,8 +500,7 @@ func TestGroupIssueBoardsService_ListGroupIssueBoardLists(t *testing.T) {
 }
 
 func TestGroupIssueBoardsService_GetGroupIssueBoardList(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/5/boards/1/lists/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -556,8 +549,7 @@ func TestGroupIssueBoardsService_GetGroupIssueBoardList(t *testing.T) {
 }
 
 func TestGroupIssueBoardsService_CreateGroupIssueBoardList(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/5/boards/1/lists", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -615,8 +607,7 @@ func TestGroupIssueBoardsService_CreateGroupIssueBoardList(t *testing.T) {
 }
 
 func TestGroupIssueBoardsService_UpdateIssueBoardList(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/5/boards/1/lists/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
@@ -705,8 +696,7 @@ func TestGroupIssueBoardsService_UpdateIssueBoardList(t *testing.T) {
 }
 
 func TestGroupIssueBoardsService_DeleteGroupIssueBoardList(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/5/boards/1/lists/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)

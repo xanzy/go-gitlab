@@ -9,8 +9,7 @@ import (
 )
 
 func TestLicenseService_GetLicense(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/license", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -75,8 +74,7 @@ func TestLicenseService_GetLicense(t *testing.T) {
 }
 
 func TestLicenseService_GetLicense_StatusNotFound(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/license", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -90,8 +88,7 @@ func TestLicenseService_GetLicense_StatusNotFound(t *testing.T) {
 }
 
 func TestLicenseService_AddLicense(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/license", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -161,8 +158,7 @@ func TestLicenseService_AddLicense(t *testing.T) {
 }
 
 func TestLicenseService_AddLicense_StatusNotFound(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/license", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)

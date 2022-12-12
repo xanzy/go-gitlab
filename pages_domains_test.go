@@ -10,8 +10,7 @@ import (
 )
 
 func TestPagesDomainsService_ListPagesDomains(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/pages/domains", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -71,8 +70,7 @@ func TestPagesDomainsService_ListPagesDomains(t *testing.T) {
 }
 
 func TestPagesDomainsService_ListAllPagesDomains(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/pages/domains", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -120,8 +118,7 @@ func TestPagesDomainsService_ListAllPagesDomains(t *testing.T) {
 }
 
 func TestPagesDomainsService_ListAllPagesDomains_StatusNotFound(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/pages/domains", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -135,8 +132,7 @@ func TestPagesDomainsService_ListAllPagesDomains_StatusNotFound(t *testing.T) {
 }
 
 func TestPagesDomainsService_GetPagesDomain(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/pages/domains/www.domain.example", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -194,8 +190,7 @@ func TestPagesDomainsService_GetPagesDomain(t *testing.T) {
 }
 
 func TestPagesDomainsService_CreatePagesDomain(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/pages/domains", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -253,8 +248,7 @@ func TestPagesDomainsService_CreatePagesDomain(t *testing.T) {
 }
 
 func TestPagesDomainsService_UpdatePagesDomain(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/pages/domains/ssl.domain.example", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
@@ -312,8 +306,7 @@ func TestPagesDomainsService_UpdatePagesDomain(t *testing.T) {
 }
 
 func TestPagesDomainsService_DeletePagesDomain(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/pages/domains/ssl.domain.example", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)

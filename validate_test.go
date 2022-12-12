@@ -72,8 +72,7 @@ func TestValidate(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.description, func(t *testing.T) {
-			mux, server, client := setup(t)
-			defer teardown(server)
+			mux, client := setup(t)
 
 			mux.HandleFunc("/api/v4/ci/lint", func(w http.ResponseWriter, r *http.Request) {
 				testMethod(t, r, http.MethodPost)
@@ -133,8 +132,7 @@ func TestValidateProject(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.description, func(t *testing.T) {
-			mux, server, client := setup(t)
-			defer teardown(server)
+			mux, client := setup(t)
 
 			mux.HandleFunc("/api/v4/projects/1/ci/lint", func(w http.ResponseWriter, r *http.Request) {
 				testMethod(t, r, http.MethodGet)
@@ -204,8 +202,7 @@ func TestValidateProjectNamespace(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.description, func(t *testing.T) {
-			mux, server, client := setup(t)
-			defer teardown(server)
+			mux, client := setup(t)
 
 			mux.HandleFunc("/api/v4/projects/1/ci/lint", func(w http.ResponseWriter, r *http.Request) {
 				testMethod(t, r, http.MethodPost)

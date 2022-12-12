@@ -26,8 +26,7 @@ import (
 )
 
 func TestGetBranch(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/repository/branches/master", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -68,8 +67,7 @@ func TestGetBranch(t *testing.T) {
 }
 
 func TestBranchesService_ListBranches(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/repository/branches", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -124,8 +122,7 @@ func TestBranchesService_ListBranches(t *testing.T) {
 }
 
 func TestBranchesService_ProtectBranch(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/repository/branches/master/protect", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
@@ -179,8 +176,7 @@ func TestBranchesService_ProtectBranch(t *testing.T) {
 }
 
 func TestBranchesService_UnprotectBranch(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/repository/branches/master/unprotect", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
@@ -234,8 +230,7 @@ func TestBranchesService_UnprotectBranch(t *testing.T) {
 }
 
 func TestBranchesService_CreateBranch(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/repository/branches", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -289,8 +284,7 @@ func TestBranchesService_CreateBranch(t *testing.T) {
 }
 
 func TestBranchesService_DeleteBranch(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/repository/branches/master", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)
@@ -314,8 +308,7 @@ func TestBranchesService_DeleteBranch(t *testing.T) {
 }
 
 func TestBranchesService_DeleteMergedBranches(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/repository/merged_branches", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)

@@ -9,8 +9,7 @@ import (
 )
 
 func TestResourceStateEventsService_ListIssueStateEvents(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/issues/11/resource_state_events", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -55,8 +54,7 @@ func TestResourceStateEventsService_ListIssueStateEvents(t *testing.T) {
 }
 
 func TestResourceStateEventsService_GetIssueStateEvent(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/issues/11/resource_state_events/143", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -99,8 +97,7 @@ func TestResourceStateEventsService_GetIssueStateEvent(t *testing.T) {
 }
 
 func TestResourceStateEventsService_ListMergeStateEvents(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/merge_requests/11/resource_state_events", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -145,8 +142,7 @@ func TestResourceStateEventsService_ListMergeStateEvents(t *testing.T) {
 }
 
 func TestResourceStateEventsService_GetMergeRequestStateEvent(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/merge_requests/11/resource_state_events/120", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)

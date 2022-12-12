@@ -24,8 +24,7 @@ import (
 )
 
 func TestListPersonalAccessTokensWithUserFilter(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/personal_access_tokens", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -87,8 +86,7 @@ func TestListPersonalAccessTokensWithUserFilter(t *testing.T) {
 }
 
 func TestListPersonalAccessTokensNoUserFilter(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/personal_access_tokens", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -150,8 +148,7 @@ func TestListPersonalAccessTokensNoUserFilter(t *testing.T) {
 }
 
 func TestDeletePersonalAccessToken(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/personal_access_tokens/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)

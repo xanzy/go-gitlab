@@ -11,8 +11,7 @@ import (
 )
 
 func TestGroupScheduleExport(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1/export",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -27,8 +26,7 @@ func TestGroupScheduleExport(t *testing.T) {
 }
 
 func TestGroupExportDownload(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 	content := []byte("fake content")
 
 	mux.HandleFunc("/api/v4/groups/1/export/download",
@@ -54,8 +52,7 @@ func TestGroupExportDownload(t *testing.T) {
 }
 
 func TestGroupImport(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	content := []byte("temporary file's content")
 	tmpfile, err := os.CreateTemp(os.TempDir(), "example.*.tar.gz")

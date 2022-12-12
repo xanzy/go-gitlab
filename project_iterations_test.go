@@ -8,8 +8,7 @@ import (
 )
 
 func TestListProjectIterations(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/42/iterations",
 		func(w http.ResponseWriter, r *http.Request) {

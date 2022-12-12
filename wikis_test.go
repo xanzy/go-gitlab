@@ -23,8 +23,7 @@ import (
 )
 
 func TestListWikis(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/wikis", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -82,8 +81,7 @@ func TestListWikis(t *testing.T) {
 }
 
 func TestGetWikiPage(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/wikis/home", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -115,8 +113,7 @@ func TestGetWikiPage(t *testing.T) {
 }
 
 func TestCreateWikiPage(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/wikis", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -151,8 +148,7 @@ func TestCreateWikiPage(t *testing.T) {
 }
 
 func TestEditWikiPage(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/wikis/foo", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
@@ -187,8 +183,7 @@ func TestEditWikiPage(t *testing.T) {
 }
 
 func TestDeleteWikiPage(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/wikis/foo", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)

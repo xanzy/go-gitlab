@@ -23,8 +23,7 @@ import (
 )
 
 func TestListManagedLicenses(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/managed_licenses", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -55,8 +54,7 @@ func TestListManagedLicenses(t *testing.T) {
 }
 
 func TestGetManagedLicenses(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/managed_licenses/3", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -80,8 +78,7 @@ func TestGetManagedLicenses(t *testing.T) {
 }
 
 func TestAddManagedLicenses(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/managed_licenses", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -110,8 +107,7 @@ func TestAddManagedLicenses(t *testing.T) {
 }
 
 func TestDeleteManagedLicenses(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/managed_licenses/3", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)
@@ -124,8 +120,7 @@ func TestDeleteManagedLicenses(t *testing.T) {
 }
 
 func TestEditManagedLicenses(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/managed_licenses/3", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPatch)

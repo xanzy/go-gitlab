@@ -9,8 +9,7 @@ import (
 )
 
 func TestListProjectFeatureFlags(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/333/feature_flags",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -86,8 +85,7 @@ func TestListProjectFeatureFlags(t *testing.T) {
 }
 
 func TestGetProjectFeatureFlag(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/feature_flags/testing", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -126,8 +124,7 @@ func TestGetProjectFeatureFlag(t *testing.T) {
 }
 
 func TestCreateProjectFeatureFlag(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/feature_flags/testing", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
@@ -169,8 +166,7 @@ func TestCreateProjectFeatureFlag(t *testing.T) {
 }
 
 func TestUpdateProjectFeatureFlag(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/feature_flags/testing", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
@@ -226,8 +222,7 @@ func TestUpdateProjectFeatureFlag(t *testing.T) {
 }
 
 func TestDeleteProjectFeatureFlag(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/feature_flags/testing", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)
