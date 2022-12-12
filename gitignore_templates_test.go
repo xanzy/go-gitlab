@@ -24,8 +24,7 @@ import (
 )
 
 func TestListTemplates(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/templates/gitignores", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -206,8 +205,7 @@ func TestListTemplates(t *testing.T) {
 }
 
 func TestGetTemplates(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/templates/gitignores/Ruby", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)

@@ -9,8 +9,7 @@ import (
 )
 
 func TestProjectMirrorService_ListProjectMirror(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/42/remote_mirrors", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -61,8 +60,7 @@ func TestProjectMirrorService_ListProjectMirror(t *testing.T) {
 }
 
 func TestProjectMirrorService_GetProjectMirror(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/42/remote_mirrors/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -96,8 +94,7 @@ func TestProjectMirrorService_GetProjectMirror(t *testing.T) {
 }
 
 func TestProjectMirrorService_AddProjectMirror(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/42/remote_mirrors", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -152,8 +149,7 @@ func TestProjectMirrorService_AddProjectMirror(t *testing.T) {
 }
 
 func TestProjectMirrorService_EditProjectMirror(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/42/remote_mirrors/101486", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)

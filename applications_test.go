@@ -24,8 +24,7 @@ import (
 )
 
 func TestCreateApplication(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/applications",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -56,8 +55,7 @@ func TestCreateApplication(t *testing.T) {
 }
 
 func TestListApplications(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/applications",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -84,8 +82,7 @@ func TestListApplications(t *testing.T) {
 }
 
 func TestDeleteApplication(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/applications/4",
 		func(w http.ResponseWriter, r *http.Request) {

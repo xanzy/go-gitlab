@@ -27,8 +27,7 @@ import (
 )
 
 func TestGetIssue(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/issues/5", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -54,8 +53,7 @@ func TestGetIssue(t *testing.T) {
 }
 
 func TestDeleteIssue(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/issues/5", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)
@@ -69,8 +67,7 @@ func TestDeleteIssue(t *testing.T) {
 }
 
 func TestMoveIssue(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/issues/11/move", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -121,8 +118,7 @@ func TestMoveIssue(t *testing.T) {
 }
 
 func TestListIssues(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/issues", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -175,8 +171,7 @@ func TestListIssues(t *testing.T) {
 }
 
 func TestListIssuesWithLabelDetails(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/issues", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -247,8 +242,7 @@ func TestListIssuesWithLabelDetails(t *testing.T) {
 }
 
 func TestListIssuesSearchInTitle(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/issues", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -286,8 +280,7 @@ func TestListIssuesSearchInTitle(t *testing.T) {
 	}
 }
 func TestListIssuesSearchInDescription(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/issues", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -326,8 +319,7 @@ func TestListIssuesSearchInDescription(t *testing.T) {
 }
 
 func TestListIssuesSearchByIterationID(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/issues", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -378,11 +370,10 @@ func TestListIssuesSearchByIterationID(t *testing.T) {
 	if !reflect.DeepEqual(want, issues) {
 		t.Errorf("Issues.ListIssues returned %+v, want %+v", issues, want)
 	}
- }
+}
 
 func TestListProjectIssues(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/issues", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -412,8 +403,7 @@ func TestListProjectIssues(t *testing.T) {
 }
 
 func TestListProjectIssuesSearchByIterationID(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/issues", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -441,7 +431,7 @@ func TestListProjectIssuesSearchByIterationID(t *testing.T) {
 		IterationID: Int(90),
 	}
 
-	issues, _, err := client.Issues.ListProjectIssues(1 ,listProjectIssue)
+	issues, _, err := client.Issues.ListProjectIssues(1, listProjectIssue)
 
 	if err != nil {
 		log.Fatal(err)
@@ -464,11 +454,10 @@ func TestListProjectIssuesSearchByIterationID(t *testing.T) {
 	if !reflect.DeepEqual(want, issues) {
 		t.Errorf("Issues.ListIssues returned %+v, want %+v", issues, want)
 	}
- }
+}
 
 func TestListGroupIssues(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1/issues", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -500,8 +489,7 @@ func TestListGroupIssues(t *testing.T) {
 }
 
 func TestListGroupIssuesSearchByIterationID(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1/issues", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -552,11 +540,10 @@ func TestListGroupIssuesSearchByIterationID(t *testing.T) {
 	if !reflect.DeepEqual(want, issues) {
 		t.Errorf("Issues.ListIssues returned %+v, want %+v", issues, want)
 	}
- }
+}
 
 func TestCreateIssue(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/issues", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -588,8 +575,7 @@ func TestCreateIssue(t *testing.T) {
 }
 
 func TestUpdateIssue(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/issues/5", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
@@ -620,8 +606,7 @@ func TestUpdateIssue(t *testing.T) {
 }
 
 func TestSubscribeToIssue(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/issues/5/subscribe", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -648,8 +633,7 @@ func TestSubscribeToIssue(t *testing.T) {
 }
 
 func TestUnsubscribeFromIssue(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/issues/5/unsubscribe", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -675,8 +659,7 @@ func TestUnsubscribeFromIssue(t *testing.T) {
 }
 
 func TestListMergeRequestsClosingIssue(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/issues/5/closed_by", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -702,8 +685,7 @@ func TestListMergeRequestsClosingIssue(t *testing.T) {
 }
 
 func TestListMergeRequestsRelatedToIssue(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/issues/5/related_merge_requests", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -729,8 +711,7 @@ func TestListMergeRequestsRelatedToIssue(t *testing.T) {
 }
 
 func TestSetTimeEstimate(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/issues/5/time_estimate", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -753,8 +734,7 @@ func TestSetTimeEstimate(t *testing.T) {
 }
 
 func TestResetTimeEstimate(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/issues/5/reset_time_estimate", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -773,8 +753,7 @@ func TestResetTimeEstimate(t *testing.T) {
 }
 
 func TestAddSpentTime(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/issues/5/add_spent_time", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -797,8 +776,7 @@ func TestAddSpentTime(t *testing.T) {
 }
 
 func TestResetSpentTime(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/issues/5/reset_spent_time", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -818,8 +796,7 @@ func TestResetSpentTime(t *testing.T) {
 }
 
 func TestGetTimeSpent(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/issues/5/time_stats", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -839,8 +816,7 @@ func TestGetTimeSpent(t *testing.T) {
 }
 
 func TestGetIssueParticipants(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/issues/5/participants", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)

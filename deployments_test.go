@@ -10,8 +10,7 @@ import (
 )
 
 func TestDeploymentsService_ListProjectDeployments(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/deployments", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -208,8 +207,7 @@ func TestDeploymentsService_ListProjectDeployments(t *testing.T) {
 }
 
 func TestDeploymentsService_GetProjectDeployment(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/deployments/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -404,8 +402,7 @@ func TestDeploymentsService_GetProjectDeployment(t *testing.T) {
 }
 
 func TestDeploymentsService_CreateProjectDeployment(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/deployments", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -600,8 +597,7 @@ func TestDeploymentsService_CreateProjectDeployment(t *testing.T) {
 }
 
 func TestDeploymentsService_UpdateProjectDeployment(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/deployments/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)

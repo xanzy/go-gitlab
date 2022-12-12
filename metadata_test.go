@@ -24,8 +24,7 @@ import (
 )
 
 func TestGetMetadata(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/metadata",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -51,4 +50,3 @@ func TestGetMetadata(t *testing.T) {
 		t.Errorf("Metadata.GetMetadata returned %+v, want %+v", version, want)
 	}
 }
-

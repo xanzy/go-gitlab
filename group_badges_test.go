@@ -24,8 +24,7 @@ import (
 )
 
 func TestListGroupBadges(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1/badges",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -45,8 +44,7 @@ func TestListGroupBadges(t *testing.T) {
 }
 
 func TestGetGroupBadge(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1/badges/2",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -66,8 +64,7 @@ func TestGetGroupBadge(t *testing.T) {
 }
 
 func TestAddGroupBadge(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1/badges",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -88,8 +85,7 @@ func TestAddGroupBadge(t *testing.T) {
 }
 
 func TestEditGroupBadge(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1/badges/2",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -110,8 +106,7 @@ func TestEditGroupBadge(t *testing.T) {
 }
 
 func TestRemoveGroupBadge(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1/badges/2",
 		func(w http.ResponseWriter, r *http.Request) {

@@ -24,8 +24,7 @@ import (
 )
 
 func TestListCustomUserAttributes(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/users/2/custom_attributes", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -45,8 +44,7 @@ func TestListCustomUserAttributes(t *testing.T) {
 }
 
 func TestListCustomGroupAttributes(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/2/custom_attributes", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -66,8 +64,7 @@ func TestListCustomGroupAttributes(t *testing.T) {
 }
 
 func TestListCustomProjectAttributes(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/2/custom_attributes", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -87,8 +84,7 @@ func TestListCustomProjectAttributes(t *testing.T) {
 }
 
 func TestGetCustomUserAttribute(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/users/2/custom_attributes/testkey1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -108,8 +104,7 @@ func TestGetCustomUserAttribute(t *testing.T) {
 }
 
 func TestGetCustomGropupAttribute(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/2/custom_attributes/testkey1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -129,8 +124,7 @@ func TestGetCustomGropupAttribute(t *testing.T) {
 }
 
 func TestGetCustomProjectAttribute(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/2/custom_attributes/testkey1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -150,8 +144,7 @@ func TestGetCustomProjectAttribute(t *testing.T) {
 }
 
 func TestSetCustomUserAttribute(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/users/2/custom_attributes/testkey1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
@@ -174,8 +167,7 @@ func TestSetCustomUserAttribute(t *testing.T) {
 }
 
 func TestSetCustomGroupAttribute(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/2/custom_attributes/testkey1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
@@ -198,8 +190,7 @@ func TestSetCustomGroupAttribute(t *testing.T) {
 }
 
 func TestDeleteCustomUserAttribute(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/users/2/custom_attributes/testkey1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)
@@ -219,8 +210,7 @@ func TestDeleteCustomUserAttribute(t *testing.T) {
 }
 
 func TestDeleteCustomGroupAttribute(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/2/custom_attributes/testkey1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)
@@ -240,8 +230,7 @@ func TestDeleteCustomGroupAttribute(t *testing.T) {
 }
 
 func TestDeleteCustomProjectAttribute(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/2/custom_attributes/testkey1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)

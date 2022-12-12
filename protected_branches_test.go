@@ -24,8 +24,7 @@ import (
 )
 
 func TestListProtectedBranches(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/protected_branches", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -76,8 +75,7 @@ func TestListProtectedBranches(t *testing.T) {
 }
 
 func TestListProtectedBranchesWithoutCodeOwnerApproval(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/protected_branches", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -127,8 +125,7 @@ func TestListProtectedBranchesWithoutCodeOwnerApproval(t *testing.T) {
 }
 
 func TestProtectRepositoryBranches(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/protected_branches", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -183,8 +180,7 @@ func TestProtectRepositoryBranches(t *testing.T) {
 }
 
 func TestUpdateRepositoryBranches(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/protected_branches/master", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPatch)

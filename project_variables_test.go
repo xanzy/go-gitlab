@@ -9,8 +9,7 @@ import (
 )
 
 func TestProjectVariablesService_ListVariables(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/variables", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -56,8 +55,7 @@ func TestProjectVariablesService_ListVariables(t *testing.T) {
 }
 
 func TestProjectVariablesService_GetVariable(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/variables/TEST_VARIABLE_1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -104,8 +102,7 @@ func TestProjectVariablesService_GetVariable(t *testing.T) {
 }
 
 func TestProjectVariablesService_CreateVariable(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/variables", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -152,8 +149,7 @@ func TestProjectVariablesService_CreateVariable(t *testing.T) {
 }
 
 func TestProjectVariablesService_UpdateVariable(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/variables/NEW_VARIABLE", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
@@ -201,8 +197,7 @@ func TestProjectVariablesService_UpdateVariable(t *testing.T) {
 }
 
 func TestProjectVariablesService_RemoveVariable(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/variables/VARIABLE_1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)

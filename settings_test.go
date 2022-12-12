@@ -24,8 +24,7 @@ import (
 )
 
 func TestGetSettings(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/application/settings", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -44,8 +43,7 @@ func TestGetSettings(t *testing.T) {
 }
 
 func TestUpdateSettings(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/application/settings", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)

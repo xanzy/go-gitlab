@@ -10,8 +10,7 @@ import (
 )
 
 func TestSystemHooksService_ListHooks(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/hooks", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -48,8 +47,7 @@ func TestSystemHooksService_ListHooks(t *testing.T) {
 }
 
 func TestSystemHooksService_GetHook(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/hooks/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -84,8 +82,7 @@ func TestSystemHooksService_GetHook(t *testing.T) {
 }
 
 func TestSystemHooksService_AddHook(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/hooks", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -104,8 +101,7 @@ func TestSystemHooksService_AddHook(t *testing.T) {
 }
 
 func TestSystemHooksService_TestHook(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/hooks/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -128,8 +124,7 @@ func TestSystemHooksService_TestHook(t *testing.T) {
 }
 
 func TestSystemHooksService_DeleteHook(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/hooks/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)

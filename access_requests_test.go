@@ -27,8 +27,7 @@ import (
 )
 
 func TestListProjectAccessRequests(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/access_requests", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -94,8 +93,7 @@ func TestListProjectAccessRequests(t *testing.T) {
 }
 
 func TestListGroupAccessRequests(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1/access_requests", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -161,8 +159,7 @@ func TestListGroupAccessRequests(t *testing.T) {
 }
 
 func TestRequestProjectAccess(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/access_requests", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -208,8 +205,7 @@ func TestRequestProjectAccess(t *testing.T) {
 }
 
 func TestRequestGroupAccess(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1/access_requests", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -255,8 +251,7 @@ func TestRequestGroupAccess(t *testing.T) {
 }
 
 func TestApproveProjectAccessRequest(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/access_requests/10/approve", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
@@ -315,8 +310,7 @@ func TestApproveProjectAccessRequest(t *testing.T) {
 }
 
 func TestApproveGroupAccessRequest(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1/access_requests/10/approve", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
@@ -375,8 +369,7 @@ func TestApproveGroupAccessRequest(t *testing.T) {
 }
 
 func TestDenyProjectAccessRequest(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/access_requests/10", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)
@@ -400,8 +393,7 @@ func TestDenyProjectAccessRequest(t *testing.T) {
 }
 
 func TestDenyGroupAccessRequest(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1/access_requests/10", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)

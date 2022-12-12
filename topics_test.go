@@ -24,8 +24,7 @@ import (
 )
 
 func TestTopicsService_ListTopics(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/topics", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -89,8 +88,7 @@ func TestTopicsService_ListTopics(t *testing.T) {
 }
 
 func TestTopicsService_GetTopic(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/topics/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -123,8 +121,7 @@ func TestTopicsService_GetTopic(t *testing.T) {
 }
 
 func TestTopicsService_CreateTopic(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/topics", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -151,8 +148,7 @@ func TestTopicsService_CreateTopic(t *testing.T) {
 }
 
 func TestTopicsService_UpdateTopic(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/topics/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)

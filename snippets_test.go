@@ -9,8 +9,7 @@ import (
 )
 
 func TestSnippetsService_ListSnippets(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/snippets", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -27,8 +26,7 @@ func TestSnippetsService_ListSnippets(t *testing.T) {
 }
 
 func TestSnippetsService_GetSnippet(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/snippets/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -43,8 +41,7 @@ func TestSnippetsService_GetSnippet(t *testing.T) {
 }
 
 func TestSnippetsService_CreateSnippet(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/snippets", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -67,8 +64,7 @@ func TestSnippetsService_CreateSnippet(t *testing.T) {
 }
 
 func TestSnippetsService_UpdateSnippet(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/snippets/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
@@ -91,8 +87,7 @@ func TestSnippetsService_UpdateSnippet(t *testing.T) {
 }
 
 func TestSnippetsService_DeleteSnippet(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/snippets/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)
@@ -104,8 +99,7 @@ func TestSnippetsService_DeleteSnippet(t *testing.T) {
 }
 
 func TestSnippetsService_SnippetContent(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/snippets/1/raw", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -120,8 +114,7 @@ func TestSnippetsService_SnippetContent(t *testing.T) {
 }
 
 func TestSnippetsService_ExploreSnippets(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/snippets/public", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)

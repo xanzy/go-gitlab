@@ -9,8 +9,7 @@ import (
 )
 
 func TestAuditEventsService_ListInstanceAuditEvents(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/audit_events", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -63,8 +62,7 @@ func TestAuditEventsService_ListInstanceAuditEvents(t *testing.T) {
 }
 
 func TestAuditEventsService_ListInstanceAuditEvents_StatusNotFound(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/audit_events", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -78,8 +76,7 @@ func TestAuditEventsService_ListInstanceAuditEvents_StatusNotFound(t *testing.T)
 }
 
 func TestAuditEventsService_GetInstanceAuditEvent(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/audit_events/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -135,8 +132,7 @@ func TestAuditEventsService_GetInstanceAuditEvent(t *testing.T) {
 }
 
 func TestAuditEventsService_ListGroupAuditEvents(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/6/audit_events", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -199,8 +195,7 @@ func TestAuditEventsService_ListGroupAuditEvents(t *testing.T) {
 }
 
 func TestAuditEventsService_GetGroupAuditEvent(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/6/audit_events/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -261,8 +256,7 @@ func TestAuditEventsService_GetGroupAuditEvent(t *testing.T) {
 }
 
 func TestAuditEventsService_ListProjectAuditEvents(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/6/audit_events", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -325,8 +319,7 @@ func TestAuditEventsService_ListProjectAuditEvents(t *testing.T) {
 }
 
 func TestAuditEventsService_GetProjectAuditEvent(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/6/audit_events/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)

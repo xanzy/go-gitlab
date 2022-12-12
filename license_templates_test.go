@@ -9,8 +9,7 @@ import (
 )
 
 func TestLicenseTemplatesService_ListLicenseTemplates(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/templates/licenses", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -71,8 +70,7 @@ func TestLicenseTemplatesService_ListLicenseTemplates(t *testing.T) {
 }
 
 func TestLicenseTemplatesService_ListLicenseTemplates_StatusNotFound(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/templates/licenses", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -86,8 +84,7 @@ func TestLicenseTemplatesService_ListLicenseTemplates_StatusNotFound(t *testing.
 }
 
 func TestLicenseTemplatesService_GetLicenseTemplate(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/templates/licenses/apache-2.0", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)

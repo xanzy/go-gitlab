@@ -25,8 +25,7 @@ import (
 )
 
 func TestGetIssuesStatistics(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/issues_statistics", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -68,8 +67,7 @@ func TestGetIssuesStatistics(t *testing.T) {
 }
 
 func TestGetGroupIssuesStatistics(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1/issues_statistics", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -111,8 +109,7 @@ func TestGetGroupIssuesStatistics(t *testing.T) {
 }
 
 func TestGetProjectIssuesStatistics(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/issues_statistics", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)

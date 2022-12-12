@@ -25,8 +25,7 @@ import (
 )
 
 func TestListAllDeployKeys(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/deploy_keys", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -122,8 +121,7 @@ func TestListAllDeployKeys(t *testing.T) {
 }
 
 func TestListProjectDeployKeys(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/deploy_keys", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -182,8 +180,7 @@ func TestListProjectDeployKeys(t *testing.T) {
 }
 
 func TestGetDeployKey(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/deploy_keys/11", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -219,8 +216,7 @@ func TestGetDeployKey(t *testing.T) {
 }
 
 func TestAddDeployKey(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/deploy_keys", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -261,8 +257,7 @@ func TestAddDeployKey(t *testing.T) {
 }
 
 func TestDeleteDeployKey(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/deploy_keys/13", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)
@@ -275,8 +270,7 @@ func TestDeleteDeployKey(t *testing.T) {
 }
 
 func TestEnableDeployKey(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/deploy_keys/13/enable", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -310,8 +304,7 @@ func TestEnableDeployKey(t *testing.T) {
 }
 
 func TestUpdateDeployKey(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/deploy_keys/11", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)

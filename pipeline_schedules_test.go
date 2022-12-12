@@ -23,8 +23,7 @@ import (
 )
 
 func TestRunPipelineSchedule(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/pipeline_schedules/1/play", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)

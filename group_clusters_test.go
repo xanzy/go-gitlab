@@ -25,8 +25,7 @@ import (
 )
 
 func TestGroupListClusters(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/26/clusters", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -136,8 +135,7 @@ func TestGroupListClusters(t *testing.T) {
 }
 
 func TestGetGroupCluster(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/26/clusters/18", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -246,8 +244,7 @@ func TestGetGroupCluster(t *testing.T) {
 }
 
 func TestAddGroupCluster(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/26/clusters/user", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -332,8 +329,7 @@ func TestAddGroupCluster(t *testing.T) {
 }
 
 func TestEditGroupCluster(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/26/clusters/24", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
@@ -452,8 +448,7 @@ func TestEditGroupCluster(t *testing.T) {
 }
 
 func TestDeleteGroupCluster(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/26/clusters/23", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)

@@ -9,8 +9,7 @@ import (
 )
 
 func TestGeoNodesService_CreateGeoNode(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/geo_nodes", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -83,8 +82,7 @@ func TestGeoNodesService_CreateGeoNode(t *testing.T) {
 }
 
 func TestGeoNodesService_CreateGeoNode_StatusNotFound(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/geo_nodes", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -98,8 +96,7 @@ func TestGeoNodesService_CreateGeoNode_StatusNotFound(t *testing.T) {
 }
 
 func TestGeoNodesService_ListGeoNodes(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/geo_nodes", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -176,8 +173,7 @@ func TestGeoNodesService_ListGeoNodes(t *testing.T) {
 }
 
 func TestGeoNodesService_ListGeoNodes_StatusNotFound(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/geo_nodes", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -191,8 +187,7 @@ func TestGeoNodesService_ListGeoNodes_StatusNotFound(t *testing.T) {
 }
 
 func TestGeoNodesService_GetGeoNode(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/geo_nodes/3", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -270,8 +265,7 @@ func TestGeoNodesService_GetGeoNode(t *testing.T) {
 }
 
 func TestGeoNodesService_EditGeoNode(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/geo_nodes/3", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
@@ -349,8 +343,7 @@ func TestGeoNodesService_EditGeoNode(t *testing.T) {
 }
 
 func TestGeoNodesService_DeleteGeoNode(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/geo_nodes/3", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)
@@ -370,8 +363,7 @@ func TestGeoNodesService_DeleteGeoNode(t *testing.T) {
 }
 
 func TestGeoNodesService_RepairGeoNode(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/geo_nodes/3/repair", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -449,8 +441,7 @@ func TestGeoNodesService_RepairGeoNode(t *testing.T) {
 }
 
 func TestGeoNodesService_RetrieveStatusOfAllGeoNodes(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/geo_nodes/status", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -557,8 +548,7 @@ func TestGeoNodesService_RetrieveStatusOfAllGeoNodes(t *testing.T) {
 }
 
 func TestGeoNodesService_RetrieveStatusOfAllGeoNodes_StatusNotFound(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/geo_nodes/status", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -572,8 +562,7 @@ func TestGeoNodesService_RetrieveStatusOfAllGeoNodes_StatusNotFound(t *testing.T
 }
 
 func TestGeoNodesService_RetrieveStatusOfGeoNode(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/geo_nodes/1/status", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)

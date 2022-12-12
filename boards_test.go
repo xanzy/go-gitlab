@@ -9,8 +9,7 @@ import (
 )
 
 func TestIssueBoardsService_CreateIssueBoard(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/boards", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -75,8 +74,7 @@ func TestIssueBoardsService_CreateIssueBoard(t *testing.T) {
 }
 
 func TestIssueBoardsService_UpdateIssueBoard(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/boards/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
@@ -141,8 +139,7 @@ func TestIssueBoardsService_UpdateIssueBoard(t *testing.T) {
 }
 
 func TestIssueBoardsService_DeleteIssueBoard(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/boards/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)
@@ -166,8 +163,7 @@ func TestIssueBoardsService_DeleteIssueBoard(t *testing.T) {
 }
 
 func TestIssueBoardsService_ListIssueBoards(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/boards", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -297,8 +293,7 @@ func TestIssueBoardsService_ListIssueBoards(t *testing.T) {
 }
 
 func TestIssueBoardsService_GetIssueBoard(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/boards/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -427,8 +422,7 @@ func TestIssueBoardsService_GetIssueBoard(t *testing.T) {
 }
 
 func TestIssueBoardsService_GetIssueBoardLists(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/boards/1/lists", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -523,8 +517,7 @@ func TestIssueBoardsService_GetIssueBoardLists(t *testing.T) {
 }
 
 func TestIssueBoardsService_GetIssueBoardList(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/boards/1/lists/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -575,8 +568,7 @@ func TestIssueBoardsService_GetIssueBoardList(t *testing.T) {
 }
 
 func TestIssueBoardsService_CreateIssueBoardList(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/boards/1/lists", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -627,8 +619,7 @@ func TestIssueBoardsService_CreateIssueBoardList(t *testing.T) {
 }
 
 func TestIssueBoardsService_UpdateIssueBoardList(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/boards/1/lists/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
@@ -679,8 +670,7 @@ func TestIssueBoardsService_UpdateIssueBoardList(t *testing.T) {
 }
 
 func TestIssueBoardsService_DeleteIssueBoardList(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/boards/1/lists/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)

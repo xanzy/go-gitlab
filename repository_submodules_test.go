@@ -9,8 +9,7 @@ import (
 )
 
 func TestRepositorySubmodulesService_UpdateSubmodule(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/13083/repository/submodules/app%2Fproject", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)

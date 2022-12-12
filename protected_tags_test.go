@@ -25,8 +25,7 @@ import (
 )
 
 func TestListProtectedTags(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/protected_tags", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -61,8 +60,7 @@ func TestListProtectedTags(t *testing.T) {
 }
 
 func TestGetProtectedTag(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	tagName := "my-awesome-tag"
 
@@ -93,8 +91,7 @@ func TestGetProtectedTag(t *testing.T) {
 }
 
 func TestProtectRepositoryTags(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/protected_tags", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -132,8 +129,7 @@ func TestProtectRepositoryTags(t *testing.T) {
 }
 
 func TestUnprotectRepositoryTags(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/protected_tags/my-awesome-tag", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)

@@ -8,8 +8,7 @@ import (
 )
 
 func TestListGroups(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -29,8 +28,7 @@ func TestListGroups(t *testing.T) {
 }
 
 func TestGetGroup(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/g",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -50,8 +48,7 @@ func TestGetGroup(t *testing.T) {
 }
 
 func TestGetGroupWithFileTemplateId(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/g",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -71,8 +68,7 @@ func TestGetGroupWithFileTemplateId(t *testing.T) {
 }
 
 func TestCreateGroup(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -97,8 +93,7 @@ func TestCreateGroup(t *testing.T) {
 }
 
 func TestTransferGroup(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1/projects/2",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -118,8 +113,7 @@ func TestTransferGroup(t *testing.T) {
 }
 
 func TestTransferSubGroup(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1/transfer",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -143,8 +137,7 @@ func TestTransferSubGroup(t *testing.T) {
 }
 
 func TestDeleteGroup(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -165,8 +158,7 @@ func TestDeleteGroup(t *testing.T) {
 }
 
 func TestSearchGroup(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -186,8 +178,7 @@ func TestSearchGroup(t *testing.T) {
 }
 
 func TestUpdateGroup(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -207,8 +198,7 @@ func TestUpdateGroup(t *testing.T) {
 }
 
 func TestListGroupProjects(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/22/projects",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -229,8 +219,7 @@ func TestListGroupProjects(t *testing.T) {
 }
 
 func TestListSubGroups(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1/subgroups",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -250,8 +239,7 @@ func TestListSubGroups(t *testing.T) {
 }
 
 func TestListGroupLDAPLinks(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1/ldap_group_links",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -293,8 +281,7 @@ func TestListGroupLDAPLinks(t *testing.T) {
 }
 
 func TestAddGroupLDAPLink(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1/ldap_group_links",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -329,8 +316,7 @@ func TestAddGroupLDAPLink(t *testing.T) {
 }
 
 func TestAddGroupLDAPLinkFilter(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1/ldap_group_links",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -365,8 +351,7 @@ func TestAddGroupLDAPLinkFilter(t *testing.T) {
 }
 
 func TestListGroupSAMLLinks(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1/saml_group_links",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -404,8 +389,7 @@ func TestListGroupSAMLLinks(t *testing.T) {
 }
 
 func TestGetGroupSAMLLink(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1/saml_group_links/gitlab_group_example_developer",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -432,8 +416,7 @@ func TestGetGroupSAMLLink(t *testing.T) {
 }
 
 func TestAddGroupSAMLLink(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1/saml_group_links",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -465,8 +448,7 @@ func TestAddGroupSAMLLink(t *testing.T) {
 }
 
 func TestRestoreGroup(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 	mux.HandleFunc("/api/v4/groups/1/restore",
 		func(w http.ResponseWriter, r *http.Request) {
 			testMethod(t, r, http.MethodPost)
@@ -484,8 +466,7 @@ func TestRestoreGroup(t *testing.T) {
 }
 
 func TestShareGroupWithGroup(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 	mux.HandleFunc("/api/v4/groups/1/share",
 		func(w http.ResponseWriter, r *http.Request) {
 			testMethod(t, r, http.MethodPost)
@@ -506,8 +487,7 @@ func TestShareGroupWithGroup(t *testing.T) {
 }
 
 func TestUnshareGroupFromGroup(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 	mux.HandleFunc("/api/v4/groups/1/share/2",
 		func(w http.ResponseWriter, r *http.Request) {
 			testMethod(t, r, http.MethodDelete)
@@ -524,8 +504,7 @@ func TestUnshareGroupFromGroup(t *testing.T) {
 }
 
 func TestCreateGroupWithIPRestrictionRanges(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -551,8 +530,7 @@ func TestCreateGroupWithIPRestrictionRanges(t *testing.T) {
 }
 
 func TestUpdateGroupWithIPRestrictionRanges(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1",
 		func(w http.ResponseWriter, r *http.Request) {

@@ -24,8 +24,7 @@ import (
 )
 
 func TestListProjectVulnerabilities(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/vulnerabilities", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -48,8 +47,7 @@ func TestListProjectVulnerabilities(t *testing.T) {
 }
 
 func TestCreateVulnerability(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/vulnerabilities", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)

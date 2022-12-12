@@ -23,8 +23,7 @@ import (
 )
 
 func TestListClusters(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 	pid := 1234
 
 	mux.HandleFunc("/api/v4/projects/1234/clusters", func(w http.ResponseWriter, r *http.Request) {
@@ -80,8 +79,7 @@ func TestListClusters(t *testing.T) {
 }
 
 func TestGetCluster(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 	pid := 1234
 
 	mux.HandleFunc("/api/v4/projects/1234/clusters/1", func(w http.ResponseWriter, r *http.Request) {
@@ -160,8 +158,7 @@ func TestGetCluster(t *testing.T) {
 }
 
 func TestAddCluster(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 	pid := 1234
 
 	mux.HandleFunc("/api/v4/projects/1234/clusters/user", func(w http.ResponseWriter, r *http.Request) {
@@ -236,8 +233,7 @@ func TestAddCluster(t *testing.T) {
 }
 
 func TestEditCluster(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 	pid := 1234
 
 	mux.HandleFunc("/api/v4/projects/1234/clusters/1", func(w http.ResponseWriter, r *http.Request) {
@@ -312,8 +308,7 @@ func TestEditCluster(t *testing.T) {
 }
 
 func TestDeleteCluster(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1234/clusters/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)

@@ -9,8 +9,7 @@ import (
 )
 
 func ListIssueMilestoneEvents(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/issues/11/resource_milestone_events", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -73,8 +72,7 @@ func ListIssueMilestoneEvents(t *testing.T) {
 }
 
 func GetIssueMilestoneEvent(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/issues/11/resource_milestone_events/143", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -135,8 +133,7 @@ func GetIssueMilestoneEvent(t *testing.T) {
 }
 
 func ListMergeMilestoneEvents(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/merge_requests/11/resource_milestone_events", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -199,8 +196,7 @@ func ListMergeMilestoneEvents(t *testing.T) {
 }
 
 func GetMergeRequestMilestoneEvent(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/merge_requests/11/resource_milestone_events/120", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)

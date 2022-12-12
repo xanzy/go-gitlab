@@ -9,8 +9,7 @@ import (
 )
 
 func TestAwardEmojiService_ListMergeRequestAwardEmoji(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/merge_requests/80/award_emoji", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -80,8 +79,7 @@ func TestAwardEmojiService_ListMergeRequestAwardEmoji(t *testing.T) {
 }
 
 func TestAwardEmojiService_ListIssueAwardEmoji(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/issues/80/award_emoji", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -151,8 +149,7 @@ func TestAwardEmojiService_ListIssueAwardEmoji(t *testing.T) {
 }
 
 func TestAwardEmojiService_ListSnippetAwardEmoji(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/snippets/80/award_emoji", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -222,8 +219,7 @@ func TestAwardEmojiService_ListSnippetAwardEmoji(t *testing.T) {
 }
 
 func TestAwardEmojiService_GetMergeRequestAwardEmoji(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/merge_requests/80/award_emoji/4", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -291,8 +287,7 @@ func TestAwardEmojiService_GetMergeRequestAwardEmoji(t *testing.T) {
 }
 
 func TestAwardEmojiService_GetIssueAwardEmoji(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/issues/80/award_emoji/4", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -360,8 +355,7 @@ func TestAwardEmojiService_GetIssueAwardEmoji(t *testing.T) {
 }
 
 func TestAwardEmojiService_GetSnippetAwardEmoji(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/snippets/80/award_emoji/4", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -429,8 +423,7 @@ func TestAwardEmojiService_GetSnippetAwardEmoji(t *testing.T) {
 }
 
 func TestAwardEmojiService_CreateMergeRequestAwardEmoji(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/merge_requests/80/award_emoji", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -498,8 +491,7 @@ func TestAwardEmojiService_CreateMergeRequestAwardEmoji(t *testing.T) {
 }
 
 func TestAwardEmojiService_CreateIssueAwardEmoji(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/issues/80/award_emoji", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -567,8 +559,7 @@ func TestAwardEmojiService_CreateIssueAwardEmoji(t *testing.T) {
 }
 
 func TestAwardEmojiService_CreateSnippetAwardEmoji(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/snippets/80/award_emoji", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -636,8 +627,7 @@ func TestAwardEmojiService_CreateSnippetAwardEmoji(t *testing.T) {
 }
 
 func TestAwardEmojiService_DeleteMergeRequestAwardEmoji(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/merge_requests/80/award_emoji/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)
@@ -661,8 +651,7 @@ func TestAwardEmojiService_DeleteMergeRequestAwardEmoji(t *testing.T) {
 }
 
 func TestAwardEmojiService_DeleteIssueAwardEmoji(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/issues/80/award_emoji/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)
@@ -686,8 +675,7 @@ func TestAwardEmojiService_DeleteIssueAwardEmoji(t *testing.T) {
 }
 
 func TestAwardEmojiService_DeleteSnippetAwardEmoji(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/snippets/80/award_emoji/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)
@@ -711,8 +699,7 @@ func TestAwardEmojiService_DeleteSnippetAwardEmoji(t *testing.T) {
 }
 
 func TestAwardEmojiService_ListMergeRequestAwardEmojiOnNote(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/merge_requests/80/notes/1/award_emoji", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -782,8 +769,7 @@ func TestAwardEmojiService_ListMergeRequestAwardEmojiOnNote(t *testing.T) {
 }
 
 func TestAwardEmojiService_ListIssuesAwardEmojiOnNote(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/issues/80/notes/1/award_emoji", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -853,8 +839,7 @@ func TestAwardEmojiService_ListIssuesAwardEmojiOnNote(t *testing.T) {
 }
 
 func TestAwardEmojiService_ListSnippetAwardEmojiOnNote(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/snippets/80/notes/1/award_emoji", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -924,8 +909,7 @@ func TestAwardEmojiService_ListSnippetAwardEmojiOnNote(t *testing.T) {
 }
 
 func TestAwardEmojiService_GetMergeRequestAwardEmojiOnNote(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/merge_requests/80/notes/1/award_emoji/4", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -993,8 +977,7 @@ func TestAwardEmojiService_GetMergeRequestAwardEmojiOnNote(t *testing.T) {
 }
 
 func TestAwardEmojiService_GetIssuesAwardEmojiOnNote(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/issues/80/notes/1/award_emoji/4", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -1062,8 +1045,7 @@ func TestAwardEmojiService_GetIssuesAwardEmojiOnNote(t *testing.T) {
 }
 
 func TestAwardEmojiService_GetSnippetAwardEmojiOnNote(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/snippets/80/notes/1/award_emoji/4", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -1131,8 +1113,7 @@ func TestAwardEmojiService_GetSnippetAwardEmojiOnNote(t *testing.T) {
 }
 
 func TestAwardEmojiService_CCreateMergeRequestAwardEmojiOnNote(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/merge_requests/80/notes/1/award_emoji", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -1200,8 +1181,7 @@ func TestAwardEmojiService_CCreateMergeRequestAwardEmojiOnNote(t *testing.T) {
 }
 
 func TestAwardEmojiService_CreateIssuesAwardEmojiOnNote(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/issues/80/notes/1/award_emoji", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -1269,8 +1249,7 @@ func TestAwardEmojiService_CreateIssuesAwardEmojiOnNote(t *testing.T) {
 }
 
 func TestAwardEmojiService_CreateSnippetAwardEmojiOnNote(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/snippets/80/notes/1/award_emoji", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -1338,8 +1317,7 @@ func TestAwardEmojiService_CreateSnippetAwardEmojiOnNote(t *testing.T) {
 }
 
 func TestAwardEmojiService_DeleteMergeRequestAwardEmojiOnNote(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/merge_requests/80/notes/1/award_emoji/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)
@@ -1363,8 +1341,7 @@ func TestAwardEmojiService_DeleteMergeRequestAwardEmojiOnNote(t *testing.T) {
 }
 
 func TestAwardEmojiService_DeleteIssuesAwardEmojiOnNote(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/issues/80/notes/1/award_emoji/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)
@@ -1388,8 +1365,7 @@ func TestAwardEmojiService_DeleteIssuesAwardEmojiOnNote(t *testing.T) {
 }
 
 func TestAwardEmojiService_DeleteSnippetAwardEmojiOnNote(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/snippets/80/notes/1/award_emoji/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)

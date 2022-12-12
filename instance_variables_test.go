@@ -9,8 +9,7 @@ import (
 )
 
 func TestInstanceVariablesService_ListVariables(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/admin/ci/variables", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -47,8 +46,7 @@ func TestInstanceVariablesService_ListVariables(t *testing.T) {
 }
 
 func TestInstanceVariablesService_ListVariables_StatusNotFound(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/admin/ci/variables", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -62,8 +60,7 @@ func TestInstanceVariablesService_ListVariables_StatusNotFound(t *testing.T) {
 }
 
 func TestInstanceVariablesService_GetVariable(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/admin/ci/variables/TEST_VARIABLE_1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -103,8 +100,7 @@ func TestInstanceVariablesService_GetVariable(t *testing.T) {
 }
 
 func TestInstanceVariablesService_CreateVariable(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/admin/ci/variables", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -139,8 +135,7 @@ func TestInstanceVariablesService_CreateVariable(t *testing.T) {
 }
 
 func TestInstanceVariablesService_StatusInternalServerError(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/admin/ci/variables", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -154,8 +149,7 @@ func TestInstanceVariablesService_StatusInternalServerError(t *testing.T) {
 }
 
 func TestInstanceVariablesService_UpdateVariable(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/admin/ci/variables/NEW_VARIABLE", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
@@ -195,8 +189,7 @@ func TestInstanceVariablesService_UpdateVariable(t *testing.T) {
 }
 
 func TestInstanceVariablesService_RemoveVariable(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/admin/ci/variables/NEW_VARIABLE", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)

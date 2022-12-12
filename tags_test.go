@@ -24,8 +24,7 @@ import (
 )
 
 func TestTagsService_ListTags(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/repository/tags", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -67,8 +66,7 @@ func TestTagsService_ListTags(t *testing.T) {
 }
 
 func TestTagsService_CreateReleaseNote(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/repository/tags/1.0.0/release",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -90,8 +88,7 @@ func TestTagsService_CreateReleaseNote(t *testing.T) {
 }
 
 func TestTagsService_UpdateReleaseNote(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/repository/tags/1.0.0/release",
 		func(w http.ResponseWriter, r *http.Request) {

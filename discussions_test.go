@@ -9,8 +9,7 @@ import (
 )
 
 func TestDiscussionsService_ListIssueDiscussions(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/issues/11/discussions", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -116,8 +115,7 @@ func TestDiscussionsService_ListIssueDiscussions(t *testing.T) {
 }
 
 func TestDiscussionsService_GetIssueDiscussion(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/issues/11/discussions/6a9c1750b37d513a43987b574953fceb50b03ce7", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -221,8 +219,7 @@ func TestDiscussionsService_GetIssueDiscussion(t *testing.T) {
 }
 
 func TestDiscussionsService_CreateIssueDiscussion(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/issues/11/discussions", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -326,8 +323,7 @@ func TestDiscussionsService_CreateIssueDiscussion(t *testing.T) {
 }
 
 func TestDiscussionsService_AddIssueDiscussionNote(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/issues/11/discussions/6a9c1750b37d513a43987b574953fceb50b03ce7/notes", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -421,8 +417,7 @@ func TestDiscussionsService_AddIssueDiscussionNote(t *testing.T) {
 }
 
 func TestDiscussionsService_UpdateIssueDiscussionNote(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/issues/11/discussions/6a9c1750b37d513a43987b574953fceb50b03ce7/notes/302", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
@@ -516,8 +511,7 @@ func TestDiscussionsService_UpdateIssueDiscussionNote(t *testing.T) {
 }
 
 func TestDiscussionsService_DeleteIssueDiscussionNote(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/issues/11/discussions/6a9c1750b37d513a43987b574953fceb50b03ce7/notes/302", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)
@@ -541,8 +535,7 @@ func TestDiscussionsService_DeleteIssueDiscussionNote(t *testing.T) {
 }
 
 func TestDiscussionsService_ListSnippetDiscussions(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/snippets/11/discussions", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -648,8 +641,7 @@ func TestDiscussionsService_ListSnippetDiscussions(t *testing.T) {
 }
 
 func TestDiscussionsService_GetSnippetDiscussion(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/snippets/11/discussions/6a9c1750b37d513a43987b574953fceb50b03ce7", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -753,8 +745,7 @@ func TestDiscussionsService_GetSnippetDiscussion(t *testing.T) {
 }
 
 func TestDiscussionsService_CreateSnippetDiscussion(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/snippets/11/discussions", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -858,8 +849,7 @@ func TestDiscussionsService_CreateSnippetDiscussion(t *testing.T) {
 }
 
 func TestDiscussionsService_AddSnippetDiscussionNote(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/snippets/11/discussions/6a9c1750b37d513a43987b574953fceb50b03ce7/notes", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -953,8 +943,7 @@ func TestDiscussionsService_AddSnippetDiscussionNote(t *testing.T) {
 }
 
 func TestDiscussionsService_UpdateSnippetDiscussionNote(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/snippets/11/discussions/6a9c1750b37d513a43987b574953fceb50b03ce7/notes/302", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
@@ -1048,8 +1037,7 @@ func TestDiscussionsService_UpdateSnippetDiscussionNote(t *testing.T) {
 }
 
 func TestDiscussionsService_DeleteSnippetDiscussionNote(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/snippets/11/discussions/6a9c1750b37d513a43987b574953fceb50b03ce7/notes/302", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)
@@ -1073,8 +1061,7 @@ func TestDiscussionsService_DeleteSnippetDiscussionNote(t *testing.T) {
 }
 
 func TestDiscussionsService_ListGroupEpicDiscussions(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/5/epics/11/discussions", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -1180,8 +1167,7 @@ func TestDiscussionsService_ListGroupEpicDiscussions(t *testing.T) {
 }
 
 func TestDiscussionsService_GetEpicDiscussion(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/5/epics/11/discussions/6a9c1750b37d513a43987b574953fceb50b03ce7", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -1285,8 +1271,7 @@ func TestDiscussionsService_GetEpicDiscussion(t *testing.T) {
 }
 
 func TestDiscussionsService_CreateEpicDiscussion(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/5/epics/11/discussions", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -1390,8 +1375,7 @@ func TestDiscussionsService_CreateEpicDiscussion(t *testing.T) {
 }
 
 func TestDiscussionsService_AddEpicDiscussionNote(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/5/epics/11/discussions/6a9c1750b37d513a43987b574953fceb50b03ce7/notes", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -1485,8 +1469,7 @@ func TestDiscussionsService_AddEpicDiscussionNote(t *testing.T) {
 }
 
 func TestDiscussionsService_UpdateEpicDiscussionNote(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/5/epics/11/discussions/6a9c1750b37d513a43987b574953fceb50b03ce7/notes/302", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
@@ -1580,8 +1563,7 @@ func TestDiscussionsService_UpdateEpicDiscussionNote(t *testing.T) {
 }
 
 func TestDiscussionsService_DeleteEpicDiscussionNote(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/5/epics/11/discussions/6a9c1750b37d513a43987b574953fceb50b03ce7/notes/302", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)
@@ -1605,8 +1587,7 @@ func TestDiscussionsService_DeleteEpicDiscussionNote(t *testing.T) {
 }
 
 func TestDiscussionsService_ListMergeRequestDiscussions(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/merge_requests/11/discussions", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -1712,8 +1693,7 @@ func TestDiscussionsService_ListMergeRequestDiscussions(t *testing.T) {
 }
 
 func TestDiscussionsService_GetMergeRequestDiscussion(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/merge_requests/11/discussions/6a9c1750b37d513a43987b574953fceb50b03ce7", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -1817,8 +1797,7 @@ func TestDiscussionsService_GetMergeRequestDiscussion(t *testing.T) {
 }
 
 func TestDiscussionsService_CreateMergeRequestDiscussion(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/merge_requests/11/discussions", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -1922,8 +1901,7 @@ func TestDiscussionsService_CreateMergeRequestDiscussion(t *testing.T) {
 }
 
 func TestDiscussionsService_ResolveMergeRequestDiscussion(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/merge_requests/11/discussions/6a9c1750b37d513a43987b574953fceb50b03ce7", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
@@ -2027,8 +2005,7 @@ func TestDiscussionsService_ResolveMergeRequestDiscussion(t *testing.T) {
 }
 
 func TestDiscussionsService_AddMergeRequestDiscussionNote(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/merge_requests/11/discussions/6a9c1750b37d513a43987b574953fceb50b03ce7/notes", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -2122,8 +2099,7 @@ func TestDiscussionsService_AddMergeRequestDiscussionNote(t *testing.T) {
 }
 
 func TestDiscussionsService_UpdateMergeRequestDiscussionNote(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/merge_requests/11/discussions/6a9c1750b37d513a43987b574953fceb50b03ce7/notes/302", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
@@ -2217,8 +2193,7 @@ func TestDiscussionsService_UpdateMergeRequestDiscussionNote(t *testing.T) {
 }
 
 func TestDiscussionsService_DeleteMergeRequestDiscussionNote(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/merge_requests/11/discussions/6a9c1750b37d513a43987b574953fceb50b03ce7/notes/302", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)
@@ -2242,8 +2217,7 @@ func TestDiscussionsService_DeleteMergeRequestDiscussionNote(t *testing.T) {
 }
 
 func TestDiscussionsService_ListCommitDiscussions(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/repository/commits/abc123/discussions", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -2349,8 +2323,7 @@ func TestDiscussionsService_ListCommitDiscussions(t *testing.T) {
 }
 
 func TestDiscussionsService_GetCommitDiscussion(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/repository/commits/abc123/discussions/6a9c1750b37d513a43987b574953fceb50b03ce7", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
@@ -2454,8 +2427,7 @@ func TestDiscussionsService_GetCommitDiscussion(t *testing.T) {
 }
 
 func TestDiscussionsService_CreateCommitDiscussion(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/repository/commits/abc123/discussions", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -2559,8 +2531,7 @@ func TestDiscussionsService_CreateCommitDiscussion(t *testing.T) {
 }
 
 func TestDiscussionsService_AddCommitDiscussionNote(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/repository/commits/abc123/discussions/6a9c1750b37d513a43987b574953fceb50b03ce7/notes", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
@@ -2654,8 +2625,7 @@ func TestDiscussionsService_AddCommitDiscussionNote(t *testing.T) {
 }
 
 func TestDiscussionsService_UpdateCommitDiscussionNote(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/repository/commits/abc123/discussions/6a9c1750b37d513a43987b574953fceb50b03ce7/notes/302", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
@@ -2749,8 +2719,7 @@ func TestDiscussionsService_UpdateCommitDiscussionNote(t *testing.T) {
 }
 
 func TestDiscussionsService_DeleteCommitDiscussionNote(t *testing.T) {
-	mux, server, client := setup(t)
-	defer teardown(server)
+	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/repository/commits/abc123/discussions/6a9c1750b37d513a43987b574953fceb50b03ce7/notes/302", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)
