@@ -236,6 +236,15 @@ func TestIssueEventUnmarshal(t *testing.T) {
 			GroupID:     41,
 		},
 	}, event.Changes.Labels.Current)
+
+	assert.Equal(t, "2017-09-15 16:54:55 UTC", event.Changes.ClosedAt.Previous)
+	assert.Equal(t, "2017-09-15 16:56:00 UTC", event.Changes.ClosedAt.Current)
+
+	assert.Equal(t, StateIDOpen, event.Changes.StateID.Previous)
+	assert.Equal(t, StateIDClosed, event.Changes.StateID.Current)
+
+	assert.Equal(t, "2017-09-15 16:50:55 UTC", event.Changes.UpdatedAt.Previous)
+	assert.Equal(t, "2017-09-15 16:52:00 UTC", event.Changes.UpdatedAt.Current)
 }
 
 func TestMergeEventUnmarshal(t *testing.T) {
@@ -371,6 +380,12 @@ func TestMergeEventUnmarshal(t *testing.T) {
 			GroupID:     41,
 		},
 	}, event.Changes.Labels.Current)
+
+	assert.Equal(t, StateIDLocked, event.Changes.StateID.Previous)
+	assert.Equal(t, StateIDMerged, event.Changes.StateID.Current)
+
+	assert.Equal(t, "2017-09-15 16:50:55 UTC", event.Changes.UpdatedAt.Previous)
+	assert.Equal(t, "2017-09-15 16:52:00 UTC", event.Changes.UpdatedAt.Current)
 }
 
 func TestMemberEventUnmarshal(t *testing.T) {
