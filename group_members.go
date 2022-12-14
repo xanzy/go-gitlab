@@ -159,14 +159,19 @@ func (s *GroupMembersService) GetGroupMember(gid interface{}, user int, options 
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/members.html#list-all-billable-members-of-a-group
 type BillableGroupMember struct {
-	ID             int     `json:"id"`
-	Username       string  `json:"username"`
-	Name           string  `json:"name"`
-	State          string  `json:"state"`
-	AvatarURL      string  `json:"avatar_url"`
-	WebURL         string  `json:"web_url"`
-	Email          string  `json:"email"`
-	LastActivityOn ISOTime `json:"last_activity_on"`
+	ID             int        `json:"id"`
+	Username       string     `json:"username"`
+	Name           string     `json:"name"`
+	State          string     `json:"state"`
+	AvatarURL      string     `json:"avatar_url"`
+	WebURL         string     `json:"web_url"`
+	Email          string     `json:"email"`
+	LastActivityOn *ISOTime   `json:"last_activity_on"`
+	MembershipType string     `json:"membership_type"`
+	Removeable     bool       `json:"removeable"`
+	CreatedAt      *time.Time `json:"created_at"`
+	IsLastOwner    bool       `json:"is_last_owner"`
+	LastLoginAt    *time.Time `json:"last_login_at"`
 }
 
 // ListBillableGroupMembersOptions represents the available ListBillableGroupMembers() options.
