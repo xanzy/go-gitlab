@@ -25,7 +25,8 @@ import (
 
 // StateID identifies the state of an issue or merge request.
 //
-// There are no GitLab API docs on the subject, but the mappings can be found in GitLab's codebase:
+// There are no GitLab API docs on the subject, but the mappings can be found in
+// GitLab's codebase:
 // https://gitlab.com/gitlab-org/gitlab-foss/-/blob/ba5be4989e/app/models/concerns/issuable.rb#L39-42
 type StateID int
 
