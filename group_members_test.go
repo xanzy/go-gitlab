@@ -22,6 +22,8 @@ import (
 	"reflect"
 	"testing"
 	"time"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestListBillableGroupMembers(t *testing.T) {
@@ -39,7 +41,12 @@ func TestListBillableGroupMembers(t *testing.T) {
 						"state":"active",
 						"avatar_url":"https://foo.bar/mypic",
 						"web_url":"http://192.168.1.8:3000/root",
-						"last_activity_on":"2021-01-27"
+						"last_activity_on":"2021-01-27",
+						"membership_type": "group_member",
+						"removeable": true,
+						"created_at": "2017-10-23T11:41:28.793Z",
+						"is_last_owner": false,
+						"last_login_at": "2022-12-12T09:22:51.581Z"
 					}
 				]`)
 		})
@@ -49,11 +56,11 @@ func TestListBillableGroupMembers(t *testing.T) {
 		t.Errorf("Groups.ListBillableGroupMembers returned error: %v", err)
 	}
 
-	testTime := ISOTime{}
-	err = testTime.UnmarshalJSON([]byte(`"2021-01-27"`))
-	if err != nil {
-		t.Errorf("Could not unmarshal date string to ISOTime: %v", err)
-	}
+	createdAt, _ := time.Parse(time.RFC3339, "2017-10-23T11:41:28.793Z")
+	lastLoginAt, _ := time.Parse(time.RFC3339, "2022-12-12T09:22:51.581Z")
+	lastActivityOn, _ := time.Parse(time.RFC3339, "2021-01-27T00:00:00Z")
+	lastActivityOnISOTime := ISOTime(lastActivityOn)
+
 	want := []*BillableGroupMember{
 		{
 			ID:             1,
@@ -62,12 +69,15 @@ func TestListBillableGroupMembers(t *testing.T) {
 			State:          "active",
 			AvatarURL:      "https://foo.bar/mypic",
 			WebURL:         "http://192.168.1.8:3000/root",
-			LastActivityOn: testTime,
+			LastActivityOn: &lastActivityOnISOTime,
+			MembershipType: "group_member",
+			Removeable:     true,
+			CreatedAt:      &createdAt,
+			IsLastOwner:    false,
+			LastLoginAt:    &lastLoginAt,
 		},
 	}
-	if !reflect.DeepEqual(want, billableMembers) {
-		t.Errorf("Groups.ListBillableGroupMembers returned %+v, want %+v", billableMembers, want)
-	}
+	assert.Equal(t, want, billableMembers, "Expected returned Groups.ListBillableGroupMembers to equal")
 }
 
 func TestListGroupMembersWithoutSAML(t *testing.T) {
