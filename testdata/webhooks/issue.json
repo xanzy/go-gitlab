@@ -87,6 +87,14 @@
       "previous": "2017-09-15 16:50:55 UTC",
       "current": "2017-09-15 16:52:00 UTC"
     },
+    "closed_at": {
+      "previous": "2017-09-15 16:54:55 UTC",
+      "current": "2017-09-15 16:56:00 UTC"
+    },
+    "state_id": {
+      "previous": 1,
+      "current": 2
+    },
     "labels": {
       "previous": [
         {

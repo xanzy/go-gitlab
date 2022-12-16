@@ -23,6 +23,21 @@ import (
 	"time"
 )
 
+// StateID identifies the state of an issue or merge request.
+//
+// There are no GitLab API docs on the subject, but the mappings can be found in
+// GitLab's codebase:
+// https://gitlab.com/gitlab-org/gitlab-foss/-/blob/ba5be4989e/app/models/concerns/issuable.rb#L39-42
+type StateID int
+
+const (
+	StateIDNone   StateID = 0
+	StateIDOpen   StateID = 1
+	StateIDClosed StateID = 2
+	StateIDMerged StateID = 3
+	StateIDLocked StateID = 4
+)
+
 // BuildEvent represents a build event.
 //
 // GitLab API docs:
@@ -292,6 +307,18 @@ type IssueEvent struct {
 			Previous string `json:"previous"`
 			Current  string `json:"current"`
 		} `json:"title"`
+		ClosedAt struct {
+			Previous string `json:"previous"`
+			Current  string `json:"current"`
+		} `json:"closed_at"`
+		StateID struct {
+			Previous StateID `json:"previous"`
+			Current  StateID `json:"current"`
+		} `json:"state_id"`
+		UpdatedAt struct {
+			Previous string `json:"previous"`
+			Current  string `json:"current"`
+		} `json:"updated_at"`
 		UpdatedByID struct {
 			Previous int `json:"previous"`
 			Current  int `json:"current"`
@@ -580,8 +607,8 @@ type MergeEvent struct {
 			Current  int `json:"current"`
 		} `json:"source_project_id"`
 		StateID struct {
-			Previous int `json:"previous"`
-			Current  int `json:"current"`
+			Previous StateID `json:"previous"`
+			Current  StateID `json:"current"`
 		} `json:"state_id"`
 		TargetBranch struct {
 			Previous string `json:"previous"`
@@ -595,6 +622,10 @@ type MergeEvent struct {
 			Previous string `json:"previous"`
 			Current  string `json:"current"`
 		} `json:"title"`
+		UpdatedAt struct {
+			Previous string `json:"previous"`
+			Current  string `json:"current"`
+		} `json:"updated_at"`
 		UpdatedByID struct {
 			Previous int `json:"previous"`
 			Current  int `json:"current"`
