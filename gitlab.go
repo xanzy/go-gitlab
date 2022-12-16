@@ -118,6 +118,7 @@ type Client struct {
 	DeploymentMergeRequests *DeploymentMergeRequestsService
 	Deployments             *DeploymentsService
 	Discussions             *DiscussionsService
+	DORAMetrics             *DORAMetricsService
 	Environments            *EnvironmentsService
 	EpicIssues              *EpicIssuesService
 	Epics                   *EpicsService
@@ -324,6 +325,7 @@ func newClient(options ...ClientOptionFunc) (*Client, error) {
 	c.DeploymentMergeRequests = &DeploymentMergeRequestsService{client: c}
 	c.Deployments = &DeploymentsService{client: c}
 	c.Discussions = &DiscussionsService{client: c}
+	c.DORAMetrics = &DORAMetricsService{client: c}
 	c.Environments = &EnvironmentsService{client: c}
 	c.EpicIssues = &EpicIssuesService{client: c}
 	c.Epics = &EpicsService{client: c}
