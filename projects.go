@@ -103,6 +103,7 @@ type Project struct {
 	ServiceDeskEnabled                        bool                       `json:"service_desk_enabled"`
 	ServiceDeskAddress                        string                     `json:"service_desk_address"`
 	IssuesAccessLevel                         AccessControlValue         `json:"issues_access_level"`
+	ReleasesAccessLevel                       AccessControlValue         `json:"releases_access_level,omitempty"`
 	RepositoryAccessLevel                     AccessControlValue         `json:"repository_access_level"`
 	MergeRequestsAccessLevel                  AccessControlValue         `json:"merge_requests_access_level"`
 	ForkingAccessLevel                        AccessControlValue         `json:"forking_access_level"`
@@ -279,15 +280,16 @@ func (s Project) String() string {
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#get-project-level-rules
 type ProjectApprovalRule struct {
-	ID                   int                `json:"id"`
-	Name                 string             `json:"name"`
-	RuleType             string             `json:"rule_type"`
-	EligibleApprovers    []*BasicUser       `json:"eligible_approvers"`
-	ApprovalsRequired    int                `json:"approvals_required"`
-	Users                []*BasicUser       `json:"users"`
-	Groups               []*Group           `json:"groups"`
-	ContainsHiddenGroups bool               `json:"contains_hidden_groups"`
-	ProtectedBranches    []*ProtectedBranch `json:"protected_branches"`
+	ID                            int                `json:"id"`
+	Name                          string             `json:"name"`
+	RuleType                      string             `json:"rule_type"`
+	EligibleApprovers             []*BasicUser       `json:"eligible_approvers"`
+	ApprovalsRequired             int                `json:"approvals_required"`
+	Users                         []*BasicUser       `json:"users"`
+	Groups                        []*Group           `json:"groups"`
+	ContainsHiddenGroups          bool               `json:"contains_hidden_groups"`
+	ProtectedBranches             []*ProtectedBranch `json:"protected_branches"`
+	AppliesToAllProtectedBranches bool               `json:"applies_to_all_protected_branches"`
 }
 
 func (s ProjectApprovalRule) String() string {
@@ -654,6 +656,7 @@ type CreateProjectOptions struct {
 	PagesAccessLevel                          *AccessControlValue                  `url:"pages_access_level,omitempty" json:"pages_access_level,omitempty"`
 	Path                                      *string                              `url:"path,omitempty" json:"path,omitempty"`
 	PublicBuilds                              *bool                                `url:"public_builds,omitempty" json:"public_builds,omitempty"`
+	ReleasesAccessLevel                       *AccessControlValue                  `url:"releases_access_level,omitempty" json:"releases_access_level,omitempty"`
 	RemoveSourceBranchAfterMerge              *bool                                `url:"remove_source_branch_after_merge,omitempty" json:"remove_source_branch_after_merge,omitempty"`
 	PrintingMergeRequestLinkEnabled           *bool                                `url:"printing_merge_request_link_enabled,omitempty" json:"printing_merge_request_link_enabled,omitempty"`
 	RepositoryAccessLevel                     *AccessControlValue                  `url:"repository_access_level,omitempty" json:"repository_access_level,omitempty"`
@@ -862,6 +865,7 @@ type EditProjectOptions struct {
 	PagesAccessLevel                          *AccessControlValue                  `url:"pages_access_level,omitempty" json:"pages_access_level,omitempty"`
 	Path                                      *string                              `url:"path,omitempty" json:"path,omitempty"`
 	PublicBuilds                              *bool                                `url:"public_builds,omitempty" json:"public_builds,omitempty"`
+	ReleasesAccessLevel                       *AccessControlValue                  `url:"releases_access_level,omitempty" json:"releases_access_level,omitempty"`
 	RemoveSourceBranchAfterMerge              *bool                                `url:"remove_source_branch_after_merge,omitempty" json:"remove_source_branch_after_merge,omitempty"`
 	PrintingMergeRequestLinkEnabled           *bool                                `url:"printing_merge_request_link_enabled,omitempty" json:"printing_merge_request_link_enabled,omitempty"`
 	RepositoryAccessLevel                     *AccessControlValue                  `url:"repository_access_level,omitempty" json:"repository_access_level,omitempty"`
@@ -1684,6 +1688,7 @@ type ProjectApprovals struct {
 	MergeRequestsAuthorApproval               bool                         `json:"merge_requests_author_approval"`
 	MergeRequestsDisableCommittersApproval    bool                         `json:"merge_requests_disable_committers_approval"`
 	RequirePasswordToApprove                  bool                         `json:"require_password_to_approve"`
+	SelectiveCodeOwnerRemovals                bool                         `json:"selective_code_owner_removals,omitempty"`
 }
 
 // GetApprovalConfiguration get the approval configuration for a project.
@@ -1723,6 +1728,7 @@ type ChangeApprovalConfigurationOptions struct {
 	MergeRequestsDisableCommittersApproval    *bool `url:"merge_requests_disable_committers_approval,omitempty" json:"merge_requests_disable_committers_approval,omitempty"`
 	RequirePasswordToApprove                  *bool `url:"require_password_to_approve,omitempty" json:"require_password_to_approve,omitempty"`
 	ResetApprovalsOnPush                      *bool `url:"reset_approvals_on_push,omitempty" json:"reset_approvals_on_push,omitempty"`
+	SelectiveCodeOwnerRemovals                *bool `url:"selective_code_owner_removals,omitempty" json:"selective_code_owner_removals,omitempty"`
 }
 
 // ChangeApprovalConfiguration updates the approval configuration for a project.
@@ -1806,12 +1812,13 @@ func (s *ProjectsService) GetProjectApprovalRule(pid interface{}, ruleID int, op
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#create-project-level-rules
 type CreateProjectLevelRuleOptions struct {
-	Name               *string `url:"name,omitempty" json:"name,omitempty"`
-	ApprovalsRequired  *int    `url:"approvals_required,omitempty" json:"approvals_required,omitempty"`
-	RuleType           *string `url:"rule_type,omitempty" json:"rule_type,omitempty"`
-	UserIDs            *[]int  `url:"user_ids,omitempty" json:"user_ids,omitempty"`
-	GroupIDs           *[]int  `url:"group_ids,omitempty" json:"group_ids,omitempty"`
-	ProtectedBranchIDs *[]int  `url:"protected_branch_ids,omitempty" json:"protected_branch_ids,omitempty"`
+	Name                         *string `url:"name,omitempty" json:"name,omitempty"`
+	ApprovalsRequired            *int    `url:"approvals_required,omitempty" json:"approvals_required,omitempty"`
+	RuleType                     *string `url:"rule_type,omitempty" json:"rule_type,omitempty"`
+	UserIDs                      *[]int  `url:"user_ids,omitempty" json:"user_ids,omitempty"`
+	GroupIDs                     *[]int  `url:"group_ids,omitempty" json:"group_ids,omitempty"`
+	ProtectedBranchIDs           *[]int  `url:"protected_branch_ids,omitempty" json:"protected_branch_ids,omitempty"`
+	AppliesToAlProtectedBranches *bool   `url:"applies_to_all_protected_branches,omitempty" json:"applies_to_all_protected_branches,omitempty"`
 }
 
 // CreateProjectApprovalRule creates a new project-level approval rule.
@@ -1845,11 +1852,12 @@ func (s *ProjectsService) CreateProjectApprovalRule(pid interface{}, opt *Create
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#update-project-level-rules
 type UpdateProjectLevelRuleOptions struct {
-	Name               *string `url:"name,omitempty" json:"name,omitempty"`
-	ApprovalsRequired  *int    `url:"approvals_required,omitempty" json:"approvals_required,omitempty"`
-	UserIDs            *[]int  `url:"user_ids,omitempty" json:"user_ids,omitempty"`
-	GroupIDs           *[]int  `url:"group_ids,omitempty" json:"group_ids,omitempty"`
-	ProtectedBranchIDs *[]int  `url:"protected_branch_ids,omitempty" json:"protected_branch_ids,omitempty"`
+	Name                         *string `url:"name,omitempty" json:"name,omitempty"`
+	ApprovalsRequired            *int    `url:"approvals_required,omitempty" json:"approvals_required,omitempty"`
+	UserIDs                      *[]int  `url:"user_ids,omitempty" json:"user_ids,omitempty"`
+	GroupIDs                     *[]int  `url:"group_ids,omitempty" json:"group_ids,omitempty"`
+	ProtectedBranchIDs           *[]int  `url:"protected_branch_ids,omitempty" json:"protected_branch_ids,omitempty"`
+	AppliesToAlProtectedBranches *bool   `url:"applies_to_all_protected_branches,omitempty" json:"applies_to_all_protected_branches,omitempty"`
 }
 
 // UpdateProjectApprovalRule updates an existing approval rule with new options.
@@ -2010,10 +2018,10 @@ func (s *ProjectsService) StartHousekeepingProject(pid interface{}, options ...R
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/projects.html#get-the-path-to-repository-storage
 type ProjectReposityStorage struct {
-	ProjectID         int    `json:"project_id"`
-	DiskPath          string `json:"disk_path"`
+	ProjectID         int        `json:"project_id"`
+	DiskPath          string     `json:"disk_path"`
 	CreatedAt         *time.Time `json:"created_at"`
-	RepositoryStorage string `json:"repository_storage"`
+	RepositoryStorage string     `json:"repository_storage"`
 }
 
 func (s *ProjectsService) GetRepositoryStorage(pid interface{}, options ...RequestOptionFunc) (*ProjectReposityStorage, *Response, error) {
