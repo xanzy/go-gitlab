@@ -30,83 +30,83 @@ func TestListTemplates(t *testing.T) {
 		testMethod(t, r, http.MethodGet)
 		fmt.Fprintf(w, `[
 			{
-			  "content": "Actionscript",
+			  "key": "Actionscript",
 			  "name": "Actionscript"
 			},
 			{
-			  "content": "Ada",
+			  "key": "Ada",
 			  "name": "Ada"
 			},
 			{
-			  "content": "Agda",
+			  "key": "Agda",
 			  "name": "Agda"
 			},
 			{
-			  "content": "Android",
+			  "key": "Android",
 			  "name": "Android"
 			},
 			{
-			  "content": "AppEngine",
+			  "key": "AppEngine",
 			  "name": "AppEngine"
 			},
 			{
-			  "content": "AppceleratorTitanium",
+			  "key": "AppceleratorTitanium",
 			  "name": "AppceleratorTitanium"
 			},
 			{
-			  "content": "ArchLinuxPackages",
+			  "key": "ArchLinuxPackages",
 			  "name": "ArchLinuxPackages"
 			},
 			{
-			  "content": "Autotools",
+			  "key": "Autotools",
 			  "name": "Autotools"
 			},
 			{
-			  "content": "C",
+			  "key": "C",
 			  "name": "C"
 			},
 			{
-			  "content": "C++",
+			  "key": "C++",
 			  "name": "C++"
 			},
 			{
-			  "content": "CFWheels",
+			  "key": "CFWheels",
 			  "name": "CFWheels"
 			},
 			{
-			  "content": "CMake",
+			  "key": "CMake",
 			  "name": "CMake"
 			},
 			{
-			  "content": "CUDA",
+			  "key": "CUDA",
 			  "name": "CUDA"
 			},
 			{
-			  "content": "CakePHP",
+			  "key": "CakePHP",
 			  "name": "CakePHP"
 			},
 			{
-			  "content": "ChefCookbook",
+			  "key": "ChefCookbook",
 			  "name": "ChefCookbook"
 			},
 			{
-			  "content": "Clojure",
+			  "key": "Clojure",
 			  "name": "Clojure"
 			},
 			{
-			  "content": "CodeIgniter",
+			  "key": "CodeIgniter",
 			  "name": "CodeIgniter"
 			},
 			{
-			  "content": "CommonLisp",
+			  "key": "CommonLisp",
 			  "name": "CommonLisp"
 			},
 			{
-			  "content": "Composer",
+			  "key": "Composer",
 			  "name": "Composer"
 			},
 			{
-			  "content": "Concrete5",
+			  "key": "Concrete5",
 			  "name": "Concrete5"
 			}
 		  ]`)
@@ -117,86 +117,86 @@ func TestListTemplates(t *testing.T) {
 		t.Errorf("GitIgnoreTemplates.ListTemplates returned error: %v", err)
 	}
 
-	want := []*GitIgnoreTemplate{
+	want := []*GitIgnoreTemplateListItem{
 		{
-			Name:    "Actionscript",
-			Content: "Actionscript",
+			Key:  "Actionscript",
+			Name: "Actionscript",
 		},
 		{
-			Name:    "Ada",
-			Content: "Ada",
+			Key:  "Ada",
+			Name: "Ada",
 		},
 		{
-			Name:    "Agda",
-			Content: "Agda",
+			Key:  "Agda",
+			Name: "Agda",
 		},
 		{
-			Name:    "Android",
-			Content: "Android",
+			Key:  "Android",
+			Name: "Android",
 		},
 		{
-			Name:    "AppEngine",
-			Content: "AppEngine",
+			Key:  "AppEngine",
+			Name: "AppEngine",
 		},
 		{
-			Name:    "AppceleratorTitanium",
-			Content: "AppceleratorTitanium",
+			Key:  "AppceleratorTitanium",
+			Name: "AppceleratorTitanium",
 		},
 		{
-			Name:    "ArchLinuxPackages",
-			Content: "ArchLinuxPackages",
+			Key:  "ArchLinuxPackages",
+			Name: "ArchLinuxPackages",
 		},
 		{
-			Name:    "Autotools",
-			Content: "Autotools",
+			Key:  "Autotools",
+			Name: "Autotools",
 		},
 		{
-			Name:    "C",
-			Content: "C",
+			Key:  "C",
+			Name: "C",
 		},
 		{
-			Name:    "C++",
-			Content: "C++",
+			Key:  "C++",
+			Name: "C++",
 		},
 		{
-			Name:    "CFWheels",
-			Content: "CFWheels",
+			Key:  "CFWheels",
+			Name: "CFWheels",
 		},
 		{
-			Name:    "CMake",
-			Content: "CMake",
+			Key:  "CMake",
+			Name: "CMake",
 		},
 		{
-			Name:    "CUDA",
-			Content: "CUDA",
+			Key:  "CUDA",
+			Name: "CUDA",
 		},
 		{
-			Name:    "CakePHP",
-			Content: "CakePHP",
+			Key:  "CakePHP",
+			Name: "CakePHP",
 		},
 		{
-			Name:    "ChefCookbook",
-			Content: "ChefCookbook",
+			Key:  "ChefCookbook",
+			Name: "ChefCookbook",
 		},
 		{
-			Name:    "Clojure",
-			Content: "Clojure",
+			Key:  "Clojure",
+			Name: "Clojure",
 		},
 		{
-			Name:    "CodeIgniter",
-			Content: "CodeIgniter",
+			Key:  "CodeIgniter",
+			Name: "CodeIgniter",
 		},
 		{
-			Name:    "CommonLisp",
-			Content: "CommonLisp",
+			Key:  "CommonLisp",
+			Name: "CommonLisp",
 		},
 		{
-			Name:    "Composer",
-			Content: "Composer",
+			Key:  "Composer",
+			Name: "Composer",
 		},
 		{
-			Name:    "Concrete5",
-			Content: "Concrete5",
+			Key:  "Concrete5",
+			Name: "Concrete5",
 		},
 	}
 	if !reflect.DeepEqual(want, templates) {

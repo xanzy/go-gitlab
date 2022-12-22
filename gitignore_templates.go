@@ -38,6 +38,14 @@ type GitIgnoreTemplate struct {
 	Content string `json:"content"`
 }
 
+// GitIgnoreTemplateListItem represents a GitLab gitignore template from the list.
+//
+// GitLab API docs: https://docs.gitlab.com/ce/api/templates/gitignores.html
+type GitIgnoreTemplateListItem struct {
+	Key  string `json:"key"`
+	Name string `json:"name"`
+}
+
 // ListTemplatesOptions represents the available ListAllTemplates() options.
 //
 // GitLab API docs:
@@ -48,13 +56,13 @@ type ListTemplatesOptions ListOptions
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/templates/gitignores.html#list-gitignore-templates
-func (s *GitIgnoreTemplatesService) ListTemplates(opt *ListTemplatesOptions, options ...RequestOptionFunc) ([]*GitIgnoreTemplate, *Response, error) {
+func (s *GitIgnoreTemplatesService) ListTemplates(opt *ListTemplatesOptions, options ...RequestOptionFunc) ([]*GitIgnoreTemplateListItem, *Response, error) {
 	req, err := s.client.NewRequest(http.MethodGet, "templates/gitignores", opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	var gs []*GitIgnoreTemplate
+	var gs []*GitIgnoreTemplateListItem
 	resp, err := s.client.Do(req, &gs)
 	if err != nil {
 		return nil, resp, err
