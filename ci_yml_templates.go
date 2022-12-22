@@ -39,6 +39,15 @@ type CIYMLTemplate struct {
 	Content string `json:"content"`
 }
 
+// CIYMLTemplateListItem represents a GitLab CI YML template from the list.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ce/api/templates/gitlab_ci_ymls.html
+type CIYMLTemplateListItem struct {
+	Key  string `json:"key"`
+	Name string `json:"name"`
+}
+
 // ListCIYMLTemplatesOptions represents the available ListAllTemplates() options.
 //
 // GitLab API docs:
@@ -49,13 +58,13 @@ type ListCIYMLTemplatesOptions ListOptions
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/templates/gitlab_ci_ymls.html#list-gitlab-ci-yml-templates
-func (s *CIYMLTemplatesService) ListAllTemplates(opt *ListCIYMLTemplatesOptions, options ...RequestOptionFunc) ([]*CIYMLTemplate, *Response, error) {
+func (s *CIYMLTemplatesService) ListAllTemplates(opt *ListCIYMLTemplatesOptions, options ...RequestOptionFunc) ([]*CIYMLTemplateListItem, *Response, error) {
 	req, err := s.client.NewRequest(http.MethodGet, "templates/gitlab_ci_ymls", opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	var cts []*CIYMLTemplate
+	var cts []*CIYMLTemplateListItem
 	resp, err := s.client.Do(req, &cts)
 	if err != nil {
 		return nil, resp, err
