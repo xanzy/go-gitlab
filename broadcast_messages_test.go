@@ -36,7 +36,11 @@ func TestListBroadcastMessages(t *testing.T) {
 			"color": "#E75E40",
 			"font": "#FFFFFF",
 			"id": 1,
-			"active": false
+			"active": false,
+			"target_access_levels": [10,30],
+			"target_path": "*/welcome",
+			"broadcast_type": "banner",
+			"dismissable": false
 		},{
 			"message": "SomeMessage2",
 			"starts_at": "2015-04-27T06:43:00.000Z",
@@ -44,7 +48,11 @@ func TestListBroadcastMessages(t *testing.T) {
 			"color": "#AA33EE",
 			"font": "#224466",
 			"id": 2,
-			"active": true
+			"active": true,
+			"target_access_levels": [],
+			"target_path": "*/*",
+			"broadcast_type": "notification",
+			"dismissable": true
 		}]`)
 	})
 
@@ -60,21 +68,29 @@ func TestListBroadcastMessages(t *testing.T) {
 	wantedSecondEndsAt := time.Date(2015, 04, 28, 20, 43, 0, 0, time.UTC)
 
 	want := []*BroadcastMessage{{
-		Message:  "Some Message",
-		StartsAt: &wantedFirstStartsAt,
-		EndsAt:   &wantedFirstEndsAt,
-		Color:    "#E75E40",
-		Font:     "#FFFFFF",
-		ID:       1,
-		Active:   false,
+		Message:            "Some Message",
+		StartsAt:           &wantedFirstStartsAt,
+		EndsAt:             &wantedFirstEndsAt,
+		Color:              "#E75E40",
+		Font:               "#FFFFFF",
+		ID:                 1,
+		Active:             false,
+		TargetAccessLevels: []AccessLevelValue{GuestPermissions, DeveloperPermissions},
+		TargetPath:         "*/welcome",
+		BroadcastType:      "banner",
+		Dismissable:        false,
 	}, {
-		Message:  "SomeMessage2",
-		StartsAt: &wantedSecondStartsAt,
-		EndsAt:   &wantedSecondEndsAt,
-		Color:    "#AA33EE",
-		Font:     "#224466",
-		ID:       2,
-		Active:   true,
+		Message:            "SomeMessage2",
+		StartsAt:           &wantedSecondStartsAt,
+		EndsAt:             &wantedSecondEndsAt,
+		Color:              "#AA33EE",
+		Font:               "#224466",
+		ID:                 2,
+		Active:             true,
+		TargetAccessLevels: []AccessLevelValue{},
+		TargetPath:         "*/*",
+		BroadcastType:      "notification",
+		Dismissable:        true,
 	}}
 
 	if !reflect.DeepEqual(got, want) {
@@ -94,7 +110,11 @@ func TestGetBroadcastMessages(t *testing.T) {
 			"color": "#E75E40",
 			"font": "#FFFFFF",
 			"id": 1,
-			"active": false
+			"active": false,
+			"target_access_levels": [10,30],
+			"target_path": "*/welcome",
+			"broadcast_type": "banner",
+			"dismissable": false
 		}`)
 	})
 
@@ -107,13 +127,17 @@ func TestGetBroadcastMessages(t *testing.T) {
 	wantedEndsAt := time.Date(2017, time.June, 27, 12, 59, 0, 0, time.UTC)
 
 	want := &BroadcastMessage{
-		Message:  "Some Message",
-		StartsAt: &wantedStartsAt,
-		EndsAt:   &wantedEndsAt,
-		Color:    "#E75E40",
-		Font:     "#FFFFFF",
-		ID:       1,
-		Active:   false,
+		Message:            "Some Message",
+		StartsAt:           &wantedStartsAt,
+		EndsAt:             &wantedEndsAt,
+		Color:              "#E75E40",
+		Font:               "#FFFFFF",
+		ID:                 1,
+		Active:             false,
+		TargetAccessLevels: []AccessLevelValue{GuestPermissions, DeveloperPermissions},
+		TargetPath:         "*/welcome",
+		BroadcastType:      "banner",
+		Dismissable:        false,
 	}
 	if !reflect.DeepEqual(got, want) {
 		t.Errorf("GetBroadcastMessage returned \ngot:\n%v\nwant:\n%v", Stringify(got), Stringify(want))
@@ -135,16 +159,24 @@ func TestCreateBroadcastMessages(t *testing.T) {
 			"color": "#E75E40",
 			"font": "#FFFFFF",
 			"id": 42,
-			"active": false
+			"active": false,
+			"target_access_levels": [10,30],
+			"target_path": "*/welcome",
+			"broadcast_type": "banner",
+			"dismissable": false
 		}`)
 	})
 
 	opt := &CreateBroadcastMessageOptions{
-		Message:  String("Some Message"),
-		StartsAt: &wantedStartsAt,
-		EndsAt:   &wantedEndsAt,
-		Color:    String("#E75E40"),
-		Font:     String("#FFFFFF"),
+		Message:            String("Some Message"),
+		StartsAt:           &wantedStartsAt,
+		EndsAt:             &wantedEndsAt,
+		Color:              String("#E75E40"),
+		Font:               String("#FFFFFF"),
+		TargetAccessLevels: []AccessLevelValue{GuestPermissions, DeveloperPermissions},
+		TargetPath:         String("*/welcome"),
+		BroadcastType:      String("banner"),
+		Dismissable:        Bool(false),
 	}
 
 	got, _, err := client.BroadcastMessage.CreateBroadcastMessage(opt)
@@ -153,13 +185,17 @@ func TestCreateBroadcastMessages(t *testing.T) {
 	}
 
 	want := &BroadcastMessage{
-		Message:  "Some Message",
-		StartsAt: &wantedStartsAt,
-		EndsAt:   &wantedEndsAt,
-		Color:    "#E75E40",
-		Font:     "#FFFFFF",
-		ID:       42,
-		Active:   false,
+		Message:            "Some Message",
+		StartsAt:           &wantedStartsAt,
+		EndsAt:             &wantedEndsAt,
+		Color:              "#E75E40",
+		Font:               "#FFFFFF",
+		ID:                 42,
+		Active:             false,
+		TargetAccessLevels: []AccessLevelValue{GuestPermissions, DeveloperPermissions},
+		TargetPath:         "*/welcome",
+		BroadcastType:      "banner",
+		Dismissable:        false,
 	}
 
 	if !reflect.DeepEqual(got, want) {
@@ -182,16 +218,24 @@ func TestUpdateBroadcastMessages(t *testing.T) {
 			"color": "#E75E40",
 			"font": "#FFFFFF",
 			"id": 42,
-			"active": false
+			"active": false,
+			"target_access_levels": [10,30],
+			"target_path": "*/welcome",
+			"broadcast_type": "banner",
+			"dismissable": false
 		}`)
 	})
 
 	opt := &UpdateBroadcastMessageOptions{
-		Message:  String("Some Message Updated"),
-		StartsAt: &wantedStartsAt,
-		EndsAt:   &wantedEndsAt,
-		Color:    String("#E75E40"),
-		Font:     String("#FFFFFF"),
+		Message:            String("Some Message Updated"),
+		StartsAt:           &wantedStartsAt,
+		EndsAt:             &wantedEndsAt,
+		Color:              String("#E75E40"),
+		Font:               String("#FFFFFF"),
+		TargetAccessLevels: []AccessLevelValue{GuestPermissions, DeveloperPermissions},
+		TargetPath:         String("*/welcome"),
+		BroadcastType:      String("banner"),
+		Dismissable:        Bool(false),
 	}
 
 	got, _, err := client.BroadcastMessage.UpdateBroadcastMessage(1, opt)
@@ -200,13 +244,17 @@ func TestUpdateBroadcastMessages(t *testing.T) {
 	}
 
 	want := &BroadcastMessage{
-		Message:  "Some Message Updated",
-		StartsAt: &wantedStartsAt,
-		EndsAt:   &wantedEndsAt,
-		Color:    "#E75E40",
-		Font:     "#FFFFFF",
-		ID:       42,
-		Active:   false,
+		Message:            "Some Message Updated",
+		StartsAt:           &wantedStartsAt,
+		EndsAt:             &wantedEndsAt,
+		Color:              "#E75E40",
+		Font:               "#FFFFFF",
+		ID:                 42,
+		Active:             false,
+		TargetAccessLevels: []AccessLevelValue{GuestPermissions, DeveloperPermissions},
+		TargetPath:         "*/welcome",
+		BroadcastType:      "banner",
+		Dismissable:        false,
 	}
 
 	if !reflect.DeepEqual(got, want) {
