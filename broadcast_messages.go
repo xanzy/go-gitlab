@@ -35,13 +35,19 @@ type BroadcastMessagesService struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/broadcast_messages.html#get-all-broadcast-messages
 type BroadcastMessage struct {
-	Message  string     `json:"message"`
-	StartsAt *time.Time `json:"starts_at"`
-	EndsAt   *time.Time `json:"ends_at"`
-	Color    string     `json:"color"`
-	Font     string     `json:"font"`
-	ID       int        `json:"id"`
-	Active   bool       `json:"active"`
+	Message            string             `json:"message"`
+	StartsAt           *time.Time         `json:"starts_at"`
+	EndsAt             *time.Time         `json:"ends_at"`
+	Font               string             `json:"font"`
+	ID                 int                `json:"id"`
+	Active             bool               `json:"active"`
+	TargetAccessLevels []AccessLevelValue `json:"target_access_levels"`
+	TargetPath         string             `json:"target_path"`
+	BroadcastType      string             `json:"broadcast_type"`
+	Dismissable        bool               `json:"dismissable"`
+
+	// Deprecated: This parameter was removed in GitLab 15.6.
+	Color string `json:"color"`
 }
 
 // ListBroadcastMessagesOptions represents the available ListBroadcastMessages()
@@ -97,11 +103,17 @@ func (s *BroadcastMessagesService) GetBroadcastMessage(broadcast int, options ..
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/broadcast_messages.html#create-a-broadcast-message
 type CreateBroadcastMessageOptions struct {
-	Message  *string    `url:"message" json:"message"`
-	StartsAt *time.Time `url:"starts_at,omitempty" json:"starts_at,omitempty"`
-	EndsAt   *time.Time `url:"ends_at,omitempty" json:"ends_at,omitempty"`
-	Color    *string    `url:"color,omitempty" json:"color,omitempty"`
-	Font     *string    `url:"font,omitempty" json:"font,omitempty"`
+	Message            *string            `url:"message" json:"message"`
+	StartsAt           *time.Time         `url:"starts_at,omitempty" json:"starts_at,omitempty"`
+	EndsAt             *time.Time         `url:"ends_at,omitempty" json:"ends_at,omitempty"`
+	Font               *string            `url:"font,omitempty" json:"font,omitempty"`
+	TargetAccessLevels []AccessLevelValue `url:"target_access_levels,omitempty" json:"target_access_levels,omitempty"`
+	TargetPath         *string            `url:"target_path,omitempty" json:"target_path,omitempty"`
+	BroadcastType      *string            `url:"broadcast_type,omitempty" json:"broadcast_type,omitempty"`
+	Dismissable        *bool              `url:"dismissable,omitempty" json:"dismissable,omitempty"`
+
+	// Deprecated: This parameter was removed in GitLab 15.6.
+	Color *string `url:"color,omitempty" json:"color,omitempty"`
 }
 
 // CreateBroadcastMessage creates a message to broadcast.
@@ -129,11 +141,17 @@ func (s *BroadcastMessagesService) CreateBroadcastMessage(opt *CreateBroadcastMe
 // GitLab API docs:
 // https://docs.gitlab.com/ce/api/broadcast_messages.html#update-a-broadcast-message
 type UpdateBroadcastMessageOptions struct {
-	Message  *string    `url:"message,omitempty" json:"message,omitempty"`
-	StartsAt *time.Time `url:"starts_at,omitempty" json:"starts_at,omitempty"`
-	EndsAt   *time.Time `url:"ends_at,omitempty" json:"ends_at,omitempty"`
-	Color    *string    `url:"color,omitempty" json:"color,omitempty"`
-	Font     *string    `url:"font,omitempty" json:"font,omitempty"`
+	Message            *string            `url:"message,omitempty" json:"message,omitempty"`
+	StartsAt           *time.Time         `url:"starts_at,omitempty" json:"starts_at,omitempty"`
+	EndsAt             *time.Time         `url:"ends_at,omitempty" json:"ends_at,omitempty"`
+	Font               *string            `url:"font,omitempty" json:"font,omitempty"`
+	TargetAccessLevels []AccessLevelValue `url:"target_access_levels,omitempty" json:"target_access_levels,omitempty"`
+	TargetPath         *string            `url:"target_path,omitempty" json:"target_path,omitempty"`
+	BroadcastType      *string            `url:"broadcast_type,omitempty" json:"broadcast_type,omitempty"`
+	Dismissable        *bool              `url:"dismissable,omitempty" json:"dismissable,omitempty"`
+
+	// Deprecated: This parameter was removed in GitLab 15.6.
+	Color *string `url:"color,omitempty" json:"color,omitempty"`
 }
 
 // UpdateBroadcastMessage update a broadcasted message.
