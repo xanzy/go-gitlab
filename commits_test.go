@@ -784,7 +784,7 @@ func TestCommitsService_ListMergeRequestsByCommit(t *testing.T) {
 			State:       "closed",
 			WebURL:      "https://gitlab.example.com/my-group/my-project/milestones/1"},
 		MergeWhenPipelineSucceeds: true,
-		MergeStatus:               "can_be_merged",
+		DetailedMergeStatus:       "mergeable",
 		MergeError:                "",
 		MergedBy: &BasicUser{
 			ID:        87854,
