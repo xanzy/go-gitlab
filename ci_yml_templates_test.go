@@ -30,19 +30,19 @@ func TestListAllTemplates(t *testing.T) {
 		testMethod(t, r, http.MethodGet)
 		fmt.Fprintf(w, `[
 			{
-			   "content":"5-Minute-Production-App",
+			   "key":"5-Minute-Production-App",
 			   "name":"5-Minute-Production-App"
 			},
 			{
-			   "content":"Android",
+			   "key":"Android",
 			   "name":"Android"
 			},
 			{
-			   "content":"Android-Fastlane",
+			   "key":"Android-Fastlane",
 			   "name":"Android-Fastlane"
 			},
 			{
-			   "content":"Auto-DevOps",
+			   "key":"Auto-DevOps",
 			   "name":"Auto-DevOps"
 			}
 		 ]`)
@@ -53,20 +53,22 @@ func TestListAllTemplates(t *testing.T) {
 		t.Errorf("CIYMLTemplates.ListAllTemplates returned error: %v", err)
 	}
 
-	want := []*CIYMLTemplate{
+	want := []*CIYMLTemplateListItem{
 		{
-			Name:    "5-Minute-Production-App",
-			Content: "5-Minute-Production-App",
+			Key:  "5-Minute-Production-App",
+			Name: "5-Minute-Production-App",
 		},
 		{
-			Name:    "Android",
-			Content: "Android"},
+			Key:  "Android",
+			Name: "Android",
+		},
 		{
-			Name:    "Android-Fastlane",
-			Content: "Android-Fastlane"},
+			Key:  "Android-Fastlane",
+			Name: "Android-Fastlane",
+		},
 		{
-			Name:    "Auto-DevOps",
-			Content: "Auto-DevOps",
+			Key:  "Auto-DevOps",
+			Name: "Auto-DevOps",
 		},
 	}
 	if !reflect.DeepEqual(want, templates) {
