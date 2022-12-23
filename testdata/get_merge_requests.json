@@ -65,7 +65,7 @@
     "work_in_progress": true,
     "milestone": null,
     "merge_when_pipeline_succeeds": false,
-    "merge_status": "can_be_merged",
+    "detailed_merge_status": "mergeable",
     "sha": "2fc4e8b972ff3208ec63b6143e34ad67ff343ad7",
     "merge_commit_sha": null,
     "discussion_locked": null,
@@ -160,7 +160,7 @@
       "web_url": "https://gitlab.com/groups/gitlab-org/-/milestones/37"
     },
     "merge_when_pipeline_succeeds": false,
-    "merge_status": "can_be_merged",
+    "detailed_merge_status": "mergeable",
     "sha": "dbb2b82236b86328f44a1754c9188c0991e707e5",
     "merge_commit_sha": null,
     "discussion_locked": null,
@@ -264,7 +264,7 @@
       "web_url": "https://gitlab.com/groups/gitlab-org/-/milestones/37"
     },
     "merge_when_pipeline_succeeds": false,
-    "merge_status": "can_be_merged",
+    "detailed_merge_status": "mergeable",
     "sha": "eae31acf34d2df2aba2ea469e432cab1c6a05b53",
     "merge_commit_sha": null,
     "discussion_locked": null,
@@ -357,7 +357,7 @@
       "web_url": "https://gitlab.com/groups/gitlab-org/-/milestones/37"
     },
     "merge_when_pipeline_succeeds": false,
-    "merge_status": "cannot_be_merged",
+    "detailed_merge_status": "broken_status",
     "sha": "fcf75b9330b1104bc08c0190cf871759db3f22e0",
     "merge_commit_sha": null,
     "discussion_locked": null,
@@ -433,7 +433,7 @@
     "work_in_progress": true,
     "milestone": null,
     "merge_when_pipeline_succeeds": false,
-    "merge_status": "can_be_merged",
+    "detailed_merge_status": "mergeable",
     "sha": "9af81f5ddb59a57d663c27bcb3144f8c0c26a7fd",
     "merge_commit_sha": null,
     "discussion_locked": null,
@@ -516,7 +516,7 @@
       "web_url": "https://gitlab.com/groups/gitlab-org/-/milestones/35"
     },
     "merge_when_pipeline_succeeds": false,
-    "merge_status": "can_be_merged",
+    "detailed_merge_status": "mergeable",
     "sha": "54ac04bb0ec8849bf2ff43a949150d18008c8d35",
     "merge_commit_sha": null,
     "discussion_locked": null,
@@ -613,7 +613,7 @@
       "web_url": "https://gitlab.com/groups/gitlab-org/-/milestones/35"
     },
     "merge_when_pipeline_succeeds": false,
-    "merge_status": "can_be_merged",
+    "detailed_merge_status": "mergeable",
     "sha": "de5099c8b64d118648c5fd9e381eadc30ae9b72d",
     "merge_commit_sha": null,
     "discussion_locked": null,
@@ -704,7 +704,7 @@
       "web_url": "https://gitlab.com/groups/gitlab-org/-/milestones/35"
     },
     "merge_when_pipeline_succeeds": false,
-    "merge_status": "can_be_merged",
+    "detailed_merge_status": "mergeable",
     "sha": "846faa7dccc7e52f8d7af6b2fe1ca595340219a4",
     "merge_commit_sha": null,
     "discussion_locked": null,
@@ -799,7 +799,7 @@
       "web_url": "https://gitlab.com/groups/gitlab-org/-/milestones/37"
     },
     "merge_when_pipeline_succeeds": false,
-    "merge_status": "can_be_merged",
+    "detailed_merge_status": "mergeable",
     "sha": "de578529c00060f334b2b3e5aeda7e269d838a73",
     "merge_commit_sha": null,
     "discussion_locked": null,
@@ -899,7 +899,7 @@
       "web_url": "https://gitlab.com/groups/gitlab-org/-/milestones/37"
     },
     "merge_when_pipeline_succeeds": false,
-    "merge_status": "can_be_merged",
+    "detailed_merge_status": "mergeable",
     "sha": "34b3b319044987ba86af00b19ab5259d54aa8365",
     "merge_commit_sha": null,
     "discussion_locked": null,
@@ -973,7 +973,7 @@
       "web_url": "https://gitlab.com/groups/gitlab-org/-/milestones/35"
     },
     "merge_when_pipeline_succeeds": false,
-    "merge_status": "can_be_merged",
+    "detailed_merge_status": "mergeable",
     "sha": "cba824ca33a199303091c2870e43f897574a3f0e",
     "merge_commit_sha": "6c3af2d1ce3c64bc559332b8b44dc3b33825781a",
     "discussion_locked": null,
@@ -1062,7 +1062,7 @@
       "web_url": "https://gitlab.com/groups/gitlab-org/-/milestones/37"
     },
     "merge_when_pipeline_succeeds": false,
-    "merge_status": "can_be_merged",
+    "detailed_merge_status": "mergeable",
     "sha": "2ea513d63d0b03a15d19e34a170e406f7ebab1a6",
     "merge_commit_sha": null,
     "discussion_locked": null,
@@ -1163,7 +1163,7 @@
       "web_url": "https://gitlab.com/groups/gitlab-org/-/milestones/37"
     },
     "merge_when_pipeline_succeeds": false,
-    "merge_status": "can_be_merged",
+    "detailed_merge_status": "mergeable",
     "sha": "2d3f756620c5de9785bf13a98b02d47c63a2ee1c",
     "merge_commit_sha": null,
     "discussion_locked": null,
@@ -1241,7 +1241,7 @@
     "work_in_progress": false,
     "milestone": null,
     "merge_when_pipeline_succeeds": true,
-    "merge_status": "can_be_merged",
+    "detailed_merge_status": "mergeable",
     "sha": "c7a107ac0148339a18250d73834c3c6eb869be12",
     "merge_commit_sha": "aef47a865512652d02fa6552636de903cda13e11",
     "discussion_locked": null,
@@ -1337,7 +1337,7 @@
       "web_url": "https://gitlab.com/groups/gitlab-org/-/milestones/37"
     },
     "merge_when_pipeline_succeeds": false,
-    "merge_status": "can_be_merged",
+    "detailed_merge_status": "mergeable",
     "sha": "35d5a9f48cbc4602c5920890ea2636dabf2e8cd1",
     "merge_commit_sha": null,
     "discussion_locked": null,
@@ -1420,7 +1420,7 @@
       "web_url": "https://gitlab.com/groups/gitlab-org/-/milestones/37"
     },
     "merge_when_pipeline_succeeds": false,
-    "merge_status": "can_be_merged",
+    "detailed_merge_status": "mergeable",
     "sha": "2aaa325ba6b725d04859a35da8beb666ba4bbc65",
     "merge_commit_sha": null,
     "discussion_locked": null,
@@ -1511,7 +1511,7 @@
       "web_url": "https://gitlab.com/groups/gitlab-org/-/milestones/37"
     },
     "merge_when_pipeline_succeeds": false,
-    "merge_status": "can_be_merged",
+    "detailed_merge_status": "mergeable",
     "sha": "2c935d51b83c5b4f50ca688d5cbbb771b0e378fc",
     "merge_commit_sha": null,
     "discussion_locked": null,
@@ -1589,7 +1589,7 @@
     "work_in_progress": false,
     "milestone": null,
     "merge_when_pipeline_succeeds": false,
-    "merge_status": "can_be_merged",
+    "detailed_merge_status": "mergeable",
     "sha": "21dd0530baefaa2e4bce5d8a9857bad829c51d64",
     "merge_commit_sha": null,
     "discussion_locked": null,
@@ -1663,7 +1663,7 @@
       "web_url": "https://gitlab.com/groups/gitlab-org/-/milestones/37"
     },
     "merge_when_pipeline_succeeds": false,
-    "merge_status": "can_be_merged",
+    "detailed_merge_status": "mergeable",
     "sha": "b2e35301e997a6b2eb7abacfb3943fd33532985c",
     "merge_commit_sha": null,
     "discussion_locked": null,
@@ -1746,7 +1746,7 @@
       "web_url": "https://gitlab.com/groups/gitlab-org/-/milestones/37"
     },
     "merge_when_pipeline_succeeds": false,
-    "merge_status": "can_be_merged",
+    "detailed_merge_status": "mergeable",
     "sha": "e3f350239176eb184accae9c4e380acda787cfbf",
     "merge_commit_sha": null,
     "discussion_locked": null,

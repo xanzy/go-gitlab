@@ -58,7 +58,7 @@ type MergeRequest struct {
 	WorkInProgress            bool             `json:"work_in_progress"`
 	Milestone                 *Milestone       `json:"milestone"`
 	MergeWhenPipelineSucceeds bool             `json:"merge_when_pipeline_succeeds"`
-	MergeStatus               string           `json:"merge_status"`
+	DetailedMergeStatus       string           `json:"detailed_merge_status"`
 	MergeError                string           `json:"merge_error"`
 	MergedBy                  *BasicUser       `json:"merged_by"`
 	MergedAt                  *time.Time       `json:"merged_at"`
@@ -107,6 +107,9 @@ type MergeRequest struct {
 	HasConflicts                bool                   `json:"has_conflicts"`
 	BlockingDiscussionsResolved bool                   `json:"blocking_discussions_resolved"`
 	Overflow                    bool                   `json:"overflow"`
+
+	// Deprecated members
+	MergeStatus string `json:"merge_status"`
 }
 
 func (m MergeRequest) String() string {
