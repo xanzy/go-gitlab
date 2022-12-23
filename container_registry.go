@@ -279,7 +279,7 @@ type DeleteRegistryRepositoryTagsOptions struct {
 	KeepN            *int    `url:"keep_n,omitempty" json:"keep_n,omitempty"`
 	OlderThan        *string `url:"older_than,omitempty" json:"older_than,omitempty"`
 
-	// Deprecated members
+	// Deprecated: NameRegexp is deprecated in favor of NameRegexpDelete.
 	NameRegexp *string `url:"name_regex,omitempty" json:"name_regex,omitempty"`
 }
 

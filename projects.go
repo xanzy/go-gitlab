@@ -151,7 +151,7 @@ type Project struct {
 	SecurityAndComplianceAccessLevel         AccessControlValue `json:"security_and_compliance_access_level"`
 	MergeRequestDefaultTargetSelf            bool               `json:"mr_default_target_self"`
 
-	// Deprecated members
+	// Deprecated: This parameter has been renamed to PublicJobs in GitLab 9.0.
 	PublicBuilds bool `json:"public_builds"`
 }
 
@@ -678,18 +678,28 @@ type CreateProjectOptions struct {
 	Visibility                                *VisibilityValue                     `url:"visibility,omitempty" json:"visibility,omitempty"`
 	WikiAccessLevel                           *AccessControlValue                  `url:"wiki_access_level,omitempty" json:"wiki_access_level,omitempty"`
 
-	// Deprecated members
-	CIForwardDeploymentEnabled *bool     `url:"ci_forward_deployment_enabled,omitempty" json:"ci_forward_deployment_enabled,omitempty"`
-	ContainerRegistryEnabled   *bool     `url:"container_registry_enabled,omitempty" json:"container_registry_enabled,omitempty"`
-	IssuesEnabled              *bool     `url:"issues_enabled,omitempty" json:"issues_enabled,omitempty"`
-	IssuesTemplate             *string   `url:"issues_template,omitempty" json:"issues_template,omitempty"`
-	JobsEnabled                *bool     `url:"jobs_enabled,omitempty" json:"jobs_enabled,omitempty"`
-	MergeRequestsEnabled       *bool     `url:"merge_requests_enabled,omitempty" json:"merge_requests_enabled,omitempty"`
-	MergeRequestsTemplate      *string   `url:"merge_requests_template,omitempty" json:"merge_requests_template,omitempty"`
-	ServiceDeskEnabled         *bool     `url:"service_desk_enabled,omitempty" json:"service_desk_enabled,omitempty"`
-	SnippetsEnabled            *bool     `url:"snippets_enabled,omitempty" json:"snippets_enabled,omitempty"`
-	TagList                    *[]string `url:"tag_list,omitempty" json:"tag_list,omitempty"`
-	WikiEnabled                *bool     `url:"wiki_enabled,omitempty" json:"wiki_enabled,omitempty"`
+	// Deprecated: Unknown reason.
+	CIForwardDeploymentEnabled *bool `url:"ci_forward_deployment_enabled,omitempty" json:"ci_forward_deployment_enabled,omitempty"`
+	// Deprecated: Use ContainerRegistryAccessLevel instead.
+	ContainerRegistryEnabled *bool `url:"container_registry_enabled,omitempty" json:"container_registry_enabled,omitempty"`
+	// Deprecated: Use IssuesAccessLevel instead.
+	IssuesEnabled *bool `url:"issues_enabled,omitempty" json:"issues_enabled,omitempty"`
+	// Deprecated: Unknown reason.
+	IssuesTemplate *string `url:"issues_template,omitempty" json:"issues_template,omitempty"`
+	// Deprecated: Use BuildsAccessLevel instead.
+	JobsEnabled *bool `url:"jobs_enabled,omitempty" json:"jobs_enabled,omitempty"`
+	// Deprecated: Use MergeRequestsAccessLevel instead.
+	MergeRequestsEnabled *bool `url:"merge_requests_enabled,omitempty" json:"merge_requests_enabled,omitempty"`
+	// Deprecated: Unknown reason.
+	MergeRequestsTemplate *string `url:"merge_requests_template,omitempty" json:"merge_requests_template,omitempty"`
+	// Deprecated: Unknown reason.
+	ServiceDeskEnabled *bool `url:"service_desk_enabled,omitempty" json:"service_desk_enabled,omitempty"`
+	// Deprecated: Use SnippetsAccessLevel instead.
+	SnippetsEnabled *bool `url:"snippets_enabled,omitempty" json:"snippets_enabled,omitempty"`
+	// Deprecated: Use Topics instead. (Deprecated in GitLab 14.0)
+	TagList *[]string `url:"tag_list,omitempty" json:"tag_list,omitempty"`
+	// Deprecated: Use WikiAccessLevel instead.
+	WikiEnabled *bool `url:"wiki_enabled,omitempty" json:"wiki_enabled,omitempty"`
 }
 
 // ContainerExpirationPolicyAttributes represents the available container
@@ -704,7 +714,7 @@ type ContainerExpirationPolicyAttributes struct {
 	NameRegexKeep   *string `url:"name_regex_keep,omitempty" json:"name_regex_keep,omitempty"`
 	Enabled         *bool   `url:"enabled,omitempty" json:"enabled,omitempty"`
 
-	// Deprecated members
+	// Deprecated: Is replaced by NameRegexDelete and is internally hardwired to its value.
 	NameRegex *string `url:"name_regex,omitempty" json:"name_regex,omitempty"`
 }
 
@@ -885,18 +895,28 @@ type EditProjectOptions struct {
 	Visibility                                *VisibilityValue                     `url:"visibility,omitempty" json:"visibility,omitempty"`
 	WikiAccessLevel                           *AccessControlValue                  `url:"wiki_access_level,omitempty" json:"wiki_access_level,omitempty"`
 
-	// Deprecated members
-	CIForwardDeploymentEnabled *bool     `url:"ci_forward_deployment_enabled,omitempty" json:"ci_forward_deployment_enabled,omitempty"`
-	ContainerRegistryEnabled   *bool     `url:"container_registry_enabled,omitempty" json:"container_registry_enabled,omitempty"`
-	IssuesEnabled              *bool     `url:"issues_enabled,omitempty" json:"issues_enabled,omitempty"`
-	IssuesTemplate             *string   `url:"issues_template,omitempty" json:"issues_template,omitempty"`
-	JobsEnabled                *bool     `url:"jobs_enabled,omitempty" json:"jobs_enabled,omitempty"`
-	MergeRequestsEnabled       *bool     `url:"merge_requests_enabled,omitempty" json:"merge_requests_enabled,omitempty"`
-	MergeRequestsTemplate      *string   `url:"merge_requests_template,omitempty" json:"merge_requests_template,omitempty"`
-	ServiceDeskEnabled         *bool     `url:"service_desk_enabled,omitempty" json:"service_desk_enabled,omitempty"`
-	SnippetsEnabled            *bool     `url:"snippets_enabled,omitempty" json:"snippets_enabled,omitempty"`
-	TagList                    *[]string `url:"tag_list,omitempty" json:"tag_list,omitempty"`
-	WikiEnabled                *bool     `url:"wiki_enabled,omitempty" json:"wiki_enabled,omitempty"`
+	// Deprecated: Is it?
+	CIForwardDeploymentEnabled *bool `url:"ci_forward_deployment_enabled,omitempty" json:"ci_forward_deployment_enabled,omitempty"`
+	// Deprecated: Use ContainerRegistryAccessLevel instead.
+	ContainerRegistryEnabled *bool `url:"container_registry_enabled,omitempty" json:"container_registry_enabled,omitempty"`
+	// Deprecated: Use IssuesAccessLevel instead.
+	IssuesEnabled *bool `url:"issues_enabled,omitempty" json:"issues_enabled,omitempty"`
+	// Deprecated: Is it?
+	IssuesTemplate *string `url:"issues_template,omitempty" json:"issues_template,omitempty"`
+	// Deprecated: Use BuildsAccessLevel instead.
+	JobsEnabled *bool `url:"jobs_enabled,omitempty" json:"jobs_enabled,omitempty"`
+	// Deprecated: Use MergeRequestsAccessLevel instead.
+	MergeRequestsEnabled *bool `url:"merge_requests_enabled,omitempty" json:"merge_requests_enabled,omitempty"`
+	// Deprecated: Is it?
+	MergeRequestsTemplate *string `url:"merge_requests_template,omitempty" json:"merge_requests_template,omitempty"`
+	// Deprecated: Is it?
+	ServiceDeskEnabled *bool `url:"service_desk_enabled,omitempty" json:"service_desk_enabled,omitempty"`
+	// Deprecated: Use SnippetsAccessLevel instead.
+	SnippetsEnabled *bool `url:"snippets_enabled,omitempty" json:"snippets_enabled,omitempty"`
+	// Deprecated: Use Topics instead. (Deprecated in GitLab 14.0)
+	TagList *[]string `url:"tag_list,omitempty" json:"tag_list,omitempty"`
+	// Deprecated: Use WikiAccessLevel instead.
+	WikiEnabled *bool `url:"wiki_enabled,omitempty" json:"wiki_enabled,omitempty"`
 }
 
 // EditProject updates an existing project.
@@ -956,7 +976,7 @@ type ForkProjectOptions struct {
 	Path                          *string          `url:"path,omitempty" json:"path,omitempty"`
 	Visibility                    *VisibilityValue `url:"visibility,omitempty" json:"visibility,omitempty"`
 
-	// Deprecated members
+	// Deprecated: This parameter has been split into NamespaceID and NamespacePath.
 	Namespace *string `url:"namespace,omitempty" json:"namespace,omitempty"`
 }
 
