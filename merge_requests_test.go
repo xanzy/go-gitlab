@@ -171,6 +171,7 @@ func TestListProjectMergeRequests(t *testing.T) {
 	validStates := []string{"opened", "closed", "locked", "merged"}
 	detailedMergeStatuses := []string{
 		"blocked_status",
+		"broken_status",
 		"checking",
 		"ci_must_pass",
 		"ci_still_running",

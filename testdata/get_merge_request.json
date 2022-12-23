@@ -80,6 +80,7 @@
     "web_url": "https://gitlab.com/groups/gitlab-org/-/milestones/35"
   },
   "merge_when_pipeline_succeeds": false,
+  "detailed_merge_status": "mergeable",
   "merge_status": "can_be_merged",
   "sha": "8e0b45049b6253b8984cde9241830d2851168142",
   "merge_commit_sha": null,

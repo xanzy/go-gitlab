@@ -403,7 +403,7 @@ func TestGroupMilestonesService_GetGroupMilestoneMergeRequests(t *testing.T) {
 				  "web_url": "https://gitlab.example.com/my-group/my-project/milestones/1"
 				},
 				"merge_when_pipeline_succeeds": true,
-				"merge_status": "can_be_merged",
+				"detailed_merge_status": "mergeable",
 				"sha": "8888888888888888888888888888888888888888",
 				"merge_commit_sha": null,
 				"squash_commit_sha": null,
