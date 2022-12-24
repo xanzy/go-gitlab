@@ -25,14 +25,14 @@ import (
 // EnvironmentsService handles communication with the environment related methods
 // of the GitLab API.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/environments.html
+// GitLab API docs: https://docs.gitlab.com/ee/api/environments.html
 type EnvironmentsService struct {
 	client *Client
 }
 
 // Environment represents a GitLab environment.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/environments.html
+// GitLab API docs: https://docs.gitlab.com/ee/api/environments.html
 type Environment struct {
 	ID             int         `json:"id"`
 	Name           string      `json:"name"`
@@ -188,7 +188,7 @@ func (s *EnvironmentsService) EditEnvironment(pid interface{}, environment int, 
 // DeleteEnvironment removes an environment from a project team.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/environments.html#remove-a-environment-from-a-group-or-project
+// https://docs.gitlab.com/ee/api/environments.html#remove-a-environment-from-a-group-or-project
 func (s *EnvironmentsService) DeleteEnvironment(pid interface{}, environment int, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -207,7 +207,7 @@ func (s *EnvironmentsService) DeleteEnvironment(pid interface{}, environment int
 // StopEnvironment stop an environment from a project team.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ce/api/environments.html#stop-an-environment
+// https://docs.gitlab.com/ee/api/environments.html#stop-an-environment
 func (s *EnvironmentsService) StopEnvironment(pid interface{}, environmentID int, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
