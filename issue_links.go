@@ -124,7 +124,7 @@ func (s *IssueLinksService) GetIssueLink(pid interface{}, issue, issueLink int, 
 
 // CreateIssueLinkOptions represents the available CreateIssueLink() options.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/issue_links.html
+// GitLab API docs: https://docs.gitlab.com/ee/api/issue_links.html#create-an-issue-link
 type CreateIssueLinkOptions struct {
 	TargetProjectID *string `json:"target_project_id"`
 	TargetIssueIID  *string `json:"target_issue_iid"`

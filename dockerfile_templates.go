@@ -25,14 +25,14 @@ import (
 // DockerfileTemplatesService handles communication with the Dockerfile
 // templates related methods of the GitLab API.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/templates/dockerfiles.html
+// GitLab API docs: https://docs.gitlab.com/ee/api/templates/dockerfiles.html
 type DockerfileTemplatesService struct {
 	client *Client
 }
 
 // DockerfileTemplate represents a GitLab Dockerfile template.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/templates/dockerfiles.html
+// GitLab API docs: https://docs.gitlab.com/ee/api/templates/dockerfiles.html
 type DockerfileTemplate struct {
 	Name    string `json:"name"`
 	Content string `json:"content"`
@@ -40,7 +40,7 @@ type DockerfileTemplate struct {
 
 // DockerfileTemplateListItem represents a GitLab Dockerfile template from the list.
 //
-// GitLab API docs: https://docs.gitlab.com/ce/api/templates/dockerfiles.html
+// GitLab API docs: https://docs.gitlab.com/ee/api/templates/dockerfiles.html
 type DockerfileTemplateListItem struct {
 	Key  string `json:"key"`
 	Name string `json:"name"`
