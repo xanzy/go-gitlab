@@ -103,7 +103,7 @@ func (s *ProjectMirrorService) GetProjectMirror(pid interface{}, mirror int, opt
 // a new project mirror.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/remote_mirrors.html#create-a-remote-mirror
+// https://docs.gitlab.com/ee/api/remote_mirrors.html#create-a-push-mirror
 type AddProjectMirrorOptions struct {
 	URL                   *string `url:"url,omitempty" json:"url,omitempty"`
 	Enabled               *bool   `url:"enabled,omitempty" json:"enabled,omitempty"`
@@ -114,7 +114,7 @@ type AddProjectMirrorOptions struct {
 // AddProjectMirror creates a new mirror on the project.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/remote_mirrors.html#create-a-remote-mirror
+// https://docs.gitlab.com/ee/api/remote_mirrors.html#create-a-push-mirror
 func (s *ProjectMirrorService) AddProjectMirror(pid interface{}, opt *AddProjectMirrorOptions, options ...RequestOptionFunc) (*ProjectMirror, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {

@@ -91,7 +91,7 @@ func (s *SystemHooksService) GetHook(hook int, options ...RequestOptionFunc) (*H
 // AddHookOptions represents the available AddHook() options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/system_hooks.html#add-new-system-hook-hook
+// https://docs.gitlab.com/ee/api/system_hooks.html#add-new-system-hook
 type AddHookOptions struct {
 	URL                    *string `url:"url,omitempty" json:"url,omitempty"`
 	Token                  *string `url:"token,omitempty" json:"token,omitempty"`
@@ -105,7 +105,7 @@ type AddHookOptions struct {
 // AddHook adds a new system hook hook.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/system_hooks.html#add-new-system-hook-hook
+// https://docs.gitlab.com/ee/api/system_hooks.html#add-new-system-hook
 func (s *SystemHooksService) AddHook(opt *AddHookOptions, options ...RequestOptionFunc) (*Hook, *Response, error) {
 	req, err := s.client.NewRequest(http.MethodPost, "hooks", opt, options)
 	if err != nil {

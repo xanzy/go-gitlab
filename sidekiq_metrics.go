@@ -140,7 +140,7 @@ type CompoundMetrics struct {
 // GetCompoundMetrics lists all the currently available information about Sidekiq.
 // Get a compound response of all the previously mentioned metrics
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/sidekiq_metrics.html#get-the-current-job-statistics
+// GitLab API docs: https://docs.gitlab.com/ee/api/sidekiq_metrics.html#get-a-compound-response-of-all-the-previously-mentioned-metrics
 func (s *SidekiqService) GetCompoundMetrics(options ...RequestOptionFunc) (*CompoundMetrics, *Response, error) {
 	req, err := s.client.NewRequest(http.MethodGet, "/sidekiq/compound_metrics", nil, options)
 	if err != nil {

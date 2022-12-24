@@ -72,7 +72,7 @@ func (s *ProjectMembersService) ListProjectMembers(pid interface{}, opt *ListPro
 // ancestor groups.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/members.html#list-all-members-of-a-group-or-project-including-inherited-members
+// https://docs.gitlab.com/ee/api/members.html#list-all-members-of-a-group-or-project-including-inherited-and-invited-members
 func (s *ProjectMembersService) ListAllProjectMembers(pid interface{}, opt *ListProjectMembersOptions, options ...RequestOptionFunc) ([]*ProjectMember, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -122,7 +122,7 @@ func (s *ProjectMembersService) GetProjectMember(pid interface{}, user int, opti
 // GetInheritedProjectMember gets a project team member, including inherited
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/members.html#get-a-member-of-a-group-or-project-including-inherited-members
+// https://docs.gitlab.com/ee/api/members.html#get-a-member-of-a-group-or-project-including-inherited-and-invited-members
 func (s *ProjectMembersService) GetInheritedProjectMember(pid interface{}, user int, options ...RequestOptionFunc) (*ProjectMember, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {

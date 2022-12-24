@@ -106,13 +106,13 @@ func (s *DeployKeysService) ListAllDeployKeys(opt *ListInstanceDeployKeysOptions
 // options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/deploy_keys.html#list-project-deploy-keys
+// https://docs.gitlab.com/ee/api/deploy_keys.html#list-deploy-keys-for-project
 type ListProjectDeployKeysOptions ListOptions
 
 // ListProjectDeployKeys gets a list of a project's deploy keys
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/deploy_keys.html#list-project-deploy-keys
+// https://docs.gitlab.com/ee/api/deploy_keys.html#list-deploy-keys-for-project
 func (s *DeployKeysService) ListProjectDeployKeys(pid interface{}, opt *ListProjectDeployKeysOptions, options ...RequestOptionFunc) ([]*ProjectDeployKey, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -137,7 +137,7 @@ func (s *DeployKeysService) ListProjectDeployKeys(pid interface{}, opt *ListProj
 // GetDeployKey gets a single deploy key.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/deploy_keys.html#single-deploy-key
+// https://docs.gitlab.com/ee/api/deploy_keys.html#get-a-single-deploy-key
 func (s *DeployKeysService) GetDeployKey(pid interface{}, deployKey int, options ...RequestOptionFunc) (*ProjectDeployKey, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {

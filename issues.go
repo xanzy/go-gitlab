@@ -389,7 +389,7 @@ func (s *IssuesService) ListProjectIssues(pid interface{}, opt *ListProjectIssue
 
 // GetIssue gets a single project issue.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/issues.html#single-issues
+// GitLab API docs: https://docs.gitlab.com/ee/api/issues.html#single-project-issue
 func (s *IssuesService) GetIssue(pid interface{}, issue int, options ...RequestOptionFunc) (*Issue, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -413,7 +413,7 @@ func (s *IssuesService) GetIssue(pid interface{}, issue int, options ...RequestO
 
 // CreateIssueOptions represents the available CreateIssue() options.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/issues.html#new-issues
+// GitLab API docs: https://docs.gitlab.com/ee/api/issues.html#new-issue
 type CreateIssueOptions struct {
 	IID                                *int       `url:"iid,omitempty" json:"iid,omitempty"`
 	Title                              *string    `url:"title,omitempty" json:"title,omitempty"`
@@ -432,7 +432,7 @@ type CreateIssueOptions struct {
 
 // CreateIssue creates a new project issue.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/issues.html#new-issues
+// GitLab API docs: https://docs.gitlab.com/ee/api/issues.html#new-issue
 func (s *IssuesService) CreateIssue(pid interface{}, opt *CreateIssueOptions, options ...RequestOptionFunc) (*Issue, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -554,7 +554,7 @@ func (s *IssuesService) MoveIssue(pid interface{}, issue int, opt *MoveIssueOpti
 // status code 304 is returned.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/merge_requests.html#subscribe-to-a-merge-request
+// https://docs.gitlab.com/ee/api/issues.html#subscribe-to-an-issue
 func (s *IssuesService) SubscribeToIssue(pid interface{}, issue int, options ...RequestOptionFunc) (*Issue, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -581,7 +581,7 @@ func (s *IssuesService) SubscribeToIssue(pid interface{}, issue int, options ...
 // is not subscribed to the issue, status code 304 is returned.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/merge_requests.html#unsubscribe-from-a-merge-request
+// https://docs.gitlab.com/ee/api/issues.html#unsubscribe-from-an-issue
 func (s *IssuesService) UnsubscribeFromIssue(pid interface{}, issue int, options ...RequestOptionFunc) (*Issue, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -634,14 +634,14 @@ func (s *IssuesService) CreateTodo(pid interface{}, issue int, options ...Reques
 // ListMergeRequestsClosingIssue() options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/issues.html#list-merge-requests-that-will-close-issue-on-merge
+// https://docs.gitlab.com/ee/api/issues.html#list-merge-requests-that-close-a-particular-issue-on-merge
 type ListMergeRequestsClosingIssueOptions ListOptions
 
 // ListMergeRequestsClosingIssue gets all the merge requests that will close
 // issue when merged.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/issues.html#list-merge-requests-that-will-close-issue-on-merge
+// https://docs.gitlab.com/ee/api/issues.html#list-merge-requests-that-close-a-particular-issue-on-merge
 func (s *IssuesService) ListMergeRequestsClosingIssue(pid interface{}, issue int, opt *ListMergeRequestsClosingIssueOptions, options ...RequestOptionFunc) ([]*MergeRequest, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {

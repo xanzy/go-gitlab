@@ -49,13 +49,13 @@ type GitIgnoreTemplateListItem struct {
 // ListTemplatesOptions represents the available ListAllTemplates() options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/templates/gitignores.html#list-gitignore-templates
+// https://docs.gitlab.com/ee/api/templates/gitignores.html#get-all-gitignore-templates
 type ListTemplatesOptions ListOptions
 
 // ListTemplates get a list of available git ignore templates
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/templates/gitignores.html#list-gitignore-templates
+// https://docs.gitlab.com/ee/api/templates/gitignores.html#get-all-gitignore-templates
 func (s *GitIgnoreTemplatesService) ListTemplates(opt *ListTemplatesOptions, options ...RequestOptionFunc) ([]*GitIgnoreTemplateListItem, *Response, error) {
 	req, err := s.client.NewRequest(http.MethodGet, "templates/gitignores", opt, options)
 	if err != nil {

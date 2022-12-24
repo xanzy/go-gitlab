@@ -52,12 +52,12 @@ func AccessControl(v AccessControlValue) *AccessControlValue {
 
 // AccessLevelValue represents a permission level within GitLab.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/permissions/permissions.html
+// GitLab API docs: https://docs.gitlab.com/ee/user/permissions.html
 type AccessLevelValue int
 
 // List of available access levels
 //
-// GitLab API docs: https://docs.gitlab.com/ee/permissions/permissions.html
+// GitLab API docs: https://docs.gitlab.com/ee/user/permissions.html
 const (
 	NoPermissions            AccessLevelValue = 0
 	MinimalAccessPermissions AccessLevelValue = 5
@@ -269,7 +269,7 @@ type EventTypeValue string
 
 // List of available action type
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/events.html#action-types
+// GitLab API docs: https://docs.gitlab.com/ee/user/profile/contributions_calendar.html#user-contribution-events
 const (
 	CreatedEventType   EventTypeValue = "created"
 	UpdatedEventType   EventTypeValue = "updated"
@@ -413,7 +413,7 @@ type LinkTypeValue string
 // List of available release link types
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/releases/links.html#create-a-link
+// https://docs.gitlab.com/ee/api/releases/links.html#create-a-release-link
 const (
 	ImageLinkType   LinkTypeValue = "image"
 	OtherLinkType   LinkTypeValue = "other"

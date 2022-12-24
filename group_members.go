@@ -98,7 +98,7 @@ func (s *GroupsService) ListGroupMembers(gid interface{}, opt *ListGroupMembersO
 // user. Returns a list including inherited members through ancestor groups.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/members.html#list-all-members-of-a-group-or-project-including-inherited-members
+// https://docs.gitlab.com/ee/api/members.html#list-all-members-of-a-group-or-project-including-inherited-and-invited-members
 func (s *GroupsService) ListAllGroupMembers(gid interface{}, opt *ListGroupMembersOptions, options ...RequestOptionFunc) ([]*GroupMember, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {

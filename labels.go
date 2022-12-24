@@ -195,7 +195,7 @@ func (s *LabelsService) DeleteLabel(pid interface{}, opt *DeleteLabelOptions, op
 
 // UpdateLabelOptions represents the available UpdateLabel() options.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/labels.html#delete-a-label
+// GitLab API docs: https://docs.gitlab.com/ee/api/labels.html#edit-an-existing-label
 type UpdateLabelOptions struct {
 	Name        *string `url:"name,omitempty" json:"name,omitempty"`
 	NewName     *string `url:"new_name,omitempty" json:"new_name,omitempty"`

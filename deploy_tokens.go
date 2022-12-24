@@ -179,13 +179,13 @@ func (s *DeployTokensService) DeleteProjectDeployToken(pid interface{}, deployTo
 // options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/deploy_tokens.html#list-group-deploy-deploy-tokens
+// https://docs.gitlab.com/ee/api/deploy_tokens.html#list-group-deploy-tokens
 type ListGroupDeployTokensOptions ListOptions
 
 // ListGroupDeployTokens gets a list of a group’s deploy tokens.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/deploy_tokens.html#list-project-deploy-tokens
+// https://docs.gitlab.com/ee/api/deploy_tokens.html#list-group-deploy-tokens
 func (s *DeployTokensService) ListGroupDeployTokens(gid interface{}, opt *ListGroupDeployTokensOptions, options ...RequestOptionFunc) ([]*DeployToken, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {

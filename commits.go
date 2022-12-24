@@ -85,7 +85,7 @@ type ListCommitsOptions struct {
 
 // ListCommits gets a list of repository commits in a project.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/commits.html#list-commits
+// GitLab API docs: https://docs.gitlab.com/ee/api/commits.html#list-repository-commits
 func (s *CommitsService) ListCommits(pid interface{}, opt *ListCommitsOptions, options ...RequestOptionFunc) ([]*Commit, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -379,7 +379,7 @@ func (s *CommitsService) PostCommitComment(pid interface{}, sha string, opt *Pos
 
 // GetCommitStatusesOptions represents the available GetCommitStatuses() options.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/commits.html#get-the-status-of-a-commit
+// GitLab API docs: https://docs.gitlab.com/ee/api/commits.html#list-the-statuses-of-a-commit
 type GetCommitStatusesOptions struct {
 	ListOptions
 	Ref   *string `url:"ref,omitempty" json:"ref,omitempty"`
@@ -390,7 +390,7 @@ type GetCommitStatusesOptions struct {
 
 // CommitStatus represents a GitLab commit status.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/commits.html#get-the-status-of-a-commit
+// GitLab API docs: https://docs.gitlab.com/ee/api/commits.html#commit-status
 type CommitStatus struct {
 	ID           int        `json:"id"`
 	SHA          string     `json:"sha"`
@@ -409,7 +409,7 @@ type CommitStatus struct {
 
 // GetCommitStatuses gets the statuses of a commit in a project.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/commits.html#get-the-status-of-a-commit
+// GitLab API docs: https://docs.gitlab.com/ee/api/commits.html#list-the-statuses-of-a-commit
 func (s *CommitsService) GetCommitStatuses(pid interface{}, sha string, opt *GetCommitStatusesOptions, options ...RequestOptionFunc) ([]*CommitStatus, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -433,7 +433,7 @@ func (s *CommitsService) GetCommitStatuses(pid interface{}, sha string, opt *Get
 
 // SetCommitStatusOptions represents the available SetCommitStatus() options.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/commits.html#post-the-status-to-commit
+// GitLab API docs: https://docs.gitlab.com/ee/api/commits.html#set-the-pipeline-status-of-a-commit
 type SetCommitStatusOptions struct {
 	State       BuildStateValue `url:"state" json:"state"`
 	Ref         *string         `url:"ref,omitempty" json:"ref,omitempty"`
@@ -447,7 +447,7 @@ type SetCommitStatusOptions struct {
 
 // SetCommitStatus sets the status of a commit in a project.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/commits.html#post-the-status-to-commit
+// GitLab API docs: https://docs.gitlab.com/ee/api/commits.html#set-the-pipeline-status-of-a-commit
 func (s *CommitsService) SetCommitStatus(pid interface{}, sha string, opt *SetCommitStatusOptions, options ...RequestOptionFunc) (*CommitStatus, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {

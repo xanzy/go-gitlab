@@ -873,7 +873,7 @@ func PathEscape(s string) string {
 // An ErrorResponse reports one or more errors caused by an API request.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/README.html#data-validation-and-error-reporting
+// https://docs.gitlab.com/ee/api/index.html#data-validation-and-error-reporting
 type ErrorResponse struct {
 	Body     []byte
 	Response *http.Response

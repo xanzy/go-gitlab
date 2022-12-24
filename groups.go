@@ -124,7 +124,7 @@ type SAMLGroupLink struct {
 
 // ListGroupsOptions represents the available ListGroups() options.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/groups.html#list-project-groups
+// GitLab API docs: https://docs.gitlab.com/ee/api/groups.html#list-groups
 type ListGroupsOptions struct {
 	ListOptions
 	AllAvailable         *bool             `url:"all_available,omitempty" json:"all_available,omitempty"`
@@ -142,7 +142,7 @@ type ListGroupsOptions struct {
 // ListGroups gets a list of groups (as user: my groups, as admin: all groups).
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/groups.html#list-project-groups
+// https://docs.gitlab.com/ee/api/groups.html#list-groups
 func (s *GroupsService) ListGroups(opt *ListGroupsOptions, options ...RequestOptionFunc) ([]*Group, *Response, error) {
 	req, err := s.client.NewRequest(http.MethodGet, "groups", opt, options)
 	if err != nil {
@@ -161,13 +161,13 @@ func (s *GroupsService) ListGroups(opt *ListGroupsOptions, options ...RequestOpt
 // ListSubGroupsOptions represents the available ListSubGroups() options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/groups.html#list-a-groups-s-subgroups
+// https://docs.gitlab.com/ee/api/groups.html#list-a-groups-subgroups
 type ListSubGroupsOptions ListGroupsOptions
 
 // ListSubGroups gets a list of subgroups for a given group.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/groups.html#list-a-groups-s-subgroups
+// https://docs.gitlab.com/ee/api/groups.html#list-a-groups-subgroups
 func (s *GroupsService) ListSubGroups(gid interface{}, opt *ListSubGroupsOptions, options ...RequestOptionFunc) ([]*Group, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
@@ -224,7 +224,7 @@ func (s *GroupsService) ListDescendantGroups(gid interface{}, opt *ListDescendan
 // ListGroupProjectsOptions represents the available ListGroup() options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/groups.html#list-a-group-39-s-projects
+// https://docs.gitlab.com/ee/api/groups.html#list-a-groups-projects
 type ListGroupProjectsOptions struct {
 	ListOptions
 	Archived                 *bool             `url:"archived,omitempty" json:"archived,omitempty"`
@@ -248,7 +248,7 @@ type ListGroupProjectsOptions struct {
 // ListGroupProjects get a list of group projects
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/groups.html#list-a-group-39-s-projects
+// https://docs.gitlab.com/ee/api/groups.html#list-a-groups-projects
 func (s *GroupsService) ListGroupProjects(gid interface{}, opt *ListGroupProjectsOptions, options ...RequestOptionFunc) ([]*Project, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
@@ -625,7 +625,7 @@ func (s *GroupsService) SearchGroup(query string, options ...RequestOptionFunc) 
 // options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/groups.html#provisioned-users-api
+// https://docs.gitlab.com/ee/api/groups.html#list-provisioned-users
 type ListProvisionedUsersOptions struct {
 	ListOptions
 	Username      *string    `url:"username,omitempty" json:"username,omitempty"`
@@ -639,7 +639,7 @@ type ListProvisionedUsersOptions struct {
 // ListProvisionedUsers gets a list of users provisioned by the given group.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/groups.html#provisioned-users-api
+// https://docs.gitlab.com/ee/api/groups.html#list-provisioned-users
 func (s *GroupsService) ListProvisionedUsers(gid interface{}, opt *ListProvisionedUsersOptions, options ...RequestOptionFunc) ([]*User, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
@@ -665,7 +665,7 @@ func (s *GroupsService) ListProvisionedUsers(gid interface{}, opt *ListProvision
 // can edit groups.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/groups.html#list-ldap-group-links-starter
+// https://docs.gitlab.com/ee/api/groups.html#list-ldap-group-links
 func (s *GroupsService) ListGroupLDAPLinks(gid interface{}, options ...RequestOptionFunc) ([]*LDAPGroupLink, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
@@ -690,7 +690,7 @@ func (s *GroupsService) ListGroupLDAPLinks(gid interface{}, options ...RequestOp
 // AddGroupLDAPLinkOptions represents the available AddGroupLDAPLink() options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/groups.html#add-ldap-group-link-starter
+// https://docs.gitlab.com/ee/api/groups.html#add-ldap-group-link-with-cn-or-filter
 type AddGroupLDAPLinkOptions struct {
 	CN          *string           `url:"cn,omitempty" json:"cn,omitempty"`
 	Filter      *string           `url:"filter,omitempty" json:"filter,omitempty"`
@@ -712,7 +712,7 @@ type DeleteGroupLDAPLinkWithCNOrFilterOptions struct {
 // can edit groups.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/groups.html#add-ldap-group-link-starter
+// https://docs.gitlab.com/ee/api/groups.html#add-ldap-group-link-with-cn-or-filter
 func (s *GroupsService) AddGroupLDAPLink(gid interface{}, opt *AddGroupLDAPLinkOptions, options ...RequestOptionFunc) (*LDAPGroupLink, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
@@ -738,7 +738,7 @@ func (s *GroupsService) AddGroupLDAPLink(gid interface{}, opt *AddGroupLDAPLinkO
 // can edit groups.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/groups.html#delete-ldap-group-link-starter
+// https://docs.gitlab.com/ee/api/groups.html#delete-ldap-group-link
 func (s *GroupsService) DeleteGroupLDAPLink(gid interface{}, cn string, options ...RequestOptionFunc) (*Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
@@ -778,7 +778,7 @@ func (s *GroupsService) DeleteGroupLDAPLinkWithCNOrFilter(gid interface{}, opts 
 // provider. Available only for users who can edit groups.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/groups.html#delete-ldap-group-link-starter
+// https://docs.gitlab.com/ee/api/groups.html#delete-ldap-group-link
 func (s *GroupsService) DeleteGroupLDAPLinkForProvider(gid interface{}, provider, cn string, options ...RequestOptionFunc) (*Response, error) {
 	group, err := parseID(gid)
 	if err != nil {

@@ -28,7 +28,7 @@ import (
 // import/export related methods of the GitLab API.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/user/project/settings/import_export.html
+// https://docs.gitlab.com/ee/api/project_import_export.html
 type ProjectImportExportService struct {
 	client *Client
 }

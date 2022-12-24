@@ -305,7 +305,7 @@ type CreatePipelineOptions struct {
 
 // PipelineVariable represents a pipeline variable.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/pipelines.html
+// GitLab API docs: https://docs.gitlab.com/ee/api/pipelines.html#create-a-new-pipeline
 type PipelineVariableOptions struct {
 	Key          *string `url:"key,omitempty" json:"key,omitempty"`
 	Value        *string `url:"value,omitempty" json:"value,omitempty"`
@@ -339,7 +339,7 @@ func (s *PipelinesService) CreatePipeline(pid interface{}, opt *CreatePipelineOp
 // RetryPipelineBuild retries failed builds in a pipeline
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/pipelines.html#retry-failed-builds-in-a-pipeline
+// https://docs.gitlab.com/ee/api/pipelines.html#retry-jobs-in-a-pipeline
 func (s *PipelinesService) RetryPipelineBuild(pid interface{}, pipeline int, options ...RequestOptionFunc) (*Pipeline, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -364,7 +364,7 @@ func (s *PipelinesService) RetryPipelineBuild(pid interface{}, pipeline int, opt
 // CancelPipelineBuild cancels a pipeline builds
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/pipelines.html#cancel-a-pipelines-builds
+// https://docs.gitlab.com/ee/api/pipelines.html#cancel-a-pipelines-jobs
 func (s *PipelinesService) CancelPipelineBuild(pid interface{}, pipeline int, options ...RequestOptionFunc) (*Pipeline, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {

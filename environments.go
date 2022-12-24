@@ -153,7 +153,7 @@ func (s *EnvironmentsService) CreateEnvironment(pid interface{}, opt *CreateEnvi
 // EditEnvironmentOptions represents the available EditEnvironment() options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/environments.html#edit-an-existing-environment
+// https://docs.gitlab.com/ee/api/environments.html#update-an-existing-environment
 type EditEnvironmentOptions struct {
 	Name        *string `url:"name,omitempty" json:"name,omitempty"`
 	ExternalURL *string `url:"external_url,omitempty" json:"external_url,omitempty"`
@@ -163,7 +163,7 @@ type EditEnvironmentOptions struct {
 // EditEnvironment updates a project team environment to a specified access level..
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/environments.html#edit-an-existing-environment
+// https://docs.gitlab.com/ee/api/environments.html#update-an-existing-environment
 func (s *EnvironmentsService) EditEnvironment(pid interface{}, environment int, opt *EditEnvironmentOptions, options ...RequestOptionFunc) (*Environment, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -188,7 +188,7 @@ func (s *EnvironmentsService) EditEnvironment(pid interface{}, environment int, 
 // DeleteEnvironment removes an environment from a project team.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/environments.html#remove-a-environment-from-a-group-or-project
+// https://docs.gitlab.com/ee/api/environments.html#delete-an-environment
 func (s *EnvironmentsService) DeleteEnvironment(pid interface{}, environment int, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {

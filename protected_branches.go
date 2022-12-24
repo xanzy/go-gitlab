@@ -26,7 +26,7 @@ import (
 // related methods of the GitLab API.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/protected_branches.html#protected-branches-api
+// https://docs.gitlab.com/ee/api/protected_branches.html
 type ProtectedBranchesService struct {
 	client *Client
 }
@@ -49,7 +49,7 @@ type ProtectedBranch struct {
 // branch.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/protected_branches.html#protected-branches-api
+// https://docs.gitlab.com/ee/api/protected_branches.html#list-protected-branches
 type BranchAccessDescription struct {
 	AccessLevel            AccessLevelValue `json:"access_level"`
 	AccessLevelDescription string           `json:"access_level_description"`
@@ -192,7 +192,7 @@ func (s *ProtectedBranchesService) UnprotectRepositoryBranches(pid interface{}, 
 // RequireCodeOwnerApprovals() options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/protected_branches.html#require-code-owner-approvals-for-a-single-branch
+// https://docs.gitlab.com/ee/api/protected_branches.html#update-a-protected-branch
 type RequireCodeOwnerApprovalsOptions struct {
 	CodeOwnerApprovalRequired *bool `url:"code_owner_approval_required,omitempty" json:"code_owner_approval_required,omitempty"`
 }
@@ -200,7 +200,7 @@ type RequireCodeOwnerApprovalsOptions struct {
 // RequireCodeOwnerApprovals updates the code owner approval option.
 //
 // Gitlab API docs:
-// https://docs.gitlab.com/ee/api/protected_branches.html#require-code-owner-approvals-for-a-single-branch
+// https://docs.gitlab.com/ee/api/protected_branches.html#update-a-protected-branch
 func (s *ProtectedBranchesService) RequireCodeOwnerApprovals(pid interface{}, branch string, opt *RequireCodeOwnerApprovalsOptions, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {

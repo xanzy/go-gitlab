@@ -57,13 +57,13 @@ type PipelineSchedule struct {
 // ListPipelineSchedulesOptions represents the available ListPipelineTriggers() options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/pipeline_triggers.html#list-project-triggers
+// https://docs.gitlab.com/ee/api/pipeline_schedules.html#get-all-pipeline-schedules
 type ListPipelineSchedulesOptions ListOptions
 
 // ListPipelineSchedules gets a list of project triggers.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/pipeline_schedules.html
+// https://docs.gitlab.com/ee/api/pipeline_schedules.html#get-all-pipeline-schedules
 func (s *PipelineSchedulesService) ListPipelineSchedules(pid interface{}, opt *ListPipelineSchedulesOptions, options ...RequestOptionFunc) ([]*PipelineSchedule, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -88,7 +88,7 @@ func (s *PipelineSchedulesService) ListPipelineSchedules(pid interface{}, opt *L
 // GetPipelineSchedule gets a pipeline schedule.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/pipeline_schedules.html
+// https://docs.gitlab.com/ee/api/pipeline_schedules.html#get-a-single-pipeline-schedule
 func (s *PipelineSchedulesService) GetPipelineSchedule(pid interface{}, schedule int, options ...RequestOptionFunc) (*PipelineSchedule, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -185,7 +185,7 @@ func (s *PipelineSchedulesService) CreatePipelineSchedule(pid interface{}, opt *
 // EditPipelineSchedule() options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/pipeline_schedules.html#create-a-new-pipeline-schedule
+// https://docs.gitlab.com/ee/api/pipeline_schedules.html#edit-a-pipeline-schedule
 type EditPipelineScheduleOptions struct {
 	Description  *string `url:"description,omitempty" json:"description,omitempty"`
 	Ref          *string `url:"ref,omitempty" json:"ref,omitempty"`

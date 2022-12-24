@@ -173,14 +173,14 @@ func (s *DeploymentsService) CreateProjectDeployment(pid interface{}, opt *Creat
 // UpdateProjectDeploymentOptions represents the available
 // UpdateProjectDeployment() options.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/deployments.html#updating-a-deployment
+// GitLab API docs: https://docs.gitlab.com/ee/api/deployments.html#update-a-deployment
 type UpdateProjectDeploymentOptions struct {
 	Status *DeploymentStatusValue `url:"status,omitempty" json:"status,omitempty"`
 }
 
 // UpdateProjectDeployment updates a project deployment.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/deployments.html#updating-a-deployment
+// GitLab API docs: https://docs.gitlab.com/ee/api/deployments.html#update-a-deployment
 func (s *DeploymentsService) UpdateProjectDeployment(pid interface{}, deployment int, opt *UpdateProjectDeploymentOptions, options ...RequestOptionFunc) (*Deployment, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {

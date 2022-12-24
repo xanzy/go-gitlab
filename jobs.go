@@ -375,7 +375,7 @@ func (s *JobsService) DownloadSingleArtifactsFileByTagOrBranch(pid interface{}, 
 // GetTraceFile gets a trace of a specific job of a project
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/jobs.html#get-a-trace-file
+// https://docs.gitlab.com/ee/api/jobs.html#get-a-log-file
 func (s *JobsService) GetTraceFile(pid interface{}, jobID int, options ...RequestOptionFunc) (*bytes.Reader, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -545,7 +545,7 @@ func (s *JobsService) PlayJob(pid interface{}, jobID int, opt *PlayJobOptions, o
 // DeleteArtifacts delete artifacts of a job
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/job_artifacts.html#delete-artifacts
+// https://docs.gitlab.com/ee/api/job_artifacts.html#delete-job-artifacts
 func (s *JobsService) DeleteArtifacts(pid interface{}, jobID int, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {

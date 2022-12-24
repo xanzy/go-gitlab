@@ -119,7 +119,7 @@ func (m MergeRequest) String() string {
 // MergeRequestDiffVersion represents Gitlab merge request version.
 //
 // Gitlab API docs:
-// https://docs.gitlab.com/ee/api/merge_requests.html#get-a-single-mr-diff-version
+// https://docs.gitlab.com/ee/api/merge_requests.html#get-merge-request-diff-versions
 type MergeRequestDiffVersion struct {
 	ID             int        `json:"id"`
 	HeadCommitSHA  string     `json:"head_commit_sha,omitempty"`
@@ -385,13 +385,13 @@ func (s *MergeRequestsService) GetMergeRequestApprovals(pid interface{}, mergeRe
 // options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/merge_requests.html#get-single-mr-commits
+// https://docs.gitlab.com/ee/api/merge_requests.html#get-single-merge-request-commits
 type GetMergeRequestCommitsOptions ListOptions
 
 // GetMergeRequestCommits gets a list of merge request commits.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/merge_requests.html#get-single-mr-commits
+// https://docs.gitlab.com/ee/api/merge_requests.html#get-single-merge-request-commits
 func (s *MergeRequestsService) GetMergeRequestCommits(pid interface{}, mergeRequest int, opt *GetMergeRequestCommitsOptions, options ...RequestOptionFunc) ([]*Commit, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -417,7 +417,7 @@ func (s *MergeRequestsService) GetMergeRequestCommits(pid interface{}, mergeRequ
 // options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/merge_requests.html#get-single-mr-changes
+// https://docs.gitlab.com/ee/api/merge_requests.html#get-single-merge-request-changes
 type GetMergeRequestChangesOptions struct {
 	AccessRawDiffs *bool `url:"access_raw_diffs,omitempty" json:"access_raw_diffs,omitempty"`
 }
@@ -426,7 +426,7 @@ type GetMergeRequestChangesOptions struct {
 // its files and changes.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/merge_requests.html#get-single-mr-changes
+// https://docs.gitlab.com/ee/api/merge_requests.html#get-single-merge-request-changes
 func (s *MergeRequestsService) GetMergeRequestChanges(pid interface{}, mergeRequest int, opt *GetMergeRequestChangesOptions, options ...RequestOptionFunc) (*MergeRequest, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -451,7 +451,7 @@ func (s *MergeRequestsService) GetMergeRequestChanges(pid interface{}, mergeRequ
 // GetMergeRequestParticipants gets a list of merge request participants.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/merge_requests.html#get-single-mr-participants
+// https://docs.gitlab.com/ee/api/merge_requests.html#get-single-merge-request-participants
 func (s *MergeRequestsService) GetMergeRequestParticipants(pid interface{}, mergeRequest int, options ...RequestOptionFunc) ([]*BasicUser, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -476,7 +476,7 @@ func (s *MergeRequestsService) GetMergeRequestParticipants(pid interface{}, merg
 // ListMergeRequestPipelines gets all pipelines for the provided merge request.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/merge_requests.html#list-mr-pipelines
+// https://docs.gitlab.com/ee/api/merge_requests.html#list-merge-request-pipelines
 func (s *MergeRequestsService) ListMergeRequestPipelines(pid interface{}, mergeRequest int, options ...RequestOptionFunc) ([]*PipelineInfo, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -501,7 +501,7 @@ func (s *MergeRequestsService) ListMergeRequestPipelines(pid interface{}, mergeR
 // CreateMergeRequestPipeline creates a new pipeline for a merge request.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/merge_requests.html#create-mr-pipeline
+// https://docs.gitlab.com/ee/api/merge_requests.html#create-merge-request-pipeline
 func (s *MergeRequestsService) CreateMergeRequestPipeline(pid interface{}, mergeRequest int, options ...RequestOptionFunc) (*PipelineInfo, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -765,13 +765,13 @@ func (s *MergeRequestsService) RebaseMergeRequest(pid interface{}, mergeRequest 
 // GetMergeRequestDiffVersions() options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/merge_requests.html#get-mr-diff-versions
+// https://docs.gitlab.com/ee/api/merge_requests.html#get-merge-request-diff-versions
 type GetMergeRequestDiffVersionsOptions ListOptions
 
 // GetMergeRequestDiffVersions get a list of merge request diff versions.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/merge_requests.html#get-mr-diff-versions
+// https://docs.gitlab.com/ee/api/merge_requests.html#get-merge-request-diff-versions
 func (s *MergeRequestsService) GetMergeRequestDiffVersions(pid interface{}, mergeRequest int, opt *GetMergeRequestDiffVersionsOptions, options ...RequestOptionFunc) ([]*MergeRequestDiffVersion, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -796,7 +796,7 @@ func (s *MergeRequestsService) GetMergeRequestDiffVersions(pid interface{}, merg
 // GetSingleMergeRequestDiffVersion get a single MR diff version
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/merge_requests.html#get-a-single-mr-diff-version
+// https://docs.gitlab.com/ee/api/merge_requests.html#get-a-single-merge-request-diff-version
 func (s *MergeRequestsService) GetSingleMergeRequestDiffVersion(pid interface{}, mergeRequest, version int, options ...RequestOptionFunc) (*MergeRequestDiffVersion, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {

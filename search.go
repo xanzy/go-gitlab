@@ -74,7 +74,7 @@ func (s *SearchService) Issues(query string, opt *SearchOptions, options ...Requ
 // IssuesByGroup searches the expression within issues for
 // the specified group
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/search.html#scope-issues
+// GitLab API docs: https://docs.gitlab.com/ee/api/search.html#scope-issues-1
 func (s *SearchService) IssuesByGroup(gid interface{}, query string, opt *SearchOptions, options ...RequestOptionFunc) ([]*Issue, *Response, error) {
 	var is []*Issue
 	resp, err := s.searchByGroup(gid, "issues", query, &is, opt, options...)
@@ -84,7 +84,7 @@ func (s *SearchService) IssuesByGroup(gid interface{}, query string, opt *Search
 // IssuesByProject searches the expression within issues for
 // the specified project
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/search.html#scope-issues
+// GitLab API docs: https://docs.gitlab.com/ee/api/search.html#scope-issues-2
 func (s *SearchService) IssuesByProject(pid interface{}, query string, opt *SearchOptions, options ...RequestOptionFunc) ([]*Issue, *Response, error) {
 	var is []*Issue
 	resp, err := s.searchByProject(pid, "issues", query, &is, opt, options...)
@@ -105,7 +105,7 @@ func (s *SearchService) MergeRequests(query string, opt *SearchOptions, options 
 // the specified group
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/search.html#scope-merge_requests
+// https://docs.gitlab.com/ee/api/search.html#scope-merge_requests-1
 func (s *SearchService) MergeRequestsByGroup(gid interface{}, query string, opt *SearchOptions, options ...RequestOptionFunc) ([]*MergeRequest, *Response, error) {
 	var ms []*MergeRequest
 	resp, err := s.searchByGroup(gid, "merge_requests", query, &ms, opt, options...)
@@ -116,7 +116,7 @@ func (s *SearchService) MergeRequestsByGroup(gid interface{}, query string, opt 
 // the specified project
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/search.html#scope-merge_requests
+// https://docs.gitlab.com/ee/api/search.html#scope-merge_requests-2
 func (s *SearchService) MergeRequestsByProject(pid interface{}, query string, opt *SearchOptions, options ...RequestOptionFunc) ([]*MergeRequest, *Response, error) {
 	var ms []*MergeRequest
 	resp, err := s.searchByProject(pid, "merge_requests", query, &ms, opt, options...)
@@ -135,7 +135,7 @@ func (s *SearchService) Milestones(query string, opt *SearchOptions, options ...
 // MilestonesByGroup searches the expression within milestones for
 // the specified group
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/search.html#scope-milestones
+// GitLab API docs: https://docs.gitlab.com/ee/api/search.html#scope-milestones-1
 func (s *SearchService) MilestonesByGroup(gid interface{}, query string, opt *SearchOptions, options ...RequestOptionFunc) ([]*Milestone, *Response, error) {
 	var ms []*Milestone
 	resp, err := s.searchByGroup(gid, "milestones", query, &ms, opt, options...)
@@ -145,7 +145,7 @@ func (s *SearchService) MilestonesByGroup(gid interface{}, query string, opt *Se
 // MilestonesByProject searches the expression within milestones for
 // the specified project
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/search.html#scope-milestones
+// GitLab API docs: https://docs.gitlab.com/ee/api/search.html#scope-milestones-2
 func (s *SearchService) MilestonesByProject(pid interface{}, query string, opt *SearchOptions, options ...RequestOptionFunc) ([]*Milestone, *Response, error) {
 	var ms []*Milestone
 	resp, err := s.searchByProject(pid, "milestones", query, &ms, opt, options...)
@@ -196,7 +196,7 @@ func (s *SearchService) WikiBlobs(query string, opt *SearchOptions, options ...R
 // specified group
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/search.html#scope-wiki_blobs
+// https://docs.gitlab.com/ee/api/search.html#scope-wiki_blobs-premium-1
 func (s *SearchService) WikiBlobsByGroup(gid interface{}, query string, opt *SearchOptions, options ...RequestOptionFunc) ([]*Wiki, *Response, error) {
 	var ws []*Wiki
 	resp, err := s.searchByGroup(gid, "wiki_blobs", query, &ws, opt, options...)
@@ -207,7 +207,7 @@ func (s *SearchService) WikiBlobsByGroup(gid interface{}, query string, opt *Sea
 // the specified project
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/search.html#scope-wiki_blobs
+// https://docs.gitlab.com/ee/api/search.html#scope-wiki_blobs-premium-2
 func (s *SearchService) WikiBlobsByProject(pid interface{}, query string, opt *SearchOptions, options ...RequestOptionFunc) ([]*Wiki, *Response, error) {
 	var ws []*Wiki
 	resp, err := s.searchByProject(pid, "wiki_blobs", query, &ws, opt, options...)
@@ -226,7 +226,7 @@ func (s *SearchService) Commits(query string, opt *SearchOptions, options ...Req
 // CommitsByGroup searches the expression within commits for the specified
 // group
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/search.html#scope-commits
+// GitLab API docs: https://docs.gitlab.com/ee/api/search.html#scope-commits-premium-1
 func (s *SearchService) CommitsByGroup(gid interface{}, query string, opt *SearchOptions, options ...RequestOptionFunc) ([]*Commit, *Response, error) {
 	var cs []*Commit
 	resp, err := s.searchByGroup(gid, "commits", query, &cs, opt, options...)
@@ -236,7 +236,7 @@ func (s *SearchService) CommitsByGroup(gid interface{}, query string, opt *Searc
 // CommitsByProject searches the expression within commits for the
 // specified project
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/search.html#scope-commits
+// GitLab API docs: https://docs.gitlab.com/ee/api/search.html#scope-commits-premium-2
 func (s *SearchService) CommitsByProject(pid interface{}, query string, opt *SearchOptions, options ...RequestOptionFunc) ([]*Commit, *Response, error) {
 	var cs []*Commit
 	resp, err := s.searchByProject(pid, "commits", query, &cs, opt, options...)
@@ -266,7 +266,7 @@ func (s *SearchService) Blobs(query string, opt *SearchOptions, options ...Reque
 // BlobsByGroup searches the expression within blobs for the specified
 // group
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/search.html#scope-blobs
+// GitLab API docs: https://docs.gitlab.com/ee/api/search.html#scope-blobs-premium-1
 func (s *SearchService) BlobsByGroup(gid interface{}, query string, opt *SearchOptions, options ...RequestOptionFunc) ([]*Blob, *Response, error) {
 	var bs []*Blob
 	resp, err := s.searchByGroup(gid, "blobs", query, &bs, opt, options...)
@@ -276,7 +276,7 @@ func (s *SearchService) BlobsByGroup(gid interface{}, query string, opt *SearchO
 // BlobsByProject searches the expression within blobs for the specified
 // project
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/search.html#scope-blobs
+// GitLab API docs: https://docs.gitlab.com/ee/api/search.html#scope-blobs-premium-2
 func (s *SearchService) BlobsByProject(pid interface{}, query string, opt *SearchOptions, options ...RequestOptionFunc) ([]*Blob, *Response, error) {
 	var bs []*Blob
 	resp, err := s.searchByProject(pid, "blobs", query, &bs, opt, options...)

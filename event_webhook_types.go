@@ -41,7 +41,7 @@ const (
 // BuildEvent represents a build event.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/user/project/integrations/webhooks.html#build-events
+// https://docs.gitlab.com/ee/user/project/integrations/webhook_events.html#job-events
 type BuildEvent struct {
 	ObjectKind        string     `json:"object_kind"`
 	Ref               string     `json:"ref"`

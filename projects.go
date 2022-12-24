@@ -298,7 +298,7 @@ func (s ProjectApprovalRule) String() string {
 
 // ListProjectsOptions represents the available ListProjects() options.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/projects.html#list-projects
+// GitLab API docs: https://docs.gitlab.com/ee/api/projects.html#list-all-projects
 type ListProjectsOptions struct {
 	ListOptions
 	Archived                 *bool             `url:"archived,omitempty" json:"archived,omitempty"`
@@ -329,7 +329,7 @@ type ListProjectsOptions struct {
 
 // ListProjects gets a list of projects accessible by the authenticated user.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/projects.html#list-projects
+// GitLab API docs: https://docs.gitlab.com/ee/api/projects.html#list-all-projects
 func (s *ProjectsService) ListProjects(opt *ListProjectsOptions, options ...RequestOptionFunc) ([]*Project, *Response, error) {
 	req, err := s.client.NewRequest(http.MethodGet, "projects", opt, options)
 	if err != nil {
@@ -552,7 +552,7 @@ func (s *ProjectsService) GetProject(pid interface{}, opt *GetProjectOptions, op
 // ProjectEvent represents a GitLab project event.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/projects.html#get-project-events
+// https://docs.gitlab.com/ee/api/events.html#list-a-projects-visible-events
 type ProjectEvent struct {
 	Title          interface{} `json:"title"`
 	ProjectID      int         `json:"project_id"`
@@ -581,14 +581,14 @@ func (s ProjectEvent) String() string {
 // GetProjectEventsOptions represents the available GetProjectEvents() options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/projects.html#get-project-events
+// https://docs.gitlab.com/ee/api/events.html#list-a-projects-visible-events
 type GetProjectEventsOptions ListOptions
 
 // GetProjectEvents gets the events for the specified project. Sorted from
 // newest to latest.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/projects.html#get-project-events
+// https://docs.gitlab.com/ee/api/events.html#list-a-projects-visible-events
 func (s *ProjectsService) GetProjectEvents(pid interface{}, opt *GetProjectEventsOptions, options ...RequestOptionFunc) ([]*ProjectEvent, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -1090,7 +1090,7 @@ func (s *ProjectsService) UnarchiveProject(pid interface{}, options ...RequestOp
 // DeleteProject removes a project including all associated resources
 // (issues, merge requests etc.)
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/projects.html#remove-project
+// GitLab API docs: https://docs.gitlab.com/ee/api/projects.html#delete-project
 func (s *ProjectsService) DeleteProject(pid interface{}, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -1810,7 +1810,7 @@ func (s *ProjectsService) GetProjectApprovalRule(pid interface{}, ruleID int, op
 // options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/merge_request_approvals.html#create-project-level-rules
+// https://docs.gitlab.com/ee/api/merge_request_approvals.html#create-project-level-rule
 type CreateProjectLevelRuleOptions struct {
 	Name                          *string `url:"name,omitempty" json:"name,omitempty"`
 	ApprovalsRequired             *int    `url:"approvals_required,omitempty" json:"approvals_required,omitempty"`
@@ -1824,7 +1824,7 @@ type CreateProjectLevelRuleOptions struct {
 // CreateProjectApprovalRule creates a new project-level approval rule.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/merge_request_approvals.html#create-project-level-rules
+// https://docs.gitlab.com/ee/api/merge_request_approvals.html#create-project-level-rule
 func (s *ProjectsService) CreateProjectApprovalRule(pid interface{}, opt *CreateProjectLevelRuleOptions, options ...RequestOptionFunc) (*ProjectApprovalRule, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -1850,7 +1850,7 @@ func (s *ProjectsService) CreateProjectApprovalRule(pid interface{}, opt *Create
 // options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/merge_request_approvals.html#update-project-level-rules
+// https://docs.gitlab.com/ee/api/merge_request_approvals.html#update-project-level-rule
 type UpdateProjectLevelRuleOptions struct {
 	Name                          *string `url:"name,omitempty" json:"name,omitempty"`
 	ApprovalsRequired             *int    `url:"approvals_required,omitempty" json:"approvals_required,omitempty"`
@@ -1863,7 +1863,7 @@ type UpdateProjectLevelRuleOptions struct {
 // UpdateProjectApprovalRule updates an existing approval rule with new options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/merge_request_approvals.html#update-project-level-rules
+// https://docs.gitlab.com/ee/api/merge_request_approvals.html#update-project-level-rule
 func (s *ProjectsService) UpdateProjectApprovalRule(pid interface{}, approvalRule int, opt *UpdateProjectLevelRuleOptions, options ...RequestOptionFunc) (*ProjectApprovalRule, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -1888,7 +1888,7 @@ func (s *ProjectsService) UpdateProjectApprovalRule(pid interface{}, approvalRul
 // DeleteProjectApprovalRule deletes a project-level approval rule.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/merge_request_approvals.html#delete-project-level-rules
+// https://docs.gitlab.com/ee/api/merge_request_approvals.html#delete-project-level-rule
 func (s *ProjectsService) DeleteProjectApprovalRule(pid interface{}, approvalRule int, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -1942,7 +1942,7 @@ func (s *ProjectsService) ChangeAllowedApprovers(pid interface{}, opt *ChangeAll
 // StartMirroringProject start the pull mirroring process for a project.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/projects.html#start-the-pull-mirroring-process-for-a-project-starter
+// https://docs.gitlab.com/ee/api/projects.html#start-the-pull-mirroring-process-for-a-project
 func (s *ProjectsService) StartMirroringProject(pid interface{}, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {

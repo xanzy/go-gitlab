@@ -302,7 +302,7 @@ func (s *UsersService) DeleteUser(user int, options ...RequestOptionFunc) (*Resp
 
 // CurrentUser gets currently authenticated user.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/users.html#current-user
+// GitLab API docs: https://docs.gitlab.com/ee/api/users.html#list-current-user
 func (s *UsersService) CurrentUser(options ...RequestOptionFunc) (*User, *Response, error) {
 	req, err := s.client.NewRequest(http.MethodGet, "user", nil, options)
 	if err != nil {
@@ -500,7 +500,7 @@ func (s *UsersService) GetSSHKeyForUser(user int, key int, options ...RequestOpt
 
 // AddSSHKeyOptions represents the available AddSSHKey() options.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/projects.html#add-ssh-key
+// GitLab API docs: https://docs.gitlab.com/ee/api/users.html#add-ssh-key
 type AddSSHKeyOptions struct {
 	Title     *string  `url:"title,omitempty" json:"title,omitempty"`
 	Key       *string  `url:"key,omitempty" json:"key,omitempty"`
@@ -551,7 +551,7 @@ func (s *UsersService) AddSSHKeyForUser(user int, opt *AddSSHKeyOptions, options
 // available results in 200 OK.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/users.html#delete-ssh-key-for-current-owner
+// https://docs.gitlab.com/ee/api/users.html#delete-ssh-key-for-current-user
 func (s *UsersService) DeleteSSHKey(key int, options ...RequestOptionFunc) (*Response, error) {
 	u := fmt.Sprintf("user/keys/%d", key)
 
@@ -869,7 +869,7 @@ func (s *UsersService) AddEmailForUser(user int, opt *AddEmailOptions, options .
 // available results in 200 OK.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/users.html#delete-email-for-current-owner
+// https://docs.gitlab.com/ee/api/users.html#delete-email-for-current-user
 func (s *UsersService) DeleteEmail(email int, options ...RequestOptionFunc) (*Response, error) {
 	u := fmt.Sprintf("user/emails/%d", email)
 
@@ -1268,7 +1268,7 @@ func (s *UsersService) CreatePersonalAccessToken(user int, opt *CreatePersonalAc
 // UserActivity represents an entry in the user/activities response
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/users.html#get-user-activities-admin-only
+// https://docs.gitlab.com/ee/api/users.html#get-user-activities
 type UserActivity struct {
 	Username       string   `json:"username"`
 	LastActivityOn *ISOTime `json:"last_activity_on"`
@@ -1277,7 +1277,7 @@ type UserActivity struct {
 // GetUserActivitiesOptions represents the options for GetUserActivities
 //
 // GitLap API docs:
-// https://docs.gitlab.com/ee/api/users.html#get-user-activities-admin-only
+// https://docs.gitlab.com/ee/api/users.html#get-user-activities
 type GetUserActivitiesOptions struct {
 	ListOptions
 	From *ISOTime `url:"from,omitempty" json:"from,omitempty"`
@@ -1286,7 +1286,7 @@ type GetUserActivitiesOptions struct {
 // GetUserActivities retrieves user activities (admin only)
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/users.html#get-user-activities-admin-only
+// https://docs.gitlab.com/ee/api/users.html#get-user-activities
 func (s *UsersService) GetUserActivities(opt *GetUserActivitiesOptions, options ...RequestOptionFunc) ([]*UserActivity, *Response, error) {
 	req, err := s.client.NewRequest(http.MethodGet, "user/activities", opt, options)
 	if err != nil {
@@ -1305,7 +1305,7 @@ func (s *UsersService) GetUserActivities(opt *GetUserActivitiesOptions, options 
 // UserMembership represents a membership of the user in a namespace or project.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/users.html#user-memberships-admin-only
+// https://docs.gitlab.com/ee/api/users.html#user-memberships
 type UserMembership struct {
 	SourceID    int              `json:"source_id"`
 	SourceName  string           `json:"source_name"`
@@ -1316,7 +1316,7 @@ type UserMembership struct {
 // GetUserMembershipOptions represents the options available to query user memberships.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/users.html#user-memberships-admin-only
+// ohttps://docs.gitlab.com/ee/api/users.html#user-memberships
 type GetUserMembershipOptions struct {
 	ListOptions
 	Type *string `url:"type,omitempty" json:"type,omitempty"`
@@ -1325,7 +1325,7 @@ type GetUserMembershipOptions struct {
 // GetUserMemberships retrieves a list of the user's memberships.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/users.html#user-memberships-admin-only
+// https://docs.gitlab.com/ee/api/users.html#user-memberships
 func (s *UsersService) GetUserMemberships(user int, opt *GetUserMembershipOptions, options ...RequestOptionFunc) ([]*UserMembership, *Response, error) {
 	u := fmt.Sprintf("users/%d/memberships", user)
 

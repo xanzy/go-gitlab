@@ -146,7 +146,7 @@ func (s *RunnersService) ListAllRunners(opt *ListRunnersOptions, options ...Requ
 // GetRunnerDetails returns details for given runner.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/runners.html#get-runner-39-s-details
+// https://docs.gitlab.com/ee/api/runners.html#get-runners-details
 func (s *RunnersService) GetRunnerDetails(rid interface{}, options ...RequestOptionFunc) (*RunnerDetails, *Response, error) {
 	runner, err := parseID(rid)
 	if err != nil {
@@ -171,7 +171,7 @@ func (s *RunnersService) GetRunnerDetails(rid interface{}, options ...RequestOpt
 // UpdateRunnerDetailsOptions represents the available UpdateRunnerDetails() options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/runners.html#update-runner-39-s-details
+// https://docs.gitlab.com/ee/api/runners.html#update-runners-details
 type UpdateRunnerDetailsOptions struct {
 	Description    *string   `url:"description,omitempty" json:"description,omitempty"`
 	Paused         *bool     `url:"paused,omitempty" json:"paused,omitempty"`
@@ -188,7 +188,7 @@ type UpdateRunnerDetailsOptions struct {
 // UpdateRunnerDetails updates details for a given runner.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/runners.html#update-runner-39-s-details
+// https://docs.gitlab.com/ee/api/runners.html#update-runners-details
 func (s *RunnersService) UpdateRunnerDetails(rid interface{}, opt *UpdateRunnerDetailsOptions, options ...RequestOptionFunc) (*RunnerDetails, *Response, error) {
 	runner, err := parseID(rid)
 	if err != nil {
@@ -213,7 +213,7 @@ func (s *RunnersService) UpdateRunnerDetails(rid interface{}, opt *UpdateRunnerD
 // RemoveRunner removes a runner.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/runners.html#remove-a-runner
+// https://docs.gitlab.com/ee/api/runners.html#delete-a-runner
 func (s *RunnersService) RemoveRunner(rid interface{}, options ...RequestOptionFunc) (*Response, error) {
 	runner, err := parseID(rid)
 	if err != nil {
@@ -244,7 +244,7 @@ type ListRunnerJobsOptions struct {
 // ListRunnerJobs gets a list of jobs that are being processed or were processed by specified Runner.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/runners.html#list-runner-39-s-jobs
+// https://docs.gitlab.com/ee/api/runners.html#list-runners-jobs
 func (s *RunnersService) ListRunnerJobs(rid interface{}, opt *ListRunnerJobsOptions, options ...RequestOptionFunc) ([]*Job, *Response, error) {
 	runner, err := parseID(rid)
 	if err != nil {
@@ -270,13 +270,13 @@ func (s *RunnersService) ListRunnerJobs(rid interface{}, opt *ListRunnerJobsOpti
 // options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/runners.html#list-project-s-runners
+// https://docs.gitlab.com/ee/api/runners.html#list-projects-runners
 type ListProjectRunnersOptions ListRunnersOptions
 
 // ListProjectRunners gets a list of runners accessible by the authenticated user.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/runners.html#list-project-s-runners
+// https://docs.gitlab.com/ee/api/runners.html#list-projects-runners
 func (s *RunnersService) ListProjectRunners(pid interface{}, opt *ListProjectRunnersOptions, options ...RequestOptionFunc) ([]*Runner, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -444,7 +444,7 @@ func (s *RunnersService) RegisterNewRunner(opt *RegisterNewRunnerOptions, option
 // DeleteRegisteredRunner() options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/runners.html#delete-a-registered-runner
+// https://docs.gitlab.com/ee/api/runners.html#delete-a-runner-by-authentication-token
 type DeleteRegisteredRunnerOptions struct {
 	Token *string `url:"token" json:"token"`
 }
@@ -579,7 +579,7 @@ type RunnerAuthenticationToken struct {
 // ResetRunnerAuthenticationToken resets a runner's authentication token.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/runners.html#reset-runners-authentication-token
+// https://docs.gitlab.com/ee/api/runners.html#reset-runners-authentication-token-by-using-the-runner-id
 func (s *RunnersService) ResetRunnerAuthenticationToken(rid int, options ...RequestOptionFunc) (*RunnerAuthenticationToken, *Response, error) {
 	u := fmt.Sprintf("runners/%d/reset_authentication_token", rid)
 	req, err := s.client.NewRequest(http.MethodPost, u, nil, options)

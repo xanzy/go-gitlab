@@ -144,7 +144,7 @@ type DeleteGroupLabelOptions DeleteLabelOptions
 
 // DeleteGroupLabel deletes a group label given by its name.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/labels.html#delete-a-label
+// GitLab API docs: https://docs.gitlab.com/ee/api/group_labels.html#delete-a-group-label
 func (s *GroupLabelsService) DeleteGroupLabel(gid interface{}, opt *DeleteGroupLabelOptions, options ...RequestOptionFunc) (*Response, error) {
 	group, err := parseID(gid)
 	if err != nil {

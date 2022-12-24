@@ -63,12 +63,12 @@ func (s Snippet) String() string {
 
 // ListSnippetsOptions represents the available ListSnippets() options.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/snippets.html#list-snippets
+// GitLab API docs: https://docs.gitlab.com/ee/api/snippets.html#list-all-snippets-for-a-user
 type ListSnippetsOptions ListOptions
 
 // ListSnippets gets a list of snippets.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/snippets.html#list-snippets
+// GitLab API docs: https://docs.gitlab.com/ee/api/snippets.html#list-all-snippets-for-a-user
 func (s *SnippetsService) ListSnippets(opt *ListSnippetsOptions, options ...RequestOptionFunc) ([]*Snippet, *Response, error) {
 	req, err := s.client.NewRequest(http.MethodGet, "snippets", opt, options)
 	if err != nil {
@@ -87,7 +87,7 @@ func (s *SnippetsService) ListSnippets(opt *ListSnippetsOptions, options ...Requ
 // GetSnippet gets a single snippet
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/snippets.html#single-snippet
+// https://docs.gitlab.com/ee/api/snippets.html#get-a-single-snippet
 func (s *SnippetsService) GetSnippet(snippet int, options ...RequestOptionFunc) (*Snippet, *Response, error) {
 	u := fmt.Sprintf("snippets/%d", snippet)
 
@@ -201,7 +201,7 @@ func (s *SnippetsService) DeleteSnippet(snippet int, options ...RequestOptionFun
 // SnippetContent returns the raw snippet as plain text.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/snippets.html#snippet-content
+// https://docs.gitlab.com/ee/api/snippets.html#single-snippet-contents
 func (s *SnippetsService) SnippetContent(snippet int, options ...RequestOptionFunc) ([]byte, *Response, error) {
 	u := fmt.Sprintf("snippets/%d/raw", snippet)
 
@@ -222,13 +222,13 @@ func (s *SnippetsService) SnippetContent(snippet int, options ...RequestOptionFu
 // ExploreSnippetsOptions represents the available ExploreSnippets() options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/snippets.html#explore-all-public-snippets
+// https://docs.gitlab.com/ee/api/snippets.html#list-all-public-snippets
 type ExploreSnippetsOptions ListOptions
 
 // ExploreSnippets gets the list of public snippets.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/snippets.html#explore-all-public-snippets
+// https://docs.gitlab.com/ee/api/snippets.html#list-all-public-snippets
 func (s *SnippetsService) ExploreSnippets(opt *ExploreSnippetsOptions, options ...RequestOptionFunc) ([]*Snippet, *Response, error) {
 	req, err := s.client.NewRequest(http.MethodGet, "snippets/public", opt, options)
 	if err != nil {

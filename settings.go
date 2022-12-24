@@ -390,7 +390,7 @@ func (s Settings) String() string {
 // GetSettings gets the current application settings.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/settings.html#get-current-application.settings
+// https://docs.gitlab.com/ee/api/settings.html#get-current-application-settings
 func (s *SettingsService) GetSettings(options ...RequestOptionFunc) (*Settings, *Response, error) {
 	req, err := s.client.NewRequest(http.MethodGet, "application/settings", nil, options)
 	if err != nil {
@@ -409,7 +409,7 @@ func (s *SettingsService) GetSettings(options ...RequestOptionFunc) (*Settings, 
 // UpdateSettingsOptions represents the available UpdateSettings() options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/settings.html#change-application.settings
+// https://docs.gitlab.com/ee/api/settings.html#change-application-settings
 type UpdateSettingsOptions struct {
 	AbuseNotificationEmail                                *string            `url:"abuse_notification_email,omitempty" json:"abuse_notification_email,omitempty"`
 	AdminMode                                             *bool              `url:"admin_mode,omitempty" json:"admin_mode,omitempty"`
@@ -752,7 +752,7 @@ type UpdateSettingsOptions struct {
 // UpdateSettings updates the application settings.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/settings.html#change-application.settings
+// https://docs.gitlab.com/ee/api/settings.html#change-application-settings
 func (s *SettingsService) UpdateSettings(opt *UpdateSettingsOptions, options ...RequestOptionFunc) (*Settings, *Response, error) {
 	req, err := s.client.NewRequest(http.MethodPut, "application/settings", opt, options)
 	if err != nil {

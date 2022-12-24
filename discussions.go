@@ -514,7 +514,7 @@ func (s *DiscussionsService) GetEpicDiscussion(gid interface{}, epic int, discus
 // options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/discussions.html#add-note-to-existing-epic-thread
+// https://docs.gitlab.com/ee/api/discussions.html#create-new-epic-thread
 type CreateEpicDiscussionOptions struct {
 	Body      *string    `url:"body,omitempty" json:"body,omitempty"`
 	CreatedAt *time.Time `url:"created_at,omitempty" json:"created_at,omitempty"`
@@ -524,7 +524,7 @@ type CreateEpicDiscussionOptions struct {
 // discussions are comments users can post to a epic.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/discussions.html#add-note-to-existing-epic-thread
+// https://docs.gitlab.com/ee/api/discussions.html#create-new-epic-thread
 func (s *DiscussionsService) CreateEpicDiscussion(gid interface{}, epic int, opt *CreateEpicDiscussionOptions, options ...RequestOptionFunc) (*Discussion, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
@@ -802,7 +802,7 @@ func (s *DiscussionsService) ResolveMergeRequestDiscussion(pid interface{}, merg
 // AddMergeRequestDiscussionNote() options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/discussions.html#add-note-to-existing-merge-request-discussion
+// https://docs.gitlab.com/ee/api/discussions.html#add-note-to-existing-merge-request-thread
 type AddMergeRequestDiscussionNoteOptions struct {
 	Body      *string    `url:"body,omitempty" json:"body,omitempty"`
 	CreatedAt *time.Time `url:"created_at,omitempty" json:"created_at,omitempty"`
@@ -812,7 +812,7 @@ type AddMergeRequestDiscussionNoteOptions struct {
 // merge request.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/discussions.html#add-note-to-existing-merge-request-discussion
+// https://docs.gitlab.com/ee/api/discussions.html#add-note-to-existing-merge-request-thread
 func (s *DiscussionsService) AddMergeRequestDiscussionNote(pid interface{}, mergeRequest int, discussion string, opt *AddMergeRequestDiscussionNoteOptions, options ...RequestOptionFunc) (*Note, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -842,7 +842,7 @@ func (s *DiscussionsService) AddMergeRequestDiscussionNote(pid interface{}, merg
 // UpdateMergeRequestDiscussion() options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/discussions.html#modify-existing-merge-request-discussion-note
+// https://docs.gitlab.com/ee/api/discussions.html#modify-an-existing-merge-request-thread-note
 type UpdateMergeRequestDiscussionNoteOptions struct {
 	Body      *string    `url:"body,omitempty" json:"body,omitempty"`
 	CreatedAt *time.Time `url:"created_at,omitempty" json:"created_at,omitempty"`
@@ -853,7 +853,7 @@ type UpdateMergeRequestDiscussionNoteOptions struct {
 // request.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/discussions.html#modify-existing-merge-request-discussion-note
+// https://docs.gitlab.com/ee/api/discussions.html#modify-an-existing-merge-request-thread-note
 func (s *DiscussionsService) UpdateMergeRequestDiscussionNote(pid interface{}, mergeRequest int, discussion string, note int, opt *UpdateMergeRequestDiscussionNoteOptions, options ...RequestOptionFunc) (*Note, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -884,7 +884,7 @@ func (s *DiscussionsService) UpdateMergeRequestDiscussionNote(pid interface{}, m
 // request.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/discussions.html#delete-a-merge-request-discussion-note
+// https://docs.gitlab.com/ee/api/discussions.html#delete-a-merge-request-thread-note
 func (s *DiscussionsService) DeleteMergeRequestDiscussionNote(pid interface{}, mergeRequest int, discussion string, note int, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {

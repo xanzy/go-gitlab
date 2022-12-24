@@ -85,7 +85,7 @@ func (s *NamespacesService) ListNamespaces(opt *ListNamespacesOptions, options .
 // or path.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/namespaces.html#search-for-namespace
+// https://docs.gitlab.com/ee/api/namespaces.html#list-namespaces
 func (s *NamespacesService) SearchNamespace(query string, options ...RequestOptionFunc) ([]*Namespace, *Response, error) {
 	var q struct {
 		Search string `url:"search,omitempty" json:"search,omitempty"`
