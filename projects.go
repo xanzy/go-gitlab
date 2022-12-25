@@ -678,21 +678,21 @@ type CreateProjectOptions struct {
 	Visibility                                *VisibilityValue                     `url:"visibility,omitempty" json:"visibility,omitempty"`
 	WikiAccessLevel                           *AccessControlValue                  `url:"wiki_access_level,omitempty" json:"wiki_access_level,omitempty"`
 
-	// Deprecated: Unknown reason.
+	// Deprecated: No longer supported in recent versions.
 	CIForwardDeploymentEnabled *bool `url:"ci_forward_deployment_enabled,omitempty" json:"ci_forward_deployment_enabled,omitempty"`
 	// Deprecated: Use ContainerRegistryAccessLevel instead.
 	ContainerRegistryEnabled *bool `url:"container_registry_enabled,omitempty" json:"container_registry_enabled,omitempty"`
 	// Deprecated: Use IssuesAccessLevel instead.
 	IssuesEnabled *bool `url:"issues_enabled,omitempty" json:"issues_enabled,omitempty"`
-	// Deprecated: Unknown reason.
+	// Deprecated: No longer supported in recent versions.
 	IssuesTemplate *string `url:"issues_template,omitempty" json:"issues_template,omitempty"`
 	// Deprecated: Use BuildsAccessLevel instead.
 	JobsEnabled *bool `url:"jobs_enabled,omitempty" json:"jobs_enabled,omitempty"`
 	// Deprecated: Use MergeRequestsAccessLevel instead.
 	MergeRequestsEnabled *bool `url:"merge_requests_enabled,omitempty" json:"merge_requests_enabled,omitempty"`
-	// Deprecated: Unknown reason.
+	// Deprecated: No longer supported in recent versions.
 	MergeRequestsTemplate *string `url:"merge_requests_template,omitempty" json:"merge_requests_template,omitempty"`
-	// Deprecated: Unknown reason.
+	// Deprecated: No longer supported in recent versions.
 	ServiceDeskEnabled *bool `url:"service_desk_enabled,omitempty" json:"service_desk_enabled,omitempty"`
 	// Deprecated: Use SnippetsAccessLevel instead.
 	SnippetsEnabled *bool `url:"snippets_enabled,omitempty" json:"snippets_enabled,omitempty"`
@@ -843,6 +843,7 @@ type EditProjectOptions struct {
 	BuildsAccessLevel                         *AccessControlValue                  `url:"builds_access_level,omitempty" json:"builds_access_level,omitempty"`
 	CIConfigPath                              *string                              `url:"ci_config_path,omitempty" json:"ci_config_path,omitempty"`
 	CIDefaultGitDepth                         *int                                 `url:"ci_default_git_depth,omitempty" json:"ci_default_git_depth,omitempty"`
+	CIForwardDeploymentEnabled                *bool                                `url:"ci_forward_deployment_enabled,omitempty" json:"ci_forward_deployment_enabled,omitempty"`
 	CISeperateCache                           *bool                                `url:"ci_separated_caches,omitempty" json:"ci_separated_caches,omitempty"`
 	ContainerExpirationPolicyAttributes       *ContainerExpirationPolicyAttributes `url:"container_expiration_policy_attributes,omitempty" json:"container_expiration_policy_attributes,omitempty"`
 	ContainerRegistryAccessLevel              *AccessControlValue                  `url:"container_registry_access_level,omitempty" json:"container_registry_access_level,omitempty"`
@@ -854,6 +855,7 @@ type EditProjectOptions struct {
 	ForkingAccessLevel                        *AccessControlValue                  `url:"forking_access_level,omitempty" json:"forking_access_level,omitempty"`
 	ImportURL                                 *string                              `url:"import_url,omitempty" json:"import_url,omitempty"`
 	IssuesAccessLevel                         *AccessControlValue                  `url:"issues_access_level,omitempty" json:"issues_access_level,omitempty"`
+	IssuesTemplate                            *string                              `url:"issues_template,omitempty" json:"issues_template,omitempty"`
 	KeepLatestArtifact                        *bool                                `url:"keep_latest_artifact,omitempty" json:"keep_latest_artifact,omitempty"`
 	LFSEnabled                                *bool                                `url:"lfs_enabled,omitempty" json:"lfs_enabled,omitempty"`
 	MergeCommitTemplate                       *string                              `url:"merge_commit_template,omitempty" json:"merge_commit_template,omitempty"`
@@ -861,6 +863,7 @@ type EditProjectOptions struct {
 	MergeMethod                               *MergeMethodValue                    `url:"merge_method,omitempty" json:"merge_method,omitempty"`
 	MergePipelinesEnabled                     *bool                                `url:"merge_pipelines_enabled,omitempty" json:"merge_pipelines_enabled,omitempty"`
 	MergeRequestsAccessLevel                  *AccessControlValue                  `url:"merge_requests_access_level,omitempty" json:"merge_requests_access_level,omitempty"`
+	MergeRequestsTemplate                     *string                              `url:"merge_requests_template,omitempty" json:"merge_requests_template,omitempty"`
 	MergeTrainsEnabled                        *bool                                `url:"merge_trains_enabled,omitempty" json:"merge_trains_enabled,omitempty"`
 	Mirror                                    *bool                                `url:"mirror,omitempty" json:"mirror,omitempty"`
 	MirrorOverwritesDivergedBranches          *bool                                `url:"mirror_overwrites_diverged_branches,omitempty" json:"mirror_overwrites_diverged_branches,omitempty"`
@@ -885,6 +888,7 @@ type EditProjectOptions struct {
 	ResolveOutdatedDiffDiscussions            *bool                                `url:"resolve_outdated_diff_discussions,omitempty" json:"resolve_outdated_diff_discussions,omitempty"`
 	RestrictUserDefinedVariables              *bool                                `url:"restrict_user_defined_variables,omitempty" json:"restrict_user_defined_variables,omitempty"`
 	SecurityAndComplianceAccessLevel          *AccessControlValue                  `url:"security_and_compliance_access_level,omitempty" json:"security_and_compliance_access_level,omitempty"`
+	ServiceDeskEnabled                        *bool                                `url:"service_desk_enabled,omitempty" json:"service_desk_enabled,omitempty"`
 	SharedRunnersEnabled                      *bool                                `url:"shared_runners_enabled,omitempty" json:"shared_runners_enabled,omitempty"`
 	ShowDefaultAwardEmojis                    *bool                                `url:"show_default_award_emojis,omitempty" json:"show_default_award_emojis,omitempty"`
 	SnippetsAccessLevel                       *AccessControlValue                  `url:"snippets_access_level,omitempty" json:"snippets_access_level,omitempty"`
@@ -895,22 +899,14 @@ type EditProjectOptions struct {
 	Visibility                                *VisibilityValue                     `url:"visibility,omitempty" json:"visibility,omitempty"`
 	WikiAccessLevel                           *AccessControlValue                  `url:"wiki_access_level,omitempty" json:"wiki_access_level,omitempty"`
 
-	// Deprecated: Is it?
-	CIForwardDeploymentEnabled *bool `url:"ci_forward_deployment_enabled,omitempty" json:"ci_forward_deployment_enabled,omitempty"`
 	// Deprecated: Use ContainerRegistryAccessLevel instead.
 	ContainerRegistryEnabled *bool `url:"container_registry_enabled,omitempty" json:"container_registry_enabled,omitempty"`
 	// Deprecated: Use IssuesAccessLevel instead.
 	IssuesEnabled *bool `url:"issues_enabled,omitempty" json:"issues_enabled,omitempty"`
-	// Deprecated: Is it?
-	IssuesTemplate *string `url:"issues_template,omitempty" json:"issues_template,omitempty"`
 	// Deprecated: Use BuildsAccessLevel instead.
 	JobsEnabled *bool `url:"jobs_enabled,omitempty" json:"jobs_enabled,omitempty"`
 	// Deprecated: Use MergeRequestsAccessLevel instead.
 	MergeRequestsEnabled *bool `url:"merge_requests_enabled,omitempty" json:"merge_requests_enabled,omitempty"`
-	// Deprecated: Is it?
-	MergeRequestsTemplate *string `url:"merge_requests_template,omitempty" json:"merge_requests_template,omitempty"`
-	// Deprecated: Is it?
-	ServiceDeskEnabled *bool `url:"service_desk_enabled,omitempty" json:"service_desk_enabled,omitempty"`
 	// Deprecated: Use SnippetsAccessLevel instead.
 	SnippetsEnabled *bool `url:"snippets_enabled,omitempty" json:"snippets_enabled,omitempty"`
 	// Deprecated: Use Topics instead. (Deprecated in GitLab 14.0)

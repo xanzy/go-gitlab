@@ -342,7 +342,6 @@ type Settings struct {
 	ThrottleUnauthenticatedDeprecatedAPIEnabled           bool              `json:"throttle_unauthenticated_deprecated_api_enabled"`
 	ThrottleUnauthenticatedDeprecatedAPIPeriodInSeconds   int               `json:"throttle_unauthenticated_deprecated_api_period_in_seconds"`
 	ThrottleUnauthenticatedDeprecatedAPIRequestsPerPeriod int               `json:"throttle_unauthenticated_deprecated_api_requests_per_period"`
-	ThrottleUnauthenticatedEnabled                        bool              `json:"throttle_unauthenticated_enabled"`
 	ThrottleUnauthenticatedFilesAPIEnabled                bool              `json:"throttle_unauthenticated_files_api_enabled"`
 	ThrottleUnauthenticatedFilesAPIPeriodInSeconds        int               `json:"throttle_unauthenticated_files_api_period_in_seconds"`
 	ThrottleUnauthenticatedFilesAPIRequestsPerPeriod      int               `json:"throttle_unauthenticated_files_api_requests_per_period"`
@@ -352,8 +351,9 @@ type Settings struct {
 	ThrottleUnauthenticatedPackagesAPIEnabled             bool              `json:"throttle_unauthenticated_packages_api_enabled"`
 	ThrottleUnauthenticatedPackagesAPIPeriodInSeconds     int               `json:"throttle_unauthenticated_packages_api_period_in_seconds"`
 	ThrottleUnauthenticatedPackagesAPIRequestsPerPeriod   int               `json:"throttle_unauthenticated_packages_api_requests_per_period"`
-	ThrottleUnauthenticatedPeriodInSeconds                int               `json:"throttle_unauthenticated_period_in_seconds"`
-	ThrottleUnauthenticatedRequestsPerPeriod              int               `json:"throttle_unauthenticated_requests_per_period"`
+	ThrottleUnauthenticatedWebEnabled                     bool              `json:"throttle_unauthenticated_web_enabled"`
+	ThrottleUnauthenticatedWebPeriodInSeconds             int               `json:"throttle_unauthenticated_web_period_in_seconds"`
+	ThrottleUnauthenticatedWebRequestsPerPeriod           int               `json:"throttle_unauthenticated_web_requests_per_period"`
 	TimeTrackingLimitToHours                              bool              `json:"time_tracking_limit_to_hours"`
 	TwoFactorGracePeriod                                  int               `json:"two_factor_grace_period"`
 	UniqueIPsLimitEnabled                                 bool              `json:"unique_ips_limit_enabled"`
@@ -381,12 +381,12 @@ type Settings struct {
 	AllowLocalRequestsFromHooksAndServices bool `json:"allow_local_requests_from_hooks_and_services"`
 	// Deprecated: Use AssetProxyAllowlist instead.
 	AssetProxyWhitelist []string `json:"asset_proxy_whitelist"`
-	// Deprecated: Is it? Maybe ThrottleUnauthenticatedEnabled was meant instead?
-	ThrottleUnauthenticatedWebEnabled bool `json:"throttle_unauthenticated_web_enabled"`
-	// Deprecated: Is it? Maybe ThrottleUnauthenticatedPeriodInSeconds was meant instead?
-	ThrottleUnauthenticatedWebPeriodInSeconds int `json:"throttle_unauthenticated_web_period_in_seconds"`
-	// Deprecated: Is it? Maybe ThrottleUnauthenticatedRequestsPerPeriod was meant instead?
-	ThrottleUnauthenticatedWebRequestsPerPeriod int `json:"throttle_unauthenticated_web_requests_per_period"`
+	// Deprecated: Use ThrottleUnauthenticatedWebEnabled or ThrottleUnauthenticatedAPIEnabled instead. (Deprecated in GitLab 14.3)
+	ThrottleUnauthenticatedEnabled bool `json:"throttle_unauthenticated_enabled"`
+	// Deprecated: Use ThrottleUnauthenticatedWebPeriodInSeconds or ThrottleUnauthenticatedAPIPeriodInSeconds instead. (Deprecated in GitLab 14.3)
+	ThrottleUnauthenticatedPeriodInSeconds int `json:"throttle_unauthenticated_period_in_seconds"`
+	// Deprecated: Use ThrottleUnauthenticatedWebRequestsPerPeriod or ThrottleUnauthenticatedAPIRequestsPerPeriod instead. (Deprecated in GitLab 14.3)
+	ThrottleUnauthenticatedRequestsPerPeriod int `json:"throttle_unauthenticated_requests_per_period"`
 	// Deprecated: Replaced by SearchRateLimit in GitLab 14.9 (removed in 15.0).
 	UserEmailLookupLimit int `json:"user_email_lookup_limit"`
 }
