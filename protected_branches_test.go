@@ -33,10 +33,12 @@ func TestListProtectedBranches(t *testing.T) {
 		"id":1,
 		"name":"master",
 		"push_access_levels":[{
+			"id":1,
 			"access_level":40,
 			"access_level_description":"Maintainers"
 		}],
 		"merge_access_levels":[{
+			"id":1,
 			"access_level":40,
 			"access_level_description":"Maintainers"
 		}],
@@ -55,12 +57,14 @@ func TestListProtectedBranches(t *testing.T) {
 			Name: "master",
 			PushAccessLevels: []*BranchAccessDescription{
 				{
+					ID:                     1,
 					AccessLevel:            40,
 					AccessLevelDescription: "Maintainers",
 				},
 			},
 			MergeAccessLevels: []*BranchAccessDescription{
 				{
+					ID:                     1,
 					AccessLevel:            40,
 					AccessLevelDescription: "Maintainers",
 				},
@@ -188,12 +192,25 @@ func TestUpdateRepositoryBranches(t *testing.T) {
 		if codeApprovalQueryParam != "true" {
 			t.Errorf("query param code_owner_approval_required should be true but was %s", codeApprovalQueryParam)
 		}
+		fmt.Fprintf(w, `{
+			"name": "master",
+			"code_owner_approval_required": true
+		}`)
 	})
-	opt := &RequireCodeOwnerApprovalsOptions{
+	opt := &UpdateProtectedBranchOptions{
 		CodeOwnerApprovalRequired: Bool(true),
 	}
-	_, err := client.ProtectedBranches.RequireCodeOwnerApprovals("1", "master", opt)
+	protectedBranch, _, err := client.ProtectedBranches.UpdateProtectedBranch("1", "master", opt)
 	if err != nil {
-		t.Errorf("ProtectedBranches.UpdateRepositoryBranchesOptions returned error: %v", err)
+		t.Errorf("ProtectedBranches.UpdateProtectedBranch returned error: %v", err)
+	}
+
+	want := &ProtectedBranch{
+		Name:                      "master",
+		CodeOwnerApprovalRequired: true,
+	}
+
+	if !reflect.DeepEqual(want, protectedBranch) {
+		t.Errorf("ProtectedBranches.UpdateProtectedBranch returned %+v, want %+v", protectedBranch, want)
 	}
 }
