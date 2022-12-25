@@ -67,9 +67,10 @@ const (
 	MaintainerPermissions    AccessLevelValue = 40
 	OwnerPermissions         AccessLevelValue = 50
 
-	// These are deprecated and should be removed in a future version
+	// Deprecated: Renamed to MaintainerPermissions in GitLab 11.0.
 	MasterPermissions AccessLevelValue = 40
-	OwnerPermission   AccessLevelValue = 50
+	// Deprecated: Renamed to OwnerPermissions.
+	OwnerPermission AccessLevelValue = 50
 )
 
 // AccessLevel is a helper routine that allocates a new AccessLevelValue

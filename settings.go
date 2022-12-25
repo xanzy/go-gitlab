@@ -45,13 +45,11 @@ type Settings struct {
 	ID                                                    int               `json:"id"`
 	AbuseNotificationEmail                                string            `json:"abuse_notification_email"`
 	AdminMode                                             bool              `json:"admin_mode"`
-	AdminNotificationEmail                                string            `json:"admin_notification_email"` // deprecated
 	AfterSignOutPath                                      string            `json:"after_sign_out_path"`
 	AfterSignUpText                                       string            `json:"after_sign_up_text"`
 	AkismetAPIKey                                         string            `json:"akismet_api_key"`
 	AkismetEnabled                                        bool              `json:"akismet_enabled"`
 	AllowGroupOwnersToManageLDAP                          bool              `json:"allow_group_owners_to_manage_ldap"`
-	AllowLocalRequestsFromHooksAndServices                bool              `json:"allow_local_requests_from_hooks_and_services"` // deprecated
 	AllowLocalRequestsFromSystemHooks                     bool              `json:"allow_local_requests_from_system_hooks"`
 	AllowLocalRequestsFromWebHooksAndServices             bool              `json:"allow_local_requests_from_web_hooks_and_services"`
 	ArchiveBuildsInHumanReadable                          string            `json:"archive_builds_in_human_readable"`
@@ -59,7 +57,6 @@ type Settings struct {
 	AssetProxyEnabled                                     bool              `json:"asset_proxy_enabled"`
 	AssetProxyURL                                         string            `json:"asset_proxy_url"`
 	AssetProxySecretKey                                   string            `json:"asset_proxy_secret_key"`
-	AssetProxyWhitelist                                   []string          `json:"asset_proxy_whitelist"` // deprecated
 	AuthorizedKeysEnabled                                 bool              `json:"authorized_keys_enabled"`
 	AutoDevOpsDomain                                      string            `json:"auto_devops_domain"`
 	AutoDevOpsEnabled                                     bool              `json:"auto_devops_enabled"`
@@ -345,7 +342,6 @@ type Settings struct {
 	ThrottleUnauthenticatedDeprecatedAPIEnabled           bool              `json:"throttle_unauthenticated_deprecated_api_enabled"`
 	ThrottleUnauthenticatedDeprecatedAPIPeriodInSeconds   int               `json:"throttle_unauthenticated_deprecated_api_period_in_seconds"`
 	ThrottleUnauthenticatedDeprecatedAPIRequestsPerPeriod int               `json:"throttle_unauthenticated_deprecated_api_requests_per_period"`
-	ThrottleUnauthenticatedEnabled                        bool              `json:"throttle_unauthenticated_enabled"`
 	ThrottleUnauthenticatedFilesAPIEnabled                bool              `json:"throttle_unauthenticated_files_api_enabled"`
 	ThrottleUnauthenticatedFilesAPIPeriodInSeconds        int               `json:"throttle_unauthenticated_files_api_period_in_seconds"`
 	ThrottleUnauthenticatedFilesAPIRequestsPerPeriod      int               `json:"throttle_unauthenticated_files_api_requests_per_period"`
@@ -355,11 +351,9 @@ type Settings struct {
 	ThrottleUnauthenticatedPackagesAPIEnabled             bool              `json:"throttle_unauthenticated_packages_api_enabled"`
 	ThrottleUnauthenticatedPackagesAPIPeriodInSeconds     int               `json:"throttle_unauthenticated_packages_api_period_in_seconds"`
 	ThrottleUnauthenticatedPackagesAPIRequestsPerPeriod   int               `json:"throttle_unauthenticated_packages_api_requests_per_period"`
-	ThrottleUnauthenticatedPeriodInSeconds                int               `json:"throttle_unauthenticated_period_in_seconds"`
-	ThrottleUnauthenticatedRequestsPerPeriod              int               `json:"throttle_unauthenticated_requests_per_period"`
-	ThrottleUnauthenticatedWebEnabled                     bool              `json:"throttle_unauthenticated_web_enabled"`             // deprecated
-	ThrottleUnauthenticatedWebPeriodInSeconds             int               `json:"throttle_unauthenticated_web_period_in_seconds"`   // deprecated
-	ThrottleUnauthenticatedWebRequestsPerPeriod           int               `json:"throttle_unauthenticated_web_requests_per_period"` // deprecated
+	ThrottleUnauthenticatedWebEnabled                     bool              `json:"throttle_unauthenticated_web_enabled"`
+	ThrottleUnauthenticatedWebPeriodInSeconds             int               `json:"throttle_unauthenticated_web_period_in_seconds"`
+	ThrottleUnauthenticatedWebRequestsPerPeriod           int               `json:"throttle_unauthenticated_web_requests_per_period"`
 	TimeTrackingLimitToHours                              bool              `json:"time_tracking_limit_to_hours"`
 	TwoFactorGracePeriod                                  int               `json:"two_factor_grace_period"`
 	UniqueIPsLimitEnabled                                 bool              `json:"unique_ips_limit_enabled"`
@@ -372,7 +366,6 @@ type Settings struct {
 	UserDeactivationEmailsEnabled                         bool              `json:"user_deactivation_emails_enabled"`
 	UserDefaultExternal                                   bool              `json:"user_default_external"`
 	UserDefaultInternalRegex                              string            `json:"user_default_internal_regex"`
-	UserEmailLookupLimit                                  int               `json:"user_email_lookup_limit"` // deprecated
 	UserOauthApplications                                 bool              `json:"user_oauth_applications"`
 	UserShowAddSSHKeyMessage                              bool              `json:"user_show_add_ssh_key_message"`
 	UsersGetByIDLimit                                     int               `json:"users_get_by_id_limit"`
@@ -381,6 +374,21 @@ type Settings struct {
 	WebIDEClientsidePreviewEnabled                        bool              `json:"web_ide_clientside_preview_enabled"`
 	WhatsNewVariant                                       string            `json:"whats_new_variant"`
 	WikiPageMaxContentBytes                               int               `json:"wiki_page_max_content_bytes"`
+
+	// Deprecated: Use AbuseNotificationEmail instead.
+	AdminNotificationEmail string `json:"admin_notification_email"`
+	// Deprecated: Use AllowLocalRequestsFromWebHooksAndServices instead.
+	AllowLocalRequestsFromHooksAndServices bool `json:"allow_local_requests_from_hooks_and_services"`
+	// Deprecated: Use AssetProxyAllowlist instead.
+	AssetProxyWhitelist []string `json:"asset_proxy_whitelist"`
+	// Deprecated: Use ThrottleUnauthenticatedWebEnabled or ThrottleUnauthenticatedAPIEnabled instead. (Deprecated in GitLab 14.3)
+	ThrottleUnauthenticatedEnabled bool `json:"throttle_unauthenticated_enabled"`
+	// Deprecated: Use ThrottleUnauthenticatedWebPeriodInSeconds or ThrottleUnauthenticatedAPIPeriodInSeconds instead. (Deprecated in GitLab 14.3)
+	ThrottleUnauthenticatedPeriodInSeconds int `json:"throttle_unauthenticated_period_in_seconds"`
+	// Deprecated: Use ThrottleUnauthenticatedWebRequestsPerPeriod or ThrottleUnauthenticatedAPIRequestsPerPeriod instead. (Deprecated in GitLab 14.3)
+	ThrottleUnauthenticatedRequestsPerPeriod int `json:"throttle_unauthenticated_requests_per_period"`
+	// Deprecated: Replaced by SearchRateLimit in GitLab 14.9 (removed in 15.0).
+	UserEmailLookupLimit int `json:"user_email_lookup_limit"`
 }
 
 func (s Settings) String() string {

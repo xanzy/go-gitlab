@@ -108,7 +108,7 @@ type MergeRequest struct {
 	BlockingDiscussionsResolved bool                   `json:"blocking_discussions_resolved"`
 	Overflow                    bool                   `json:"overflow"`
 
-	// Deprecated members
+	// Deprecated: This parameter is replaced by DetailedMergeStatus in GitLab 15.6.
 	MergeStatus string `json:"merge_status"`
 }
 

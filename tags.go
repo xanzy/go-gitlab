@@ -126,7 +126,7 @@ type CreateTagOptions struct {
 	Ref     *string `url:"ref,omitempty" json:"ref,omitempty"`
 	Message *string `url:"message,omitempty" json:"message,omitempty"`
 
-	// Deprecated members
+	// Deprecated: Use the Releases API instead. (Deprecated in GitLab 11.7)
 	ReleaseDescription *string `url:"release_description:omitempty" json:"release_description,omitempty"`
 }
 

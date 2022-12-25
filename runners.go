@@ -85,7 +85,7 @@ type RunnerDetails struct {
 		WebURL string `json:"web_url"`
 	} `json:"groups"`
 
-	// Deprecated members
+	// Deprecated: Use Paused instead. (Deprecated in GitLab 14.8)
 	Active bool `json:"active"`
 }
 
@@ -100,7 +100,7 @@ type ListRunnersOptions struct {
 	Paused  *bool     `url:"paused,omitempty" json:"paused,omitempty"`
 	TagList *[]string `url:"tag_list,comma,omitempty" json:"tag_list,omitempty"`
 
-	// Deprecated members
+	// Deprecated: Use Type or Status instead.
 	Scope *string `url:"scope,omitempty" json:"scope,omitempty"`
 }
 
@@ -181,7 +181,7 @@ type UpdateRunnerDetailsOptions struct {
 	AccessLevel    *string   `url:"access_level,omitempty" json:"access_level,omitempty"`
 	MaximumTimeout *int      `url:"maximum_timeout,omitempty" json:"maximum_timeout,omitempty"`
 
-	// Deprecated members
+	// Deprecated: Use Paused instead. (Deprecated in GitLab 14.8)
 	Active *bool `url:"active,omitempty" json:"active,omitempty"`
 }
 
