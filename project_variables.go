@@ -42,6 +42,7 @@ type ProjectVariable struct {
 	Protected        bool              `json:"protected"`
 	Masked           bool              `json:"masked"`
 	EnvironmentScope string            `json:"environment_scope"`
+	Raw              bool              `json:"raw"`
 }
 
 func (v ProjectVariable) String() string {
@@ -131,6 +132,7 @@ type CreateProjectVariableOptions struct {
 	Protected        *bool              `url:"protected,omitempty" json:"protected,omitempty"`
 	Masked           *bool              `url:"masked,omitempty" json:"masked,omitempty"`
 	EnvironmentScope *string            `url:"environment_scope,omitempty" json:"environment_scope,omitempty"`
+	Raw              *bool              `url:"raw,omitempty" json:"raw,omitempty"`
 }
 
 // CreateVariable creates a new project variable.
@@ -170,6 +172,7 @@ type UpdateProjectVariableOptions struct {
 	Masked           *bool              `url:"masked,omitempty" json:"masked,omitempty"`
 	EnvironmentScope *string            `url:"environment_scope,omitempty" json:"environment_scope,omitempty"`
 	Filter           *VariableFilter    `url:"filter,omitempty" json:"filter,omitempty"`
+	Raw              *bool              `url:"raw,omitempty" json:"raw,omitempty"`
 }
 
 // UpdateVariable updates a project's variable.
