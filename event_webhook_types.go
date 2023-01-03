@@ -763,6 +763,7 @@ type PipelineEvent struct {
 		When           string     `json:"when"`
 		Manual         bool       `json:"manual"`
 		AllowFailure   bool       `json:"allow_failure"`
+		FailureReason  string     `json:"failure_reason"`
 		User           *EventUser `json:"user"`
 		Runner         struct {
 			ID          int      `json:"id"`
