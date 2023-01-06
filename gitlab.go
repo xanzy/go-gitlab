@@ -99,6 +99,9 @@ type Client struct {
 	// User agent used when communicating with the GitLab API.
 	UserAgent string
 
+	// Request options that are applied to every request to the GitLab API.
+	requestOptions []RequestOptionFunc
+
 	// Services used for talking to different parts of the GitLab API.
 	AccessRequests          *AccessRequestsService
 	Applications            *ApplicationsService
@@ -595,6 +598,14 @@ func (c *Client) NewRequest(method, path string, opt interface{}, options []Requ
 		return nil, err
 	}
 
+	for _, fn := range c.requestOptions {
+		if fn == nil {
+			continue
+		}
+		if err := fn(req); err != nil {
+			return nil, err
+		}
+	}
 	for _, fn := range options {
 		if fn == nil {
 			continue
@@ -671,6 +682,14 @@ func (c *Client) UploadRequest(method, path string, content io.Reader, filename 
 		return nil, err
 	}
 
+	for _, fn := range c.requestOptions {
+		if fn == nil {
+			continue
+		}
+		if err := fn(req); err != nil {
+			return nil, err
+		}
+	}
 	for _, fn := range options {
 		if fn == nil {
 			continue
