@@ -39,7 +39,6 @@ func TestBuildEventUnmarshal(t *testing.T) {
 
 	var event *BuildEvent
 	err := json.Unmarshal(jsonObject, &event)
-
 	if err != nil {
 		t.Errorf("Build Event can not unmarshaled: %v\n ", err.Error())
 	}
@@ -70,7 +69,6 @@ func TestDeploymentEventUnmarshal(t *testing.T) {
 
 	var event *DeploymentEvent
 	err := json.Unmarshal(jsonObject, &event)
-
 	if err != nil {
 		t.Errorf("Deployment Event can not unmarshaled: %v\n ", err.Error())
 	}
@@ -105,7 +103,6 @@ func TestIssueCommentEventUnmarshal(t *testing.T) {
 
 	var event *IssueCommentEvent
 	err := json.Unmarshal(jsonObject, &event)
-
 	if err != nil {
 		t.Errorf("Issue Comment Event can not unmarshaled: %v\n ", err.Error())
 	}
@@ -167,7 +164,6 @@ func TestIssueEventUnmarshal(t *testing.T) {
 
 	var event *IssueEvent
 	err := json.Unmarshal(jsonObject, &event)
-
 	if err != nil {
 		t.Errorf("Issue Event can not unmarshaled: %v\n ", err.Error())
 	}
@@ -252,7 +248,6 @@ func TestMergeEventUnmarshal(t *testing.T) {
 
 	var event *MergeEvent
 	err := json.Unmarshal(jsonObject, &event)
-
 	if err != nil {
 		t.Errorf("Merge Event can not unmarshaled: %v\n ", err.Error())
 	}
@@ -393,7 +388,6 @@ func TestMemberEventUnmarshal(t *testing.T) {
 
 	var event *MemberEvent
 	err := json.Unmarshal(jsonObject, &event)
-
 	if err != nil {
 		t.Errorf("Member Event can not unmarshaled: %v\n ", err.Error())
 	}
@@ -463,7 +457,6 @@ func TestMergeEventUnmarshalFromGroup(t *testing.T) {
 
 	var event *MergeEvent
 	err := json.Unmarshal(jsonObject, &event)
-
 	if err != nil {
 		t.Errorf("Group Merge Event can not unmarshaled: %v\n ", err.Error())
 	}
@@ -522,7 +515,6 @@ func TestPipelineEventUnmarshal(t *testing.T) {
 
 	var event *PipelineEvent
 	err := json.Unmarshal(jsonObject, &event)
-
 	if err != nil {
 		t.Errorf("Pipeline Event can not unmarshaled: %v\n ", err.Error())
 	}
@@ -582,13 +574,20 @@ func TestPipelineEventUnmarshal(t *testing.T) {
 	if event.Builds[0].QueuedDuration != 3.5 {
 		t.Errorf("Builds[0].QueuedDuration is %v, want %v", event.Builds[0].QueuedDuration, 3.5)
 	}
+
+	if event.Builds[0].FailureReason != "script_failure" {
+		t.Errorf("Builds[0].Failurereason is %v, want %v", event.Builds[0].FailureReason, "script_failure")
+	}
+
+	if event.Builds[1].FailureReason != "" {
+		t.Errorf("Builds[0].Failurereason is %v, want %v", event.Builds[0].FailureReason, "''")
+	}
 }
 
 func TestPushEventUnmarshal(t *testing.T) {
 	jsonObject := loadFixture("testdata/webhooks/push.json")
 	var event *PushEvent
 	err := json.Unmarshal(jsonObject, &event)
-
 	if err != nil {
 		t.Errorf("Push Event can not unmarshaled: %v\n ", err.Error())
 	}
@@ -627,7 +626,6 @@ func TestReleaseEventUnmarshal(t *testing.T) {
 
 	var event *ReleaseEvent
 	err := json.Unmarshal(jsonObject, &event)
-
 	if err != nil {
 		t.Errorf("Release Event can not unmarshaled: %v\n ", err.Error())
 	}
@@ -670,7 +668,6 @@ func TestSubGroupEventUnmarshal(t *testing.T) {
 
 	var event *SubGroupEvent
 	err := json.Unmarshal(jsonObject, &event)
-
 	if err != nil {
 		t.Errorf("SubGroup Event can not unmarshaled: %v\n ", err.Error())
 	}
@@ -700,7 +697,6 @@ func TestTagEventUnmarshal(t *testing.T) {
 	jsonObject := loadFixture("testdata/webhooks/tag_push.json")
 	var event *TagEvent
 	err := json.Unmarshal(jsonObject, &event)
-
 	if err != nil {
 		t.Errorf("Tag Event can not unmarshaled: %v\n ", err.Error())
 	}

@@ -760,6 +760,7 @@ type PipelineEvent struct {
 		FinishedAt     string     `json:"finished_at"`
 		Duration       float64    `json:"duration"`
 		QueuedDuration float64    `json:"queued_duration"`
+		FailureReason  string     `json:"failure_reason"`
 		When           string     `json:"when"`
 		Manual         bool       `json:"manual"`
 		AllowFailure   bool       `json:"allow_failure"`
