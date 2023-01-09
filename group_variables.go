@@ -41,8 +41,8 @@ type GroupVariable struct {
 	VariableType     VariableTypeValue `json:"variable_type"`
 	Protected        bool              `json:"protected"`
 	Masked           bool              `json:"masked"`
-	EnvironmentScope string            `json:"environment_scope"`
 	Raw              bool              `json:"raw"`
+	EnvironmentScope string            `json:"environment_scope"`
 }
 
 func (v GroupVariable) String() string {
@@ -117,8 +117,8 @@ type CreateGroupVariableOptions struct {
 	VariableType     *VariableTypeValue `url:"variable_type,omitempty" json:"variable_type,omitempty"`
 	Protected        *bool              `url:"protected,omitempty" json:"protected,omitempty"`
 	Masked           *bool              `url:"masked,omitempty" json:"masked,omitempty"`
-	EnvironmentScope *string            `url:"environment_scope,omitempty" json:"environment_scope,omitempty"`
 	Raw              *bool              `url:"raw,omitempty" json:"raw,omitempty"`
+	EnvironmentScope *string            `url:"environment_scope,omitempty" json:"environment_scope,omitempty"`
 }
 
 // CreateVariable creates a new group variable.
@@ -156,8 +156,8 @@ type UpdateGroupVariableOptions struct {
 	VariableType     *VariableTypeValue `url:"variable_type,omitempty" json:"variable_type,omitempty"`
 	Protected        *bool              `url:"protected,omitempty" json:"protected,omitempty"`
 	Masked           *bool              `url:"masked,omitempty" json:"masked,omitempty"`
-	EnvironmentScope *string            `url:"environment_scope,omitempty" json:"environment_scope,omitempty"`
 	Raw              *bool              `url:"raw,omitempty" json:"raw,omitempty"`
+	EnvironmentScope *string            `url:"environment_scope,omitempty" json:"environment_scope,omitempty"`
 }
 
 // UpdateVariable updates the position of an existing

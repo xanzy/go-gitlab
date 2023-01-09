@@ -41,8 +41,8 @@ type ProjectVariable struct {
 	VariableType     VariableTypeValue `json:"variable_type"`
 	Protected        bool              `json:"protected"`
 	Masked           bool              `json:"masked"`
-	EnvironmentScope string            `json:"environment_scope"`
 	Raw              bool              `json:"raw"`
+	EnvironmentScope string            `json:"environment_scope"`
 }
 
 func (v ProjectVariable) String() string {
@@ -131,8 +131,8 @@ type CreateProjectVariableOptions struct {
 	VariableType     *VariableTypeValue `url:"variable_type,omitempty" json:"variable_type,omitempty"`
 	Protected        *bool              `url:"protected,omitempty" json:"protected,omitempty"`
 	Masked           *bool              `url:"masked,omitempty" json:"masked,omitempty"`
-	EnvironmentScope *string            `url:"environment_scope,omitempty" json:"environment_scope,omitempty"`
 	Raw              *bool              `url:"raw,omitempty" json:"raw,omitempty"`
+	EnvironmentScope *string            `url:"environment_scope,omitempty" json:"environment_scope,omitempty"`
 }
 
 // CreateVariable creates a new project variable.
@@ -170,9 +170,9 @@ type UpdateProjectVariableOptions struct {
 	VariableType     *VariableTypeValue `url:"variable_type,omitempty" json:"variable_type,omitempty"`
 	Protected        *bool              `url:"protected,omitempty" json:"protected,omitempty"`
 	Masked           *bool              `url:"masked,omitempty" json:"masked,omitempty"`
+	Raw              *bool              `url:"raw,omitempty" json:"raw,omitempty"`
 	EnvironmentScope *string            `url:"environment_scope,omitempty" json:"environment_scope,omitempty"`
 	Filter           *VariableFilter    `url:"filter,omitempty" json:"filter,omitempty"`
-	Raw              *bool              `url:"raw,omitempty" json:"raw,omitempty"`
 }
 
 // UpdateVariable updates a project's variable.
