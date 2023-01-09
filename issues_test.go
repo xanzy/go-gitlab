@@ -52,6 +52,32 @@ func TestGetIssue(t *testing.T) {
 	}
 }
 
+func TestGetIssueByID(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/issues/5", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		fmt.Fprint(w, `{"id":5, "description": "This is test project", "author" : {"id" : 1, "name": "snehal"}, "assignees":[{"id":1}],"merge_requests_count": 1}`)
+	})
+
+	issue, _, err := client.Issues.GetIssueByID(5)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	want := &Issue{
+		ID:                5,
+		Description:       "This is test project",
+		Author:            &IssueAuthor{ID: 1, Name: "snehal"},
+		Assignees:         []*IssueAssignee{{ID: 1}},
+		MergeRequestCount: 1,
+	}
+
+	if !reflect.DeepEqual(want, issue) {
+		t.Errorf("Issues.GetIssueByID returned %+v, want %+v", issue, want)
+	}
+}
+
 func TestDeleteIssue(t *testing.T) {
 	mux, client := setup(t)
 

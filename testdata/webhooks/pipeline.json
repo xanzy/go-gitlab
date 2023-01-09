@@ -9,7 +9,11 @@
     "source": "merge_request_event",
     "status": "success",
     "detailed_status": "passed",
-    "stages": ["build", "test", "deploy"],
+    "stages": [
+      "build",
+      "test",
+      "deploy"
+    ],
     "created_at": "2016-08-12 15:23:28 UTC",
     "finished_at": "2016-08-12 15:26:29 UTC",
     "duration": 63,
@@ -77,6 +81,7 @@
       "when": "manual",
       "manual": true,
       "allow_failure": true,
+      "failure_reason": "script_failure",
       "user": {
         "id": 42,
         "name": "User1",
@@ -90,7 +95,10 @@
         "runner_type": "instance_type",
         "active": true,
         "is_shared": true,
-        "tags": ["docker", "gce"]
+        "tags": [
+          "docker",
+          "gce"
+        ]
       },
       "artifacts_file": {
         "filename": null,
@@ -223,3 +231,4 @@
     }
   ]
 }
+

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/require"
 )
@@ -25,12 +26,21 @@ func TestPackagesService_ListProjectPackages(t *testing.T) {
 				  "web_path": "/foo/bar/-/packages/3",
 				  "delete_api_path": "https://gitlab.example.com/api/v4/projects/1/packages/3"
 				},
-				"tags": []
+				"tags": [
+					{
+						"id": 1,
+						"package_id": 37,
+						"name": "Some Label",
+						"created_at": "2023-01-04T20:00:00.000Z",
+						"updated_at": "2023-01-04T20:00:00.000Z"
+					}
+				]
 			  }
 			]
 		`)
 	})
 
+	timestamp := time.Date(2023, 1, 4, 20, 0, 0, 0, time.UTC)
 	want := []*Package{{
 		ID:          3,
 		Name:        "Hello/0.1@mycompany/stable",
@@ -40,7 +50,14 @@ func TestPackagesService_ListProjectPackages(t *testing.T) {
 			WebPath:       "/foo/bar/-/packages/3",
 			DeleteAPIPath: "https://gitlab.example.com/api/v4/projects/1/packages/3",
 		},
-		Tags: []string{},
+		Tags: []PackageTag{
+			{
+				ID:        1,
+				PackageID: 37,
+				Name:      "Some Label",
+				CreatedAt: timestamp,
+				UpdatedAt: timestamp,
+			}},
 	}}
 
 	ps, resp, err := client.Packages.ListProjectPackages(3, nil)

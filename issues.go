@@ -387,6 +387,26 @@ func (s *IssuesService) ListProjectIssues(pid interface{}, opt *ListProjectIssue
 	return i, resp, err
 }
 
+// GetIssueByID gets a single issue.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/issues.html#single-issue
+func (s *IssuesService) GetIssueByID(issue int, options ...RequestOptionFunc) (*Issue, *Response, error) {
+	u := fmt.Sprintf("issues/%d", issue)
+
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	i := new(Issue)
+	resp, err := s.client.Do(req, i)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return i, resp, err
+}
+
 // GetIssue gets a single project issue.
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/issues.html#single-project-issue
