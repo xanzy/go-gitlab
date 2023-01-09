@@ -41,6 +41,7 @@ type ProjectVariable struct {
 	VariableType     VariableTypeValue `json:"variable_type"`
 	Protected        bool              `json:"protected"`
 	Masked           bool              `json:"masked"`
+	Raw              bool              `json:"raw"`
 	EnvironmentScope string            `json:"environment_scope"`
 }
 
@@ -130,6 +131,7 @@ type CreateProjectVariableOptions struct {
 	VariableType     *VariableTypeValue `url:"variable_type,omitempty" json:"variable_type,omitempty"`
 	Protected        *bool              `url:"protected,omitempty" json:"protected,omitempty"`
 	Masked           *bool              `url:"masked,omitempty" json:"masked,omitempty"`
+	Raw              *bool              `url:"raw,omitempty" json:"raw,omitempty"`
 	EnvironmentScope *string            `url:"environment_scope,omitempty" json:"environment_scope,omitempty"`
 }
 
@@ -168,6 +170,7 @@ type UpdateProjectVariableOptions struct {
 	VariableType     *VariableTypeValue `url:"variable_type,omitempty" json:"variable_type,omitempty"`
 	Protected        *bool              `url:"protected,omitempty" json:"protected,omitempty"`
 	Masked           *bool              `url:"masked,omitempty" json:"masked,omitempty"`
+	Raw              *bool              `url:"raw,omitempty" json:"raw,omitempty"`
 	EnvironmentScope *string            `url:"environment_scope,omitempty" json:"environment_scope,omitempty"`
 	Filter           *VariableFilter    `url:"filter,omitempty" json:"filter,omitempty"`
 }
