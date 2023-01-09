@@ -30,14 +30,14 @@ type MetadataService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/metadata.html
 type Metadata struct {
-	Version    string `json:"version"`
-	Revision   string `json:"revision"`
-	Enterprise bool   `json:"enterprise"`
-	KAS        struct {
+	Version  string `json:"version"`
+	Revision string `json:"revision"`
+	KAS      struct {
 		Enabled     bool   `json:"enabled"`
 		ExternalURL string `json:"externalUrl"`
 		Version     string `json:"version"`
 	} `json:"kas"`
+	Enterprise bool `json:"enterprise"`
 }
 
 func (s Metadata) String() string {
