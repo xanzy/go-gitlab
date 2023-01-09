@@ -29,7 +29,7 @@ func TestGetMetadata(t *testing.T) {
 	mux.HandleFunc("/api/v4/metadata",
 		func(w http.ResponseWriter, r *http.Request) {
 			testMethod(t, r, http.MethodGet)
-			fmt.Fprint(w, `{"version":"15.6.0-pre","revision":"016e8d8bdc3","kas":{"enabled":true,"externalUrl":"wss://kas.gitlab.com","version":"15.6.0-rc2"}}`)
+			fmt.Fprint(w, `{"version":"15.6.0-pre","revision":"016e8d8bdc3","enterprise":true,"kas":{"enabled":true,"externalUrl":"wss://kas.gitlab.com","version":"15.6.0-rc2"}}`)
 		})
 
 	version, _, err := client.Metadata.GetMetadata()
@@ -37,7 +37,7 @@ func TestGetMetadata(t *testing.T) {
 		t.Errorf("Metadata.GetMetadata returned error: %v", err)
 	}
 
-	want := &Metadata{Version: "15.6.0-pre", Revision: "016e8d8bdc3", KAS: struct {
+	want := &Metadata{Version: "15.6.0-pre", Revision: "016e8d8bdc3", Enterprise: true, KAS: struct {
 		Enabled     bool   `json:"enabled"`
 		ExternalURL string `json:"externalUrl"`
 		Version     string `json:"version"`
