@@ -356,6 +356,7 @@ type JobEvent struct {
 	User               *EventUser `json:"user"`
 	Commit             struct {
 		ID          int    `json:"id"`
+		Name        string `json:"name"`
 		SHA         string `json:"sha"`
 		Message     string `json:"message"`
 		AuthorName  string `json:"author_name"`
