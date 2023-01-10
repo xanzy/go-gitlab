@@ -344,6 +344,7 @@ type JobEvent struct {
 	BuildName          string     `json:"build_name"`
 	BuildStage         string     `json:"build_stage"`
 	BuildStatus        string     `json:"build_status"`
+	BuildCreatedAt     string     `json:"build_created_at"`
 	BuildStartedAt     string     `json:"build_started_at"`
 	BuildFinishedAt    string     `json:"build_finished_at"`
 	BuildDuration      float64    `json:"build_duration"`
