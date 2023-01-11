@@ -22,6 +22,7 @@ func TestPackagesService_ListProjectPackages(t *testing.T) {
 				"conan_package_name": "Hello",
 				"version": "0.1",
 				"package_type": "conan",
+				"last_downloaded_at": "2023-01-04T20:00:00.000Z"
 				"_links": {
 				  "web_path": "/foo/bar/-/packages/3",
 				  "delete_api_path": "https://gitlab.example.com/api/v4/projects/1/packages/3"
@@ -42,10 +43,11 @@ func TestPackagesService_ListProjectPackages(t *testing.T) {
 
 	timestamp := time.Date(2023, 1, 4, 20, 0, 0, 0, time.UTC)
 	want := []*Package{{
-		ID:          3,
-		Name:        "Hello/0.1@mycompany/stable",
-		Version:     "0.1",
-		PackageType: "conan",
+		ID:               3,
+		Name:             "Hello/0.1@mycompany/stable",
+		Version:          "0.1",
+		PackageType:      "conan",
+		LastDownloadedAt: &timestamp,
 		Links: &PackageLinks{
 			WebPath:       "/foo/bar/-/packages/3",
 			DeleteAPIPath: "https://gitlab.example.com/api/v4/projects/1/packages/3",
