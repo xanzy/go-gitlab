@@ -74,11 +74,11 @@ func (s PackageLinks) String() string {
 
 // PackageTag holds label information about the package
 type PackageTag struct {
-	ID        int       `json:"id"`
-	PackageID int       `json:"package_id"`
-	Name      string    `json:"name"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
+	ID        int        `json:"id"`
+	PackageID int        `json:"package_id"`
+	Name      string     `json:"name"`
+	CreatedAt *time.Time `json:"created_at"`
+	UpdatedAt *time.Time `json:"updated_at"`
 }
 
 func (s PackageTag) String() string {
