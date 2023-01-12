@@ -134,10 +134,10 @@ func WithoutRetries() ClientOptionFunc {
 	}
 }
 
-// WithRequestOptions can be used to configure options that are applied to every request to the GitLab API.
+// WithRequestOptions can be used to configure default request options applied to every request.
 func WithRequestOptions(options ...RequestOptionFunc) ClientOptionFunc {
 	return func(c *Client) error {
-		c.requestOptions = append(c.requestOptions, options...)
+		c.defaultRequestOptions = append(c.defaultRequestOptions, options...)
 		return nil
 	}
 }
