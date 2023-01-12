@@ -37,6 +37,7 @@ type RegistryRepository struct {
 	ID                     int                      `json:"id"`
 	Name                   string                   `json:"name"`
 	Path                   string                   `json:"path"`
+	ProjectID              int                      `json:"project_id"`
 	Location               string                   `json:"location"`
 	CreatedAt              *time.Time               `json:"created_at"`
 	CleanupPolicyStartedAt *time.Time               `json:"cleanup_policy_started_at"`
