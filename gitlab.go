@@ -598,15 +598,7 @@ func (c *Client) NewRequest(method, path string, opt interface{}, options []Requ
 		return nil, err
 	}
 
-	for _, fn := range c.defaultRequestOptions {
-		if fn == nil {
-			continue
-		}
-		if err := fn(req); err != nil {
-			return nil, err
-		}
-	}
-	for _, fn := range options {
+	for _, fn := range append(c.defaultRequestOptions, options...) {
 		if fn == nil {
 			continue
 		}
@@ -682,15 +674,7 @@ func (c *Client) UploadRequest(method, path string, content io.Reader, filename 
 		return nil, err
 	}
 
-	for _, fn := range c.defaultRequestOptions {
-		if fn == nil {
-			continue
-		}
-		if err := fn(req); err != nil {
-			return nil, err
-		}
-	}
-	for _, fn := range options {
+	for _, fn := range append(c.defaultRequestOptions, options...) {
 		if fn == nil {
 			continue
 		}
