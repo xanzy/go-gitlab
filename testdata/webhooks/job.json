@@ -1,0 +1,72 @@
+{
+  "object_kind": "build",
+  "ref": "main",
+  "tag": false,
+  "before_sha": "0000000000000000000000000000000000000000",
+  "sha": "95d49d1efbd941908580e79d65e4b5ecaf4a8305",
+  "build_id": 3580121225,
+  "build_name": "auto_deploy:start",
+  "build_stage": "coordinated:tag",
+  "build_status": "success",
+  "build_created_at": "2023-01-10 13:50:02 UTC",
+  "build_started_at": "2023-01-10 13:50:05 UTC",
+  "build_finished_at": "2023-01-10 13:50:54 UTC",
+  "build_duration": 49.503592,
+  "build_queued_duration": 0.193009,
+  "build_allow_failure": false,
+  "build_failure_reason": "unknown_failure",
+  "retries_count": 1,
+  "pipeline_id": 743121198,
+  "project_id": 31537070,
+  "project_name": "John Smith / release-tools-fake",
+  "runner": {
+    "id": 12270837,
+    "description": "4-blue.shared.runners-manager.gitlab.com/default",
+    "runner_type": "instance_type",
+    "active": true,
+    "is_shared": true,
+    "tags": [
+      "gce",
+      "east-c",
+      "linux",
+      "ruby",
+      "mysql",
+      "postgres",
+      "mongo",
+      "git-annex",
+      "shared",
+      "docker",
+      "saas-linux-small-amd64"
+    ]
+  },
+  "user": {
+    "id": 2967854,
+    "name": "John Smith",
+    "username": "jsmithy2",
+    "avatar_url": "https://gitlab.com/uploads/-/system/user/avatar/2967852/avatar.png",
+    "email": "john@smith.com"
+  },
+  "commit": {
+    "id": 743121198,
+    "name": "Build pipeline",
+    "sha": "95d49d1efbd941908580e79d65e4b5ecaf4a8305",
+    "message": "Remove test jobs and add back other jobs",
+    "author_name": "John Smith",
+    "author_email": "john@smith.com",
+    "author_url": "https://gitlab.com/jsmithy2",
+    "status": "running",
+    "duration": 128,
+    "started_at": "2023-01-10 13:50:05 UTC",
+    "finished_at": "2022-10-12 08:09:29 UTC"
+  },
+  "repository": {
+    "name": "release-tools-fake",
+    "url": "git@gitlab.com:jsmithy2/release-tools-fake.git",
+    "description": "",
+    "homepage": "https://gitlab.com/jsmithy2/release-tools-fake",
+    "git_http_url": "https://gitlab.com/jsmithy2/release-tools-fake.git",
+    "git_ssh_url": "git@gitlab.com:jsmithy2/release-tools-fake.git",
+    "visibility_level": 20
+  },
+  "environment": null
+}

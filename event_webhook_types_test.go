@@ -60,8 +60,85 @@ func TestBuildEventUnmarshal(t *testing.T) {
 	}
 
 	if event.BuildCreatedAt != "2021-02-23T02:41:37.886Z" {
-		t.Errorf("BuildCreatedAt is %s, want %s", event.User.Name, expectedName)
+		t.Errorf("BuildCreatedAt is %s, want 2021-02-23T02:41:37.886Z", event.BuildCreatedAt)
 	}
+}
+
+func TestJobEventUnmarshal(t *testing.T) {
+	jsonObject := loadFixture("testdata/webhooks/job.json")
+
+	var event *JobEvent
+	err := json.Unmarshal(jsonObject, &event)
+	if err != nil {
+		t.Errorf("Job Event can not unmarshaled: %v\n ", err.Error())
+	}
+
+	if event == nil {
+		t.Errorf("Job Event is null")
+	}
+
+	expectedEvent := JobEvent{
+		ObjectKind:         "build",
+		Ref:                "main",
+		Tag:                false,
+		BeforeSHA:          "0000000000000000000000000000000000000000",
+		SHA:                "95d49d1efbd941908580e79d65e4b5ecaf4a8305",
+		BuildID:            3580121225,
+		BuildName:          "auto_deploy:start",
+		BuildStage:         "coordinated:tag",
+		BuildStatus:        "success",
+		BuildCreatedAt:     "2023-01-10 13:50:02 UTC",
+		BuildStartedAt:     "2023-01-10 13:50:05 UTC",
+		BuildFinishedAt:    "2023-01-10 13:50:54 UTC",
+		BuildDuration:      49.503592,
+		BuildAllowFailure:  false,
+		BuildFailureReason: "unknown_failure",
+		RetriesCount:       1,
+		PipelineID:         743121198,
+		ProjectID:          31537070,
+		ProjectName:        "John Smith / release-tools-fake",
+		User: &EventUser{
+			ID:        2967854,
+			Name:      "John Smith",
+			Username:  "jsmithy2",
+			AvatarURL: "https://gitlab.com/uploads/-/system/user/avatar/2967852/avatar.png",
+			Email:     "john@smith.com",
+		},
+		Repository: &Repository{
+			Name:              "release-tools-fake",
+			Description:       "",
+			WebURL:            "",
+			AvatarURL:         "",
+			GitSSHURL:         "git@gitlab.com:jsmithy2/release-tools-fake.git",
+			GitHTTPURL:        "https://gitlab.com/jsmithy2/release-tools-fake.git",
+			Namespace:         "",
+			Visibility:        "",
+			PathWithNamespace: "",
+			DefaultBranch:     "",
+			Homepage:          "https://gitlab.com/jsmithy2/release-tools-fake",
+			URL:               "git@gitlab.com:jsmithy2/release-tools-fake.git",
+			SSHURL:            "",
+			HTTPURL:           "",
+		},
+	}
+	expectedEvent.Commit.ID = 743121198
+	expectedEvent.Commit.Name = "Build pipeline"
+	expectedEvent.Commit.SHA = "95d49d1efbd941908580e79d65e4b5ecaf4a8305"
+	expectedEvent.Commit.Message = "Remove test jobs and add back other jobs"
+	expectedEvent.Commit.AuthorName = "John Smith"
+	expectedEvent.Commit.AuthorEmail = "john@smith.com"
+	expectedEvent.Commit.AuthorURL = "https://gitlab.com/jsmithy2"
+	expectedEvent.Commit.Status = "running"
+	expectedEvent.Commit.Duration = 128
+	expectedEvent.Commit.StartedAt = "2023-01-10 13:50:05 UTC"
+	expectedEvent.Commit.FinishedAt = "2022-10-12 08:09:29 UTC"
+
+	expectedEvent.Runner.ID = 12270837
+	expectedEvent.Runner.Active = true
+	expectedEvent.Runner.Shared = true
+	expectedEvent.Runner.Description = "4-blue.shared.runners-manager.gitlab.com/default"
+
+	assert.Equal(t, expectedEvent, *event, "event should be equal to the expected one")
 }
 
 func TestDeploymentEventUnmarshal(t *testing.T) {
