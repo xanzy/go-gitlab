@@ -743,6 +743,7 @@ type PipelineEvent struct {
 	Commit struct {
 		ID        string     `json:"id"`
 		Message   string     `json:"message"`
+		Title     string     `json:"title"`
 		Timestamp *time.Time `json:"timestamp"`
 		URL       string     `json:"url"`
 		Author    struct {
