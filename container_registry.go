@@ -74,7 +74,9 @@ func (s RegistryRepositoryTag) String() string {
 // https://docs.gitlab.com/ee/api/container_registry.html#list-registry-repositories
 type ListRegistryRepositoriesOptions struct {
 	ListOptions
-	Tags      *bool `url:"tags,omitempty" json:"tags,omitempty"`
+	// Deprecated: This option is deprecated only for ListGroupRegistryRepositories calls. (Removed in GitLab 15.0)
+	Tags *bool `url:"tags,omitempty" json:"tags,omitempty"`
+	// Deprecated: This option is deprecated only for ListGroupRegistryRepositories calls. (Removed in GitLab 15.0)
 	TagsCount *bool `url:"tags_count,omitempty" json:"tags_count,omitempty"`
 }
 
