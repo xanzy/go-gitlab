@@ -133,3 +133,11 @@ func WithoutRetries() ClientOptionFunc {
 		return nil
 	}
 }
+
+// WithRequestOptions can be used to configure default request options applied to every request.
+func WithRequestOptions(options ...RequestOptionFunc) ClientOptionFunc {
+	return func(c *Client) error {
+		c.defaultRequestOptions = append(c.defaultRequestOptions, options...)
+		return nil
+	}
+}

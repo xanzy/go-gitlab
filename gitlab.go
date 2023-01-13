@@ -96,6 +96,9 @@ type Client struct {
 	// Protects the token field from concurrent read/write accesses.
 	tokenLock sync.RWMutex
 
+	// Default request options applied to every request.
+	defaultRequestOptions []RequestOptionFunc
+
 	// User agent used when communicating with the GitLab API.
 	UserAgent string
 
@@ -595,7 +598,7 @@ func (c *Client) NewRequest(method, path string, opt interface{}, options []Requ
 		return nil, err
 	}
 
-	for _, fn := range options {
+	for _, fn := range append(c.defaultRequestOptions, options...) {
 		if fn == nil {
 			continue
 		}
@@ -671,7 +674,7 @@ func (c *Client) UploadRequest(method, path string, content io.Reader, filename 
 		return nil, err
 	}
 
-	for _, fn := range options {
+	for _, fn := range append(c.defaultRequestOptions, options...) {
 		if fn == nil {
 			continue
 		}
