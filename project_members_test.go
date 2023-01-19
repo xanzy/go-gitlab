@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/require"
 )
@@ -291,11 +292,13 @@ func TestProjectMembersService_EditProjectMember(t *testing.T) {
 			  "web_url": "http://192.168.1.8:3000/root",
 			  "access_level": 30,
 			  "email": "venkatesh.thalluri@example.com",
-			  "expires_at": null,
+			  "expires_at": "2023-10-22T14:13:35Z",
 			  "group_saml_identity": null
 			}
 		`)
 	})
+
+	ExpectedExpiry := time.Date(2023, time.October, 22, 14, 13, 35, 0, time.UTC)
 
 	want := &ProjectMember{
 		ID:          1,
@@ -303,7 +306,7 @@ func TestProjectMembersService_EditProjectMember(t *testing.T) {
 		Email:       "venkatesh.thalluri@example.com",
 		Name:        "Venkatesh Thalluri",
 		State:       "active",
-		ExpiresAt:   nil,
+		ExpiresAt:   &ExpectedExpiry,
 		AccessLevel: 30,
 		WebURL:      "http://192.168.1.8:3000/root",
 		AvatarURL:   "https://www.gravatar.com/avatar/c2525a7f58ae3776070e44c106c48e15?s=80&d=identicon",
