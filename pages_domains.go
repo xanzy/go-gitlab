@@ -42,8 +42,11 @@ type PagesDomain struct {
 	VerificationCode string     `json:"verification_code"`
 	EnabledUntil     *time.Time `json:"enabled_until"`
 	Certificate      struct {
-		Expired    bool       `json:"expired"`
-		Expiration *time.Time `json:"expiration"`
+		Subject         string     `json:"subject"`
+		Expired         bool       `json:"expired"`
+		Expiration      *time.Time `json:"expiration"`
+		Certificate     string     `json:"certificate"`
+		CertificateText string     `json:"certificate_text"`
 	} `json:"certificate"`
 }
 

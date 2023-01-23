@@ -40,11 +40,17 @@ func TestPagesDomainsService_ListPagesDomains(t *testing.T) {
 		VerificationCode: "",
 		EnabledUntil:     nil,
 		Certificate: struct {
-			Expired    bool       `json:"expired"`
-			Expiration *time.Time `json:"expiration"`
+			Subject         string     `json:"subject"`
+			Expired         bool       `json:"expired"`
+			Expiration      *time.Time `json:"expiration"`
+			Certificate     string     `json:"certificate"`
+			CertificateText string     `json:"certificate_text"`
 		}{
-			Expired:    false,
-			Expiration: nil,
+			Expired:         false,
+			Expiration:      nil,
+			Subject:         "/O=Example, Inc./OU=Example Origin CA/CN=Example Origin Certificate",
+			Certificate:     "-----BEGIN CERTIFICATE-----\n … \n-----END CERTIFICATE-----",
+			CertificateText: "Certificate:\n … \n",
 		},
 	}}
 
@@ -98,8 +104,11 @@ func TestPagesDomainsService_ListAllPagesDomains(t *testing.T) {
 		VerificationCode: "",
 		EnabledUntil:     nil,
 		Certificate: struct {
-			Expired    bool       `json:"expired"`
-			Expiration *time.Time `json:"expiration"`
+			Subject         string     `json:"subject"`
+			Expired         bool       `json:"expired"`
+			Expiration      *time.Time `json:"expiration"`
+			Certificate     string     `json:"certificate"`
+			CertificateText string     `json:"certificate_text"`
 		}{
 			Expired:    false,
 			Expiration: nil,
@@ -160,11 +169,17 @@ func TestPagesDomainsService_GetPagesDomain(t *testing.T) {
 		VerificationCode: "",
 		EnabledUntil:     nil,
 		Certificate: struct {
-			Expired    bool       `json:"expired"`
-			Expiration *time.Time `json:"expiration"`
+			Subject         string     `json:"subject"`
+			Expired         bool       `json:"expired"`
+			Expiration      *time.Time `json:"expiration"`
+			Certificate     string     `json:"certificate"`
+			CertificateText string     `json:"certificate_text"`
 		}{
-			Expired:    false,
-			Expiration: nil,
+			Expired:         false,
+			Expiration:      nil,
+			Subject:         "/O=Example, Inc./OU=Example Origin CA/CN=Example Origin Certificate",
+			Certificate:     "-----BEGIN CERTIFICATE-----\n … \n-----END CERTIFICATE-----",
+			CertificateText: "Certificate:\n … \n",
 		},
 	}
 
@@ -218,11 +233,17 @@ func TestPagesDomainsService_CreatePagesDomain(t *testing.T) {
 		VerificationCode: "",
 		EnabledUntil:     nil,
 		Certificate: struct {
-			Expired    bool       `json:"expired"`
-			Expiration *time.Time `json:"expiration"`
+			Subject         string     `json:"subject"`
+			Expired         bool       `json:"expired"`
+			Expiration      *time.Time `json:"expiration"`
+			Certificate     string     `json:"certificate"`
+			CertificateText string     `json:"certificate_text"`
 		}{
-			Expired:    false,
-			Expiration: nil,
+			Expired:         false,
+			Expiration:      nil,
+			Subject:         "/O=Example, Inc./OU=Example Origin CA/CN=Example Origin Certificate",
+			Certificate:     "-----BEGIN CERTIFICATE-----\n … \n-----END CERTIFICATE-----",
+			CertificateText: "Certificate:\n … \n",
 		},
 	}
 
@@ -276,11 +297,17 @@ func TestPagesDomainsService_UpdatePagesDomain(t *testing.T) {
 		VerificationCode: "",
 		EnabledUntil:     nil,
 		Certificate: struct {
-			Expired    bool       `json:"expired"`
-			Expiration *time.Time `json:"expiration"`
+			Subject         string     `json:"subject"`
+			Expired         bool       `json:"expired"`
+			Expiration      *time.Time `json:"expiration"`
+			Certificate     string     `json:"certificate"`
+			CertificateText string     `json:"certificate_text"`
 		}{
-			Expired:    false,
-			Expiration: nil,
+			Expired:         false,
+			Expiration:      nil,
+			Subject:         "/O=Example, Inc./OU=Example Origin CA/CN=Example Origin Certificate",
+			Certificate:     "-----BEGIN CERTIFICATE-----\n … \n-----END CERTIFICATE-----",
+			CertificateText: "Certificate:\n … \n",
 		},
 	}
 
