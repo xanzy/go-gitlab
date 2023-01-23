@@ -1970,9 +1970,10 @@ type ProjectPullMirrorDetails struct {
 	URL                    string     `json:"url"`
 }
 
-// GetProjectPullMirrorDetails returns the pull mirror details
+// GetProjectPullMirrorDetails returns the pull mirror details.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/projects.html#get-a-projects-pull-mirror-details
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/projects.html#get-a-projects-pull-mirror-details
 func (s *ProjectsService) GetProjectPullMirrorDetails(pid interface{}, options ...RequestOptionFunc) (*ProjectPullMirrorDetails, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
