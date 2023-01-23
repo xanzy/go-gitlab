@@ -1955,9 +1955,11 @@ func (s *ProjectsService) ChangeAllowedApprovers(pid interface{}, opt *ChangeAll
 	return pa, resp, err
 }
 
-// ProjectPullMirrorDetails represent the details of the configuration pull mirror and its update status
+// ProjectPullMirrorDetails represent the details of the configuration pull
+// mirror and its update status.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/projects.html#get-a-projects-pull-mirror-details
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/projects.html#get-a-projects-pull-mirror-details
 type ProjectPullMirrorDetails struct {
 	ID                     int        `json:"id"`
 	LastError              string     `json:"last_error"`
