@@ -1986,13 +1986,13 @@ func (s *ProjectsService) GetProjectPullMirrorDetails(pid interface{}, options .
 		return nil, nil, err
 	}
 
-	model := new(ProjectPullMirrorDetails)
-	resp, err := s.client.Do(req, model)
+	pmd := new(ProjectPullMirrorDetails)
+	resp, err := s.client.Do(req, pmd)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return model, resp, err
+	return pmd, resp, err
 }
 
 // StartMirroringProject start the pull mirroring process for a project.
