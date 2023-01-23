@@ -140,6 +140,7 @@ func TestParseSystemhookUser(t *testing.T) {
 		{"user_create", loadFixture("testdata/systemhooks/user_create.json")},
 		{"user_destroy", loadFixture("testdata/systemhooks/user_destroy.json")},
 		{"user_rename", loadFixture("testdata/systemhooks/user_rename.json")},
+		{"user_failed_login", loadFixture("testdata/systemhooks/user_failed_login.json")},
 	}
 	for _, tc := range tests {
 		t.Run(tc.event, func(t *testing.T) {
