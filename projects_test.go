@@ -1283,6 +1283,45 @@ func TestCreateProjectApprovalRule(t *testing.T) {
 	}
 }
 
+func TestGetProjectPullMirrorDetails(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/projects/1/mirror/pull", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		fmt.Fprint(w, `{
+		  "id": 101486,
+		  "last_error": null,
+		  "last_successful_update_at": "2020-01-06T17:32:02.823Z",
+		  "last_update_at": "2020-01-06T17:32:02.823Z",
+		  "last_update_started_at": "2020-01-06T17:31:55.864Z",
+		  "update_status": "finished",
+		  "url": "https://*****:*****@gitlab.com/gitlab-org/security/gitlab.git"
+		}`)
+	})
+
+	pullMirror, _, err := client.Projects.GetProjectPullMirrorDetails(1)
+	if err != nil {
+		t.Errorf("Projects.GetProjectPullMirrorDetails returned error: %v", err)
+	}
+
+	wantLastSuccessfulUpdateAtTimestamp := time.Date(2020, 01, 06, 17, 32, 02, 823000000, time.UTC)
+	wantLastUpdateAtTimestamp := time.Date(2020, 01, 06, 17, 32, 02, 823000000, time.UTC)
+	wantLastUpdateStartedAtTimestamp := time.Date(2020, 01, 06, 17, 31, 55, 864000000, time.UTC)
+	want := &ProjectPullMirrorDetails{
+		ID:                     101486,
+		LastError:              "",
+		LastSuccessfulUpdateAt: &wantLastSuccessfulUpdateAtTimestamp,
+		LastUpdateAt:           &wantLastUpdateAtTimestamp,
+		LastUpdateStartedAt:    &wantLastUpdateStartedAtTimestamp,
+		UpdateStatus:           "finished",
+		URL:                    "https://*****:*****@gitlab.com/gitlab-org/security/gitlab.git",
+	}
+
+	if !reflect.DeepEqual(want, pullMirror) {
+		t.Errorf("Projects.GetProjectPullMirrorDetails returned %+v, want %+v", pullMirror, want)
+	}
+}
+
 func TestCreateProjectApprovalRuleEligibleApprovers(t *testing.T) {
 	mux, client := setup(t)
 

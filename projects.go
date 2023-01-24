@@ -23,7 +23,7 @@ import (
 	"net/http"
 	"time"
 
-	retryablehttp "github.com/hashicorp/go-retryablehttp"
+	"github.com/hashicorp/go-retryablehttp"
 )
 
 // ProjectsService handles communication with the repositories related methods
@@ -1953,6 +1953,46 @@ func (s *ProjectsService) ChangeAllowedApprovers(pid interface{}, opt *ChangeAll
 	}
 
 	return pa, resp, err
+}
+
+// ProjectPullMirrorDetails represent the details of the configuration pull
+// mirror and its update status.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/projects.html#get-a-projects-pull-mirror-details
+type ProjectPullMirrorDetails struct {
+	ID                     int        `json:"id"`
+	LastError              string     `json:"last_error"`
+	LastSuccessfulUpdateAt *time.Time `json:"last_successful_update_at"`
+	LastUpdateAt           *time.Time `json:"last_update_at"`
+	LastUpdateStartedAt    *time.Time `json:"last_update_started_at"`
+	UpdateStatus           string     `json:"update_status"`
+	URL                    string     `json:"url"`
+}
+
+// GetProjectPullMirrorDetails returns the pull mirror details.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/projects.html#get-a-projects-pull-mirror-details
+func (s *ProjectsService) GetProjectPullMirrorDetails(pid interface{}, options ...RequestOptionFunc) (*ProjectPullMirrorDetails, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/mirror/pull", PathEscape(project))
+
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	pmd := new(ProjectPullMirrorDetails)
+	resp, err := s.client.Do(req, pmd)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return pmd, resp, err
 }
 
 // StartMirroringProject start the pull mirroring process for a project.
