@@ -59,3 +59,21 @@ func WithToken(authType AuthType, token string) RequestOptionFunc {
 		return nil
 	}
 }
+
+// WithHeader takes a key/value pair to add when making this one request.
+func WithHeader(key, val string) RequestOptionFunc {
+	return func(req *retryablehttp.Request) error {
+		req.Header.Add(key, val)
+		return nil
+	}
+}
+
+// WithHeaders takes a map of key value pairs to append to the request headers.
+func WithHeaders(headers map[string]string) RequestOptionFunc {
+	return func(req *retryablehttp.Request) error {
+		for k, v := range headers {
+			req.Header.Add(k, v)
+		}
+		return nil
+	}
+}
