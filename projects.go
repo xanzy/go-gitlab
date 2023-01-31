@@ -1772,11 +1772,16 @@ func (s *ProjectsService) ChangeApprovalConfiguration(pid interface{}, opt *Chan
 	return pa, resp, err
 }
 
-// GetProjectApprovalRules looks up the list of project level approvers.
+// GetProjectApprovalRulesListsOptions represents the available GetProjectApprovalRules() options.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/merge_request_approvals.html#get-project-level-rules
+type GetProjectApprovalRulesListsOptions ListOptions
+
+// GetProjectApprovalRules looks up the list of project level approver rules.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_request_approvals.html#get-project-level-rules
-func (s *ProjectsService) GetProjectApprovalRules(pid interface{}, options ...RequestOptionFunc) ([]*ProjectApprovalRule, *Response, error) {
+func (s *ProjectsService) GetProjectApprovalRules(pid interface{}, opt *GetProjectApprovalRulesListsOptions, options ...RequestOptionFunc) ([]*ProjectApprovalRule, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err

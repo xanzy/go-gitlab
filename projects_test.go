@@ -846,7 +846,7 @@ func TestGetProjectApprovalRules(t *testing.T) {
 		]`)
 	})
 
-	approvals, _, err := client.Projects.GetProjectApprovalRules(1)
+	approvals, _, err := client.Projects.GetProjectApprovalRules(1, nil)
 	if err != nil {
 		t.Errorf("Projects.GetProjectApprovalRules returned error: %v", err)
 	}
