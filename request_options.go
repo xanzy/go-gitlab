@@ -63,7 +63,7 @@ func WithToken(authType AuthType, token string) RequestOptionFunc {
 // WithHeader takes a key/value pair to add when making this one request.
 func WithHeader(key, val string) RequestOptionFunc {
 	return func(req *retryablehttp.Request) error {
-		req.Header.Add(key, val)
+		req.Header.Set(key, val)
 		return nil
 	}
 }
@@ -72,7 +72,7 @@ func WithHeader(key, val string) RequestOptionFunc {
 func WithHeaders(headers map[string]string) RequestOptionFunc {
 	return func(req *retryablehttp.Request) error {
 		for k, v := range headers {
-			req.Header.Add(k, v)
+			req.Header.Set(k, v)
 		}
 		return nil
 	}
