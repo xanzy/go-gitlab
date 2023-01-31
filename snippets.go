@@ -20,6 +20,7 @@ import (
 	"bytes"
 	"fmt"
 	"net/http"
+	"net/url"
 	"time"
 )
 
@@ -181,6 +182,24 @@ func (s *SnippetsService) UpdateSnippet(snippet int, opt *UpdateSnippetOptions, 
 	return ps, resp, err
 }
 
+func (s *SnippetsService) UpdateSnippetAtFile(snippet int, ref, filename string, opt *UpdateSnippetOptions, options ...RequestOptionFunc) (*Snippet, *Response, error) {
+	filepath := url.QueryEscape(filename)
+	u := fmt.Sprintf("snippets/%d/files/%s/%s/raw", snippet, ref, filepath)
+
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	ps := new(Snippet)
+	resp, err := s.client.Do(req, ps)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return ps, resp, err
+}
+
 // DeleteSnippet deletes an existing snippet. This is an idempotent
 // function and deleting a non-existent snippet still returns a 200 OK status
 // code.
@@ -198,12 +217,46 @@ func (s *SnippetsService) DeleteSnippet(snippet int, options ...RequestOptionFun
 	return s.client.Do(req, nil)
 }
 
+func (s *SnippetsService) DeleteSnippetAtFile(snippet int, ref, filename string, options ...RequestOptionFunc) (*Response, error) {
+	filepath := url.QueryEscape(filename)
+	u := fmt.Sprintf("snippets/%d/files/%s/%s/raw", snippet, ref, filepath)
+
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
+
 // SnippetContent returns the raw snippet as plain text.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/snippets.html#single-snippet-contents
 func (s *SnippetsService) SnippetContent(snippet int, options ...RequestOptionFunc) ([]byte, *Response, error) {
 	u := fmt.Sprintf("snippets/%d/raw", snippet)
+
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var b bytes.Buffer
+	resp, err := s.client.Do(req, &b)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return b.Bytes(), resp, err
+}
+
+// SnippetContentAtFile returns the raw snippet at file as plain text.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/snippets.html#snippet-repository-file-content
+func (s *SnippetsService) SnippetContentAtFile(snippet int, ref, filename string, options ...RequestOptionFunc) ([]byte, *Response, error) {
+	filepath := url.QueryEscape(filename)
+	u := fmt.Sprintf("snippets/%d/files/%s/%s/raw", snippet, ref, filepath)
 
 	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
