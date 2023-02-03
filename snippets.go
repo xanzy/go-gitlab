@@ -40,6 +40,7 @@ type Snippet struct {
 	Title       string `json:"title"`
 	FileName    string `json:"file_name"`
 	Description string `json:"description"`
+	Visibility  string `json:"visibility"`
 	Author      struct {
 		ID        int        `json:"id"`
 		Username  string     `json:"username"`
