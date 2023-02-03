@@ -170,8 +170,8 @@ type ContainerExpirationPolicy struct {
 	Cadence         string     `json:"cadence"`
 	KeepN           int        `json:"keep_n"`
 	OlderThan       string     `json:"older_than"`
+	NameRegex       string     `json:"name_regex"`
 	NameRegexDelete string     `json:"name_regex_delete"`
-  NameRegex       string     `json:"name_regex"`
 	NameRegexKeep   string     `json:"name_regex_keep"`
 	Enabled         bool       `json:"enabled"`
 	NextRunAt       *time.Time `json:"next_run_at"`
@@ -730,8 +730,7 @@ func (s *ProjectsService) CreateProject(opt *CreateProjectOptions, options ...Re
 	if opt.ContainerExpirationPolicyAttributes != nil {
 		// This is needed to satisfy the API. Should be deleted
 		// when NameRegex is removed (it's now deprecated).
-		opt.ContainerExpirationPolicyAttributes.NameRegex =
-			opt.ContainerExpirationPolicyAttributes.NameRegexDelete
+		opt.ContainerExpirationPolicyAttributes.NameRegex = opt.ContainerExpirationPolicyAttributes.NameRegexDelete
 	}
 
 	var err error
@@ -779,8 +778,7 @@ func (s *ProjectsService) CreateProjectForUser(user int, opt *CreateProjectForUs
 	if opt.ContainerExpirationPolicyAttributes != nil {
 		// This is needed to satisfy the API. Should be deleted
 		// when NameRegex is removed (it's now deprecated).
-		opt.ContainerExpirationPolicyAttributes.NameRegex =
-			opt.ContainerExpirationPolicyAttributes.NameRegexDelete
+		opt.ContainerExpirationPolicyAttributes.NameRegex = opt.ContainerExpirationPolicyAttributes.NameRegexDelete
 	}
 
 	var err error
@@ -903,8 +901,7 @@ func (s *ProjectsService) EditProject(pid interface{}, opt *EditProjectOptions, 
 	if opt.ContainerExpirationPolicyAttributes != nil {
 		// This is needed to satisfy the API. Should be deleted
 		// when NameRegex is removed (it's now deprecated).
-		opt.ContainerExpirationPolicyAttributes.NameRegex =
-			opt.ContainerExpirationPolicyAttributes.NameRegexDelete
+		opt.ContainerExpirationPolicyAttributes.NameRegex = opt.ContainerExpirationPolicyAttributes.NameRegexDelete
 	}
 
 	project, err := parseID(pid)
@@ -2011,10 +2008,10 @@ func (s *ProjectsService) StartHousekeepingProject(pid interface{}, options ...R
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/projects.html#get-the-path-to-repository-storage
 type ProjectReposityStorage struct {
-	ProjectID         int    `json:"project_id"`
-	DiskPath          string `json:"disk_path"`
+	ProjectID         int        `json:"project_id"`
+	DiskPath          string     `json:"disk_path"`
 	CreatedAt         *time.Time `json:"created_at"`
-	RepositoryStorage string `json:"repository_storage"`
+	RepositoryStorage string     `json:"repository_storage"`
 }
 
 func (s *ProjectsService) GetRepositoryStorage(pid interface{}, options ...RequestOptionFunc) (*ProjectReposityStorage, *Response, error) {
