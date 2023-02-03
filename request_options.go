@@ -33,6 +33,25 @@ func WithContext(ctx context.Context) RequestOptionFunc {
 	}
 }
 
+// WithHeader takes a header name and value and appends it to the request headers.
+func WithHeader(name, value string) RequestOptionFunc {
+	return func(req *retryablehttp.Request) error {
+		req.Header.Set(name, value)
+		return nil
+	}
+}
+
+// WithHeaders takes a map of header name/value pairs and appends them to the
+// request headers.
+func WithHeaders(headers map[string]string) RequestOptionFunc {
+	return func(req *retryablehttp.Request) error {
+		for k, v := range headers {
+			req.Header.Set(k, v)
+		}
+		return nil
+	}
+}
+
 // WithSudo takes either a username or user ID and sets the SUDO request header.
 func WithSudo(uid interface{}) RequestOptionFunc {
 	return func(req *retryablehttp.Request) error {
@@ -55,24 +74,6 @@ func WithToken(authType AuthType, token string) RequestOptionFunc {
 			req.Header.Set("Authorization", "Bearer "+token)
 		case PrivateToken:
 			req.Header.Set("PRIVATE-TOKEN", token)
-		}
-		return nil
-	}
-}
-
-// WithHeader takes a key/value pair to add when making this one request.
-func WithHeader(key, val string) RequestOptionFunc {
-	return func(req *retryablehttp.Request) error {
-		req.Header.Set(key, val)
-		return nil
-	}
-}
-
-// WithHeaders takes a map of key value pairs to append to the request headers.
-func WithHeaders(headers map[string]string) RequestOptionFunc {
-	return func(req *retryablehttp.Request) error {
-		for k, v := range headers {
-			req.Header.Set(k, v)
 		}
 		return nil
 	}

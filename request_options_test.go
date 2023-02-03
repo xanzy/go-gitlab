@@ -38,6 +38,7 @@ func TestWithHeader(t *testing.T) {
 	// ensure that X-CUSTOM-HEADER hasn't been set at all
 	req, err := client.NewRequest(http.MethodGet, "/without-header", nil, nil)
 	assert.NoError(t, err)
+
 	_, err = client.Do(req, nil)
 	assert.NoError(t, err)
 
@@ -49,10 +50,13 @@ func TestWithHeader(t *testing.T) {
 		[]RequestOptionFunc{WithHeader("X-CUSTOM-HEADER", "randomtokenstring")},
 	)
 	assert.NoError(t, err)
+
 	_, err = client.Do(req, nil)
 	assert.NoError(t, err)
+
 	req, err = client.NewRequest(http.MethodGet, "/without-header", nil, nil)
 	assert.NoError(t, err)
+
 	_, err = client.Do(req, nil)
 	assert.NoError(t, err)
 
@@ -73,11 +77,14 @@ func TestWithHeader(t *testing.T) {
 	req, err = client.NewRequest(http.MethodGet, "/with-header", nil, nil)
 	assert.NoError(t, err)
 	assert.Equal(t, "randomtokenstring", req.Header.Get("X-CUSTOM-HEADER"))
+
 	_, err = client.Do(req, nil)
 	assert.NoError(t, err)
+
 	req, err = client.NewRequest(http.MethodGet, "/with-header", nil, nil)
 	assert.NoError(t, err)
 	assert.Equal(t, "randomtokenstring", req.Header.Get("X-CUSTOM-HEADER"))
+
 	_, err = client.Do(req, nil)
 	assert.NoError(t, err)
 }
@@ -103,6 +110,7 @@ func TestWithHeaders(t *testing.T) {
 	// ensure that X-CUSTOM-HEADER hasn't been set at all
 	req, err := client.NewRequest(http.MethodGet, "/without-headers", nil, nil)
 	assert.NoError(t, err)
+
 	_, err = client.Do(req, nil)
 	assert.NoError(t, err)
 
@@ -114,10 +122,13 @@ func TestWithHeaders(t *testing.T) {
 		[]RequestOptionFunc{WithHeaders(headers)},
 	)
 	assert.NoError(t, err)
+
 	_, err = client.Do(req, nil)
 	assert.NoError(t, err)
+
 	req, err = client.NewRequest(http.MethodGet, "/without-headers", nil, nil)
 	assert.NoError(t, err)
+
 	_, err = client.Do(req, nil)
 	assert.NoError(t, err)
 
@@ -139,11 +150,14 @@ func TestWithHeaders(t *testing.T) {
 	req, err = client.NewRequest(http.MethodGet, "/with-headers", nil, nil)
 	assert.NoError(t, err)
 	assert.Equal(t, "randomtokenstring", req.Header.Get("X-CUSTOM-HEADER-1"))
+
 	_, err = client.Do(req, nil)
 	assert.NoError(t, err)
+
 	req, err = client.NewRequest(http.MethodGet, "/with-headers", nil, nil)
 	assert.NoError(t, err)
 	assert.Equal(t, "randomtokenstring", req.Header.Get("X-CUSTOM-HEADER-1"))
+
 	_, err = client.Do(req, nil)
 	assert.NoError(t, err)
 }
