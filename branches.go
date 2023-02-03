@@ -122,7 +122,8 @@ type ProtectBranchOptions struct {
 // idempotent function, protecting an already protected repository branch
 // still returns a 200 OK status code.
 //
-// Deprecated: This endpoint has been replaced by ProtectedBranchesService.ProtectRepositoryBranches()
+// Deprecated: This endpoint has been replaced by
+// ProtectedBranchesService.ProtectRepositoryBranches()
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/branches.html#protect-repository-branch
@@ -151,7 +152,8 @@ func (s *BranchesService) ProtectBranch(pid interface{}, branch string, opts *Pr
 // idempotent function, unprotecting an already unprotected repository branch
 // still returns a 200 OK status code.
 //
-// Deprecated: This endpoint has been replaced by ProtectedBranchesService.UnprotectRepositoryBranches()
+// Deprecated: This endpoint has been replaced by
+// ProtectedBranchesService.UnprotectRepositoryBranches()
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/branches.html#unprotect-repository-branch

@@ -247,6 +247,9 @@ type RequireCodeOwnerApprovalsOptions struct {
 // Gitlab API docs:
 // https://docs.gitlab.com/ee/api/protected_branches.html#update-a-protected-branch
 func (s *ProtectedBranchesService) RequireCodeOwnerApprovals(pid interface{}, branch string, opt *RequireCodeOwnerApprovalsOptions, options ...RequestOptionFunc) (*Response, error) {
-	_, req, err := s.UpdateProtectedBranch(pid, branch, &UpdateProtectedBranchOptions{CodeOwnerApprovalRequired: opt.CodeOwnerApprovalRequired}, options...)
+	updateOptions := &UpdateProtectedBranchOptions{
+		CodeOwnerApprovalRequired: opt.CodeOwnerApprovalRequired,
+	}
+	_, req, err := s.UpdateProtectedBranch(pid, branch, updateOptions, options...)
 	return req, err
 }
