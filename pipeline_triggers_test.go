@@ -33,7 +33,6 @@ func TestRunPipeline(t *testing.T) {
 
 	opt := &RunPipelineTriggerOptions{Ref: String("master")}
 	pipeline, _, err := client.PipelineTriggers.RunPipelineTrigger(1, opt)
-
 	if err != nil {
 		t.Errorf("PipelineTriggers.RunPipelineTrigger returned error: %v", err)
 	}

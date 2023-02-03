@@ -296,7 +296,7 @@ func TestGetProjectByID(t *testing.T) {
 		  }`)
 	})
 
-	wantTimestamp := time.Date(2020, 01, 07, 21, 42, 58, 658000000, time.UTC)
+	wantTimestamp := time.Date(2020, 0o1, 0o7, 21, 42, 58, 658000000, time.UTC)
 	want := &Project{
 		ID:                       1,
 		ContainerRegistryEnabled: true,
@@ -431,7 +431,6 @@ func TestUploadFile(t *testing.T) {
 
 	file := bytes.NewBufferString("dummy")
 	projectFile, _, err := client.Projects.UploadFile(1, file, "test.txt")
-
 	if err != nil {
 		t.Fatalf("Projects.UploadFile returns an error: %v", err)
 	}
@@ -475,7 +474,6 @@ func TestUploadFile_Retry(t *testing.T) {
 
 	file := bytes.NewBufferString("dummy")
 	projectFile, _, err := client.Projects.UploadFile(1, file, "test.txt")
-
 	if err != nil {
 		t.Fatalf("Projects.UploadFile returns an error: %v", err)
 	}
@@ -501,7 +499,6 @@ func TestUploadAvatar(t *testing.T) {
 
 	avatar := new(bytes.Buffer)
 	_, _, err := client.Projects.UploadAvatar(1, avatar, "avatar.png")
-
 	if err != nil {
 		t.Fatalf("Projects.UploadAvatar returns an error: %v", err)
 	}
@@ -528,7 +525,6 @@ func TestUploadAvatar_Retry(t *testing.T) {
 
 	avatar := new(bytes.Buffer)
 	_, _, err := client.Projects.UploadAvatar(1, avatar, "avatar.png")
-
 	if err != nil {
 		t.Fatalf("Projects.UploadAvatar returns an error: %v", err)
 	}
@@ -1304,9 +1300,9 @@ func TestGetProjectPullMirrorDetails(t *testing.T) {
 		t.Errorf("Projects.GetProjectPullMirrorDetails returned error: %v", err)
 	}
 
-	wantLastSuccessfulUpdateAtTimestamp := time.Date(2020, 01, 06, 17, 32, 02, 823000000, time.UTC)
-	wantLastUpdateAtTimestamp := time.Date(2020, 01, 06, 17, 32, 02, 823000000, time.UTC)
-	wantLastUpdateStartedAtTimestamp := time.Date(2020, 01, 06, 17, 31, 55, 864000000, time.UTC)
+	wantLastSuccessfulUpdateAtTimestamp := time.Date(2020, 0o1, 0o6, 17, 32, 0o2, 823000000, time.UTC)
+	wantLastUpdateAtTimestamp := time.Date(2020, 0o1, 0o6, 17, 32, 0o2, 823000000, time.UTC)
+	wantLastUpdateStartedAtTimestamp := time.Date(2020, 0o1, 0o6, 17, 31, 55, 864000000, time.UTC)
 	want := &ProjectPullMirrorDetails{
 		ID:                     101486,
 		LastError:              "",

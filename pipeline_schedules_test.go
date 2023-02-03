@@ -32,7 +32,6 @@ func TestRunPipelineSchedule(t *testing.T) {
 	})
 
 	res, err := client.PipelineSchedules.RunPipelineSchedule(1, 1)
-
 	if err != nil {
 		t.Errorf("PipelineTriggers.RunPipelineTrigger returned error: %v", err)
 	}

@@ -809,7 +809,7 @@ func (s *MergeRequestsService) GetSingleMergeRequestDiffVersion(pid interface{},
 		return nil, nil, err
 	}
 
-	var v = new(MergeRequestDiffVersion)
+	v := new(MergeRequestDiffVersion)
 	resp, err := s.client.Do(req, v)
 	if err != nil {
 		return nil, resp, err

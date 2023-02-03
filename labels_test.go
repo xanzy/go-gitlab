@@ -39,7 +39,6 @@ func TestCreateLabel(t *testing.T) {
 		Priority: Int(2),
 	}
 	label, _, err := client.Labels.CreateLabel("1", l)
-
 	if err != nil {
 		log.Fatal(err)
 	}

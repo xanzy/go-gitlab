@@ -32,7 +32,6 @@ func TestListCustomUserAttributes(t *testing.T) {
 	})
 
 	customAttributes, _, err := client.CustomAttribute.ListCustomUserAttributes(2)
-
 	if err != nil {
 		t.Errorf("CustomAttribute.ListCustomUserAttributes returned error: %v", err)
 	}
@@ -52,7 +51,6 @@ func TestListCustomGroupAttributes(t *testing.T) {
 	})
 
 	customAttributes, _, err := client.CustomAttribute.ListCustomGroupAttributes(2)
-
 	if err != nil {
 		t.Errorf("CustomAttribute.ListCustomGroupAttributes returned error: %v", err)
 	}
@@ -72,7 +70,6 @@ func TestListCustomProjectAttributes(t *testing.T) {
 	})
 
 	customAttributes, _, err := client.CustomAttribute.ListCustomProjectAttributes(2)
-
 	if err != nil {
 		t.Errorf("CustomAttribute.ListCustomProjectAttributes returned error: %v", err)
 	}
@@ -92,7 +89,6 @@ func TestGetCustomUserAttribute(t *testing.T) {
 	})
 
 	customAttribute, _, err := client.CustomAttribute.GetCustomUserAttribute(2, "testkey1")
-
 	if err != nil {
 		t.Errorf("CustomAttribute.GetCustomUserAttribute returned error: %v", err)
 	}
@@ -112,7 +108,6 @@ func TestGetCustomGropupAttribute(t *testing.T) {
 	})
 
 	customAttribute, _, err := client.CustomAttribute.GetCustomGroupAttribute(2, "testkey1")
-
 	if err != nil {
 		t.Errorf("CustomAttribute.GetCustomGroupAttribute returned error: %v", err)
 	}
@@ -132,7 +127,6 @@ func TestGetCustomProjectAttribute(t *testing.T) {
 	})
 
 	customAttribute, _, err := client.CustomAttribute.GetCustomProjectAttribute(2, "testkey1")
-
 	if err != nil {
 		t.Errorf("CustomAttribute.GetCustomProjectAttribute returned error: %v", err)
 	}
@@ -155,7 +149,6 @@ func TestSetCustomUserAttribute(t *testing.T) {
 		Key:   "testkey1",
 		Value: "testvalue1",
 	})
-
 	if err != nil {
 		t.Errorf("CustomAttribute.SetCustomUserAttributes returned error: %v", err)
 	}
@@ -178,7 +171,6 @@ func TestSetCustomGroupAttribute(t *testing.T) {
 		Key:   "testkey1",
 		Value: "testvalue1",
 	})
-
 	if err != nil {
 		t.Errorf("CustomAttribute.SetCustomGroupAttributes returned error: %v", err)
 	}

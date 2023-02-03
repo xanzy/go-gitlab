@@ -59,7 +59,8 @@ func TestPackagesService_ListProjectPackages(t *testing.T) {
 				Name:      "Some Label",
 				CreatedAt: &timestamp,
 				UpdatedAt: &timestamp,
-			}},
+			},
+		},
 	}}
 
 	ps, resp, err := client.Packages.ListProjectPackages(3, nil)

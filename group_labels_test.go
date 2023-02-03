@@ -37,7 +37,6 @@ func TestCreateGroupGroupLabel(t *testing.T) {
 		Color: String("#11FF22"),
 	}
 	label, _, err := client.GroupLabels.CreateGroupLabel("1", l)
-
 	if err != nil {
 		log.Fatal(err)
 	}

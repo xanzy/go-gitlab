@@ -60,7 +60,6 @@ func TestListClusters(t *testing.T) {
 	})
 
 	clusters, _, err := client.ProjectCluster.ListClusters(pid)
-
 	if err != nil {
 		t.Errorf("ProjectClusters.ListClusters returned error: %v", err)
 	}
@@ -143,7 +142,6 @@ func TestGetCluster(t *testing.T) {
 	})
 
 	cluster, _, err := client.ProjectCluster.GetCluster(pid, 1)
-
 	if err != nil {
 		t.Errorf("ProjectClusters.ListClusters returned error: %v", err)
 	}
@@ -222,7 +220,6 @@ func TestAddCluster(t *testing.T) {
 	})
 
 	cluster, _, err := client.ProjectCluster.AddCluster(pid, &AddClusterOptions{})
-
 	if err != nil {
 		t.Errorf("ProjectClusters.AddCluster returned error: %v", err)
 	}
@@ -297,7 +294,6 @@ func TestEditCluster(t *testing.T) {
 	})
 
 	cluster, _, err := client.ProjectCluster.EditCluster(pid, 1, &EditClusterOptions{})
-
 	if err != nil {
 		t.Errorf("ProjectClusters.EditCluster returned error: %v", err)
 	}

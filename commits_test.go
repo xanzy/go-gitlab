@@ -45,7 +45,7 @@ func TestGetCommit(t *testing.T) {
 		t.Fatalf("Commits.GetCommit returned error: %v, response: %v", err, resp)
 	}
 
-	updatedAt := time.Date(2019, 11, 4, 15, 39, 03, 935000000, time.UTC)
+	updatedAt := time.Date(2019, 11, 4, 15, 39, 0o3, 935000000, time.UTC)
 	createdAt := time.Date(2019, 11, 4, 15, 38, 53, 154000000, time.UTC)
 	want := &Commit{
 		ID:             "6104942438c14ec7bd21c6cd5bd995272b3faff6",
@@ -89,7 +89,6 @@ func TestGetCommitStatuses(t *testing.T) {
 		All:   Bool(true),
 	}
 	statuses, _, err := client.Commits.GetCommitStatuses("1", "b0b3a907f41409829b307a28b82fdbd552ee5a27", opt)
-
 	if err != nil {
 		t.Errorf("Commits.GetCommitStatuses returned error: %v", err)
 	}
@@ -128,7 +127,6 @@ func TestSetCommitStatus(t *testing.T) {
 		Coverage:    &cov,
 	}
 	status, _, err := client.Commits.SetCommitStatus("1", "b0b3a907f41409829b307a28b82fdbd552ee5a27", opt)
-
 	if err != nil {
 		t.Errorf("Commits.SetCommitStatus returned error: %v", err)
 	}
@@ -152,7 +150,7 @@ func TestRevertCommit_NoOptions(t *testing.T) {
 		t.Fatalf("Commits.RevertCommit returned error: %v, response: %v", err, resp)
 	}
 
-	updatedAt := time.Date(2019, 11, 4, 15, 39, 03, 935000000, time.UTC)
+	updatedAt := time.Date(2019, 11, 4, 15, 39, 0o3, 935000000, time.UTC)
 	createdAt := time.Date(2019, 11, 4, 15, 38, 53, 154000000, time.UTC)
 	want := &Commit{
 		ID:             "6104942438c14ec7bd21c6cd5bd995272b3faff6",
@@ -197,7 +195,7 @@ func TestRevertCommit_WithOptions(t *testing.T) {
 		t.Fatalf("Commits.RevertCommit returned error: %v, response: %v", err, resp)
 	}
 
-	updatedAt := time.Date(2019, 11, 4, 15, 39, 03, 935000000, time.UTC)
+	updatedAt := time.Date(2019, 11, 4, 15, 39, 0o3, 935000000, time.UTC)
 	createdAt := time.Date(2019, 11, 4, 15, 38, 53, 154000000, time.UTC)
 	want := &Commit{
 		ID:             "6104942438c14ec7bd21c6cd5bd995272b3faff6",
@@ -291,7 +289,7 @@ func TestCommitsService_ListCommits(t *testing.T) {
 		`)
 	})
 
-	updatedAt := time.Date(2019, 11, 4, 15, 39, 03, 935000000, time.UTC)
+	updatedAt := time.Date(2019, 11, 4, 15, 39, 0o3, 935000000, time.UTC)
 	createdAt := time.Date(2019, 11, 4, 15, 38, 53, 154000000, time.UTC)
 	want := []*Commit{{
 		ID:             "6104942438c14ec7bd21c6cd5bd995272b3faff6",
@@ -431,7 +429,7 @@ func TestCommitsService_CreateCommit(t *testing.T) {
 		`)
 	})
 
-	updatedAt := time.Date(2019, 11, 4, 15, 39, 03, 935000000, time.UTC)
+	updatedAt := time.Date(2019, 11, 4, 15, 39, 0o3, 935000000, time.UTC)
 	createdAt := time.Date(2019, 11, 4, 15, 38, 53, 154000000, time.UTC)
 	want := &Commit{
 		ID:             "6104942438c14ec7bd21c6cd5bd995272b3faff6",
@@ -782,7 +780,8 @@ func TestCommitsService_ListMergeRequestsByCommit(t *testing.T) {
 			Title:       "v2.0",
 			Description: "Assumenda aut placeat expedita exercitationem labore sunt enim earum.",
 			State:       "closed",
-			WebURL:      "https://gitlab.example.com/my-group/my-project/milestones/1"},
+			WebURL:      "https://gitlab.example.com/my-group/my-project/milestones/1",
+		},
 		MergeWhenPipelineSucceeds: true,
 		DetailedMergeStatus:       "mergeable",
 		MergeError:                "",
@@ -792,7 +791,8 @@ func TestCommitsService_ListMergeRequestsByCommit(t *testing.T) {
 			Name:      "Douwe Maan",
 			State:     "active",
 			AvatarURL: "https://gitlab.example.com/uploads/-/system/user/avatar/87854/avatar.png",
-			WebURL:    "https://gitlab.com/DouweM"},
+			WebURL:    "https://gitlab.com/DouweM",
+		},
 		Subscribed:               false,
 		SHA:                      "8888888888888888888888888888888888888888",
 		MergeCommitSHA:           "",
@@ -883,7 +883,7 @@ func TestCommitsService_CherryPickCommit(t *testing.T) {
 		`)
 	})
 
-	updatedAt := time.Date(2019, 11, 4, 15, 39, 03, 935000000, time.UTC)
+	updatedAt := time.Date(2019, 11, 4, 15, 39, 0o3, 935000000, time.UTC)
 	createdAt := time.Date(2019, 11, 4, 15, 38, 53, 154000000, time.UTC)
 	want := &Commit{
 		ID:             "6104942438c14ec7bd21c6cd5bd995272b3faff6",

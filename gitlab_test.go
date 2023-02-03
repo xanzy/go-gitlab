@@ -75,7 +75,6 @@ func testMethod(t *testing.T, r *http.Request, want string) {
 func testBody(t *testing.T, r *http.Request, want string) {
 	buffer := new(bytes.Buffer)
 	_, err := buffer.ReadFrom(r.Body)
-
 	if err != nil {
 		t.Fatalf("Failed to Read Body: %v", err)
 	}

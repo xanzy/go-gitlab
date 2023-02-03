@@ -103,7 +103,8 @@ func TestGroupIssueBoardsService_ListGroupIssueBoards(t *testing.T) {
 					Description: "",
 				},
 				Position: 3,
-			}},
+			},
+		},
 	}}
 
 	gibs, resp, err := client.GroupIssueBoards.ListGroupIssueBoards(5, nil, nil)
@@ -277,7 +278,8 @@ func TestGroupIssueBoardsService_GetGroupIssueBoard(t *testing.T) {
 					Description: "",
 				},
 				Position: 3,
-			}},
+			},
+		},
 	}
 
 	gib, resp, err := client.GroupIssueBoards.GetGroupIssueBoard(5, 1, nil, nil)

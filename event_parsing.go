@@ -148,9 +148,7 @@ func ParseSystemhook(payload []byte) (event interface{}, err error) {
 		"group_destroy",
 		"group_rename":
 		event = &GroupSystemEvent{}
-	case
-		"key_create",
-		"key_destroy":
+	case "key_create", "key_destroy":
 		event = &KeySystemEvent{}
 	case
 		"user_create",

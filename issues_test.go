@@ -173,12 +173,11 @@ func TestListIssues(t *testing.T) {
 	})
 
 	listProjectIssue := &ListIssuesOptions{
-		AuthorID:   Int(01),
-		AssigneeID: AssigneeID(02),
+		AuthorID:   Int(0o1),
+		AssigneeID: AssigneeID(0o2),
 	}
 
 	issues, _, err := client.Issues.ListIssues(listProjectIssue)
-
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -240,12 +239,11 @@ func TestListIssuesWithLabelDetails(t *testing.T) {
 	})
 
 	listProjectIssue := &ListIssuesOptions{
-		AuthorID:   Int(01),
-		AssigneeID: AssigneeID(02),
+		AuthorID:   Int(0o1),
+		AssigneeID: AssigneeID(0o2),
 	}
 
 	issues, _, err := client.Issues.ListIssues(listProjectIssue)
-
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -290,7 +288,6 @@ func TestListIssuesSearchInTitle(t *testing.T) {
 	}
 
 	issues, _, err := client.Issues.ListIssues(listProjectIssue)
-
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -305,6 +302,7 @@ func TestListIssuesSearchInTitle(t *testing.T) {
 		t.Errorf("Issues.ListIssues returned %+v, want %+v", issues, want)
 	}
 }
+
 func TestListIssuesSearchInDescription(t *testing.T) {
 	mux, client := setup(t)
 
@@ -328,7 +326,6 @@ func TestListIssuesSearchInDescription(t *testing.T) {
 	}
 
 	issues, _, err := client.Issues.ListIssues(listProjectIssue)
-
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -374,7 +371,6 @@ func TestListIssuesSearchByIterationID(t *testing.T) {
 	}
 
 	issues, _, err := client.Issues.ListIssues(listProjectIssue)
-
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -408,8 +404,8 @@ func TestListProjectIssues(t *testing.T) {
 	})
 
 	listProjectIssue := &ListProjectIssuesOptions{
-		AuthorID:   Int(01),
-		AssigneeID: AssigneeID(02),
+		AuthorID:   Int(0o1),
+		AssigneeID: AssigneeID(0o2),
 	}
 	issues, _, err := client.Issues.ListProjectIssues("1", listProjectIssue)
 	if err != nil {
@@ -458,7 +454,6 @@ func TestListProjectIssuesSearchByIterationID(t *testing.T) {
 	}
 
 	issues, _, err := client.Issues.ListProjectIssues(1, listProjectIssue)
-
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -493,8 +488,8 @@ func TestListGroupIssues(t *testing.T) {
 
 	listGroupIssue := &ListGroupIssuesOptions{
 		State:      String("Open"),
-		AuthorID:   Int(01),
-		AssigneeID: AssigneeID(02),
+		AuthorID:   Int(0o1),
+		AssigneeID: AssigneeID(0o2),
 	}
 
 	issues, _, err := client.Issues.ListGroupIssues("1", listGroupIssue)
@@ -544,7 +539,6 @@ func TestListGroupIssuesSearchByIterationID(t *testing.T) {
 	}
 
 	issues, _, err := client.Issues.ListGroupIssues(1, listProjectIssue)
-
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -582,7 +576,6 @@ func TestCreateIssue(t *testing.T) {
 	}
 
 	issue, _, err := client.Issues.CreateIssue("1", createIssueOptions)
-
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -613,7 +606,6 @@ func TestUpdateIssue(t *testing.T) {
 		Description: String("This is description of an issue"),
 	}
 	issue, _, err := client.Issues.UpdateIssue(1, 5, updateIssueOpt)
-
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -640,7 +632,6 @@ func TestSubscribeToIssue(t *testing.T) {
 	})
 
 	issue, _, err := client.Issues.SubscribeToIssue("1", 5)
-
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -857,8 +848,10 @@ func TestGetIssueParticipants(t *testing.T) {
 		log.Fatal(err)
 	}
 
-	want := []*BasicUser{{ID: 1, Name: "User1", Username: "User1", State: "active", AvatarURL: "", WebURL: "https://localhost/User1"},
-		{ID: 2, Name: "User2", Username: "User2", State: "active", AvatarURL: "https://localhost/uploads/-/system/user/avatar/2/avatar.png", WebURL: "https://localhost/User2"}}
+	want := []*BasicUser{
+		{ID: 1, Name: "User1", Username: "User1", State: "active", AvatarURL: "", WebURL: "https://localhost/User1"},
+		{ID: 2, Name: "User2", Username: "User2", State: "active", AvatarURL: "https://localhost/uploads/-/system/user/avatar/2/avatar.png", WebURL: "https://localhost/User2"},
+	}
 
 	if !reflect.DeepEqual(want, issueParticipants) {
 		t.Errorf("Issues.GetIssueParticipants returned %+v, want %+v", issueParticipants, want)

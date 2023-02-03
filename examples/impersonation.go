@@ -30,7 +30,7 @@ func impersonationExample() {
 
 	uid := 1
 
-	//list impersonation token from an user
+	// list impersonation token from an user
 	tokens, _, err := git.Users.GetAllImpersonationTokens(
 		uid,
 		&gitlab.GetAllImpersonationTokensOptions{State: gitlab.String("active")},
@@ -43,7 +43,7 @@ func impersonationExample() {
 		log.Printf("Found token: %s", token.Token)
 	}
 
-	//create an impersonation token of an user
+	// create an impersonation token of an user
 	token, _, err := git.Users.CreateImpersonationToken(
 		uid,
 		&gitlab.CreateImpersonationTokenOptions{Scopes: &[]string{"api"}},

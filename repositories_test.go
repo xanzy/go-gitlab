@@ -26,13 +26,14 @@ func TestRepositoriesService_ListTree(t *testing.T) {
 		`)
 	})
 
-	want := []*TreeNode{{
-		ID:   "a1e8f8d745cc87e3a9248358d9352bb7f9a0aeba",
-		Name: "html",
-		Type: "tree",
-		Path: "files/html",
-		Mode: "040000",
-	},
+	want := []*TreeNode{
+		{
+			ID:   "a1e8f8d745cc87e3a9248358d9352bb7f9a0aeba",
+			Name: "html",
+			Type: "tree",
+			Path: "files/html",
+			Mode: "040000",
+		},
 	}
 
 	tns, resp, err := client.Repositories.ListTree(1, nil)

@@ -97,7 +97,7 @@ func TestGetProjectFeatureFlag(t *testing.T) {
 		t.Fatalf("ProjectFeatureFlags.GetProjectFeatureFlag returned error: %v, response %v", err, resp)
 	}
 
-	date := time.Date(2020, 05, 13, 19, 56, 33, 0, time.UTC)
+	date := time.Date(2020, 0o5, 13, 19, 56, 33, 0, time.UTC)
 	expected := &ProjectFeatureFlag{
 		Name:      "awesome_feature",
 		Active:    true,

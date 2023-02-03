@@ -83,7 +83,7 @@ func TestParseSystemhookRepositoryUpdate(t *testing.T) {
 }
 
 func TestParseSystemhookProject(t *testing.T) {
-	var tests = []struct {
+	tests := []struct {
 		event   string
 		payload []byte
 	}{
@@ -109,7 +109,7 @@ func TestParseSystemhookProject(t *testing.T) {
 }
 
 func TestParseSystemhookGroup(t *testing.T) {
-	var tests = []struct {
+	tests := []struct {
 		event   string
 		payload []byte
 	}{
@@ -133,7 +133,7 @@ func TestParseSystemhookGroup(t *testing.T) {
 }
 
 func TestParseSystemhookUser(t *testing.T) {
-	var tests = []struct {
+	tests := []struct {
 		event   string
 		payload []byte
 	}{
@@ -158,7 +158,7 @@ func TestParseSystemhookUser(t *testing.T) {
 }
 
 func TestParseSystemhookUserGroup(t *testing.T) {
-	var tests = []struct {
+	tests := []struct {
 		event   string
 		payload []byte
 	}{
@@ -182,7 +182,7 @@ func TestParseSystemhookUserGroup(t *testing.T) {
 }
 
 func TestParseSystemhookUserTeam(t *testing.T) {
-	var tests = []struct {
+	tests := []struct {
 		event   string
 		payload []byte
 	}{

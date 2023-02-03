@@ -61,7 +61,6 @@ func TestGetGroupVariable(t *testing.T) {
 		})
 
 	variable, _, err := client.GroupVariables.GetVariable(1, "TEST_VARIABLE_1")
-
 	if err != nil {
 		t.Errorf("GroupVariables.GetVariable returned error: %v", err)
 	}

@@ -157,7 +157,8 @@ func TestGetPipelineTestReport(t *testing.T) {
 						SystemOutput:  "",
 						StackTrace:    "",
 						AttachmentURL: "",
-					}},
+					},
+				},
 			},
 			{
 				Name:         "Succes suite",
@@ -178,7 +179,8 @@ func TestGetPipelineTestReport(t *testing.T) {
 					AttachmentURL: "",
 				}},
 			},
-		}}
+		},
+	}
 	if !reflect.DeepEqual(want, testreport) {
 		t.Errorf("Pipelines.GetPipelineTestReport returned %+v, want %+v", testreport, want)
 	}
@@ -226,7 +228,6 @@ func TestCreatePipeline(t *testing.T) {
 
 	opt := &CreatePipelineOptions{Ref: String("master")}
 	pipeline, _, err := client.Pipelines.CreatePipeline(1, opt)
-
 	if err != nil {
 		t.Errorf("Pipelines.CreatePipeline returned error: %v", err)
 	}

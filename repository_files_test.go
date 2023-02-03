@@ -145,27 +145,29 @@ func TestRepositoryFilesService_GetFileBlame(t *testing.T) {
 		`)
 	})
 
-	want := []*FileBlameRange{{
-		Commit: struct {
-			ID             string     `json:"id"`
-			ParentIDs      []string   `json:"parent_ids"`
-			Message        string     `json:"message"`
-			AuthoredDate   *time.Time `json:"authored_date"`
-			AuthorName     string     `json:"author_name"`
-			AuthorEmail    string     `json:"author_email"`
-			CommittedDate  *time.Time `json:"committed_date"`
-			CommitterName  string     `json:"committer_name"`
-			CommitterEmail string     `json:"committer_email"`
-		}{
-			ID:             "d42409d56517157c48bf3bd97d3f75974dde19fb",
-			ParentIDs:      []string{"cc6e14f9328fa6d7b5a0d3c30dc2002a3f2a3822"},
-			Message:        "Add feature also fix bug",
-			AuthorName:     "Venkatesh Thalluri",
-			AuthorEmail:    "venkatesh.thalluri@example.com",
-			CommitterName:  "Venkatesh Thalluri",
-			CommitterEmail: "venkatesh.thalluri@example.com",
+	want := []*FileBlameRange{
+		{
+			Commit: struct {
+				ID             string     `json:"id"`
+				ParentIDs      []string   `json:"parent_ids"`
+				Message        string     `json:"message"`
+				AuthoredDate   *time.Time `json:"authored_date"`
+				AuthorName     string     `json:"author_name"`
+				AuthorEmail    string     `json:"author_email"`
+				CommittedDate  *time.Time `json:"committed_date"`
+				CommitterName  string     `json:"committer_name"`
+				CommitterEmail string     `json:"committer_email"`
+			}{
+				ID:             "d42409d56517157c48bf3bd97d3f75974dde19fb",
+				ParentIDs:      []string{"cc6e14f9328fa6d7b5a0d3c30dc2002a3f2a3822"},
+				Message:        "Add feature also fix bug",
+				AuthorName:     "Venkatesh Thalluri",
+				AuthorEmail:    "venkatesh.thalluri@example.com",
+				CommitterName:  "Venkatesh Thalluri",
+				CommitterEmail: "venkatesh.thalluri@example.com",
+			},
+			Lines: []string{"require 'fileutils'", "require 'open3'"},
 		},
-		Lines: []string{"require 'fileutils'", "require 'open3'"}},
 	}
 
 	fbr, resp, err := client.RepositoryFiles.GetFileBlame(13083, "path%2Fto%2Ffile.rb", nil)

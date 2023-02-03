@@ -1373,7 +1373,7 @@ type SetSlackServiceOptions struct {
 	// TODO: Currently, GitLab ignores this option (not implemented yet?), so
 	// there is no way to set it. Uncomment when this is fixed.
 	// See: https://gitlab.com/gitlab-org/gitlab-ce/issues/49730
-	//ConfidentialNoteChannel   *string `json:"confidential_note_channel,omitempty"`
+	// ConfidentialNoteChannel   *string `json:"confidential_note_channel,omitempty"`
 	ConfidentialNoteEvents *bool   `url:"confidential_note_events,omitempty" json:"confidential_note_events,omitempty"`
 	DeploymentChannel      *string `url:"deployment_channel,omitempty" json:"deployment_channel,omitempty"`
 	DeploymentEvents       *bool   `url:"deployment_events,omitempty" json:"deployment_events,omitempty"`

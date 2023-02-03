@@ -339,7 +339,7 @@ func TestDeleteRegistryRepositoryTags(t *testing.T) {
 		testMethod(t, r, http.MethodDelete)
 	})
 
-	var tests = []struct {
+	tests := []struct {
 		event           string
 		nameRegexDelete string
 		keepN           int

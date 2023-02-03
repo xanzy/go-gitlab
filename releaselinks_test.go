@@ -69,7 +69,8 @@ func TestReleaseLinksService_CreateReleaseLink(t *testing.T) {
 			description: "Mandatory Attributes",
 			options: &CreateReleaseLinkOptions{
 				Name: String("awesome-v0.2.dmg"),
-				URL:  String("http://192.168.10.15:3000")},
+				URL:  String("http://192.168.10.15:3000"),
+			},
 			response: `{
 				"id":1,
 				"name":"awesome-v0.2.dmg",

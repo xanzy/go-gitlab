@@ -211,7 +211,6 @@ func TestCreateMergeRequestPipeline(t *testing.T) {
 	})
 
 	pipeline, _, err := client.MergeRequests.CreateMergeRequestPipeline(1, 1)
-
 	if err != nil {
 		t.Errorf("MergeRequests.CreateMergeRequestPipeline returned error: %v", err)
 	}
@@ -236,8 +235,10 @@ func TestGetMergeRequestParticipants(t *testing.T) {
 		log.Fatal(err)
 	}
 
-	want := []*BasicUser{{ID: 1, Name: "User1", Username: "User1", State: "active", AvatarURL: "", WebURL: "https://localhost/User1"},
-		{ID: 2, Name: "User2", Username: "User2", State: "active", AvatarURL: "https://localhost/uploads/-/system/user/avatar/2/avatar.png", WebURL: "https://localhost/User2"}}
+	want := []*BasicUser{
+		{ID: 1, Name: "User1", Username: "User1", State: "active", AvatarURL: "", WebURL: "https://localhost/User1"},
+		{ID: 2, Name: "User2", Username: "User2", State: "active", AvatarURL: "https://localhost/uploads/-/system/user/avatar/2/avatar.png", WebURL: "https://localhost/User2"},
+	}
 
 	if !reflect.DeepEqual(want, mergeRequestParticipants) {
 		t.Errorf("Issues.GetMergeRequestParticipants returned %+v, want %+v", mergeRequestParticipants, want)
