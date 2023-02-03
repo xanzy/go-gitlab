@@ -171,6 +171,7 @@ type ContainerExpirationPolicy struct {
 	Cadence         string     `json:"cadence"`
 	KeepN           int        `json:"keep_n"`
 	OlderThan       string     `json:"older_than"`
+	NameRegex       string     `json:"name_regex"`
 	NameRegexDelete string     `json:"name_regex_delete"`
 	NameRegexKeep   string     `json:"name_regex_keep"`
 	Enabled         bool       `json:"enabled"`
@@ -742,8 +743,7 @@ func (s *ProjectsService) CreateProject(opt *CreateProjectOptions, options ...Re
 	if opt.ContainerExpirationPolicyAttributes != nil {
 		// This is needed to satisfy the API. Should be deleted
 		// when NameRegex is removed (it's now deprecated).
-		opt.ContainerExpirationPolicyAttributes.NameRegex =
-			opt.ContainerExpirationPolicyAttributes.NameRegexDelete
+		opt.ContainerExpirationPolicyAttributes.NameRegex = opt.ContainerExpirationPolicyAttributes.NameRegexDelete
 	}
 
 	var err error
@@ -791,8 +791,7 @@ func (s *ProjectsService) CreateProjectForUser(user int, opt *CreateProjectForUs
 	if opt.ContainerExpirationPolicyAttributes != nil {
 		// This is needed to satisfy the API. Should be deleted
 		// when NameRegex is removed (it's now deprecated).
-		opt.ContainerExpirationPolicyAttributes.NameRegex =
-			opt.ContainerExpirationPolicyAttributes.NameRegexDelete
+		opt.ContainerExpirationPolicyAttributes.NameRegex = opt.ContainerExpirationPolicyAttributes.NameRegexDelete
 	}
 
 	var err error
@@ -922,8 +921,7 @@ func (s *ProjectsService) EditProject(pid interface{}, opt *EditProjectOptions, 
 	if opt.ContainerExpirationPolicyAttributes != nil {
 		// This is needed to satisfy the API. Should be deleted
 		// when NameRegex is removed (it's now deprecated).
-		opt.ContainerExpirationPolicyAttributes.NameRegex =
-			opt.ContainerExpirationPolicyAttributes.NameRegexDelete
+		opt.ContainerExpirationPolicyAttributes.NameRegex = opt.ContainerExpirationPolicyAttributes.NameRegexDelete
 	}
 
 	project, err := parseID(pid)
