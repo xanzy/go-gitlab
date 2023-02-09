@@ -157,8 +157,10 @@ func (s *SnippetsService) SnippetFileContent(snippet int, ref, filename string, 
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/snippets.html#create-new-snippet
 type SnippetFile struct {
-	FilePath *string `url:"file_path,omitempty" json:"file_path,omitempty"`
-	Content  *string `url:"content,omitempty" json:"content,omitempty"`
+	FilePath     *string `url:"file_path,omitempty" json:"file_path,omitempty"`
+	Content      *string `url:"content,omitempty" json:"content,omitempty"`
+	Action       *string `json:"action,omitempty"`        // use only update
+	PreviousPath *string `json:"previous_path,omitempty"` // use only update
 }
 
 // CreateSnippetOptions represents the available CreateSnippet() options.
