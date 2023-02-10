@@ -37,7 +37,7 @@ type ChangelogOptions struct {
 	// the SHA of the commit that marks the beginning range of commits to
 	// include in the changelog. The commit isn't included in the changelog.
 	From string `json:"from,omitempty" url:"from,omitempty"`
-	// The commit message to use when commiting the changes. Defaults to "Add
+	// The commit message to use when committing the changes. Defaults to "Add
 	// changelog for Version X", where X is the value of the version argument.
 	Message string `json:"message,omitempty" url:"-"`
 	// The SHA of the commit that marks the end of the range of commits to
