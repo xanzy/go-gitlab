@@ -23,7 +23,22 @@ import (
 )
 
 func TestAddChangelogData(t *testing.T) {
-	// TODO: Need to come up with a good way to test this endpoint.
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/projects/1/repository/changelog",
+		func(w http.ResponseWriter, r *http.Request) {
+			testMethod(t, r, http.MethodPost)
+			w.WriteHeader(http.StatusOK)
+		})
+
+	resp, err := client.Repositories.AddChangelog(
+		1,
+		&ChangelogOptions{
+			Version: "1.0.0",
+		})
+
+	require.NoError(t, err)
+	assert.Equal(t, http.StatusOK, resp.StatusCode)
 }
 
 func TestGenerateChangelogData(t *testing.T) {
