@@ -5,6 +5,9 @@ import (
 	"net/http"
 	"reflect"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestListGroups(t *testing.T) {
@@ -25,6 +28,29 @@ func TestListGroups(t *testing.T) {
 	if !reflect.DeepEqual(want, groups) {
 		t.Errorf("Groups.ListGroups returned %+v, want %+v", groups, want)
 	}
+}
+
+func TestListGroupsWithCustomAttributes(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/groups",
+		func(w http.ResponseWriter, r *http.Request) {
+			testMethod(t, r, http.MethodGet)
+			testParams(t, r, "custom_attributes[key]=value")
+			fmt.Fprint(w, `[{"id": 1}]`)
+		})
+
+	groups, _, err := client.Groups.ListGroups(
+		&ListGroupsOptions{
+			CustomAttributes: struct {
+				Key string `url:"key"`
+			}{
+				Key: "value",
+			},
+		})
+
+	require.NoError(t, err, "Groups.ListGroups returned error: %v", err)
+	assert.Equal(t, []*Group{{ID: 1}}, groups)
 }
 
 func TestGetGroup(t *testing.T) {

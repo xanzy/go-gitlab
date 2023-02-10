@@ -137,6 +137,7 @@ type ListGroupsOptions struct {
 	Statistics           *bool             `url:"statistics,omitempty" json:"statistics,omitempty"`
 	TopLevelOnly         *bool             `url:"top_level_only,omitempty" json:"top_level_only,omitempty"`
 	WithCustomAttributes *bool             `url:"with_custom_attributes,omitempty" json:"with_custom_attributes,omitempty"`
+	CustomAttributes     interface{}       `url:"custom_attributes,omitempty" json:"-"`
 }
 
 // ListGroups gets a list of groups (as user: my groups, as admin: all groups).
