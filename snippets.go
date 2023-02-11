@@ -152,15 +152,13 @@ func (s *SnippetsService) SnippetFileContent(snippet int, ref, filename string, 
 	return b.Bytes(), resp, err
 }
 
-// SnippetFile represents the object that is used to create snippets
+// CreateSnippetFile represents the object that is used to create snippets
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/snippets.html#create-new-snippet
-type SnippetFile struct {
-	FilePath     *string `url:"file_path,omitempty" json:"file_path,omitempty"`
-	Content      *string `url:"content,omitempty" json:"content,omitempty"`
-	Action       *string `json:"action,omitempty"`        // use only update
-	PreviousPath *string `json:"previous_path,omitempty"` // use only update
+type CreateSnippetFile struct {
+	FilePath *string `url:"file_path,omitempty" json:"file_path,omitempty"`
+	Content  *string `url:"content,omitempty" json:"content,omitempty"`
 }
 
 // CreateSnippetOptions represents the available CreateSnippet() options.
@@ -168,12 +166,12 @@ type SnippetFile struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/snippets.html#create-new-snippet
 type CreateSnippetOptions struct {
-	Title       *string          `url:"title,omitempty" json:"title,omitempty"`
-	FileName    *string          `url:"file_name,omitempty" json:"file_name,omitempty"`
-	Description *string          `url:"description,omitempty" json:"description,omitempty"`
-	Content     *string          `url:"content,omitempty" json:"content,omitempty"`
-	Visibility  *VisibilityValue `url:"visibility,omitempty" json:"visibility,omitempty"`
-	Files       *[]*SnippetFile  `url:"files,omitempty" json:"files,omitempty"`
+	Title       *string               `url:"title,omitempty" json:"title,omitempty"`
+	FileName    *string               `url:"file_name,omitempty" json:"file_name,omitempty"`
+	Description *string               `url:"description,omitempty" json:"description,omitempty"`
+	Content     *string               `url:"content,omitempty" json:"content,omitempty"`
+	Visibility  *VisibilityValue      `url:"visibility,omitempty" json:"visibility,omitempty"`
+	Files       *[]*CreateSnippetFile `url:"files,omitempty" json:"files,omitempty"`
 }
 
 // CreateSnippet creates a new snippet. The user must have permission
@@ -196,17 +194,28 @@ func (s *SnippetsService) CreateSnippet(opt *CreateSnippetOptions, options ...Re
 	return ps, resp, err
 }
 
+// UpdateSnippetFile represents the object that is used to create snippets
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/snippets.html#update-snippet
+type UpdateSnippetFile struct {
+	Action       *string `json:"action,omitempty"`
+	FilePath     *string `url:"file_path,omitempty" json:"file_path,omitempty"`
+	Content      *string `url:"content,omitempty" json:"content,omitempty"`
+	PreviousPath *string `json:"previous_path,omitempty"`
+}
+
 // UpdateSnippetOptions represents the available UpdateSnippet() options.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/snippets.html#update-snippet
 type UpdateSnippetOptions struct {
-	Title       *string          `url:"title,omitempty" json:"title,omitempty"`
-	FileName    *string          `url:"file_name,omitempty" json:"file_name,omitempty"`
-	Description *string          `url:"description,omitempty" json:"description,omitempty"`
-	Content     *string          `url:"content,omitempty" json:"content,omitempty"`
-	Visibility  *VisibilityValue `url:"visibility,omitempty" json:"visibility,omitempty"`
-	Files       *[]*SnippetFile  `url:"files,omitempty" json:"files,omitempty"`
+	Title       *string               `url:"title,omitempty" json:"title,omitempty"`
+	FileName    *string               `url:"file_name,omitempty" json:"file_name,omitempty"`
+	Description *string               `url:"description,omitempty" json:"description,omitempty"`
+	Content     *string               `url:"content,omitempty" json:"content,omitempty"`
+	Visibility  *VisibilityValue      `url:"visibility,omitempty" json:"visibility,omitempty"`
+	Files       *[]*UpdateSnippetFile `url:"files,omitempty" json:"files,omitempty"`
 }
 
 // UpdateSnippet updates an existing snippet. The user must have
