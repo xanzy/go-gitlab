@@ -152,11 +152,11 @@ func (s *SnippetsService) SnippetFileContent(snippet int, ref, filename string, 
 	return b.Bytes(), resp, err
 }
 
-// SnippetFile represents the object that is used to create snippets
+// CreateSnippetFileOptions represents the create snippet file options.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/snippets.html#create-new-snippet
-type SnippetFile struct {
+type CreateSnippetFileOptions struct {
 	FilePath *string `url:"file_path,omitempty" json:"file_path,omitempty"`
 	Content  *string `url:"content,omitempty" json:"content,omitempty"`
 }
@@ -166,12 +166,12 @@ type SnippetFile struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/snippets.html#create-new-snippet
 type CreateSnippetOptions struct {
-	Title       *string          `url:"title,omitempty" json:"title,omitempty"`
-	FileName    *string          `url:"file_name,omitempty" json:"file_name,omitempty"`
-	Description *string          `url:"description,omitempty" json:"description,omitempty"`
-	Content     *string          `url:"content,omitempty" json:"content,omitempty"`
-	Visibility  *VisibilityValue `url:"visibility,omitempty" json:"visibility,omitempty"`
-	Files       *[]*SnippetFile  `url:"files,omitempty" json:"files,omitempty"`
+	Title       *string                      `url:"title,omitempty" json:"title,omitempty"`
+	FileName    *string                      `url:"file_name,omitempty" json:"file_name,omitempty"`
+	Description *string                      `url:"description,omitempty" json:"description,omitempty"`
+	Content     *string                      `url:"content,omitempty" json:"content,omitempty"`
+	Visibility  *VisibilityValue             `url:"visibility,omitempty" json:"visibility,omitempty"`
+	Files       *[]*CreateSnippetFileOptions `url:"files,omitempty" json:"files,omitempty"`
 }
 
 // CreateSnippet creates a new snippet. The user must have permission
@@ -194,17 +194,28 @@ func (s *SnippetsService) CreateSnippet(opt *CreateSnippetOptions, options ...Re
 	return ps, resp, err
 }
 
+// UpdateSnippetFileOptions represents the update snippet file options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/snippets.html#update-snippet
+type UpdateSnippetFileOptions struct {
+	Action       *string `url:"action,omitempty" json:"action,omitempty"`
+	FilePath     *string `url:"file_path,omitempty" json:"file_path,omitempty"`
+	Content      *string `url:"content,omitempty" json:"content,omitempty"`
+	PreviousPath *string `url:"previous_path,omitempty" json:"previous_path,omitempty"`
+}
+
 // UpdateSnippetOptions represents the available UpdateSnippet() options.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/snippets.html#update-snippet
 type UpdateSnippetOptions struct {
-	Title       *string          `url:"title,omitempty" json:"title,omitempty"`
-	FileName    *string          `url:"file_name,omitempty" json:"file_name,omitempty"`
-	Description *string          `url:"description,omitempty" json:"description,omitempty"`
-	Content     *string          `url:"content,omitempty" json:"content,omitempty"`
-	Visibility  *VisibilityValue `url:"visibility,omitempty" json:"visibility,omitempty"`
-	Files       *[]*SnippetFile  `url:"files,omitempty" json:"files,omitempty"`
+	Title       *string                      `url:"title,omitempty" json:"title,omitempty"`
+	FileName    *string                      `url:"file_name,omitempty" json:"file_name,omitempty"`
+	Description *string                      `url:"description,omitempty" json:"description,omitempty"`
+	Content     *string                      `url:"content,omitempty" json:"content,omitempty"`
+	Visibility  *VisibilityValue             `url:"visibility,omitempty" json:"visibility,omitempty"`
+	Files       *[]*UpdateSnippetFileOptions `url:"files,omitempty" json:"files,omitempty"`
 }
 
 // UpdateSnippet updates an existing snippet. The user must have
