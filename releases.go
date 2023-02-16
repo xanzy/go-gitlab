@@ -61,6 +61,15 @@ type Release struct {
 		} `json:"sources"`
 		Links []*ReleaseLink `json:"links"`
 	} `json:"assets"`
+	Links struct {
+		ClosedIssueURL     string `json:"closed_issues_url"`
+		ClosedMergeRequest string `json:"closed_merge_requests_url"`
+		EditURL            string `json:"edit_url"`
+		MergedMergeRequest string `json:"merged_merge_requests_url"`
+		OpenedIssues       string `json:"opened_issues_url"`
+		OpenedMergeRequest string `json:"opened_merge_requests_url"`
+		Self               string `json:"self"`
+	} `json:"_links"`
 }
 
 // ListReleasesOptions represents ListReleases() options.
