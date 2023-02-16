@@ -70,8 +70,6 @@ type Project struct {
 	LastActivityAt                            *time.Time                 `json:"last_activity_at,omitempty"`
 	CreatorID                                 int                        `json:"creator_id"`
 	Namespace                                 *ProjectNamespace          `json:"namespace"`
-	ImportStatus                              string                     `json:"import_status"`
-	ImportError                               string                     `json:"import_error"`
 	Permissions                               *Permissions               `json:"permissions"`
 	MarkedForDeletionAt                       *ISOTime                   `json:"marked_for_deletion_at"`
 	EmptyRepo                                 bool                       `json:"empty_repo"`
@@ -83,7 +81,6 @@ type Project struct {
 	ForksCount                                int                        `json:"forks_count"`
 	StarCount                                 int                        `json:"star_count"`
 	RunnersToken                              string                     `json:"runners_token"`
-	PublicJobs                                bool                       `json:"public_jobs"`
 	AllowMergeOnSkippedPipeline               bool                       `json:"allow_merge_on_skipped_pipeline"`
 	OnlyAllowMergeIfPipelineSucceeds          bool                       `json:"only_allow_merge_if_pipeline_succeeds"`
 	OnlyAllowMergeIfAllDiscussionsAreResolved bool                       `json:"only_allow_merge_if_all_discussions_are_resolved"`
@@ -99,7 +96,6 @@ type Project struct {
 	MirrorTriggerBuilds                       bool                       `json:"mirror_trigger_builds"`
 	OnlyMirrorProtectedBranches               bool                       `json:"only_mirror_protected_branches"`
 	MirrorOverwritesDivergedBranches          bool                       `json:"mirror_overwrites_diverged_branches"`
-	ImportURL                                 string                     `json:"import_url"`
 	PackagesEnabled                           bool                       `json:"packages_enabled"`
 	ServiceDeskEnabled                        bool                       `json:"service_desk_enabled"`
 	ServiceDeskAddress                        string                     `json:"service_desk_address"`
@@ -116,8 +112,6 @@ type Project struct {
 	AnalyticsAccessLevel                      AccessControlValue         `json:"analytics_access_level"`
 	AutocloseReferencedIssues                 bool                       `json:"autoclose_referenced_issues"`
 	SuggestionCommitMessage                   string                     `json:"suggestion_commit_message"`
-	AutoCancelPendingPipelines                string                     `json:"auto_cancel_pending_pipelines"`
-	CIForwardDeploymentEnabled                bool                       `json:"ci_forward_deployment_enabled"`
 	SquashOption                              SquashOptionValue          `json:"squash_option"`
 	EnforceAuthChecksOnUploads                bool                       `json:"enforce_auth_checks_on_uploads,omitempty"`
 	SharedWithGroups                          []struct {
@@ -128,13 +122,20 @@ type Project struct {
 	} `json:"shared_with_groups"`
 	Statistics                               *Statistics        `json:"statistics"`
 	Links                                    *Links             `json:"_links,omitempty"`
-	CIConfigPath                             string             `json:"ci_config_path"`
+	ImportURL                                string             `json:"import_url"`
+	ImportType                               string             `json:"import_type"`
+	ImportStatus                             string             `json:"import_status"`
+	ImportError                              string             `json:"import_error"`
 	CIDefaultGitDepth                        int                `json:"ci_default_git_depth"`
+	CIForwardDeploymentEnabled               bool               `json:"ci_forward_deployment_enabled"`
 	CISeperateCache                          bool               `json:"ci_separated_caches"`
+	PublicJobs                               bool               `json:"public_jobs"`
+	BuildTimeout                             int                `json:"build_timeout"`
+	AutoCancelPendingPipelines               string             `json:"auto_cancel_pending_pipelines"`
+	CIConfigPath                             string             `json:"ci_config_path"`
 	CustomAttributes                         []*CustomAttribute `json:"custom_attributes"`
 	ComplianceFrameworks                     []string           `json:"compliance_frameworks"`
 	BuildCoverageRegex                       string             `json:"build_coverage_regex"`
-	BuildTimeout                             int                `json:"build_timeout"`
 	IssuesTemplate                           string             `json:"issues_template"`
 	MergeRequestsTemplate                    string             `json:"merge_requests_template"`
 	KeepLatestArtifact                       bool               `json:"keep_latest_artifact"`
