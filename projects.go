@@ -1788,7 +1788,7 @@ func (s *ProjectsService) GetProjectApprovalRules(pid interface{}, opt *GetProje
 	}
 	u := fmt.Sprintf("projects/%s/approval_rules", PathEscape(project))
 
-	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
