@@ -490,7 +490,6 @@ func rateLimitBackoff(min, max time.Duration, attemptNum int, resp *http.Respons
 
 // configureLimiter configures the rate limiter.
 func (c *Client) configureLimiter(ctx context.Context) error {
-
 	limit, burst, err := c.getRateLimit(ctx)
 	if err != nil {
 		return err
