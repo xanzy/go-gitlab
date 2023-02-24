@@ -30,6 +30,8 @@ import (
 	"time"
 
 	retryablehttp "github.com/hashicorp/go-retryablehttp"
+	"github.com/stretchr/testify/assert"
+	"golang.org/x/time/rate"
 )
 
 var timeLayout = "2006-01-02T15:04:05Z07:00"
@@ -119,6 +121,50 @@ func TestNewClient(t *testing.T) {
 	if c.UserAgent != userAgent {
 		t.Errorf("NewClient UserAgent is %s, want %s", c.UserAgent, userAgent)
 	}
+}
+
+func TestNewClientWithDefaultRateLimit(t *testing.T) {
+	_, client := setup(t)
+
+	// Ensure that the limiter has the default rate limit (1000)
+	limit, burst, err := client.getRateLimit(context.TODO())
+
+	// We haven't enabled dynamic rate limiting or set a static value
+	// so this should be the default
+	assert.Equal(t, 0, burst)
+	assert.Equal(t, rate.Limit(1000), limit)
+	assert.Nil(t, err)
+}
+
+func TestNewClientWithStaticRateLimit(t *testing.T) {
+	_, client := setup(t)
+	client.staticRateLimit = Int(7000)
+
+	// Ensure that the limiter has defined rate limit
+	limit, burst, err := client.getRateLimit(context.TODO())
+
+	assert.Equal(t, 0, burst)
+	assert.Equal(t, rate.Limit(7000), limit)
+	assert.Nil(t, err)
+}
+
+func TestNewClientWithDynamicRateLimit(t *testing.T) {
+	mux, client := setup(t)
+	client.enableDynamicRateLimiting = Bool(true)
+	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		// Just picking a random number that's different than the other 2 tests
+		w.Header().Add(headerRateLimit, "6000")
+		w.WriteHeader(http.StatusTooManyRequests)
+	})
+
+	// Calculate the dynamic rate limit from the header above
+	limit, burst, err := client.getRateLimit(context.TODO())
+
+	// These are the calculations from the method ((6000 / 60) * 0.66)
+	assert.Equal(t, 33, burst)
+	assert.Equal(t, rate.Limit(66), limit)
+	assert.Nil(t, err)
 }
 
 func TestCheckResponse(t *testing.T) {

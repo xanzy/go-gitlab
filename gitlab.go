@@ -84,6 +84,14 @@ type Client struct {
 	// Limiter is used to limit API calls and prevent 429 responses.
 	limiter RateLimiter
 
+	// Flag to determine if dynamic rate limiting should be enabled. If enabled,
+	// rate limits will be determined by headers instead of using a default value of 1,000.
+	enableDynamicRateLimiting *bool
+
+	// Value that allows configuring the rate limit when creating the client. If this flag
+	// is set, `enableDynamicRateLimiting` will be ignored.
+	staticRateLimit *int
+
 	// Token type used to make authenticated API calls.
 	authType AuthType
 
@@ -482,25 +490,43 @@ func rateLimitBackoff(min, max time.Duration, attemptNum int, resp *http.Respons
 
 // configureLimiter configures the rate limiter.
 func (c *Client) configureLimiter(ctx context.Context) error {
+
+	limit, burst, err := c.getRateLimit(ctx)
+	if err != nil {
+		return err
+	}
+	// Create a new limiter using the calculated values.
+	c.limiter = rate.NewLimiter(limit, burst)
+	return nil
+}
+
+// either returns the default rate limit, or makes a call to the base URL to get the rate limit header
+// if `enableDynamicRateLimiting` is enabled.
+func (c *Client) getRateLimit(ctx context.Context) (rate.Limit, int, error) {
 	// Set default values for when rate limiting is disabled.
-	limit := rate.Inf
+	limit := rate.Limit(1000)
 	burst := 0
 
-	defer func() {
-		// Create a new limiter using the calculated values.
-		c.limiter = rate.NewLimiter(limit, burst)
-	}()
+	// First check if the `staticRateLimit` value is set, and use that if present.
+	if c.staticRateLimit != nil {
+		return rate.Limit(*c.staticRateLimit), burst, nil
+	}
+
+	// If dynamicRateLimiting is empty of explicitly false, then simply use the defaults.
+	if c.enableDynamicRateLimiting == nil || !*c.enableDynamicRateLimiting {
+		return limit, burst, nil
+	}
 
 	// Create a new request.
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, c.baseURL.String(), nil)
 	if err != nil {
-		return err
+		return limit, burst, err
 	}
 
 	// Make a single request to retrieve the rate limit headers.
 	resp, err := c.client.HTTPClient.Do(req)
 	if err != nil {
-		return err
+		return limit, burst, err
 	}
 	resp.Body.Close()
 
@@ -519,7 +545,7 @@ func (c *Client) configureLimiter(ctx context.Context) error {
 		}
 	}
 
-	return nil
+	return limit, burst, nil
 }
 
 // BaseURL return a copy of the baseURL.
