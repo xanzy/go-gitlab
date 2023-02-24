@@ -131,8 +131,8 @@ func TestNewClientWithDefaultRateLimit(t *testing.T) {
 
 	// We haven't enabled dynamic rate limiting or set a static value
 	// so this should be the default
-	assert.Equal(t, 0, burst)
-	assert.Equal(t, rate.Limit(1000), limit)
+	assert.Equal(t, 30, burst)
+	assert.Equal(t, rate.Limit(30), limit)
 	assert.Nil(t, err)
 }
 
@@ -143,7 +143,7 @@ func TestNewClientWithStaticRateLimit(t *testing.T) {
 	// Ensure that the limiter has defined rate limit
 	limit, burst, err := client.getRateLimit(context.TODO())
 
-	assert.Equal(t, 0, burst)
+	assert.Equal(t, 7000, burst)
 	assert.Equal(t, rate.Limit(7000), limit)
 	assert.Nil(t, err)
 }

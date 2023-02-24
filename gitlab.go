@@ -504,12 +504,13 @@ func (c *Client) configureLimiter(ctx context.Context) error {
 // if `enableDynamicRateLimiting` is enabled.
 func (c *Client) getRateLimit(ctx context.Context) (rate.Limit, int, error) {
 	// Set default values for when rate limiting is disabled.
-	limit := rate.Limit(1000)
-	burst := 0
+	// 30 requests per second = 1,800 requests per minute.
+	limit := rate.Limit(30)
+	burst := int(limit)
 
 	// First check if the `staticRateLimit` value is set, and use that if present.
 	if c.staticRateLimit != nil {
-		return rate.Limit(*c.staticRateLimit), burst, nil
+		return rate.Limit(*c.staticRateLimit), *c.staticRateLimit, nil
 	}
 
 	// If dynamicRateLimiting is empty of explicitly false, then simply use the defaults.
