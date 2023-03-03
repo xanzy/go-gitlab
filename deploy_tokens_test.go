@@ -39,7 +39,9 @@ func TestListAllDeployTokens(t *testing.T) {
 		"scopes": [
 			"read_repository",
 			"read_registry"
-		]
+		],
+    "expired": true,
+    "revoked": true
 	}
 ]
 `)
@@ -62,6 +64,8 @@ func TestListAllDeployTokens(t *testing.T) {
 				"read_repository",
 				"read_registry",
 			},
+			Expired: true,
+			Revoked: true,
 		},
 	}
 
