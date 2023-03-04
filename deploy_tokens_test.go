@@ -36,12 +36,12 @@ func TestListAllDeployTokens(t *testing.T) {
 		"name": "MyToken",
 		"username": "gitlab+deploy-token-1",
 		"expires_at": "2020-02-14T00:00:00.000Z",
+		"revoked": true,
+		"expired": true,
 		"scopes": [
 			"read_repository",
 			"read_registry"
-		],
-    "expired": true,
-    "revoked": true
+		]
 	}
 ]
 `)
@@ -60,12 +60,12 @@ func TestListAllDeployTokens(t *testing.T) {
 			Name:      "MyToken",
 			Username:  "gitlab+deploy-token-1",
 			ExpiresAt: &wantExpiresAt,
+			Revoked:   true,
+			Expired:   true,
 			Scopes: []string{
 				"read_repository",
 				"read_registry",
 			},
-			Expired: true,
-			Revoked: true,
 		},
 	}
 
