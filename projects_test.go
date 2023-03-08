@@ -1366,7 +1366,6 @@ func TestCreateProjectApprovalRuleEligibleApprovers(t *testing.T) {
 }
 
 func TestProjectModelsOptionalMergeAttribute(t *testing.T) {
-
 	// Create a `CreateProjectOptions` struct, ensure that merge attribute doesn't serialize
 	jsonString, err := json.Marshal(&CreateProjectOptions{
 		Name: String("testProject"),
@@ -1384,5 +1383,4 @@ func TestProjectModelsOptionalMergeAttribute(t *testing.T) {
 		t.Fatal("Failed to marshal object", err)
 	}
 	assert.False(t, strings.Contains(string(jsonString), "only_allow_merge_if_all_status_checks_passed"))
-
 }
