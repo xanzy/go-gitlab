@@ -18,6 +18,7 @@ package gitlab
 
 import (
 	"bytes"
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"os"
@@ -25,6 +26,8 @@ import (
 	"strings"
 	"testing"
 	"time"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestListProjects(t *testing.T) {
@@ -1360,4 +1363,26 @@ func TestCreateProjectApprovalRuleEligibleApprovers(t *testing.T) {
 	if !reflect.DeepEqual(want, rule) {
 		t.Errorf("Projects.CreateProjectApprovalRule returned %+v, want %+v", rule, want)
 	}
+}
+
+func TestProjectModelsOptionalMergeAttribute(t *testing.T) {
+
+	// Create a `CreateProjectOptions` struct, ensure that merge attribute doesn't serialize
+	jsonString, err := json.Marshal(&CreateProjectOptions{
+		Name: String("testProject"),
+	})
+	if err != nil {
+		t.Fatal("Failed to marshal object", err)
+	}
+	assert.False(t, strings.Contains(string(jsonString), "only_allow_merge_if_all_status_checks_passed"))
+
+	// Test the same thing but for `EditProjectOptions` struct
+	jsonString, err = json.Marshal(&EditProjectOptions{
+		Name: String("testProject"),
+	})
+	if err != nil {
+		t.Fatal("Failed to marshal object", err)
+	}
+	assert.False(t, strings.Contains(string(jsonString), "only_allow_merge_if_all_status_checks_passed"))
+
 }
