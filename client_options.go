@@ -53,9 +53,8 @@ func WithCustomLeveledLogger(leveledLogger retryablehttp.LeveledLogger) ClientOp
 // WithCustomLimiter injects a custom rate limiter to the client.
 func WithCustomLimiter(limiter RateLimiter) ClientOptionFunc {
 	return func(c *Client) error {
-		c.configureLimiterOnce.Do(func() {
-			c.limiter = limiter
-		})
+		c.configureLimiterOnce.Do(func() {})
+		c.limiter = limiter
 		return nil
 	}
 }

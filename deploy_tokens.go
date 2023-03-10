@@ -36,6 +36,8 @@ type DeployToken struct {
 	Name      string     `json:"name"`
 	Username  string     `json:"username"`
 	ExpiresAt *time.Time `json:"expires_at"`
+	Revoked   bool       `json:"revoked"`
+	Expired   bool       `json:"expired"`
 	Token     string     `json:"token,omitempty"`
 	Scopes    []string   `json:"scopes"`
 }
