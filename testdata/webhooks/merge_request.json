@@ -107,7 +107,8 @@
       "type": "ProjectLabel",
       "group_id": 41
     }],
-    "action": "open"
+    "action": "open",
+    "detailed_merge_status": "mergeable"
   },
   "labels": [{
     "id": 206,

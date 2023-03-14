@@ -572,12 +572,15 @@ type MergeEvent struct {
 				Email string `json:"email"`
 			} `json:"author"`
 		} `json:"last_commit"`
-		BlockingDiscussionsResolved bool       `json:"blocking_discussions_resolved"`
-		WorkInProgress              bool       `json:"work_in_progress"`
-		URL                         string     `json:"url"`
-		Action                      string     `json:"action"`
-		OldRev                      string     `json:"oldrev"`
-		Assignee                    *EventUser `json:"assignee"`
+		BlockingDiscussionsResolved bool          `json:"blocking_discussions_resolved"`
+		WorkInProgress              bool          `json:"work_in_progress"`
+		FirstContribution           bool          `json:"first_contribution"`
+		URL                         string        `json:"url"`
+		Labels                      []*EventLabel `json:"labels"`
+		Action                      string        `json:"action"`
+		DetailedMergeStatus         string        `json:"detailed_merge_status"`
+		OldRev                      string        `json:"oldrev"`
+		Assignee                    *EventUser    `json:"assignee"`
 	} `json:"object_attributes"`
 	Repository *Repository   `json:"repository"`
 	Assignee   *EventUser    `json:"assignee"`
@@ -754,6 +757,15 @@ type PipelineEvent struct {
 			Email string `json:"email"`
 		} `json:"author"`
 	} `json:"commit"`
+	SourcePipline struct {
+		Project struct {
+			ID                int    `json:"id"`
+			WebURL            string `json:"web_url"`
+			PathWithNamespace string `json:"path_with_namespace"`
+		} `json:"project"`
+		PipelineID int `json:"pipeline_id"`
+		JobID      int `json:"job_id"`
+	} `json:"source_pipeline"`
 	Builds []struct {
 		ID             int        `json:"id"`
 		Stage          string     `json:"stage"`

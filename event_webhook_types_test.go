@@ -376,6 +376,10 @@ func TestMergeEventUnmarshal(t *testing.T) {
 		t.Errorf("BlockingDiscussionsResolved isn't true")
 	}
 
+	if event.ObjectAttributes.FirstContribution != true {
+		t.Errorf("FirstContribution isn't true")
+	}
+
 	if event.Assignees[0].ID != expectedID {
 		t.Errorf("Assignees[0].ID is %v, want %v", event.Assignees[0].ID, expectedID)
 	}
@@ -408,6 +412,10 @@ func TestMergeEventUnmarshal(t *testing.T) {
 		t.Errorf("Reviewers[0].AvatarURL is %v, want %v", event.Reviewers[0].AvatarURL, excpectedAvatar)
 	}
 
+	if event.ObjectAttributes.DetailedMergeStatus != "mergeable" {
+		t.Errorf("DetailedMergeStatus is %s, want %s", event.ObjectAttributes.DetailedMergeStatus, "mergeable")
+	}
+
 	assert.Equal(t, []*EventLabel{
 		{
 			ID:          206,
@@ -422,6 +430,21 @@ func TestMergeEventUnmarshal(t *testing.T) {
 			GroupID:     41,
 		},
 	}, event.Labels)
+
+	assert.Equal(t, []*EventLabel{
+		{
+			ID:          206,
+			Title:       "API",
+			Color:       "#ffffff",
+			ProjectID:   14,
+			CreatedAt:   "2013-12-03T17:15:43Z",
+			UpdatedAt:   "2013-12-03T17:15:43Z",
+			Template:    false,
+			Description: "API related issues",
+			Type:        "ProjectLabel",
+			GroupID:     41,
+		},
+	}, event.ObjectAttributes.Labels)
 
 	assert.Equal(t, []*EventLabel{
 		{
@@ -658,6 +681,18 @@ func TestPipelineEventUnmarshal(t *testing.T) {
 
 	if event.Builds[1].FailureReason != "" {
 		t.Errorf("Builds[0].Failurereason is %v, want %v", event.Builds[0].FailureReason, "''")
+	}
+
+	if event.SourcePipline.PipelineID != 30 {
+		t.Errorf("Source Pipline ID is %v, want %v", event.SourcePipline.PipelineID, 30)
+	}
+
+	if event.SourcePipline.JobID != 3401 {
+		t.Errorf("Source Pipline JobID is %v, want %v", event.SourcePipline.JobID, 3401)
+	}
+
+	if event.SourcePipline.Project.ID != 41 {
+		t.Errorf("Source Pipline Project ID is %v, want %v", event.SourcePipline.Project.ID, 41)
 	}
 }
 
