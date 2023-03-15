@@ -572,24 +572,30 @@ func (s *ProjectsService) GetProject(pid interface{}, opt *GetProjectOptions, op
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/events.html#list-a-projects-visible-events
 type ProjectEvent struct {
+	ID             interface{} `json:"id"`
 	Title          interface{} `json:"title"`
 	ProjectID      int         `json:"project_id"`
 	ActionName     string      `json:"action_name"`
 	TargetID       interface{} `json:"target_id"`
+	TargetIID      interface{} `json:"target_iid"`
 	TargetType     interface{} `json:"target_type"`
 	AuthorID       int         `json:"author_id"`
+	TargetTitle    string      `json:"target_title"`
+	CreatedAt      string      `json:"created_at"`
+	Author         ProjectEventAuthor `json:"author"`
 	AuthorUsername string      `json:"author_username"`
-	Data           struct {
-		Before            string      `json:"before"`
-		After             string      `json:"after"`
-		Ref               string      `json:"ref"`
-		UserID            int         `json:"user_id"`
-		UserName          string      `json:"user_name"`
-		Repository        *Repository `json:"repository"`
-		Commits           []*Commit   `json:"commits"`
-		TotalCommitsCount int         `json:"total_commits_count"`
-	} `json:"data"`
+	Note           interface{} `json:"note"`
+	PushData       interface{} `json:"push_data"`
 	TargetTitle interface{} `json:"target_title"`
+}
+
+type ProjectEventAuthor struct {
+	Name string `json:"name"`
+	Username string `json:"username"`
+	ID int `json:"id"`
+	State string `json:"state"`
+	AvatarUrl string `json:"avatar_url"`
+	WebUrl string `json:"web_url"`
 }
 
 func (s ProjectEvent) String() string {
