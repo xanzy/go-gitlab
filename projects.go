@@ -584,9 +584,8 @@ type ProjectEvent struct {
 	CreatedAt      string      `json:"created_at"`
 	Author         ProjectEventAuthor `json:"author"`
 	AuthorUsername string      `json:"author_username"`
-	Note           interface{} `json:"note"`
-	PushData       interface{} `json:"push_data"`
-	TargetTitle interface{} `json:"target_title"`
+	Note           *ProjectEventNote `json:"note"`
+	PushData       *ProjectEventPushData `json:"push_data"`
 }
 
 type ProjectEventAuthor struct {
@@ -596,6 +595,28 @@ type ProjectEventAuthor struct {
 	State string `json:"state"`
 	AvatarUrl string `json:"avatar_url"`
 	WebUrl string `json:"web_url"`
+}
+
+type ProjectEventNote struct {
+	ID           int         `json:"id"`
+	Body         string      `json:"body"`
+	Attachment   interface{} `json:"attachment"`
+	Author       Author      `json:"author"`
+	CreatedAt    string      `json:"created_at"`
+	System       bool        `json:"system"`
+	NoteableID   int         `json:"noteable_id"`
+	NoteableIID  int         `json:"noteable_iid"`
+	NoteableType string      `json:"noteable_type"`
+}
+
+type ProjectEventPushData struct {
+	CommitCount int    `json:"commit_count"`
+	Action      string `json:"action"`
+	RefType     string `json:"ref_type"`
+	CommitFrom  string `json:"commit_from"`
+	CommitTo    string `json:"commit_to"`
+	Ref         string `json:"ref"`
+	CommitTitle string `json:"commit_title"`
 }
 
 func (s ProjectEvent) String() string {
