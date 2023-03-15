@@ -584,6 +584,16 @@ type ProjectEvent struct {
 	CreatedAt      string      `json:"created_at"`
 	Author         ProjectEventAuthor `json:"author"`
 	AuthorUsername string      `json:"author_username"`
+	Data           struct {
+		Before            string      `json:"before"`
+		After             string      `json:"after"`
+		Ref               string      `json:"ref"`
+		UserID            int         `json:"user_id"`
+		UserName          string      `json:"user_name"`
+		Repository        *Repository `json:"repository"`
+		Commits           []*Commit   `json:"commits"`
+		TotalCommitsCount int         `json:"total_commits_count"`
+	} `json:"data"`
 	Note           *ProjectEventNote `json:"note"`
 	PushData       *ProjectEventPushData `json:"push_data"`
 }
