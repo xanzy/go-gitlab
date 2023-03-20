@@ -206,7 +206,7 @@ func TestEventsService_ListProjectVisibleEvents(t *testing.T) {
 		`)
 	})
 
-	want := []*ContributionEvent{
+	want := []*ProjectEvent{
 		{
 			ID:          3,
 			Title:       "",
@@ -217,7 +217,6 @@ func TestEventsService_ListProjectVisibleEvents(t *testing.T) {
 			TargetType:  "Issue",
 			AuthorID:    1,
 			TargetTitle: "Public project search field",
-			Note:        nil,
 			Author: struct {
 				Name      string `json:"name"`
 				Username  string `json:"username"`
