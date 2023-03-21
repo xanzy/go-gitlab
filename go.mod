@@ -1,4 +1,4 @@
-module github.com/xanzy/go-gitlab
+module github.com/smit-modi/go-gitlab
 
 go 1.18
 
@@ -7,6 +7,7 @@ require (
 	github.com/hashicorp/go-cleanhttp v0.5.2
 	github.com/hashicorp/go-retryablehttp v0.7.2
 	github.com/stretchr/testify v1.8.1
+	github.com/xanzy/go-gitlab v0.81.0
 	golang.org/x/oauth2 v0.6.0
 	golang.org/x/time v0.3.0
 )

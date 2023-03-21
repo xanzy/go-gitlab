@@ -20,8 +20,34 @@ import (
 	"encoding/json"
 	"fmt"
 	"strconv"
+	"strings"
 	"time"
 )
+
+type customTime struct {
+	time.Time
+}
+
+func (t *customTime) UnmarshalJSON(b []byte) (err error) {
+	layout := []string{
+		"2006-01-02 15:04:05 MST",
+		"2006-01-02 15:04:05 Z07:00",
+		"2006-01-02 15:04:05 Z0700",
+		time.RFC3339,
+	}
+	s := strings.Trim(string(b), "\"")
+	if s == "null" {
+		t.Time = time.Time{}
+		return
+	}
+	for _, l := range layout {
+		t.Time, err = time.Parse(l, s)
+		if err == nil {
+			break
+		}
+	}
+	return
+}
 
 // StateID identifies the state of an issue or merge request.
 //
@@ -143,12 +169,16 @@ type CommitCommentEvent struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ee/user/project/integrations/webhook_events.html#deployment-events
 type DeploymentEvent struct {
-	ObjectKind    string `json:"object_kind"`
-	Status        string `json:"status"`
-	DeployableID  int    `json:"deployable_id"`
-	DeployableURL string `json:"deployable_url"`
-	Environment   string `json:"environment"`
-	Project       struct {
+	ObjectKind             string     `json:"object_kind"`
+	Status                 string     `json:"status"`
+	StatusChangedAt        customTime `json:"status_changed_at"`
+	DeploymentID           int        `json:"deployment_id"`
+	DeployableID           int        `json:"deployable_id"`
+	DeployableURL          string     `json:"deployable_url"`
+	Environment            string     `json:"environment"`
+	EnvironmentSlug        string     `json:"environment_slug"`
+	EnvironmentExternalURL string     `json:"environment_external_url"`
+	Project                struct {
 		ID                int     `json:"id"`
 		Name              string  `json:"name"`
 		Description       string  `json:"description"`
