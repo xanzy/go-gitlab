@@ -537,6 +537,7 @@ type MergeCommentEvent struct {
 // https://docs.gitlab.com/ee/user/project/integrations/webhook_events.html#merge-request-events
 type MergeEvent struct {
 	ObjectKind string     `json:"object_kind"`
+	EventType  string     `json:"event_type"`
 	User       *EventUser `json:"user"`
 	Project    struct {
 		ID                int             `json:"id"`
@@ -548,12 +549,13 @@ type MergeEvent struct {
 		Namespace         string          `json:"namespace"`
 		PathWithNamespace string          `json:"path_with_namespace"`
 		DefaultBranch     string          `json:"default_branch"`
+		CIConfigPath      string          `json:"ci_config_path"`
 		Homepage          string          `json:"homepage"`
 		URL               string          `json:"url"`
 		SSHURL            string          `json:"ssh_url"`
 		HTTPURL           string          `json:"http_url"`
 		WebURL            string          `json:"web_url"`
-		Visibility        VisibilityValue `json:"visibility"`
+		Visibility        VisibilityValue `json:"visibility"` // TODO GitLab now returns visibility_level of int type
 	} `json:"project"`
 	ObjectAttributes struct {
 		ID                       int          `json:"id"`
@@ -592,9 +594,13 @@ type MergeEvent struct {
 		Source                   *Repository  `json:"source"`
 		Target                   *Repository  `json:"target"`
 		HeadPipelineID           *int         `json:"head_pipeline_id"`
+		LastEditedAt             customTime   `json:"last_edited_at"`
+		LastEditedByID           int          `json:"last_edited_by_id"`
+		StateID                  int          `json:"state_id"` // TODO Create GitLab state id type
 		LastCommit               struct {
 			ID        string     `json:"id"`
 			Message   string     `json:"message"`
+			Title     string     `json:"title"`
 			Timestamp *time.Time `json:"timestamp"`
 			URL       string     `json:"url"`
 			Author    struct {
@@ -602,59 +608,34 @@ type MergeEvent struct {
 				Email string `json:"email"`
 			} `json:"author"`
 		} `json:"last_commit"`
-		BlockingDiscussionsResolved bool       `json:"blocking_discussions_resolved"`
-		WorkInProgress              bool       `json:"work_in_progress"`
-		URL                         string     `json:"url"`
-		Action                      string     `json:"action"`
-		OldRev                      string     `json:"oldrev"`
-		Assignee                    *EventUser `json:"assignee"`
+		BlockingDiscussionsResolved bool          `json:"blocking_discussions_resolved"`
+		WorkInProgress              bool          `json:"work_in_progress"`
+		TotalTimeSpent              int           `json:"total_time_spent"`
+		TimeChange                  int           `json:"time_change"`
+		HumanTotalTimeSpent         int           `json:"human_total_time_spent"`
+		HumanTimeChange             int           `json:"human_time_change"`
+		HumanTimeEstimate           int           `json:"human_time_estimate"`
+		Labels                      []*EventLabel `json:"labels"`
+		FirstContribution           bool          `json:"first_contribution"`
+		DetailedMergeStatus         string        `json:"detailed_merge_status"`
+		URL                         string        `json:"url"`
+		Action                      string        `json:"action"`
 	} `json:"object_attributes"`
 	Repository *Repository   `json:"repository"`
-	Assignee   *EventUser    `json:"assignee"`
-	Assignees  []*EventUser  `json:"assignees"`
-	Reviewers  []*EventUser  `json:"reviewers"`
 	Labels     []*EventLabel `json:"labels"`
 	Changes    struct {
-		Assignees struct {
-			Previous []*EventUser `json:"previous"`
-			Current  []*EventUser `json:"current"`
-		} `json:"assignees"`
-		Reviewers struct {
-			Previous []*EventUser `json:"previous"`
-			Current  []*EventUser `json:"current"`
-		} `json:"reviewers"`
 		Description struct {
 			Previous string `json:"previous"`
 			Current  string `json:"current"`
 		} `json:"description"`
-		Labels struct {
-			Previous []*EventLabel `json:"previous"`
-			Current  []*EventLabel `json:"current"`
-		} `json:"labels"`
-		SourceBranch struct {
+		LastEditedAt struct {
 			Previous string `json:"previous"`
 			Current  string `json:"current"`
-		} `json:"source_branch"`
-		SourceProjectID struct {
+		} `json:"last_edited_at"`
+		LastEditedByID struct {
 			Previous int `json:"previous"`
 			Current  int `json:"current"`
-		} `json:"source_project_id"`
-		StateID struct {
-			Previous StateID `json:"previous"`
-			Current  StateID `json:"current"`
-		} `json:"state_id"`
-		TargetBranch struct {
-			Previous string `json:"previous"`
-			Current  string `json:"current"`
-		} `json:"target_branch"`
-		TargetProjectID struct {
-			Previous int `json:"previous"`
-			Current  int `json:"current"`
-		} `json:"target_project_id"`
-		Title struct {
-			Previous string `json:"previous"`
-			Current  string `json:"current"`
-		} `json:"title"`
+		} `json:"last_edited_by_id"`
 		UpdatedAt struct {
 			Previous string `json:"previous"`
 			Current  string `json:"current"`
@@ -663,10 +644,6 @@ type MergeEvent struct {
 			Previous int `json:"previous"`
 			Current  int `json:"current"`
 		} `json:"updated_by_id"`
-		MilestoneID struct {
-			Previous int `json:"previous"`
-			Current  int `json:"current"`
-		} `json:"milestone_id"`
 	} `json:"changes"`
 }
 

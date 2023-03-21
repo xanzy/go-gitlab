@@ -258,6 +258,7 @@ type ProjectNamespace struct {
 
 // Repository represents a repository.
 type Repository struct {
+	ID                int             `json:"id"`
 	Name              string          `json:"name"`
 	Description       string          `json:"description"`
 	WebURL            string          `json:"web_url"`
@@ -265,7 +266,7 @@ type Repository struct {
 	GitSSHURL         string          `json:"git_ssh_url"`
 	GitHTTPURL        string          `json:"git_http_url"`
 	Namespace         string          `json:"namespace"`
-	Visibility        VisibilityValue `json:"visibility"`
+	Visibility        VisibilityValue `json:"visibility"` // GitLab now returns visibility_level of int type
 	PathWithNamespace string          `json:"path_with_namespace"`
 	DefaultBranch     string          `json:"default_branch"`
 	Homepage          string          `json:"homepage"`
