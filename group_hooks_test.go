@@ -49,6 +49,7 @@ func TestListGroupHooks(t *testing.T) {
 		"releases_events": true,
 		"subgroup_events": true,
 		"enable_ssl_verification": true,
+		"alert_status": "executable",
 		"created_at": "2012-10-12T17:04:47Z"
 	}
 ]`)
@@ -78,6 +79,7 @@ func TestListGroupHooks(t *testing.T) {
 		ReleasesEvents:           true,
 		SubGroupEvents:           true,
 		EnableSSLVerification:    true,
+		AlertStatus:              "executable",
 		CreatedAt:                &datePointer,
 	}}
 
@@ -110,6 +112,7 @@ func TestGetGroupHook(t *testing.T) {
 	"releases_events": true,
 	"subgroup_events": true,
 	"enable_ssl_verification": true,
+	"alert_status": "executable",
 	"created_at": "2012-10-12T17:04:47Z"
 }`)
 	})
@@ -138,6 +141,7 @@ func TestGetGroupHook(t *testing.T) {
 		ReleasesEvents:           true,
 		SubGroupEvents:           true,
 		EnableSSLVerification:    true,
+		AlertStatus:              "executable",
 		CreatedAt:                &datePointer,
 	}
 

@@ -44,6 +44,7 @@ type GroupHook struct {
 	ReleasesEvents           bool       `json:"releases_events"`
 	SubGroupEvents           bool       `json:"subgroup_events"`
 	EnableSSLVerification    bool       `json:"enable_ssl_verification"`
+	AlertStatus              string     `json:"alert_status"`
 	CreatedAt                *time.Time `json:"created_at"`
 }
 
