@@ -51,6 +51,7 @@ type Epic struct {
 	Title                   string      `json:"title"`
 	Description             string      `json:"description"`
 	State                   string      `json:"state"`
+	Confidential		bool	    `json:"confidential"`
 	WebURL                  string      `json:"web_url"`
 	Author                  *EpicAuthor `json:"author"`
 	StartDate               *ISOTime    `json:"start_date"`
