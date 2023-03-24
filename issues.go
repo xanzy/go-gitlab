@@ -90,6 +90,7 @@ type Issue struct {
 	ExternalID           string                 `json:"external_id"`
 	State                string                 `json:"state"`
 	Description          string                 `json:"description"`
+	HealthStatus         string                 `json:"health_status"`
 	Author               *IssueAuthor           `json:"author"`
 	Milestone            *Milestone             `json:"milestone"`
 	ProjectID            int                    `json:"project_id"`
@@ -122,7 +123,6 @@ type Issue struct {
 	Epic                 *Epic                  `json:"epic"`
 	Iteration            *GroupIteration        `json:"iteration"`
 	TaskCompletionStatus *TasksCompletionStatus `json:"task_completion_status"`
-	HealthStatus         string                 `json:"health_status"`
 }
 
 func (i Issue) String() string {
