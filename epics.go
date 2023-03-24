@@ -51,6 +51,7 @@ type Epic struct {
 	Title                   string      `json:"title"`
 	Description             string      `json:"description"`
 	State                   string      `json:"state"`
+	Confidential		bool	    `json:"confidential"`
 	WebURL                  string      `json:"web_url"`
 	Author                  *EpicAuthor `json:"author"`
 	StartDate               *ISOTime    `json:"start_date"`
@@ -69,7 +70,6 @@ type Epic struct {
 	Downvotes               int         `json:"downvotes"`
 	UserNotesCount          int         `json:"user_notes_count"`
 	URL                     string      `json:"url"`
-	Confidential		bool	    `json:"confidential"`
 }
 
 func (e Epic) String() string {
