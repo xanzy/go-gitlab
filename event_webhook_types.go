@@ -404,7 +404,7 @@ type JobEvent struct {
 		ID          int      `json:"id"`
 		Active      bool     `json:"active"`
 		RunnerType  string   `json:"runner_type"`
-		Shared      bool     `json:"is_shared"`
+		Shared      bool     `json:"is_shared"` // TODO variable name should be IsShared
 		Description string   `json:"description"`
 		Tags        []string `json:"tags"`
 	} `json:"runner"`
@@ -713,37 +713,39 @@ type PipelineEvent struct {
 	ObjectKind       string `json:"object_kind"`
 	ObjectAttributes struct {
 		ID             int      `json:"id"`
+		IID            int      `json:"iid"`
 		Ref            string   `json:"ref"`
 		Tag            bool     `json:"tag"`
 		SHA            string   `json:"sha"`
 		BeforeSHA      string   `json:"before_sha"`
 		Source         string   `json:"source"`
 		Status         string   `json:"status"`
-		DetailedStatus string   `json:"detailed_status"`
+		DetailedStatus string   `json:"detailed_status"` // TODO GitLab doc doesn't mention this field
 		Stages         []string `json:"stages"`
-		CreatedAt      string   `json:"created_at"`
-		FinishedAt     string   `json:"finished_at"`
-		Duration       int      `json:"duration"`
-		QueuedDuration int      `json:"queued_duration"`
+		CreatedAt      string   `json:"created_at"`      // TODO should be *time.Time
+		FinishedAt     string   `json:"finished_at"`     // TODO should be *time.Time
+		Duration       int      `json:"duration"`        // TODO verify type
+		QueuedDuration int      `json:"queued_duration"` // TODO verify type
 		Variables      []struct {
 			Key   string `json:"key"`
 			Value string `json:"value"`
 		} `json:"variables"`
 	} `json:"object_attributes"`
 	MergeRequest struct {
-		ID                 int    `json:"id"`
-		IID                int    `json:"iid"`
-		Title              string `json:"title"`
-		SourceBranch       string `json:"source_branch"`
-		SourceProjectID    int    `json:"source_project_id"`
-		TargetBranch       string `json:"target_branch"`
-		TargetProjectID    int    `json:"target_project_id"`
-		State              string `json:"state"`
-		MergeRequestStatus string `json:"merge_status"`
-		URL                string `json:"url"`
+		ID                  int    `json:"id"`
+		IID                 int    `json:"iid"`
+		Title               string `json:"title"`
+		SourceBranch        string `json:"source_branch"`
+		SourceProjectID     int    `json:"source_project_id"`
+		TargetBranch        string `json:"target_branch"`
+		TargetProjectID     int    `json:"target_project_id"`
+		State               string `json:"state"`
+		MergeRequestStatus  string `json:"merge_status"`
+		DetailedMergeStatus string `json:"detailed_merge_status"`
+		URL                 string `json:"url"`
 	} `json:"merge_request"`
 	User    *EventUser `json:"user"`
-	Project struct {
+	Project struct {   // TODO create EventProject struct
 		ID                int             `json:"id"`
 		Name              string          `json:"name"`
 		Description       string          `json:"description"`
@@ -758,7 +760,7 @@ type PipelineEvent struct {
 		SSHURL            string          `json:"ssh_url"`
 		HTTPURL           string          `json:"http_url"`
 		WebURL            string          `json:"web_url"`
-		Visibility        VisibilityValue `json:"visibility"`
+		Visibility        VisibilityValue `json:"visibility"` // TODO GitLab now returns visibility_level of int type
 	} `json:"project"`
 	Commit struct {
 		ID        string     `json:"id"`
@@ -771,14 +773,23 @@ type PipelineEvent struct {
 			Email string `json:"email"`
 		} `json:"author"`
 	} `json:"commit"`
+	SourcePipeline struct {
+		Project struct {
+			ID                int    `json:"id"`
+			WebURL            string `json:"web_url"`
+			PathWithNamespace string `json:"path_with_namespace"`
+		} `json:"project"`
+		PipelineID int `json:"pipeline_id"`
+		JobID      int `json:"job_id"`
+	} `json:"source_pipeline"`
 	Builds []struct {
 		ID             int        `json:"id"`
 		Stage          string     `json:"stage"`
 		Name           string     `json:"name"`
 		Status         string     `json:"status"`
-		CreatedAt      string     `json:"created_at"`
-		StartedAt      string     `json:"started_at"`
-		FinishedAt     string     `json:"finished_at"`
+		CreatedAt      string     `json:"created_at"`  // TODO should be *time.Time
+		StartedAt      string     `json:"started_at"`  // TODO should be *time.Time
+		FinishedAt     string     `json:"finished_at"` // TODO should be *time.Time
 		Duration       float64    `json:"duration"`
 		QueuedDuration float64    `json:"queued_duration"`
 		FailureReason  string     `json:"failure_reason"`
@@ -786,7 +797,7 @@ type PipelineEvent struct {
 		Manual         bool       `json:"manual"`
 		AllowFailure   bool       `json:"allow_failure"`
 		User           *EventUser `json:"user"`
-		Runner         struct {
+		Runner         struct {   // TODO Create EventRunner struct
 			ID          int      `json:"id"`
 			Description string   `json:"description"`
 			Active      bool     `json:"active"`
@@ -811,18 +822,20 @@ type PipelineEvent struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ee/user/project/integrations/webhook_events.html#push-events
 type PushEvent struct {
-	ObjectKind   string `json:"object_kind"`
-	Before       string `json:"before"`
-	After        string `json:"after"`
-	Ref          string `json:"ref"`
-	CheckoutSHA  string `json:"checkout_sha"`
-	UserID       int    `json:"user_id"`
-	UserName     string `json:"user_name"`
-	UserUsername string `json:"user_username"`
-	UserEmail    string `json:"user_email"`
-	UserAvatar   string `json:"user_avatar"`
-	ProjectID    int    `json:"project_id"`
-	Project      struct {
+	ObjectKind   string   `json:"object_kind"`
+	EventName    string   `json:"event_name"`
+	Before       string   `json:"before"`
+	After        string   `json:"after"`
+	Ref          string   `json:"ref"`
+	CheckoutSHA  string   `json:"checkout_sha"`
+	UserID       int      `json:"user_id"`
+	UserName     string   `json:"user_name"`
+	UserUsername string   `json:"user_username"`
+	UserEmail    string   `json:"user_email"`
+	UserAvatar   string   `json:"user_avatar"`
+	ProjectID    int      `json:"project_id"`
+	Project      struct { // TODO create EventProject struct
+		ID                int             `json:"id"`
 		Name              string          `json:"name"`
 		Description       string          `json:"description"`
 		AvatarURL         string          `json:"avatar_url"`
@@ -836,7 +849,7 @@ type PushEvent struct {
 		SSHURL            string          `json:"ssh_url"`
 		HTTPURL           string          `json:"http_url"`
 		WebURL            string          `json:"web_url"`
-		Visibility        VisibilityValue `json:"visibility"`
+		Visibility        VisibilityValue `json:"visibility"` // GitLab now returns visibility_level of int type
 	} `json:"project"`
 	Repository *Repository `json:"repository"`
 	Commits    []*struct {
