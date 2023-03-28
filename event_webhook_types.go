@@ -577,8 +577,8 @@ type MergeEvent struct {
 		TargetProjectID          int          `json:"target_project_id"`
 		IID                      int          `json:"iid"`
 		Description              string       `json:"description"`
-		Position                 int          `json:"position"`
-		LockedAt                 string       `json:"locked_at"`
+		Position                 int          `json:"position"`  // TODO this is not returned by GitLab
+		LockedAt                 string       `json:"locked_at"` // TODO this is not returned by GitLab
 		UpdatedByID              int          `json:"updated_by_id"`
 		MergeError               string       `json:"merge_error"`
 		MergeParams              *MergeParams `json:"merge_params"`
@@ -624,15 +624,15 @@ type MergeEvent struct {
 	Repository *Repository   `json:"repository"`
 	Labels     []*EventLabel `json:"labels"`
 	Changes    struct {
-		Description struct {
+		Description struct { // TODO GitLab doc doesn't mention this field
 			Previous string `json:"previous"`
 			Current  string `json:"current"`
 		} `json:"description"`
-		LastEditedAt struct {
+		LastEditedAt struct { // TODO GitLab doc doesn't mention this field
 			Previous string `json:"previous"`
 			Current  string `json:"current"`
 		} `json:"last_edited_at"`
-		LastEditedByID struct {
+		LastEditedByID struct { // TODO GitLab doc doesn't mention this field
 			Previous int `json:"previous"`
 			Current  int `json:"current"`
 		} `json:"last_edited_by_id"`
@@ -644,7 +644,13 @@ type MergeEvent struct {
 			Previous int `json:"previous"`
 			Current  int `json:"current"`
 		} `json:"updated_by_id"`
+		Labels struct {
+			Previous *EventLabel `json:"previous"`
+			Current  EventLabel  `json:"current"`
+		} `json:"labels"`
 	} `json:"changes"`
+	Assignees []*EventUser `json:"assignees"`
+	Reviewers []*EventUser `json:"reviewers"`
 }
 
 // EventUser represents a user record in an event and is used as an even initiator or a merge assignee.
