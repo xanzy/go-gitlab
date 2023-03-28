@@ -266,7 +266,7 @@ type Repository struct {
 	GitSSHURL         string          `json:"git_ssh_url"`
 	GitHTTPURL        string          `json:"git_http_url"`
 	Namespace         string          `json:"namespace"`
-	Visibility        VisibilityValue `json:"visibility"` // GitLab now returns visibility_level of int type
+	Visibility        VisibilityValue `json:"visibility"` // TODO GitLab now returns visibility_level of int type
 	PathWithNamespace string          `json:"path_with_namespace"`
 	DefaultBranch     string          `json:"default_branch"`
 	Homepage          string          `json:"homepage"`

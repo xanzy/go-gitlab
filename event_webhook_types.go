@@ -365,27 +365,28 @@ type IssueEvent struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ee/user/project/integrations/webhook_events.html#job-events
 type JobEvent struct {
-	ObjectKind         string     `json:"object_kind"`
-	Ref                string     `json:"ref"`
-	Tag                bool       `json:"tag"`
-	BeforeSHA          string     `json:"before_sha"`
-	SHA                string     `json:"sha"`
-	BuildID            int        `json:"build_id"`
-	BuildName          string     `json:"build_name"`
-	BuildStage         string     `json:"build_stage"`
-	BuildStatus        string     `json:"build_status"`
-	BuildCreatedAt     string     `json:"build_created_at"`
-	BuildStartedAt     string     `json:"build_started_at"`
-	BuildFinishedAt    string     `json:"build_finished_at"`
-	BuildDuration      float64    `json:"build_duration"`
-	BuildAllowFailure  bool       `json:"build_allow_failure"`
-	BuildFailureReason string     `json:"build_failure_reason"`
-	RetriesCount       int        `json:"retries_count"`
-	PipelineID         int        `json:"pipeline_id"`
-	ProjectID          int        `json:"project_id"`
-	ProjectName        string     `json:"project_name"`
-	User               *EventUser `json:"user"`
-	Commit             struct {
+	ObjectKind          string     `json:"object_kind"`
+	Ref                 string     `json:"ref"`
+	Tag                 bool       `json:"tag"`
+	BeforeSHA           string     `json:"before_sha"`
+	SHA                 string     `json:"sha"`
+	BuildID             int        `json:"build_id"`
+	BuildName           string     `json:"build_name"`
+	BuildStage          string     `json:"build_stage"`
+	BuildStatus         string     `json:"build_status"`
+	BuildCreatedAt      string     `json:"build_created_at"`
+	BuildStartedAt      string     `json:"build_started_at"`  // TODO Should be *time.Time
+	BuildFinishedAt     string     `json:"build_finished_at"` // TODO Should be *time.Time
+	BuildDuration       float64    `json:"build_duration"`
+	BuildQueuedDuration float64    `json:"build_queued_duration"`
+	BuildAllowFailure   bool       `json:"build_allow_failure"`
+	BuildFailureReason  string     `json:"build_failure_reason"`
+	RetriesCount        int        `json:"retries_count"`
+	PipelineID          int        `json:"pipeline_id"`
+	ProjectID           int        `json:"project_id"`
+	ProjectName         string     `json:"project_name"`
+	User                *EventUser `json:"user"`
+	Commit              struct {
 		ID          int    `json:"id"`
 		Name        string `json:"name"`
 		SHA         string `json:"sha"`
@@ -400,11 +401,14 @@ type JobEvent struct {
 	} `json:"commit"`
 	Repository *Repository `json:"repository"`
 	Runner     struct {
-		ID          int    `json:"id"`
-		Active      bool   `json:"active"`
-		Shared      bool   `json:"is_shared"`
-		Description string `json:"description"`
+		ID          int      `json:"id"`
+		Active      bool     `json:"active"`
+		RunnerType  string   `json:"runner_type"`
+		Shared      bool     `json:"is_shared"`
+		Description string   `json:"description"`
+		Tags        []string `json:"tags"`
 	} `json:"runner"`
+	Environment string `json:"environment"` // TODO: Verify type
 }
 
 // MemberEvent represents a member event.
