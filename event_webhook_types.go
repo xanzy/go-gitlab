@@ -105,10 +105,12 @@ type BuildEvent struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ee/user/project/integrations/webhook_events.html#comment-on-a-commit
 type CommitCommentEvent struct {
-	ObjectKind string `json:"object_kind"`
-	User       *User  `json:"user"`
-	ProjectID  int    `json:"project_id"`
-	Project    struct {
+	ObjectKind string   `json:"object_kind"`
+	EventType  string   `json:"event_type"`
+	User       *User    `json:"user"`
+	ProjectID  int      `json:"project_id"`
+	Project    struct { // TODO: create EventProject struct
+		ID                int             `json:"id"`
 		Name              string          `json:"name"`
 		Description       string          `json:"description"`
 		AvatarURL         string          `json:"avatar_url"`
@@ -122,7 +124,7 @@ type CommitCommentEvent struct {
 		SSHURL            string          `json:"ssh_url"`
 		HTTPURL           string          `json:"http_url"`
 		WebURL            string          `json:"web_url"`
-		Visibility        VisibilityValue `json:"visibility"`
+		Visibility        VisibilityValue `json:"visibility"` // TODO GitLab now returns visibility_level of int type
 	} `json:"project"`
 	Repository       *Repository `json:"repository"`
 	ObjectAttributes struct {
@@ -130,8 +132,8 @@ type CommitCommentEvent struct {
 		Note         string `json:"note"`
 		NoteableType string `json:"noteable_type"`
 		AuthorID     int    `json:"author_id"`
-		CreatedAt    string `json:"created_at"`
-		UpdatedAt    string `json:"updated_at"`
+		CreatedAt    string `json:"created_at"` // TODO: should be *time.Time
+		UpdatedAt    string `json:"updated_at"` // TODO: should be *time.Time
 		ProjectID    int    `json:"project_id"`
 		Attachment   string `json:"attachment"`
 		LineCode     string `json:"line_code"`
@@ -151,7 +153,7 @@ type CommitCommentEvent struct {
 		Description string `json:"description"`
 		URL         string `json:"url"`
 	} `json:"object_attributes"`
-	Commit *struct {
+	Commit *struct { // TODO create Commit struct
 		ID        string     `json:"id"`
 		Title     string     `json:"title"`
 		Message   string     `json:"message"`
