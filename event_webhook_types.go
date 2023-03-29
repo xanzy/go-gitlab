@@ -1094,7 +1094,8 @@ type TagEvent struct {
 type WikiPageEvent struct {
 	ObjectKind string     `json:"object_kind"`
 	User       *EventUser `json:"user"`
-	Project    struct {
+	Project    struct {   // TODO replace with Project struct
+		ID                int             `json:"id"`
 		Name              string          `json:"name"`
 		Description       string          `json:"description"`
 		AvatarURL         string          `json:"avatar_url"`
@@ -1125,6 +1126,7 @@ type WikiPageEvent struct {
 		Slug    string `json:"slug"`
 		URL     string `json:"url"`
 		Action  string `json:"action"`
+		DiffURL string `json:"diff_url"`
 	} `json:"object_attributes"`
 }
 
