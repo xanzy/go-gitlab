@@ -935,9 +935,10 @@ type ReleaseEvent struct {
 // https://docs.gitlab.com/ee/user/project/integrations/webhook_events.html#comment-on-a-code-snippet
 type SnippetCommentEvent struct {
 	ObjectKind string     `json:"object_kind"`
+	EventType  string     `json:"event_type"`
 	User       *EventUser `json:"user"`
 	ProjectID  int        `json:"project_id"`
-	Project    struct {
+	Project    struct {   // TODO replace with Project struct
 		Name              string          `json:"name"`
 		Description       string          `json:"description"`
 		AvatarURL         string          `json:"avatar_url"`
@@ -959,8 +960,8 @@ type SnippetCommentEvent struct {
 		Note         string `json:"note"`
 		NoteableType string `json:"noteable_type"`
 		AuthorID     int    `json:"author_id"`
-		CreatedAt    string `json:"created_at"`
-		UpdatedAt    string `json:"updated_at"`
+		CreatedAt    string `json:"created_at"` // TODO should be *time.Time
+		UpdatedAt    string `json:"updated_at"` // TODO should be *time.Time
 		ProjectID    int    `json:"project_id"`
 		Attachment   string `json:"attachment"`
 		LineCode     string `json:"line_code"`
@@ -977,10 +978,10 @@ type SnippetCommentEvent struct {
 		Content            string `json:"content"`
 		AuthorID           int    `json:"author_id"`
 		ProjectID          int    `json:"project_id"`
-		CreatedAt          string `json:"created_at"`
-		UpdatedAt          string `json:"updated_at"`
+		CreatedAt          string `json:"created_at"` // TODO should be *time.Time
+		UpdatedAt          string `json:"updated_at"` // TODO should be *time.Time
 		Filename           string `json:"file_name"`
-		ExpiresAt          string `json:"expires_at"`
+		ExpiresAt          string `json:"expires_at"` // TODO should be *time.Time
 		Type               string `json:"type"`
 		VisibilityLevel    int    `json:"visibility_level"`
 		Description        string `json:"description"`
