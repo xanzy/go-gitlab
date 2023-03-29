@@ -197,6 +197,23 @@ type DeploymentEvent struct {
 	CommitTitle string     `json:"commit_title"`
 }
 
+// FeatureFlagEvent represents a feature flag event
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/user/project/integrations/webhook_events.html#feature-flag-events
+type FeatureFlagEvent struct {
+	ObjectKind       string     `json:"object_kind"`
+	Project          *Project   `json:"project"` // TODO check which Project struct to use Project or ProjectEvent
+	User             *EventUser `json:"user"`
+	UserURL          string     `json:"user_url"`
+	ObjectAttributes struct {
+		ID          int    `json:"id"`
+		Name        string `json:"name"`
+		Description string `json:"description"`
+		Active      bool   `json:"active"`
+	} `json:"object_attributes"`
+}
+
 // IssueCommentEvent represents a comment on an issue event.
 //
 // GitLab API docs:
