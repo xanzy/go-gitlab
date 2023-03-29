@@ -202,10 +202,11 @@ type DeploymentEvent struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ee/user/project/integrations/webhook_events.html#comment-on-an-issue
 type IssueCommentEvent struct {
-	ObjectKind string `json:"object_kind"`
-	User       *User  `json:"user"`
-	ProjectID  int    `json:"project_id"`
-	Project    struct {
+	ObjectKind string   `json:"object_kind"`
+	EventType  string   `json:"event_type"`
+	User       *User    `json:"user"`
+	ProjectID  int      `json:"project_id"`
+	Project    struct { // TODO: create EventProject struct
 		Name              string          `json:"name"`
 		Description       string          `json:"description"`
 		AvatarURL         string          `json:"avatar_url"`
@@ -240,7 +241,7 @@ type IssueCommentEvent struct {
 		Description  string  `json:"description"`
 		URL          string  `json:"url"`
 	} `json:"object_attributes"`
-	Issue struct {
+	Issue struct { // TODO Check if this can be replaced by IssueEvent struct
 		ID                  int           `json:"id"`
 		IID                 int           `json:"iid"`
 		ProjectID           int           `json:"project_id"`
@@ -250,12 +251,12 @@ type IssueCommentEvent struct {
 		State               string        `json:"state"`
 		Title               string        `json:"title"`
 		Labels              []*EventLabel `json:"labels"`
-		LastEditedAt        string        `json:"last_edit_at"`
+		LastEditedAt        string        `json:"last_edit_at"` // TODO should be *time.Time
 		LastEditedByID      int           `json:"last_edited_by_id"`
-		UpdatedAt           string        `json:"updated_at"`
+		UpdatedAt           string        `json:"updated_at"` // TODO should be *time.Time
 		UpdatedByID         int           `json:"updated_by_id"`
-		CreatedAt           string        `json:"created_at"`
-		ClosedAt            string        `json:"closed_at"`
+		CreatedAt           string        `json:"created_at"` // TODO should be *time.Time
+		ClosedAt            string        `json:"closed_at"`  // TODO should be *time.Time
 		DueDate             *ISOTime      `json:"due_date"`
 		URL                 string        `json:"url"`
 		TimeEstimate        int           `json:"time_estimate"`
@@ -265,6 +266,8 @@ type IssueCommentEvent struct {
 		HumanTimeEstimate   string        `json:"human_time_estimate"`
 		AssigneeIDs         []int         `json:"assignee_ids"`
 		AssigneeID          int           `json:"assignee_id"`
+		Position            int           `json:"position"`
+		BranchName          string        `json:"branch_name"`
 	} `json:"issue"`
 }
 
