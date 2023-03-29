@@ -1039,19 +1039,21 @@ type SubGroupEvent struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ee/user/project/integrations/webhook_events.html#tag-events
 type TagEvent struct {
-	ObjectKind   string `json:"object_kind"`
-	Before       string `json:"before"`
-	After        string `json:"after"`
-	Ref          string `json:"ref"`
-	CheckoutSHA  string `json:"checkout_sha"`
-	UserID       int    `json:"user_id"`
-	UserName     string `json:"user_name"`
-	UserUsername string `json:"user_username"`
-	UserAvatar   string `json:"user_avatar"`
-	UserEmail    string `json:"user_email"`
-	ProjectID    int    `json:"project_id"`
-	Message      string `json:"message"`
-	Project      struct {
+	ObjectKind   string   `json:"object_kind"`
+	EventName    string   `json:"event_name"`
+	Before       string   `json:"before"`
+	After        string   `json:"after"`
+	Ref          string   `json:"ref"`
+	CheckoutSHA  string   `json:"checkout_sha"`
+	UserID       int      `json:"user_id"`
+	UserName     string   `json:"user_name"`
+	UserUsername string   `json:"user_username"`
+	UserAvatar   string   `json:"user_avatar"`
+	UserEmail    string   `json:"user_email"`
+	ProjectID    int      `json:"project_id"`
+	Message      string   `json:"message"`
+	Project      struct { // TODO replace with Project struct
+		ID                int             `json:"id"`
 		Name              string          `json:"name"`
 		Description       string          `json:"description"`
 		AvatarURL         string          `json:"avatar_url"`
@@ -1068,7 +1070,7 @@ type TagEvent struct {
 		Visibility        VisibilityValue `json:"visibility"`
 	} `json:"project"`
 	Repository *Repository `json:"repository"`
-	Commits    []*struct {
+	Commits    []*struct { // TODO Check if can be replaced with Commit struct
 		ID        string     `json:"id"`
 		Message   string     `json:"message"`
 		Title     string     `json:"title"`
