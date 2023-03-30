@@ -201,6 +201,34 @@ func TestEventsService_ListProjectVisibleEvents(t *testing.T) {
 				  "web_url": "http://localhost:3000/venky333"
 				},
 				"author_username": "venky333"
+			},
+			{
+				"id": 4,
+				"title": null,
+				"project_id": 15,
+				"action_name": "pushed",
+				"target_id": null,
+				"target_type": null,
+				"author_id": 1,
+				"author": {
+				"name": "Dmitriy Zaporozhets",
+				"username": "root",
+				"id": 1,
+				"state": "active",
+				"avatar_url": "http://localhost:3000/uploads/user/avatar/1/fox_avatar.png",
+				"web_url": "http://localhost:3000/root"
+				},
+				"author_username": "john",
+				"push_data": {
+				"commit_count": 1,
+				"action": "pushed",
+				"ref_type": "branch",
+				"commit_from": "50d4420237a9de7be1304607147aec22e4a14af7",
+				"commit_to": "c5feabde2d8cd023215af4d2ceeb7a64839fc428",
+				"ref": "master",
+				"commit_title": "Add simple search to projects in public area"
+				},
+				"target_title": null
 			  }
 			]
 		`)
@@ -233,6 +261,52 @@ func TestEventsService_ListProjectVisibleEvents(t *testing.T) {
 				WebURL:    "http://localhost:3000/venky333",
 			},
 			AuthorUsername: "venky333",
+		},
+		// example from https://docs.gitlab.com/ee/api/events.html#get-user-contribution-events
+		{
+			ID:          4,
+			Title:       "",
+			ProjectID:   15,
+			ActionName:  "pushed",
+			TargetID:    0,
+			TargetIID:   0,
+			TargetType:  "",
+			AuthorID:    1,
+			TargetTitle: "",
+			CreatedAt:   "",
+			Author: struct {
+				Name      string `json:"name"`
+				Username  string `json:"username"`
+				ID        int    `json:"id"`
+				State     string `json:"state"`
+				AvatarURL string `json:"avatar_url"`
+				WebURL    string `json:"web_url"`
+			}{
+				Name:      "Dmitriy Zaporozhets",
+				Username:  "root",
+				ID:        1,
+				State:     "active",
+				AvatarURL: "http://localhost:3000/uploads/user/avatar/1/fox_avatar.png",
+				WebURL:    "http://localhost:3000/root",
+			},
+			AuthorUsername: "john",
+			PushData: struct {
+				CommitCount int    `json:"commit_count"`
+				Action      string `json:"action"`
+				RefType     string `json:"ref_type"`
+				CommitFrom  string `json:"commit_from"`
+				CommitTo    string `json:"commit_to"`
+				Ref         string `json:"ref"`
+				CommitTitle string `json:"commit_title"`
+			}{
+				CommitCount: 1,
+				Action:      "pushed",
+				RefType:     "branch",
+				CommitFrom:  "50d4420237a9de7be1304607147aec22e4a14af7",
+				CommitTo:    "c5feabde2d8cd023215af4d2ceeb7a64839fc428",
+				Ref:         "master",
+				CommitTitle: "Add simple search to projects in public area",
+			},
 		},
 	}
 

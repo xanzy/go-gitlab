@@ -176,6 +176,15 @@ type ProjectEvent struct {
 		NoteableType string     `json:"noteable_type"`
 		NoteableIID  int        `json:"noteable_iid"`
 	} `json:"note"`
+	PushData struct {
+		CommitCount int    `json:"commit_count"`
+		Action      string `json:"action"`
+		RefType     string `json:"ref_type"`
+		CommitFrom  string `json:"commit_from"`
+		CommitTo    string `json:"commit_to"`
+		Ref         string `json:"ref"`
+		CommitTitle string `json:"commit_title"`
+	} `json:"push_data"`
 }
 
 func (s ProjectEvent) String() string {
