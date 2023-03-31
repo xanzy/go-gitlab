@@ -568,7 +568,7 @@ func (c *Client) NewRequest(method, path string, opt interface{}, options []Requ
 
 	var body interface{}
 	switch {
-	case method == http.MethodPost || method == http.MethodPut || method == http.MethodPatch:
+	case method == http.MethodPatch || method == http.MethodPost || method == http.MethodPut:
 		reqHeaders.Set("Content-Type", "application/json")
 
 		if opt != nil {
