@@ -124,10 +124,7 @@ func TestEditManagedLicenses(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/managed_licenses/3", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPatch)
-		approvalStatus := r.URL.Query().Get("approval_status")
-		if approvalStatus != "blacklisted" {
-			t.Errorf("query param approval_status should be blacklisted but was %s", approvalStatus)
-		}
+		testBody(t, r, `{"approval_status":"blacklisted"}`)
 		mustWriteHTTPResponse(t, w, "testdata/edit_project_managed_license.json")
 	})
 

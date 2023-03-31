@@ -188,10 +188,7 @@ func TestUpdateRepositoryBranches(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/protected_branches/master", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPatch)
-		codeApprovalQueryParam := r.URL.Query().Get("code_owner_approval_required")
-		if codeApprovalQueryParam != "true" {
-			t.Errorf("query param code_owner_approval_required should be true but was %s", codeApprovalQueryParam)
-		}
+		testBody(t, r, `{"code_owner_approval_required":true}`)
 		fmt.Fprintf(w, `{
 			"name": "master",
 			"code_owner_approval_required": true
