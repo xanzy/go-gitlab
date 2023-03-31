@@ -567,67 +567,6 @@ func (s *ProjectsService) GetProject(pid interface{}, opt *GetProjectOptions, op
 	return p, resp, err
 }
 
-// ProjectEvent represents a GitLab project event.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ee/api/events.html#list-a-projects-visible-events
-type ProjectEvent struct {
-	Title          interface{} `json:"title"`
-	ProjectID      int         `json:"project_id"`
-	ActionName     string      `json:"action_name"`
-	TargetID       interface{} `json:"target_id"`
-	TargetType     interface{} `json:"target_type"`
-	AuthorID       int         `json:"author_id"`
-	AuthorUsername string      `json:"author_username"`
-	Data           struct {
-		Before            string      `json:"before"`
-		After             string      `json:"after"`
-		Ref               string      `json:"ref"`
-		UserID            int         `json:"user_id"`
-		UserName          string      `json:"user_name"`
-		Repository        *Repository `json:"repository"`
-		Commits           []*Commit   `json:"commits"`
-		TotalCommitsCount int         `json:"total_commits_count"`
-	} `json:"data"`
-	TargetTitle interface{} `json:"target_title"`
-}
-
-func (s ProjectEvent) String() string {
-	return Stringify(s)
-}
-
-// GetProjectEventsOptions represents the available GetProjectEvents() options.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ee/api/events.html#list-a-projects-visible-events
-type GetProjectEventsOptions ListOptions
-
-// GetProjectEvents gets the events for the specified project. Sorted from
-// newest to latest.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ee/api/events.html#list-a-projects-visible-events
-func (s *ProjectsService) GetProjectEvents(pid interface{}, opt *GetProjectEventsOptions, options ...RequestOptionFunc) ([]*ProjectEvent, *Response, error) {
-	project, err := parseID(pid)
-	if err != nil {
-		return nil, nil, err
-	}
-	u := fmt.Sprintf("projects/%s/events", PathEscape(project))
-
-	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	var p []*ProjectEvent
-	resp, err := s.client.Do(req, &p)
-	if err != nil {
-		return nil, resp, err
-	}
-
-	return p, resp, err
-}
-
 // CreateProjectOptions represents the available CreateProject() options.
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/projects.html#create-project
