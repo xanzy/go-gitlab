@@ -20,7 +20,8 @@ func TestInstanceVariablesService_ListVariables(t *testing.T) {
 					"variable_type": "env_var",
 					"value": "TEST_1",
 					"protected": false,
-					"masked": false
+					"masked": false,
+					"raw": true
 				}
 			]
 		`)
@@ -32,6 +33,7 @@ func TestInstanceVariablesService_ListVariables(t *testing.T) {
 		VariableType: "env_var",
 		Protected:    false,
 		Masked:       false,
+		Raw:          true,
 	}}
 
 	ivs, resp, err := client.InstanceVariables.ListVariables(nil)
@@ -70,7 +72,8 @@ func TestInstanceVariablesService_GetVariable(t *testing.T) {
 				"variable_type": "env_var",
 				"value": "TEST_1",
 				"protected": false,
-				"masked": false
+				"masked": false,
+				"raw": true
 			}
 		`)
 	})
@@ -81,6 +84,7 @@ func TestInstanceVariablesService_GetVariable(t *testing.T) {
 		VariableType: "env_var",
 		Protected:    false,
 		Masked:       false,
+		Raw:          true,
 	}
 
 	iv, resp, err := client.InstanceVariables.GetVariable("TEST_VARIABLE_1", nil)
@@ -110,7 +114,8 @@ func TestInstanceVariablesService_CreateVariable(t *testing.T) {
 				"value": "new value",
 				"variable_type": "env_var",
 				"protected": false,
-				"masked": false
+				"masked": false,
+				"raw": true
 			}
 		`)
 	})
@@ -121,6 +126,7 @@ func TestInstanceVariablesService_CreateVariable(t *testing.T) {
 		VariableType: "env_var",
 		Protected:    false,
 		Masked:       false,
+		Raw:          true,
 	}
 
 	iv, resp, err := client.InstanceVariables.CreateVariable(nil)
@@ -159,7 +165,8 @@ func TestInstanceVariablesService_UpdateVariable(t *testing.T) {
 				"value": "updated value",
 				"variable_type": "env_var",
 				"protected": false,
-				"masked": false
+				"masked": false,
+				"raw": true
 			}
 		`)
 	})
@@ -170,6 +177,7 @@ func TestInstanceVariablesService_UpdateVariable(t *testing.T) {
 		VariableType: "env_var",
 		Protected:    false,
 		Masked:       false,
+		Raw:          true,
 	}
 
 	iv, resp, err := client.InstanceVariables.UpdateVariable("NEW_VARIABLE", nil)

@@ -41,6 +41,7 @@ type InstanceVariable struct {
 	VariableType VariableTypeValue `json:"variable_type"`
 	Protected    bool              `json:"protected"`
 	Masked       bool              `json:"masked"`
+	Raw          bool              `json:"raw"`
 }
 
 func (v InstanceVariable) String() string {
@@ -107,6 +108,7 @@ type CreateInstanceVariableOptions struct {
 	VariableType *VariableTypeValue `url:"variable_type,omitempty" json:"variable_type,omitempty"`
 	Protected    *bool              `url:"protected,omitempty" json:"protected,omitempty"`
 	Masked       *bool              `url:"masked,omitempty" json:"masked,omitempty"`
+	Raw          *bool              `url:"raw,omitempty" json:"raw,omitempty"`
 }
 
 // CreateVariable creates a new instance level CI variable.
@@ -140,6 +142,7 @@ type UpdateInstanceVariableOptions struct {
 	VariableType *VariableTypeValue `url:"variable_type,omitempty" json:"variable_type,omitempty"`
 	Protected    *bool              `url:"protected,omitempty" json:"protected,omitempty"`
 	Masked       *bool              `url:"masked,omitempty" json:"masked,omitempty"`
+	Raw          *bool              `url:"raw,omitempty" json:"raw,omitempty"`
 }
 
 // UpdateVariable updates the position of an existing
