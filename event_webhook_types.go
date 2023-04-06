@@ -87,15 +87,15 @@ type BuildEvent struct {
 	ProjectName       string     `json:"project_name"`
 	User              *EventUser `json:"user"`
 	Commit            struct {
-		ID          int    `json:"id"`
-		SHA         string `json:"sha"`
-		Message     string `json:"message"`
-		AuthorName  string `json:"author_name"`
-		AuthorEmail string `json:"author_email"`
-		Status      string `json:"status"`
-		Duration    int    `json:"duration"`
-		StartedAt   string `json:"started_at"`
-		FinishedAt  string `json:"finished_at"`
+		ID          int     `json:"id"`
+		SHA         string  `json:"sha"`
+		Message     string  `json:"message"`
+		AuthorName  string  `json:"author_name"`
+		AuthorEmail string  `json:"author_email"`
+		Status      string  `json:"status"`
+		Duration    float64 `json:"duration"`
+		StartedAt   string  `json:"started_at"`
+		FinishedAt  string  `json:"finished_at"`
 	} `json:"commit"`
 	Repository *Repository `json:"repository"`
 }
@@ -327,7 +327,6 @@ type IssueEvent struct {
 		LastEditedAt        string   `json:"last_edited_at"` // Should be *time.Time
 		LastEditedByID      int      `json:"last_edited_by_id"`
 		RelativePosition    int      `json:"relative_position"`
-		Position            int      `json:"position"` // TODO GitLab doc doesn't mention this field
 		BranchName          string   `json:"branch_name"`
 		Description         string   `json:"description"`
 		MilestoneID         int      `json:"milestone_id"`
@@ -340,10 +339,10 @@ type IssueEvent struct {
 		TimeEstimate        int      `json:"time_estimate"`
 		TotalTimeSpent      int      `json:"total_time_spent"`
 		TimeChange          int      `json:"time_change"`
-		HumanTotalTimeSpent string   `json:"human_total_time_spent"` // TODO Check type
-		HumanTimeEstimate   string   `json:"human_time_estimate"`    // TODO Check type
-		HumanTimeChange     string   `json:"human_time_change"`      // TODO Check type
-		Weight              string   `json:"weight"`                 // TODO Check type
+		HumanTotalTimeSpent string   `json:"human_total_time_spent"`
+		HumanTimeEstimate   string   `json:"human_time_estimate"`
+		HumanTimeChange     string   `json:"human_time_change"`
+		Weight              string   `json:"weight"`
 		IID                 int      `json:"iid"`
 		URL                 string   `json:"url"`
 		State               string   `json:"state"`
@@ -426,28 +425,28 @@ type JobEvent struct {
 	ProjectName         string     `json:"project_name"`
 	User                *EventUser `json:"user"`
 	Commit              struct {
-		ID          int    `json:"id"`
-		Name        string `json:"name"`
-		SHA         string `json:"sha"`
-		Message     string `json:"message"`
-		AuthorName  string `json:"author_name"`
-		AuthorEmail string `json:"author_email"`
-		AuthorURL   string `json:"author_url"`
-		Status      string `json:"status"`
-		Duration    int    `json:"duration"`
-		StartedAt   string `json:"started_at"`
-		FinishedAt  string `json:"finished_at"`
+		ID          int     `json:"id"`
+		Name        string  `json:"name"`
+		SHA         string  `json:"sha"`
+		Message     string  `json:"message"`
+		AuthorName  string  `json:"author_name"`
+		AuthorEmail string  `json:"author_email"`
+		AuthorURL   string  `json:"author_url"`
+		Status      string  `json:"status"`
+		Duration    float64 `json:"duration"`
+		StartedAt   string  `json:"started_at"`
+		FinishedAt  string  `json:"finished_at"`
 	} `json:"commit"`
 	Repository *Repository `json:"repository"`
 	Runner     struct {
 		ID          int      `json:"id"`
 		Active      bool     `json:"active"`
 		RunnerType  string   `json:"runner_type"`
-		Shared      bool     `json:"is_shared"` // TODO variable name should be IsShared
+		IsShared    bool     `json:"is_shared"`
 		Description string   `json:"description"`
 		Tags        []string `json:"tags"`
 	} `json:"runner"`
-	Environment string `json:"environment"` // TODO: Verify type
+	Environment string `json:"environment"`
 }
 
 // MemberEvent represents a member event.
@@ -672,15 +671,15 @@ type MergeEvent struct {
 	Repository *Repository   `json:"repository"`
 	Labels     []*EventLabel `json:"labels"`
 	Changes    struct {
-		Description struct { // TODO GitLab doc doesn't mention this field
+		Description struct {
 			Previous string `json:"previous"`
 			Current  string `json:"current"`
 		} `json:"description"`
-		LastEditedAt struct { // TODO GitLab doc doesn't mention this field
+		LastEditedAt struct {
 			Previous string `json:"previous"`
 			Current  string `json:"current"`
 		} `json:"last_edited_at"`
-		LastEditedByID struct { // TODO GitLab doc doesn't mention this field
+		LastEditedByID struct {
 			Previous int `json:"previous"`
 			Current  int `json:"current"`
 		} `json:"last_edited_by_id"`
@@ -764,12 +763,12 @@ type PipelineEvent struct {
 		BeforeSHA      string   `json:"before_sha"`
 		Source         string   `json:"source"`
 		Status         string   `json:"status"`
-		DetailedStatus string   `json:"detailed_status"` // TODO GitLab doc doesn't mention this field
+		DetailedStatus string   `json:"detailed_status"`
 		Stages         []string `json:"stages"`
-		CreatedAt      string   `json:"created_at"`      // TODO should be *time.Time
-		FinishedAt     string   `json:"finished_at"`     // TODO should be *time.Time
-		Duration       int      `json:"duration"`        // TODO verify type
-		QueuedDuration int      `json:"queued_duration"` // TODO verify type
+		CreatedAt      string   `json:"created_at"`  // TODO should be *time.Time
+		FinishedAt     string   `json:"finished_at"` // TODO should be *time.Time
+		Duration       float64  `json:"duration"`
+		QueuedDuration float64  `json:"queued_duration"`
 		Variables      []struct {
 			Key   string `json:"key"`
 			Value string `json:"value"`
@@ -959,7 +958,7 @@ type ReleaseEvent struct {
 			URL    string `json:"url"`
 		} `json:"sources"`
 	} `json:"assets"`
-	Commit struct {
+	Commit struct { // TODO replace with Commit struct
 		ID        string `json:"id"`
 		Message   string `json:"message"`
 		Title     string `json:"title"`
