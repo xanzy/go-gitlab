@@ -671,10 +671,22 @@ type MergeEvent struct {
 	Repository *Repository   `json:"repository"`
 	Labels     []*EventLabel `json:"labels"`
 	Changes    struct {
+		Assignees struct {
+			Previous []*EventUser `json:"previous"`
+			Current  []*EventUser `json:"current"`
+		} `json:"assignees"`
+		Reviewers struct {
+			Previous []*EventUser `json:"previous"`
+			Current  []*EventUser `json:"current"`
+		} `json:"reviewers"`
 		Description struct {
 			Previous string `json:"previous"`
 			Current  string `json:"current"`
 		} `json:"description"`
+		Labels struct {
+			Previous []*EventLabel `json:"previous"`
+			Current  []*EventLabel `json:"current"`
+		} `json:"labels"`
 		LastEditedAt struct {
 			Previous string `json:"previous"`
 			Current  string `json:"current"`
@@ -683,6 +695,34 @@ type MergeEvent struct {
 			Previous int `json:"previous"`
 			Current  int `json:"current"`
 		} `json:"last_edited_by_id"`
+		MilestoneID struct {
+			Previous int `json:"previous"`
+			Current  int `json:"current"`
+		} `json:"milestone_id"`
+		SourceBranch struct {
+			Previous string `json:"previous"`
+			Current  string `json:"current"`
+		} `json:"source_branch"`
+		SourceProjectID struct {
+			Previous int `json:"previous"`
+			Current  int `json:"current"`
+		} `json:"source_project_id"`
+		StateID struct {
+			Previous StateID `json:"previous"`
+			Current  StateID `json:"current"`
+		} `json:"state_id"`
+		TargetBranch struct {
+			Previous string `json:"previous"`
+			Current  string `json:"current"`
+		} `json:"target_branch"`
+		TargetProjectID struct {
+			Previous int `json:"previous"`
+			Current  int `json:"current"`
+		} `json:"target_project_id"`
+		Title struct {
+			Previous string `json:"previous"`
+			Current  string `json:"current"`
+		} `json:"title"`
 		UpdatedAt struct {
 			Previous string `json:"previous"`
 			Current  string `json:"current"`
@@ -691,10 +731,6 @@ type MergeEvent struct {
 			Previous int `json:"previous"`
 			Current  int `json:"current"`
 		} `json:"updated_by_id"`
-		Labels struct {
-			Previous *EventLabel `json:"previous"`
-			Current  EventLabel  `json:"current"`
-		} `json:"labels"`
 	} `json:"changes"`
 	Assignees []*EventUser `json:"assignees"`
 	Reviewers []*EventUser `json:"reviewers"`
