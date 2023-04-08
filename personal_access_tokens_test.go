@@ -154,8 +154,86 @@ func TestDeletePersonalAccessToken(t *testing.T) {
 		testMethod(t, r, http.MethodDelete)
 	})
 
-	_, err := client.PersonalAccessTokens.RevokePersonalAccessToken(1)
+	_, err := client.PersonalAccessTokens.RevokePersonalAccessToken(2)
 	if err != nil {
 		t.Errorf("PersonalAccessTokens.RevokePersonalAccessToken returned error: %v", err)
+	}
+}
+
+func TestGetSinglePersonalAccessToken(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/personal_access_tokens/1", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		mustWriteHTTPResponse(t, w, "testdata/list_personal_access_tokens_single.json")
+	})
+
+	token, _, err := client.PersonalAccessTokens.GetSinglePersonalAccessToken(1)
+	if err != nil {
+		t.Errorf("PersonalAccessTokens.RevokePersonalAccessToken returned error: %v", err)
+	}
+
+	createdAt1, err := time.Parse(time.RFC3339, "2020-07-23T14:31:47.729Z")
+	if err != nil {
+		t.Errorf("PersonalAccessTokens.ListPersonalAccessTokens returned error: %v", err)
+	}
+
+	lastUsedAt1, err := time.Parse(time.RFC3339, "2021-10-06T17:58:37.550Z")
+	if err != nil {
+		t.Errorf("PersonalAccessTokens.ListPersonalAccessTokens returned error: %v", err)
+	}
+
+	want := &PersonalAccessToken{
+		ID:         1,
+		Name:       "Test Token",
+		Revoked:    false,
+		CreatedAt:  &createdAt1,
+		Scopes:     []string{"api"},
+		UserID:     1,
+		LastUsedAt: &lastUsedAt1,
+		Active:     true,
+	}
+
+	if !reflect.DeepEqual(want, token) {
+		t.Errorf("PersonalAccessTokens.ListPersonalAccessTokens returned %+v, want %+v", token, want)
+	}
+}
+
+func TestGetSingleSelfPersonalAccessToken(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/personal_access_tokens/self", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		mustWriteHTTPResponse(t, w, "testdata/list_personal_access_tokens_single.json")
+	})
+
+	token, _, err := client.PersonalAccessTokens.GetSingleSelfPersonalAccessToken()
+	if err != nil {
+		t.Errorf("PersonalAccessTokens.RevokePersonalAccessToken returned error: %v", err)
+	}
+
+	createdAt1, err := time.Parse(time.RFC3339, "2020-07-23T14:31:47.729Z")
+	if err != nil {
+		t.Errorf("PersonalAccessTokens.ListPersonalAccessTokens returned error: %v", err)
+	}
+
+	lastUsedAt1, err := time.Parse(time.RFC3339, "2021-10-06T17:58:37.550Z")
+	if err != nil {
+		t.Errorf("PersonalAccessTokens.ListPersonalAccessTokens returned error: %v", err)
+	}
+
+	want := &PersonalAccessToken{
+		ID:         1,
+		Name:       "Test Token",
+		Revoked:    false,
+		CreatedAt:  &createdAt1,
+		Scopes:     []string{"api"},
+		UserID:     1,
+		LastUsedAt: &lastUsedAt1,
+		Active:     true,
+	}
+
+	if !reflect.DeepEqual(want, token) {
+		t.Errorf("PersonalAccessTokens.ListPersonalAccessTokens returned %+v, want %+v", token, want)
 	}
 }
