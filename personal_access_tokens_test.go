@@ -147,20 +147,7 @@ func TestListPersonalAccessTokensNoUserFilter(t *testing.T) {
 	}
 }
 
-func TestDeletePersonalAccessToken(t *testing.T) {
-	mux, client := setup(t)
-
-	mux.HandleFunc("/api/v4/personal_access_tokens/1", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, http.MethodDelete)
-	})
-
-	_, err := client.PersonalAccessTokens.RevokePersonalAccessToken(2)
-	if err != nil {
-		t.Errorf("PersonalAccessTokens.RevokePersonalAccessToken returned error: %v", err)
-	}
-}
-
-func TestGetSinglePersonalAccessToken(t *testing.T) {
+func TestGetSinglePersonalAccessTokenByID(t *testing.T) {
 	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/personal_access_tokens/1", func(w http.ResponseWriter, r *http.Request) {
@@ -168,17 +155,17 @@ func TestGetSinglePersonalAccessToken(t *testing.T) {
 		mustWriteHTTPResponse(t, w, "testdata/list_personal_access_tokens_single.json")
 	})
 
-	token, _, err := client.PersonalAccessTokens.GetSinglePersonalAccessToken(1)
+	token, _, err := client.PersonalAccessTokens.GetSinglePersonalAccessTokenByID(1)
 	if err != nil {
 		t.Errorf("PersonalAccessTokens.RevokePersonalAccessToken returned error: %v", err)
 	}
 
-	createdAt1, err := time.Parse(time.RFC3339, "2020-07-23T14:31:47.729Z")
+	createdAt, err := time.Parse(time.RFC3339, "2020-07-23T14:31:47.729Z")
 	if err != nil {
 		t.Errorf("PersonalAccessTokens.ListPersonalAccessTokens returned error: %v", err)
 	}
 
-	lastUsedAt1, err := time.Parse(time.RFC3339, "2021-10-06T17:58:37.550Z")
+	lastUsedAt, err := time.Parse(time.RFC3339, "2021-10-06T17:58:37.550Z")
 	if err != nil {
 		t.Errorf("PersonalAccessTokens.ListPersonalAccessTokens returned error: %v", err)
 	}
@@ -187,10 +174,10 @@ func TestGetSinglePersonalAccessToken(t *testing.T) {
 		ID:         1,
 		Name:       "Test Token",
 		Revoked:    false,
-		CreatedAt:  &createdAt1,
+		CreatedAt:  &createdAt,
 		Scopes:     []string{"api"},
 		UserID:     1,
-		LastUsedAt: &lastUsedAt1,
+		LastUsedAt: &lastUsedAt,
 		Active:     true,
 	}
 
@@ -199,7 +186,7 @@ func TestGetSinglePersonalAccessToken(t *testing.T) {
 	}
 }
 
-func TestGetSingleSelfPersonalAccessToken(t *testing.T) {
+func TestGetSinglePersonalAccessToken(t *testing.T) {
 	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/personal_access_tokens/self", func(w http.ResponseWriter, r *http.Request) {
@@ -207,17 +194,17 @@ func TestGetSingleSelfPersonalAccessToken(t *testing.T) {
 		mustWriteHTTPResponse(t, w, "testdata/list_personal_access_tokens_single.json")
 	})
 
-	token, _, err := client.PersonalAccessTokens.GetSingleSelfPersonalAccessToken()
+	token, _, err := client.PersonalAccessTokens.GetSinglePersonalAccessToken()
 	if err != nil {
 		t.Errorf("PersonalAccessTokens.RevokePersonalAccessToken returned error: %v", err)
 	}
 
-	createdAt1, err := time.Parse(time.RFC3339, "2020-07-23T14:31:47.729Z")
+	createdAt, err := time.Parse(time.RFC3339, "2020-07-23T14:31:47.729Z")
 	if err != nil {
 		t.Errorf("PersonalAccessTokens.ListPersonalAccessTokens returned error: %v", err)
 	}
 
-	lastUsedAt1, err := time.Parse(time.RFC3339, "2021-10-06T17:58:37.550Z")
+	lastUsedAt, err := time.Parse(time.RFC3339, "2021-10-06T17:58:37.550Z")
 	if err != nil {
 		t.Errorf("PersonalAccessTokens.ListPersonalAccessTokens returned error: %v", err)
 	}
@@ -226,14 +213,27 @@ func TestGetSingleSelfPersonalAccessToken(t *testing.T) {
 		ID:         1,
 		Name:       "Test Token",
 		Revoked:    false,
-		CreatedAt:  &createdAt1,
+		CreatedAt:  &createdAt,
 		Scopes:     []string{"api"},
 		UserID:     1,
-		LastUsedAt: &lastUsedAt1,
+		LastUsedAt: &lastUsedAt,
 		Active:     true,
 	}
 
 	if !reflect.DeepEqual(want, token) {
 		t.Errorf("PersonalAccessTokens.ListPersonalAccessTokens returned %+v, want %+v", token, want)
+	}
+}
+
+func TestRevokePersonalAccessToken(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/personal_access_tokens/1", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodDelete)
+	})
+
+	_, err := client.PersonalAccessTokens.RevokePersonalAccessToken(1)
+	if err != nil {
+		t.Errorf("PersonalAccessTokens.RevokePersonalAccessToken returned error: %v", err)
 	}
 }
