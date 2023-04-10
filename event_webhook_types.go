@@ -184,6 +184,7 @@ type DeploymentEvent struct {
 // https://docs.gitlab.com/ee/user/project/integrations/webhook_events.html#comment-on-an-issue
 type IssueCommentEvent struct {
 	ObjectKind string `json:"object_kind"`
+	EventType  string `json:"event_type"`
 	User       *User  `json:"user"`
 	ProjectID  int    `json:"project_id"`
 	Project    struct {
@@ -246,6 +247,8 @@ type IssueCommentEvent struct {
 		HumanTimeEstimate   string        `json:"human_time_estimate"`
 		AssigneeIDs         []int         `json:"assignee_ids"`
 		AssigneeID          int           `json:"assignee_id"`
+		Position            int           `json:"position"`
+		BranchName          string        `json:"branch_name"`
 	} `json:"issue"`
 }
 

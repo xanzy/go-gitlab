@@ -205,6 +205,10 @@ func TestIssueCommentEventUnmarshal(t *testing.T) {
 		t.Errorf("ObjectKind is %v, want %v", event.ObjectKind, NoteEventTargetType)
 	}
 
+	if event.EventType != "note" {
+		t.Errorf("EventType is %v, want %v", event.EventType, "note")
+	}
+
 	if event.ProjectID != 5 {
 		t.Errorf("ProjectID is %v, want %v", event.ProjectID, 5)
 	}
@@ -219,6 +223,14 @@ func TestIssueCommentEventUnmarshal(t *testing.T) {
 
 	if event.Issue.Title != "test_issue" {
 		t.Errorf("Issue title is %v, want %v", event.Issue.Title, "test_issue")
+	}
+
+	if event.Issue.Position != 0 {
+		t.Errorf("Issue position is %v, want %v", event.Issue.Position, 0)
+	}
+
+	if event.Issue.BranchName != "" {
+		t.Errorf("Issue branch name is %v, want %v", event.Issue.BranchName, "")
 	}
 
 	if len(event.Issue.Labels) == 0 || event.Issue.Labels[0].ID != 25 {
