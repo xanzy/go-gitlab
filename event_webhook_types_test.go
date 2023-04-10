@@ -64,6 +64,48 @@ func TestBuildEventUnmarshal(t *testing.T) {
 	}
 }
 
+func TestCommitCommentEventUnmarshal(t *testing.T) {
+	jsonObject := loadFixture("testdata/webhooks/note_commit.json")
+
+	var event *CommitCommentEvent
+	err := json.Unmarshal(jsonObject, &event)
+	if err != nil {
+		t.Errorf("Commit Comment Event can not unmarshaled: %v\n ", err.Error())
+	}
+
+	if event == nil {
+		t.Errorf("Commit Comment Event is null")
+	}
+
+	if event.ObjectKind != string(NoteEventTargetType) {
+		t.Errorf("ObjectKind is %v, want %v", event.ObjectKind, NoteEventTargetType)
+	}
+
+	if event.EventType != "note" {
+		t.Errorf("EventType is %v, want %v", event.EventType, "note")
+	}
+
+	if event.ProjectID != 5 {
+		t.Errorf("ProjectID is %v, want %v", event.ProjectID, 5)
+	}
+
+	if event.User.ID != 42 {
+		t.Errorf("User ID is %d, want %d", event.User.ID, 42)
+	}
+
+	if event.Repository.Name != "Gitlab Test" {
+		t.Errorf("Repository name is %v, want %v", event.Repository.Name, "Gitlab Test")
+	}
+
+	if event.ObjectAttributes.NoteableType != "Commit" {
+		t.Errorf("NoteableType is %v, want %v", event.ObjectAttributes.NoteableType, "Commit")
+	}
+
+	if event.Commit.Title != "Add submodule" {
+		t.Errorf("Issue title is %v, want %v", event.Commit.Title, "Add submodule")
+	}
+}
+
 func TestJobEventUnmarshal(t *testing.T) {
 	jsonObject := loadFixture("testdata/webhooks/job.json")
 
