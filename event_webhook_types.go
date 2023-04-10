@@ -178,6 +178,40 @@ type DeploymentEvent struct {
 	CommitTitle string     `json:"commit_title"`
 }
 
+// FeatureFlagEvent represents a feature flag event
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/user/project/integrations/webhook_events.html#feature-flag-events
+type FeatureFlagEvent struct {
+	ObjectKind string `json:"object_kind"`
+	Project    struct {
+		ID                int     `json:"id"`
+		Name              string  `json:"name"`
+		Description       string  `json:"description"`
+		WebURL            string  `json:"web_url"`
+		AvatarURL         *string `json:"avatar_url"`
+		GitSSHURL         string  `json:"git_ssh_url"`
+		GitHTTPURL        string  `json:"git_http_url"`
+		Namespace         string  `json:"namespace"`
+		VisibilityLevel   int     `json:"visibility_level"`
+		PathWithNamespace string  `json:"path_with_namespace"`
+		DefaultBranch     string  `json:"default_branch"`
+		CIConfigPath      string  `json:"ci_config_path"`
+		Homepage          string  `json:"homepage"`
+		URL               string  `json:"url"`
+		SSHURL            string  `json:"ssh_url"`
+		HTTPURL           string  `json:"http_url"`
+	} `json:"project"`
+	User             *EventUser `json:"user"`
+	UserURL          string     `json:"user_url"`
+	ObjectAttributes struct {
+		ID          int    `json:"id"`
+		Name        string `json:"name"`
+		Description string `json:"description"`
+		Active      bool   `json:"active"`
+	} `json:"object_attributes"`
+}
+
 // IssueCommentEvent represents a comment on an issue event.
 //
 // GitLab API docs:
