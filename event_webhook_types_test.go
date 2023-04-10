@@ -174,6 +174,22 @@ func TestDeploymentEventUnmarshal(t *testing.T) {
 	if event.Ref != "1.0.0" {
 		t.Errorf("Ref is %s, want %s", event.Ref, "1.0.0")
 	}
+
+	if event.StatusChangedAt != "2021-04-28 21:50:00 +0200" {
+		t.Errorf("StatusChangedAt is %s, want %s", event.StatusChangedAt, "2021-04-28 21:50:00 +0200")
+	}
+
+	if event.DeploymentID != 15 {
+		t.Errorf("DeploymentID is %d, want %d", event.DeploymentID, 15)
+	}
+
+	if event.EnvironmentSlug != "staging" {
+		t.Errorf("EnvironmentSlug is %s, want %s", event.EnvironmentSlug, "staging")
+	}
+
+	if event.EnvironmentExternalURL != "https://staging.example.com" {
+		t.Errorf("EnvironmentExternalURL is %s, want %s", event.EnvironmentExternalURL, "https://staging.example.com")
+	}
 }
 
 func TestIssueCommentEventUnmarshal(t *testing.T) {
