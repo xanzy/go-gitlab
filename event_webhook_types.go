@@ -291,7 +291,7 @@ type IssueEvent struct {
 		BranchName          string   `json:"branch_name"`
 		Description         string   `json:"description"`
 		MilestoneID         int      `json:"milestone_id"`
-		StateID             int      `json:"state_id"`
+		StateID             StateID  `json:"state_id"`
 		Confidential        bool     `json:"confidential"`
 		DiscussionLocked    bool     `json:"discussion_locked"`
 		DueDate             *ISOTime `json:"due_date"`
