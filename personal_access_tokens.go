@@ -79,6 +79,47 @@ func (s *PersonalAccessTokensService) ListPersonalAccessTokens(opt *ListPersonal
 	return pats, resp, err
 }
 
+// GetSinglePersonalAccessTokenByID get a single personal access token by its ID.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/personal_access_tokens.html#using-a-personal-access-token-id
+func (s *PersonalAccessTokensService) GetSinglePersonalAccessTokenByID(user int, options ...RequestOptionFunc) (*PersonalAccessToken, *Response, error) {
+	u := fmt.Sprintf("personal_access_tokens/%d", user)
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	pat := new(PersonalAccessToken)
+	resp, err := s.client.Do(req, pat)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return pat, resp, err
+}
+
+// GetSinglePersonalAccessToken get a single personal access token by using
+// passing the token in a header.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/personal_access_tokens.html#using-a-request-header
+func (s *PersonalAccessTokensService) GetSinglePersonalAccessToken(options ...RequestOptionFunc) (*PersonalAccessToken, *Response, error) {
+	u := "personal_access_tokens/self"
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	pat := new(PersonalAccessToken)
+	resp, err := s.client.Do(req, pat)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return pat, resp, err
+}
+
 // RevokePersonalAccessToken revokes a personal access token.
 //
 // GitLab API docs:
