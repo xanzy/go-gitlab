@@ -135,11 +135,15 @@ func TestJobEventUnmarshal(t *testing.T) {
 	expectedEvent.Commit.FinishedAt = "2022-10-12 08:09:29 UTC"
 
 	expectedEvent.Runner.ID = 12270837
+	expectedEvent.Runner.Description = "4-blue.shared.runners-manager.gitlab.com/default"
+	expectedEvent.Runner.RunnerType = "instance_type"
 	expectedEvent.Runner.Active = true
 	expectedEvent.Runner.IsShared = true
-	expectedEvent.Runner.Description = "4-blue.shared.runners-manager.gitlab.com/default"
+	expectedEvent.Runner.Tags = []string{"linux", "docker"}
 
-	assert.Equal(t, expectedEvent, event, "event should be equal to the expected one")
+	expectedEvent.Environment = "staging"
+
+	assert.Equal(t, expectedEvent, *event, "event should be equal to the expected one")
 }
 
 func TestDeploymentEventUnmarshal(t *testing.T) {

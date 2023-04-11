@@ -26,17 +26,8 @@
     "active": true,
     "is_shared": true,
     "tags": [
-      "gce",
-      "east-c",
       "linux",
-      "ruby",
-      "mysql",
-      "postgres",
-      "mongo",
-      "git-annex",
-      "shared",
-      "docker",
-      "saas-linux-small-amd64"
+      "docker"
     ]
   },
   "user": {
