@@ -352,9 +352,9 @@ type JobEvent struct {
 	BuildStartedAt      string     `json:"build_started_at"`
 	BuildFinishedAt     string     `json:"build_finished_at"`
 	BuildDuration       float64    `json:"build_duration"`
+	BuildQueuedDuration float64    `json:"build_queued_duration"`
 	BuildAllowFailure   bool       `json:"build_allow_failure"`
 	BuildFailureReason  string     `json:"build_failure_reason"`
-	BuildQueuedDuration float64    `json:"build_queued_duration"`
 	RetriesCount        int        `json:"retries_count"`
 	PipelineID          int        `json:"pipeline_id"`
 	ProjectID           int        `json:"project_id"`
@@ -375,11 +375,14 @@ type JobEvent struct {
 	} `json:"commit"`
 	Repository *Repository `json:"repository"`
 	Runner     struct {
-		ID          int    `json:"id"`
-		Active      bool   `json:"active"`
-		Shared      bool   `json:"is_shared"`
-		Description string `json:"description"`
+		ID          int      `json:"id"`
+		Active      bool     `json:"active"`
+		RunnerType  string   `json:"runner_type"`
+		IsShared    bool     `json:"is_shared"`
+		Description string   `json:"description"`
+		Tags        []string `json:"tags"`
 	} `json:"runner"`
+	Environment string `json:"environment"`
 }
 
 // MemberEvent represents a member event.

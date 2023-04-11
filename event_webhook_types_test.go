@@ -91,9 +91,9 @@ func TestJobEventUnmarshal(t *testing.T) {
 		BuildStartedAt:      "2023-01-10 13:50:05 UTC",
 		BuildFinishedAt:     "2023-01-10 13:50:54 UTC",
 		BuildDuration:       49.503592,
+		BuildQueuedDuration: 0.193009,
 		BuildAllowFailure:   false,
 		BuildFailureReason:  "unknown_failure",
-		BuildQueuedDuration: 0.193009,
 		RetriesCount:        1,
 		PipelineID:          743121198,
 		ProjectID:           31537070,
@@ -136,10 +136,10 @@ func TestJobEventUnmarshal(t *testing.T) {
 
 	expectedEvent.Runner.ID = 12270837
 	expectedEvent.Runner.Active = true
-	expectedEvent.Runner.Shared = true
+	expectedEvent.Runner.IsShared = true
 	expectedEvent.Runner.Description = "4-blue.shared.runners-manager.gitlab.com/default"
 
-	assert.Equal(t, expectedEvent, *event, "event should be equal to the expected one")
+	assert.Equal(t, expectedEvent, event, "event should be equal to the expected one")
 }
 
 func TestDeploymentEventUnmarshal(t *testing.T) {
