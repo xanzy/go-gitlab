@@ -386,8 +386,8 @@ func TestMergeEventUnmarshal(t *testing.T) {
 		t.Errorf("ObjectAttributes.HumanTimeChange is %v, want %v", event.ObjectAttributes.HumanTimeChange, "30m")
 	}
 
-	if event.ObjectAttributes.HumanTimeEstimate != "30m" {
-		t.Errorf("ObjectAttributes.HumanTimeEstimate is %v, want %v", event.ObjectAttributes.HumanTimeEstimate, "30m")
+	if event.ObjectAttributes.HumanTimeEstimate != "1h" {
+		t.Errorf("ObjectAttributes.HumanTimeEstimate is %v, want %v", event.ObjectAttributes.HumanTimeEstimate, "1h")
 	}
 
 	if event.Assignees[0].Name != expectedName {
