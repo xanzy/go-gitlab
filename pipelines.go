@@ -115,10 +115,15 @@ type PipelineTestCases struct {
 	Classname      string         `json:"classname"`
 	File           string         `json:"file"`
 	ExecutionTime  float64        `json:"execution_time"`
-	SystemOutput   string         `json:"system_output"`
+	SystemOutput   SystemOutput   `json:"system_output"`
 	StackTrace     string         `json:"stack_trace"`
 	AttachmentURL  string         `json:"attachment_url"`
 	RecentFailures RecentFailures `json:"recent_failures"`
+}
+
+type SystemOutput struct {
+	Type    string `json:"type"`
+	Message string `json:"message"`
 }
 
 // RecentFailures contains failures count for the project's default branch.
