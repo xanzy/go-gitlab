@@ -711,6 +711,10 @@ func TestPipelineEventUnmarshal(t *testing.T) {
 	if event.SourcePipline.Project.ID != 41 {
 		t.Errorf("Source Pipline Project ID is %v, want %v", event.SourcePipline.Project.ID, 41)
 	}
+
+	if event.MergeRequest.DetailedMergeStatus != "mergeable" {
+		t.Errorf("MergeRequest.DetailedMergeStatus is %v, want %v", event.MergeRequest.DetailedMergeStatus, "mergeable")
+	}
 }
 
 func TestPushEventUnmarshal(t *testing.T) {
