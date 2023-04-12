@@ -103,7 +103,7 @@
     "time_change": 0,
     "human_total_time_spent": "30m",
     "human_time_change": "30m",
-    "human_time_estimate": "30m",
+    "human_time_estimate": "1h",
     "labels": [{
       "id": 206,
       "title": "API",
