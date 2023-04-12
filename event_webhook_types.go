@@ -587,14 +587,15 @@ type MergeEvent struct {
 		WorkInProgress              bool          `json:"work_in_progress"`
 		TotalTimeSpent              int           `json:"total_time_spent"`
 		TimeChange                  int           `json:"time_change"`
-		HumanTotalTimeSpent         int           `json:"human_total_time_spent"`
-		HumanTimeChange             int           `json:"human_time_change"`
-		HumanTimeEstimate           int           `json:"human_time_estimate"`
-		Labels                      []*EventLabel `json:"labels"`
+		HumanTotalTimeSpent         string        `json:"human_total_time_spent"`
+		HumanTimeChange             string        `json:"human_time_change"`
+		HumanTimeEstimate           string        `json:"human_time_estimate"`
 		FirstContribution           bool          `json:"first_contribution"`
-		DetailedMergeStatus         string        `json:"detailed_merge_status"`
 		URL                         string        `json:"url"`
+		Labels                      []*EventLabel `json:"labels"`
 		Action                      string        `json:"action"`
+		DetailedMergeStatus         string        `json:"detailed_merge_status"`
+		OldRev                      string        `json:"oldrev"`
 	} `json:"object_attributes"`
 	Repository *Repository   `json:"repository"`
 	Labels     []*EventLabel `json:"labels"`
