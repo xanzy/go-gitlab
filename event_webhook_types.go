@@ -433,7 +433,7 @@ type MergeCommentEvent struct {
 		AuthorID         int           `json:"author_id"`
 		ChangePosition   *NotePosition `json:"change_position"`
 		CommitID         string        `json:"commit_id"`
-		CreatedAt        string        `json:"created_at"` // TODO Should be *time.Time
+		CreatedAt        string        `json:"created_at"`
 		DiscussionID     string        `json:"discussion_id"`
 		ID               int           `json:"id"`
 		LineCode         string        `json:"line_code"`
@@ -455,7 +455,7 @@ type MergeCommentEvent struct {
 		URL              string        `json:"url"`
 	} `json:"object_attributes"`
 	Repository   *Repository `json:"repository"`
-	MergeRequest struct {    // TODO Check if MergeEvent struct can be used
+	MergeRequest struct {
 		ID                        int           `json:"id"`
 		TargetBranch              string        `json:"target_branch"`
 		SourceBranch              string        `json:"source_branch"`
@@ -464,8 +464,8 @@ type MergeCommentEvent struct {
 		AssigneeID                int           `json:"assignee_id"`
 		AssigneeIDs               []int         `json:"assignee_ids"`
 		Title                     string        `json:"title"`
-		CreatedAt                 string        `json:"created_at"` // TODO Should be *time.Time
-		UpdatedAt                 string        `json:"updated_at"` // TODO Should be *time.Time
+		CreatedAt                 string        `json:"created_at"`
+		UpdatedAt                 string        `json:"updated_at"`
 		MilestoneID               int           `json:"milestone_id"`
 		State                     string        `json:"state"`
 		MergeStatus               string        `json:"merge_status"`
