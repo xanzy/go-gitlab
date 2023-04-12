@@ -834,8 +834,16 @@ func TestTagEventUnmarshal(t *testing.T) {
 		t.Errorf("Tag Event is null")
 	}
 
+	if event.EventName != "tag_push" {
+		t.Errorf("EventName is %v, want %v", event.EventName, "tag_push")
+	}
+
 	if event.ProjectID != 1 {
 		t.Errorf("ProjectID is %v, want %v", event.ProjectID, 1)
+	}
+
+	if event.Project.ID != 1 {
+		t.Errorf("Project.ID is %v, want %v", event.Project.ID, 1)
 	}
 
 	if event.UserName != exampleEventUserName {
