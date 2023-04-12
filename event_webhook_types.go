@@ -411,7 +411,7 @@ type MergeCommentEvent struct {
 	EventType  string     `json:"event_type"`
 	User       *EventUser `json:"user"`
 	ProjectID  int        `json:"project_id"`
-	Project    struct {   // TODO use Project struct
+	Project    struct {
 		ID                int             `json:"id"`
 		Name              string          `json:"name"`
 		Description       string          `json:"description"`
