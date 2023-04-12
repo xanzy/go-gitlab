@@ -812,6 +812,7 @@ type PipelineEvent struct {
 // https://docs.gitlab.com/ee/user/project/integrations/webhook_events.html#push-events
 type PushEvent struct {
 	ObjectKind   string `json:"object_kind"`
+	EventName    string `json:"event_name"`
 	Before       string `json:"before"`
 	After        string `json:"after"`
 	Ref          string `json:"ref"`
@@ -823,6 +824,7 @@ type PushEvent struct {
 	UserAvatar   string `json:"user_avatar"`
 	ProjectID    int    `json:"project_id"`
 	Project      struct {
+		ID                int             `json:"id"`
 		Name              string          `json:"name"`
 		Description       string          `json:"description"`
 		AvatarURL         string          `json:"avatar_url"`

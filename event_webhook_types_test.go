@@ -725,12 +725,20 @@ func TestPushEventUnmarshal(t *testing.T) {
 		t.Errorf("Push Event is null")
 	}
 
+	if event.EventName != "push" {
+		t.Errorf("EventName is %v, want %v", event.EventName, "push")
+	}
+
 	if event.ProjectID != 15 {
 		t.Errorf("ProjectID is %v, want %v", event.ProjectID, 15)
 	}
 
 	if event.UserName != exampleEventUserName {
 		t.Errorf("Username is %s, want %s", event.UserName, exampleEventUserName)
+	}
+
+	if event.Project.ID != 15 {
+		t.Errorf("Project.ID is %v, want %v", event.Project.ID, 15)
 	}
 
 	if event.Commits[0] == nil || event.Commits[0].Timestamp == nil {
