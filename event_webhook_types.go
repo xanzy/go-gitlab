@@ -722,16 +722,17 @@ type PipelineEvent struct {
 		} `json:"variables"`
 	} `json:"object_attributes"`
 	MergeRequest struct {
-		ID                 int    `json:"id"`
-		IID                int    `json:"iid"`
-		Title              string `json:"title"`
-		SourceBranch       string `json:"source_branch"`
-		SourceProjectID    int    `json:"source_project_id"`
-		TargetBranch       string `json:"target_branch"`
-		TargetProjectID    int    `json:"target_project_id"`
-		State              string `json:"state"`
-		MergeRequestStatus string `json:"merge_status"`
-		URL                string `json:"url"`
+		ID                  int    `json:"id"`
+		IID                 int    `json:"iid"`
+		Title               string `json:"title"`
+		SourceBranch        string `json:"source_branch"`
+		SourceProjectID     int    `json:"source_project_id"`
+		TargetBranch        string `json:"target_branch"`
+		TargetProjectID     int    `json:"target_project_id"`
+		State               string `json:"state"`
+		MergeRequestStatus  string `json:"merge_status"`
+		DetailedMergeStatus string `json:"detailed_merge_status"`
+		URL                 string `json:"url"`
 	} `json:"merge_request"`
 	User    *EventUser `json:"user"`
 	Project struct {

@@ -35,6 +35,7 @@
     "target_project_id": 1,
     "state": "opened",
     "merge_status": "can_be_merged",
+    "detailed_merge_status": "mergeable",
     "url": "http://192.168.64.1:3005/gitlab-org/gitlab-test/merge_requests/1"
   },
   "user": {
