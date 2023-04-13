@@ -546,7 +546,10 @@ type MergeEvent struct {
 		UpdatedAt                string       `json:"updated_at"` // Should be *time.Time (see Gitlab issue #21468)
 		StCommits                []*Commit    `json:"st_commits"`
 		StDiffs                  []*Diff      `json:"st_diffs"`
+		LastEditedAt             string       `json:"last_edited_at"`
+		LastEditedByID           int          `json:"last_edited_by_id"`
 		MilestoneID              int          `json:"milestone_id"`
+		StateID                  StateID      `json:"state_id"`
 		State                    string       `json:"state"`
 		MergeStatus              string       `json:"merge_status"`
 		TargetProjectID          int          `json:"target_project_id"`
@@ -569,9 +572,6 @@ type MergeEvent struct {
 		Source                   *Repository  `json:"source"`
 		Target                   *Repository  `json:"target"`
 		HeadPipelineID           *int         `json:"head_pipeline_id"`
-		LastEditedAt             string       `json:"last_edited_at"`
-		LastEditedByID           int          `json:"last_edited_by_id"`
-		StateID                  StateID      `json:"state_id"`
 		LastCommit               struct {
 			ID        string     `json:"id"`
 			Message   string     `json:"message"`
