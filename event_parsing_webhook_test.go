@@ -101,6 +101,52 @@ func TestParseCommitCommentHook(t *testing.T) {
 	}
 }
 
+func TestParseFeatureFLagHook(t *testing.T) {
+	raw := loadFixture("testdata/webhooks/feature_flag.json")
+
+	parsedEvent, err := ParseWebhook("Feature Flag Hook", raw)
+	if err != nil {
+		t.Errorf("Error parsing feature flag hook: %s", err)
+	}
+
+	event, ok := parsedEvent.(*FeatureFlagEvent)
+	if !ok {
+		t.Errorf("Expected FeatureFlagEvent, but parsing produced %T", parsedEvent)
+	}
+
+	if event.ObjectKind != "feature_flag" {
+		t.Errorf("ObjectKind is %s, want %s", event.ObjectKind, "feature_flag")
+	}
+
+	if event.Project.ID != 1 {
+		t.Errorf("Project.ID is %v, want %v", event.Project.ID, 1)
+	}
+
+	if event.User.ID != 1 {
+		t.Errorf("User ID is %d, want %d", event.User.ID, 1)
+	}
+
+	if event.User.Name != "Administrator" {
+		t.Errorf("Username is %s, want %s", event.User.Name, "Administrator")
+	}
+
+	if event.ObjectAttributes.ID != 6 {
+		t.Errorf("ObjectAttributes.ID is %d, want %d", event.ObjectAttributes.ID, 6)
+	}
+
+	if event.ObjectAttributes.Name != "test-feature-flag" {
+		t.Errorf("ObjectAttributes.Name is %s, want %s", event.ObjectAttributes.Name, "test-feature-flag")
+	}
+
+	if event.ObjectAttributes.Description != "test-feature-flag-description" {
+		t.Errorf("ObjectAttributes.Description is %s, want %s", event.ObjectAttributes.Description, "test-feature-flag-description")
+	}
+
+	if event.ObjectAttributes.Active != true {
+		t.Errorf("ObjectAttributes.Active is %t, want %t", event.ObjectAttributes.Active, true)
+	}
+}
+
 func TestParseHookWebHook(t *testing.T) {
 	parsedEvent1, err := ParseHook("Merge Request Hook", loadFixture("testdata/webhooks/merge_request.json"))
 	if err != nil {
