@@ -87,38 +87,44 @@ func (p Pipeline) String() string {
 
 // PipelineTestReport contains a detailed report of a test run.
 type PipelineTestReport struct {
+	TotalTime    float64               `json:"total_time"`
+	TotalCount   int                   `json:"total_count"`
+	SuccessCount int                   `json:"success_count"`
+	FailedCount  int                   `json:"failed_count"`
+	SkippedCount int                   `json:"skipped_count"`
+	ErrorCount   int                   `json:"error_count"`
+	TestSuites   []*PipelineTestSuites `json:"test_suites"`
+}
+
+// PipelineTestSuites contains test suites results.
+type PipelineTestSuites struct {
+	Name         string               `json:"name"`
 	TotalTime    float64              `json:"total_time"`
 	TotalCount   int                  `json:"total_count"`
 	SuccessCount int                  `json:"success_count"`
 	FailedCount  int                  `json:"failed_count"`
 	SkippedCount int                  `json:"skipped_count"`
 	ErrorCount   int                  `json:"error_count"`
-	TestSuites   []PipelineTestSuites `json:"test_suites"`
-}
-
-// PipelineTestSuites contains test suites results.
-type PipelineTestSuites struct {
-	Name         string              `json:"name"`
-	TotalTime    float64             `json:"total_time"`
-	TotalCount   int                 `json:"total_count"`
-	SuccessCount int                 `json:"success_count"`
-	FailedCount  int                 `json:"failed_count"`
-	SkippedCount int                 `json:"skipped_count"`
-	ErrorCount   int                 `json:"error_count"`
-	TestCases    []PipelineTestCases `json:"test_cases"`
+	TestCases    []*PipelineTestCases `json:"test_cases"`
 }
 
 // PipelineTestCases contains test cases details.
 type PipelineTestCases struct {
-	Status         string         `json:"status"`
-	Name           string         `json:"name"`
-	Classname      string         `json:"classname"`
-	File           string         `json:"file"`
-	ExecutionTime  float64        `json:"execution_time"`
-	SystemOutput   string         `json:"system_output"`
-	StackTrace     string         `json:"stack_trace"`
-	AttachmentURL  string         `json:"attachment_url"`
-	RecentFailures RecentFailures `json:"recent_failures"`
+	Status         string          `json:"status"`
+	Name           string          `json:"name"`
+	Classname      string          `json:"classname"`
+	File           string          `json:"file"`
+	ExecutionTime  float64         `json:"execution_time"`
+	SystemOutput   *SystemOutput   `json:"system_output"`
+	StackTrace     string          `json:"stack_trace"`
+	AttachmentURL  string          `json:"attachment_url"`
+	RecentFailures *RecentFailures `json:"recent_failures"`
+}
+
+// SystemOutput contains information about test cases when it fails.
+type SystemOutput struct {
+	Type    string `json:"type"`
+	Message string `json:"message"`
 }
 
 // RecentFailures contains failures count for the project's default branch.
