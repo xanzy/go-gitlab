@@ -121,6 +121,7 @@ type PipelineTestCases struct {
 	RecentFailures RecentFailures `json:"recent_failures"`
 }
 
+// SystemOutput contains information about test cases when it fails
 type SystemOutput struct {
 	Type    string `json:"type"`
 	Message string `json:"message"`
