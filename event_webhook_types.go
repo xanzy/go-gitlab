@@ -80,9 +80,11 @@ type BuildEvent struct {
 // https://docs.gitlab.com/ee/user/project/integrations/webhook_events.html#comment-on-a-commit
 type CommitCommentEvent struct {
 	ObjectKind string `json:"object_kind"`
+	EventType  string `json:"event_type"`
 	User       *User  `json:"user"`
 	ProjectID  int    `json:"project_id"`
 	Project    struct {
+		ID                int             `json:"id"`
 		Name              string          `json:"name"`
 		Description       string          `json:"description"`
 		AvatarURL         string          `json:"avatar_url"`
@@ -112,18 +114,9 @@ type CommitCommentEvent struct {
 		CommitID     string `json:"commit_id"`
 		NoteableID   int    `json:"noteable_id"`
 		System       bool   `json:"system"`
-		StDiff       struct {
-			Diff        string `json:"diff"`
-			NewPath     string `json:"new_path"`
-			OldPath     string `json:"old_path"`
-			AMode       string `json:"a_mode"`
-			BMode       string `json:"b_mode"`
-			NewFile     bool   `json:"new_file"`
-			RenamedFile bool   `json:"renamed_file"`
-			DeletedFile bool   `json:"deleted_file"`
-		} `json:"st_diff"`
-		Description string `json:"description"`
-		URL         string `json:"url"`
+		StDiff       *Diff  `json:"st_diff"`
+		Description  string `json:"description"`
+		URL          string `json:"url"`
 	} `json:"object_attributes"`
 	Commit *struct {
 		ID        string     `json:"id"`
