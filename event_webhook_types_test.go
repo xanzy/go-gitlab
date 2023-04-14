@@ -384,6 +384,125 @@ func TestIssueEventUnmarshal(t *testing.T) {
 	assert.Equal(t, "2017-09-15 16:52:00 UTC", event.Changes.UpdatedAt.Current)
 }
 
+// Generate unit test for MergeCommentEvent
+func TestMergeCommentEventUnmarshal(t *testing.T) {
+	jsonObject := loadFixture("testdata/webhooks/note_merge_request.json")
+
+	var event *MergeCommentEvent
+	err := json.Unmarshal(jsonObject, &event)
+	if err != nil {
+		t.Errorf("Merge Comment Event can not unmarshaled: %v\n ", err.Error())
+	}
+
+	if event == nil {
+		t.Errorf("Merge Comment Event is null")
+	}
+
+	if event.ObjectAttributes.ID != 1244 {
+		t.Errorf("ObjectAttributes.ID is %v, want %v", event.ObjectAttributes.ID, 1244)
+	}
+
+	if event.ObjectAttributes.Note != "This MR needs work." {
+		t.Errorf("ObjectAttributes.Note is %v, want %v", event.ObjectAttributes.Note, "This MR needs work.")
+	}
+
+	if event.ObjectAttributes.NoteableType != "MergeRequest" {
+		t.Errorf("ObjectAttributes.NoteableType is %v, want %v", event.ObjectAttributes.NoteableType, "MergeRequest")
+	}
+
+	if event.ObjectAttributes.AuthorID != 1 {
+		t.Errorf("ObjectAttributes.AuthorID is %v, want %v", event.ObjectAttributes.AuthorID, 1)
+	}
+
+	if event.ObjectAttributes.CreatedAt != "2015-05-17 18:21:36 UTC" {
+		t.Errorf("ObjectAttributes.CreatedAt is %v, want %v", event.ObjectAttributes.CreatedAt, "2015-05-17 18:21:36 UTC")
+	}
+
+	if event.ObjectAttributes.UpdatedAt != "2015-05-17 18:21:36 UTC" {
+		t.Errorf("ObjectAttributes.UpdatedAt is %v, want %v", event.ObjectAttributes.UpdatedAt, "2015-05-17 18:21:36 UTC")
+	}
+
+	if event.ObjectAttributes.ProjectID != 5 {
+		t.Errorf("ObjectAttributes.ProjectID is %v, want %v", event.ObjectAttributes.ProjectID, 5)
+	}
+
+	if event.MergeRequest.ID != 7 {
+		t.Errorf("MergeRequest.ID is %v, want %v", event.MergeRequest.ID, 7)
+	}
+
+	if event.MergeRequest.TargetBranch != "markdown" {
+		t.Errorf("MergeRequest.TargetBranch is %v, want %v", event.MergeRequest.TargetBranch, "markdown")
+	}
+
+	// generate test code for rest of the event.MergeRequest fields
+	if event.MergeRequest.SourceBranch != "master" {
+		t.Errorf("MergeRequest.SourceBranch is %v, want %v", event.MergeRequest.SourceBranch, "ms-viewport")
+	}
+
+	if event.MergeRequest.SourceProjectID != 5 {
+		t.Errorf("MergeRequest.SourceProjectID is %v, want %v", event.MergeRequest.SourceProjectID, 5)
+	}
+
+	if event.MergeRequest.AuthorID != 8 {
+		t.Errorf("MergeRequest.AuthorID is %v, want %v", event.MergeRequest.AuthorID, 8)
+	}
+
+	if event.MergeRequest.AssigneeID != 28 {
+		t.Errorf("MergeRequest.AssigneeID is %v, want %v", event.MergeRequest.AssigneeID, 28)
+	}
+
+	if event.MergeRequest.State != "opened" {
+		t.Errorf("MergeRequest.state is %v, want %v", event.MergeRequest.State, "opened")
+	}
+
+	if event.MergeRequest.MergeStatus != "cannot_be_merged" {
+		t.Errorf("MergeRequest.merge_status is %v, want %v", event.MergeRequest.MergeStatus, "cannot_be_merged")
+	}
+
+	if event.MergeRequest.TargetProjectID != 5 {
+		t.Errorf("MergeRequest.target_project_id is %v, want %v", event.MergeRequest.TargetProjectID, 5)
+	}
+
+	assert.Equal(t, []*EventLabel{
+		{
+			ID:          206,
+			Title:       "Afterpod",
+			Color:       "#3e8068",
+			ProjectID:   0,
+			CreatedAt:   "2019-06-05T14:32:20.211Z",
+			UpdatedAt:   "2019-06-05T14:32:20.211Z",
+			Template:    false,
+			Description: "",
+			Type:        "GroupLabel",
+			GroupID:     4,
+		},
+		{
+			ID:          86,
+			Title:       "Element",
+			Color:       "#231afe",
+			ProjectID:   4,
+			CreatedAt:   "2019-06-05T14:32:20.637Z",
+			UpdatedAt:   "2019-06-05T14:32:20.637Z",
+			Template:    false,
+			Description: "",
+			Type:        "ProjectLabel",
+			GroupID:     0,
+		},
+	}, event.MergeRequest.Labels)
+
+	assert.Equal(t, &EventUser{
+		ID:        0,
+		Name:      "User1",
+		Username:  "user1",
+		AvatarURL: "http://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=40\u0026d=identicon",
+		Email:     "",
+	}, event.MergeRequest.Assignee)
+
+	if event.MergeRequest.DetailedMergeStatus != "checking" {
+		t.Errorf("MergeRequest.DetailedMergeStatus is %v, want %v", event.MergeRequest.DetailedMergeStatus, "checking")
+	}
+}
+
 func TestMergeEventUnmarshal(t *testing.T) {
 	jsonObject := loadFixture("testdata/webhooks/merge_request.json")
 
