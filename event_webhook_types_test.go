@@ -266,16 +266,59 @@ func TestIssueEventUnmarshal(t *testing.T) {
 		t.Errorf("Issue Event can not unmarshaled: %v\n ", err.Error())
 	}
 
+	if event.ObjectKind != string(IssueEventTargetType) {
+		t.Errorf("ObjectKind is %v, want %v", event.ObjectKind, IssueEventTargetType)
+	}
+
+	if event.EventType != "issue" {
+		t.Errorf("EventType is %v, want %v", event.EventType, "issue")
+	}
+
 	if event.Project.ID != 1 {
 		t.Errorf("Project.ID is %v, want %v", event.Project.ID, 1)
 	}
 
-	if event.User.ID != 42 {
-		t.Errorf("User ID is %d, want %d", event.User.ID, 42)
+	if event.User.ID != 1 {
+		t.Errorf("User ID is %d, want %d", event.User.ID, 1)
 	}
 
 	if event.Assignee.Username != "user1" {
 		t.Errorf("Assignee username is %s, want %s", event.Assignee.Username, "user1")
+	}
+
+	if event.ObjectAttributes.ID != 301 {
+		t.Errorf("ObjectAttributes.ID is %v, want %v", event.ObjectAttributes.ID, 301)
+	}
+
+	if event.ObjectAttributes.Title != "New API: create/update/delete file" {
+		t.Errorf("ObjectAttributes.Title is %v, want %v", event.ObjectAttributes.Title, "New API: create/update/delete file")
+	}
+
+	if event.ObjectAttributes.StateID != StateIDOpen {
+		t.Errorf("ObjectAttributes.StateID is %v, want %v", event.ObjectAttributes.StateID, StateIDOpen)
+	}
+
+	if event.ObjectAttributes.State != "opened" {
+		t.Errorf("ObjectAttributes.State is %v, want %v", event.ObjectAttributes.State, "opened")
+	}
+	if event.ObjectAttributes.Confidential != false {
+		t.Errorf("ObjectAttributes.Confidential is %v, want %v", event.ObjectAttributes.Confidential, false)
+	}
+
+	if event.ObjectAttributes.TotalTimeSpent != 0 {
+		t.Errorf("ObjectAttributes.TotalTimeSpent is %v, want %v", event.ObjectAttributes.TotalTimeSpent, 0)
+	}
+
+	if event.ObjectAttributes.Action != "open" {
+		t.Errorf("ObjectAttributes.Action is %v, want %v", event.ObjectAttributes.Action, "open")
+	}
+
+	if event.ObjectAttributes.EscalationStatus != "triggered" {
+		t.Errorf("ObjectAttributes.EscalationStatus is %v, want %v", event.ObjectAttributes.EscalationStatus, "triggered")
+	}
+
+	if event.ObjectAttributes.EscalationPolicy.ID != 18 {
+		t.Errorf("ObjectAttributes.EscalationPolicy.ID is %v, want %v", event.ObjectAttributes.EscalationPolicy.ID, 18)
 	}
 
 	if event.Changes.TotalTimeSpent.Previous != 8100 {
@@ -334,8 +377,8 @@ func TestIssueEventUnmarshal(t *testing.T) {
 	assert.Equal(t, "2017-09-15 16:54:55 UTC", event.Changes.ClosedAt.Previous)
 	assert.Equal(t, "2017-09-15 16:56:00 UTC", event.Changes.ClosedAt.Current)
 
-	assert.Equal(t, StateIDOpen, event.Changes.StateID.Previous)
-	assert.Equal(t, StateIDClosed, event.Changes.StateID.Current)
+	assert.Equal(t, StateIDNone, event.Changes.StateID.Previous)
+	assert.Equal(t, StateIDOpen, event.Changes.StateID.Current)
 
 	assert.Equal(t, "2017-09-15 16:50:55 UTC", event.Changes.UpdatedAt.Previous)
 	assert.Equal(t, "2017-09-15 16:52:00 UTC", event.Changes.UpdatedAt.Current)

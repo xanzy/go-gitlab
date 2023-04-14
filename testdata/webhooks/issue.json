@@ -1,34 +1,30 @@
 {
   "object_kind": "issue",
+  "event_type": "issue",
   "user": {
-    "id": 42,
-    "name": "User1",
-    "username": "user1",
-    "email": "user1@example.com",
-    "avatar_url": "http://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=40\u0026d=identicon"
+    "id": 1,
+    "name": "Administrator",
+    "username": "root",
+    "avatar_url": "http://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=40\u0026d=identicon",
+    "email": "admin@example.com"
   },
   "project": {
     "id": 1,
-    "name": "Gitlab Test",
-    "description": "Aut reprehenderit ut est.",
-    "web_url": "http://example.com/gitlabhq/gitlab-test",
-    "avatar_url": null,
-    "git_ssh_url": "git@example.com:gitlabhq/gitlab-test.git",
-    "git_http_url": "http://example.com/gitlabhq/gitlab-test.git",
-    "namespace": "GitlabHQ",
-    "visibility_level": 20,
-    "path_with_namespace": "gitlabhq/gitlab-test",
-    "default_branch": "master",
-    "homepage": "http://example.com/gitlabhq/gitlab-test",
-    "url": "http://example.com/gitlabhq/gitlab-test.git",
-    "ssh_url": "git@example.com:gitlabhq/gitlab-test.git",
-    "http_url": "http://example.com/gitlabhq/gitlab-test.git"
-  },
-  "repository": {
-    "name": "Gitlab Test",
-    "url": "http://example.com/gitlabhq/gitlab-test.git",
-    "description": "Aut reprehenderit ut est.",
-    "homepage": "http://example.com/gitlabhq/gitlab-test"
+    "name":"Gitlab Test",
+    "description":"Aut reprehenderit ut est.",
+    "web_url":"http://example.com/gitlabhq/gitlab-test",
+    "avatar_url":null,
+    "git_ssh_url":"git@example.com:gitlabhq/gitlab-test.git",
+    "git_http_url":"http://example.com/gitlabhq/gitlab-test.git",
+    "namespace":"GitlabHQ",
+    "visibility_level":20,
+    "path_with_namespace":"gitlabhq/gitlab-test",
+    "default_branch":"master",
+    "ci_config_path": null,
+    "homepage":"http://example.com/gitlabhq/gitlab-test",
+    "url":"http://example.com/gitlabhq/gitlab-test.git",
+    "ssh_url":"git@example.com:gitlabhq/gitlab-test.git",
+    "http_url":"http://example.com/gitlabhq/gitlab-test.git"
   },
   "object_attributes": {
     "id": 301,
@@ -39,45 +35,76 @@
     "project_id": 14,
     "created_at": "2013-12-03T17:15:43Z",
     "updated_at": "2013-12-03T17:15:43Z",
-    "position": 0,
-    "branch_name": null,
+    "updated_by_id": 1,
+    "last_edited_at": null,
+    "last_edited_by_id": null,
+    "relative_position": 0,
     "description": "Create new API for manipulations with repository",
     "milestone_id": null,
-    "state": "opened",
+    "state_id": 1,
+    "confidential": false,
+    "discussion_locked": true,
+    "due_date": null,
+    "moved_to_id": null,
+    "duplicated_to_id": null,
+    "time_estimate": 0,
+    "total_time_spent": 0,
+    "time_change": 0,
+    "human_total_time_spent": null,
+    "human_time_estimate": null,
+    "human_time_change": null,
+    "weight": null,
     "iid": 23,
     "url": "http://example.com/diaspora/issues/23",
-    "action": "open"
+    "state": "opened",
+    "action": "open",
+    "severity": "high",
+    "escalation_status": "triggered",
+    "escalation_policy": {
+      "id": 18,
+      "name": "Engineering On-call"
+    },
+    "labels": [{
+        "id": 206,
+        "title": "API",
+        "color": "#ffffff",
+        "project_id": 14,
+        "created_at": "2013-12-03T17:15:43Z",
+        "updated_at": "2013-12-03T17:15:43Z",
+        "template": false,
+        "description": "API related issues",
+        "type": "ProjectLabel",
+        "group_id": 41
+      }]
   },
-  "assignees": [
-    {
-      "id": 3,
-      "name": "User1",
-      "username": "user1",
-      "email": "test.user1@example.com",
-      "avatar_url": "http://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=40\u0026d=identicon"
-    }
-  ],
-  "assignee": {
-    "id": 3,
+  "repository": {
+    "name": "Gitlab Test",
+    "url": "http://example.com/gitlabhq/gitlab-test.git",
+    "description": "Aut reprehenderit ut est.",
+    "homepage": "http://example.com/gitlabhq/gitlab-test"
+  },
+  "assignees": [{
     "name": "User1",
     "username": "user1",
-    "email": "test.user1@example.com",
+    "avatar_url": "http://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=40\u0026d=identicon"
+  }],
+  "assignee": {
+    "name": "User1",
+    "username": "user1",
     "avatar_url": "http://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=40\u0026d=identicon"
   },
-  "labels": [
-    {
-      "id": 206,
-      "title": "API",
-      "color": "#ffffff",
-      "project_id": 14,
-      "created_at": "2013-12-03T17:15:43Z",
-      "updated_at": "2013-12-03T17:15:43Z",
-      "template": false,
-      "description": "API related issues",
-      "type": "ProjectLabel",
-      "group_id": 41
-    }
-  ],
+  "labels": [{
+    "id": 206,
+    "title": "API",
+    "color": "#ffffff",
+    "project_id": 14,
+    "created_at": "2013-12-03T17:15:43Z",
+    "updated_at": "2013-12-03T17:15:43Z",
+    "template": false,
+    "description": "API related issues",
+    "type": "ProjectLabel",
+    "group_id": 41
+  }],
   "changes": {
     "updated_by_id": {
       "previous": null,
@@ -92,38 +119,34 @@
       "current": "2017-09-15 16:56:00 UTC"
     },
     "state_id": {
-      "previous": 1,
-      "current": 2
+      "previous": 0,
+      "current": 1
     },
     "labels": {
-      "previous": [
-        {
-          "id": 206,
-          "title": "API",
-          "color": "#ffffff",
-          "project_id": 14,
-          "created_at": "2013-12-03T17:15:43Z",
-          "updated_at": "2013-12-03T17:15:43Z",
-          "template": false,
-          "description": "API related issues",
-          "type": "ProjectLabel",
-          "group_id": 41
-        }
-      ],
-      "current": [
-        {
-          "id": 205,
-          "title": "Platform",
-          "color": "#123123",
-          "project_id": 14,
-          "created_at": "2013-12-03T17:15:43Z",
-          "updated_at": "2013-12-03T17:15:43Z",
-          "template": false,
-          "description": "Platform related issues",
-          "type": "ProjectLabel",
-          "group_id": 41
-        }
-      ]
+      "previous": [{
+        "id": 206,
+        "title": "API",
+        "color": "#ffffff",
+        "project_id": 14,
+        "created_at": "2013-12-03T17:15:43Z",
+        "updated_at": "2013-12-03T17:15:43Z",
+        "template": false,
+        "description": "API related issues",
+        "type": "ProjectLabel",
+        "group_id": 41
+      }],
+      "current": [{
+        "id": 205,
+        "title": "Platform",
+        "color": "#123123",
+        "project_id": 14,
+        "created_at": "2013-12-03T17:15:43Z",
+        "updated_at": "2013-12-03T17:15:43Z",
+        "template": false,
+        "description": "Platform related issues",
+        "type": "ProjectLabel",
+        "group_id": 41
+      }]
     },
     "description": {
       "previous": null,
