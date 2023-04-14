@@ -957,6 +957,7 @@ type ReleaseEvent struct {
 // https://docs.gitlab.com/ee/user/project/integrations/webhook_events.html#comment-on-a-code-snippet
 type SnippetCommentEvent struct {
 	ObjectKind string     `json:"object_kind"`
+	EventType  string     `json:"event_type"`
 	User       *EventUser `json:"user"`
 	ProjectID  int        `json:"project_id"`
 	Project    struct {
@@ -1035,6 +1036,7 @@ type SubGroupEvent struct {
 // https://docs.gitlab.com/ee/user/project/integrations/webhook_events.html#tag-events
 type TagEvent struct {
 	ObjectKind   string `json:"object_kind"`
+	EventName    string `json:"event_name"`
 	Before       string `json:"before"`
 	After        string `json:"after"`
 	Ref          string `json:"ref"`
@@ -1047,6 +1049,7 @@ type TagEvent struct {
 	ProjectID    int    `json:"project_id"`
 	Message      string `json:"message"`
 	Project      struct {
+		ID                int             `json:"id"`
 		Name              string          `json:"name"`
 		Description       string          `json:"description"`
 		AvatarURL         string          `json:"avatar_url"`
@@ -1118,6 +1121,7 @@ type WikiPageEvent struct {
 		Slug    string `json:"slug"`
 		URL     string `json:"url"`
 		Action  string `json:"action"`
+		DiffURL string `json:"diff_url"`
 	} `json:"object_attributes"`
 }
 
