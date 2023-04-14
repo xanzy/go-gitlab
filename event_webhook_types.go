@@ -228,6 +228,8 @@ type IssueCommentEvent struct {
 		ProjectID           int           `json:"project_id"`
 		MilestoneID         int           `json:"milestone_id"`
 		AuthorID            int           `json:"author_id"`
+		Position            int           `json:"position"`
+		BranchName          string        `json:"branch_name"`
 		Description         string        `json:"description"`
 		State               string        `json:"state"`
 		Title               string        `json:"title"`
@@ -247,8 +249,6 @@ type IssueCommentEvent struct {
 		HumanTimeEstimate   string        `json:"human_time_estimate"`
 		AssigneeIDs         []int         `json:"assignee_ids"`
 		AssigneeID          int           `json:"assignee_id"`
-		Position            int           `json:"position"`
-		BranchName          string        `json:"branch_name"`
 	} `json:"issue"`
 }
 
