@@ -1,5 +1,6 @@
 {
   "object_kind": "note",
+  "event_type": "note",
   "user": {
     "id": 42,
     "name": "User1",

@@ -211,6 +211,7 @@ type FeatureFlagEvent struct {
 // https://docs.gitlab.com/ee/user/project/integrations/webhook_events.html#comment-on-an-issue
 type IssueCommentEvent struct {
 	ObjectKind string `json:"object_kind"`
+	EventType  string `json:"event_type"`
 	User       *User  `json:"user"`
 	ProjectID  int    `json:"project_id"`
 	Project    struct {
@@ -254,6 +255,8 @@ type IssueCommentEvent struct {
 		ProjectID           int           `json:"project_id"`
 		MilestoneID         int           `json:"milestone_id"`
 		AuthorID            int           `json:"author_id"`
+		Position            int           `json:"position"`
+		BranchName          string        `json:"branch_name"`
 		Description         string        `json:"description"`
 		State               string        `json:"state"`
 		Title               string        `json:"title"`
