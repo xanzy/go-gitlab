@@ -2,9 +2,10 @@ package gitlab
 
 import (
 	"fmt"
-	"github.com/stretchr/testify/require"
 	"net/http"
 	"testing"
+
+	"github.com/stretchr/testify/require"
 )
 
 func TestProjectTemplatesService_ListTemplates(t *testing.T) {
@@ -34,7 +35,8 @@ func TestProjectTemplatesService_ListTemplates(t *testing.T) {
 		{
 			Key:  "lgpl-3.0",
 			Name: "GNU Lesser General Public License v3.0",
-		}}
+		},
+	}
 
 	ss, resp, err := client.ProjectTemplates.ListTemplates(1, "issues", nil, nil)
 	require.NoError(t, err)
@@ -55,7 +57,7 @@ func TestProjectTemplatesService_GetProjectTemplate(t *testing.T) {
 		`)
 	})
 
-	want := &ProjectTemplateDetails{
+	want := &ProjectTemplate{
 		Name:    "test_issue",
 		Content: "## Test",
 	}

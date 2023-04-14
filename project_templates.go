@@ -33,34 +33,31 @@ type ProjectTemplatesService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/project_templates.html
 type ProjectTemplate struct {
-	Key  string `json:"key"`
-	Name string `json:"name"`
+	Key         string   `json:"key"`
+	Name        string   `json:"name"`
+	Nickname    string   `json:"nickname"`
+	Popular     bool     `json:"popular"`
+	HTMLURL     string   `json:"html_url"`
+	SourceURL   string   `json:"source_url"`
+	Description string   `json:"description"`
+	Conditions  []string `json:"conditions"`
+	Permissions []string `json:"permissions"`
+	Limitations []string `json:"limitations"`
+	Content     string   `json:"content"`
 }
 
-// ProjectTemplateDetails represents a GitLab ProjectTemplateDetails like a Dockerfile or an issue template.
-//
-// GitLab API docs: https://docs.gitlab.com/ee/api/project_templates.html
-type ProjectTemplateDetails struct {
-	Key         string      `json:"key"`
-	Name        string      `json:"name"`
-	Nickname    interface{} `json:"nickname"`
-	Popular     bool        `json:"popular"`
-	HTMLURL     string      `json:"html_url"`
-	SourceURL   string      `json:"source_url"`
-	Description string      `json:"description"`
-	Conditions  []string    `json:"conditions"`
-	Permissions []string    `json:"permissions"`
-	Limitations []string    `json:"limitations"`
-	Content     string      `json:"content"`
+func (s ProjectTemplate) String() string {
+	return Stringify(s)
 }
 
 // ListProjectTemplatesOptions represents the available ListSnippets() options.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/project_templates.html#get-all-templates-of-a-particular-type
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/project_templates.html#get-all-templates-of-a-particular-type
 type ListProjectTemplatesOptions struct {
 	ListOptions
-	ID   *int    `json:"id,omitempty"`
-	Type *string `json:"type,omitempty"`
+	ID   *int    `url:"id,omitempty" json:"id,omitempty"`
+	Type *string `url:"type,omitempty" json:"type,omitempty"`
 }
 
 // ListTemplates gets a list of project templates.
@@ -71,7 +68,6 @@ func (s *ProjectTemplatesService) ListTemplates(pid interface{}, templateType st
 	if err != nil {
 		return nil, nil, err
 	}
-
 	u := fmt.Sprintf("projects/%s/templates/%s", PathEscape(project), templateType)
 
 	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
@@ -88,11 +84,11 @@ func (s *ProjectTemplatesService) ListTemplates(pid interface{}, templateType st
 	return pt, resp, err
 }
 
-// GetProjectTemplate gets a single project template
+// GetProjectTemplate gets a single project template.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/project_templates.html#get-one-template-of-a-particular-type
-func (s *ProjectTemplatesService) GetProjectTemplate(pid interface{}, templateType string, templateName string, options ...RequestOptionFunc) (*ProjectTemplateDetails, *Response, error) {
+func (s *ProjectTemplatesService) GetProjectTemplate(pid interface{}, templateType string, templateName string, options ...RequestOptionFunc) (*ProjectTemplate, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -104,7 +100,7 @@ func (s *ProjectTemplatesService) GetProjectTemplate(pid interface{}, templateTy
 		return nil, nil, err
 	}
 
-	ptd := new(ProjectTemplateDetails)
+	ptd := new(ProjectTemplate)
 	resp, err := s.client.Do(req, ptd)
 	if err != nil {
 		return nil, resp, err
