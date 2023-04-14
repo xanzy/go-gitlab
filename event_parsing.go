@@ -31,6 +31,7 @@ const (
 	EventConfidentialNote  EventType = "Confidential Note Hook"
 	EventTypeBuild         EventType = "Build Hook"
 	EventTypeDeployment    EventType = "Deployment Hook"
+	EventTypeFeatureFlag   EventType = "Feature Flag Hook"
 	EventTypeIssue         EventType = "Issue Hook"
 	EventTypeJob           EventType = "Job Hook"
 	EventTypeMember        EventType = "Member Hook"
@@ -212,6 +213,8 @@ func ParseWebhook(eventType EventType, payload []byte) (event interface{}, err e
 		event = &BuildEvent{}
 	case EventTypeDeployment:
 		event = &DeploymentEvent{}
+	case EventTypeFeatureFlag:
+		event = &FeatureFlagEvent{}
 	case EventTypeIssue, EventConfidentialIssue:
 		event = &IssueEvent{}
 	case EventTypeJob:
