@@ -80,6 +80,106 @@ func TestListBillableGroupMembers(t *testing.T) {
 	assert.Equal(t, want, billableMembers, "Expected returned Groups.ListBillableGroupMembers to equal")
 }
 
+func TestListGroupMembersWithoutEmail(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/groups/1/members",
+		func(w http.ResponseWriter, r *http.Request) {
+			testMethod(t, r, http.MethodGet)
+			fmt.Fprint(w,
+				`[
+					{
+						"id": 1,
+						"username": "raymond_smith",
+						"name": "Raymond Smith",
+						"state": "active",
+						"avatar_url": "https://www.gravatar.com/avatar/c2525a7f58ae3776070e44c106c48e15?s=80&d=identicon",
+						"web_url": "http://192.168.1.8:3000/root",
+						"created_at": "2012-10-21T14:13:35Z",
+						"expires_at": "2012-10-22",
+						"access_level": 30,
+						"group_saml_identity": null
+					}
+				]`)
+		})
+
+	members, _, err := client.Groups.ListGroupMembers(1, &ListGroupMembersOptions{})
+	if err != nil {
+		t.Errorf("Groups.ListGroupMembers returned error: %v", err)
+	}
+
+	createdAt, _ := time.Parse(time.RFC3339, "2012-10-21T14:13:35Z")
+	expiresAt, _ := time.Parse(time.RFC3339, "2012-10-22T00:00:00Z")
+	expiresAtISOTime := ISOTime(expiresAt)
+	want := []*GroupMember{
+		{
+			ID:          1,
+			Username:    "raymond_smith",
+			Name:        "Raymond Smith",
+			State:       "active",
+			AvatarURL:   "https://www.gravatar.com/avatar/c2525a7f58ae3776070e44c106c48e15?s=80&d=identicon",
+			WebURL:      "http://192.168.1.8:3000/root",
+			CreatedAt:   &createdAt,
+			ExpiresAt:   &expiresAtISOTime,
+			AccessLevel: 30,
+		},
+	}
+	if !reflect.DeepEqual(want, members) {
+		t.Errorf("Groups.ListBillableGroupMembers returned %+v, want %+v", members[0], want[0])
+	}
+}
+
+func TestListGroupMembersWithEmail(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/groups/1/members",
+		func(w http.ResponseWriter, r *http.Request) {
+			testMethod(t, r, http.MethodGet)
+			fmt.Fprint(w,
+				`[
+					{
+						"id": 1,
+						"username": "raymond_smith",
+						"name": "Raymond Smith",
+						"state": "active",
+						"avatar_url": "https://www.gravatar.com/avatar/c2525a7f58ae3776070e44c106c48e15?s=80&d=identicon",
+						"web_url": "http://192.168.1.8:3000/root",
+						"created_at": "2012-10-21T14:13:35Z",
+						"expires_at": "2012-10-22",
+						"access_level": 30,
+						"email": "john@example.com",
+						"group_saml_identity": null
+					}
+				]`)
+		})
+
+	members, _, err := client.Groups.ListGroupMembers(1, &ListGroupMembersOptions{})
+	if err != nil {
+		t.Errorf("Groups.ListGroupMembers returned error: %v", err)
+	}
+
+	createdAt, _ := time.Parse(time.RFC3339, "2012-10-21T14:13:35Z")
+	expiresAt, _ := time.Parse(time.RFC3339, "2012-10-22T00:00:00Z")
+	expiresAtISOTime := ISOTime(expiresAt)
+	want := []*GroupMember{
+		{
+			ID:          1,
+			Username:    "raymond_smith",
+			Name:        "Raymond Smith",
+			State:       "active",
+			AvatarURL:   "https://www.gravatar.com/avatar/c2525a7f58ae3776070e44c106c48e15?s=80&d=identicon",
+			WebURL:      "http://192.168.1.8:3000/root",
+			CreatedAt:   &createdAt,
+			ExpiresAt:   &expiresAtISOTime,
+			AccessLevel: 30,
+			Email:       "john@example.com",
+		},
+	}
+	if !reflect.DeepEqual(want, members) {
+		t.Errorf("Groups.ListBillableGroupMembers returned %+v, want %+v", members[0], want[0])
+	}
+}
+
 func TestListGroupMembersWithoutSAML(t *testing.T) {
 	mux, client := setup(t)
 

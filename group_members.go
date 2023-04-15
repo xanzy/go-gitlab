@@ -54,6 +54,7 @@ type GroupMember struct {
 	CreatedAt         *time.Time               `json:"created_at"`
 	ExpiresAt         *ISOTime                 `json:"expires_at"`
 	AccessLevel       AccessLevelValue         `json:"access_level"`
+	Email             string                   `json:"email,omitempty"`
 	GroupSAMLIdentity *GroupMemberSAMLIdentity `json:"group_saml_identity"`
 }
 
