@@ -19,7 +19,6 @@ package gitlab
 import (
 	"fmt"
 	"net/http"
-	"time"
 )
 
 // GroupMembersService handles communication with the group members
@@ -44,18 +43,7 @@ type GroupMemberSAMLIdentity struct {
 // GroupMember represents a GitLab group member.
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/members.html
-type GroupMember struct {
-	ID                int                      `json:"id"`
-	Username          string                   `json:"username"`
-	Name              string                   `json:"name"`
-	State             string                   `json:"state"`
-	AvatarURL         string                   `json:"avatar_url"`
-	WebURL            string                   `json:"web_url"`
-	CreatedAt         *time.Time               `json:"created_at"`
-	ExpiresAt         *ISOTime                 `json:"expires_at"`
-	AccessLevel       AccessLevelValue         `json:"access_level"`
-	GroupSAMLIdentity *GroupMemberSAMLIdentity `json:"group_saml_identity"`
-}
+type GroupMember = Member
 
 // ListGroupMembersOptions represents the available ListGroupMembers() and
 // ListAllGroupMembers() options.
@@ -158,21 +146,7 @@ func (s *GroupMembersService) GetGroupMember(gid interface{}, user int, options 
 // BillableGroupMember represents a GitLab billable group member.
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/members.html#list-all-billable-members-of-a-group
-type BillableGroupMember struct {
-	ID             int        `json:"id"`
-	Username       string     `json:"username"`
-	Name           string     `json:"name"`
-	State          string     `json:"state"`
-	AvatarURL      string     `json:"avatar_url"`
-	WebURL         string     `json:"web_url"`
-	Email          string     `json:"email"`
-	LastActivityOn *ISOTime   `json:"last_activity_on"`
-	MembershipType string     `json:"membership_type"`
-	Removeable     bool       `json:"removeable"`
-	CreatedAt      *time.Time `json:"created_at"`
-	IsLastOwner    bool       `json:"is_last_owner"`
-	LastLoginAt    *time.Time `json:"last_login_at"`
-}
+type BillableGroupMember = Member
 
 // ListBillableGroupMembersOptions represents the available ListBillableGroupMembers() options.
 //

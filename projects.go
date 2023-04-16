@@ -1139,18 +1139,7 @@ func (s *ProjectsService) DeleteSharedProjectFromGroup(pid interface{}, groupID 
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/members.html#list-all-members-of-a-group-or-project
-type ProjectMember struct {
-	ID          int              `json:"id"`
-	Username    string           `json:"username"`
-	Email       string           `json:"email"`
-	Name        string           `json:"name"`
-	State       string           `json:"state"`
-	CreatedAt   *time.Time       `json:"created_at"`
-	ExpiresAt   *ISOTime         `json:"expires_at"`
-	AccessLevel AccessLevelValue `json:"access_level"`
-	WebURL      string           `json:"web_url"`
-	AvatarURL   string           `json:"avatar_url"`
-}
+type ProjectMember = Member
 
 // ProjectHook represents a project hook.
 //
