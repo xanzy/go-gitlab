@@ -54,6 +54,7 @@ type GroupMember struct {
 	CreatedAt         *time.Time               `json:"created_at"`
 	ExpiresAt         *ISOTime                 `json:"expires_at"`
 	AccessLevel       AccessLevelValue         `json:"access_level"`
+	Email             string                   `json:"email,omitempty"`
 	GroupSAMLIdentity *GroupMemberSAMLIdentity `json:"group_saml_identity"`
 }
 
@@ -168,7 +169,7 @@ type BillableGroupMember struct {
 	Email          string     `json:"email"`
 	LastActivityOn *ISOTime   `json:"last_activity_on"`
 	MembershipType string     `json:"membership_type"`
-	Removeable     bool       `json:"removeable"`
+	Removable      bool       `json:"removable"`
 	CreatedAt      *time.Time `json:"created_at"`
 	IsLastOwner    bool       `json:"is_last_owner"`
 	LastLoginAt    *time.Time `json:"last_login_at"`
