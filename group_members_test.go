@@ -43,7 +43,7 @@ func TestListBillableGroupMembers(t *testing.T) {
 						"web_url":"http://192.168.1.8:3000/root",
 						"last_activity_on":"2021-01-27",
 						"membership_type": "group_member",
-						"removeable": true,
+						"removable": true,
 						"created_at": "2017-10-23T11:41:28.793Z",
 						"is_last_owner": false,
 						"last_login_at": "2022-12-12T09:22:51.581Z"
@@ -71,7 +71,7 @@ func TestListBillableGroupMembers(t *testing.T) {
 			WebURL:         "http://192.168.1.8:3000/root",
 			LastActivityOn: &lastActivityOnISOTime,
 			MembershipType: "group_member",
-			Removeable:     true,
+			Removable:      true,
 			CreatedAt:      &createdAt,
 			IsLastOwner:    false,
 			LastLoginAt:    &lastLoginAt,
