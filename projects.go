@@ -258,20 +258,20 @@ type ProjectNamespace struct {
 
 // Repository represents a repository.
 type Repository struct {
-	Name              string          `json:"name"`
-	Description       string          `json:"description"`
-	WebURL            string          `json:"web_url"`
-	AvatarURL         string          `json:"avatar_url"`
-	GitSSHURL         string          `json:"git_ssh_url"`
-	GitHTTPURL        string          `json:"git_http_url"`
-	Namespace         string          `json:"namespace"`
-	Visibility        VisibilityValue `json:"visibility"`
-	PathWithNamespace string          `json:"path_with_namespace"`
-	DefaultBranch     string          `json:"default_branch"`
-	Homepage          string          `json:"homepage"`
-	URL               string          `json:"url"`
-	SSHURL            string          `json:"ssh_url"`
-	HTTPURL           string          `json:"http_url"`
+	Name              string               `json:"name"`
+	Description       string               `json:"description"`
+	WebURL            string               `json:"web_url"`
+	AvatarURL         string               `json:"avatar_url"`
+	GitSSHURL         string               `json:"git_ssh_url"`
+	GitHTTPURL        string               `json:"git_http_url"`
+	Namespace         string               `json:"namespace"`
+	VisibilityLevel   VisibilityLevelValue `json:"visibility_level"`
+	PathWithNamespace string               `json:"path_with_namespace"`
+	DefaultBranch     string               `json:"default_branch"`
+	Homepage          string               `json:"homepage"`
+	URL               string               `json:"url"`
+	SSHURL            string               `json:"ssh_url"`
+	HTTPURL           string               `json:"http_url"`
 }
 
 // Statistics represents a statistics record for a group or project.

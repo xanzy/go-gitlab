@@ -738,6 +738,20 @@ func Visibility(v VisibilityValue) *VisibilityValue {
 	return p
 }
 
+// VisibilityLevelValue represents a visibility level within GitLab in int type.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/
+type VisibilityLevelValue int
+
+// List of available visibility levels.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/
+const (
+	PrivateVisibilityLevel  VisibilityLevelValue = 0
+	InternalVisibilityLevel VisibilityLevelValue = 10
+	PublicVisibilityLevel   VisibilityLevelValue = 20
+)
+
 // WikiFormatValue represents the available wiki formats.
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/wikis.html

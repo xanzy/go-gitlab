@@ -155,7 +155,7 @@ func TestJobEventUnmarshal(t *testing.T) {
 			GitSSHURL:         "git@gitlab.com:jsmithy2/release-tools-fake.git",
 			GitHTTPURL:        "https://gitlab.com/jsmithy2/release-tools-fake.git",
 			Namespace:         "",
-			Visibility:        "",
+			VisibilityLevel:   PublicVisibilityLevel,
 			PathWithNamespace: "",
 			DefaultBranch:     "",
 			Homepage:          "https://gitlab.com/jsmithy2/release-tools-fake",
