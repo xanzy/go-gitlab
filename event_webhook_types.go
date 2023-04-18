@@ -575,6 +575,7 @@ type MergeCommentEvent struct {
 // https://docs.gitlab.com/ee/user/project/integrations/webhook_events.html#merge-request-events
 type MergeEvent struct {
 	ObjectKind string     `json:"object_kind"`
+	EventType  string     `json:"event_type"`
 	User       *EventUser `json:"user"`
 	Project    struct {
 		ID                int             `json:"id"`
@@ -586,6 +587,7 @@ type MergeEvent struct {
 		Namespace         string          `json:"namespace"`
 		PathWithNamespace string          `json:"path_with_namespace"`
 		DefaultBranch     string          `json:"default_branch"`
+		CIConfigPath      string          `json:"ci_config_path"`
 		Homepage          string          `json:"homepage"`
 		URL               string          `json:"url"`
 		SSHURL            string          `json:"ssh_url"`
@@ -607,7 +609,10 @@ type MergeEvent struct {
 		UpdatedAt                string       `json:"updated_at"` // Should be *time.Time (see Gitlab issue #21468)
 		StCommits                []*Commit    `json:"st_commits"`
 		StDiffs                  []*Diff      `json:"st_diffs"`
+		LastEditedAt             string       `json:"last_edited_at"`
+		LastEditedByID           int          `json:"last_edited_by_id"`
 		MilestoneID              int          `json:"milestone_id"`
+		StateID                  StateID      `json:"state_id"`
 		State                    string       `json:"state"`
 		MergeStatus              string       `json:"merge_status"`
 		TargetProjectID          int          `json:"target_project_id"`
@@ -633,6 +638,7 @@ type MergeEvent struct {
 		LastCommit               struct {
 			ID        string     `json:"id"`
 			Message   string     `json:"message"`
+			Title     string     `json:"title"`
 			Timestamp *time.Time `json:"timestamp"`
 			URL       string     `json:"url"`
 			Author    struct {
@@ -642,18 +648,19 @@ type MergeEvent struct {
 		} `json:"last_commit"`
 		BlockingDiscussionsResolved bool          `json:"blocking_discussions_resolved"`
 		WorkInProgress              bool          `json:"work_in_progress"`
+		TotalTimeSpent              int           `json:"total_time_spent"`
+		TimeChange                  int           `json:"time_change"`
+		HumanTotalTimeSpent         string        `json:"human_total_time_spent"`
+		HumanTimeChange             string        `json:"human_time_change"`
+		HumanTimeEstimate           string        `json:"human_time_estimate"`
 		FirstContribution           bool          `json:"first_contribution"`
 		URL                         string        `json:"url"`
 		Labels                      []*EventLabel `json:"labels"`
 		Action                      string        `json:"action"`
 		DetailedMergeStatus         string        `json:"detailed_merge_status"`
 		OldRev                      string        `json:"oldrev"`
-		Assignee                    *EventUser    `json:"assignee"`
 	} `json:"object_attributes"`
 	Repository *Repository   `json:"repository"`
-	Assignee   *EventUser    `json:"assignee"`
-	Assignees  []*EventUser  `json:"assignees"`
-	Reviewers  []*EventUser  `json:"reviewers"`
 	Labels     []*EventLabel `json:"labels"`
 	Changes    struct {
 		Assignees struct {
@@ -672,6 +679,18 @@ type MergeEvent struct {
 			Previous []*EventLabel `json:"previous"`
 			Current  []*EventLabel `json:"current"`
 		} `json:"labels"`
+		LastEditedAt struct {
+			Previous string `json:"previous"`
+			Current  string `json:"current"`
+		} `json:"last_edited_at"`
+		LastEditedByID struct {
+			Previous int `json:"previous"`
+			Current  int `json:"current"`
+		} `json:"last_edited_by_id"`
+		MilestoneID struct {
+			Previous int `json:"previous"`
+			Current  int `json:"current"`
+		} `json:"milestone_id"`
 		SourceBranch struct {
 			Previous string `json:"previous"`
 			Current  string `json:"current"`
@@ -704,11 +723,9 @@ type MergeEvent struct {
 			Previous int `json:"previous"`
 			Current  int `json:"current"`
 		} `json:"updated_by_id"`
-		MilestoneID struct {
-			Previous int `json:"previous"`
-			Current  int `json:"current"`
-		} `json:"milestone_id"`
 	} `json:"changes"`
+	Assignees []*EventUser `json:"assignees"`
+	Reviewers []*EventUser `json:"reviewers"`
 }
 
 // EventUser represents a user record in an event and is used as an even initiator or a merge assignee.

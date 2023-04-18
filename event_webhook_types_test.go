@@ -616,6 +616,14 @@ func TestMergeEventUnmarshal(t *testing.T) {
 		t.Errorf("Merge Event is null")
 	}
 
+	if event.EventType != "merge_request" {
+		t.Errorf("EventType is %v, want %v", event.EventType, "merge_request")
+	}
+
+	if event.Project.CIConfigPath != "" {
+		t.Errorf("Project.CIConfigPath is %v, want %v", event.Project.CIConfigPath, "")
+	}
+
 	if event.ObjectAttributes.ID != 99 {
 		t.Errorf("ObjectAttributes.ID is %v, want %v", event.ObjectAttributes.ID, 99)
 	}
@@ -627,6 +635,27 @@ func TestMergeEventUnmarshal(t *testing.T) {
 	if event.ObjectAttributes.LastCommit.ID != "da1560886d4f094c3e6c9ef40349f7d38b5d27d7" {
 		t.Errorf("ObjectAttributes.LastCommit.ID is %v, want %s", event.ObjectAttributes.LastCommit.ID, "da1560886d4f094c3e6c9ef40349f7d38b5d27d7")
 	}
+
+	if event.ObjectAttributes.TotalTimeSpent != 0 {
+		t.Errorf("ObjectAttributes.TotalTimeSpent is %v, want %v", event.ObjectAttributes.TotalTimeSpent, 0)
+	}
+
+	if event.ObjectAttributes.TimeChange != 0 {
+		t.Errorf("ObjectAttributes.TimeChange is %v, want %v", event.ObjectAttributes.TimeChange, 0)
+	}
+
+	if event.ObjectAttributes.HumanTotalTimeSpent != "30m" {
+		t.Errorf("ObjectAttributes.HumanTotalTimeSpent is %v, want %v", event.ObjectAttributes.HumanTotalTimeSpent, "30m")
+	}
+
+	if event.ObjectAttributes.HumanTimeChange != "30m" {
+		t.Errorf("ObjectAttributes.HumanTimeChange is %v, want %v", event.ObjectAttributes.HumanTimeChange, "30m")
+	}
+
+	if event.ObjectAttributes.HumanTimeEstimate != "1h" {
+		t.Errorf("ObjectAttributes.HumanTimeEstimate is %v, want %v", event.ObjectAttributes.HumanTimeEstimate, "1h")
+	}
+
 	if event.Assignees[0].Name != expectedName {
 		t.Errorf("Assignee.Name is %v, want %v", event.Assignees[0].Name, expectedName)
 	}
@@ -874,10 +903,6 @@ func TestMergeEventUnmarshalFromGroup(t *testing.T) {
 
 	if event.Repository.Name != exampleProjectName {
 		t.Errorf("Repository.Name is %v, want %v", event.Repository.Name, exampleProjectName)
-	}
-
-	if event.Assignee.Username != expectedUsername {
-		t.Errorf("Assignee.Username is %v, want %v", event.Assignee, expectedUsername)
 	}
 
 	if event.User.Name != expectedName {
