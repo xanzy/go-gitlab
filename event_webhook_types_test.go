@@ -932,7 +932,11 @@ func TestPipelineEventUnmarshal(t *testing.T) {
 	}
 
 	if event.ObjectAttributes.ID != 31 {
-		t.Errorf("ObjectAttributes.ID is %v, want %v", event.ObjectAttributes.ID, 1977)
+		t.Errorf("ObjectAttributes.ID is %v, want %v", event.ObjectAttributes.ID, 31)
+	}
+
+	if event.ObjectAttributes.IID != 123 {
+		t.Errorf("ObjectAttributes.IID is %v, want %v", event.ObjectAttributes.ID, 123)
 	}
 
 	if event.ObjectAttributes.DetailedStatus != "passed" {
