@@ -35,23 +35,26 @@ type PipelineSchedulesService struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/pipeline_schedules.html
 type PipelineSchedule struct {
-	ID           int        `json:"id"`
-	Description  string     `json:"description"`
-	Ref          string     `json:"ref"`
-	Cron         string     `json:"cron"`
-	CronTimezone string     `json:"cron_timezone"`
-	NextRunAt    *time.Time `json:"next_run_at"`
-	Active       bool       `json:"active"`
-	CreatedAt    *time.Time `json:"created_at"`
-	UpdatedAt    *time.Time `json:"updated_at"`
-	Owner        *User      `json:"owner"`
-	LastPipeline struct {
-		ID     int    `json:"id"`
-		SHA    string `json:"sha"`
-		Ref    string `json:"ref"`
-		Status string `json:"status"`
-	} `json:"last_pipeline"`
-	Variables []*PipelineVariable `json:"variables"`
+	ID           int                           `json:"id"`
+	Description  string                        `json:"description"`
+	Ref          string                        `json:"ref"`
+	Cron         string                        `json:"cron"`
+	CronTimezone string                        `json:"cron_timezone"`
+	NextRunAt    *time.Time                    `json:"next_run_at"`
+	Active       bool                          `json:"active"`
+	CreatedAt    *time.Time                    `json:"created_at"`
+	UpdatedAt    *time.Time                    `json:"updated_at"`
+	Owner        *User                         `json:"owner"`
+	LastPipeline *PipelineScheduleLastPipeline `json:"last_pipeline"`
+	Variables    []*PipelineVariable           `json:"variables"`
+}
+
+// PipelineScheduleLastPipeline represents the last pipeline ran by schedule
+type PipelineScheduleLastPipeline struct {
+	ID     int    `json:"id"`
+	SHA    string `json:"sha"`
+	Ref    string `json:"ref"`
+	Status string `json:"status"`
 }
 
 // ListPipelineSchedulesOptions represents the available ListPipelineTriggers() options.
