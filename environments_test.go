@@ -165,7 +165,7 @@ func TestStopEnvironment(t *testing.T) {
 		testMethod(t, r, http.MethodPost)
 		testURL(t, r, "/api/v4/projects/1/environments/1/stop")
 	})
-	_, err := client.Environments.StopEnvironment(1, 1)
+	_, _, err := client.Environments.StopEnvironment(1, 1)
 	if err != nil {
 		log.Fatal(err)
 	}
