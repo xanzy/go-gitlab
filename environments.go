@@ -222,5 +222,9 @@ func (s *EnvironmentsService) StopEnvironment(pid interface{}, environmentID int
 
 	env := new(Environment)
 	resp, err := s.client.Do(req, env)
-	return env, resp, err
+	if err != nil {
+		return nil, resp, err
+	}
+	
+	return env, resp, nil
 }
