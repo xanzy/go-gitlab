@@ -85,7 +85,7 @@ func (s *SnippetsService) ListSnippets(opt *ListSnippetsOptions, options ...Requ
 		return nil, resp, err
 	}
 
-	return ps, resp, err
+	return ps, resp, nil
 }
 
 // GetSnippet gets a single snippet
@@ -106,7 +106,7 @@ func (s *SnippetsService) GetSnippet(snippet int, options ...RequestOptionFunc) 
 		return nil, resp, err
 	}
 
-	return ps, resp, err
+	return ps, resp, nil
 }
 
 // SnippetContent gets a single snippet’s raw contents.
@@ -191,7 +191,7 @@ func (s *SnippetsService) CreateSnippet(opt *CreateSnippetOptions, options ...Re
 		return nil, resp, err
 	}
 
-	return ps, resp, err
+	return ps, resp, nil
 }
 
 // UpdateSnippetFileOptions represents the update snippet file options.
@@ -237,7 +237,7 @@ func (s *SnippetsService) UpdateSnippet(snippet int, opt *UpdateSnippetOptions, 
 		return nil, resp, err
 	}
 
-	return ps, resp, err
+	return ps, resp, nil
 }
 
 // DeleteSnippet deletes an existing snippet. This is an idempotent
@@ -279,5 +279,5 @@ func (s *SnippetsService) ExploreSnippets(opt *ExploreSnippetsOptions, options .
 		return nil, resp, err
 	}
 
-	return ps, resp, err
+	return ps, resp, nil
 }

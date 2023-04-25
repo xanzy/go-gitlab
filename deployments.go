@@ -107,7 +107,7 @@ func (s *DeploymentsService) ListProjectDeployments(pid interface{}, opts *ListP
 		return nil, resp, err
 	}
 
-	return ds, resp, err
+	return ds, resp, nil
 }
 
 // GetProjectDeployment get a deployment for a project.
@@ -131,7 +131,7 @@ func (s *DeploymentsService) GetProjectDeployment(pid interface{}, deployment in
 		return nil, resp, err
 	}
 
-	return d, resp, err
+	return d, resp, nil
 }
 
 // CreateProjectDeploymentOptions represents the available
@@ -167,7 +167,7 @@ func (s *DeploymentsService) CreateProjectDeployment(pid interface{}, opt *Creat
 		return nil, resp, err
 	}
 
-	return d, resp, err
+	return d, resp, nil
 }
 
 // UpdateProjectDeploymentOptions represents the available
@@ -199,5 +199,5 @@ func (s *DeploymentsService) UpdateProjectDeployment(pid interface{}, deployment
 		return nil, resp, err
 	}
 
-	return d, resp, err
+	return d, resp, nil
 }

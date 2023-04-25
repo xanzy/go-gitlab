@@ -81,7 +81,7 @@ func (s *NotificationSettingsService) GetGlobalSettings(options ...RequestOption
 		return nil, resp, err
 	}
 
-	return ns, resp, err
+	return ns, resp, nil
 }
 
 // NotificationSettingsOptions represents the available options that can be passed
@@ -126,7 +126,7 @@ func (s *NotificationSettingsService) UpdateGlobalSettings(opt *NotificationSett
 		return nil, resp, err
 	}
 
-	return ns, resp, err
+	return ns, resp, nil
 }
 
 // GetSettingsForGroup returns current group notification settings.
@@ -151,7 +151,7 @@ func (s *NotificationSettingsService) GetSettingsForGroup(gid interface{}, optio
 		return nil, resp, err
 	}
 
-	return ns, resp, err
+	return ns, resp, nil
 }
 
 // GetSettingsForProject returns current project notification settings.
@@ -176,7 +176,7 @@ func (s *NotificationSettingsService) GetSettingsForProject(pid interface{}, opt
 		return nil, resp, err
 	}
 
-	return ns, resp, err
+	return ns, resp, nil
 }
 
 // UpdateSettingsForGroup updates current group notification settings.
@@ -201,7 +201,7 @@ func (s *NotificationSettingsService) UpdateSettingsForGroup(gid interface{}, op
 		return nil, resp, err
 	}
 
-	return ns, resp, err
+	return ns, resp, nil
 }
 
 // UpdateSettingsForProject updates current project notification settings.
@@ -226,5 +226,5 @@ func (s *NotificationSettingsService) UpdateSettingsForProject(pid interface{}, 
 		return nil, resp, err
 	}
 
-	return ns, resp, err
+	return ns, resp, nil
 }

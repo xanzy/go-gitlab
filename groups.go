@@ -155,7 +155,7 @@ func (s *GroupsService) ListGroups(opt *ListGroupsOptions, options ...RequestOpt
 		return nil, resp, err
 	}
 
-	return gs, resp, err
+	return gs, resp, nil
 }
 
 // ListSubGroupsOptions represents the available ListSubGroups() options.
@@ -186,7 +186,7 @@ func (s *GroupsService) ListSubGroups(gid interface{}, opt *ListSubGroupsOptions
 		return nil, resp, err
 	}
 
-	return gs, resp, err
+	return gs, resp, nil
 }
 
 // ListDescendantGroupsOptions represents the available ListDescendantGroups()
@@ -218,7 +218,7 @@ func (s *GroupsService) ListDescendantGroups(gid interface{}, opt *ListDescendan
 		return nil, resp, err
 	}
 
-	return gs, resp, err
+	return gs, resp, nil
 }
 
 // ListGroupProjectsOptions represents the available ListGroup() options.
@@ -267,7 +267,7 @@ func (s *GroupsService) ListGroupProjects(gid interface{}, opt *ListGroupProject
 		return nil, resp, err
 	}
 
-	return ps, resp, err
+	return ps, resp, nil
 }
 
 // GetGroupOptions represents the available GetGroup() options.
@@ -300,7 +300,7 @@ func (s *GroupsService) GetGroup(gid interface{}, opt *GetGroupOptions, options 
 		return nil, resp, err
 	}
 
-	return g, resp, err
+	return g, resp, nil
 }
 
 // DownloadAvatar downloads a group avatar.
@@ -386,7 +386,7 @@ func (s *GroupsService) CreateGroup(opt *CreateGroupOptions, options ...RequestO
 		return nil, resp, err
 	}
 
-	return g, resp, err
+	return g, resp, nil
 }
 
 // TransferGroup transfers a project to the Group namespace. Available only
@@ -416,7 +416,7 @@ func (s *GroupsService) TransferGroup(gid interface{}, pid interface{}, options 
 		return nil, resp, err
 	}
 
-	return g, resp, err
+	return g, resp, nil
 }
 
 // TransferSubGroupOptions represents the available TransferSubGroup() options.
@@ -450,7 +450,7 @@ func (s *GroupsService) TransferSubGroup(gid interface{}, opt *TransferSubGroupO
 		return nil, resp, err
 	}
 
-	return g, resp, err
+	return g, resp, nil
 }
 
 // UpdateGroupOptions represents the available UpdateGroup() options.
@@ -519,7 +519,7 @@ func (s *GroupsService) UpdateGroup(gid interface{}, opt *UpdateGroupOptions, op
 		return nil, resp, err
 	}
 
-	return g, resp, err
+	return g, resp, nil
 }
 
 // UploadAvatar uploads a group avatar.
@@ -552,7 +552,7 @@ func (s *GroupsService) UploadAvatar(gid interface{}, avatar io.Reader, filename
 		return nil, resp, err
 	}
 
-	return g, resp, err
+	return g, resp, nil
 }
 
 // DeleteGroup removes group with all projects inside.
@@ -618,7 +618,7 @@ func (s *GroupsService) SearchGroup(query string, options ...RequestOptionFunc) 
 		return nil, resp, err
 	}
 
-	return gs, resp, err
+	return gs, resp, nil
 }
 
 // ListProvisionedUsersOptions represents the available ListProvisionedUsers()
@@ -658,7 +658,7 @@ func (s *GroupsService) ListProvisionedUsers(gid interface{}, opt *ListProvision
 		return nil, resp, err
 	}
 
-	return us, resp, err
+	return us, resp, nil
 }
 
 // ListGroupLDAPLinks lists the group's LDAP links. Available only for users who
@@ -731,7 +731,7 @@ func (s *GroupsService) AddGroupLDAPLink(gid interface{}, opt *AddGroupLDAPLinkO
 		return nil, resp, err
 	}
 
-	return gl, resp, err
+	return gl, resp, nil
 }
 
 // DeleteGroupLDAPLink deletes a group LDAP link. Available only for users who
@@ -883,7 +883,7 @@ func (s *GroupsService) AddGroupSAMLLink(gid interface{}, opt *AddGroupSAMLLinkO
 		return nil, resp, err
 	}
 
-	return gl, resp, err
+	return gl, resp, nil
 }
 
 // DeleteGroupSAMLLink deletes a group SAML link. Available only for users who
@@ -938,7 +938,7 @@ func (s *GroupsService) ShareGroupWithGroup(gid interface{}, opt *ShareGroupWith
 		return nil, resp, err
 	}
 
-	return g, resp, err
+	return g, resp, nil
 }
 
 // UnshareGroupFromGroup unshares a group from another group.
@@ -1002,7 +1002,7 @@ func (s *GroupsService) GetGroupPushRules(gid interface{}, options ...RequestOpt
 		return nil, resp, err
 	}
 
-	return gpr, resp, err
+	return gpr, resp, nil
 }
 
 // AddGroupPushRuleOptions represents the available AddGroupPushRule()
@@ -1046,7 +1046,7 @@ func (s *GroupsService) AddGroupPushRule(gid interface{}, opt *AddGroupPushRuleO
 		return nil, resp, err
 	}
 
-	return gpr, resp, err
+	return gpr, resp, nil
 }
 
 // EditGroupPushRuleOptions represents the available EditGroupPushRule()
@@ -1090,7 +1090,7 @@ func (s *GroupsService) EditGroupPushRule(gid interface{}, opt *EditGroupPushRul
 		return nil, resp, err
 	}
 
-	return gpr, resp, err
+	return gpr, resp, nil
 }
 
 // DeleteGroupPushRule deletes the push rules of a group.

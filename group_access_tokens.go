@@ -80,7 +80,7 @@ func (s *GroupAccessTokensService) ListGroupAccessTokens(gid interface{}, opt *L
 		return nil, resp, err
 	}
 
-	return gats, resp, err
+	return gats, resp, nil
 }
 
 // GetGroupAccessToken gets a single group access tokens in a group.
@@ -105,7 +105,7 @@ func (s *GroupAccessTokensService) GetGroupAccessToken(gid interface{}, id int, 
 		return nil, resp, err
 	}
 
-	return gat, resp, err
+	return gat, resp, nil
 }
 
 // CreateGroupAccessTokenOptions represents the available CreateVariable()
@@ -142,7 +142,7 @@ func (s *GroupAccessTokensService) CreateGroupAccessToken(gid interface{}, opt *
 		return nil, resp, err
 	}
 
-	return pat, resp, err
+	return pat, resp, nil
 }
 
 // RevokeGroupAccessToken revokes a group access token.

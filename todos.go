@@ -132,7 +132,7 @@ func (s *TodosService) ListTodos(opt *ListTodosOptions, options ...RequestOption
 		return nil, resp, err
 	}
 
-	return t, resp, err
+	return t, resp, nil
 }
 
 // MarkTodoAsDone marks a single pending todo given by its ID for the current user as done.

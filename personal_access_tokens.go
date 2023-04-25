@@ -76,7 +76,7 @@ func (s *PersonalAccessTokensService) ListPersonalAccessTokens(opt *ListPersonal
 		return nil, resp, err
 	}
 
-	return pats, resp, err
+	return pats, resp, nil
 }
 
 // GetSinglePersonalAccessTokenByID get a single personal access token by its ID.
@@ -96,7 +96,7 @@ func (s *PersonalAccessTokensService) GetSinglePersonalAccessTokenByID(user int,
 		return nil, resp, err
 	}
 
-	return pat, resp, err
+	return pat, resp, nil
 }
 
 // GetSinglePersonalAccessToken get a single personal access token by using
@@ -117,7 +117,7 @@ func (s *PersonalAccessTokensService) GetSinglePersonalAccessToken(options ...Re
 		return nil, resp, err
 	}
 
-	return pat, resp, err
+	return pat, resp, nil
 }
 
 // RevokePersonalAccessToken revokes a personal access token.

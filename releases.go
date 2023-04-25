@@ -105,7 +105,7 @@ func (s *ReleasesService) ListReleases(pid interface{}, opt *ListReleasesOptions
 		return nil, resp, err
 	}
 
-	return rs, resp, err
+	return rs, resp, nil
 }
 
 // GetRelease returns a single release, identified by a tag name.
@@ -130,7 +130,7 @@ func (s *ReleasesService) GetRelease(pid interface{}, tagName string, options ..
 		return nil, resp, err
 	}
 
-	return r, resp, err
+	return r, resp, nil
 }
 
 // CreateReleaseOptions represents CreateRelease() options.
@@ -190,7 +190,7 @@ func (s *ReleasesService) CreateRelease(pid interface{}, opts *CreateReleaseOpti
 		return nil, resp, err
 	}
 
-	return r, resp, err
+	return r, resp, nil
 }
 
 // UpdateReleaseOptions represents UpdateRelease() options.
@@ -226,7 +226,7 @@ func (s *ReleasesService) UpdateRelease(pid interface{}, tagName string, opts *U
 		return nil, resp, err
 	}
 
-	return r, resp, err
+	return r, resp, nil
 }
 
 // DeleteRelease deletes a release.
@@ -251,5 +251,5 @@ func (s *ReleasesService) DeleteRelease(pid interface{}, tagName string, options
 		return nil, resp, err
 	}
 
-	return r, resp, err
+	return r, resp, nil
 }

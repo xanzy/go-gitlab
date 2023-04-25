@@ -80,7 +80,7 @@ func (s *RepositoriesService) ListTree(pid interface{}, opt *ListTreeOptions, op
 		return nil, resp, err
 	}
 
-	return t, resp, err
+	return t, resp, nil
 }
 
 // Blob gets information about blob in repository like size and content. Note
@@ -246,7 +246,7 @@ func (s *RepositoriesService) Compare(pid interface{}, opt *CompareOptions, opti
 		return nil, resp, err
 	}
 
-	return c, resp, err
+	return c, resp, nil
 }
 
 // Contributor represents a GitLap contributor.
@@ -294,7 +294,7 @@ func (s *RepositoriesService) Contributors(pid interface{}, opt *ListContributor
 		return nil, resp, err
 	}
 
-	return c, resp, err
+	return c, resp, nil
 }
 
 // MergeBaseOptions represents the available MergeBase() options.
@@ -328,7 +328,7 @@ func (s *RepositoriesService) MergeBase(pid interface{}, opt *MergeBaseOptions, 
 		return nil, resp, err
 	}
 
-	return c, resp, err
+	return c, resp, nil
 }
 
 // AddChangelogOptions represents the available AddChangelog() options.
@@ -415,5 +415,5 @@ func (s *RepositoriesService) GenerateChangelogData(pid interface{}, opt Generat
 		return nil, resp, err
 	}
 
-	return cd, resp, err
+	return cd, resp, nil
 }

@@ -104,7 +104,7 @@ func (s *CommitsService) ListCommits(pid interface{}, opt *ListCommitsOptions, o
 		return nil, resp, err
 	}
 
-	return c, resp, err
+	return c, resp, nil
 }
 
 // CommitRef represents the reference of branches/tags in a commit.
@@ -147,7 +147,7 @@ func (s *CommitsService) GetCommitRefs(pid interface{}, sha string, opt *GetComm
 		return nil, resp, err
 	}
 
-	return cs, resp, err
+	return cs, resp, nil
 }
 
 // GetCommit gets a specific commit identified by the commit hash or name of a
@@ -175,7 +175,7 @@ func (s *CommitsService) GetCommit(pid interface{}, sha string, options ...Reque
 		return nil, resp, err
 	}
 
-	return c, resp, err
+	return c, resp, nil
 }
 
 // CreateCommitOptions represents the available options for a new commit.
@@ -229,7 +229,7 @@ func (s *CommitsService) CreateCommit(pid interface{}, opt *CreateCommitOptions,
 		return nil, resp, err
 	}
 
-	return c, resp, err
+	return c, resp, nil
 }
 
 // Diff represents a GitLab diff.
@@ -278,7 +278,7 @@ func (s *CommitsService) GetCommitDiff(pid interface{}, sha string, opt *GetComm
 		return nil, resp, err
 	}
 
-	return d, resp, err
+	return d, resp, nil
 }
 
 // CommitComment represents a GitLab commit comment.
@@ -335,7 +335,7 @@ func (s *CommitsService) GetCommitComments(pid interface{}, sha string, opt *Get
 		return nil, resp, err
 	}
 
-	return c, resp, err
+	return c, resp, nil
 }
 
 // PostCommitCommentOptions represents the available PostCommitComment()
@@ -374,7 +374,7 @@ func (s *CommitsService) PostCommitComment(pid interface{}, sha string, opt *Pos
 		return nil, resp, err
 	}
 
-	return c, resp, err
+	return c, resp, nil
 }
 
 // GetCommitStatusesOptions represents the available GetCommitStatuses() options.
@@ -428,7 +428,7 @@ func (s *CommitsService) GetCommitStatuses(pid interface{}, sha string, opt *Get
 		return nil, resp, err
 	}
 
-	return cs, resp, err
+	return cs, resp, nil
 }
 
 // SetCommitStatusOptions represents the available SetCommitStatus() options.
@@ -466,7 +466,7 @@ func (s *CommitsService) SetCommitStatus(pid interface{}, sha string, opt *SetCo
 		return nil, resp, err
 	}
 
-	return cs, resp, err
+	return cs, resp, nil
 }
 
 // ListMergeRequestsByCommit gets merge request associated with a commit.
@@ -491,7 +491,7 @@ func (s *CommitsService) ListMergeRequestsByCommit(pid interface{}, sha string, 
 		return nil, resp, err
 	}
 
-	return mrs, resp, err
+	return mrs, resp, nil
 }
 
 // CherryPickCommitOptions represents the available CherryPickCommit() options.
@@ -524,7 +524,7 @@ func (s *CommitsService) CherryPickCommit(pid interface{}, sha string, opt *Cher
 		return nil, resp, err
 	}
 
-	return c, resp, err
+	return c, resp, nil
 }
 
 // RevertCommitOptions represents the available RevertCommit() options.
@@ -555,7 +555,7 @@ func (s *CommitsService) RevertCommit(pid interface{}, sha string, opt *RevertCo
 		return nil, resp, err
 	}
 
-	return c, resp, err
+	return c, resp, nil
 }
 
 // GPGSignature represents a Gitlab commit's GPG Signature.
@@ -592,5 +592,5 @@ func (s *CommitsService) GetGPGSiganature(pid interface{}, sha string, options .
 		return nil, resp, err
 	}
 
-	return sig, resp, err
+	return sig, resp, nil
 }

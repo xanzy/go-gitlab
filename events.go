@@ -102,7 +102,7 @@ func (s *UsersService) ListUserContributionEvents(uid interface{}, opt *ListCont
 		return nil, resp, err
 	}
 
-	return cs, resp, err
+	return cs, resp, nil
 }
 
 // ListCurrentUserContributionEvents gets a list currently authenticated user's events
@@ -120,7 +120,7 @@ func (s *EventsService) ListCurrentUserContributionEvents(opt *ListContributionE
 		return nil, resp, err
 	}
 
-	return cs, resp, err
+	return cs, resp, nil
 }
 
 // ProjectEvent represents a GitLab project event.
@@ -220,5 +220,5 @@ func (s *EventsService) ListProjectVisibleEvents(pid interface{}, opt *ListProje
 		return nil, resp, err
 	}
 
-	return p, resp, err
+	return p, resp, nil
 }

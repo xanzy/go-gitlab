@@ -821,7 +821,7 @@ func (c *Client) Do(req *retryablehttp.Request, v interface{}) (*Response, error
 		}
 	}
 
-	return response, err
+	return response, nil
 }
 
 func (c *Client) requestOAuthToken(ctx context.Context, token string) (string, error) {

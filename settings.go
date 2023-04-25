@@ -411,7 +411,7 @@ func (s *SettingsService) GetSettings(options ...RequestOptionFunc) (*Settings, 
 		return nil, resp, err
 	}
 
-	return as, resp, err
+	return as, resp, nil
 }
 
 // UpdateSettingsOptions represents the available UpdateSettings() options.
@@ -773,5 +773,5 @@ func (s *SettingsService) UpdateSettings(opt *UpdateSettingsOptions, options ...
 		return nil, resp, err
 	}
 
-	return as, resp, err
+	return as, resp, nil
 }

@@ -87,7 +87,7 @@ func (s *MilestonesService) ListMilestones(pid interface{}, opt *ListMilestonesO
 		return nil, resp, err
 	}
 
-	return m, resp, err
+	return m, resp, nil
 }
 
 // GetMilestone gets a single project milestone.
@@ -112,7 +112,7 @@ func (s *MilestonesService) GetMilestone(pid interface{}, milestone int, options
 		return nil, resp, err
 	}
 
-	return m, resp, err
+	return m, resp, nil
 }
 
 // CreateMilestoneOptions represents the available CreateMilestone() options.
@@ -148,7 +148,7 @@ func (s *MilestonesService) CreateMilestone(pid interface{}, opt *CreateMileston
 		return nil, resp, err
 	}
 
-	return m, resp, err
+	return m, resp, nil
 }
 
 // UpdateMilestoneOptions represents the available UpdateMilestone() options.
@@ -185,7 +185,7 @@ func (s *MilestonesService) UpdateMilestone(pid interface{}, milestone int, opt 
 		return nil, resp, err
 	}
 
-	return m, resp, err
+	return m, resp, nil
 }
 
 // DeleteMilestone deletes a specified project milestone.
@@ -234,7 +234,7 @@ func (s *MilestonesService) GetMilestoneIssues(pid interface{}, milestone int, o
 		return nil, resp, err
 	}
 
-	return i, resp, err
+	return i, resp, nil
 }
 
 // GetMilestoneMergeRequestsOptions represents the available
@@ -267,5 +267,5 @@ func (s *MilestonesService) GetMilestoneMergeRequests(pid interface{}, milestone
 		return nil, resp, err
 	}
 
-	return mr, resp, err
+	return mr, resp, nil
 }

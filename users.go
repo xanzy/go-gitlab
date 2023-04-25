@@ -153,7 +153,7 @@ func (s *UsersService) ListUsers(opt *ListUsersOptions, options ...RequestOption
 		return nil, resp, err
 	}
 
-	return usr, resp, err
+	return usr, resp, nil
 }
 
 // GetUsersOptions represents the available GetUser() options.
@@ -180,7 +180,7 @@ func (s *UsersService) GetUser(user int, opt GetUsersOptions, options ...Request
 		return nil, resp, err
 	}
 
-	return usr, resp, err
+	return usr, resp, nil
 }
 
 // CreateUserOptions represents the available CreateUser() options.
@@ -228,7 +228,7 @@ func (s *UsersService) CreateUser(opt *CreateUserOptions, options ...RequestOpti
 		return nil, resp, err
 	}
 
-	return usr, resp, err
+	return usr, resp, nil
 }
 
 // ModifyUserOptions represents the available ModifyUser() options.
@@ -279,7 +279,7 @@ func (s *UsersService) ModifyUser(user int, opt *ModifyUserOptions, options ...R
 		return nil, resp, err
 	}
 
-	return usr, resp, err
+	return usr, resp, nil
 }
 
 // DeleteUser deletes a user. Available only for administrators. This is an
@@ -315,7 +315,7 @@ func (s *UsersService) CurrentUser(options ...RequestOptionFunc) (*User, *Respon
 		return nil, resp, err
 	}
 
-	return usr, resp, err
+	return usr, resp, nil
 }
 
 // UserStatus represents the current status of a user
@@ -345,7 +345,7 @@ func (s *UsersService) CurrentUserStatus(options ...RequestOptionFunc) (*UserSta
 		return nil, resp, err
 	}
 
-	return status, resp, err
+	return status, resp, nil
 }
 
 // GetUserStatus retrieves a user's status
@@ -366,7 +366,7 @@ func (s *UsersService) GetUserStatus(user int, options ...RequestOptionFunc) (*U
 		return nil, resp, err
 	}
 
-	return status, resp, err
+	return status, resp, nil
 }
 
 // UserStatusOptions represents the options required to set the status
@@ -395,7 +395,7 @@ func (s *UsersService) SetUserStatus(opt *UserStatusOptions, options ...RequestO
 		return nil, resp, err
 	}
 
-	return status, resp, err
+	return status, resp, nil
 }
 
 // SSHKey represents a SSH key.
@@ -424,7 +424,7 @@ func (s *UsersService) ListSSHKeys(options ...RequestOptionFunc) ([]*SSHKey, *Re
 		return nil, resp, err
 	}
 
-	return k, resp, err
+	return k, resp, nil
 }
 
 // ListSSHKeysForUserOptions represents the available ListSSHKeysForUser() options.
@@ -455,7 +455,7 @@ func (s *UsersService) ListSSHKeysForUser(uid interface{}, opt *ListSSHKeysForUs
 		return nil, resp, err
 	}
 
-	return k, resp, err
+	return k, resp, nil
 }
 
 // GetSSHKey gets a single key.
@@ -475,7 +475,7 @@ func (s *UsersService) GetSSHKey(key int, options ...RequestOptionFunc) (*SSHKey
 		return nil, resp, err
 	}
 
-	return k, resp, err
+	return k, resp, nil
 }
 
 // GetSSHKeyForUser gets a single key for a given user.
@@ -495,7 +495,7 @@ func (s *UsersService) GetSSHKeyForUser(user int, key int, options ...RequestOpt
 		return nil, resp, err
 	}
 
-	return k, resp, err
+	return k, resp, nil
 }
 
 // AddSSHKeyOptions represents the available AddSSHKey() options.
@@ -522,7 +522,7 @@ func (s *UsersService) AddSSHKey(opt *AddSSHKeyOptions, options ...RequestOption
 		return nil, resp, err
 	}
 
-	return k, resp, err
+	return k, resp, nil
 }
 
 // AddSSHKeyForUser creates new key owned by specified user. Available only for
@@ -543,7 +543,7 @@ func (s *UsersService) AddSSHKeyForUser(user int, opt *AddSSHKeyOptions, options
 		return nil, resp, err
 	}
 
-	return k, resp, err
+	return k, resp, nil
 }
 
 // DeleteSSHKey deletes key owned by currently authenticated user. This is an
@@ -603,7 +603,7 @@ func (s *UsersService) ListGPGKeys(options ...RequestOptionFunc) ([]*GPGKey, *Re
 		return nil, resp, err
 	}
 
-	return ks, resp, err
+	return ks, resp, nil
 }
 
 // GetGPGKey gets a specific GPG key of currently authenticated user.
@@ -623,7 +623,7 @@ func (s *UsersService) GetGPGKey(key int, options ...RequestOptionFunc) (*GPGKey
 		return nil, resp, err
 	}
 
-	return k, resp, err
+	return k, resp, nil
 }
 
 // AddGPGKeyOptions represents the available AddGPGKey() options.
@@ -648,7 +648,7 @@ func (s *UsersService) AddGPGKey(opt *AddGPGKeyOptions, options ...RequestOption
 		return nil, resp, err
 	}
 
-	return k, resp, err
+	return k, resp, nil
 }
 
 // DeleteGPGKey deletes a GPG key owned by currently authenticated user.
@@ -683,7 +683,7 @@ func (s *UsersService) ListGPGKeysForUser(user int, options ...RequestOptionFunc
 		return nil, resp, err
 	}
 
-	return ks, resp, err
+	return ks, resp, nil
 }
 
 // GetGPGKeyForUser gets a specific GPG key for a given user.
@@ -703,7 +703,7 @@ func (s *UsersService) GetGPGKeyForUser(user, key int, options ...RequestOptionF
 		return nil, resp, err
 	}
 
-	return k, resp, err
+	return k, resp, nil
 }
 
 // AddGPGKeyForUser creates new GPG key owned by the specified user.
@@ -724,7 +724,7 @@ func (s *UsersService) AddGPGKeyForUser(user int, opt *AddGPGKeyOptions, options
 		return nil, resp, err
 	}
 
-	return k, resp, err
+	return k, resp, nil
 }
 
 // DeleteGPGKeyForUser deletes a GPG key owned by a specified user.
@@ -766,7 +766,7 @@ func (s *UsersService) ListEmails(options ...RequestOptionFunc) ([]*Email, *Resp
 		return nil, resp, err
 	}
 
-	return e, resp, err
+	return e, resp, nil
 }
 
 // ListEmailsForUserOptions represents the available ListEmailsForUser() options.
@@ -794,7 +794,7 @@ func (s *UsersService) ListEmailsForUser(user int, opt *ListEmailsForUserOptions
 		return nil, resp, err
 	}
 
-	return e, resp, err
+	return e, resp, nil
 }
 
 // GetEmail gets a single email.
@@ -814,7 +814,7 @@ func (s *UsersService) GetEmail(email int, options ...RequestOptionFunc) (*Email
 		return nil, resp, err
 	}
 
-	return e, resp, err
+	return e, resp, nil
 }
 
 // AddEmailOptions represents the available AddEmail() options.
@@ -840,7 +840,7 @@ func (s *UsersService) AddEmail(opt *AddEmailOptions, options ...RequestOptionFu
 		return nil, resp, err
 	}
 
-	return e, resp, err
+	return e, resp, nil
 }
 
 // AddEmailForUser creates new email owned by specified user. Available only for
@@ -861,7 +861,7 @@ func (s *UsersService) AddEmailForUser(user int, opt *AddEmailOptions, options .
 		return nil, resp, err
 	}
 
-	return e, resp, err
+	return e, resp, nil
 }
 
 // DeleteEmail deletes email owned by currently authenticated user. This is an
@@ -1162,7 +1162,7 @@ func (s *UsersService) GetAllImpersonationTokens(user int, opt *GetAllImpersonat
 		return nil, resp, err
 	}
 
-	return ts, resp, err
+	return ts, resp, nil
 }
 
 // GetImpersonationToken retrieves an impersonation token of a user.
@@ -1183,7 +1183,7 @@ func (s *UsersService) GetImpersonationToken(user, token int, options ...Request
 		return nil, resp, err
 	}
 
-	return t, resp, err
+	return t, resp, nil
 }
 
 // CreateImpersonationTokenOptions represents the available
@@ -1215,7 +1215,7 @@ func (s *UsersService) CreateImpersonationToken(user int, opt *CreateImpersonati
 		return nil, resp, err
 	}
 
-	return t, resp, err
+	return t, resp, nil
 }
 
 // RevokeImpersonationToken revokes an impersonation token.
@@ -1262,7 +1262,7 @@ func (s *UsersService) CreatePersonalAccessToken(user int, opt *CreatePersonalAc
 		return nil, resp, err
 	}
 
-	return t, resp, err
+	return t, resp, nil
 }
 
 // UserActivity represents an entry in the user/activities response
@@ -1299,7 +1299,7 @@ func (s *UsersService) GetUserActivities(opt *GetUserActivitiesOptions, options 
 		return nil, resp, err
 	}
 
-	return t, resp, err
+	return t, resp, nil
 }
 
 // UserMembership represents a membership of the user in a namespace or project.
@@ -1340,7 +1340,7 @@ func (s *UsersService) GetUserMemberships(user int, opt *GetUserMembershipOption
 		return nil, resp, err
 	}
 
-	return m, resp, err
+	return m, resp, nil
 }
 
 // DisableTwoFactor disables two factor authentication for the specified user.

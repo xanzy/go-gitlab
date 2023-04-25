@@ -360,7 +360,7 @@ func (s *ProjectsService) ListProjects(opt *ListProjectsOptions, options ...Requ
 		return nil, resp, err
 	}
 
-	return p, resp, err
+	return p, resp, nil
 }
 
 // ListUserProjects gets a list of projects for the given user.
@@ -385,7 +385,7 @@ func (s *ProjectsService) ListUserProjects(uid interface{}, opt *ListProjectsOpt
 		return nil, resp, err
 	}
 
-	return p, resp, err
+	return p, resp, nil
 }
 
 // ListUserStarredProjects gets a list of projects starred by the given user.
@@ -410,7 +410,7 @@ func (s *ProjectsService) ListUserStarredProjects(uid interface{}, opt *ListProj
 		return nil, resp, err
 	}
 
-	return p, resp, err
+	return p, resp, nil
 }
 
 // ProjectUser represents a GitLab project user.
@@ -453,7 +453,7 @@ func (s *ProjectsService) ListProjectsUsers(pid interface{}, opt *ListProjectUse
 		return nil, resp, err
 	}
 
-	return p, resp, err
+	return p, resp, nil
 }
 
 // ProjectGroup represents a GitLab project group.
@@ -500,7 +500,7 @@ func (s *ProjectsService) ListProjectsGroups(pid interface{}, opt *ListProjectGr
 		return nil, resp, err
 	}
 
-	return p, resp, err
+	return p, resp, nil
 }
 
 // ProjectLanguages is a map of strings because the response is arbitrary
@@ -529,7 +529,7 @@ func (s *ProjectsService) GetProjectLanguages(pid interface{}, options ...Reques
 		return nil, resp, err
 	}
 
-	return p, resp, err
+	return p, resp, nil
 }
 
 // GetProjectOptions represents the available GetProject() options.
@@ -564,7 +564,7 @@ func (s *ProjectsService) GetProject(pid interface{}, opt *GetProjectOptions, op
 		return nil, resp, err
 	}
 
-	return p, resp, err
+	return p, resp, nil
 }
 
 // CreateProjectOptions represents the available CreateProject() options.
@@ -735,7 +735,7 @@ func (s *ProjectsService) CreateProject(opt *CreateProjectOptions, options ...Re
 		return nil, resp, err
 	}
 
-	return p, resp, err
+	return p, resp, nil
 }
 
 // CreateProjectForUserOptions represents the available CreateProjectForUser()
@@ -784,7 +784,7 @@ func (s *ProjectsService) CreateProjectForUser(user int, opt *CreateProjectForUs
 		return nil, resp, err
 	}
 
-	return p, resp, err
+	return p, resp, nil
 }
 
 // EditProjectOptions represents the available EditProject() options.
@@ -925,7 +925,7 @@ func (s *ProjectsService) EditProject(pid interface{}, opt *EditProjectOptions, 
 		return nil, resp, err
 	}
 
-	return p, resp, err
+	return p, resp, nil
 }
 
 // ForkProjectOptions represents the available ForkProject() options.
@@ -966,7 +966,7 @@ func (s *ProjectsService) ForkProject(pid interface{}, opt *ForkProjectOptions, 
 		return nil, resp, err
 	}
 
-	return p, resp, err
+	return p, resp, nil
 }
 
 // StarProject stars a given the project.
@@ -991,7 +991,7 @@ func (s *ProjectsService) StarProject(pid interface{}, options ...RequestOptionF
 		return nil, resp, err
 	}
 
-	return p, resp, err
+	return p, resp, nil
 }
 
 // UnstarProject unstars a given project.
@@ -1016,7 +1016,7 @@ func (s *ProjectsService) UnstarProject(pid interface{}, options ...RequestOptio
 		return nil, resp, err
 	}
 
-	return p, resp, err
+	return p, resp, nil
 }
 
 // ArchiveProject archives the project if the user is either admin or the
@@ -1042,7 +1042,7 @@ func (s *ProjectsService) ArchiveProject(pid interface{}, options ...RequestOpti
 		return nil, resp, err
 	}
 
-	return p, resp, err
+	return p, resp, nil
 }
 
 // UnarchiveProject unarchives the project if the user is either admin or
@@ -1068,7 +1068,7 @@ func (s *ProjectsService) UnarchiveProject(pid interface{}, options ...RequestOp
 		return nil, resp, err
 	}
 
-	return p, resp, err
+	return p, resp, nil
 }
 
 // DeleteProject removes a project including all associated resources
@@ -1204,7 +1204,7 @@ func (s *ProjectsService) ListProjectHooks(pid interface{}, opt *ListProjectHook
 		return nil, resp, err
 	}
 
-	return ph, resp, err
+	return ph, resp, nil
 }
 
 // GetProjectHook gets a specific hook for a project.
@@ -1229,7 +1229,7 @@ func (s *ProjectsService) GetProjectHook(pid interface{}, hook int, options ...R
 		return nil, resp, err
 	}
 
-	return ph, resp, err
+	return ph, resp, nil
 }
 
 // AddProjectHookOptions represents the available AddProjectHook() options.
@@ -1277,7 +1277,7 @@ func (s *ProjectsService) AddProjectHook(pid interface{}, opt *AddProjectHookOpt
 		return nil, resp, err
 	}
 
-	return ph, resp, err
+	return ph, resp, nil
 }
 
 // EditProjectHookOptions represents the available EditProjectHook() options.
@@ -1325,7 +1325,7 @@ func (s *ProjectsService) EditProjectHook(pid interface{}, hook int, opt *EditPr
 		return nil, resp, err
 	}
 
-	return ph, resp, err
+	return ph, resp, nil
 }
 
 // DeleteProjectHook removes a hook from a project. This is an idempotent
@@ -1383,7 +1383,7 @@ func (s *ProjectsService) CreateProjectForkRelation(pid interface{}, fork int, o
 		return nil, resp, err
 	}
 
-	return pfr, resp, err
+	return pfr, resp, nil
 }
 
 // DeleteProjectForkRelation deletes an existing forked from relationship.
@@ -1476,7 +1476,7 @@ func (s *ProjectsService) UploadAvatar(pid interface{}, avatar io.Reader, filena
 		return nil, resp, err
 	}
 
-	return p, resp, err
+	return p, resp, nil
 }
 
 // ListProjectForks gets a list of project forks.
@@ -1501,7 +1501,7 @@ func (s *ProjectsService) ListProjectForks(pid interface{}, opt *ListProjectsOpt
 		return nil, resp, err
 	}
 
-	return forks, resp, err
+	return forks, resp, nil
 }
 
 // ProjectPushRules represents a project push rule.
@@ -1547,7 +1547,7 @@ func (s *ProjectsService) GetProjectPushRules(pid interface{}, options ...Reques
 		return nil, resp, err
 	}
 
-	return ppr, resp, err
+	return ppr, resp, nil
 }
 
 // AddProjectPushRuleOptions represents the available AddProjectPushRule()
@@ -1591,7 +1591,7 @@ func (s *ProjectsService) AddProjectPushRule(pid interface{}, opt *AddProjectPus
 		return nil, resp, err
 	}
 
-	return ppr, resp, err
+	return ppr, resp, nil
 }
 
 // EditProjectPushRuleOptions represents the available EditProjectPushRule()
@@ -1635,7 +1635,7 @@ func (s *ProjectsService) EditProjectPushRule(pid interface{}, opt *EditProjectP
 		return nil, resp, err
 	}
 
-	return ppr, resp, err
+	return ppr, resp, nil
 }
 
 // DeleteProjectPushRule removes a push rule from a project. This is an
@@ -1697,7 +1697,7 @@ func (s *ProjectsService) GetApprovalConfiguration(pid interface{}, options ...R
 		return nil, resp, err
 	}
 
-	return pa, resp, err
+	return pa, resp, nil
 }
 
 // ChangeApprovalConfigurationOptions represents the available
@@ -1737,7 +1737,7 @@ func (s *ProjectsService) ChangeApprovalConfiguration(pid interface{}, opt *Chan
 		return nil, resp, err
 	}
 
-	return pa, resp, err
+	return pa, resp, nil
 }
 
 // GetProjectApprovalRulesListsOptions represents the available GetProjectApprovalRules() options.
@@ -1767,7 +1767,7 @@ func (s *ProjectsService) GetProjectApprovalRules(pid interface{}, opt *GetProje
 		return nil, resp, err
 	}
 
-	return par, resp, err
+	return par, resp, nil
 }
 
 // GetProjectApprovalRule gets the project level approvers.
@@ -1792,7 +1792,7 @@ func (s *ProjectsService) GetProjectApprovalRule(pid interface{}, ruleID int, op
 		return nil, resp, err
 	}
 
-	return par, resp, err
+	return par, resp, nil
 }
 
 // CreateProjectLevelRuleOptions represents the available CreateProjectApprovalRule()
@@ -1832,7 +1832,7 @@ func (s *ProjectsService) CreateProjectApprovalRule(pid interface{}, opt *Create
 		return nil, resp, err
 	}
 
-	return par, resp, err
+	return par, resp, nil
 }
 
 // UpdateProjectLevelRuleOptions represents the available UpdateProjectApprovalRule()
@@ -1871,7 +1871,7 @@ func (s *ProjectsService) UpdateProjectApprovalRule(pid interface{}, approvalRul
 		return nil, resp, err
 	}
 
-	return par, resp, err
+	return par, resp, nil
 }
 
 // DeleteProjectApprovalRule deletes a project-level approval rule.
@@ -1925,7 +1925,7 @@ func (s *ProjectsService) ChangeAllowedApprovers(pid interface{}, opt *ChangeAll
 		return nil, resp, err
 	}
 
-	return pa, resp, err
+	return pa, resp, nil
 }
 
 // ProjectPullMirrorDetails represent the details of the configuration pull
@@ -1965,7 +1965,7 @@ func (s *ProjectsService) GetProjectPullMirrorDetails(pid interface{}, options .
 		return nil, resp, err
 	}
 
-	return pmd, resp, err
+	return pmd, resp, nil
 }
 
 // StartMirroringProject start the pull mirroring process for a project.
@@ -1989,7 +1989,7 @@ func (s *ProjectsService) StartMirroringProject(pid interface{}, options ...Requ
 		return resp, err
 	}
 
-	return resp, err
+	return resp, nil
 }
 
 // TransferProjectOptions represents the available TransferProject() options.
@@ -2020,7 +2020,7 @@ func (s *ProjectsService) TransferProject(pid interface{}, opt *TransferProjectO
 		return nil, resp, err
 	}
 
-	return p, resp, err
+	return p, resp, nil
 }
 
 // StartHousekeepingProject start the Housekeeping task for a project.
@@ -2071,5 +2071,5 @@ func (s *ProjectsService) GetRepositoryStorage(pid interface{}, options ...Reque
 		return nil, resp, err
 	}
 
-	return prs, resp, err
+	return prs, resp, nil
 }
