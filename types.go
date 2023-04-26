@@ -227,14 +227,17 @@ type BuildStateValue string
 
 // These constants represent all valid build states.
 const (
-	Pending  BuildStateValue = "pending"
-	Created  BuildStateValue = "created"
-	Running  BuildStateValue = "running"
-	Success  BuildStateValue = "success"
-	Failed   BuildStateValue = "failed"
-	Canceled BuildStateValue = "canceled"
-	Skipped  BuildStateValue = "skipped"
-	Manual   BuildStateValue = "manual"
+	Pending            BuildStateValue = "pending"
+	Created            BuildStateValue = "created"
+	Running            BuildStateValue = "running"
+	Success            BuildStateValue = "success"
+	Failed             BuildStateValue = "failed"
+	Canceled           BuildStateValue = "canceled"
+	Skipped            BuildStateValue = "skipped"
+	Manual             BuildStateValue = "manual"
+	WaitingForResource BuildStateValue = "waiting_for_resource"
+	Preparing          BuildStateValue = "preparing"
+	Scheduled          BuildStateValue = "scheduled"
 )
 
 // BuildState is a helper routine that allocates a new BuildStateValue
