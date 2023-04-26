@@ -193,7 +193,7 @@ func (s *MergeRequestsService) ListMergeRequests(opt *ListMergeRequestsOptions, 
 		return nil, resp, err
 	}
 
-	return m, resp, err
+	return m, resp, nil
 }
 
 // ListProjectMergeRequestsOptions represents the available ListMergeRequests()
@@ -255,7 +255,7 @@ func (s *MergeRequestsService) ListProjectMergeRequests(pid interface{}, opt *Li
 		return nil, resp, err
 	}
 
-	return m, resp, err
+	return m, resp, nil
 }
 
 // ListGroupMergeRequestsOptions represents the available ListGroupMergeRequests()
@@ -317,7 +317,7 @@ func (s *MergeRequestsService) ListGroupMergeRequests(gid interface{}, opt *List
 		return nil, resp, err
 	}
 
-	return m, resp, err
+	return m, resp, nil
 }
 
 // GetMergeRequestsOptions represents the available GetMergeRequests()
@@ -353,7 +353,7 @@ func (s *MergeRequestsService) GetMergeRequest(pid interface{}, mergeRequest int
 		return nil, resp, err
 	}
 
-	return m, resp, err
+	return m, resp, nil
 }
 
 // GetMergeRequestApprovals gets information about a merge requests approvals
@@ -378,7 +378,7 @@ func (s *MergeRequestsService) GetMergeRequestApprovals(pid interface{}, mergeRe
 		return nil, resp, err
 	}
 
-	return a, resp, err
+	return a, resp, nil
 }
 
 // GetMergeRequestCommitsOptions represents the available GetMergeRequestCommits()
@@ -410,7 +410,7 @@ func (s *MergeRequestsService) GetMergeRequestCommits(pid interface{}, mergeRequ
 		return nil, resp, err
 	}
 
-	return c, resp, err
+	return c, resp, nil
 }
 
 // GetMergeRequestChangesOptions represents the available GetMergeRequestChanges()
@@ -445,7 +445,7 @@ func (s *MergeRequestsService) GetMergeRequestChanges(pid interface{}, mergeRequ
 		return nil, resp, err
 	}
 
-	return m, resp, err
+	return m, resp, nil
 }
 
 // GetMergeRequestParticipants gets a list of merge request participants.
@@ -470,7 +470,7 @@ func (s *MergeRequestsService) GetMergeRequestParticipants(pid interface{}, merg
 		return nil, resp, err
 	}
 
-	return ps, resp, err
+	return ps, resp, nil
 }
 
 // ListMergeRequestPipelines gets all pipelines for the provided merge request.
@@ -495,7 +495,7 @@ func (s *MergeRequestsService) ListMergeRequestPipelines(pid interface{}, mergeR
 		return nil, resp, err
 	}
 
-	return p, resp, err
+	return p, resp, nil
 }
 
 // CreateMergeRequestPipeline creates a new pipeline for a merge request.
@@ -520,7 +520,7 @@ func (s *MergeRequestsService) CreateMergeRequestPipeline(pid interface{}, merge
 		return nil, resp, err
 	}
 
-	return p, resp, err
+	return p, resp, nil
 }
 
 // GetIssuesClosedOnMergeOptions represents the available GetIssuesClosedOnMerge()
@@ -553,7 +553,7 @@ func (s *MergeRequestsService) GetIssuesClosedOnMerge(pid interface{}, mergeRequ
 		return nil, resp, err
 	}
 
-	return i, resp, err
+	return i, resp, nil
 }
 
 // CreateMergeRequestOptions represents the available CreateMergeRequest()
@@ -599,7 +599,7 @@ func (s *MergeRequestsService) CreateMergeRequest(pid interface{}, opt *CreateMe
 		return nil, resp, err
 	}
 
-	return m, resp, err
+	return m, resp, nil
 }
 
 // UpdateMergeRequestOptions represents the available UpdateMergeRequest()
@@ -647,7 +647,7 @@ func (s *MergeRequestsService) UpdateMergeRequest(pid interface{}, mergeRequest 
 		return nil, resp, err
 	}
 
-	return m, resp, err
+	return m, resp, nil
 }
 
 // DeleteMergeRequest deletes a merge request.
@@ -708,7 +708,7 @@ func (s *MergeRequestsService) AcceptMergeRequest(pid interface{}, mergeRequest 
 		return nil, resp, err
 	}
 
-	return m, resp, err
+	return m, resp, nil
 }
 
 // CancelMergeWhenPipelineSucceeds cancels a merge when pipeline succeeds. If
@@ -737,7 +737,7 @@ func (s *MergeRequestsService) CancelMergeWhenPipelineSucceeds(pid interface{}, 
 		return nil, resp, err
 	}
 
-	return m, resp, err
+	return m, resp, nil
 }
 
 // RebaseMergeRequest automatically rebases the source_branch of the merge
@@ -790,7 +790,7 @@ func (s *MergeRequestsService) GetMergeRequestDiffVersions(pid interface{}, merg
 		return nil, resp, err
 	}
 
-	return v, resp, err
+	return v, resp, nil
 }
 
 // GetSingleMergeRequestDiffVersion get a single MR diff version
@@ -815,7 +815,7 @@ func (s *MergeRequestsService) GetSingleMergeRequestDiffVersion(pid interface{},
 		return nil, resp, err
 	}
 
-	return v, resp, err
+	return v, resp, nil
 }
 
 // SubscribeToMergeRequest subscribes the authenticated user to the given merge
@@ -842,7 +842,7 @@ func (s *MergeRequestsService) SubscribeToMergeRequest(pid interface{}, mergeReq
 		return nil, resp, err
 	}
 
-	return m, resp, err
+	return m, resp, nil
 }
 
 // UnsubscribeFromMergeRequest unsubscribes the authenticated user from the
@@ -870,7 +870,7 @@ func (s *MergeRequestsService) UnsubscribeFromMergeRequest(pid interface{}, merg
 		return nil, resp, err
 	}
 
-	return m, resp, err
+	return m, resp, nil
 }
 
 // CreateTodo manually creates a todo for the current user on a merge request.
@@ -897,7 +897,7 @@ func (s *MergeRequestsService) CreateTodo(pid interface{}, mergeRequest int, opt
 		return nil, resp, err
 	}
 
-	return t, resp, err
+	return t, resp, nil
 }
 
 // SetTimeEstimate sets the time estimate for a single project merge request.

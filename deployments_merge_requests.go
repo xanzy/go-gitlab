@@ -49,5 +49,5 @@ func (s *DeploymentMergeRequestsService) ListDeploymentMergeRequests(pid interfa
 		return nil, resp, err
 	}
 
-	return mrs, resp, err
+	return mrs, resp, nil
 }

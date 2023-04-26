@@ -258,7 +258,7 @@ func (s *IssuesService) ListIssues(opt *ListIssuesOptions, options ...RequestOpt
 		return nil, resp, err
 	}
 
-	return i, resp, err
+	return i, resp, nil
 }
 
 // ListGroupIssuesOptions represents the available ListGroupIssues() options.
@@ -322,7 +322,7 @@ func (s *IssuesService) ListGroupIssues(pid interface{}, opt *ListGroupIssuesOpt
 		return nil, resp, err
 	}
 
-	return i, resp, err
+	return i, resp, nil
 }
 
 // ListProjectIssuesOptions represents the available ListProjectIssues() options.
@@ -385,7 +385,7 @@ func (s *IssuesService) ListProjectIssues(pid interface{}, opt *ListProjectIssue
 		return nil, resp, err
 	}
 
-	return i, resp, err
+	return i, resp, nil
 }
 
 // GetIssueByID gets a single issue.
@@ -405,7 +405,7 @@ func (s *IssuesService) GetIssueByID(issue int, options ...RequestOptionFunc) (*
 		return nil, resp, err
 	}
 
-	return i, resp, err
+	return i, resp, nil
 }
 
 // GetIssue gets a single project issue.
@@ -429,7 +429,7 @@ func (s *IssuesService) GetIssue(pid interface{}, issue int, options ...RequestO
 		return nil, resp, err
 	}
 
-	return i, resp, err
+	return i, resp, nil
 }
 
 // CreateIssueOptions represents the available CreateIssue() options.
@@ -472,7 +472,7 @@ func (s *IssuesService) CreateIssue(pid interface{}, opt *CreateIssueOptions, op
 		return nil, resp, err
 	}
 
-	return i, resp, err
+	return i, resp, nil
 }
 
 // UpdateIssueOptions represents the available UpdateIssue() options.
@@ -517,7 +517,7 @@ func (s *IssuesService) UpdateIssue(pid interface{}, issue int, opt *UpdateIssue
 		return nil, resp, err
 	}
 
-	return i, resp, err
+	return i, resp, nil
 }
 
 // DeleteIssue deletes a single project issue.
@@ -567,7 +567,7 @@ func (s *IssuesService) MoveIssue(pid interface{}, issue int, opt *MoveIssueOpti
 		return nil, resp, err
 	}
 
-	return i, resp, err
+	return i, resp, nil
 }
 
 // SubscribeToIssue subscribes the authenticated user to the given issue to
@@ -594,7 +594,7 @@ func (s *IssuesService) SubscribeToIssue(pid interface{}, issue int, options ...
 		return nil, resp, err
 	}
 
-	return i, resp, err
+	return i, resp, nil
 }
 
 // UnsubscribeFromIssue unsubscribes the authenticated user from the given
@@ -621,7 +621,7 @@ func (s *IssuesService) UnsubscribeFromIssue(pid interface{}, issue int, options
 		return nil, resp, err
 	}
 
-	return i, resp, err
+	return i, resp, nil
 }
 
 // CreateTodo creates a todo for the current user for an issue.
@@ -648,7 +648,7 @@ func (s *IssuesService) CreateTodo(pid interface{}, issue int, options ...Reques
 		return nil, resp, err
 	}
 
-	return t, resp, err
+	return t, resp, nil
 }
 
 // ListMergeRequestsClosingIssueOptions represents the available
@@ -681,7 +681,7 @@ func (s *IssuesService) ListMergeRequestsClosingIssue(pid interface{}, issue int
 		return nil, resp, err
 	}
 
-	return m, resp, err
+	return m, resp, nil
 }
 
 // ListMergeRequestsRelatedToIssueOptions represents the available
@@ -717,7 +717,7 @@ func (s *IssuesService) ListMergeRequestsRelatedToIssue(pid interface{}, issue i
 		return nil, resp, err
 	}
 
-	return m, resp, err
+	return m, resp, nil
 }
 
 // SetTimeEstimate sets the time estimate for a single project issue.
@@ -782,5 +782,5 @@ func (s *IssuesService) GetParticipants(pid interface{}, issue int, options ...R
 		return nil, resp, err
 	}
 
-	return bu, resp, err
+	return bu, resp, nil
 }

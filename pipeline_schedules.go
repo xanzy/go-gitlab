@@ -86,7 +86,7 @@ func (s *PipelineSchedulesService) ListPipelineSchedules(pid interface{}, opt *L
 		return nil, resp, err
 	}
 
-	return ps, resp, err
+	return ps, resp, nil
 }
 
 // GetPipelineSchedule gets a pipeline schedule.
@@ -111,7 +111,7 @@ func (s *PipelineSchedulesService) GetPipelineSchedule(pid interface{}, schedule
 		return nil, resp, err
 	}
 
-	return p, resp, err
+	return p, resp, nil
 }
 
 // ListPipelinesTriggeredByScheduleOptions represents the available
@@ -144,7 +144,7 @@ func (s *PipelineSchedulesService) ListPipelinesTriggeredBySchedule(pid interfac
 		return nil, resp, err
 	}
 
-	return p, resp, err
+	return p, resp, nil
 }
 
 // CreatePipelineScheduleOptions represents the available
@@ -182,7 +182,7 @@ func (s *PipelineSchedulesService) CreatePipelineSchedule(pid interface{}, opt *
 		return nil, resp, err
 	}
 
-	return p, resp, err
+	return p, resp, nil
 }
 
 // EditPipelineScheduleOptions represents the available
@@ -220,7 +220,7 @@ func (s *PipelineSchedulesService) EditPipelineSchedule(pid interface{}, schedul
 		return nil, resp, err
 	}
 
-	return p, resp, err
+	return p, resp, nil
 }
 
 // TakeOwnershipOfPipelineSchedule sets the owner of the specified
@@ -246,7 +246,7 @@ func (s *PipelineSchedulesService) TakeOwnershipOfPipelineSchedule(pid interface
 		return nil, resp, err
 	}
 
-	return p, resp, err
+	return p, resp, nil
 }
 
 // DeletePipelineSchedule deletes a pipeline schedule.
@@ -320,7 +320,7 @@ func (s *PipelineSchedulesService) CreatePipelineScheduleVariable(pid interface{
 		return nil, resp, err
 	}
 
-	return p, resp, err
+	return p, resp, nil
 }
 
 // EditPipelineScheduleVariableOptions represents the available
@@ -355,7 +355,7 @@ func (s *PipelineSchedulesService) EditPipelineScheduleVariable(pid interface{},
 		return nil, resp, err
 	}
 
-	return p, resp, err
+	return p, resp, nil
 }
 
 // DeletePipelineScheduleVariable creates a pipeline schedule variable.
@@ -380,5 +380,5 @@ func (s *PipelineSchedulesService) DeletePipelineScheduleVariable(pid interface{
 		return nil, resp, err
 	}
 
-	return p, resp, err
+	return p, resp, nil
 }

@@ -139,7 +139,7 @@ func (s *JobsService) ListProjectJobs(pid interface{}, opts *ListJobsOptions, op
 		return nil, resp, err
 	}
 
-	return jobs, resp, err
+	return jobs, resp, nil
 }
 
 // ListPipelineJobs gets a list of jobs for specific pipeline in a
@@ -165,7 +165,7 @@ func (s *JobsService) ListPipelineJobs(pid interface{}, pipelineID int, opts *Li
 		return nil, resp, err
 	}
 
-	return jobs, resp, err
+	return jobs, resp, nil
 }
 
 // ListPipelineBridges gets a list of bridges for specific pipeline in a
@@ -191,7 +191,7 @@ func (s *JobsService) ListPipelineBridges(pid interface{}, pipelineID int, opts 
 		return nil, resp, err
 	}
 
-	return bridges, resp, err
+	return bridges, resp, nil
 }
 
 // GetJobTokensJobOptions represents the available GetJobTokensJob() options.
@@ -216,7 +216,7 @@ func (s *JobsService) GetJobTokensJob(opts *GetJobTokensJobOptions, options ...R
 		return nil, resp, err
 	}
 
-	return job, resp, err
+	return job, resp, nil
 }
 
 // GetJob gets a single job of a project.
@@ -241,7 +241,7 @@ func (s *JobsService) GetJob(pid interface{}, jobID int, options ...RequestOptio
 		return nil, resp, err
 	}
 
-	return job, resp, err
+	return job, resp, nil
 }
 
 // GetJobArtifacts get jobs artifacts of a project
@@ -419,7 +419,7 @@ func (s *JobsService) CancelJob(pid interface{}, jobID int, options ...RequestOp
 		return nil, resp, err
 	}
 
-	return job, resp, err
+	return job, resp, nil
 }
 
 // RetryJob retries a single job of a project
@@ -444,7 +444,7 @@ func (s *JobsService) RetryJob(pid interface{}, jobID int, options ...RequestOpt
 		return nil, resp, err
 	}
 
-	return job, resp, err
+	return job, resp, nil
 }
 
 // EraseJob erases a single job of a project, removes a job
@@ -470,7 +470,7 @@ func (s *JobsService) EraseJob(pid interface{}, jobID int, options ...RequestOpt
 		return nil, resp, err
 	}
 
-	return job, resp, err
+	return job, resp, nil
 }
 
 // KeepArtifacts prevents artifacts from being deleted when
@@ -496,7 +496,7 @@ func (s *JobsService) KeepArtifacts(pid interface{}, jobID int, options ...Reque
 		return nil, resp, err
 	}
 
-	return job, resp, err
+	return job, resp, nil
 }
 
 // PlayJobOptions represents the available PlayJob() options.
@@ -539,7 +539,7 @@ func (s *JobsService) PlayJob(pid interface{}, jobID int, opt *PlayJobOptions, o
 		return nil, resp, err
 	}
 
-	return job, resp, err
+	return job, resp, nil
 }
 
 // DeleteArtifacts delete artifacts of a job

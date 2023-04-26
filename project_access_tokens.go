@@ -81,7 +81,7 @@ func (s *ProjectAccessTokensService) ListProjectAccessTokens(pid interface{}, op
 		return nil, resp, err
 	}
 
-	return pats, resp, err
+	return pats, resp, nil
 }
 
 // GetProjectAccessToken gets a single project access tokens in a project.
@@ -106,7 +106,7 @@ func (s *ProjectAccessTokensService) GetProjectAccessToken(pid interface{}, id i
 		return nil, resp, err
 	}
 
-	return pat, resp, err
+	return pat, resp, nil
 }
 
 // CreateProjectAccessTokenOptions represents the available CreateVariable()
@@ -143,7 +143,7 @@ func (s *ProjectAccessTokensService) CreateProjectAccessToken(pid interface{}, o
 		return nil, resp, err
 	}
 
-	return pat, resp, err
+	return pat, resp, nil
 }
 
 // RevokeProjectAccessToken revokes a project access token.

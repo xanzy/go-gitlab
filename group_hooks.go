@@ -73,7 +73,7 @@ func (s *GroupsService) ListGroupHooks(gid interface{}, opt *ListGroupHooksOptio
 		return nil, resp, err
 	}
 
-	return gh, resp, err
+	return gh, resp, nil
 }
 
 // GetGroupHook gets a specific hook for a group.
@@ -98,7 +98,7 @@ func (s *GroupsService) GetGroupHook(pid interface{}, hook int, options ...Reque
 		return nil, resp, err
 	}
 
-	return gh, resp, err
+	return gh, resp, nil
 }
 
 // AddGroupHookOptions represents the available AddGroupHook() options.
@@ -145,7 +145,7 @@ func (s *GroupsService) AddGroupHook(gid interface{}, opt *AddGroupHookOptions, 
 		return nil, resp, err
 	}
 
-	return gh, resp, err
+	return gh, resp, nil
 }
 
 // EditGroupHookOptions represents the available EditGroupHook() options.
@@ -194,7 +194,7 @@ func (s *GroupsService) EditGroupHook(pid interface{}, hook int, opt *EditGroupH
 		return nil, resp, err
 	}
 
-	return gh, resp, err
+	return gh, resp, nil
 }
 
 // DeleteGroupHook removes a hook from a group. This is an idempotent

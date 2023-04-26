@@ -195,7 +195,7 @@ func (s *PipelinesService) ListProjectPipelines(pid interface{}, opt *ListProjec
 		return nil, resp, err
 	}
 
-	return p, resp, err
+	return p, resp, nil
 }
 
 // GetPipeline gets a single project pipeline.
@@ -219,7 +219,7 @@ func (s *PipelinesService) GetPipeline(pid interface{}, pipeline int, options ..
 		return nil, resp, err
 	}
 
-	return p, resp, err
+	return p, resp, nil
 }
 
 // GetPipelineVariables gets the variables of a single project pipeline.
@@ -243,7 +243,7 @@ func (s *PipelinesService) GetPipelineVariables(pid interface{}, pipeline int, o
 		return nil, resp, err
 	}
 
-	return p, resp, err
+	return p, resp, nil
 }
 
 // GetPipelineTestReport gets the test report of a single project pipeline.
@@ -267,7 +267,7 @@ func (s *PipelinesService) GetPipelineTestReport(pid interface{}, pipeline int, 
 		return nil, resp, err
 	}
 
-	return p, resp, err
+	return p, resp, nil
 }
 
 // GetLatestPipelineOptions represents the available GetLatestPipeline() options.
@@ -298,7 +298,7 @@ func (s *PipelinesService) GetLatestPipeline(pid interface{}, opt *GetLatestPipe
 		return nil, resp, err
 	}
 
-	return p, resp, err
+	return p, resp, nil
 }
 
 // CreatePipelineOptions represents the available CreatePipeline() options.
@@ -339,7 +339,7 @@ func (s *PipelinesService) CreatePipeline(pid interface{}, opt *CreatePipelineOp
 		return nil, resp, err
 	}
 
-	return p, resp, err
+	return p, resp, nil
 }
 
 // RetryPipelineBuild retries failed builds in a pipeline
@@ -364,7 +364,7 @@ func (s *PipelinesService) RetryPipelineBuild(pid interface{}, pipeline int, opt
 		return nil, resp, err
 	}
 
-	return p, resp, err
+	return p, resp, nil
 }
 
 // CancelPipelineBuild cancels a pipeline builds
@@ -389,7 +389,7 @@ func (s *PipelinesService) CancelPipelineBuild(pid interface{}, pipeline int, op
 		return nil, resp, err
 	}
 
-	return p, resp, err
+	return p, resp, nil
 }
 
 // DeletePipeline deletes an existing pipeline.

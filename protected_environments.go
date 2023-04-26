@@ -82,7 +82,7 @@ func (s *ProtectedEnvironmentsService) ListProtectedEnvironments(pid interface{}
 		return nil, resp, err
 	}
 
-	return pes, resp, err
+	return pes, resp, nil
 }
 
 // GetProtectedEnvironment returns a single protected environment or wildcard
@@ -108,7 +108,7 @@ func (s *ProtectedEnvironmentsService) GetProtectedEnvironment(pid interface{}, 
 		return nil, resp, err
 	}
 
-	return pe, resp, err
+	return pe, resp, nil
 }
 
 // ProtectRepositoryEnvironmentsOptions represents the available
@@ -156,7 +156,7 @@ func (s *ProtectedEnvironmentsService) ProtectRepositoryEnvironments(pid interfa
 		return nil, resp, err
 	}
 
-	return pe, resp, err
+	return pe, resp, nil
 }
 
 // UnprotectEnvironment unprotects the given protected environment or wildcard

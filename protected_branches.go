@@ -90,7 +90,7 @@ func (s *ProtectedBranchesService) ListProtectedBranches(pid interface{}, opt *L
 		return nil, resp, err
 	}
 
-	return p, resp, err
+	return p, resp, nil
 }
 
 // GetProtectedBranch gets a single protected branch or wildcard protected branch.
@@ -115,7 +115,7 @@ func (s *ProtectedBranchesService) GetProtectedBranch(pid interface{}, branch st
 		return nil, resp, err
 	}
 
-	return p, resp, err
+	return p, resp, nil
 }
 
 // ProtectRepositoryBranchesOptions represents the available
@@ -171,7 +171,7 @@ func (s *ProtectedBranchesService) ProtectRepositoryBranches(pid interface{}, op
 		return nil, resp, err
 	}
 
-	return p, resp, err
+	return p, resp, nil
 }
 
 // UnprotectRepositoryBranches unprotects the given protected branch or wildcard
@@ -230,7 +230,7 @@ func (s *ProtectedBranchesService) UpdateProtectedBranch(pid interface{}, branch
 		return nil, resp, err
 	}
 
-	return p, resp, err
+	return p, resp, nil
 }
 
 // RequireCodeOwnerApprovalsOptions represents the available

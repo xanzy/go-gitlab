@@ -78,7 +78,7 @@ func (s *ServicesService) ListServices(pid interface{}, options ...RequestOption
 		return nil, resp, err
 	}
 
-	return svcs, resp, err
+	return svcs, resp, nil
 }
 
 // CustomIssueTrackerService represents Custom Issue Tracker service settings.
@@ -122,7 +122,7 @@ func (s *ServicesService) GetCustomIssueTrackerService(pid interface{}, options 
 		return nil, resp, err
 	}
 
-	return svc, resp, err
+	return svc, resp, nil
 }
 
 // SetCustomIssueTrackerServiceOptions represents the available SetCustomIssueTrackerService()
@@ -218,7 +218,7 @@ func (s *ServicesService) GetDroneCIService(pid interface{}, options ...RequestO
 		return nil, resp, err
 	}
 
-	return svc, resp, err
+	return svc, resp, nil
 }
 
 // SetDroneCIServiceOptions represents the available SetDroneCIService()
@@ -314,7 +314,7 @@ func (s *ServicesService) GetEmailsOnPushService(pid interface{}, options ...Req
 		return nil, resp, err
 	}
 
-	return svc, resp, err
+	return svc, resp, nil
 }
 
 // SetEmailsOnPushServiceOptions represents the available SetEmailsOnPushService()
@@ -408,7 +408,7 @@ func (s *ServicesService) GetExternalWikiService(pid interface{}, options ...Req
 		return nil, resp, err
 	}
 
-	return svc, resp, err
+	return svc, resp, nil
 }
 
 // SetExternalWikiServiceOptions represents the available SetExternalWikiService()
@@ -498,7 +498,7 @@ func (s *ServicesService) GetGithubService(pid interface{}, options ...RequestOp
 		return nil, resp, err
 	}
 
-	return svc, resp, err
+	return svc, resp, nil
 }
 
 // SetGithubServiceOptions represents the available SetGithubService()
@@ -687,7 +687,7 @@ func (s *ServicesService) GetJenkinsCIService(pid interface{}, options ...Reques
 		return nil, resp, err
 	}
 
-	return svc, resp, err
+	return svc, resp, nil
 }
 
 // SetJenkinsCIServiceOptions represents the available SetJenkinsCIService()
@@ -817,7 +817,7 @@ func (s *ServicesService) GetJiraService(pid interface{}, options ...RequestOpti
 		return nil, resp, err
 	}
 
-	return svc, resp, err
+	return svc, resp, nil
 }
 
 // SetJiraServiceOptions represents the available SetJiraService()
@@ -928,7 +928,7 @@ func (s *ServicesService) GetMattermostService(pid interface{}, options ...Reque
 		return nil, resp, err
 	}
 
-	return svc, resp, err
+	return svc, resp, nil
 }
 
 // SetMattermostServiceOptions represents the available SetMattermostService()
@@ -1049,7 +1049,7 @@ func (s *ServicesService) GetMicrosoftTeamsService(pid interface{}, options ...R
 		return nil, resp, err
 	}
 
-	return svc, resp, err
+	return svc, resp, nil
 }
 
 // SetMicrosoftTeamsServiceOptions represents the available SetMicrosoftTeamsService()
@@ -1151,7 +1151,7 @@ func (s *ServicesService) GetPipelinesEmailService(pid interface{}, options ...R
 		return nil, resp, err
 	}
 
-	return svc, resp, err
+	return svc, resp, nil
 }
 
 // SetPipelinesEmailServiceOptions represents the available
@@ -1247,7 +1247,7 @@ func (s *ServicesService) GetPrometheusService(pid interface{}, options ...Reque
 		return nil, resp, err
 	}
 
-	return svc, resp, err
+	return svc, resp, nil
 }
 
 // SetPrometheusServiceOptions represents the available SetPrometheusService()
@@ -1353,7 +1353,7 @@ func (s *ServicesService) GetSlackService(pid interface{}, options ...RequestOpt
 		return nil, resp, err
 	}
 
-	return svc, resp, err
+	return svc, resp, nil
 }
 
 // SetSlackServiceOptions represents the available SetSlackService()
@@ -1470,7 +1470,7 @@ func (s *ServicesService) GetSlackSlashCommandsService(pid interface{}, options 
 		return nil, resp, err
 	}
 
-	return svc, resp, err
+	return svc, resp, nil
 }
 
 // SetSlackSlashCommandsServiceOptions represents the available SetSlackSlashCommandsService()
@@ -1560,7 +1560,7 @@ func (s *ServicesService) GetMattermostSlashCommandsService(pid interface{}, opt
 		return nil, resp, err
 	}
 
-	return svc, resp, err
+	return svc, resp, nil
 }
 
 // SetMattermostSlashCommandsServiceOptions represents the available SetSlackSlashCommandsService()
@@ -1653,7 +1653,7 @@ func (s *ServicesService) GetYouTrackService(pid interface{}, options ...Request
 		return nil, resp, err
 	}
 
-	return svc, resp, err
+	return svc, resp, nil
 }
 
 // SetYouTrackServiceOptions represents the available SetYouTrackService()

@@ -81,7 +81,7 @@ func (s *ProjectTemplatesService) ListTemplates(pid interface{}, templateType st
 		return nil, resp, err
 	}
 
-	return pt, resp, err
+	return pt, resp, nil
 }
 
 // GetProjectTemplate gets a single project template.
@@ -106,5 +106,5 @@ func (s *ProjectTemplatesService) GetProjectTemplate(pid interface{}, templateTy
 		return nil, resp, err
 	}
 
-	return ptd, resp, err
+	return ptd, resp, nil
 }
