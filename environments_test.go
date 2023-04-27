@@ -164,8 +164,9 @@ func TestStopEnvironment(t *testing.T) {
 	mux.HandleFunc("/api/v4/projects/1/environments/1/stop", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
 		testURL(t, r, "/api/v4/projects/1/environments/1/stop")
+		fmt.Fprint(w, `{"id": 1,"name": "staging", "state": "stopping", "slug": "staging", "external_url": "https://staging.example.gitlab.com", "tier": "staging"}`)
 	})
-	_, err := client.Environments.StopEnvironment(1, 1)
+	_, _, err := client.Environments.StopEnvironment(1, 1)
 	if err != nil {
 		log.Fatal(err)
 	}

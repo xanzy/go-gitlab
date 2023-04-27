@@ -208,17 +208,23 @@ func (s *EnvironmentsService) DeleteEnvironment(pid interface{}, environment int
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/environments.html#stop-an-environment
-func (s *EnvironmentsService) StopEnvironment(pid interface{}, environmentID int, options ...RequestOptionFunc) (*Response, error) {
+func (s *EnvironmentsService) StopEnvironment(pid interface{}, environmentID int, options ...RequestOptionFunc) (*Environment, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/environments/%d/stop", PathEscape(project), environmentID)
 
 	req, err := s.client.NewRequest(http.MethodPost, u, nil, options)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	return s.client.Do(req, nil)
+	env := new(Environment)
+	resp, err := s.client.Do(req, env)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return env, resp, nil
 }
