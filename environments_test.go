@@ -111,7 +111,13 @@ func TestCreateEnvironment(t *testing.T) {
 	mux.HandleFunc("/api/v4/projects/1/environments", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
 		testURL(t, r, "/api/v4/projects/1/environments")
-		fmt.Fprint(w, `{"id": 1,"name": "deploy", "slug": "deploy", "external_url": "https://deploy.example.gitlab.com", "tier": "production"}`)
+		fmt.Fprint(w, `{
+      "id": 1,
+      "name": "deploy",
+      "slug": "deploy",
+      "external_url": "https://deploy.example.gitlab.com",
+      "tier": "production"
+    }`)
 	})
 
 	envs, _, err := client.Environments.CreateEnvironment(1, &CreateEnvironmentOptions{Name: String("deploy"), ExternalURL: String("https://deploy.example.gitlab.com"), Tier: String("production")})
@@ -131,7 +137,13 @@ func TestEditEnvironment(t *testing.T) {
 	mux.HandleFunc("/api/v4/projects/1/environments/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
 		testURL(t, r, "/api/v4/projects/1/environments/1")
-		fmt.Fprint(w, `{"id": 1,"name": "staging", "slug": "staging", "external_url": "https://staging.example.gitlab.com", "tier": "staging"}`)
+		fmt.Fprint(w, `{
+      "id": 1,
+      "name": "staging",
+      "slug": "staging",
+      "external_url": "https://staging.example.gitlab.com",
+      "tier": "staging"
+    }`)
 	})
 
 	envs, _, err := client.Environments.EditEnvironment(1, 1, &EditEnvironmentOptions{Name: String("staging"), ExternalURL: String("https://staging.example.gitlab.com"), Tier: String("staging")})
@@ -164,7 +176,14 @@ func TestStopEnvironment(t *testing.T) {
 	mux.HandleFunc("/api/v4/projects/1/environments/1/stop", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
 		testURL(t, r, "/api/v4/projects/1/environments/1/stop")
-		fmt.Fprint(w, `{"id": 1,"name": "staging", "state": "stopping", "slug": "staging", "external_url": "https://staging.example.gitlab.com", "tier": "staging"}`)
+		fmt.Fprint(w, `{
+      "id": 1,
+      "name": "staging",
+      "state": "stopping",
+      "slug": "staging",
+      "external_url": "https://staging.example.gitlab.com",
+      "tier": "staging"
+    }`)
 	})
 	_, _, err := client.Environments.StopEnvironment(1, 1)
 	if err != nil {
