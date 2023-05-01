@@ -61,9 +61,10 @@ type LintOptions struct {
 }
 
 // Lint validates .gitlab-ci.yml content.
+// Deprecated: This endpoint was removed in GitLab 16.0.
 //
 // Gitlab API docs:
-// https://docs.gitlab.com/ee/api/lint.html#validate-the-ci-yaml-configuration
+// https://docs.gitlab.com/ee/api/lint.html#validate-the-ci-yaml-configuration-deprecated
 func (s *ValidateService) Lint(opts *LintOptions, options ...RequestOptionFunc) (*LintResult, *Response, error) {
 	req, err := s.client.NewRequest(http.MethodPost, "ci/lint", &opts, options)
 	if err != nil {
