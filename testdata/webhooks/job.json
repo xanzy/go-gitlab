@@ -59,5 +59,9 @@
     "git_ssh_url": "git@gitlab.com:jsmithy2/release-tools-fake.git",
     "visibility_level": 20
   },
-  "environment": "staging"
+  "environment": {
+    "name": "production",
+    "action": "start",
+    "deployment_tier": "production"
+  }
 }
