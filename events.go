@@ -197,6 +197,7 @@ func (s ProjectEvent) String() string {
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/events.html#list-a-projects-visible-events
 type ListProjectVisibleEventsOptions struct {
+	ListOptions
 	Action     *EventTypeValue       `url:"action,omitempty" json:"action,omitempty"`
 	TargetType *EventTargetTypeValue `url:"target_type,omitempty" json:"target_type,omitempty"`
 	Before     *ISOTime              `url:"before,omitempty" json:"before,omitempty"`
