@@ -248,7 +248,7 @@ type Blob struct {
 	Basename  string `json:"basename"`
 	Data      string `json:"data"`
 	Filename  string `json:"filename"`
-	ID        int    `json:"id"`
+	ID        string `json:"id"`
 	Ref       string `json:"ref"`
 	Startline int    `json:"startline"`
 	ProjectID int    `json:"project_id"`
