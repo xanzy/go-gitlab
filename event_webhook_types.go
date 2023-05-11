@@ -437,7 +437,11 @@ type JobEvent struct {
 		Description string   `json:"description"`
 		Tags        []string `json:"tags"`
 	} `json:"runner"`
-	Environment string `json:"environment"`
+	Environment struct {
+		Name           string `json:"name"`
+		Action         string `json:"action"`
+		DeploymentTier string `json:"deployment_tier"`
+	} `json:"environment"`
 }
 
 // MemberEvent represents a member event.

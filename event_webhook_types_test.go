@@ -183,7 +183,9 @@ func TestJobEventUnmarshal(t *testing.T) {
 	expectedEvent.Runner.IsShared = true
 	expectedEvent.Runner.Tags = []string{"linux", "docker"}
 
-	expectedEvent.Environment = "staging"
+	expectedEvent.Environment.Name = "production"
+	expectedEvent.Environment.Action = "start"
+	expectedEvent.Environment.DeploymentTier = "production"
 
 	assert.Equal(t, expectedEvent, *event, "event should be equal to the expected one")
 }
