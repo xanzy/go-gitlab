@@ -163,8 +163,10 @@ func TestValidateProjectNamespace(t *testing.T) {
 		{
 			description: "valid",
 			request: &ProjectNamespaceLintOptions{
-				Content: String("{'build': {'script': 'echo build'}}"),
-				DryRun:  Bool(false),
+				Content:     String("{'build': {'script': 'echo build'}}"),
+				DryRun:      Bool(false),
+				IncludeJobs: Bool(true),
+				Ref:         String("foo"),
 			},
 			response: `{
 				"valid": true,
