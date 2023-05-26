@@ -100,6 +100,7 @@ type Bridge struct {
 	Ref                string        `json:"ref"`
 	Stage              string        `json:"stage"`
 	Status             string        `json:"status"`
+	FailureReason      string        `json:"failure_reason"`
 	Tag                bool          `json:"tag"`
 	WebURL             string        `json:"web_url"`
 	User               *User         `json:"user"`
