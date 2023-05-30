@@ -53,7 +53,7 @@
     "human_total_time_spent": null,
     "human_time_estimate": null,
     "human_time_change": null,
-    "weight": null,
+    "weight": 10,
     "iid": 23,
     "url": "http://example.com/diaspora/issues/23",
     "state": "opened",

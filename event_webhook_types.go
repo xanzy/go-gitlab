@@ -333,7 +333,7 @@ type IssueEvent struct {
 		HumanTotalTimeSpent string   `json:"human_total_time_spent"`
 		HumanTimeEstimate   string   `json:"human_time_estimate"`
 		HumanTimeChange     string   `json:"human_time_change"`
-		Weight              string   `json:"weight"`
+		Weight              int      `json:"weight"`
 		IID                 int      `json:"iid"`
 		URL                 string   `json:"url"`
 		State               string   `json:"state"`
