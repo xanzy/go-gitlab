@@ -38,6 +38,7 @@ type ProtectedEnvironment struct {
 	Name                  string                          `json:"name"`
 	DeployAccessLevels    []*EnvironmentAccessDescription `json:"deploy_access_levels"`
 	RequiredApprovalCount int                             `json:"required_approval_count"`
+	ApprovalRules         []*EnvironmentApprovalRule      `json:"approval_rules"`
 }
 
 // EnvironmentAccessDescription represents the access decription for a protected
@@ -50,6 +51,19 @@ type EnvironmentAccessDescription struct {
 	AccessLevelDescription string           `json:"access_level_description"`
 	UserID                 int              `json:"user_id"`
 	GroupID                int              `json:"group_id"`
+}
+
+// EnvironmentApprovalRule represents the approval rules for a protected environment.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/protected_environments.html#protect-a-single-environment
+type EnvironmentApprovalRule struct {
+	UserID                 int              `json:"user_id"`
+	GroupID                int              `json:"group_id"`
+	AccessLevel            AccessLevelValue `json:"access_level"`
+	AccessLevelDescription string           `json:"access_level_description"`
+	RequiredApprovalCount  int              `json:"required_approvals"`
+	GroupInheritanceType   int              `json:"group_inheritance_type"`
 }
 
 // ListProtectedEnvironmentsOptions represents the available
@@ -117,9 +131,10 @@ func (s *ProtectedEnvironmentsService) GetProtectedEnvironment(pid interface{}, 
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/protected_environments.html#protect-a-single-environment
 type ProtectRepositoryEnvironmentsOptions struct {
-	Name                  *string                      `url:"name,omitempty" json:"name,omitempty"`
-	DeployAccessLevels    *[]*EnvironmentAccessOptions `url:"deploy_access_levels,omitempty" json:"deploy_access_levels,omitempty"`
-	RequiredApprovalCount *int                         `url:"required_approval_count,omitempty" json:"required_approval_count,omitempty"`
+	Name                  *string                            `url:"name,omitempty" json:"name,omitempty"`
+	DeployAccessLevels    *[]*EnvironmentAccessOptions       `url:"deploy_access_levels,omitempty" json:"deploy_access_levels,omitempty"`
+	RequiredApprovalCount *int                               `url:"required_approval_count,omitempty" json:"required_approval_count,omitempty"`
+	ApprovalRules         *[]*EnvironmentApprovalRuleOptions `url:"approval_rules,omitempty" json:"approval_rules,omitempty"`
 }
 
 // EnvironmentAccessOptions represents the options for an access decription for
@@ -131,6 +146,19 @@ type EnvironmentAccessOptions struct {
 	AccessLevel *AccessLevelValue `url:"access_level,omitempty" json:"access_level,omitempty"`
 	UserID      *int              `url:"user_id,omitempty" json:"user_id,omitempty"`
 	GroupID     *int              `url:"group_id,omitempty" json:"group_id,omitempty"`
+}
+
+// EnvironmentApprovalRuleOptions represents the approval rules for a protected environment.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/protected_environments.html#protect-a-single-environment
+type EnvironmentApprovalRuleOptions struct {
+	UserID                 *int              `url:"user_id,omitempty" json:"user_id,omitempty"`
+	GroupID                *int              `url:"group_id,omitempty" json:"group_id,omitempty"`
+	AccessLevel            *AccessLevelValue `url:"access_level,omitempty" json:"access_level,omitempty"`
+	AccessLevelDescription *string           `url:"access_level_description,omitempty" json:"access_level_description,omitempty"`
+	RequiredApprovalCount  *int              `url:"required_approvals,omitempty" json:"required_approvals,omitempty"`
+	GroupInheritanceType   *int              `url:"group_inheritance_type,omitempty" json:"group_inheritance_type,omitempty"`
 }
 
 // ProtectRepositoryEnvironments protects a single repository environment or
