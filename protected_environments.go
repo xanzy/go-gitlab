@@ -47,13 +47,15 @@ type ProtectedEnvironment struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/protected_environments.html
 type EnvironmentAccessDescription struct {
+	ID                     int              `json:"id"`
 	AccessLevel            AccessLevelValue `json:"access_level"`
 	AccessLevelDescription string           `json:"access_level_description"`
 	UserID                 int              `json:"user_id"`
 	GroupID                int              `json:"group_id"`
 }
 
-// EnvironmentApprovalRule represents the approval rules for a protected environment.
+// EnvironmentApprovalRule represents the approval rules for a protected
+// environment.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/protected_environments.html#protect-a-single-environment
@@ -149,7 +151,8 @@ type EnvironmentAccessOptions struct {
 	GroupID     *int              `url:"group_id,omitempty" json:"group_id,omitempty"`
 }
 
-// EnvironmentApprovalRuleOptions represents the approval rules for a protected environment.
+// EnvironmentApprovalRuleOptions represents the approval rules for a protected
+// environment.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/protected_environments.html#protect-a-single-environment

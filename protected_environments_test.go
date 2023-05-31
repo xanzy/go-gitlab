@@ -38,26 +38,26 @@ func TestListProtectedEnvironments(t *testing.T) {
         }
       ],
       "required_approval_count": 1,
-	  "approval_rules": [
-		{
-		   "id": 38,
-		   "user_id": 42,
-		   "group_id": null,
-		   "access_level": null,
-		   "access_level_description": "qa-group",
-		   "required_approvals": 1,
-		   "group_inheritance_type": 0
-		},
-		{
-		   "id": 39,
-		   "user_id": null,
-		   "group_id": 135,
-		   "access_level": 30,
-		   "access_level_description": "security-group",
-		   "required_approvals": 2,
-		   "group_inheritance_type": 1
-		}
-	  ]
+      "approval_rules": [
+        {
+           "id": 38,
+           "user_id": 42,
+           "group_id": null,
+           "access_level": null,
+           "access_level_description": "qa-group",
+           "required_approvals": 1,
+           "group_inheritance_type": 0
+        },
+        {
+           "id": 39,
+           "user_id": null,
+           "group_id": 135,
+           "access_level": 30,
+           "access_level_description": "security-group",
+           "required_approvals": 2,
+           "group_inheritance_type": 1
+        }
+      ]
     },{
       "name":"*-release",
       "deploy_access_levels": [
@@ -130,17 +130,17 @@ func TestGetProtectedEnvironment(t *testing.T) {
         }
       ],
       "required_approval_count": 1,
-	  "approval_rules": [
-		{
-		   "id": 1,
-		   "user_id": null,
-		   "group_id": 10,
-		   "access_level": 5,
-		   "access_level_description": "devops",
-		   "required_approvals": 0,
-		   "group_inheritance_type": 0
-		}
-	  ]
+      "approval_rules": [
+        {
+           "id": 1,
+           "user_id": null,
+           "group_id": 10,
+           "access_level": 5,
+           "access_level_description": "devops",
+           "required_approvals": 0,
+           "group_inheritance_type": 0
+        }
+      ]
     }`)
 	})
 
@@ -213,17 +213,17 @@ func TestProtectRepositoryEnvironments(t *testing.T) {
         }
       ],
       "required_approval_count": 2,
-	  "approval_rules": [
-		{
-		   "id": 1,
-		   "user_id": null,
-		   "group_id": 10,
-		   "access_level": 5,
-		   "access_level_description": "devops",
-		   "required_approvals": 0,
-		   "group_inheritance_type": 0
-		}
-	  ]
+      "approval_rules": [
+        {
+           "id": 1,
+           "user_id": null,
+           "group_id": 10,
+           "access_level": 5,
+           "access_level_description": "devops",
+           "required_approvals": 0,
+           "group_inheritance_type": 0
+        }
+      ]
     }`)
 	})
 
@@ -246,8 +246,6 @@ func TestProtectRepositoryEnvironments(t *testing.T) {
 		},
 	}
 
-	noPermissions := NoPermissions
-
 	opt := &ProtectRepositoryEnvironmentsOptions{
 		Name: String("my-awesome-environment"),
 		DeployAccessLevels: &[]*EnvironmentAccessOptions{
@@ -257,7 +255,7 @@ func TestProtectRepositoryEnvironments(t *testing.T) {
 		ApprovalRules: &[]*EnvironmentApprovalRuleOptions{
 			{
 				GroupID:                Int(10),
-				AccessLevel:            &noPermissions,
+				AccessLevel:            AccessLevel(0),
 				AccessLevelDescription: String("devops"),
 			},
 		},
