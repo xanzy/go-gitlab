@@ -81,11 +81,13 @@ func TestListProtectedEnvironments(t *testing.T) {
 			RequiredApprovalCount: 1,
 			ApprovalRules: []*EnvironmentApprovalRule{
 				{
+					ID:                     38,
 					UserID:                 42,
 					AccessLevelDescription: "qa-group",
 					RequiredApprovalCount:  1,
 				},
 				{
+					ID:                     39,
 					GroupID:                135,
 					AccessLevel:            30,
 					AccessLevelDescription: "security-group",
@@ -153,6 +155,7 @@ func TestGetProtectedEnvironment(t *testing.T) {
 		RequiredApprovalCount: 1,
 		ApprovalRules: []*EnvironmentApprovalRule{
 			{
+				ID:                     1,
 				GroupID:                10,
 				AccessLevel:            5,
 				AccessLevelDescription: "devops",
@@ -235,6 +238,7 @@ func TestProtectRepositoryEnvironments(t *testing.T) {
 		RequiredApprovalCount: 2,
 		ApprovalRules: []*EnvironmentApprovalRule{
 			{
+				ID:                     1,
 				GroupID:                10,
 				AccessLevel:            5,
 				AccessLevelDescription: "devops",
