@@ -219,13 +219,13 @@ func TestParseIssueHook(t *testing.T) {
 		t.Errorf("Assignee username is %v, want %v", event.Assignee.Username, "user1")
 	}
 	assert.Equal(t, 1, len(event.Labels))
-	assert.Equal(t, 0, event.Changes.UpdatedByID.Previous)
+	assert.Equal(t, 2, event.Changes.UpdatedByID.Previous)
 	assert.Equal(t, 1, event.Changes.UpdatedByID.Current)
 	assert.Equal(t, 1, len(event.Changes.Labels.Previous))
 	assert.Equal(t, 1, len(event.Changes.Labels.Current))
-	assert.Equal(t, "", event.Changes.Description.Previous)
+	assert.Equal(t, "Old description", event.Changes.Description.Previous)
 	assert.Equal(t, "New description", event.Changes.Description.Current)
-	assert.Equal(t, "", event.Changes.Title.Previous)
+	assert.Equal(t, "Old title", event.Changes.Title.Previous)
 	assert.Equal(t, "New title", event.Changes.Title.Current)
 }
 

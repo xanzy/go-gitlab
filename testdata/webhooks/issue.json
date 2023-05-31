@@ -13,14 +13,14 @@
     "name":"Gitlab Test",
     "description":"Aut reprehenderit ut est.",
     "web_url":"http://example.com/gitlabhq/gitlab-test",
-    "avatar_url":null,
+    "avatar_url":"http://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=40\u0026d=identicon",
     "git_ssh_url":"git@example.com:gitlabhq/gitlab-test.git",
     "git_http_url":"http://example.com/gitlabhq/gitlab-test.git",
     "namespace":"GitlabHQ",
     "visibility_level":20,
     "path_with_namespace":"gitlabhq/gitlab-test",
     "default_branch":"master",
-    "ci_config_path": null,
+    "ci_config_path": "",
     "homepage":"http://example.com/gitlabhq/gitlab-test",
     "url":"http://example.com/gitlabhq/gitlab-test.git",
     "ssh_url":"git@example.com:gitlabhq/gitlab-test.git",
@@ -36,23 +36,23 @@
     "created_at": "2013-12-03T17:15:43Z",
     "updated_at": "2013-12-03T17:15:43Z",
     "updated_by_id": 1,
-    "last_edited_at": null,
-    "last_edited_by_id": null,
+    "last_edited_at": "2013-12-03T17:23:34Z",
+    "last_edited_by_id": 51,
     "relative_position": 0,
     "description": "Create new API for manipulations with repository",
-    "milestone_id": null,
+    "milestone_id": 1,
     "state_id": 1,
     "confidential": false,
     "discussion_locked": true,
-    "due_date": null,
-    "moved_to_id": null,
-    "duplicated_to_id": null,
+    "due_date": "2023-06-02", 
+    "moved_to_id": 1,
+    "duplicated_to_id": 2,
     "time_estimate": 0,
     "total_time_spent": 0,
     "time_change": 0,
-    "human_total_time_spent": null,
-    "human_time_estimate": null,
-    "human_time_change": null,
+    "human_total_time_spent": "30m",
+    "human_time_estimate": "30m",
+    "human_time_change": "0m",
     "weight": 10,
     "iid": 23,
     "url": "http://example.com/diaspora/issues/23",
@@ -107,7 +107,7 @@
   }],
   "changes": {
     "updated_by_id": {
-      "previous": null,
+      "previous": 2,
       "current": 1
     },
     "updated_at": {
@@ -149,11 +149,11 @@
       }]
     },
     "description": {
-      "previous": null,
+      "previous": "Old description",
       "current": "New description"
     },
     "title": {
-      "previous": null,
+      "previous": "Old title",
       "current": "New title"
     },
     "total_time_spent": {
