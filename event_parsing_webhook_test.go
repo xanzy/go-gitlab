@@ -311,7 +311,7 @@ func TestParseMergeRequestHook(t *testing.T) {
 		t.Errorf("WorkInProgress is %v, want %v", event.ObjectAttributes.WorkInProgress, false)
 	}
 	assert.Equal(t, 1, len(event.Labels))
-	assert.Equal(t, 0, event.Changes.UpdatedByID.Previous)
+	assert.Equal(t, 2, event.Changes.UpdatedByID.Previous)
 	assert.Equal(t, 1, event.Changes.UpdatedByID.Current)
 	assert.Equal(t, 1, len(event.Changes.Labels.Previous))
 	assert.Equal(t, 1, len(event.Changes.Labels.Current))

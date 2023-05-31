@@ -13,7 +13,7 @@
     "name":"Gitlab Test",
     "description":"Aut reprehenderit ut est.",
     "web_url":"http://example.com/gitlabhq/gitlab-test",
-    "avatar_url":null,
+    "avatar_url": "http://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=40\u0026d=identicon",
     "git_ssh_url":"git@example.com:gitlabhq/gitlab-test.git",
     "git_http_url":"http://example.com/gitlabhq/gitlab-test.git",
     "namespace":"GitlabHQ",
@@ -44,7 +44,7 @@
     "title": "MS-Viewport",
     "created_at": "2013-12-03T17:23:34Z",
     "updated_at": "2013-12-03T17:23:34Z",
-    "milestone_id": null,
+    "milestone_id": 1,
     "state": "opened",
     "blocking_discussions_resolved": true,
     "work_in_progress": false,
@@ -57,7 +57,7 @@
       "name":"Awesome Project",
       "description":"Aut reprehenderit ut est.",
       "web_url":"http://example.com/awesome_space/awesome_project",
-      "avatar_url":null,
+      "avatar_url":"http://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=40\u0026d=identicon",
       "git_ssh_url":"git@example.com:awesome_space/awesome_project.git",
       "git_http_url":"http://example.com/awesome_space/awesome_project.git",
       "namespace":"Awesome Space",
@@ -73,7 +73,7 @@
       "name":"Awesome Project",
       "description":"Aut reprehenderit ut est.",
       "web_url":"http://example.com/awesome_space/awesome_project",
-      "avatar_url":null,
+      "avatar_url":"http://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=40\u0026d=identicon",
       "git_ssh_url":"git@example.com:awesome_space/awesome_project.git",
       "git_http_url":"http://example.com/awesome_space/awesome_project.git",
       "namespace":"Awesome Space",
@@ -133,7 +133,7 @@
   }],
   "changes": {
     "updated_by_id": {
-      "previous": null,
+      "previous": 2,
       "current": 1
     },
     "updated_at": {
