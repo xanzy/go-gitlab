@@ -58,6 +58,7 @@ type EnvironmentAccessDescription struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/protected_environments.html#protect-a-single-environment
 type EnvironmentApprovalRule struct {
+	ID                     int              `json:"id"`
 	UserID                 int              `json:"user_id"`
 	GroupID                int              `json:"group_id"`
 	AccessLevel            AccessLevelValue `json:"access_level"`

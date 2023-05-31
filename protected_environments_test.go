@@ -57,7 +57,7 @@ func TestListProtectedEnvironments(t *testing.T) {
 		   "required_approvals": 2,
 		   "group_inheritance_type": 1
 		}
-	 ]
+	  ]
     },{
       "name":"*-release",
       "deploy_access_levels": [
@@ -138,7 +138,7 @@ func TestGetProtectedEnvironment(t *testing.T) {
 		   "required_approvals": 0,
 		   "group_inheritance_type": 0
 		}
-	 ]
+	  ]
     }`)
 	})
 
@@ -220,7 +220,7 @@ func TestProtectRepositoryEnvironments(t *testing.T) {
 		   "required_approvals": 0,
 		   "group_inheritance_type": 0
 		}
-	 ]
+	  ]
     }`)
 	})
 
