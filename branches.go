@@ -56,6 +56,7 @@ func (b Branch) String() string {
 type ListBranchesOptions struct {
 	ListOptions
 	Search *string `url:"search,omitempty" json:"search,omitempty"`
+	Regex  *string `url:"regex,omitempty" json:"regex,omitempty"`
 }
 
 // ListBranches gets a list of repository branches from a project, sorted by
