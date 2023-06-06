@@ -177,6 +177,96 @@ func (s *ServicesService) DeleteCustomIssueTrackerService(pid interface{}, optio
 	return s.client.Do(req, nil)
 }
 
+// DiscordService represents Discord service settings.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/services.html#discord
+type DiscordService struct {
+	Service
+	Properties *DiscordServiceProperties `json:"properties"`
+}
+
+// DiscordServiceProperties represents Discord specific properties.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/services.html#discord
+type DiscordServiceProperties struct {
+	NotifyOnlyBrokenPipelines bool   `url:"notify_only_broken_pipelines,omitempty" json:"notify_only_broken_pipelines,omitempty"`
+	BranchesToBeNotified      string `url:"branches_to_be_notified,omitempty" json:"branches_to_be_notified,omitempty"`
+}
+
+// GetDiscordService gets Discord service settings for a project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/services.html#get-discord-service-settings
+func (s *ServicesService) GetDiscordService(pid interface{}, options ...RequestOptionFunc) (*DiscordService, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/services/discord", PathEscape(project))
+
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	svc := new(DiscordService)
+	resp, err := s.client.Do(req, svc)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return svc, resp, nil
+}
+
+// SetDiscordServiceOptions represents the available SetDiscordService()
+// options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/services.html#createedit-discord-service
+type SetDiscordServiceOptions struct {
+	WebHook *string `json:"webhook,omitempty"`
+}
+
+// SetDiscordService sets Discord service for a project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/services.html#createedit-discord-service
+func (s *ServicesService) SetDiscordService(pid interface{}, opt *SetDiscordServiceOptions, options ...RequestOptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/services/discord", PathEscape(project))
+
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
+
+// DeleteDiscordService deletes Discord service settings for a project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/services.html#delete-discord-service
+func (s *ServicesService) DeleteDiscordService(pid interface{}, options ...RequestOptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/services/discord", PathEscape(project))
+
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
+
 // DroneCIService represents Drone CI service settings.
 //
 // GitLab API docs:

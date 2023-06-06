@@ -105,6 +105,54 @@ func TestDeleteCustomIssueTrackerService(t *testing.T) {
 	}
 }
 
+func TestGetDiscordService(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/projects/1/services/discord", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		fmt.Fprint(w, `{"id":1}`)
+	})
+	want := &DiscordService{Service: Service{ID: 1}}
+
+	service, _, err := client.Services.GetDiscordService(1)
+	if err != nil {
+		t.Fatalf("Services.GetDiscordService returns an error: %v", err)
+	}
+	if !reflect.DeepEqual(want, service) {
+		t.Errorf("Services.GetDiscordService returned %+v, want %+v", service, want)
+	}
+}
+
+func TestSetDiscordService(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/projects/1/services/discord", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPut)
+	})
+
+	opt := &SetDiscordServiceOptions{
+		WebHook: String("webhook_uri"),
+	}
+
+	_, err := client.Services.SetDiscordService(1, opt)
+	if err != nil {
+		t.Fatalf("Services.SetDiscordService returns an error: %v", err)
+	}
+}
+
+func TestDeleteDiscordService(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/projects/1/services/discord", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodDelete)
+	})
+
+	_, err := client.Services.DeleteDiscordService(1)
+	if err != nil {
+		t.Fatalf("Services.DeleteDiscordService returns an error: %v", err)
+	}
+}
+
 func TestGetDroneCIService(t *testing.T) {
 	mux, client := setup(t)
 
