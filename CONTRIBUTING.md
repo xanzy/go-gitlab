@@ -16,7 +16,7 @@ We use [`gofumpt`](https://github.com/mvdan/gofumpt) to format this project.
 
 ### Setting up your local development environment to Contribute to `go-gitlab`
 
-1. [Fork](https://github.com/xanzy/go-github/fork), then clone the repository.
+1. [Fork](https://github.com/xanzy/go-gitlab/fork), then clone the repository.
     ```sh
     git clone https://github.com/<your-username>/go-gitlab.git
     # or via ssh
