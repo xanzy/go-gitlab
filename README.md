@@ -199,7 +199,7 @@ Sander van Harmelen (<sander@vanharmelen.nl>)
 
 ## Contributing
 
-Contributions are always welcome. For more information, check out the [contributing guide](https://github.com/xanzy/go-gitlab/blob/master/README.md)
+Contributions are always welcome. For more information, check out the [contributing guide](https://github.com/xanzy/go-gitlab/blob/master/CONTRIBUTING.md)
 
 ## License
 
