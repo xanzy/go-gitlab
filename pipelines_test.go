@@ -115,10 +115,7 @@ func TestGetPipelineTestReport(t *testing.T) {
 						Classname:     "MyClassOne",
 						File:          "/path/file.ext",
 						ExecutionTime: 19.987,
-						SystemOutput: &SystemOutput{
-							Type:    "failure",
-							Message: "Failed test",
-						},
+						SystemOutput:  "Failed test",
 						StackTrace:    "java.lang.Exception: Stack trace\nat java.base/java.lang.Thread.dumpStack(Thread.java:1383)",
 						AttachmentURL: "http://foo.bar",
 						RecentFailures: &RecentFailures{
@@ -133,13 +130,10 @@ func TestGetPipelineTestReport(t *testing.T) {
 						ExecutionTime: 19.984,
 					},
 					{
-						Status:    "error",
-						Name:      "Error testcase 3",
-						Classname: "MyClass",
-						SystemOutput: &SystemOutput{
-							Type:    "failure",
-							Message: "Failed test",
-						},
+						Status:       "error",
+						Name:         "Error testcase 3",
+						Classname:    "MyClass",
+						SystemOutput: "Failed test",
 					},
 					{
 						Status:        "success",

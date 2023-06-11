@@ -22,10 +22,7 @@
           "classname": "MyClassOne",
           "file": "/path/file.ext",
           "execution_time": 19.987,
-          "system_output": {
-            "type": "failure",
-            "message": "Failed test"
-          },
+          "system_output": "Failed test",
           "stack_trace": "java.lang.Exception: Stack trace\nat java.base/java.lang.Thread.dumpStack(Thread.java:1383)",
           "attachment_url": "http://foo.bar",
           "recent_failures": {
@@ -50,10 +47,7 @@
           "classname": "MyClass",
           "file": null,
           "execution_time": 0.0,
-          "system_output": {
-            "type": "failure",
-            "message": "Failed test"
-          }
+          "system_output": "Failed test"
         },
         {
           "status": "success",
