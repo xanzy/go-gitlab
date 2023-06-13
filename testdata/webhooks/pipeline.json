@@ -112,7 +112,7 @@
         ]
       },
       "artifacts_file": {
-        "filename": null,
+        "filename": "filename.ext",
         "size": null
       },
       "environment": {
@@ -148,7 +148,7 @@
         "is_shared": true
       },
       "artifacts_file": {
-        "filename": null,
+        "filename": "filename.ext",
         "size": null
       }
     },
@@ -179,7 +179,7 @@
         "is_shared": true
       },
       "artifacts_file": {
-        "filename": null,
+        "filename": "filename.ext",
         "size": null
       }
     },
@@ -210,7 +210,7 @@
         "is_shared": true
       },
       "artifacts_file": {
-        "filename": null,
+        "filename": "filename.ext",
         "size": null
       }
     },
@@ -236,7 +236,7 @@
       },
       "runner": null,
       "artifacts_file": {
-        "filename": null,
+        "filename": "filename.ext",
         "size": null
       }
     }
