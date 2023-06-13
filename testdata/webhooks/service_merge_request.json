@@ -108,7 +108,7 @@
     "human_total_time_spent": "30m",
     "human_time_estimate": "30s",
     "human_time_estimate": "30m",
-    "assignee_ids": [],
+    "assignee_ids": [51],
     "state": "opened",
     "action": "update",
     "oldrev": "6ef047571374c96a2bf13c361efd1fb008b0063e"

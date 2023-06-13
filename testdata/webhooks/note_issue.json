@@ -52,7 +52,7 @@
   "issue": {
     "id": 92,
     "title": "test_issue",
-    "assignee_ids": [],
+    "assignee_ids": [51],
     "assignee_id": 51,
     "author_id": 1,
     "project_id": 5,
