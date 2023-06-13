@@ -13,7 +13,7 @@
     "name": "Woodpecker",
     "description": "",
     "web_url": "http://10.40.8.5:3200/test/woodpecker",
-    "avatar_url": null,
+    "avatar_url": "https://www.gravatar.com/avatar/dd46a756faad4727fb679320751f6dea?s=80&d=identicon",
     "git_ssh_url": "git@10.40.8.5:test/woodpecker.git",
     "git_http_url": "http://10.40.8.5:3200/test/woodpecker.git",
     "namespace": "the test",

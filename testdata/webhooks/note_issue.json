@@ -14,7 +14,7 @@
     "name": "Gitlab Test",
     "description": "Aut reprehenderit ut est.",
     "web_url": "http://example.com/gitlab-org/gitlab-test",
-    "avatar_url": null,
+    "avatar_url": "https://www.gravatar.com/avatar/dd46a756faad4727fb679320751f6dea?s=80&d=identicon",
     "git_ssh_url": "git@example.com:gitlab-org/gitlab-test.git",
     "git_http_url": "http://example.com/gitlab-org/gitlab-test.git",
     "namespace": "Gitlab Org",

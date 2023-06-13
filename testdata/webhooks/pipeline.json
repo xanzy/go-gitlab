@@ -51,7 +51,7 @@
     "name": "Gitlab Test",
     "description": "Atque in sunt eos similique dolores voluptatem.",
     "web_url": "http://192.168.64.1:3005/gitlab-org/gitlab-test",
-    "avatar_url": null,
+    "avatar_url": "https://www.gravatar.com/avatar/dd46a756faad4727fb679320751f6dea?s=80&d=identicon",
     "git_ssh_url": "git@192.168.64.1:gitlab-org/gitlab-test.git",
     "git_http_url": "http://192.168.64.1:3005/gitlab-org/gitlab-test.git",
     "namespace": "Gitlab Org",

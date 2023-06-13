@@ -16,7 +16,7 @@
     "name": "Diaspora",
     "description": "",
     "web_url": "http://example.com/mike/diaspora",
-    "avatar_url": null,
+    "avatar_url": "https://www.gravatar.com/avatar/dd46a756faad4727fb679320751f6dea?s=80&d=identicon",
     "git_ssh_url": "git@example.com:mike/diaspora.git",
     "git_http_url": "http://example.com/mike/diaspora.git",
     "namespace": "Mike",
