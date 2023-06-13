@@ -106,7 +106,7 @@
     "total_time_spent": 0,
     "time_change": 0,
     "human_total_time_spent": "30m",
-    "human_time_change": null,
+    "human_time_estimate": "30s",
     "human_time_estimate": "30m",
     "assignee_ids": [],
     "state": "opened",
