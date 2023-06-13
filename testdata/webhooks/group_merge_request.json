@@ -33,7 +33,7 @@
     "title ": "source-branch-test ",
     "created_at ": "2016-12-01 13:11:10 UTC",
     "updated_at ": "2016-12-01 13:21:20 UTC",
-    "milestone_id ": null,
+    "milestone_id": 11,
     "state ": "merged ",
     "merge_status ": "can_be_merged ",
     "target_project_id ": 87,

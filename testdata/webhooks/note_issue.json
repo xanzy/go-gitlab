@@ -61,7 +61,7 @@
     "position": 0,
     "branch_name": null,
     "description": "test issue",
-    "milestone_id": null,
+    "milestone_id": 11,
     "state": "closed",
     "iid": 17,
     "time_estimate": 3600,

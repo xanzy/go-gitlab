@@ -44,7 +44,7 @@
     "merge_status": "unchecked",
     "merge_user_id": null,
     "merge_when_pipeline_succeeds": false,
-    "milestone_id": null,
+    "milestone_id": 11,
     "source_branch": "next-feature",
     "source_project_id": 2,
     "state_id": 1,
