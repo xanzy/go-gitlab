@@ -35,7 +35,7 @@
     "id": 2,
     "iid": 2,
     "last_edited_at": null,
-    "last_edited_by_id": null,
+    "last_edited_by_id": 51,
     "merge_commit_sha": null,
     "merge_error": null,
     "merge_params": {
