@@ -53,7 +53,7 @@
     "id": 92,
     "title": "test_issue",
     "assignee_ids": [],
-    "assignee_id": null,
+    "assignee_id": 51,
     "author_id": 1,
     "project_id": 5,
     "created_at": "2016-01-04T15:31:46.176Z",
