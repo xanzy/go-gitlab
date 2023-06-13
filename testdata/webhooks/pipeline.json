@@ -113,7 +113,7 @@
       },
       "artifacts_file": {
         "filename": "filename.ext",
-        "size": null
+        "size": 4711
       },
       "environment": {
         "name": "production",
@@ -149,7 +149,7 @@
       },
       "artifacts_file": {
         "filename": "filename.ext",
-        "size": null
+        "size": 4711
       }
     },
     {
@@ -180,7 +180,7 @@
       },
       "artifacts_file": {
         "filename": "filename.ext",
-        "size": null
+        "size": 4711
       }
     },
     {
@@ -211,7 +211,7 @@
       },
       "artifacts_file": {
         "filename": "filename.ext",
-        "size": null
+        "size": 4711
       }
     },
     {
@@ -237,7 +237,7 @@
       "runner": null,
       "artifacts_file": {
         "filename": "filename.ext",
-        "size": null
+        "size": 4711
       }
     }
   ]
