@@ -74,7 +74,7 @@
         "created_at": "2019-06-05T14:32:20.211Z",
         "updated_at": "2019-06-05T14:32:20.211Z",
         "template": false,
-        "description": null,
+        "description": "a text",
         "type": "GroupLabel",
         "group_id": 4
       },
@@ -86,7 +86,7 @@
         "created_at": "2019-06-05T14:32:20.637Z",
         "updated_at": "2019-06-05T14:32:20.637Z",
         "template": false,
-        "description": null,
+        "description": "a text",
         "type": "ProjectLabel",
         "group_id": null
       }
