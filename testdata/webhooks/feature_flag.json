@@ -12,7 +12,7 @@
       "visibility_level":20,
       "path_with_namespace":"gitlabhq/gitlab-test",
       "default_branch":"master",
-      "ci_config_path": null,
+      "ci_config_path": "",
       "homepage":"http://example.com/gitlabhq/gitlab-test",
       "url":"http://example.com/gitlabhq/gitlab-test.git",
       "ssh_url":"git@example.com:gitlabhq/gitlab-test.git",
