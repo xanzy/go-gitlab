@@ -73,7 +73,7 @@
         "id": 25,
         "title": "Afterpod",
         "color": "#3e8068",
-        "project_id": null,
+        "project_id": 14,
         "created_at": "2019-06-05T14:32:20.211Z",
         "updated_at": "2019-06-05T14:32:20.211Z",
         "template": false,
