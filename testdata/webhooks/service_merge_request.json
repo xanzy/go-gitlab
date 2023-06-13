@@ -105,7 +105,7 @@
     "work_in_progress": false,
     "total_time_spent": 0,
     "time_change": 0,
-    "human_total_time_spent": null,
+    "human_total_time_spent": "30m",
     "human_time_change": null,
     "human_time_estimate": null,
     "assignee_ids": [],
