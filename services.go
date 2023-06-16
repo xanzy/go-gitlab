@@ -43,6 +43,8 @@ type Service struct {
 	UpdatedAt                *time.Time `json:"updated_at"`
 	Active                   bool       `json:"active"`
 	PushEvents               bool       `json:"push_events"`
+	AlertEvents              bool       `json:"alert_events"`
+	IncidentEvents           bool       `json:"incident_events"`
 	IssuesEvents             bool       `json:"issues_events"`
 	ConfidentialIssuesEvents bool       `json:"confidential_issues_events"`
 	CommitEvents             bool       `json:"commit_events"`
@@ -55,6 +57,7 @@ type Service struct {
 	JobEvents                bool       `json:"job_events"`
 	WikiPageEvents           bool       `json:"wiki_page_events"`
 	DeploymentEvents         bool       `json:"deployment_events"`
+	VulnerabilityEvents      bool       `json:"vulnerability_events"`
 }
 
 // ListServices gets a list of all active services.
@@ -993,6 +996,7 @@ type MattermostServiceProperties struct {
 	TagPushChannel            string    `json:"tag_push_channel"`
 	PipelineChannel           string    `json:"pipeline_channel"`
 	PushChannel               string    `json:"push_channel"`
+	VulnerabilityChannel      string    `json:"vulnerability_channel"`
 	WikiPageChannel           string    `json:"wiki_page_channel"`
 }
 
