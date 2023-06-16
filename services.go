@@ -229,7 +229,21 @@ func (s *ServicesService) GetDiscordService(pid interface{}, options ...RequestO
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/services.html#createedit-discord-service
 type SetDiscordServiceOptions struct {
-	WebHook *string `json:"webhook,omitempty"`
+	WebHook                   *string `url:"webhook,omitempty json:"webhook,omitempty"`
+	NotifyOnlyBrokenPipelines *bool   `url:"notify_only_broken_pipelines,omitempty" json:"notify_only_broken_pipelines,omitempty"`
+	BranchesToBeNotified      *string `url:"branches_to_be_notified,omitempty" json:"branches_to_be_notified,omitempty"`
+	AlertEvents               *bool   `url:"alert_events,omitempty" json:"alert_events,omitempty"`
+	ConfidentialIssuesEvents  *bool   `url:"confidential_issues_events,omitempty" json:"confidential_issues_events,omitempty"`
+	ConfidentialNoteEvents    *bool   `url:"confidential_note_events,omitempty" json:"confidential_note_events,omitempty"`
+	DeploymentEvents          *bool   `url:"deployment_events,omitempty" json:"deployment_events,omitempty"`
+	IncidentEvents            *bool   `url:"incident_events,omitempty" json:"incident_events,omitempty"`
+	IssuesEvents              *bool   `url:"issues_events,omitempty" json:"issues_events,omitempty"`
+	MergeRequestsEvents       *bool   `url:"merge_requests_events,omitempty" json:"merge_requests_events,omitempty"`
+	TagPushEvents             *bool   `url:"tag_push_events,omitempty" json:"tag_push_events,omitempty"`
+	NoteEvents                *bool   `url:"note_events,omitempty" json:"note_events,omitempty"`
+	PipelineEvents            *bool   `url:"pipeline_events,omitempty" json:"pipeline_events,omitempty"`
+	PushEvents                *bool   `url:"push_events,omitempty" json:"push_events,omitempty"`
+	WikiPageEvents            *bool   `url:"wiki_page_events,omitempty" json:"wiki_page_events,omitempty"`
 }
 
 // SetDiscordService sets Discord service for a project.
