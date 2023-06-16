@@ -1050,10 +1050,16 @@ type SetMattermostServiceOptions struct {
 	Channel                   *string `url:"channel,omitempty" json:"channel,omitempty"`
 	NotifyOnlyBrokenPipelines *bool   `url:"notify_only_broken_pipelines,omitempty" json:"notify_only_broken_pipelines,omitempty"`
 	BranchesToBeNotified      *string `url:"branches_to_be_notified,omitempty" json:"branches_to_be_notified,omitempty"`
+	AlertChannel              *string `url:"alert_channel,omitempty" json:"alert_channel,omitempty"`
+	AlertEvents               *bool   `url:"alert_events,omitempty" json:"alert_events,omitempty"`
 	ConfidentialIssueChannel  *string `url:"confidential_issue_channel,omitempty" json:"confidential_issue_channel,omitempty"`
 	ConfidentialIssuesEvents  *bool   `url:"confidential_issues_events,omitempty" json:"confidential_issues_events,omitempty"`
-	ConfidentialNoteChannel   *string `json:"confidential_note_channel,omitempty"`
+	ConfidentialNoteChannel   *string `url:"confidential_note_channel,omitempty" json:"confidential_note_channel,omitempty"`
 	ConfidentialNoteEvents    *bool   `url:"confidential_note_events,omitempty" json:"confidential_note_events,omitempty"`
+	DeploymentChannel         *string `url:"deployment_channel,omitempty" json:"deployment_channel,omitempty"`
+	DeploymentEvents          *bool   `url:"deployment_events,omitempty" json:"deployment_events,omitempty"`
+	IncidentChannel           *string `url:"incident_channel,omitempty" json:"incident_channel,omitempty"`
+	IncidentEvents            *bool   `url:"incident_events,omitempty" json:"incident_events,omitempty"`
 	IssueChannel              *string `url:"issue_channel,omitempty" json:"issue_channel,omitempty"`
 	IssuesEvents              *bool   `url:"issues_events,omitempty" json:"issues_events,omitempty"`
 	MergeRequestChannel       *string `url:"merge_request_channel,omitempty" json:"merge_request_channel,omitempty"`
@@ -1066,6 +1072,8 @@ type SetMattermostServiceOptions struct {
 	PipelineEvents            *bool   `url:"pipeline_events,omitempty" json:"pipeline_events,omitempty"`
 	PushChannel               *string `url:"push_channel,omitempty" json:"push_channel,omitempty"`
 	PushEvents                *bool   `url:"push_events,omitempty" json:"push_events,omitempty"`
+	VulnerabilityChannel      *string `url:"vulnerability_channel,omitempty" json:"vulnerability_channel,omitempty"`
+	VulnerabilityEvents       *string `url:"vulnerability_events,omitempty" json:"vulnerability_events,omitempty"`
 	WikiPageChannel           *string `url:"wiki_page_channel,omitempty" json:"wiki_page_channel,omitempty"`
 	WikiPageEvents            *bool   `url:"wiki_page_events,omitempty" json:"wiki_page_events,omitempty"`
 }
