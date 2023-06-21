@@ -66,6 +66,7 @@ const (
 	DeveloperPermissions     AccessLevelValue = 30
 	MaintainerPermissions    AccessLevelValue = 40
 	OwnerPermissions         AccessLevelValue = 50
+	AdminPermissions         AccessLevelValue = 60
 
 	// Deprecated: Renamed to MaintainerPermissions in GitLab 11.0.
 	MasterPermissions AccessLevelValue = 40
