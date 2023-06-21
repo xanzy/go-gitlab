@@ -28,7 +28,6 @@ jobs:
       - name: Lint package
         uses: golangci/golangci-lint-action@v3
         with:
-          args: --exclude ".*, make it a constant (goconst)"
           version: latest
 
       - name: Test package

@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"strings"
@@ -70,7 +69,7 @@ func (hook webhook) handle(event interface{}) error {
 // returns the parsed event or an error.
 func (hook webhook) parse(r *http.Request) (interface{}, error) {
 	defer func() {
-		if _, err := io.Copy(ioutil.Discard, r.Body); err != nil {
+		if _, err := io.Copy(io.Discard, r.Body); err != nil {
 			log.Printf("could discard request body: %v", err)
 		}
 		if err := r.Body.Close(); err != nil {
@@ -100,7 +99,7 @@ func (hook webhook) parse(r *http.Request) (interface{}, error) {
 		return nil, errors.New("event not defined to be parsed")
 	}
 
-	payload, err := ioutil.ReadAll(r.Body)
+	payload, err := io.ReadAll(r.Body)
 	if err != nil || len(payload) == 0 {
 		return nil, errors.New("error reading request body")
 	}
