@@ -197,6 +197,10 @@ For complete usage of go-gitlab, see the full [package docs](https://godoc.org/g
 
 Sander van Harmelen (<sander@vanharmelen.nl>)
 
+## Contributing
+
+Contributions are always welcome. For more information, check out the [contributing guide](https://github.com/xanzy/go-gitlab/blob/master/CONTRIBUTING.md)
+
 ## License
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at <http://www.apache.org/licenses/LICENSE-2.0>
