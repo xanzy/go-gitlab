@@ -950,3 +950,48 @@ func parseError(raw interface{}) string {
 		return fmt.Sprintf("failed to parse unexpected error type: %T", raw)
 	}
 }
+
+// Helper method to get all items with pagination.
+// Allows passing an abort function to define early aborts
+// eg. for only certain pages or until a condition (id > xxx) is met.
+// Also allows passing a process method that allows to process
+// the items after each page instead of waiting for all pages to finish.
+func GetItemsPaginated[I any](
+	searchFunc func(pageNum int) ([]I, *Response, error),
+	abortFunc func(items []I, pageNum int) (bool, error),
+	processFunc func(item I) error) ([]I, error) {
+	items := []I{}
+	pageNum := 1
+	for {
+		// Get the items
+		tempItems, response, err := searchFunc(pageNum)
+		if err != nil {
+			return nil, err
+		}
+		// Process the items
+		if processFunc != nil {
+			for _, item := range tempItems {
+				err = processFunc(item)
+				if err != nil {
+					return nil, err
+				}
+			}
+		}
+		// Calculate abort
+		abort := false
+		if abortFunc != nil {
+			abort, err = abortFunc(tempItems, pageNum)
+			if err != nil {
+				return nil, err
+			}
+		}
+		// Append the items
+		items = append(items, tempItems...)
+		// Abort correctly
+		if response.NextPage == 0 || abort {
+			break
+		}
+		pageNum = response.NextPage
+	}
+	return items, nil
+}
