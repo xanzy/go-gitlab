@@ -17,6 +17,7 @@
 package gitlab
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"time"
@@ -59,6 +60,7 @@ type TodoTarget struct {
 	Description          string                 `json:"description"`
 	Downvotes            int                    `json:"downvotes"`
 	ID                   int                    `json:"id"`
+	IDString             string                 `json:"-"` // derived field working around https://github.com/xanzy/go-gitlab/issues/1743
 	IID                  int                    `json:"iid"`
 	Labels               []string               `json:"labels"`
 	Milestone            *Milestone             `json:"milestone"`
@@ -101,6 +103,65 @@ type TodoTarget struct {
 	// Only available for type DesignManagement::Design
 	FileName string `json:"filename"`
 	ImageURL string `json:"image_url"`
+}
+
+func (t *TodoTarget) UnmarshalJSON(b []byte) error {
+	// Extract ID to determine type
+	var untyped interface{}
+	err := json.Unmarshal(b, &untyped)
+	if err != nil {
+		return err
+	}
+	idString := ""
+	if todoTarget, ok := untyped.(map[string]interface{}); ok {
+		if id, ok := todoTarget["id"]; ok {
+			if is, ok := id.(string); ok {
+				idString = is
+				// Suppress string "id" which will fail serialization to int
+				delete(todoTarget, "id")
+				b, err = json.Marshal(todoTarget)
+				if err != nil {
+					return err
+				}
+			}
+		}
+	}
+	// Proceed with normal Unmarshal
+	type Vanilla *TodoTarget
+	err = json.Unmarshal(b, Vanilla(t))
+	if err != nil {
+		return err
+	}
+	// Include suppressed string "id"
+	t.IDString = idString
+	return nil
+}
+
+func (t TodoTarget) MarshalJSON() ([]byte, error) {
+	if t.ID != 0 && t.IDString != "" {
+		return nil, fmt.Errorf("both ID and IDString cannot be set")
+	}
+	type Vanilla TodoTarget
+	b, err := json.Marshal(Vanilla(t))
+	if err != nil {
+		return nil, err
+	}
+	if t.IDString == "" {
+		// No IDString means Marshal is complete
+		return b, err
+	}
+	// Inject IDString
+	var untyped interface{}
+	err = json.Unmarshal(b, &untyped)
+	if err != nil {
+		return nil, err
+	}
+	todoTarget, ok := untyped.(map[string]interface{})
+	if !ok {
+		return nil, fmt.Errorf("cannot inject IDString: unexpected TodoTarget structure")
+	}
+	todoTarget["id"] = t.IDString
+	return json.Marshal(untyped)
 }
 
 // ListTodosOptions represents the available ListTodos() options.
