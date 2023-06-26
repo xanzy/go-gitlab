@@ -409,11 +409,16 @@ type SSHKey struct {
 	ExpiresAt *time.Time `json:"expires_at"`
 }
 
+// ListSSHKeysOptions represents the available ListSSHKeys options.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/users.html#list-ssh-keys
+type ListSSHKeysOptions ListOptions
+
 // ListSSHKeys gets a list of currently authenticated user's SSH keys.
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/users.html#list-ssh-keys
-func (s *UsersService) ListSSHKeys(options ...RequestOptionFunc) ([]*SSHKey, *Response, error) {
-	req, err := s.client.NewRequest(http.MethodGet, "user/keys", nil, options)
+func (s *UsersService) ListSSHKeys(opt *ListSSHKeysOptions, options ...RequestOptionFunc) ([]*SSHKey, *Response, error) {
+	req, err := s.client.NewRequest(http.MethodGet, "user/keys", opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
