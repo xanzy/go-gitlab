@@ -411,7 +411,7 @@ type SSHKey struct {
 
 // ListSSHKeysOptions represents the available ListSSHKeys options.
 //
-// These are undocumented as of 2023/06/25 but empirically work.
+// GitLab API docs: https://docs.gitlab.com/ee/api/users.html#list-ssh-keys
 type ListSSHKeysOptions ListOptions
 
 // ListSSHKeys gets a list of currently authenticated user's SSH keys.
