@@ -99,3 +99,88 @@ func TestGetKeyWithUser(t *testing.T) {
 		t.Errorf("Keys.GetKeyWithUser returned %+v, want %+v", key, want)
 	}
 }
+
+func TestGetKeyWithUserByFingerprint(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/keys",
+		func(w http.ResponseWriter, r *http.Request) {
+			testMethod(t, r, http.MethodGet)
+			if r.URL.Query().Get("fingerprint") == "07:51:20:af:17:e4:a8:ab:22:79:9b:31:ae:a9:61:f3" {
+				fmt.Fprint(w, `{
+			  "id": 1,
+			  "title": "Sample key 25",
+			  "key": "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAIEAiPWx6WM4lhHNedGfBpPJNPpZ7yKu+dnn1SJejgt1256k6YjzGGphH2TUxwKzxcKDKKezwkpfnxPkSMkuEspGRt/aZZ9wa++Oi7Qkr8prgHc4soW6NUlfDzpvZK2H5E7eQaSeP3SAwGmQKUFHCddNaP0L+hM7zhFNzjFvpaMgJw0=",
+			  "user": {
+			    "id": 25,
+			    "username": "john_smith",
+			    "name": "John Smith",
+			    "email": "john@example.com",
+			    "state": "active",
+			    "bio": null,
+			    "location": null,
+			    "skype": "",
+			    "linkedin": "",
+			    "twitter": "",
+			    "website_url": "http://localhost:3000/john_smith",
+			    "organization": null,
+			    "theme_id": 2,
+			    "color_scheme_id": 1,
+			    "avatar_url": "http://www.gravatar.com/avatar/cfa35b8cd2ec278026357769582fa563?s=40\u0026d=identicon",
+			    "can_create_group": true,
+			    "can_create_project": true,
+			    "projects_limit": 10,
+			    "two_factor_enabled": false,
+			    "identities": [],
+			    "external": false,
+			    "public_email": "john@example.com"
+			  }
+			}`)
+
+				return
+			}
+
+			fmt.Fprint(w, `{}`)
+		})
+
+	key, _, err := client.Keys.GetKeyWithUserByFingerprint(&GetKeyWithUserByFingerprintOptions{
+		Fingerprint: "07:51:20:af:17:e4:a8:ab:22:79:9b:31:ae:a9:61:f3",
+	})
+	if err != nil {
+		t.Errorf("Keys.GetKeyWithUserByFingerprint returned error: %v", err)
+	}
+
+	want := &Key{
+		ID:    1,
+		Title: "Sample key 25",
+		Key:   "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAIEAiPWx6WM4lhHNedGfBpPJNPpZ7yKu+dnn1SJejgt1256k6YjzGGphH2TUxwKzxcKDKKezwkpfnxPkSMkuEspGRt/aZZ9wa++Oi7Qkr8prgHc4soW6NUlfDzpvZK2H5E7eQaSeP3SAwGmQKUFHCddNaP0L+hM7zhFNzjFvpaMgJw0=",
+		User: User{
+			ID:               25,
+			Username:         "john_smith",
+			Email:            "john@example.com",
+			Name:             exampleEventUserName,
+			State:            "active",
+			Bio:              "",
+			Location:         "",
+			Skype:            "",
+			Linkedin:         "",
+			Twitter:          "",
+			WebsiteURL:       "http://localhost:3000/john_smith",
+			Organization:     "",
+			ThemeID:          2,
+			ColorSchemeID:    1,
+			AvatarURL:        "http://www.gravatar.com/avatar/cfa35b8cd2ec278026357769582fa563?s=40\u0026d=identicon",
+			CanCreateGroup:   true,
+			CanCreateProject: true,
+			ProjectsLimit:    10,
+			TwoFactorEnabled: false,
+			Identities:       []*UserIdentity{},
+			External:         false,
+			PublicEmail:      "john@example.com",
+		},
+	}
+
+	if !reflect.DeepEqual(want, key) {
+		t.Errorf("Keys.GetKeyWithUserByFingerprint returned %+v, want %+v", key, want)
+	}
+}

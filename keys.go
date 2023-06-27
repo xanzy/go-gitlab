@@ -64,3 +64,36 @@ func (s *KeysService) GetKeyWithUser(key int, options ...RequestOptionFunc) (*Ke
 
 	return k, resp, nil
 }
+
+// GetKeyWithUserByFingerprintOptions represents
+// the available GetKeyWithUserByFingerprint() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/keys.html#get-user-by-fingerprint-of-ssh-key
+// https://docs.gitlab.com/ee/api/keys.html#get-user-by-deploy-key-fingerprint
+type GetKeyWithUserByFingerprintOptions struct {
+	Fingerprint string `url:"fingerprint" json:"fingerprint"`
+}
+
+// GetKeyWithUserByFingerprint gets a specific SSH key or deploy key
+// by fingerprint along with the associated user information.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/keys.html#get-user-by-fingerprint-of-ssh-key
+// https://docs.gitlab.com/ee/api/keys.html#get-user-by-deploy-key-fingerprint
+func (s *KeysService) GetKeyWithUserByFingerprint(opt *GetKeyWithUserByFingerprintOptions, options ...RequestOptionFunc) (*Key, *Response, error) {
+	u := "keys"
+
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	k := new(Key)
+	resp, err := s.client.Do(req, k)
+	if err != err {
+		return nil, resp, err
+	}
+
+	return k, resp, nil
+}
