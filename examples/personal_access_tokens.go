@@ -61,3 +61,17 @@ func patListExampleWithUserFilter() {
 
 	log.Printf("Found personal access tokens: %s", data)
 }
+
+func patRotateExample() {
+	git, err := gitlab.NewClient("glpat-123xyz")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	newPersonalAccessToken, _, err := git.PersonalAccessTokens.RotatePersonalAccessToken(12345)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	log.Printf("Your new token is %s\n", newPersonalAccessToken.Token)
+}
