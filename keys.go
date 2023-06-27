@@ -91,7 +91,7 @@ func (s *KeysService) GetKeyWithUserByFingerprint(opt *GetKeyWithUserByFingerpri
 
 	k := new(Key)
 	resp, err := s.client.Do(req, k)
-	if err != err {
+	if err != nil {
 		return nil, resp, err
 	}
 
