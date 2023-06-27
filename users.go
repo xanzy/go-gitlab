@@ -105,6 +105,13 @@ type User struct {
 	NamespaceID                    int                `json:"namespace_id"`
 }
 
+type UserAssociations struct {
+	GroupsCount        int `json:"groups_count"`
+	ProjectsCount      int `json:"projects_count"`
+	IssuesCount        int `json:"issues_count"`
+	MergeRequestsCount int `json:"merge_requests_count"`
+}
+
 // UserIdentity represents a user identity.
 type UserIdentity struct {
 	Provider  string `json:"provider"`
@@ -181,6 +188,30 @@ func (s *UsersService) GetUser(user int, opt GetUsersOptions, options ...Request
 	}
 
 	return usr, resp, nil
+}
+
+// GetUserAssociationsCount Gets a list of a specified user’s count of:
+//   - Projects
+//   - Groups
+//   - Issues
+//   - Merge requests
+//
+// Gitlab API docs: https://docs.gitlab.com/ee/api/users.html#list-associations-count-for-user
+func (s *UsersService) GetUserAssociationsCount(user int, options ...RequestOptionFunc) (*UserAssociations, *Response, error) {
+	u := fmt.Sprintf("users/%d/associations_count", user)
+
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	usrAssociations := new(UserAssociations)
+	resp, err := s.client.Do(req, usrAssociations)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return usrAssociations, resp, nil
 }
 
 // CreateUserOptions represents the available CreateUser() options.
