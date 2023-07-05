@@ -37,6 +37,7 @@ type Milestone struct {
 	ID          int        `json:"id"`
 	IID         int        `json:"iid"`
 	ProjectID   int        `json:"project_id"`
+	GroupID     int        `json:"group_id"` // See issue #1749
 	Title       string     `json:"title"`
 	Description string     `json:"description"`
 	StartDate   *ISOTime   `json:"start_date"`

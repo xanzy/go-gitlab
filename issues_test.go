@@ -857,3 +857,79 @@ func TestGetIssueParticipants(t *testing.T) {
 		t.Errorf("Issues.GetIssueParticipants returned %+v, want %+v", issueParticipants, want)
 	}
 }
+
+// See issue #1749 - Issue with a group milestone
+func TestGetIssueMilestone(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/projects/1/issues/5", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		fmt.Fprint(w, `{"id":1, "description": "This is test project", "author" : {"id" : 1, "name": "snehal"}, "assignees":[{"id":1}],"merge_requests_count": 1,
+			"milestone": {"due_date": null, "project_id": 1, "state": "closed", "description": "test", "iid": 3, "id": 11, "title": "v3.0"}}`)
+	})
+
+	issue, _, err := client.Issues.GetIssue("1", 5)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	want := &Issue{
+		ID:                1,
+		Description:       "This is test project",
+		Author:            &IssueAuthor{ID: 1, Name: "snehal"},
+		Assignees:         []*IssueAssignee{{ID: 1}},
+		MergeRequestCount: 1,
+		Milestone: &Milestone{
+			DueDate:     nil,
+			ProjectID:   1,
+			GroupID:     0,
+			State:       "closed",
+			Description: "test",
+			IID:         3,
+			ID:          11,
+			Title:       "v3.0",
+		},
+	}
+
+	if !reflect.DeepEqual(want, issue) {
+		t.Errorf("Issues.GetIssue returned %+v, want %+v", issue, want)
+	}
+}
+
+// See issue #1749 - Issue with a group milestone
+func TestGetIssueGroupMilestone(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/projects/1/issues/5", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		fmt.Fprint(w, `{"id":1, "description": "This is test project", "author" : {"id" : 1, "name": "snehal"}, "assignees":[{"id":1}],"merge_requests_count": 1,
+			"milestone": {"due_date": null, "group_id": 13, "state": "closed", "description": "test", "iid": 3, "id": 11, "title": "v3.0"}}`)
+	})
+
+	issue, _, err := client.Issues.GetIssue("1", 5)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	want := &Issue{
+		ID:                1,
+		Description:       "This is test project",
+		Author:            &IssueAuthor{ID: 1, Name: "snehal"},
+		Assignees:         []*IssueAssignee{{ID: 1}},
+		MergeRequestCount: 1,
+		Milestone: &Milestone{
+			DueDate:     nil,
+			ProjectID:   0,
+			GroupID:     13,
+			State:       "closed",
+			Description: "test",
+			IID:         3,
+			ID:          11,
+			Title:       "v3.0",
+		},
+	}
+
+	if !reflect.DeepEqual(want, issue) {
+		t.Errorf("Issues.GetIssue returned %+v, want %+v", issue, want)
+	}
+}
