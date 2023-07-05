@@ -100,7 +100,7 @@ func TestGetKeyWithUser(t *testing.T) {
 	}
 }
 
-func TestGetKeyWithUserByFingerprint(t *testing.T) {
+func TestGetKeyByFingerprint(t *testing.T) {
 	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/keys",
@@ -143,7 +143,7 @@ func TestGetKeyWithUserByFingerprint(t *testing.T) {
 			fmt.Fprint(w, `{}`)
 		})
 
-	key, _, err := client.Keys.GetKeyWithUserByFingerprint(&GetKeyWithUserByFingerprintOptions{
+	key, _, err := client.Keys.GetKeyByFingerprint(&GetKeyByFingerprintOptions{
 		Fingerprint: "07:51:20:af:17:e4:a8:ab:22:79:9b:31:ae:a9:61:f3",
 	})
 	if err != nil {
