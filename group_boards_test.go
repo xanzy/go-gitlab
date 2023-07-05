@@ -358,7 +358,7 @@ func TestGroupIssueBoardsService_UpdateIssueBoard(t *testing.T) {
 		Milestone: &Milestone{
 			ID:          44,
 			IID:         1,
-			ProjectID:   0,
+			GroupID:     5,
 			Title:       "Group Milestone",
 			Description: "Group Milestone Desc",
 			State:       "active",
@@ -580,6 +580,7 @@ func TestGroupIssueBoardsService_CreateGroupIssueBoardList(t *testing.T) {
 		Milestone: &Milestone{
 			ID:          7,
 			IID:         3,
+			GroupID:     12,
 			Title:       "Milestone with due date",
 			Description: "",
 			State:       "active",
