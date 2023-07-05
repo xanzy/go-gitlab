@@ -894,7 +894,6 @@ func TestGetIssueMilestone(t *testing.T) {
 	}
 }
 
-// See issue #1749 - Issue with a group milestone
 func TestGetIssueGroupMilestone(t *testing.T) {
 	mux, client := setup(t)
 
