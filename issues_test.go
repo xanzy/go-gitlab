@@ -858,7 +858,6 @@ func TestGetIssueParticipants(t *testing.T) {
 	}
 }
 
-// See issue #1749 - Issue with a group milestone
 func TestGetIssueMilestone(t *testing.T) {
 	mux, client := setup(t)
 
@@ -882,7 +881,6 @@ func TestGetIssueMilestone(t *testing.T) {
 		Milestone: &Milestone{
 			DueDate:     nil,
 			ProjectID:   1,
-			GroupID:     0,
 			State:       "closed",
 			Description: "test",
 			IID:         3,
@@ -919,7 +917,6 @@ func TestGetIssueGroupMilestone(t *testing.T) {
 		MergeRequestCount: 1,
 		Milestone: &Milestone{
 			DueDate:     nil,
-			ProjectID:   0,
 			GroupID:     13,
 			State:       "closed",
 			Description: "test",

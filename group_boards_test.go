@@ -358,7 +358,6 @@ func TestGroupIssueBoardsService_UpdateIssueBoard(t *testing.T) {
 		Milestone: &Milestone{
 			ID:          44,
 			IID:         1,
-			ProjectID:   0,
 			GroupID:     5,
 			Title:       "Group Milestone",
 			Description: "Group Milestone Desc",
