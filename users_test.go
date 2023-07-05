@@ -118,28 +118,6 @@ func TestGetUserAdmin(t *testing.T) {
 	require.Equal(t, want, user)
 }
 
-func TestGetUserAssociationsCount(t *testing.T) {
-	mux, client := setup(t)
-
-	path := "/api/v4/users/1/associations_count"
-
-	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, http.MethodGet)
-		mustWriteHTTPResponse(t, w, "testdata/get_user_associations_count.json")
-	})
-
-	userAssociationsCount, _, err := client.Users.GetUserAssociationsCount(1)
-	require.NoError(t, err)
-
-	want := &UserAssociations{
-		GroupsCount:        1,
-		ProjectsCount:      2,
-		IssuesCount:        3,
-		MergeRequestsCount: 4,
-	}
-	require.Equal(t, want, userAssociationsCount)
-}
-
 func TestBlockUser(t *testing.T) {
 	mux, client := setup(t)
 
@@ -603,6 +581,28 @@ func TestGetMemberships(t *testing.T) {
 
 	want := []*UserMembership{{SourceID: 1, SourceName: "Project one", SourceType: "Project", AccessLevel: 20}, {SourceID: 3, SourceName: "Group three", SourceType: "Namespace", AccessLevel: 20}}
 	assert.Equal(t, want, memberships)
+}
+
+func TestGetUserAssociationsCount(t *testing.T) {
+	mux, client := setup(t)
+
+	path := "/api/v4/users/1/associations_count"
+
+	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		mustWriteHTTPResponse(t, w, "testdata/get_user_associations_count.json")
+	})
+
+	userAssociationsCount, _, err := client.Users.GetUserAssociationsCount(1)
+	require.NoError(t, err)
+
+	want := &UserAssociationsCount{
+		GroupsCount:        1,
+		ProjectsCount:      2,
+		IssuesCount:        3,
+		MergeRequestsCount: 4,
+	}
+	require.Equal(t, want, userAssociationsCount)
 }
 
 func TestGetSingleSSHKeyForUser(t *testing.T) {
