@@ -38,7 +38,6 @@ type GetJobTokenInboundAllowOptions struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/project_job_token_scopes.html#get-a-projects-cicd-job-token-inbound-allowlist
 func (j *JobTokenScopeService) GetProjectJobTokenInboundAllowlist(pid interface{}, opt *GetJobTokenInboundAllowOptions, options ...RequestOptionFunc) ([]*Project, *Response, error) {
-
 	// Parse the project Id or namespace and create the URL
 	project, err := parseID(pid)
 	if err != nil {

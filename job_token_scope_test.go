@@ -67,10 +67,10 @@ func TestAddProjectToJobScopeAllowList(t *testing.T) {
 		w.WriteHeader(http.StatusCreated)
 
 		// Print on the response with the proper target project
-		fmt.Fprint(w, fmt.Sprintf(`{
+		fmt.Fprintf(w, `{
 			"source_project_id": 1,
 			"target_project_id": %d
-		}`, createTokenRequest.TargetProjectID))
+		}`, createTokenRequest.TargetProjectID)
 	})
 
 	want := &AddJobTokenInboundAllowResponse{
