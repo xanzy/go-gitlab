@@ -44,7 +44,7 @@ func (j *JobTokenScopeService) GetProjectJobTokenInboundAllowlist(pid interface{
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf(`/projects/%s/job_token_scope/allowlist`, PathEscape(project))
+	u := fmt.Sprintf(`projects/%s/job_token_scope/allowlist`, PathEscape(project))
 
 	req, err := j.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
@@ -68,11 +68,11 @@ type JobTokenInboundAllowOptions struct {
 	TargetProjectID int `json:"target_project_id"`
 }
 
-// CreateJobTokenInboundAllowResponse represents the response from the
+// AddJobTokenInboundAllowResponse represents the response from the
 // Create a new project to a project’s CI/CD job token inbound allowlist API request
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/project_job_token_scopes.html#create-a-new-project-to-a-projects-cicd-job-token-inbound-allowlist
-type CreateJobTokenInboundAllowResponse struct {
+type AddJobTokenInboundAllowResponse struct {
 	SourceProjectID int `json:"source_project_id"`
 	TargetProjectID int `json:"target_project_id"`
 }
@@ -80,19 +80,19 @@ type CreateJobTokenInboundAllowResponse struct {
 // Adds a new Project to a Project's Job Token Inbound Allow list
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/project_job_token_scopes.html#create-a-new-project-to-a-projects-cicd-job-token-inbound-allowlist
-func (j *JobTokenScopeService) AddProjectToJobScopeAllowList(pid interface{}, opt *JobTokenInboundAllowOptions, options ...RequestOptionFunc) (*CreateJobTokenInboundAllowResponse, *Response, error) {
+func (j *JobTokenScopeService) AddProjectToJobScopeAllowList(pid interface{}, opt *JobTokenInboundAllowOptions, options ...RequestOptionFunc) (*AddJobTokenInboundAllowResponse, *Response, error) {
 	// Parse the project Id or namespace and create the URL
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf(`/projects/%s/job_token_scope/allowlist`, PathEscape(project))
+	u := fmt.Sprintf(`projects/%s/job_token_scope/allowlist`, PathEscape(project))
 	req, err := j.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	a := new(CreateJobTokenInboundAllowResponse)
+	a := new(AddJobTokenInboundAllowResponse)
 	resp, err := j.client.Do(req, a)
 	if err != nil {
 		return nil, resp, err
@@ -110,15 +110,14 @@ func (j *JobTokenScopeService) RemoveProjectFromJobScopeAllowList(pid interface{
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf(`/projects/%s/job_token_scope/allowlist/%d`, PathEscape(project), opt.TargetProjectID)
+	u := fmt.Sprintf(`projects/%s/job_token_scope/allowlist/%d`, PathEscape(project), opt.TargetProjectID)
 	req, err := j.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
 		return nil, err
 	}
 
-	// This API returns an empty body on a successful request.
-	a := new(interface{})
-	resp, err := j.client.Do(req, a)
+	// This API has no body in the request or response
+	resp, err := j.client.Do(req, nil)
 	if err != nil {
 		return resp, err
 	}

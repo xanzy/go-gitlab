@@ -153,6 +153,7 @@ type Client struct {
 	Issues                       *IssuesService
 	IssuesStatistics             *IssuesStatisticsService
 	Jobs                         *JobsService
+	JobTokenScope                *JobTokenScopeService
 	Keys                         *KeysService
 	Labels                       *LabelsService
 	License                      *LicenseService
@@ -370,6 +371,7 @@ func newClient(options ...ClientOptionFunc) (*Client, error) {
 	c.Issues = &IssuesService{client: c, timeStats: timeStats}
 	c.IssuesStatistics = &IssuesStatisticsService{client: c}
 	c.Jobs = &JobsService{client: c}
+	c.JobTokenScope = &JobTokenScopeService{client: c}
 	c.Keys = &KeysService{client: c}
 	c.Labels = &LabelsService{client: c}
 	c.License = &LicenseService{client: c}
