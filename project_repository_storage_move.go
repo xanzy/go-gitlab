@@ -173,7 +173,7 @@ func (s ProjectRepositoryStorageMoveService) ScheduleStorageMoveForProject(proje
 		return nil, nil, err
 	}
 
-	var psms []*ProjectRepositoryStorageMove
+	var psms *ProjectRepositoryStorageMove
 	resp, err := s.client.Do(req, &psms)
 	if err != nil {
 		return nil, resp, err
