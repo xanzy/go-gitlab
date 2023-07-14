@@ -165,7 +165,7 @@ func (s ProjectRepositoryStorageMoveService) ScheduleAllStorageMoves(options ...
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/project_repository_storage_moves.html#schedule-a-repository-storage-move-for-a-project
-func (s ProjectRepositoryStorageMoveService) ScheduleStorageMoveForProject(project int, options ...RequestOptionFunc) ([]*ProjectRepositoryStorageMove, *Response, error) {
+func (s ProjectRepositoryStorageMoveService) ScheduleStorageMoveForProject(project int, options ...RequestOptionFunc) (*ProjectRepositoryStorageMove, *Response, error) {
 	u := fmt.Sprintf("projects/%d/repository_storage_moves", project)
 
 	req, err := s.client.NewRequest(http.MethodPost, u, nil, options)
