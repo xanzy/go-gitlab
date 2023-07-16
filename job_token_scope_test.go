@@ -23,10 +23,11 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-// This tests that when calling the GetProjectJobTokenInboundAllowlist, we get a list of projects
-// back properly. There isn't a "deep" test with every attribute specifieid, because the object
-// returned is a *Project object, which is already tested in project.go.
-func TestGetProjectJobTokenInboundAllowlist(t *testing.T) {
+// This tests that when calling the GetProjectJobTokenInboundAllowList, we get a
+// list of projects back properly. There isn't a "deep" test with every attribute
+// specifieid, because the object returned is a *Project object, which is already
+// tested in project.go.
+func TestGetProjectJobTokenInboundAllowList(t *testing.T) {
 	mux, client := setup(t)
 
 	// Handle project ID 1, and print a result of two projects
@@ -38,7 +39,10 @@ func TestGetProjectJobTokenInboundAllowlist(t *testing.T) {
 	})
 
 	want := []*Project{{ID: 1}, {ID: 2}}
-	projects, _, err := client.JobTokenScope.GetProjectJobTokenInboundAllowlist(1, &GetJobTokenInboundAllowOptions{})
+	projects, _, err := client.JobTokenScope.GetProjectJobTokenInboundAllowList(
+		1,
+		&GetJobTokenInboundAllowListOptions{},
+	)
 
 	assert.NoError(t, err)
 	assert.Equal(t, want, projects)
@@ -53,14 +57,14 @@ func TestAddProjectToJobScopeAllowList(t *testing.T) {
 		// Read the request to determine which target project is passed in
 		body, err := ioutil.ReadAll(r.Body)
 		if err != nil {
-			t.Fatalf("Failed to read body during TestAddProjectToJobScopeAllowList")
+			t.Fatalf("JobTokenScope.AddProjectToJobScopeAllowList failed to read body")
 		}
 
 		// Parse to object to ensure it's sent on the request appropriately.
 		var createTokenRequest JobTokenInboundAllowOptions
 		err = json.Unmarshal(body, &createTokenRequest)
 		if err != nil {
-			t.Fatalf("Failed to unmarshal body into the proper request type during TestAddProjectToJobScopeAllowList: %v", err)
+			t.Fatalf("JobTokenScope.AddProjectToJobScopeAllowList failed to unmarshal body: %v", err)
 		}
 
 		// Ensure we provide the proper response
@@ -70,15 +74,18 @@ func TestAddProjectToJobScopeAllowList(t *testing.T) {
 		fmt.Fprintf(w, `{
 			"source_project_id": 1,
 			"target_project_id": %d
-		}`, createTokenRequest.TargetProjectID)
+		}`, *createTokenRequest.TargetProjectID)
 	})
 
-	want := &AddJobTokenInboundAllowResponse{
+	want := &JobTokenInboundAllowItem{
 		SourceProjectID: 1,
 		TargetProjectID: 2,
 	}
 
-	addTokenResponse, resp, err := client.JobTokenScope.AddProjectToJobScopeAllowList(1, &JobTokenInboundAllowOptions{TargetProjectID: 2})
+	addTokenResponse, resp, err := client.JobTokenScope.AddProjectToJobScopeAllowList(
+		1,
+		&JobTokenInboundAllowOptions{TargetProjectID: Int(2)},
+	)
 	assert.NoError(t, err)
 	assert.Equal(t, want, addTokenResponse)
 	assert.Equal(t, 201, resp.StatusCode)
@@ -93,12 +100,12 @@ func TestRemoveProjectFromJobScopeAllowList(t *testing.T) {
 		// Read the request to determine which target project is passed in
 		body, err := ioutil.ReadAll(r.Body)
 		if err != nil {
-			t.Fatalf("Failed to read body during TestRemoveProjectFromJobScopeAllowList")
+			t.Fatalf("JobTokenScope.RemoveProjectFromJobScopeAllowList failed to read body")
 		}
 
 		// The body should be empty since all attributes are passed in the path
 		if body != nil && string(body) != "" {
-			t.Fatalf("Body included a value during TestRemoveProjectFromJobScopeAllowList, and it should be blank. Body: %s", body)
+			t.Fatalf("JobTokenScope.RemoveProjectFromJobScopeAllowList failed to unmarshal body: %v", err)
 		}
 
 		// Ensure we provide the proper response
@@ -108,7 +115,7 @@ func TestRemoveProjectFromJobScopeAllowList(t *testing.T) {
 		fmt.Fprint(w, "")
 	})
 
-	resp, err := client.JobTokenScope.RemoveProjectFromJobScopeAllowList(1, &JobTokenInboundAllowOptions{TargetProjectID: 2})
+	resp, err := client.JobTokenScope.RemoveProjectFromJobScopeAllowList(1, 2)
 	assert.NoError(t, err)
 	assert.Equal(t, 204, resp.StatusCode)
 }

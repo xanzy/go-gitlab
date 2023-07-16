@@ -26,19 +26,29 @@ type JobTokenScopeService struct {
 	client *Client
 }
 
-// GetJobTokenInboundAllowOptions represents the available options
-// when querying the inbound CI allow-list for projects
+// JobTokenInboundAllowItem represents a single job token inbound allowlist item.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/project_job_token_scopes.html#get-a-projects-cicd-job-token-inbound-allowlist
-type GetJobTokenInboundAllowOptions struct {
+// GitLab API docs: https://docs.gitlab.com/ee/api/project_job_token_scopes.html
+type JobTokenInboundAllowItem struct {
+	SourceProjectID int `json:"source_project_id"`
+	TargetProjectID int `json:"target_project_id"`
+}
+
+// GetJobTokenInboundAllowListOptions represents the available
+// GetJobTokenInboundAllowList() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/project_job_token_scopes.html#get-a-projects-cicd-job-token-inbound-allowlist
+type GetJobTokenInboundAllowListOptions struct {
 	ListOptions
 }
 
-// Fetch the CI/CD job token inbound allowlist (job token scope) of a project.
+// GetProjectJobTokenInboundAllowList fetches the CI/CD job token inbound
+// allowlist (job token scope) of a project.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/project_job_token_scopes.html#get-a-projects-cicd-job-token-inbound-allowlist
-func (j *JobTokenScopeService) GetProjectJobTokenInboundAllowlist(pid interface{}, opt *GetJobTokenInboundAllowOptions, options ...RequestOptionFunc) ([]*Project, *Response, error) {
-	// Parse the project Id or namespace and create the URL
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/project_job_token_scopes.html#get-a-projects-cicd-job-token-inbound-allowlist
+func (j *JobTokenScopeService) GetProjectJobTokenInboundAllowList(pid interface{}, opt *GetJobTokenInboundAllowListOptions, options ...RequestOptionFunc) ([]*Project, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -50,76 +60,66 @@ func (j *JobTokenScopeService) GetProjectJobTokenInboundAllowlist(pid interface{
 		return nil, nil, err
 	}
 
-	var p []*Project
-	resp, err := j.client.Do(req, &p)
+	var ps []*Project
+	resp, err := j.client.Do(req, &ps)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return p, resp, nil
+	return ps, resp, nil
 }
 
-// JobTokenInboundAllowOptions represents the available options
-// when adding or removing a project to the CI/CD job token inbound allowlist of a project.
+// AddProjectToJobScopeAllowListOptions represents the available
+// AddProjectToJobScopeAllowList() options.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/project_job_token_scopes.html#create-a-new-project-to-a-projects-cicd-job-token-inbound-allowlist
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/project_job_token_scopes.html#create-a-new-project-to-a-projects-cicd-job-token-inbound-allowlist
 type JobTokenInboundAllowOptions struct {
-	TargetProjectID int `json:"target_project_id"`
+	TargetProjectID *int `url:"target_project_id,omitempty" json:"target_project_id,omitempty"`
 }
 
-// AddJobTokenInboundAllowResponse represents the response from the
-// Create a new project to a project’s CI/CD job token inbound allowlist API request
+// AddProjectToJobScopeAllowList adds a new project to a project's job token
+// inbound allow list.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/project_job_token_scopes.html#create-a-new-project-to-a-projects-cicd-job-token-inbound-allowlist
-type AddJobTokenInboundAllowResponse struct {
-	SourceProjectID int `json:"source_project_id"`
-	TargetProjectID int `json:"target_project_id"`
-}
-
-// Adds a new Project to a Project's Job Token Inbound Allow list
-//
-// GitLab API docs: https://docs.gitlab.com/ee/api/project_job_token_scopes.html#create-a-new-project-to-a-projects-cicd-job-token-inbound-allowlist
-func (j *JobTokenScopeService) AddProjectToJobScopeAllowList(pid interface{}, opt *JobTokenInboundAllowOptions, options ...RequestOptionFunc) (*AddJobTokenInboundAllowResponse, *Response, error) {
-	// Parse the project Id or namespace and create the URL
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/project_job_token_scopes.html#create-a-new-project-to-a-projects-cicd-job-token-inbound-allowlist
+func (j *JobTokenScopeService) AddProjectToJobScopeAllowList(pid interface{}, opt *JobTokenInboundAllowOptions, options ...RequestOptionFunc) (*JobTokenInboundAllowItem, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf(`projects/%s/job_token_scope/allowlist`, PathEscape(project))
+
 	req, err := j.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	a := new(AddJobTokenInboundAllowResponse)
-	resp, err := j.client.Do(req, a)
+	ai := new(JobTokenInboundAllowItem)
+	resp, err := j.client.Do(req, ai)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return a, resp, nil
+	return ai, resp, nil
 }
 
-// Removes a Project from a Project's Job Token Inbound Allow list
+// RemoveProjectFromJobScopeAllowList removes a project from a project's job
+// token inbound allow list.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/project_job_token_scopes.html#remove-a-project-from-a-projects-cicd-job-token-inbound-allowlist
-func (j *JobTokenScopeService) RemoveProjectFromJobScopeAllowList(pid interface{}, opt *JobTokenInboundAllowOptions, options ...RequestOptionFunc) (*Response, error) {
-	// Parse the project Id or namespace and create the URL
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/project_job_token_scopes.html#remove-a-project-from-a-projects-cicd-job-token-inbound-allowlist
+func (j *JobTokenScopeService) RemoveProjectFromJobScopeAllowList(pid interface{}, targetProject int, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf(`projects/%s/job_token_scope/allowlist/%d`, PathEscape(project), opt.TargetProjectID)
+	u := fmt.Sprintf(`projects/%s/job_token_scope/allowlist/%d`, PathEscape(project), targetProject)
+
 	req, err := j.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
 		return nil, err
 	}
 
-	// This API has no body in the request or response
-	resp, err := j.client.Do(req, nil)
-	if err != nil {
-		return resp, err
-	}
-
-	return resp, nil
+	return j.client.Do(req, nil)
 }
