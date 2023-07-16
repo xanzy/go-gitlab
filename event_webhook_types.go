@@ -801,6 +801,7 @@ type PipelineEvent struct {
 		FinishedAt     string   `json:"finished_at"`
 		Duration       int      `json:"duration"`
 		QueuedDuration int      `json:"queued_duration"`
+		URL            string   `json:"url"`
 		Variables      []struct {
 			Key   string `json:"key"`
 			Value string `json:"value"`
