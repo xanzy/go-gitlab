@@ -184,7 +184,7 @@ func TestSnippetRepositoryStorageMove_ScheduleStorageMoveForSnippet(t *testing.T
 		}`)
 	})
 
-	ssm, _, err := client.SnippetRepositoryStorageMove.ScheduleStorageMoveForSnippet(65, ScheduleSnippetStorageMoveOptions{})
+	ssm, _, err := client.SnippetRepositoryStorageMove.ScheduleStorageMoveForSnippet(65, ScheduleStorageMoveForSnippetOptions{})
 	require.NoError(t, err)
 
 	want := &SnippetRepositoryStorageMove{
@@ -206,6 +206,6 @@ func TestSnippetRepositoryStorageMove_ScheduleAllSnippetStorageMoves(t *testing.
 		fmt.Fprint(w, `{"message": "202 Accepted"}`)
 	})
 
-	_, err := client.SnippetRepositoryStorageMove.ScheduleAllSnippetStorageMoves(ScheduleSnippetStorageMoveOptions{SourceStorageName: "default"})
+	_, err := client.SnippetRepositoryStorageMove.ScheduleAllSnippetStorageMoves(ScheduleAllSnippetStorageMovesOptions{SourceStorageName: "default"})
 	require.NoError(t, err)
 }
