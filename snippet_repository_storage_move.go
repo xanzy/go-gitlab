@@ -152,13 +152,12 @@ func (s SnippetRepositoryStorageMoveService) GetStorageMoveForSnippet(snippet in
 	return ssm, resp, err
 }
 
-// ScheduleSnippetStorageMoveOptions represents the available options
-// for ScheduleAllSnippetStorageMoves() and ScheduleStorageMoveForSnippet()
+// ScheduleStorageMoveForSnippetOptions represents the available options
+// for ScheduleStorageMoveForSnippet()
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/snippet_repository_storage_moves.html
-type ScheduleSnippetStorageMoveOptions struct {
-	SourceStorageName      string `json:"source_storage_name,omitempty"`
+type ScheduleStorageMoveForSnippetOptions struct {
 	DestinationStorageName string `json:"destination_storage_name,omitempty"`
 }
 
@@ -166,7 +165,7 @@ type ScheduleSnippetStorageMoveOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/snippet_repository_storage_moves.html#schedule-a-repository-storage-move-for-a-snippet
-func (s SnippetRepositoryStorageMoveService) ScheduleStorageMoveForSnippet(snippet int, opts ScheduleSnippetStorageMoveOptions, options ...RequestOptionFunc) (*SnippetRepositoryStorageMove, *Response, error) {
+func (s SnippetRepositoryStorageMoveService) ScheduleStorageMoveForSnippet(snippet int, opts ScheduleStorageMoveForSnippetOptions, options ...RequestOptionFunc) (*SnippetRepositoryStorageMove, *Response, error) {
 	u := fmt.Sprintf("snippets/%d/repository_storage_moves", snippet)
 
 	req, err := s.client.NewRequest(http.MethodPost, u, opts, options)
@@ -183,11 +182,21 @@ func (s SnippetRepositoryStorageMoveService) ScheduleStorageMoveForSnippet(snipp
 	return ssm, resp, err
 }
 
+// ScheduleAllSnippetStorageMovesOptions represents the available options
+// for ScheduleAllSnippetStorageMoves()
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/snippet_repository_storage_moves.html
+type ScheduleAllSnippetStorageMovesOptions struct {
+	SourceStorageName      string `json:"source_storage_name,omitempty"`
+	DestinationStorageName string `json:"destination_storage_name,omitempty"`
+}
+
 // ScheduleAllSnippetStorageMoves schedules all snippet repositories to be moved.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/snippet_repository_storage_moves.html#schedule-repository-storage-moves-for-all-snippets-on-a-storage-shard
-func (s SnippetRepositoryStorageMoveService) ScheduleAllSnippetStorageMoves(opts ScheduleSnippetStorageMoveOptions, options ...RequestOptionFunc) (*Response, error) {
+func (s SnippetRepositoryStorageMoveService) ScheduleAllSnippetStorageMoves(opts ScheduleAllSnippetStorageMovesOptions, options ...RequestOptionFunc) (*Response, error) {
 	req, err := s.client.NewRequest(http.MethodPost, "snippet_repository_storage_moves", opts, options)
 	if err != nil {
 		return nil, err
