@@ -207,6 +207,7 @@ type Client struct {
 	Settings                     *SettingsService
 	Sidekiq                      *SidekiqService
 	Snippets                     *SnippetsService
+	SnippetRepositoryStorageMove *SnippetRepositoryStorageMoveService
 	SystemHooks                  *SystemHooksService
 	Tags                         *TagsService
 	Todos                        *TodosService
@@ -425,6 +426,7 @@ func newClient(options ...ClientOptionFunc) (*Client, error) {
 	c.Settings = &SettingsService{client: c}
 	c.Sidekiq = &SidekiqService{client: c}
 	c.Snippets = &SnippetsService{client: c}
+	c.SnippetRepositoryStorageMove = &SnippetRepositoryStorageMoveService{client: c}
 	c.SystemHooks = &SystemHooksService{client: c}
 	c.Tags = &TagsService{client: c}
 	c.Todos = &TodosService{client: c}
