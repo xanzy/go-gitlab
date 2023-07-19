@@ -16,7 +16,7 @@ package gitlab
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"testing"
 
@@ -55,7 +55,7 @@ func TestAddProjectToJobScopeAllowList(t *testing.T) {
 		testMethod(t, r, http.MethodPost)
 
 		// Read the request to determine which target project is passed in
-		body, err := ioutil.ReadAll(r.Body)
+		body, err := io.ReadAll(r.Body)
 		if err != nil {
 			t.Fatalf("JobTokenScope.AddProjectToJobScopeAllowList failed to read body")
 		}
@@ -98,7 +98,7 @@ func TestRemoveProjectFromJobScopeAllowList(t *testing.T) {
 		testMethod(t, r, http.MethodDelete)
 
 		// Read the request to determine which target project is passed in
-		body, err := ioutil.ReadAll(r.Body)
+		body, err := io.ReadAll(r.Body)
 		if err != nil {
 			t.Fatalf("JobTokenScope.RemoveProjectFromJobScopeAllowList failed to read body")
 		}
