@@ -34,14 +34,14 @@ func TestSnippetRepositoryStorageMove_RetrieveAllSnippetStorageMoves(t *testing.
 
 	opts := RetrieveAllSnippetStorageMovesOptions{Page: 1, PerPage: 2}
 
-	ssms, _, err := client.SnippetRepositoryStorageMove.RetrieveAllSnippetStorageMoves(opts)
+	ssms, _, err := client.SnippetRepositoryStorageMove.RetrieveAllStorageMoves(opts)
 	require.NoError(t, err)
 
 	want := []*SnippetRepositoryStorageMove{
 		{
 			ID:    123,
 			State: "scheduled",
-			Snippet: BasicSnippet{
+			Snippet: &RepositorySnippet{
 				ID:    65,
 				Title: "Test Snippet",
 			},
@@ -49,7 +49,7 @@ func TestSnippetRepositoryStorageMove_RetrieveAllSnippetStorageMoves(t *testing.
 		{
 			ID:    122,
 			State: "finished",
-			Snippet: BasicSnippet{
+			Snippet: &RepositorySnippet{
 				ID:    64,
 				Title: "Test Snippet 2",
 			},
@@ -91,7 +91,7 @@ func TestSnippetRepositoryStorageMove_RetrieveAllStorageMovesForSnippet(t *testi
 		{
 			ID:    123,
 			State: "scheduled",
-			Snippet: BasicSnippet{
+			Snippet: &RepositorySnippet{
 				ID:    65,
 				Title: "Test Snippet",
 			},
@@ -99,7 +99,7 @@ func TestSnippetRepositoryStorageMove_RetrieveAllStorageMovesForSnippet(t *testi
 		{
 			ID:    122,
 			State: "finished",
-			Snippet: BasicSnippet{
+			Snippet: &RepositorySnippet{
 				ID:    65,
 				Title: "Test Snippet",
 			},
@@ -108,7 +108,7 @@ func TestSnippetRepositoryStorageMove_RetrieveAllStorageMovesForSnippet(t *testi
 	require.Equal(t, want, ssms)
 }
 
-func TestSnippetRepositoryStorageMove_GetSnippetStorageMove(t *testing.T) {
+func TestSnippetRepositoryStorageMove_GetStorageMove(t *testing.T) {
 	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/snippet_repository_storage_moves/123", func(w http.ResponseWriter, r *http.Request) {
@@ -124,13 +124,13 @@ func TestSnippetRepositoryStorageMove_GetSnippetStorageMove(t *testing.T) {
 		}`)
 	})
 
-	ssm, _, err := client.SnippetRepositoryStorageMove.GetSnippetStorageMove(123)
+	ssm, _, err := client.SnippetRepositoryStorageMove.GetStorageMove(123)
 	require.NoError(t, err)
 
 	want := &SnippetRepositoryStorageMove{
 		ID:    123,
 		State: "scheduled",
-		Snippet: BasicSnippet{
+		Snippet: &RepositorySnippet{
 			ID:    65,
 			Title: "Test Snippet",
 		},
@@ -160,7 +160,7 @@ func TestSnippetRepositoryStorageMove_GetStorageMoveForSnippet(t *testing.T) {
 	want := &SnippetRepositoryStorageMove{
 		ID:    123,
 		State: "scheduled",
-		Snippet: BasicSnippet{
+		Snippet: &RepositorySnippet{
 			ID:    65,
 			Title: "Test Snippet",
 		},
@@ -190,7 +190,7 @@ func TestSnippetRepositoryStorageMove_ScheduleStorageMoveForSnippet(t *testing.T
 	want := &SnippetRepositoryStorageMove{
 		ID:    124,
 		State: "scheduled",
-		Snippet: BasicSnippet{
+		Snippet: &RepositorySnippet{
 			ID:    65,
 			Title: "Test Snippet",
 		},
@@ -198,7 +198,7 @@ func TestSnippetRepositoryStorageMove_ScheduleStorageMoveForSnippet(t *testing.T
 	require.Equal(t, want, ssm)
 }
 
-func TestSnippetRepositoryStorageMove_ScheduleAllSnippetStorageMoves(t *testing.T) {
+func TestSnippetRepositoryStorageMove_ScheduleAllStorageMoves(t *testing.T) {
 	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/snippet_repository_storage_moves", func(w http.ResponseWriter, r *http.Request) {
@@ -206,6 +206,10 @@ func TestSnippetRepositoryStorageMove_ScheduleAllSnippetStorageMoves(t *testing.
 		fmt.Fprint(w, `{"message": "202 Accepted"}`)
 	})
 
-	_, err := client.SnippetRepositoryStorageMove.ScheduleAllSnippetStorageMoves(ScheduleAllSnippetStorageMovesOptions{SourceStorageName: "default"})
+	_, err := client.SnippetRepositoryStorageMove.ScheduleAllStorageMoves(
+		ScheduleAllStorageMovesOptions{
+			SourceStorageName: String("default"),
+		},
+	)
 	require.NoError(t, err)
 }

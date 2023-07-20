@@ -206,8 +206,8 @@ type Client struct {
 	Services                     *ServicesService
 	Settings                     *SettingsService
 	Sidekiq                      *SidekiqService
-	Snippets                     *SnippetsService
 	SnippetRepositoryStorageMove *SnippetRepositoryStorageMoveService
+	Snippets                     *SnippetsService
 	SystemHooks                  *SystemHooksService
 	Tags                         *TagsService
 	Todos                        *TodosService
