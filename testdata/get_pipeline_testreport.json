@@ -36,7 +36,10 @@
           "classname": "MyClass",
           "file": null,
           "execution_time": 19.984,
-          "system_output": null,
+          "system_output": {
+            "message": "Failed test",
+            "type": "MultipleExceptionError"
+          },
           "stack_trace": null,
           "attachment_url": null,
           "recent_failures": null
@@ -47,7 +50,7 @@
           "classname": "MyClass",
           "file": null,
           "execution_time": 0.0,
-          "system_output": "Failed test"
+          "system_output": ["Failed test a", "Failed test b"]
         },
         {
           "status": "success",
