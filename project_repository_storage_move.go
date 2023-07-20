@@ -145,14 +145,23 @@ func (p ProjectRepositoryStorageMoveService) GetStorageMoveForProject(project in
 	return psm, resp, err
 }
 
+// ScheduleStorageMoveForProjectOptions represents the available
+// ScheduleStorageMoveForProject() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/project_repository_storage_moves.html
+type ScheduleStorageMoveForProjectOptions struct {
+	DestinationStorageName *string `url:"destination_storage_name,omitempty" json:"destination_storage_name,omitempty"`
+}
+
 // ScheduleStorageMoveForProject schedule a repository to be moved for a project.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/project_repository_storage_moves.html#schedule-a-repository-storage-move-for-a-project
-func (p ProjectRepositoryStorageMoveService) ScheduleStorageMoveForProject(project int, options ...RequestOptionFunc) (*ProjectRepositoryStorageMove, *Response, error) {
+func (p ProjectRepositoryStorageMoveService) ScheduleStorageMoveForProject(project int, opts ScheduleStorageMoveForProjectOptions, options ...RequestOptionFunc) (*ProjectRepositoryStorageMove, *Response, error) {
 	u := fmt.Sprintf("projects/%d/repository_storage_moves", project)
 
-	req, err := p.client.NewRequest(http.MethodPost, u, nil, options)
+	req, err := p.client.NewRequest(http.MethodPost, u, opts, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -166,12 +175,22 @@ func (p ProjectRepositoryStorageMoveService) ScheduleStorageMoveForProject(proje
 	return psm, resp, err
 }
 
+// ScheduleAllProjectStorageMovesOptions represents the available
+// ScheduleAllStorageMoves() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/project_repository_storage_moves.html
+type ScheduleAllProjectStorageMovesOptions struct {
+	SourceStorageName      *string `url:"source_storage_name,omitempty" json:"source_storage_name,omitempty"`
+	DestinationStorageName *string `url:"destination_storage_name,omitempty" json:"destination_storage_name,omitempty"`
+}
+
 // ScheduleAllStorageMoves schedules all repositories to be moved.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/project_repository_storage_moves.html#schedule-repository-storage-moves-for-all-projects-on-a-storage-shard
-func (p ProjectRepositoryStorageMoveService) ScheduleAllStorageMoves(options ...RequestOptionFunc) (*Response, error) {
-	req, err := p.client.NewRequest(http.MethodPost, "project_repository_storage_moves", nil, options)
+func (p ProjectRepositoryStorageMoveService) ScheduleAllStorageMoves(opts ScheduleAllProjectStorageMovesOptions, options ...RequestOptionFunc) (*Response, error) {
+	req, err := p.client.NewRequest(http.MethodPost, "project_repository_storage_moves", opts, options)
 	if err != nil {
 		return nil, err
 	}
