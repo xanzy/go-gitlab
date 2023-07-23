@@ -54,7 +54,7 @@ type RepositoryGroup struct {
 // RetrieveAllStorageMoves() options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/group_repository_storage_moves.html
+// https://docs.gitlab.com/ee/api/group_repository_storage_moves.html#retrieve-all-group-repository-storage-moves
 type RetrieveAllGroupStorageMovesOptions ListOptions
 
 // RetrieveAllStorageMoves retrieves all group repository storage moves
@@ -145,7 +145,7 @@ func (g GroupRepositoryStorageMoveService) GetStorageMoveForGroup(group int, rep
 // ScheduleStorageMoveForGroup() options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/group_repository_storage_moves.html
+// https://docs.gitlab.com/ee/api/group_repository_storage_moves.html#schedule-a-repository-storage-move-for-a-group
 type ScheduleStorageMoveForGroupOptions struct {
 	DestinationStorageName *string `url:"destination_storage_name,omitempty" json:"destination_storage_name,omitempty"`
 }
@@ -175,7 +175,7 @@ func (g GroupRepositoryStorageMoveService) ScheduleStorageMoveForGroup(group int
 // ScheduleAllStorageMoves() options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/group_repository_storage_moves.html
+// https://docs.gitlab.com/ee/api/group_repository_storage_moves.html#schedule-repository-storage-moves-for-all-groups-on-a-storage-shard
 type ScheduleAllGroupStorageMovesOptions struct {
 	SourceStorageName      *string `url:"source_storage_name,omitempty" json:"source_storage_name,omitempty"`
 	DestinationStorageName *string `url:"destination_storage_name,omitempty" json:"destination_storage_name,omitempty"`

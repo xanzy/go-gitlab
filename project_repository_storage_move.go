@@ -58,7 +58,7 @@ type RepositoryProject struct {
 // RetrieveAllStorageMoves() options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/project_repository_storage_moves.html
+// https://docs.gitlab.com/ee/api/project_repository_storage_moves.html#retrieve-all-project-repository-storage-moves
 type RetrieveAllProjectStorageMovesOptions ListOptions
 
 // RetrieveAllStorageMoves retrieves all project repository storage moves
@@ -149,7 +149,7 @@ func (p ProjectRepositoryStorageMoveService) GetStorageMoveForProject(project in
 // ScheduleStorageMoveForProject() options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/project_repository_storage_moves.html
+// https://docs.gitlab.com/ee/api/project_repository_storage_moves.html#schedule-a-repository-storage-move-for-a-project
 type ScheduleStorageMoveForProjectOptions struct {
 	DestinationStorageName *string `url:"destination_storage_name,omitempty" json:"destination_storage_name,omitempty"`
 }
@@ -179,7 +179,7 @@ func (p ProjectRepositoryStorageMoveService) ScheduleStorageMoveForProject(proje
 // ScheduleAllStorageMoves() options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/project_repository_storage_moves.html
+// https://docs.gitlab.com/ee/api/project_repository_storage_moves.html#schedule-repository-storage-moves-for-all-projects-on-a-storage-shard
 type ScheduleAllProjectStorageMovesOptions struct {
 	SourceStorageName      *string `url:"source_storage_name,omitempty" json:"source_storage_name,omitempty"`
 	DestinationStorageName *string `url:"destination_storage_name,omitempty" json:"destination_storage_name,omitempty"`
