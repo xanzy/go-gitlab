@@ -62,7 +62,7 @@ type RepositorySnippet struct {
 // RetrieveAllStorageMoves() options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/snippet_repository_storage_moves.html
+// https://docs.gitlab.com/ee/api/snippet_repository_storage_moves.html#retrieve-all-repository-storage-moves-for-a-snippet
 type RetrieveAllSnippetStorageMovesOptions ListOptions
 
 // RetrieveAllStorageMoves retrieves all snippet repository storage moves
@@ -153,7 +153,7 @@ func (s SnippetRepositoryStorageMoveService) GetStorageMoveForSnippet(snippet in
 // ScheduleStorageMoveForSnippet() options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/snippet_repository_storage_moves.html
+// https://docs.gitlab.com/ee/api/snippet_repository_storage_moves.html#schedule-a-repository-storage-move-for-a-snippet
 type ScheduleStorageMoveForSnippetOptions struct {
 	DestinationStorageName *string `url:"destination_storage_name,omitempty" json:"destination_storage_name,omitempty"`
 }
@@ -179,12 +179,12 @@ func (s SnippetRepositoryStorageMoveService) ScheduleStorageMoveForSnippet(snipp
 	return ssm, resp, err
 }
 
-// ScheduleAllStorageMovesOptions represents the available
+// ScheduleAllSnippetStorageMovesOptions represents the available
 // ScheduleAllStorageMoves() options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/snippet_repository_storage_moves.html
-type ScheduleAllStorageMovesOptions struct {
+// https://docs.gitlab.com/ee/api/snippet_repository_storage_moves.html#schedule-repository-storage-moves-for-all-snippets-on-a-storage-shard
+type ScheduleAllSnippetStorageMovesOptions struct {
 	SourceStorageName      *string `url:"source_storage_name,omitempty" json:"source_storage_name,omitempty"`
 	DestinationStorageName *string `url:"destination_storage_name,omitempty" json:"destination_storage_name,omitempty"`
 }
@@ -193,7 +193,7 @@ type ScheduleAllStorageMovesOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/snippet_repository_storage_moves.html#schedule-repository-storage-moves-for-all-snippets-on-a-storage-shard
-func (s SnippetRepositoryStorageMoveService) ScheduleAllStorageMoves(opts ScheduleAllStorageMovesOptions, options ...RequestOptionFunc) (*Response, error) {
+func (s SnippetRepositoryStorageMoveService) ScheduleAllStorageMoves(opts ScheduleAllSnippetStorageMovesOptions, options ...RequestOptionFunc) (*Response, error) {
 	req, err := s.client.NewRequest(http.MethodPost, "snippet_repository_storage_moves", opts, options)
 	if err != nil {
 		return nil, err
