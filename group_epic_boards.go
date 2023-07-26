@@ -77,3 +77,28 @@ func (s *GroupEpicBoardsService) ListGroupEpicBoards(gid interface{}, opt *ListG
 
 	return gs, resp, nil
 }
+
+// GetGroupEpicBoard gets a single epic board of a group.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/group_epic_boards.html#single-group-epic-board
+func (s *GroupEpicBoardsService) GetGroupEpicBoard(gid interface{}, board int, options ...RequestOptionFunc) (*GroupEpicBoard, *Response, error) {
+	group, err := parseID(gid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("groups/%s/epic_boards/%d", PathEscape(group), board)
+
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	gib := new(GroupEpicBoard)
+	resp, err := s.client.Do(req, gib)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return gib, resp, nil
+}
