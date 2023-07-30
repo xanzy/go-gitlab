@@ -29,7 +29,7 @@ func TestListGroupBadges(t *testing.T) {
 	mux.HandleFunc("/api/v4/groups/1/badges",
 		func(w http.ResponseWriter, r *http.Request) {
 			testMethod(t, r, http.MethodGet)
-			fmt.Fprint(w, `[{"id":1, "kind":"group"},{"id":2, "kind":"group"}]`)
+			fmt.Fprint(w, `[{"id":1, "name":"one", "kind":"group"},{"id":2, "name":"two", "kind":"group"}]`)
 		})
 
 	badges, _, err := client.GroupBadges.ListGroupBadges(1, &ListGroupBadgesOptions{})
@@ -37,7 +37,7 @@ func TestListGroupBadges(t *testing.T) {
 		t.Errorf("GroupBadges.ListGroupBadges returned error: %v", err)
 	}
 
-	want := []*GroupBadge{{ID: 1, Kind: GroupBadgeKind}, {ID: 2, Kind: GroupBadgeKind}}
+	want := []*GroupBadge{{ID: 1, Name: "one", Kind: GroupBadgeKind}, {ID: 2, Name: "two", Kind: GroupBadgeKind}}
 	if !reflect.DeepEqual(want, badges) {
 		t.Errorf("GroupBadges.ListGroupBadges returned %+v, want %+v", badges, want)
 	}
@@ -49,7 +49,7 @@ func TestGetGroupBadge(t *testing.T) {
 	mux.HandleFunc("/api/v4/groups/1/badges/2",
 		func(w http.ResponseWriter, r *http.Request) {
 			testMethod(t, r, http.MethodGet)
-			fmt.Fprint(w, `{"id":2, "kind":"group"}`)
+			fmt.Fprint(w, `{"id":2, "name":"two", "kind":"group"}`)
 		})
 
 	badge, _, err := client.GroupBadges.GetGroupBadge(1, 2)
@@ -57,7 +57,7 @@ func TestGetGroupBadge(t *testing.T) {
 		t.Errorf("GroupBadges.GetGroupBadge returned error: %v", err)
 	}
 
-	want := &GroupBadge{ID: 2, Kind: GroupBadgeKind}
+	want := &GroupBadge{ID: 2, Name: "two", Kind: GroupBadgeKind}
 	if !reflect.DeepEqual(want, badge) {
 		t.Errorf("GroupBadges.GetGroupBadge returned %+v, want %+v", badge, want)
 	}
@@ -69,7 +69,7 @@ func TestAddGroupBadge(t *testing.T) {
 	mux.HandleFunc("/api/v4/groups/1/badges",
 		func(w http.ResponseWriter, r *http.Request) {
 			testMethod(t, r, http.MethodPost)
-			fmt.Fprint(w, `{"id":3, "link_url":"LINK", "image_url":"IMAGE", "kind":"group"}`)
+			fmt.Fprint(w, `{"id":3, "name":"three", "link_url":"LINK", "image_url":"IMAGE", "kind":"group"}`)
 		})
 
 	opt := &AddGroupBadgeOptions{ImageURL: String("IMAGE"), LinkURL: String("LINK")}
@@ -78,7 +78,7 @@ func TestAddGroupBadge(t *testing.T) {
 		t.Errorf("GroupBadges.AddGroupBadge returned error: %v", err)
 	}
 
-	want := &GroupBadge{ID: 3, ImageURL: "IMAGE", LinkURL: "LINK", Kind: GroupBadgeKind}
+	want := &GroupBadge{ID: 3, Name: "three", ImageURL: "IMAGE", LinkURL: "LINK", Kind: GroupBadgeKind}
 	if !reflect.DeepEqual(want, badge) {
 		t.Errorf("GroupBadges.AddGroupBadge returned %+v, want %+v", badge, want)
 	}
@@ -90,7 +90,7 @@ func TestEditGroupBadge(t *testing.T) {
 	mux.HandleFunc("/api/v4/groups/1/badges/2",
 		func(w http.ResponseWriter, r *http.Request) {
 			testMethod(t, r, http.MethodPut)
-			fmt.Fprint(w, `{"id":2, "link_url":"NEW_LINK", "image_url":"NEW_IMAGE", "kind":"group"}`)
+			fmt.Fprint(w, `{"id":2, "name":"two", "link_url":"NEW_LINK", "image_url":"NEW_IMAGE", "kind":"group"}`)
 		})
 
 	opt := &EditGroupBadgeOptions{ImageURL: String("NEW_IMAGE"), LinkURL: String("NEW_LINK")}
@@ -99,7 +99,7 @@ func TestEditGroupBadge(t *testing.T) {
 		t.Errorf("GroupBadges.EditGroupBadge returned error: %v", err)
 	}
 
-	want := &GroupBadge{ID: 2, ImageURL: "NEW_IMAGE", LinkURL: "NEW_LINK", Kind: GroupBadgeKind}
+	want := &GroupBadge{ID: 2, Name: "two", ImageURL: "NEW_IMAGE", LinkURL: "NEW_LINK", Kind: GroupBadgeKind}
 	if !reflect.DeepEqual(want, badge) {
 		t.Errorf("GroupBadges.EditGroupBadge returned %+v, want %+v", badge, want)
 	}
