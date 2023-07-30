@@ -75,16 +75,17 @@ type Group struct {
 		GroupAccessLevel int      `json:"group_access_level"`
 		ExpiresAt        *ISOTime `json:"expires_at"`
 	} `json:"shared_with_groups"`
-	LDAPCN                         string           `json:"ldap_cn"`
-	LDAPAccess                     AccessLevelValue `json:"ldap_access"`
-	LDAPGroupLinks                 []*LDAPGroupLink `json:"ldap_group_links"`
-	SAMLGroupLinks                 []*SAMLGroupLink `json:"saml_group_links"`
-	SharedRunnersMinutesLimit      int              `json:"shared_runners_minutes_limit"`
-	ExtraSharedRunnersMinutesLimit int              `json:"extra_shared_runners_minutes_limit"`
-	PreventForkingOutsideGroup     bool             `json:"prevent_forking_outside_group"`
-	MarkedForDeletionOn            *ISOTime         `json:"marked_for_deletion_on"`
-	CreatedAt                      *time.Time       `json:"created_at"`
-	IPRestrictionRanges            string           `json:"ip_restriction_ranges"`
+	LDAPCN                         string             `json:"ldap_cn"`
+	LDAPAccess                     AccessLevelValue   `json:"ldap_access"`
+	LDAPGroupLinks                 []*LDAPGroupLink   `json:"ldap_group_links"`
+	SAMLGroupLinks                 []*SAMLGroupLink   `json:"saml_group_links"`
+	SharedRunnersMinutesLimit      int                `json:"shared_runners_minutes_limit"`
+	ExtraSharedRunnersMinutesLimit int                `json:"extra_shared_runners_minutes_limit"`
+	PreventForkingOutsideGroup     bool               `json:"prevent_forking_outside_group"`
+	MarkedForDeletionOn            *ISOTime           `json:"marked_for_deletion_on"`
+	CreatedAt                      *time.Time         `json:"created_at"`
+	IPRestrictionRanges            string             `json:"ip_restriction_ranges"`
+	WikiAccessLevel                AccessControlValue `json:"wiki_access_level"`
 }
 
 // GroupAvatar represents a GitLab group avatar.
@@ -353,6 +354,7 @@ type CreateGroupOptions struct {
 	SharedRunnersMinutesLimit      *int                        `url:"shared_runners_minutes_limit,omitempty" json:"shared_runners_minutes_limit,omitempty"`
 	ExtraSharedRunnersMinutesLimit *int                        `url:"extra_shared_runners_minutes_limit,omitempty" json:"extra_shared_runners_minutes_limit,omitempty"`
 	IPRestrictionRanges            *string                     `url:"ip_restriction_ranges,omitempty" json:"ip_restriction_ranges,omitempty"`
+	WikiAccessLevel                *AccessControlValue         `url:"wiki_access_level,omitempty" json:"wiki_access_level,omitempty"`
 }
 
 // CreateGroup creates a new project group. Available only for users who can
@@ -481,6 +483,7 @@ type UpdateGroupOptions struct {
 	SharedRunnersSetting                 *SharedRunnersSettingValue  `url:"shared_runners_setting,omitempty" json:"shared_runners_setting,omitempty"`
 	PreventSharingGroupsOutsideHierarchy *bool                       `url:"prevent_sharing_groups_outside_hierarchy,omitempty" json:"prevent_sharing_groups_outside_hierarchy,omitempty"`
 	IPRestrictionRanges                  *string                     `url:"ip_restriction_ranges,omitempty" json:"ip_restriction_ranges,omitempty"`
+	WikiAccessLevel                      *AccessControlValue         `url:"wiki_access_level,omitempty" json:"wiki_access_level,omitempty"`
 }
 
 // UpdateGroup updates an existing group; only available to group owners and
