@@ -133,13 +133,13 @@ type ListGroupsOptions struct {
 	MinAccessLevel       *AccessLevelValue `url:"min_access_level,omitempty" json:"min_access_level,omitempty"`
 	OrderBy              *string           `url:"order_by,omitempty" json:"order_by,omitempty"`
 	Owned                *bool             `url:"owned,omitempty" json:"owned,omitempty"`
+	RepositoryStorage    *string           `url:"repository_storage,omitempty" json:"repository_storage,omitempty"`
 	Search               *string           `url:"search,omitempty" json:"search,omitempty"`
 	SkipGroups           *[]int            `url:"skip_groups,omitempty" del:"," json:"skip_groups,omitempty"`
 	Sort                 *string           `url:"sort,omitempty" json:"sort,omitempty"`
 	Statistics           *bool             `url:"statistics,omitempty" json:"statistics,omitempty"`
 	TopLevelOnly         *bool             `url:"top_level_only,omitempty" json:"top_level_only,omitempty"`
 	WithCustomAttributes *bool             `url:"with_custom_attributes,omitempty" json:"with_custom_attributes,omitempty"`
-	RepositoryStorage    *string           `url:"repository_storage,omitempty" json:"repository_storage,omitempty"`
 }
 
 // ListGroups gets a list of groups (as user: my groups, as admin: all groups).
