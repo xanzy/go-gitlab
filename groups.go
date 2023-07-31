@@ -86,6 +86,7 @@ type Group struct {
 	CreatedAt                      *time.Time         `json:"created_at"`
 	IPRestrictionRanges            string             `json:"ip_restriction_ranges"`
 	WikiAccessLevel                AccessControlValue `json:"wiki_access_level"`
+	RepositoryStorage              string             `json:"repository_storage"`
 }
 
 // GroupAvatar represents a GitLab group avatar.
@@ -138,6 +139,7 @@ type ListGroupsOptions struct {
 	Statistics           *bool             `url:"statistics,omitempty" json:"statistics,omitempty"`
 	TopLevelOnly         *bool             `url:"top_level_only,omitempty" json:"top_level_only,omitempty"`
 	WithCustomAttributes *bool             `url:"with_custom_attributes,omitempty" json:"with_custom_attributes,omitempty"`
+	RepositoryStorage    *string           `url:"repository_storage,omitempty" json:"repository_storage,omitempty"`
 }
 
 // ListGroups gets a list of groups (as user: my groups, as admin: all groups).
