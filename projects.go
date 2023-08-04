@@ -167,7 +167,7 @@ type Project struct {
 	MergeRequestDefaultTargetSelf            bool               `json:"mr_default_target_self"`
 
 	// Deprecated: Use EmailsEnabled instead
-	EmailsDisabled bool `url:"emails_disabled,omitempty" json:"emails_disabled,omitempty"`
+	EmailsDisabled bool `json:"emails_disabled"`
 	// Deprecated: This parameter has been renamed to PublicJobs in GitLab 9.0.
 	PublicBuilds bool `json:"public_builds"`
 }
