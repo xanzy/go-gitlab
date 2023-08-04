@@ -1409,51 +1409,46 @@ func (s *UsersService) DisableTwoFactor(user int, options ...RequestOptionFunc) 
 	}
 }
 
-// CreateUserRunnerOptions represents the options available when creating a GitLab Runner
-// using the new user-based flow.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ee/api/users.html#create-a-runner
-type CreateUserRunnerOptions struct {
-	RunnerType      string   `json:"runner_type"`
-	GroupID         int      `json:"group_id"`
-	ProjectID       int      `json:"project_id"`
-	Description     string   `json:"description"`
-	Paused          bool     `json:"paused"`
-	Locked          bool     `json:"locked"`
-	RunUntagged     bool     `json:"run_untagged"`
-	TagList         []string `json:"tag_list"`
-	AccessLevel     string   `json:"access_level"`
-	MaximumTimeout  int      `json:"maximum_timeout"`
-	MaintenanceNote string   `json:"maintenance_note"`
-}
-
-// UserRunner represents the a GitLab runner instance created using the user-based flow
+// UserRunner represents a GitLab runner linked to the current user.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/users.html#create-a-runner
 type UserRunner struct {
-	ID             int    `json:"id"`
-	Token          string `json:"token"`
-	TokenExpiresAt string `json:"token_expires_at"`
+	ID             int        `json:"id"`
+	Token          string     `json:"token"`
+	TokenExpiresAt *time.Time `json:"token_expires_at"`
 }
 
-// CreateUserRunner creates a new runner using the user-based flow and returns the authentication
-// token.
+// CreateUserRunnerOptions represents the available CreateUserRunner() options.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/users.html#create-a-runner
-func (s *UsersService) CreateUserRunner(runnerOpts *CreateUserRunnerOptions, options ...RequestOptionFunc) (*UserRunner, *Response, error) {
-	// The user who owns the runner comes from the access token used to authorize the request.
-	u := "user/runners"
+type CreateUserRunnerOptions struct {
+	RunnerType      *string   `url:"runner_type,omitempty" json:"runner_type,omitempty"`
+	GroupID         *int      `url:"group_id,omitempty" json:"group_id,omitempty"`
+	ProjectID       *int      `url:"project_id,omitempty" json:"project_id,omitempty"`
+	Description     *string   `url:"description,omitempty" json:"description,omitempty"`
+	Paused          *bool     `url:"paused,omitempty" json:"paused,omitempty"`
+	Locked          *bool     `url:"locked,omitempty" json:"locked,omitempty"`
+	RunUntagged     *bool     `url:"run_untagged,omitempty" json:"run_untagged,omitempty"`
+	TagList         *[]string `url:"tag_list,omitempty" json:"tag_list,omitempty"`
+	AccessLevel     *string   `url:"access_level,omitempty" json:"access_level,omitempty"`
+	MaximumTimeout  *int      `url:"maximum_timeout,omitempty" json:"maximum_timeout,omitempty"`
+	MaintenanceNote *string   `url:"maintenance_note,omitempty" json:"maintenance_note,omitempty"`
+}
 
-	req, err := s.client.NewRequest(http.MethodPost, u, runnerOpts, options)
+// CreateUserRunner creates a runner linked to the current user.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/users.html#create-a-runner
+func (s *UsersService) CreateUserRunner(opts *CreateUserRunnerOptions, options ...RequestOptionFunc) (*UserRunner, *Response, error) {
+	req, err := s.client.NewRequest(http.MethodPost, "user/runners", opts, options)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	var r *UserRunner
-	resp, err := s.client.Do(req, &r)
+	r := new(UserRunner)
+	resp, err := s.client.Do(req, r)
 	if err != nil {
 		return nil, resp, err
 	}

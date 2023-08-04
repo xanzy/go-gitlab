@@ -616,8 +616,7 @@ func TestGetSingleSSHKeyForUser(t *testing.T) {
 			"title": "Public key",
 			"key": "ssh-rsa AAAA...",
 			"created_at": "2014-08-01T14:47:39.080Z"
-		  }
-`)
+		}`)
 	})
 
 	sshKey, _, err := client.Users.GetSSHKeyForUser(1, 1)
@@ -661,12 +660,17 @@ func TestCreateUserRunner(t *testing.T) {
 	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
 		w.WriteHeader(http.StatusCreated)
-		w.Write([]byte(`{"id": 1234, "token": "glrt-1234567890ABCD", "token_expires_at":null}`))
+		w.Write([]byte(`
+    {
+      "id": 1234,
+      "token": "glrt-1234567890ABCD",
+      "token_expires_at":null
+    }`))
 	})
 
 	createRunnerOpts := &CreateUserRunnerOptions{
-		RunnerType: "project_type",
-		ProjectID:  1,
+		ProjectID:  Int(1),
+		RunnerType: String("project_type"),
 	}
 
 	response, _, err := client.Users.CreateUserRunner(createRunnerOpts)
@@ -676,5 +680,5 @@ func TestCreateUserRunner(t *testing.T) {
 
 	require.Equal(t, 1234, response.ID)
 	require.Equal(t, "glrt-1234567890ABCD", response.Token)
-	require.Equal(t, "", response.TokenExpiresAt)
+	require.Equal(t, (*time.Time)(nil), response.TokenExpiresAt)
 }
