@@ -1408,3 +1408,50 @@ func (s *UsersService) DisableTwoFactor(user int, options ...RequestOptionFunc) 
 		return fmt.Errorf("Received unexpected result code: %d", resp.StatusCode)
 	}
 }
+
+// UserRunner represents a GitLab runner linked to the current user.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/users.html#create-a-runner
+type UserRunner struct {
+	ID             int        `json:"id"`
+	Token          string     `json:"token"`
+	TokenExpiresAt *time.Time `json:"token_expires_at"`
+}
+
+// CreateUserRunnerOptions represents the available CreateUserRunner() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/users.html#create-a-runner
+type CreateUserRunnerOptions struct {
+	RunnerType      *string   `url:"runner_type,omitempty" json:"runner_type,omitempty"`
+	GroupID         *int      `url:"group_id,omitempty" json:"group_id,omitempty"`
+	ProjectID       *int      `url:"project_id,omitempty" json:"project_id,omitempty"`
+	Description     *string   `url:"description,omitempty" json:"description,omitempty"`
+	Paused          *bool     `url:"paused,omitempty" json:"paused,omitempty"`
+	Locked          *bool     `url:"locked,omitempty" json:"locked,omitempty"`
+	RunUntagged     *bool     `url:"run_untagged,omitempty" json:"run_untagged,omitempty"`
+	TagList         *[]string `url:"tag_list,omitempty" json:"tag_list,omitempty"`
+	AccessLevel     *string   `url:"access_level,omitempty" json:"access_level,omitempty"`
+	MaximumTimeout  *int      `url:"maximum_timeout,omitempty" json:"maximum_timeout,omitempty"`
+	MaintenanceNote *string   `url:"maintenance_note,omitempty" json:"maintenance_note,omitempty"`
+}
+
+// CreateUserRunner creates a runner linked to the current user.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/users.html#create-a-runner
+func (s *UsersService) CreateUserRunner(opts *CreateUserRunnerOptions, options ...RequestOptionFunc) (*UserRunner, *Response, error) {
+	req, err := s.client.NewRequest(http.MethodPost, "user/runners", opts, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	r := new(UserRunner)
+	resp, err := s.client.Do(req, r)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return r, resp, nil
+}
