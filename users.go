@@ -1447,10 +1447,11 @@ type UserRunner struct {
 	MaximumTimeout int      `json:"maximum_timeout"`
 }
 
-// GetUserMemberships retrieves a list of the user's memberships.
+// CreateUserRunner creates a new runner using the user-based flow and returns the authentication
+// token.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/users.html#user-memberships
+// https://docs.gitlab.com/ee/api/users.html#create-a-runner
 func (s *UsersService) CreateUserRunner(runnerOpts *CreateUserRunnerOptions, options ...RequestOptionFunc) (*UserRunner, *Response, error) {
 	// The user who owns the runner comes from the access token used to authorize the request.
 	u := "user/runners"
