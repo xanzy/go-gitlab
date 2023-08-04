@@ -653,3 +653,26 @@ func TestDisableUser2FA(t *testing.T) {
 		t.Errorf("Users.DisableTwoFactor returned error: %v", err)
 	}
 }
+
+func TestCreateUserRunner(t *testing.T) {
+	mux, client := setup(t)
+
+	path := fmt.Sprintf("/%suser/runners", apiVersionPath)
+	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPost)
+		w.WriteHeader(http.StatusCreated)
+		w.Write([]byte(`{"id": 1234, "runner_type": "project_type"}`))
+	})
+
+	createRunnerOpts := &CreateUserRunnerOptions{
+		RunnerType: "project_type",
+		ProjectID:  1,
+	}
+
+	response, _, err := client.Users.CreateUserRunner(createRunnerOpts)
+	if err != nil {
+		t.Errorf("Users.CreateUserRunner returned an error: %v", err)
+	}
+
+	require.Equal(t, "project_type", response.RunnerType)
+}

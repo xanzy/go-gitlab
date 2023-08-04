@@ -1408,3 +1408,63 @@ func (s *UsersService) DisableTwoFactor(user int, options ...RequestOptionFunc) 
 		return fmt.Errorf("Received unexpected result code: %d", resp.StatusCode)
 	}
 }
+
+// CreateUserRunnerOptions represents the options available when creating a GitLab Runner
+// using the new user-based flow.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/users.html#create-a-runner
+type CreateUserRunnerOptions struct {
+	RunnerType     string   `json:"runner_type"`
+	GroupID        int      `json:"group_id"`
+	ProjectID      int      `json:"project_id"`
+	Description    string   `json:"description"`
+	Paused         bool     `json:"paused"`
+	Locked         bool     `json:"locked"`
+	RunUntagged    bool     `json:"run_untagged"`
+	TagList        []string `json:"tag_list"`
+	AccessLevel    string   `json:"access_level"`
+	MaximumTimeout int      `json:"maximum_timeout"`
+}
+
+// UserRunner represents the a GitLab runner instance created using the user-based flow
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/users.html#create-a-runner
+type UserRunner struct {
+	ID             int      `json:"id"`
+	Token          string   `json:"token"`
+	TokenExpiresAt string   `json:"token_expires_at"`
+	RunnerType     string   `json:"runner_type"`
+	GroupID        int      `json:"group_id"`
+	ProjectID      int      `json:"project_id"`
+	Description    string   `json:"description"`
+	Paused         bool     `json:"paused"`
+	Locked         bool     `json:"locked"`
+	RunUntagged    bool     `json:"run_untagged"`
+	TagList        []string `json:"tag_list"`
+	AccessLevel    string   `json:"access_level"`
+	MaximumTimeout int      `json:"maximum_timeout"`
+}
+
+// GetUserMemberships retrieves a list of the user's memberships.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/users.html#user-memberships
+func (s *UsersService) CreateUserRunner(runnerOpts *CreateUserRunnerOptions, options ...RequestOptionFunc) (*UserRunner, *Response, error) {
+	// The user who owns the runner comes from the access token used to authorize the request.
+	u := "user/runners"
+
+	req, err := s.client.NewRequest(http.MethodPost, u, runnerOpts, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var r *UserRunner
+	resp, err := s.client.Do(req, &r)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return r, resp, nil
+}
