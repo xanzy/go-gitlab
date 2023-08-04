@@ -661,7 +661,7 @@ func TestCreateUserRunner(t *testing.T) {
 	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
 		w.WriteHeader(http.StatusCreated)
-		w.Write([]byte(`{"id": 1234, "runner_type": "project_type"}`))
+		w.Write([]byte(`{"id": 1234, "token": "glrt-1234567890ABCD", "token_expires_at":null}`))
 	})
 
 	createRunnerOpts := &CreateUserRunnerOptions{
@@ -674,5 +674,7 @@ func TestCreateUserRunner(t *testing.T) {
 		t.Errorf("Users.CreateUserRunner returned an error: %v", err)
 	}
 
-	require.Equal(t, "project_type", response.RunnerType)
+	require.Equal(t, 1234, response.ID)
+	require.Equal(t, "glrt-1234567890ABCD", response.Token)
+	require.Equal(t, "", response.TokenExpiresAt)
 }

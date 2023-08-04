@@ -1415,16 +1415,17 @@ func (s *UsersService) DisableTwoFactor(user int, options ...RequestOptionFunc) 
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/users.html#create-a-runner
 type CreateUserRunnerOptions struct {
-	RunnerType     string   `json:"runner_type"`
-	GroupID        int      `json:"group_id"`
-	ProjectID      int      `json:"project_id"`
-	Description    string   `json:"description"`
-	Paused         bool     `json:"paused"`
-	Locked         bool     `json:"locked"`
-	RunUntagged    bool     `json:"run_untagged"`
-	TagList        []string `json:"tag_list"`
-	AccessLevel    string   `json:"access_level"`
-	MaximumTimeout int      `json:"maximum_timeout"`
+	RunnerType      string   `json:"runner_type"`
+	GroupID         int      `json:"group_id"`
+	ProjectID       int      `json:"project_id"`
+	Description     string   `json:"description"`
+	Paused          bool     `json:"paused"`
+	Locked          bool     `json:"locked"`
+	RunUntagged     bool     `json:"run_untagged"`
+	TagList         []string `json:"tag_list"`
+	AccessLevel     string   `json:"access_level"`
+	MaximumTimeout  int      `json:"maximum_timeout"`
+	MaintenanceNote string   `json:"maintenance_note"`
 }
 
 // UserRunner represents the a GitLab runner instance created using the user-based flow
@@ -1432,19 +1433,9 @@ type CreateUserRunnerOptions struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/users.html#create-a-runner
 type UserRunner struct {
-	ID             int      `json:"id"`
-	Token          string   `json:"token"`
-	TokenExpiresAt string   `json:"token_expires_at"`
-	RunnerType     string   `json:"runner_type"`
-	GroupID        int      `json:"group_id"`
-	ProjectID      int      `json:"project_id"`
-	Description    string   `json:"description"`
-	Paused         bool     `json:"paused"`
-	Locked         bool     `json:"locked"`
-	RunUntagged    bool     `json:"run_untagged"`
-	TagList        []string `json:"tag_list"`
-	AccessLevel    string   `json:"access_level"`
-	MaximumTimeout int      `json:"maximum_timeout"`
+	ID             int    `json:"id"`
+	Token          string `json:"token"`
+	TokenExpiresAt string `json:"token_expires_at"`
 }
 
 // CreateUserRunner creates a new runner using the user-based flow and returns the authentication
