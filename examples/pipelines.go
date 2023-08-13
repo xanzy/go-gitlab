@@ -31,15 +31,15 @@ func pipelineExample() {
 
 	opt := &gitlab.ListProjectPipelinesOptions{
 		Scope:         gitlab.String("branches"),
-		Status:        gitlab.BuildState(gitlab.Running),
+		Status:        gitlab.PipelineStatus(gitlab.PipelineStatusValueRunning),
 		Ref:           gitlab.String("master"),
 		YamlErrors:    gitlab.Bool(true),
 		Name:          gitlab.String("name"),
 		Username:      gitlab.String("username"),
 		UpdatedAfter:  gitlab.Time(time.Now().Add(-24 * 365 * time.Hour)),
 		UpdatedBefore: gitlab.Time(time.Now().Add(-7 * 24 * time.Hour)),
-		OrderBy:       gitlab.String("status"),
-		Sort:          gitlab.String("asc"),
+		OrderBy:       gitlab.String(string(gitlab.PipelineOrderByValueStatus)),
+		Sort:          gitlab.String(string(gitlab.PipelineSortValueAsc)),
 	}
 
 	pipelines, _, err := git.Pipelines.ListProjectPipelines(2743054, opt)

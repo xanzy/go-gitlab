@@ -127,7 +127,8 @@ func TestGetMergeRequest(t *testing.T) {
 		"## What does this MR do?\r\n\r\nThis adds the capability to destroy/hide designs.")
 	require.Equal(t, mergeRequest.WebURL,
 		"https://gitlab.com/gitlab-org/gitlab-ee/merge_requests/14656")
-	require.Equal(t, mergeRequest.DetailedMergeStatus, "mergeable")
+	require.Equal(t, string(mergeRequest.DetailedMergeStatus), "mergeable")
+	require.Equal(t, mergeRequest.DetailedMergeStatus, MergeRequestDetailedMergeStatusValueMergeable)
 	require.Equal(t, mergeRequest.Author, &ajk)
 	require.Equal(t, mergeRequest.Assignee, &tk)
 	require.Equal(t, mergeRequest.Assignees, []*BasicUser{&tk})
@@ -189,12 +190,12 @@ func TestListProjectMergeRequests(t *testing.T) {
 
 	for _, mr := range mergeRequests {
 		require.Equal(t, 278964, mr.ProjectID)
-		require.Contains(t, validStates, mr.State)
+		require.Contains(t, validStates, string(mr.State))
 		assert.Less(t, mr.CreatedAt.Unix(), allCreatedBefore.Unix())
 		assert.Greater(t, mr.CreatedAt.Unix(), allCreatedAfter.Unix())
 		assert.LessOrEqual(t, mr.CreatedAt.Unix(), mr.UpdatedAt.Unix())
 		assert.LessOrEqual(t, mr.TaskCompletionStatus.CompletedCount, mr.TaskCompletionStatus.Count)
-		require.Contains(t, detailedMergeStatuses, mr.DetailedMergeStatus)
+		require.Contains(t, detailedMergeStatuses, string(mr.DetailedMergeStatus))
 		// list requests do not provide these fields:
 		assert.Nil(t, mr.Pipeline)
 		assert.Nil(t, mr.HeadPipeline)
@@ -216,7 +217,8 @@ func TestCreateMergeRequestPipeline(t *testing.T) {
 	}
 
 	assert.Equal(t, 1, pipeline.ID)
-	assert.Equal(t, "pending", pipeline.Status)
+	assert.Equal(t, "pending", string(pipeline.Status))
+	assert.Equal(t, PipelineStatusValuePending, pipeline.Status)
 }
 
 func TestGetMergeRequestParticipants(t *testing.T) {

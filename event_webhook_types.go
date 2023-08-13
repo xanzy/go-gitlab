@@ -787,21 +787,22 @@ func (p *MergeParams) UnmarshalJSON(b []byte) error {
 type PipelineEvent struct {
 	ObjectKind       string `json:"object_kind"`
 	ObjectAttributes struct {
-		ID             int      `json:"id"`
-		IID            int      `json:"iid"`
-		Ref            string   `json:"ref"`
-		Tag            bool     `json:"tag"`
-		SHA            string   `json:"sha"`
-		BeforeSHA      string   `json:"before_sha"`
-		Source         string   `json:"source"`
-		Status         string   `json:"status"`
-		DetailedStatus string   `json:"detailed_status"`
-		Stages         []string `json:"stages"`
-		CreatedAt      string   `json:"created_at"`
-		FinishedAt     string   `json:"finished_at"`
-		Duration       int      `json:"duration"`
-		QueuedDuration int      `json:"queued_duration"`
-		URL            string   `json:"url"`
+		ID             int                 `json:"id"`
+		IID            int                 `json:"iid"`
+		Ref            string              `json:"ref"`
+		Tag            bool                `json:"tag"`
+		SHA            string              `json:"sha"`
+		BeforeSHA      string              `json:"before_sha"`
+		Source         PipelineScopeValue  `json:"source"`
+		Status         PipelineStatusValue `json:"status"`
+		DetailedStatus string              `json:"detailed_status"`
+		Stages         []string            `json:"stages"`
+		CreatedAt      string              `json:"created_at"`
+		FinishedAt     string              `json:"finished_at"`
+		Duration       int                 `json:"duration"`
+		QueuedDuration int                 `json:"queued_duration"`
+		URL            string              `json:"url"`
+		Name           string              `json:"name"`
 		Variables      []struct {
 			Key   string `json:"key"`
 			Value string `json:"value"`
