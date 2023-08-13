@@ -43,27 +43,27 @@ type PipelineVariable struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/pipelines.html
 type Pipeline struct {
-	ID             int             `json:"id"`
-	IID            int             `json:"iid"`
-	ProjectID      int             `json:"project_id"`
-	Status         string          `json:"status"`
-	Source         string          `json:"source"`
-	Ref            string          `json:"ref"`
-	SHA            string          `json:"sha"`
-	BeforeSHA      string          `json:"before_sha"`
-	Tag            bool            `json:"tag"`
-	YamlErrors     string          `json:"yaml_errors"`
-	User           *BasicUser      `json:"user"`
-	UpdatedAt      *time.Time      `json:"updated_at"`
-	CreatedAt      *time.Time      `json:"created_at"`
-	StartedAt      *time.Time      `json:"started_at"`
-	FinishedAt     *time.Time      `json:"finished_at"`
-	CommittedAt    *time.Time      `json:"committed_at"`
-	Duration       int             `json:"duration"`
-	QueuedDuration int             `json:"queued_duration"`
-	Coverage       string          `json:"coverage"`
-	WebURL         string          `json:"web_url"`
-	DetailedStatus *DetailedStatus `json:"detailed_status"`
+	ID             int                 `json:"id"`
+	IID            int                 `json:"iid"`
+	ProjectID      int                 `json:"project_id"`
+	Status         PipelineStatusValue `json:"status"`
+	Source         PipelineSourceValue `json:"source"`
+	Ref            string              `json:"ref"`
+	SHA            string              `json:"sha"`
+	BeforeSHA      string              `json:"before_sha"`
+	Tag            bool                `json:"tag"`
+	YamlErrors     string              `json:"yaml_errors"`
+	User           *BasicUser          `json:"user"`
+	UpdatedAt      *time.Time          `json:"updated_at"`
+	CreatedAt      *time.Time          `json:"created_at"`
+	StartedAt      *time.Time          `json:"started_at"`
+	FinishedAt     *time.Time          `json:"finished_at"`
+	CommittedAt    *time.Time          `json:"committed_at"`
+	Duration       int                 `json:"duration"`
+	QueuedDuration int                 `json:"queued_duration"`
+	Coverage       string              `json:"coverage"`
+	WebURL         string              `json:"web_url"`
+	DetailedStatus *DetailedStatus     `json:"detailed_status"`
 }
 
 // DetailedStatus contains detailed information about the status of a pipeline.
@@ -140,15 +140,15 @@ func (p PipelineTestReport) String() string {
 // PipelineInfo shows the basic entities of a pipeline, mostly used as fields
 // on other assets, like Commit.
 type PipelineInfo struct {
-	ID        int        `json:"id"`
-	ProjectID int        `json:"project_id"`
-	Status    string     `json:"status"`
-	Source    string     `json:"source"`
-	Ref       string     `json:"ref"`
-	SHA       string     `json:"sha"`
-	WebURL    string     `json:"web_url"`
-	UpdatedAt *time.Time `json:"updated_at"`
-	CreatedAt *time.Time `json:"created_at"`
+	ID        int                 `json:"id"`
+	ProjectID int                 `json:"project_id"`
+	Status    PipelineStatusValue `json:"status"`
+	Source    PipelineSourceValue `json:"source"`
+	Ref       string              `json:"ref"`
+	SHA       string              `json:"sha"`
+	WebURL    string              `json:"web_url"`
+	UpdatedAt *time.Time          `json:"updated_at"`
+	CreatedAt *time.Time          `json:"created_at"`
 }
 
 func (p PipelineInfo) String() string {
@@ -160,18 +160,18 @@ func (p PipelineInfo) String() string {
 // GitLab API docs: https://docs.gitlab.com/ee/api/pipelines.html#list-project-pipelines
 type ListProjectPipelinesOptions struct {
 	ListOptions
-	Scope         *string          `url:"scope,omitempty" json:"scope,omitempty"`
-	Status        *BuildStateValue `url:"status,omitempty" json:"status,omitempty"`
-	Source        *string          `url:"source,omitempty" json:"source,omitempty"`
-	Ref           *string          `url:"ref,omitempty" json:"ref,omitempty"`
-	SHA           *string          `url:"sha,omitempty" json:"sha,omitempty"`
-	YamlErrors    *bool            `url:"yaml_errors,omitempty" json:"yaml_errors,omitempty"`
-	Name          *string          `url:"name,omitempty" json:"name,omitempty"`
-	Username      *string          `url:"username,omitempty" json:"username,omitempty"`
-	UpdatedAfter  *time.Time       `url:"updated_after,omitempty" json:"updated_after,omitempty"`
-	UpdatedBefore *time.Time       `url:"updated_before,omitempty" json:"updated_before,omitempty"`
-	OrderBy       *string          `url:"order_by,omitempty" json:"order_by,omitempty"`
-	Sort          *string          `url:"sort,omitempty" json:"sort,omitempty"`
+	Scope         *string              `url:"scope,omitempty" json:"scope,omitempty"`
+	Status        *PipelineStatusValue `url:"status,omitempty" json:"status,omitempty"`
+	Source        *PipelineSourceValue `url:"source,omitempty" json:"source,omitempty"`
+	Ref           *string              `url:"ref,omitempty" json:"ref,omitempty"`
+	SHA           *string              `url:"sha,omitempty" json:"sha,omitempty"`
+	YamlErrors    *bool                `url:"yaml_errors,omitempty" json:"yaml_errors,omitempty"`
+	Name          *string              `url:"name,omitempty" json:"name,omitempty"`
+	Username      *string              `url:"username,omitempty" json:"username,omitempty"`
+	UpdatedAfter  *time.Time           `url:"updated_after,omitempty" json:"updated_after,omitempty"`
+	UpdatedBefore *time.Time           `url:"updated_before,omitempty" json:"updated_before,omitempty"`
+	OrderBy       *string              `url:"order_by,omitempty" json:"order_by,omitempty"`
+	Sort          *string              `url:"sort,omitempty" json:"sort,omitempty"`
 }
 
 // ListProjectPipelines gets a list of project piplines.

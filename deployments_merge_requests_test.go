@@ -49,12 +49,12 @@ func TestDeploymentMergeRequestsService_ListDeploymentMergeRequests(t *testing.T
 
 	for _, mr := range mergeRequests {
 		require.Equal(t, 278964, mr.ProjectID)
-		require.Contains(t, validStates, mr.State)
+		require.Contains(t, validStates, string(mr.State))
 		assert.Less(t, mr.CreatedAt.Unix(), allCreatedBefore.Unix())
 		assert.Greater(t, mr.CreatedAt.Unix(), allCreatedAfter.Unix())
 		assert.LessOrEqual(t, mr.CreatedAt.Unix(), mr.UpdatedAt.Unix())
 		assert.LessOrEqual(t, mr.TaskCompletionStatus.CompletedCount, mr.TaskCompletionStatus.Count)
-		require.Contains(t, detailedMergeStatuses, mr.DetailedMergeStatus)
+		require.Contains(t, detailedMergeStatuses, string(mr.DetailedMergeStatus))
 
 		// list requests do not provide these fields:
 		assert.Nil(t, mr.Pipeline)
