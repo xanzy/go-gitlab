@@ -119,3 +119,10 @@ const (
 	MergeRequestDetailedMergeStatusValueNotOpened              MergeRequestDetailedMergeStatusValue = "not_opened"               //The merge request must be open before merge.
 	MergeRequestDetailedMergeStatusValuePoliciesDenied         MergeRequestDetailedMergeStatusValue = "policies_denied"          //The merge request contains denied policies
 )
+
+type IssueStateValue string
+
+const (
+	IssueStateValueOpened IssueStateValue = "opened"
+	IssueStateValueClosed IssueStateValue = "closed"
+)

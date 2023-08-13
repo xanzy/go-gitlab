@@ -306,40 +306,40 @@ type IssueEvent struct {
 	} `json:"project"`
 	Repository       *Repository `json:"repository"`
 	ObjectAttributes struct {
-		ID                  int      `json:"id"`
-		Title               string   `json:"title"`
-		AssigneeIDs         []int    `json:"assignee_ids"`
-		AssigneeID          int      `json:"assignee_id"`
-		AuthorID            int      `json:"author_id"`
-		ProjectID           int      `json:"project_id"`
-		CreatedAt           string   `json:"created_at"` // Should be *time.Time (see Gitlab issue #21468)
-		UpdatedAt           string   `json:"updated_at"` // Should be *time.Time (see Gitlab issue #21468)
-		UpdatedByID         int      `json:"updated_by_id"`
-		LastEditedAt        string   `json:"last_edited_at"`
-		LastEditedByID      int      `json:"last_edited_by_id"`
-		RelativePosition    int      `json:"relative_position"`
-		BranchName          string   `json:"branch_name"`
-		Description         string   `json:"description"`
-		MilestoneID         int      `json:"milestone_id"`
-		StateID             StateID  `json:"state_id"`
-		Confidential        bool     `json:"confidential"`
-		DiscussionLocked    bool     `json:"discussion_locked"`
-		DueDate             *ISOTime `json:"due_date"`
-		MovedToID           int      `json:"moved_to_id"`
-		DuplicatedToID      int      `json:"duplicated_to_id"`
-		TimeEstimate        int      `json:"time_estimate"`
-		TotalTimeSpent      int      `json:"total_time_spent"`
-		TimeChange          int      `json:"time_change"`
-		HumanTotalTimeSpent string   `json:"human_total_time_spent"`
-		HumanTimeEstimate   string   `json:"human_time_estimate"`
-		HumanTimeChange     string   `json:"human_time_change"`
-		Weight              int      `json:"weight"`
-		IID                 int      `json:"iid"`
-		URL                 string   `json:"url"`
-		State               string   `json:"state"`
-		Action              string   `json:"action"`
-		Severity            string   `json:"severity"`
-		EscalationStatus    string   `json:"escalation_status"`
+		ID                  int             `json:"id"`
+		Title               string          `json:"title"`
+		AssigneeIDs         []int           `json:"assignee_ids"`
+		AssigneeID          int             `json:"assignee_id"`
+		AuthorID            int             `json:"author_id"`
+		ProjectID           int             `json:"project_id"`
+		CreatedAt           string          `json:"created_at"` // Should be *time.Time (see Gitlab issue #21468)
+		UpdatedAt           string          `json:"updated_at"` // Should be *time.Time (see Gitlab issue #21468)
+		UpdatedByID         int             `json:"updated_by_id"`
+		LastEditedAt        string          `json:"last_edited_at"`
+		LastEditedByID      int             `json:"last_edited_by_id"`
+		RelativePosition    int             `json:"relative_position"`
+		BranchName          string          `json:"branch_name"`
+		Description         string          `json:"description"`
+		MilestoneID         int             `json:"milestone_id"`
+		StateID             StateID         `json:"state_id"`
+		Confidential        bool            `json:"confidential"`
+		DiscussionLocked    bool            `json:"discussion_locked"`
+		DueDate             *ISOTime        `json:"due_date"`
+		MovedToID           int             `json:"moved_to_id"`
+		DuplicatedToID      int             `json:"duplicated_to_id"`
+		TimeEstimate        int             `json:"time_estimate"`
+		TotalTimeSpent      int             `json:"total_time_spent"`
+		TimeChange          int             `json:"time_change"`
+		HumanTotalTimeSpent string          `json:"human_total_time_spent"`
+		HumanTimeEstimate   string          `json:"human_time_estimate"`
+		HumanTimeChange     string          `json:"human_time_change"`
+		Weight              int             `json:"weight"`
+		IID                 int             `json:"iid"`
+		URL                 string          `json:"url"`
+		State               IssueStateValue `json:"state"`
+		Action              string          `json:"action"`
+		Severity            string          `json:"severity"`
+		EscalationStatus    string          `json:"escalation_status"`
 		EscalationPolicy    struct {
 			ID   int    `json:"id"`
 			Name string `json:"name"`

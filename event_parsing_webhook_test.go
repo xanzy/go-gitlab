@@ -211,7 +211,7 @@ func TestParseIssueHook(t *testing.T) {
 		t.Errorf("Project name is %v, want %v", event.Project.Name, "Gitlab Test")
 	}
 
-	if event.ObjectAttributes.State != "opened" {
+	if event.ObjectAttributes.State != IssueStateValueOpened {
 		t.Errorf("Issue state is %v, want %v", event.ObjectAttributes.State, "opened")
 	}
 
