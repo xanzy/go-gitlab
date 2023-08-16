@@ -281,3 +281,32 @@ func (s *SnippetsService) ExploreSnippets(opt *ExploreSnippetsOptions, options .
 
 	return ps, resp, nil
 }
+
+// ListAllSnippetsOptions represents the available ListAllSnippets() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/snippets.html#list-all-snippets
+type ListAllSnippetsOptions struct {
+	ListOptions
+	CreatedAfter  *time.Time `url:"created_after,omitempty" json:"created_after,omitempty"`
+	CreatedBefore *time.Time `url:"created_before,omitempty" json:"created_before,omitempty"`
+}
+
+// ListAllSnippets gets all snippets the current user has access to.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/snippets.html#list-all-snippets
+func (s *SnippetsService) ListAllSnippets(opt *ListAllSnippetsOptions, options ...RequestOptionFunc) ([]*Snippet, *Response, error) {
+	req, err := s.client.NewRequest(http.MethodGet, "snippets/all", opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var ps []*Snippet
+	resp, err := s.client.Do(req, &ps)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return ps, resp, nil
+}
