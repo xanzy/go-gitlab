@@ -289,9 +289,9 @@ func (s *SnippetsService) ExploreSnippets(opt *ExploreSnippetsOptions, options .
 // https://docs.gitlab.com/ee/api/snippets.html#list-all-snippets
 type ListAllSnippetsOptions struct {
 	ListOptions
-	CreatedAfter      *time.Time `url:"created_after,omitempty" json:"created_after,omitempty"`
-	CreatedBefore     *time.Time `url:"created_before,omitempty" json:"created_before,omitempty"`
-	RepositoryStorage *string    `url:"repository_storage,omitempty" json:"repository_storage,omitempty"`
+	CreatedAfter      *ISOTime `url:"created_after,omitempty" json:"created_after,omitempty"`
+	CreatedBefore     *ISOTime `url:"created_before,omitempty" json:"created_before,omitempty"`
+	RepositoryStorage *string  `url:"repository_storage,omitempty" json:"repository_storage,omitempty"`
 }
 
 // ListAllSnippets gets all snippets the current user has access to.
