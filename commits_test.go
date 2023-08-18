@@ -232,7 +232,7 @@ func TestGetGPGSignature(t *testing.T) {
 		mustWriteHTTPResponse(t, w, "testdata/get_signature.json")
 	})
 
-	sig, resp, err := client.Commits.GetGPGSiganature("1", "b0b3a907f41409829b307a28b82fdbd552ee5a27", nil)
+	sig, resp, err := client.Commits.GetGPGSignature("1", "b0b3a907f41409829b307a28b82fdbd552ee5a27", nil)
 	if err != nil {
 		t.Fatalf("Commits.GetGPGSignature returned error: %v, response: %v", err, resp)
 	}
