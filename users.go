@@ -1159,14 +1159,15 @@ func (s *UsersService) RejectUser(user int, options ...RequestOptionFunc) error 
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/users.html#get-all-impersonation-tokens-of-a-user
 type ImpersonationToken struct {
-	ID        int        `json:"id"`
-	Name      string     `json:"name"`
-	Active    bool       `json:"active"`
-	Token     string     `json:"token"`
-	Scopes    []string   `json:"scopes"`
-	Revoked   bool       `json:"revoked"`
-	CreatedAt *time.Time `json:"created_at"`
-	ExpiresAt *ISOTime   `json:"expires_at"`
+	ID         int        `json:"id"`
+	Name       string     `json:"name"`
+	Active     bool       `json:"active"`
+	Token      string     `json:"token"`
+	Scopes     []string   `json:"scopes"`
+	Revoked    bool       `json:"revoked"`
+	CreatedAt  *time.Time `json:"created_at"`
+	ExpiresAt  *ISOTime   `json:"expires_at"`
+	LastUsedAt *time.Time `json:"last_used_at"`
 }
 
 // GetAllImpersonationTokensOptions represents the available
