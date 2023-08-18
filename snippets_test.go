@@ -129,3 +129,20 @@ func TestSnippetsService_ExploreSnippets(t *testing.T) {
 	want := []*Snippet{{ID: 42, Title: "test"}}
 	require.Equal(t, want, ss)
 }
+
+func TestSnippetsService_ListAllSnippets(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/snippets/all", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		fmt.Fprint(w, `[{"id":113,"title":"Internal Snippet"}, {"id":114,"title":"Private Snippet"}]`)
+	})
+
+	opt := &ListAllSnippetsOptions{ListOptions: ListOptions{Page: 1, PerPage: 10}}
+
+	ss, _, err := client.Snippets.ListAllSnippets(opt)
+	require.NoError(t, err)
+
+	want := []*Snippet{{ID: 113, Title: "Internal Snippet"}, {ID: 114, Title: "Private Snippet"}}
+	require.Equal(t, want, ss)
+}
