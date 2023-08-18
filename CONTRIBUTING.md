@@ -13,8 +13,8 @@ description of the issue you are trying to solve is just fine.
 
 ## Contributing Code
 
-Pull requests are always welcome. When in doubt if your contribution fits in with
-the rest of the project, free to first open an issue to discuss your idea.
+Pull requests are always welcome. When in doubt if your contribution fits within
+the rest of the project, feel free to first open an issue to discuss your idea.
 
 This is not needed when fixing a bug or adding an enhancement, as long as the
 enhancement you are trying to add can be found in the public GitLab API docs as
