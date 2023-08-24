@@ -300,6 +300,77 @@ func TestProtectRepositoryEnvironments(t *testing.T) {
 	assert.Equal(t, expected, environment)
 }
 
+func TestUpdateProtectedRepositoryEnvironment(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/projects/1/protected_environments/my-environment", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPut)
+
+		// Test updating all attributes, including deploy_access_levels and approval_rules
+		fmt.Fprint(w, `{
+			"name":"my-environment",
+			"deploy_access_levels": [
+			  {
+				"access_level": 30,
+				"access_level_description": "Developers + Maintainers"
+			  }
+			],
+			"required_approval_count": 2,
+			"approval_rules": [
+			  {
+				 "id": 1,
+				 "user_id": null,
+				 "group_id": 10,
+				 "access_level": 5,
+				 "access_level_description": "devops",
+				 "required_approvals": 0,
+				 "group_inheritance_type": 0
+			  }
+			]
+		  }`)
+	})
+
+	// expected response
+	expected := &ProtectedEnvironment{
+		Name: "my-environment",
+		DeployAccessLevels: []*EnvironmentAccessDescription{
+			{
+				AccessLevel:            30,
+				AccessLevelDescription: "Developers + Maintainers",
+			},
+		},
+		RequiredApprovalCount: 2,
+		ApprovalRules: []*EnvironmentApprovalRule{
+			{
+				ID:                     1,
+				GroupID:                10,
+				AccessLevel:            5,
+				AccessLevelDescription: "devops",
+			},
+		},
+	}
+
+	opt := &UpdateProtectedRepositoryEnvironmentsOptions{
+		Name: String("my-environment"),
+		DeployAccessLevels: &[]*EnvironmentAccessOptions{
+			{AccessLevel: AccessLevel(30)},
+		},
+		RequiredApprovalCount: Int(2),
+		ApprovalRules: &[]*EnvironmentApprovalRuleOptions{
+			{
+				GroupID:                Int(10),
+				AccessLevel:            AccessLevel(0),
+				AccessLevelDescription: String("devops"),
+			},
+		},
+	}
+
+	environment, _, err := client.ProtectedEnvironments.UpdateProtectedRepositoryEnvironment(1, "my-environment", opt)
+	assert.NoError(t, err, "failed to get response")
+	assert.Equal(t, expected, environment)
+
+}
+
 func TestUnprotectRepositoryEnvironments(t *testing.T) {
 	mux, client := setup(t)
 
