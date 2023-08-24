@@ -203,7 +203,7 @@ type UpdateProtectedRepositoryEnvironmentsOptions struct {
 	ApprovalRules         *[]*EnvironmentApprovalRuleOptions `url:"approval_rules,omitempty" json:"approval_rules,omitempty"`
 }
 
-// UpdateProtectRepositoryEnvironment updates a single repository environment
+// UpdateProtectRepositoryEnvironment updates a single repository protected environment
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/protected_environments.html#update-a-protected-environment
