@@ -191,6 +191,43 @@ func (s *ProtectedEnvironmentsService) ProtectRepositoryEnvironments(pid interfa
 	return pe, resp, nil
 }
 
+// UpdateProtectedRepositoryEnvironmentsOptions represents the available
+// UpdateProtectedRepositoryEnvironmentsOptions() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/protected_environments.html#update-a-protected-environment
+type UpdateProtectedRepositoryEnvironmentsOptions struct {
+	Name                  *string                            `url:"name,omitempty" json:"name,omitempty"`
+	DeployAccessLevels    *[]*EnvironmentAccessOptions       `url:"deploy_access_levels,omitempty" json:"deploy_access_levels,omitempty"`
+	RequiredApprovalCount *int                               `url:"required_approval_count,omitempty" json:"required_approval_count,omitempty"`
+	ApprovalRules         *[]*EnvironmentApprovalRuleOptions `url:"approval_rules,omitempty" json:"approval_rules,omitempty"`
+}
+
+// UpdateProtectRepositoryEnvironment updates a single repository environment
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/protected_environments.html#update-a-protected-environment
+func (s *ProtectedEnvironmentsService) UpdateProtectedRepositoryEnvironment(pid interface{}, environment string, opt *UpdateProtectedRepositoryEnvironmentsOptions, options ...RequestOptionFunc) (*ProtectedEnvironment, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/protected_environments/%s", PathEscape(project), PathEscape(environment))
+
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	pe := new(ProtectedEnvironment)
+	resp, err := s.client.Do(req, pe)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return pe, resp, nil
+}
+
 // UnprotectEnvironment unprotects the given protected environment or wildcard
 // protected environment.
 //
