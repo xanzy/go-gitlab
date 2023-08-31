@@ -679,6 +679,10 @@ type MergeEvent struct {
 			Previous string `json:"previous"`
 			Current  string `json:"current"`
 		} `json:"description"`
+		Draft struct {
+			Previous bool `json:"previous"`
+			Current  bool `json:"current"`
+		} `json:"draft"`
 		Labels struct {
 			Previous []*EventLabel `json:"previous"`
 			Current  []*EventLabel `json:"current"`
