@@ -618,6 +618,7 @@ type MergeEvent struct {
 		MilestoneID              int          `json:"milestone_id"`
 		StateID                  StateID      `json:"state_id"`
 		State                    string       `json:"state"`
+		Draft                    bool         `json:"draft"`
 		MergeStatus              string       `json:"merge_status"`
 		TargetProjectID          int          `json:"target_project_id"`
 		IID                      int          `json:"iid"`
