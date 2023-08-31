@@ -652,6 +652,7 @@ type MergeEvent struct {
 		} `json:"last_commit"`
 		BlockingDiscussionsResolved bool          `json:"blocking_discussions_resolved"`
 		WorkInProgress              bool          `json:"work_in_progress"`
+		Draft                       bool          `json:"draft"`
 		TotalTimeSpent              int           `json:"total_time_spent"`
 		TimeChange                  int           `json:"time_change"`
 		HumanTotalTimeSpent         string        `json:"human_total_time_spent"`
