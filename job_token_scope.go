@@ -50,13 +50,13 @@ func (j *JobTokenScopeService) GetProjectJobTokenAccessSettings(pid interface{},
 		return nil, nil, err
 	}
 
-	var settings *JobTokenAccessSettings
-	resp, err := j.client.Do(req, &settings)
+	jt := new(JobTokenAccessSettings)
+	resp, err := j.client.Do(req, jt)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return settings, resp, err
+	return jt, resp, err
 }
 
 // PatchProjectJobTokenAccessSettingsOptions represents the available
@@ -156,13 +156,13 @@ func (j *JobTokenScopeService) AddProjectToJobScopeAllowList(pid interface{}, op
 		return nil, nil, err
 	}
 
-	ai := new(JobTokenInboundAllowItem)
-	resp, err := j.client.Do(req, ai)
+	jt := new(JobTokenInboundAllowItem)
+	resp, err := j.client.Do(req, jt)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return ai, resp, nil
+	return jt, resp, nil
 }
 
 // RemoveProjectFromJobScopeAllowList removes a project from a project's job
