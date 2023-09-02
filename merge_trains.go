@@ -20,8 +20,8 @@ type MergeTrainsService struct {
 type MergeTrain struct {
 	ID           int                     `json:"id"`
 	MergeRequest *MergeTrainMergeRequest `json:"merge_request"`
-	User         *MergeTrainUser         `json:"user"`
-	Pipeline     *MergeTrainPipeline     `json:"pipeline"`
+	User         *BasicUser              `json:"user"`
+	Pipeline     *Pipeline               `json:"pipeline"`
 	CreatedAt    *time.Time              `json:"created_at"`
 	UpdatedAt    *time.Time              `json:"updated_at"`
 	TargetBranch string                  `json:"target_branch"`
@@ -30,7 +30,9 @@ type MergeTrain struct {
 	Duration     int                     `json:"duration"`
 }
 
-// MergeTrainMergeRequest represents a Gitlab merge request inside merge train
+// MergeTrainMergeRequest represents a Gitlab merge request inside merge train.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/merge_trains.html
 type MergeTrainMergeRequest struct {
 	ID          int        `json:"id"`
 	IID         int        `json:"iid"`
@@ -43,30 +45,6 @@ type MergeTrainMergeRequest struct {
 	WebURL      string     `json:"web_url"`
 }
 
-// MergeTrainUser represents a Gitlab user inside merge train
-type MergeTrainUser struct {
-	ID        int    `json:"id"`
-	Name      string `json:"name"`
-	Username  string `json:"username"`
-	State     string `json:"state"`
-	AvatarURL string `json:"avatar_url"`
-	WebURL    string `json:"web_url"`
-}
-
-// MergeTrainPipeline represents a Gitlab pipeline inside merge train
-type MergeTrainPipeline struct {
-	ID        int        `json:"id"`
-	IID       int        `json:"iid"`
-	ProjectID int        `json:"project_id"`
-	SHA       string     `json:"sha"`
-	Ref       string     `json:"ref"`
-	Status    string     `json:"status"`
-	Source    string     `json:"source"`
-	CreatedAt *time.Time `json:"created_at"`
-	UpdatedAt *time.Time `json:"updated_at"`
-	WebURL    string     `json:"web_url"`
-}
-
 // ListMergeTrainsOptions represents the available ListMergeTrain() options.
 //
 // Gitab API docs:
@@ -77,9 +55,7 @@ type ListMergeTrainsOptions struct {
 	Sort  *string `url:"sort,omitempty" json:"sort,omitempty"`
 }
 
-// ListProjectMergeTrains get a list of merge trains in a project
-//
-//	The scope of trains to show: active (to be merged) and complete (have been merged)
+// ListProjectMergeTrains get a list of merge trains in a project.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_trains.html#list-merge-trains-for-a-project
@@ -88,7 +64,6 @@ func (s *MergeTrainsService) ListProjectMergeTrains(pid interface{}, opt *ListMe
 	if err != nil {
 		return nil, nil, err
 	}
-
 	u := fmt.Sprintf("projects/%s/merge_trains", PathEscape(project))
 
 	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
@@ -96,17 +71,17 @@ func (s *MergeTrainsService) ListProjectMergeTrains(pid interface{}, opt *ListMe
 		return nil, nil, err
 	}
 
-	var mergeTrains []*MergeTrain
-	resp, err := s.client.Do(req, &mergeTrains)
+	var mts []*MergeTrain
+	resp, err := s.client.Do(req, &mts)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return mergeTrains, resp, nil
+	return mts, resp, nil
 }
 
-// ListMergeRequestInMergeTrain gets a list of merge requests added to a merge train
-// for the requested target branch
+// ListMergeRequestInMergeTrain gets a list of merge requests added to a merge
+// train for the requested target branch.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_trains.html#list-merge-requests-in-a-merge-train
@@ -115,7 +90,6 @@ func (s *MergeTrainsService) ListMergeRequestInMergeTrain(pid interface{}, targe
 	if err != nil {
 		return nil, nil, err
 	}
-
 	u := fmt.Sprintf("projects/%s/merge_trains/%s", PathEscape(project), targetBranch)
 
 	req, err := s.client.NewRequest(http.MethodGet, u, opts, options)
@@ -123,24 +97,25 @@ func (s *MergeTrainsService) ListMergeRequestInMergeTrain(pid interface{}, targe
 		return nil, nil, err
 	}
 
-	var mergeTrains []*MergeTrain
-	resp, err := s.client.Do(req, &mergeTrains)
+	var mts []*MergeTrain
+	resp, err := s.client.Do(req, &mts)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return mergeTrains, resp, nil
+	return mts, resp, nil
 }
 
-// GetMergeRequestOnAMergeTrain Get merge train information for the requested merge request.
+// GetMergeRequestOnAMergeTrain Get merge train information for the requested
+// merge request.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/merge_trains.html#get-the-status-of-a-merge-request-on-a-merge-train
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/merge_trains.html#get-the-status-of-a-merge-request-on-a-merge-train
 func (s *MergeTrainsService) GetMergeRequestOnAMergeTrain(pid interface{}, mergeRequest int, options ...RequestOptionFunc) (*MergeTrain, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
-
 	u := fmt.Sprintf("projects/%s/merge_trains/merge_requests/%d", PathEscape(project), mergeRequest)
 
 	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
@@ -148,34 +123,36 @@ func (s *MergeTrainsService) GetMergeRequestOnAMergeTrain(pid interface{}, merge
 		return nil, nil, err
 	}
 
-	var mergeTrain *MergeTrain
-	resp, err := s.client.Do(req, &mergeTrain)
+	mt := new(MergeTrain)
+	resp, err := s.client.Do(req, mt)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return mergeTrain, resp, nil
+	return mt, resp, nil
 }
 
-// AddMergeRequestToMergeTrainOptions represents the available AddMergeRequestToMergeTrain() options.
+// AddMergeRequestToMergeTrainOptions represents the available
+// AddMergeRequestToMergeTrain() options.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_trains.html#add-a-merge-request-to-a-merge-train
 type AddMergeRequestToMergeTrainOptions struct {
-	WhenPipelineSucceeds *bool   `json:"when_pipeline_succeeds,omitempty"`
-	SHA                  *string `json:"sha,omitempty"`
-	Squash               *string `json:"squash,omitempty"`
+	WhenPipelineSucceeds *bool   `url:"when_pipeline_succeeds,omitempty" json:"when_pipeline_succeeds,omitempty"`
+	SHA                  *string `url:"sha,omitempty" json:"sha,omitempty"`
+	Squash               *string `url:"squash,omitempty" json:"squash,omitempty"`
 }
 
-// AddMergeRequestToMergeTrain Add a merge request to the merge train targeting the merge request’s target branch
+// AddMergeRequestToMergeTrain Add a merge request to the merge train targeting
+// the merge request’s target branch.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/merge_trains.html#add-a-merge-request-to-a-merge-train
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/merge_trains.html#add-a-merge-request-to-a-merge-train
 func (s *MergeTrainsService) AddMergeRequestToMergeTrain(pid interface{}, mergeRequest int, opts *AddMergeRequestToMergeTrainOptions, options ...RequestOptionFunc) ([]*MergeTrain, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
-
 	u := fmt.Sprintf("projects/%s/merge_trains/merge_requests/%d", PathEscape(project), mergeRequest)
 
 	req, err := s.client.NewRequest(http.MethodPost, u, opts, options)
@@ -183,11 +160,11 @@ func (s *MergeTrainsService) AddMergeRequestToMergeTrain(pid interface{}, mergeR
 		return nil, nil, err
 	}
 
-	var mergeTrains []*MergeTrain
-	resp, err := s.client.Do(req, &mergeTrains)
+	var mts []*MergeTrain
+	resp, err := s.client.Do(req, &mts)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return mergeTrains, resp, nil
+	return mts, resp, nil
 }

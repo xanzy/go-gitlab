@@ -32,9 +32,9 @@
     "web_url": "http://localhost/namespace19/project22/-/pipelines/273"
   },
   "created_at": "2022-10-31T19:06:06.237Z",
-  "updated_at":"2022-10-31T19:06:06.237Z",
-  "target_branch":"main",
-  "status":"idle",
-  "merged_at":null,
-  "duration":null
+  "updated_at": "2022-10-31T19:06:06.237Z",
+  "target_branch": "main",
+  "status": "idle",
+  "merged_at": null,
+  "duration": null
 }

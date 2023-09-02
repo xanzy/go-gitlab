@@ -46,7 +46,7 @@ func TestListProjectMergeTrains(t *testing.T) {
 				UpdatedAt:   &mergeRequestUpdatedAt,
 				WebURL:      "http://local.gitlab.test:8181/root/merge-train-race-condition/-/merge_requests/59",
 			},
-			User: &MergeTrainUser{
+			User: &BasicUser{
 				ID:        1,
 				Name:      "Administrator",
 				Username:  "root",
@@ -54,7 +54,7 @@ func TestListProjectMergeTrains(t *testing.T) {
 				AvatarURL: "https://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=80&d=identicon",
 				WebURL:    "http://local.gitlab.test:8181/root",
 			},
-			Pipeline: &MergeTrainPipeline{
+			Pipeline: &Pipeline{
 				ID:        246,
 				SHA:       "bcc17a8ffd51be1afe45605e714085df28b80b13",
 				Ref:       "refs/merge-requests/59/train",
@@ -115,7 +115,7 @@ func TestListMergeRequestInMergeTrain(t *testing.T) {
 				UpdatedAt:   &mergeRequestUpdatedAt,
 				WebURL:      "http://localhost/namespace18/project21/-/merge_requests/1",
 			},
-			User: &MergeTrainUser{
+			User: &BasicUser{
 				ID:        933,
 				Username:  "user12",
 				Name:      "Sidney Jones31",
@@ -123,7 +123,7 @@ func TestListMergeRequestInMergeTrain(t *testing.T) {
 				AvatarURL: "https://www.gravatar.com/avatar/6c8365de387cb3db10ecc7b1880203c4?s=80\u0026d=identicon",
 				WebURL:    "http://localhost/user12",
 			},
-			Pipeline: &MergeTrainPipeline{
+			Pipeline: &Pipeline{
 				ID:        273,
 				IID:       1,
 				ProjectID: 598,
@@ -184,7 +184,7 @@ func TestGetMergeRequestOnAMergeTrain(t *testing.T) {
 			UpdatedAt:   &mergeRequestUpdatedAt,
 			WebURL:      "http://localhost/namespace18/project21/-/merge_requests/1",
 		},
-		User: &MergeTrainUser{
+		User: &BasicUser{
 			ID:        933,
 			Username:  "user12",
 			Name:      "Sidney Jones31",
@@ -192,7 +192,7 @@ func TestGetMergeRequestOnAMergeTrain(t *testing.T) {
 			AvatarURL: "https://www.gravatar.com/avatar/6c8365de387cb3db10ecc7b1880203c4?s=80\u0026d=identicon",
 			WebURL:    "http://localhost/user12",
 		},
-		Pipeline: &MergeTrainPipeline{
+		Pipeline: &Pipeline{
 			ID:        273,
 			IID:       1,
 			ProjectID: 598,
@@ -255,7 +255,7 @@ func TestAddMergeRequestToMergeTrain(t *testing.T) {
 				UpdatedAt:   &mergeRequestUpdatedAt,
 				WebURL:      "http://localhost/namespace18/project21/-/merge_requests/1",
 			},
-			User: &MergeTrainUser{
+			User: &BasicUser{
 				ID:        933,
 				Username:  "user12",
 				Name:      "Sidney Jones31",
@@ -263,7 +263,7 @@ func TestAddMergeRequestToMergeTrain(t *testing.T) {
 				AvatarURL: "https://www.gravatar.com/avatar/6c8365de387cb3db10ecc7b1880203c4?s=80\u0026d=identicon",
 				WebURL:    "http://localhost/user12",
 			},
-			Pipeline: &MergeTrainPipeline{
+			Pipeline: &Pipeline{
 				ID:        273,
 				IID:       1,
 				ProjectID: 598,
