@@ -203,8 +203,8 @@ type UpdateProtectedEnvironmentsOptions struct {
 	ApprovalRules         *[]*UpdateEnvironmentApprovalRuleOptions `url:"approval_rules,omitempty" json:"approval_rules,omitempty"`
 }
 
-// UpdateEnvironmentAccessOptions represents the options for updates to an access decription for
-// a protected environment.
+// UpdateEnvironmentAccessOptions represents the options for updates to an
+// access decription for a protected environment.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/protected_environments.html#update-a-protected-environment
@@ -216,8 +216,8 @@ type UpdateEnvironmentAccessOptions struct {
 	Destroy     *bool             `url:"_destroy,omitempty" json:"_destroy,omitempty"`
 }
 
-// UpdateEnvironmentApprovalRuleOptions represents the updates to the approval rules
-// for a protected environment.
+// UpdateEnvironmentApprovalRuleOptions represents the updates to the approval
+// rules for a protected environment.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/protected_environments.html#update-a-protected-environment
