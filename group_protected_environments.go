@@ -21,8 +21,8 @@ import (
 	"net/http"
 )
 
-// GroupProtectedEnvironmentsService handles communication with the group-level protected
-// environment methods of the GitLab API.
+// GroupProtectedEnvironmentsService handles communication with the group-level
+// protected environment methods of the GitLab API.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/group_protected_environments.html
@@ -41,8 +41,8 @@ type GroupProtectedEnvironment struct {
 	ApprovalRules         []*GroupEnvironmentApprovalRule      `json:"approval_rules"`
 }
 
-// GroupEnvironmentAccessDescription represents the access decription for a group-level protected
-// environment.
+// GroupEnvironmentAccessDescription represents the access decription for a
+// group-level protected environment.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/group_protected_environments.html
@@ -54,8 +54,8 @@ type GroupEnvironmentAccessDescription struct {
 	GroupID                int              `json:"group_id"`
 }
 
-// GroupEnvironmentApprovalRule represents the approval rules for a group-level protected
-// environment.
+// GroupEnvironmentApprovalRule represents the approval rules for a group-level
+// protected environment.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/group_protected_environments.html#protect-a-single-environment
@@ -76,8 +76,8 @@ type GroupEnvironmentApprovalRule struct {
 // https://docs.gitlab.com/ee/api/group_protected_environments.html#list-group-level-protected-environments
 type ListGroupProtectedEnvironmentsOptions ListOptions
 
-// ListGroupProtectedEnvironments returns a list of protected environments from a
-// group.
+// ListGroupProtectedEnvironments returns a list of protected environments from
+// a group.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/group_protected_environments.html#list-group-level-protected-environments
@@ -102,7 +102,8 @@ func (s *GroupProtectedEnvironmentsService) ListGroupProtectedEnvironments(gid i
 	return pes, resp, nil
 }
 
-// GetGroupProtectedEnvironment returns a single group-level protected environment.
+// GetGroupProtectedEnvironment returns a single group-level protected
+// environment.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/group_protected_environments.html#get-a-single-protected-environment
@@ -139,8 +140,8 @@ type ProtectGroupEnvironmentOptions struct {
 	ApprovalRules         *[]*GroupEnvironmentApprovalRuleOptions `url:"approval_rules,omitempty" json:"approval_rules,omitempty"`
 }
 
-// GroupEnvironmentAccessOptions represents the options for an access decription for
-// a group-level protected environment.
+// GroupEnvironmentAccessOptions represents the options for an access decription
+// for a group-level protected environment.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/group_protected_environments.html#protect-a-single-environment
@@ -150,8 +151,8 @@ type GroupEnvironmentAccessOptions struct {
 	GroupID     *int              `url:"group_id,omitempty" json:"group_id,omitempty"`
 }
 
-// GroupEnvironmentApprovalRuleOptions represents the approval rules for a group-level protected
-// environment.
+// GroupEnvironmentApprovalRuleOptions represents the approval rules for a
+// group-level protected environment.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/group_protected_environments.html#protect-a-single-environment
@@ -201,8 +202,8 @@ type UpdateGroupProtectedEnvironmentOptions struct {
 	ApprovalRules         *[]*UpdateGroupEnvironmentApprovalRuleOptions `url:"approval_rules,omitempty" json:"approval_rules,omitempty"`
 }
 
-// UpdateGroupEnvironmentAccessOptions represents the options for updates to the access decription for
-// a group-level protected environment.
+// UpdateGroupEnvironmentAccessOptions represents the options for updates to the
+// access decription for a group-level protected environment.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/group_protected_environments.html#update-a-protected-environment
@@ -214,8 +215,8 @@ type UpdateGroupEnvironmentAccessOptions struct {
 	Destroy     *bool             `url:"_destroy,omitempty" json:"_destroy,omitempty"`
 }
 
-// UpdateGroupEnvironmentApprovalRuleOptions represents the updates to the approval rules for a group-level
-// protected environment.
+// UpdateGroupEnvironmentApprovalRuleOptions represents the updates to the
+// approval rules for a group-level protected environment.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/group_protected_environments.html#update-a-protected-environment
@@ -230,7 +231,8 @@ type UpdateGroupEnvironmentApprovalRuleOptions struct {
 	Destroy                *bool             `url:"_destroy,omitempty" json:"_destroy,omitempty"`
 }
 
-// UpdateGroupProtectedEnvironment updates a single group-level protected environment.
+// UpdateGroupProtectedEnvironment updates a single group-level protected
+// environment.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/group_protected_environments.html#update-a-protected-environment
@@ -255,7 +257,8 @@ func (s *GroupProtectedEnvironmentsService) UpdateGroupProtectedEnvironment(gid 
 	return pe, resp, nil
 }
 
-// UnprotectGroupEnvironment unprotects the given protected group-level environment.
+// UnprotectGroupEnvironment unprotects the given protected group-level
+// environment.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/group_protected_environments.html#unprotect-a-single-environment
