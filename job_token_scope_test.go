@@ -23,6 +23,64 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func TestGetProjectTokenAccessSettings(t *testing.T) {
+	mux, client := setup(t)
+
+	// Handle project ID 1, and print a result of access settings
+	mux.HandleFunc("/api/v4/projects/1/job_token_scope", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+
+		// Print on the response
+		fmt.Fprint(w, `{"inbound_enabled":true,"outbound_enabled":false}`)
+	})
+
+	want := &JobTokenAccessSettings{
+		InboundEnabled:  true,
+		OutboundEnabled: false,
+	}
+
+	settings, _, err := client.JobTokenScope.GetProjectJobTokenAccessSettings(1)
+
+	assert.NoError(t, err)
+	assert.Equal(t, want, settings)
+}
+
+func TestPatchProjectJobTokenAccessSettings(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/projects/1/job_token_scope", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPatch)
+
+		// Read the request to determine which target project is passed in
+		body, err := io.ReadAll(r.Body)
+		if err != nil {
+			t.Fatalf("JobTokenScope.PatchProjectJobTokenAccessSettings failed to read body")
+		}
+
+		// Parse to object to ensure it's sent on the request appropriately.
+		var options PatchProjectJobTokenAccessSettingsOptions
+		err = json.Unmarshal(body, &options)
+		if err != nil {
+			t.Fatalf("JobTokenScope.PatchProjectJobTokenAccessSettings failed to unmarshal body: %v", err)
+		}
+
+		// Ensure we provide the proper response
+		w.WriteHeader(http.StatusNoContent)
+
+		// Print an empty body, since that's what the API provides.
+		fmt.Fprint(w, "")
+	})
+
+	resp, err := client.JobTokenScope.PatchProjectJobTokenAccessSettings(
+		1,
+		&PatchProjectJobTokenAccessSettingsOptions{
+			Enabled: false,
+		},
+	)
+	assert.NoError(t, err)
+	assert.Equal(t, 204, resp.StatusCode)
+}
+
 // This tests that when calling the GetProjectJobTokenInboundAllowList, we get a
 // list of projects back properly. There isn't a "deep" test with every attribute
 // specifieid, because the object returned is a *Project object, which is already
