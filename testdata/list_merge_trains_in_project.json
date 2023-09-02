@@ -1,0 +1,39 @@
+[
+  {
+    "id": 110,
+    "merge_request": {
+      "id": 126,
+      "iid": 59,
+      "project_id": 20,
+      "title": "Test MR 1580978354",
+      "description": "",
+      "state": "merged",
+      "created_at": "2020-02-06T08:39:14.883Z",
+      "updated_at": "2020-02-06T08:40:57.038Z",
+      "web_url": "http://local.gitlab.test:8181/root/merge-train-race-condition/-/merge_requests/59"
+    },
+    "user": {
+      "id": 1,
+      "name": "Administrator",
+      "username": "root",
+      "state": "active",
+      "avatar_url": "https://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=80&d=identicon",
+      "web_url": "http://local.gitlab.test:8181/root"
+    },
+    "pipeline": {
+      "id": 246,
+      "sha": "bcc17a8ffd51be1afe45605e714085df28b80b13",
+      "ref": "refs/merge-requests/59/train",
+      "status": "success",
+      "created_at": "2020-02-06T08:40:42.410Z",
+      "updated_at": "2020-02-06T08:40:46.912Z",
+      "web_url": "http://local.gitlab.test:8181/root/merge-train-race-condition/pipelines/246"
+    },
+    "created_at": "2020-02-06T08:39:47.217Z",
+    "updated_at": "2020-02-06T08:40:57.720Z",
+    "target_branch": "feature-1580973432",
+    "status": "merged",
+    "merged_at": "2020-02-06T08:40:57.719Z",
+    "duration": 70
+  }
+]
