@@ -164,7 +164,7 @@ type Client struct {
 	Markdown                     *MarkdownService
 	MergeRequestApprovals        *MergeRequestApprovalsService
 	MergeRequests                *MergeRequestsService
-	MergeTrains *MergeTrainsService
+	MergeTrains                  *MergeTrainsService
 	Metadata                     *MetadataService
 	Milestones                   *MilestonesService
 	Namespaces                   *NamespacesService
