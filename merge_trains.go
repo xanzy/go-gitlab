@@ -140,7 +140,7 @@ func (s *MergeTrainsService) GetMergeRequestOnAMergeTrain(pid interface{}, merge
 type AddMergeRequestToMergeTrainOptions struct {
 	WhenPipelineSucceeds *bool   `url:"when_pipeline_succeeds,omitempty" json:"when_pipeline_succeeds,omitempty"`
 	SHA                  *string `url:"sha,omitempty" json:"sha,omitempty"`
-	Squash               *string `url:"squash,omitempty" json:"squash,omitempty"`
+	Squash               *bool   `url:"squash,omitempty" json:"squash,omitempty"`
 }
 
 // AddMergeRequestToMergeTrain Add a merge request to the merge train targeting
