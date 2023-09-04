@@ -41,7 +41,7 @@ func TestRepositorySubmodulesService_UpdateSubmodule(t *testing.T) {
 		CommitterEmail: "noty@gmail.com",
 		Message:        "Update my submodule",
 		ParentIDs:      []string{"ae1d9fb46aa2b07ee9836d49862ec4e2c46fbbba"},
-		Status:         BuildState(Running),
+		Status:         Ptr(Running),
 	}
 
 	sc, resp, err := client.RepositorySubmodules.UpdateSubmodule(13083, "app%2Fproject", nil)

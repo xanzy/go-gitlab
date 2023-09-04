@@ -208,7 +208,7 @@ func TestProjectRepositoryStorageMove_ScheduleAllStorageMoves(t *testing.T) {
 
 	_, err := client.ProjectRepositoryStorageMove.ScheduleAllStorageMoves(
 		ScheduleAllProjectStorageMovesOptions{
-			SourceStorageName: String("default"),
+			SourceStorageName: Ptr("default"),
 		},
 	)
 	require.NoError(t, err)

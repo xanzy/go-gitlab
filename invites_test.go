@@ -39,7 +39,7 @@ func TestGroupInvites(t *testing.T) {
 	})
 
 	opt := &InvitesOptions{
-		Email: String("example@member.org"),
+		Email: Ptr("example@member.org"),
 	}
 
 	projects, _, err := client.Invites.GroupInvites("test", opt)
@@ -62,7 +62,7 @@ func TestGroupInvitesError(t *testing.T) {
 	})
 
 	opt := &InvitesOptions{
-		Email: String("example@member.org"),
+		Email: Ptr("example@member.org"),
 	}
 
 	projects, _, err := client.Invites.GroupInvites("test", opt)
@@ -108,7 +108,7 @@ func TestProjectInvites(t *testing.T) {
 	})
 
 	opt := &InvitesOptions{
-		Email: String("example@member.org"),
+		Email: Ptr("example@member.org"),
 	}
 
 	projects, _, err := client.Invites.ProjectInvites("test", opt)
@@ -131,7 +131,7 @@ func TestProjectInvitesError(t *testing.T) {
 	})
 
 	opt := &InvitesOptions{
-		Email: String("example@member.org"),
+		Email: Ptr("example@member.org"),
 	}
 
 	projects, _, err := client.Invites.ProjectInvites("test", opt)

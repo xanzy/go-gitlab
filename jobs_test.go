@@ -199,7 +199,7 @@ func TestDownloadSingleArtifactsFileByTagOrBranch(t *testing.T) {
 		w.Write(wantContent)
 	})
 
-	opt := &DownloadArtifactsFileOptions{Job: String("publish")}
+	opt := &DownloadArtifactsFileOptions{Job: Ptr("publish")}
 	reader, resp, err := client.Jobs.DownloadSingleArtifactsFileByTagOrBranch(9, "abranch", "foo/bar.pdf", opt)
 	if err != nil {
 		t.Fatalf("Jobs.DownloadSingleArtifactsFileByTagOrBranch returns an error: %v", err)

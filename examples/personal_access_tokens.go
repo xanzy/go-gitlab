@@ -46,7 +46,7 @@ func patListExampleWithUserFilter() {
 
 	opt := &gitlab.ListPersonalAccessTokensOptions{
 		ListOptions: gitlab.ListOptions{Page: 1, PerPage: 10},
-		UserID:      gitlab.Int(12345),
+		UserID:      gitlab.Ptr(12345),
 	}
 
 	personalAccessTokens, _, err := git.PersonalAccessTokens.ListPersonalAccessTokens(opt)

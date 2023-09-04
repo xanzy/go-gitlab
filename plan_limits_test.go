@@ -41,7 +41,7 @@ func TestGetCurrentPlanLimits(t *testing.T) {
 	})
 
 	opt := &GetCurrentPlanLimitsOptions{
-		PlanName: String("default"),
+		PlanName: Ptr("default"),
 	}
 	planlimit, _, err := client.PlanLimits.GetCurrentPlanLimits(opt)
 	if err != nil {
@@ -82,8 +82,8 @@ func TestChangePlanLimits(t *testing.T) {
 	})
 
 	opt := &ChangePlanLimitOptions{
-		PlanName:         String("default"),
-		ConanMaxFileSize: Int(3221225472),
+		PlanName:         Ptr("default"),
+		ConanMaxFileSize: Ptr(3221225472),
 	}
 	planlimit, _, err := client.PlanLimits.ChangePlanLimits(opt)
 	if err != nil {

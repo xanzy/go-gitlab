@@ -30,16 +30,16 @@ func pipelineExample() {
 	}
 
 	opt := &gitlab.ListProjectPipelinesOptions{
-		Scope:         gitlab.String("branches"),
-		Status:        gitlab.BuildState(gitlab.Running),
-		Ref:           gitlab.String("master"),
-		YamlErrors:    gitlab.Bool(true),
-		Name:          gitlab.String("name"),
-		Username:      gitlab.String("username"),
-		UpdatedAfter:  gitlab.Time(time.Now().Add(-24 * 365 * time.Hour)),
-		UpdatedBefore: gitlab.Time(time.Now().Add(-7 * 24 * time.Hour)),
-		OrderBy:       gitlab.String("status"),
-		Sort:          gitlab.String("asc"),
+		Scope:         gitlab.Ptr("branches"),
+		Status:        gitlab.Ptr(gitlab.Running),
+		Ref:           gitlab.Ptr("master"),
+		YamlErrors:    gitlab.Ptr(true),
+		Name:          gitlab.Ptr("name"),
+		Username:      gitlab.Ptr("username"),
+		UpdatedAfter:  gitlab.Ptr(time.Now().Add(-24 * 365 * time.Hour)),
+		UpdatedBefore: gitlab.Ptr(time.Now().Add(-7 * 24 * time.Hour)),
+		OrderBy:       gitlab.Ptr("status"),
+		Sort:          gitlab.Ptr("asc"),
 	}
 
 	pipelines, _, err := git.Pipelines.ListProjectPipelines(2743054, opt)

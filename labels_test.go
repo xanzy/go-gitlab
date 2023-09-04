@@ -34,9 +34,9 @@ func TestCreateLabel(t *testing.T) {
 
 	// Create new label
 	l := &CreateLabelOptions{
-		Name:     String("My Label"),
-		Color:    String("#11FF22"),
-		Priority: Int(2),
+		Name:     Ptr("My Label"),
+		Color:    Ptr("#11FF22"),
+		Priority: Ptr(2),
 	}
 	label, _, err := client.Labels.CreateLabel("1", l)
 	if err != nil {
@@ -57,7 +57,7 @@ func TestDeleteLabel(t *testing.T) {
 
 	// Delete label
 	label := &DeleteLabelOptions{
-		Name: String("My Label"),
+		Name: Ptr("My Label"),
 	}
 
 	_, err := client.Labels.DeleteLabel("1", label)
@@ -76,11 +76,11 @@ func TestUpdateLabel(t *testing.T) {
 
 	// Update label
 	l := &UpdateLabelOptions{
-		Name:        String("My Label"),
-		NewName:     String("New Label"),
-		Color:       String("#11FF23"),
-		Description: String("This is updated label"),
-		Priority:    Int(42),
+		Name:        Ptr("My Label"),
+		NewName:     Ptr("New Label"),
+		Color:       Ptr("#11FF23"),
+		Description: Ptr("This is updated label"),
+		Priority:    Ptr(42),
 	}
 
 	label, resp, err := client.Labels.UpdateLabel("1", l)

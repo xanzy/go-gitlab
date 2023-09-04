@@ -33,7 +33,7 @@ func impersonationExample() {
 	// list impersonation token from an user
 	tokens, _, err := git.Users.GetAllImpersonationTokens(
 		uid,
-		&gitlab.GetAllImpersonationTokensOptions{State: gitlab.String("active")},
+		&gitlab.GetAllImpersonationTokensOptions{State: gitlab.Ptr("active")},
 	)
 	if err != nil {
 		log.Fatal(err)

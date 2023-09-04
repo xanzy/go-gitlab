@@ -208,7 +208,7 @@ func TestSnippetRepositoryStorageMove_ScheduleAllStorageMoves(t *testing.T) {
 
 	_, err := client.SnippetRepositoryStorageMove.ScheduleAllStorageMoves(
 		ScheduleAllSnippetStorageMovesOptions{
-			SourceStorageName: String("default"),
+			SourceStorageName: Ptr("default"),
 		},
 	)
 	require.NoError(t, err)

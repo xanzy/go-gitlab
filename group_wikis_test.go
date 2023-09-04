@@ -88,9 +88,9 @@ func TestCreateGroupWikiPage(t *testing.T) {
 		})
 
 	groupwiki, _, err := client.GroupWikis.CreateGroupWikiPage(1, &CreateGroupWikiPageOptions{
-		Content: String("content here"),
-		Title:   String("deploy title"),
-		Format:  WikiFormat(WikiFormatRDoc),
+		Content: Ptr("content here"),
+		Title:   Ptr("deploy title"),
+		Format:  Ptr(WikiFormatRDoc),
 	})
 	if err != nil {
 		t.Errorf("GroupWikis.CreateGroupWikiPage returned error: %v", err)
@@ -122,9 +122,9 @@ func TestEditGroupWikiPage(t *testing.T) {
 		})
 
 	groupwiki, _, err := client.GroupWikis.EditGroupWikiPage(1, "deploy", &EditGroupWikiPageOptions{
-		Content: String("content here"),
-		Title:   String("deploy title"),
-		Format:  WikiFormat(WikiFormatRDoc),
+		Content: Ptr("content here"),
+		Title:   Ptr("deploy title"),
+		Format:  Ptr(WikiFormatRDoc),
 	})
 	if err != nil {
 		t.Errorf("GroupWikis.EditGroupWikiPage returned error: %v", err)

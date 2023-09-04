@@ -74,9 +74,9 @@ func TestListRunnersJobs(t *testing.T) {
 			Stage:          "test",
 			Name:           "run_tests",
 			Ref:            "master",
-			CreatedAt:      Time(time.Date(2021, time.October, 22, 11, 59, 25, 201000000, time.UTC)),
-			StartedAt:      Time(time.Date(2021, time.October, 22, 11, 59, 33, 660000000, time.UTC)),
-			FinishedAt:     Time(time.Date(2021, time.October, 22, 15, 59, 25, 201000000, time.UTC)),
+			CreatedAt:      Ptr(time.Date(2021, time.October, 22, 11, 59, 25, 201000000, time.UTC)),
+			StartedAt:      Ptr(time.Date(2021, time.October, 22, 11, 59, 33, 660000000, time.UTC)),
+			FinishedAt:     Ptr(time.Date(2021, time.October, 22, 15, 59, 25, 201000000, time.UTC)),
 			Duration:       171.540594,
 			QueuedDuration: 2.535766,
 			User: &User{
@@ -91,16 +91,16 @@ func TestListRunnersJobs(t *testing.T) {
 			Commit: &Commit{
 				ID:             "6c016b801a88f4bd31f927fc045b5c746a6f823e",
 				ShortID:        "6c016b80",
-				CreatedAt:      Time(time.Date(2018, time.March, 21, 14, 41, 0, 0, time.UTC)),
+				CreatedAt:      Ptr(time.Date(2018, time.March, 21, 14, 41, 0, 0, time.UTC)),
 				ParentIDs:      []string{"6008b4902d40799ab11688e502d9f1f27f6d2e18"},
 				Title:          "Update env for specific runner",
 				Message:        "Update env for specific runner\n",
 				AuthorName:     "John SMITH",
 				AuthorEmail:    "john.smith@example.com",
-				AuthoredDate:   Time(time.Date(2018, time.March, 21, 14, 41, 0, 0, time.UTC)),
+				AuthoredDate:   Ptr(time.Date(2018, time.March, 21, 14, 41, 0, 0, time.UTC)),
 				CommitterName:  "John SMITH",
 				CommitterEmail: "john.smith@example.com",
-				CommittedDate:  Time(time.Date(2018, time.March, 21, 14, 41, 0, 0, time.UTC)),
+				CommittedDate:  Ptr(time.Date(2018, time.March, 21, 14, 41, 0, 0, time.UTC)),
 				WebURL:         "https://gitlab.example.com/awesome/packages/common/-/commit/6c016b801a88f4bd31f927fc045b5c746a6f823e",
 			},
 			Pipeline: pipeline,
@@ -112,7 +112,7 @@ func TestListRunnersJobs(t *testing.T) {
 				NameWithNamespace: "awesome",
 				Path:              "common",
 				PathWithNamespace: "awesome",
-				CreatedAt:         Time(time.Date(2018, time.February, 13, 9, 21, 48, 107000000, time.UTC)),
+				CreatedAt:         Ptr(time.Date(2018, time.February, 13, 9, 21, 48, 107000000, time.UTC)),
 			},
 		},
 	}
@@ -170,7 +170,7 @@ func TestUpdateRunnersDetails(t *testing.T) {
 		ID:             6,
 		IsShared:       false,
 		RunnerType:     "project_type",
-		ContactedAt:    Time(time.Date(2016, time.January, 25, 16, 39, 48, 166000000, time.UTC)),
+		ContactedAt:    Ptr(time.Date(2016, time.January, 25, 16, 39, 48, 166000000, time.UTC)),
 		Online:         true,
 		Status:         "online",
 		Token:          "205086a8e3b9a2b818ffac9b89d102",
@@ -219,7 +219,7 @@ func TestGetRunnerDetails(t *testing.T) {
 		ID:             6,
 		IsShared:       false,
 		RunnerType:     "project_type",
-		ContactedAt:    Time(time.Date(2016, time.January, 25, 16, 39, 48, 166000000, time.UTC)),
+		ContactedAt:    Ptr(time.Date(2016, time.January, 25, 16, 39, 48, 166000000, time.UTC)),
 		Online:         true,
 		Status:         "online",
 		Token:          "205086a8e3b9a2b818ffac9b89d102",
@@ -254,7 +254,7 @@ func TestRegisterNewRunner(t *testing.T) {
 	want := &Runner{
 		ID:             12345,
 		Token:          "6337ff461c94fd3fa32ba3b1ff4125",
-		TokenExpiresAt: Time(time.Date(2016, time.January, 25, 16, 39, 48, 166000000, time.UTC)),
+		TokenExpiresAt: Ptr(time.Date(2016, time.January, 25, 16, 39, 48, 166000000, time.UTC)),
 	}
 	if !reflect.DeepEqual(want, runner) {
 		t.Errorf("Runners.RegisterNewRunner returned %+v, want %+v", runner, want)
@@ -288,19 +288,19 @@ func TestRegisterNewRunnerInfo(t *testing.T) {
 	})
 
 	opt := &RegisterNewRunnerOptions{
-		Token:       String("6337ff461c94fd3fa32ba3b1ff4125"),
-		Description: String("some description"),
+		Token:       Ptr("6337ff461c94fd3fa32ba3b1ff4125"),
+		Description: Ptr("some description"),
 		Info: &RegisterNewRunnerInfoOptions{
-			String("some name"),
-			String("13.7.0"),
-			String("943fc252"),
-			String("linux"),
-			String("amd64"),
+			Ptr("some name"),
+			Ptr("13.7.0"),
+			Ptr("943fc252"),
+			Ptr("linux"),
+			Ptr("amd64"),
 		},
-		Active:         Bool(true),
-		Locked:         Bool(true),
-		RunUntagged:    Bool(false),
-		MaximumTimeout: Int(45),
+		Active:         Ptr(true),
+		Locked:         Ptr(true),
+		RunUntagged:    Ptr(false),
+		MaximumTimeout: Ptr(45),
 	}
 	runner, resp, err := client.Runners.RegisterNewRunner(opt, nil)
 	if err != nil {
@@ -316,7 +316,7 @@ func TestRegisterNewRunnerInfo(t *testing.T) {
 		Online:         true,
 		Status:         "online",
 		Token:          "1111122222333333444444",
-		TokenExpiresAt: Time(time.Date(2016, time.January, 25, 16, 39, 48, 166000000, time.UTC)),
+		TokenExpiresAt: Ptr(time.Date(2016, time.January, 25, 16, 39, 48, 166000000, time.UTC)),
 	}
 	if !reflect.DeepEqual(want, runner) {
 		t.Errorf("Runners.RegisterNewRunner returned %+v, want %+v", runner, want)
@@ -409,8 +409,8 @@ func TestResetInstanceRunnerRegistrationToken(t *testing.T) {
 	}
 
 	want := &RunnerRegistrationToken{
-		Token:          String("6337ff461c94fd3fa32ba3b1ff4125"),
-		TokenExpiresAt: Time(time.Date(2016, time.January, 25, 16, 39, 48, 166000000, time.UTC)),
+		Token:          Ptr("6337ff461c94fd3fa32ba3b1ff4125"),
+		TokenExpiresAt: Ptr(time.Date(2016, time.January, 25, 16, 39, 48, 166000000, time.UTC)),
 	}
 	if !reflect.DeepEqual(want, token) {
 		t.Errorf("Runners.ResetInstanceRunnerRegistrationToken returned %+v, want %+v", token, want)
@@ -440,8 +440,8 @@ func TestResetGroupRunnerRegistrationToken(t *testing.T) {
 	}
 
 	want := &RunnerRegistrationToken{
-		Token:          String("6337ff461c94fd3fa32ba3b1ff4125"),
-		TokenExpiresAt: Time(time.Date(2016, time.January, 25, 16, 39, 48, 166000000, time.UTC)),
+		Token:          Ptr("6337ff461c94fd3fa32ba3b1ff4125"),
+		TokenExpiresAt: Ptr(time.Date(2016, time.January, 25, 16, 39, 48, 166000000, time.UTC)),
 	}
 	if !reflect.DeepEqual(want, token) {
 		t.Errorf("Runners.ResetGroupRunnerRegistrationToken returned %+v, want %+v", token, want)
@@ -471,8 +471,8 @@ func TestResetProjectRunnerRegistrationToken(t *testing.T) {
 	}
 
 	want := &RunnerRegistrationToken{
-		Token:          String("6337ff461c94fd3fa32ba3b1ff4125"),
-		TokenExpiresAt: Time(time.Date(2016, time.January, 25, 16, 39, 48, 166000000, time.UTC)),
+		Token:          Ptr("6337ff461c94fd3fa32ba3b1ff4125"),
+		TokenExpiresAt: Ptr(time.Date(2016, time.January, 25, 16, 39, 48, 166000000, time.UTC)),
 	}
 	if !reflect.DeepEqual(want, token) {
 		t.Errorf("Runners.ResetProjectRunnerRegistrationToken returned %+v, want %+v", token, want)
@@ -502,8 +502,8 @@ func TestResetRunnerAuthenticationToken(t *testing.T) {
 	}
 
 	want := &RunnerAuthenticationToken{
-		Token:          String("6337ff461c94fd3fa32ba3b1ff4125"),
-		TokenExpiresAt: Time(time.Date(2016, time.January, 25, 16, 39, 48, 166000000, time.UTC)),
+		Token:          Ptr("6337ff461c94fd3fa32ba3b1ff4125"),
+		TokenExpiresAt: Ptr(time.Date(2016, time.January, 25, 16, 39, 48, 166000000, time.UTC)),
 	}
 	if !reflect.DeepEqual(want, token) {
 		t.Errorf("Runners.ResetRunnerAuthenticationToken returned %+v, want %+v", token, want)

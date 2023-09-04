@@ -87,12 +87,12 @@ func TestSetCustomIssueTrackerService(t *testing.T) {
 	})
 
 	opt := &SetCustomIssueTrackerServiceOptions{
-		NewIssueURL: String("1"),
-		IssuesURL:   String("2"),
-		ProjectURL:  String("3"),
-		Description: String("4"),
-		Title:       String("5"),
-		PushEvents:  Bool(true),
+		NewIssueURL: Ptr("1"),
+		IssuesURL:   Ptr("2"),
+		ProjectURL:  Ptr("3"),
+		Description: Ptr("4"),
+		Title:       Ptr("5"),
+		PushEvents:  Ptr(true),
 	}
 
 	_, err := client.Services.SetCustomIssueTrackerService(1, opt)
@@ -215,7 +215,7 @@ func TestSetDiscordService(t *testing.T) {
 	})
 
 	opt := &SetDiscordServiceOptions{
-		WebHook: String("webhook_uri"),
+		WebHook: Ptr("webhook_uri"),
 	}
 
 	_, err := client.Services.SetDiscordService(1, opt)
@@ -262,7 +262,7 @@ func TestSetDroneCIService(t *testing.T) {
 		testMethod(t, r, http.MethodPut)
 	})
 
-	opt := &SetDroneCIServiceOptions{String("t"), String("u"), Bool(true)}
+	opt := &SetDroneCIServiceOptions{Ptr("t"), Ptr("u"), Ptr(true)}
 
 	_, err := client.Services.SetDroneCIService(1, opt)
 	if err != nil {
@@ -308,7 +308,7 @@ func TestSetEmailsOnPushService(t *testing.T) {
 		testMethod(t, r, http.MethodPut)
 	})
 
-	opt := &SetEmailsOnPushServiceOptions{String("t"), Bool(true), Bool(true), Bool(true), Bool(true), String("t")}
+	opt := &SetEmailsOnPushServiceOptions{Ptr("t"), Ptr(true), Ptr(true), Ptr(true), Ptr(true), Ptr("t")}
 
 	_, err := client.Services.SetEmailsOnPushService(1, opt)
 	if err != nil {
@@ -397,16 +397,16 @@ func TestSetJiraService(t *testing.T) {
 	})
 
 	opt := &SetJiraServiceOptions{
-		URL:                   String("asd"),
-		APIURL:                String("asd"),
-		ProjectKey:            String("as"),
-		Username:              String("aas"),
-		Password:              String("asd"),
-		Active:                Bool(true),
-		JiraIssueTransitionID: String("2,3"),
-		CommitEvents:          Bool(true),
-		CommentOnEventEnabled: Bool(true),
-		MergeRequestsEvents:   Bool(true),
+		URL:                   Ptr("asd"),
+		APIURL:                Ptr("asd"),
+		ProjectKey:            Ptr("as"),
+		Username:              Ptr("aas"),
+		Password:              Ptr("asd"),
+		Active:                Ptr(true),
+		JiraIssueTransitionID: Ptr("2,3"),
+		CommitEvents:          Ptr(true),
+		CommentOnEventEnabled: Ptr(true),
+		MergeRequestsEvents:   Ptr(true),
 	}
 
 	_, err := client.Services.SetJiraService(1, opt)
@@ -454,9 +454,9 @@ func TestSetMattermostService(t *testing.T) {
 	})
 
 	opt := &SetMattermostServiceOptions{
-		WebHook:  String("webhook_uri"),
-		Username: String("username"),
-		Channel:  String("#development"),
+		WebHook:  Ptr("webhook_uri"),
+		Username: Ptr("username"),
+		Channel:  Ptr("#development"),
 	}
 
 	_, err := client.Services.SetMattermostService(1, opt)
@@ -504,9 +504,9 @@ func TestSetPipelinesEmailService(t *testing.T) {
 	})
 
 	opt := &SetPipelinesEmailServiceOptions{
-		Recipients:                String("test@email.com"),
-		NotifyOnlyBrokenPipelines: Bool(true),
-		NotifyOnlyDefaultBranch:   Bool(false),
+		Recipients:                Ptr("test@email.com"),
+		NotifyOnlyBrokenPipelines: Ptr(true),
+		NotifyOnlyDefaultBranch:   Ptr(false),
 		AddPusher:                 nil,
 		BranchesToBeNotified:      nil,
 		PipelineEvents:            nil,
@@ -556,7 +556,7 @@ func TestSetPrometheusService(t *testing.T) {
 		testMethod(t, r, http.MethodPut)
 	})
 
-	opt := &SetPrometheusServiceOptions{String("t"), String("u"), String("a")}
+	opt := &SetPrometheusServiceOptions{Ptr("t"), Ptr("u"), Ptr("a")}
 
 	_, err := client.Services.SetPrometheusService(1, opt)
 	if err != nil {
@@ -603,9 +603,9 @@ func TestSetSlackService(t *testing.T) {
 	})
 
 	opt := &SetSlackServiceOptions{
-		WebHook:  String("webhook_uri"),
-		Username: String("username"),
-		Channel:  String("#development"),
+		WebHook:  Ptr("webhook_uri"),
+		Username: Ptr("username"),
+		Channel:  Ptr("#development"),
 	}
 
 	_, err := client.Services.SetSlackService(1, opt)
@@ -653,10 +653,10 @@ func TestSetYouTrackService(t *testing.T) {
 	})
 
 	opt := &SetYouTrackServiceOptions{
-		IssuesURL:   String("https://example.org/youtrack/issue/:id"),
-		ProjectURL:  String("https://example.org/youtrack/projects/1"),
-		Description: String("description"),
-		PushEvents:  Bool(true),
+		IssuesURL:   Ptr("https://example.org/youtrack/issue/:id"),
+		ProjectURL:  Ptr("https://example.org/youtrack/projects/1"),
+		Description: Ptr("description"),
+		PushEvents:  Ptr(true),
 	}
 
 	_, err := client.Services.SetYouTrackService(1, opt)
@@ -704,7 +704,7 @@ func TestSetSlackSlashCommandsService(t *testing.T) {
 	})
 
 	opt := &SetSlackSlashCommandsServiceOptions{
-		Token: String("token"),
+		Token: Ptr("token"),
 	}
 
 	_, err := client.Services.SetSlackSlashCommandsService(1, opt)
@@ -752,8 +752,8 @@ func TestSetMattermostSlashCommandsService(t *testing.T) {
 	})
 
 	opt := &SetMattermostSlashCommandsServiceOptions{
-		Token:    String("token"),
-		Username: String("username"),
+		Token:    Ptr("token"),
+		Username: Ptr("username"),
 	}
 
 	_, err := client.Services.SetMattermostSlashCommandsService(1, opt)

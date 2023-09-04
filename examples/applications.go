@@ -30,9 +30,9 @@ func applicationsExample() {
 
 	// Create an application
 	opts := &gitlab.CreateApplicationOptions{
-		Name:        gitlab.String("Travis"),
-		RedirectURI: gitlab.String("http://example.org"),
-		Scopes:      gitlab.String("api"),
+		Name:        gitlab.Ptr("Travis"),
+		RedirectURI: gitlab.Ptr("http://example.org"),
+		Scopes:      gitlab.Ptr("api"),
 	}
 	created, _, err := git.Applications.CreateApplication(opts)
 	if err != nil {

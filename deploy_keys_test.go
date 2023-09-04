@@ -230,9 +230,9 @@ func TestAddDeployKey(t *testing.T) {
 	})
 
 	opt := &AddDeployKeyOptions{
-		Key:     String("ssh-rsa AAAA..."),
-		Title:   String("My deploy key"),
-		CanPush: Bool(true),
+		Key:     Ptr("ssh-rsa AAAA..."),
+		Title:   Ptr("My deploy key"),
+		CanPush: Ptr(true),
 	}
 	deployKey, _, err := client.DeployKeys.AddDeployKey(5, opt)
 	if err != nil {
@@ -245,9 +245,9 @@ func TestAddDeployKey(t *testing.T) {
 	}
 
 	want := &ProjectDeployKey{
-		Title:     *String("My deploy key"),
+		Title:     "My deploy key",
 		ID:        12,
-		Key:       *String("ssh-rsa AAAA..."),
+		Key:       "ssh-rsa AAAA...",
 		CreatedAt: &createdAt,
 		CanPush:   true,
 	}
@@ -318,8 +318,8 @@ func TestUpdateDeployKey(t *testing.T) {
 	})
 
 	opt := &UpdateDeployKeyOptions{
-		Title:   String("New deploy key"),
-		CanPush: Bool(true),
+		Title:   Ptr("New deploy key"),
+		CanPush: Ptr(true),
 	}
 	deployKey, _, err := client.DeployKeys.UpdateDeployKey(5, 11, opt)
 	if err != nil {
@@ -333,7 +333,7 @@ func TestUpdateDeployKey(t *testing.T) {
 
 	want := &ProjectDeployKey{
 		ID:        11,
-		Title:     *String("New deploy key"),
+		Title:     "New deploy key",
 		Key:       "ssh-rsa AAAA...",
 		CreatedAt: &createdAt,
 		CanPush:   true,

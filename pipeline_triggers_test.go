@@ -31,7 +31,7 @@ func TestRunPipeline(t *testing.T) {
 		fmt.Fprint(w, `{"id":1, "status":"pending"}`)
 	})
 
-	opt := &RunPipelineTriggerOptions{Ref: String("master")}
+	opt := &RunPipelineTriggerOptions{Ref: Ptr("master")}
 	pipeline, _, err := client.PipelineTriggers.RunPipelineTrigger(1, opt)
 	if err != nil {
 		t.Errorf("PipelineTriggers.RunPipelineTrigger returned error: %v", err)

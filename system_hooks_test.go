@@ -90,7 +90,7 @@ func TestSystemHooksService_AddHook(t *testing.T) {
 	})
 
 	opt := &AddHookOptions{
-		URL: String("https://gitlab.example.com/hook"),
+		URL: Ptr("https://gitlab.example.com/hook"),
 	}
 
 	hook, _, err := client.SystemHooks.AddHook(opt)

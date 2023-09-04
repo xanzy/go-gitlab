@@ -168,15 +168,15 @@ func TestCreateBroadcastMessages(t *testing.T) {
 	})
 
 	opt := &CreateBroadcastMessageOptions{
-		Message:            String("Some Message"),
+		Message:            Ptr("Some Message"),
 		StartsAt:           &wantedStartsAt,
 		EndsAt:             &wantedEndsAt,
-		Color:              String("#E75E40"),
-		Font:               String("#FFFFFF"),
+		Color:              Ptr("#E75E40"),
+		Font:               Ptr("#FFFFFF"),
 		TargetAccessLevels: []AccessLevelValue{GuestPermissions, DeveloperPermissions},
-		TargetPath:         String("*/welcome"),
-		BroadcastType:      String("banner"),
-		Dismissable:        Bool(false),
+		TargetPath:         Ptr("*/welcome"),
+		BroadcastType:      Ptr("banner"),
+		Dismissable:        Ptr(false),
 	}
 
 	got, _, err := client.BroadcastMessage.CreateBroadcastMessage(opt)
@@ -227,15 +227,15 @@ func TestUpdateBroadcastMessages(t *testing.T) {
 	})
 
 	opt := &UpdateBroadcastMessageOptions{
-		Message:            String("Some Message Updated"),
+		Message:            Ptr("Some Message Updated"),
 		StartsAt:           &wantedStartsAt,
 		EndsAt:             &wantedEndsAt,
-		Color:              String("#E75E40"),
-		Font:               String("#FFFFFF"),
+		Color:              Ptr("#E75E40"),
+		Font:               Ptr("#FFFFFF"),
 		TargetAccessLevels: []AccessLevelValue{GuestPermissions, DeveloperPermissions},
-		TargetPath:         String("*/welcome"),
-		BroadcastType:      String("banner"),
-		Dismissable:        Bool(false),
+		TargetPath:         Ptr("*/welcome"),
+		BroadcastType:      Ptr("banner"),
+		Dismissable:        Ptr(false),
 	}
 
 	got, _, err := client.BroadcastMessage.UpdateBroadcastMessage(1, opt)

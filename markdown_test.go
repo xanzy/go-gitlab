@@ -20,9 +20,9 @@ func TestRender(t *testing.T) {
 	})
 
 	opt := &RenderOptions{
-		Text:                    String("# Testing"),
-		GitlabFlavouredMarkdown: Bool(true),
-		Project:                 String("some/sub/group/project"),
+		Text:                    Ptr("# Testing"),
+		GitlabFlavouredMarkdown: Ptr(true),
+		Project:                 Ptr("some/sub/group/project"),
 	}
 	markdown, resp, err := client.Markdown.Render(opt)
 	if err != nil {

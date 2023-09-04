@@ -30,7 +30,7 @@ func clusterAgentsExample() {
 
 	projectID := 33
 	opt := &gitlab.RegisterAgentOptions{
-		Name: gitlab.String("agent-2"),
+		Name: gitlab.Ptr("agent-2"),
 	}
 
 	// Register Cluster Agent

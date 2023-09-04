@@ -47,7 +47,7 @@ func TestResourceWeightEventsService_ListIssueWightEvents(t *testing.T) {
 			AvatarURL: "https://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=80&d=identicon",
 			WebURL:    "http://gitlab.example.com/root",
 		},
-		CreatedAt: Time(time.Date(2018, time.August, 20, 13, 38, 20, 77000000, time.UTC)),
+		CreatedAt: Ptr(time.Date(2018, time.August, 20, 13, 38, 20, 77000000, time.UTC)),
 		IssueID:   253,
 		Weight:    3,
 	}}

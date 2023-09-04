@@ -37,7 +37,7 @@ func TestGetAvatar(t *testing.T) {
 		},
 	)
 
-	opt := &GetAvatarOptions{Email: String("sander@vanharmelen.nnl")}
+	opt := &GetAvatarOptions{Email: Ptr("sander@vanharmelen.nnl")}
 	avatar, resp, err := client.Avatar.GetAvatar(opt)
 	if err != nil {
 		t.Fatalf("Avatar.GetAvatar returned error: %v", err)

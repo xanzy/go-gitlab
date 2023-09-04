@@ -87,8 +87,8 @@ func TestAddManagedLicenses(t *testing.T) {
 	})
 
 	ops := AddManagedLicenseOptions{
-		Name:           String("MIT"),
-		ApprovalStatus: LicenseApprovalStatus(LicenseApproved),
+		Name:           Ptr("MIT"),
+		ApprovalStatus: Ptr(LicenseApproved),
 	}
 	license, _, err := client.ManagedLicenses.AddManagedLicense(1, &ops)
 	if err != nil {
@@ -129,7 +129,7 @@ func TestEditManagedLicenses(t *testing.T) {
 	})
 
 	ops := EditManagedLicenceOptions{
-		ApprovalStatus: LicenseApprovalStatus(LicenseBlacklisted),
+		ApprovalStatus: Ptr(LicenseBlacklisted),
 	}
 	license, _, err := client.ManagedLicenses.EditManagedLicense(1, 3, &ops)
 	if err != nil {

@@ -33,8 +33,8 @@ func TestCreateGroupGroupLabel(t *testing.T) {
 	})
 
 	l := &CreateGroupLabelOptions{
-		Name:  String("My / GroupLabel"),
-		Color: String("#11FF22"),
+		Name:  Ptr("My / GroupLabel"),
+		Color: Ptr("#11FF22"),
 	}
 	label, _, err := client.GroupLabels.CreateGroupLabel("1", l)
 	if err != nil {
@@ -54,7 +54,7 @@ func TestDeleteGroupLabel(t *testing.T) {
 	})
 
 	label := &DeleteGroupLabelOptions{
-		Name: String("My / GroupLabel"),
+		Name: Ptr("My / GroupLabel"),
 	}
 
 	_, err := client.GroupLabels.DeleteGroupLabel("1", label)
@@ -72,10 +72,10 @@ func TestUpdateGroupLabel(t *testing.T) {
 	})
 
 	l := &UpdateGroupLabelOptions{
-		Name:        String("My / GroupLabel"),
-		NewName:     String("New / GroupLabel"),
-		Color:       String("#11FF23"),
-		Description: String("This is updated label"),
+		Name:        Ptr("My / GroupLabel"),
+		NewName:     Ptr("New / GroupLabel"),
+		Color:       Ptr("#11FF23"),
+		Description: Ptr("This is updated label"),
 	}
 
 	label, resp, err := client.GroupLabels.UpdateGroupLabel("1", l)

@@ -36,7 +36,7 @@ func TestMilestonesService_ListMilestones(t *testing.T) {
 		Description: "Version",
 		State:       "active",
 		WebURL:      "",
-		Expired:     Bool(false),
+		Expired:     Ptr(false),
 	}}
 
 	ms, resp, err := client.Milestones.ListMilestones(5, nil)
@@ -86,7 +86,7 @@ func TestMilestonesService_GetMilestone(t *testing.T) {
 		Description: "Version",
 		State:       "active",
 		WebURL:      "",
-		Expired:     Bool(false),
+		Expired:     Ptr(false),
 	}
 
 	m, resp, err := client.Milestones.GetMilestone(5, 12, nil)
@@ -136,7 +136,7 @@ func TestMilestonesService_CreateMilestone(t *testing.T) {
 		Description: "Version",
 		State:       "active",
 		WebURL:      "",
-		Expired:     Bool(false),
+		Expired:     Ptr(false),
 	}
 
 	m, resp, err := client.Milestones.CreateMilestone(5, nil)
@@ -186,7 +186,7 @@ func TestMilestonesService_UpdateMilestone(t *testing.T) {
 		Description: "Version",
 		State:       "active",
 		WebURL:      "",
-		Expired:     Bool(false),
+		Expired:     Ptr(false),
 	}
 
 	m, resp, err := client.Milestones.UpdateMilestone(5, 12, nil)

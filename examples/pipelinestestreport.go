@@ -28,7 +28,7 @@ func pipelineTestReportExample() {
 		log.Fatal(err)
 	}
 
-	opt := &gitlab.ListProjectPipelinesOptions{Ref: gitlab.String("master")}
+	opt := &gitlab.ListProjectPipelinesOptions{Ref: gitlab.Ptr("master")}
 	projectID := 1234
 
 	pipelines, _, err := git.Pipelines.ListProjectPipelines(projectID, opt)

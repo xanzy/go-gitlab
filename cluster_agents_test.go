@@ -82,9 +82,9 @@ func ListClusterAgents(t *testing.T) {
 				NameWithNamespace: "Administrator / test",
 				Path:              "test",
 				PathWithNamespace: "root/test",
-				CreatedAt:         Time(time.Date(2022, time.March, 20, 20, 42, 40, 221000000, time.UTC)),
+				CreatedAt:         Ptr(time.Date(2022, time.March, 20, 20, 42, 40, 221000000, time.UTC)),
 			},
-			CreatedAt:       Time(time.Date(2022, time.April, 20, 20, 42, 40, 221000000, time.UTC)),
+			CreatedAt:       Ptr(time.Date(2022, time.April, 20, 20, 42, 40, 221000000, time.UTC)),
 			CreatedByUserID: 42,
 		},
 		{
@@ -97,9 +97,9 @@ func ListClusterAgents(t *testing.T) {
 				NameWithNamespace: "Administrator / test",
 				Path:              "test",
 				PathWithNamespace: "root/test",
-				CreatedAt:         Time(time.Date(2022, time.March, 20, 20, 42, 40, 221000000, time.UTC)),
+				CreatedAt:         Ptr(time.Date(2022, time.March, 20, 20, 42, 40, 221000000, time.UTC)),
 			},
-			CreatedAt:       Time(time.Date(2022, time.April, 20, 20, 42, 40, 221000000, time.UTC)),
+			CreatedAt:       Ptr(time.Date(2022, time.April, 20, 20, 42, 40, 221000000, time.UTC)),
 			CreatedByUserID: 42,
 		},
 	}
@@ -148,9 +148,9 @@ func GetClusterAgent(t *testing.T) {
 			NameWithNamespace: "Administrator / test",
 			Path:              "test",
 			PathWithNamespace: "root/test",
-			CreatedAt:         Time(time.Date(2022, time.March, 20, 20, 42, 40, 221000000, time.UTC)),
+			CreatedAt:         Ptr(time.Date(2022, time.March, 20, 20, 42, 40, 221000000, time.UTC)),
 		},
-		CreatedAt:       Time(time.Date(2022, time.April, 20, 20, 42, 40, 221000000, time.UTC)),
+		CreatedAt:       Ptr(time.Date(2022, time.April, 20, 20, 42, 40, 221000000, time.UTC)),
 		CreatedByUserID: 42,
 	}
 	if !reflect.DeepEqual(want, clusterAgent) {
@@ -182,7 +182,7 @@ func RegisterClusterAgent(t *testing.T) {
     	`)
 	})
 
-	opt := &RegisterAgentOptions{Name: String("agent-1")}
+	opt := &RegisterAgentOptions{Name: Ptr("agent-1")}
 	clusterAgent, _, err := client.ClusterAgents.RegisterAgent(20, opt)
 	if err != nil {
 		t.Errorf("ClusterAgents.RegisterClusterAgent returned error: %v", err)
@@ -198,9 +198,9 @@ func RegisterClusterAgent(t *testing.T) {
 			NameWithNamespace: "Administrator / test",
 			Path:              "test",
 			PathWithNamespace: "root/test",
-			CreatedAt:         Time(time.Date(2022, time.March, 20, 20, 42, 40, 221000000, time.UTC)),
+			CreatedAt:         Ptr(time.Date(2022, time.March, 20, 20, 42, 40, 221000000, time.UTC)),
 		},
-		CreatedAt:       Time(time.Date(2022, time.April, 20, 20, 42, 40, 221000000, time.UTC)),
+		CreatedAt:       Ptr(time.Date(2022, time.April, 20, 20, 42, 40, 221000000, time.UTC)),
 		CreatedByUserID: 42,
 	}
 	if !reflect.DeepEqual(want, clusterAgent) {
@@ -250,7 +250,7 @@ func ListAgentTokens(t *testing.T) {
 			Description:     "Some token",
 			AgentID:         5,
 			Status:          "active",
-			CreatedAt:       Time(time.Date(2022, time.March, 25, 14, 12, 11, 497000000, time.UTC)),
+			CreatedAt:       Ptr(time.Date(2022, time.March, 25, 14, 12, 11, 497000000, time.UTC)),
 			CreatedByUserID: 1,
 		},
 		{
@@ -259,7 +259,7 @@ func ListAgentTokens(t *testing.T) {
 			Description:     "",
 			AgentID:         5,
 			Status:          "active",
-			CreatedAt:       Time(time.Date(2022, time.March, 25, 14, 12, 11, 497000000, time.UTC)),
+			CreatedAt:       Ptr(time.Date(2022, time.March, 25, 14, 12, 11, 497000000, time.UTC)),
 			CreatedByUserID: 1,
 		},
 	}
@@ -299,7 +299,7 @@ func GetAgentToken(t *testing.T) {
 		Description:     "Some token",
 		AgentID:         5,
 		Status:          "active",
-		CreatedAt:       Time(time.Date(2022, time.March, 25, 14, 12, 11, 497000000, time.UTC)),
+		CreatedAt:       Ptr(time.Date(2022, time.March, 25, 14, 12, 11, 497000000, time.UTC)),
 		CreatedByUserID: 1,
 		LastUsedAt:      nil,
 	}
@@ -328,7 +328,7 @@ func RegisterAgentToken(t *testing.T) {
     	`)
 	})
 
-	opt := &CreateAgentTokenOptions{Name: String("abcd"), Description: String("Some token")}
+	opt := &CreateAgentTokenOptions{Name: Ptr("abcd"), Description: Ptr("Some token")}
 	clusterAgentToken, _, err := client.ClusterAgents.CreateAgentToken(20, 5, opt)
 	if err != nil {
 		t.Errorf("ClusterAgents.CreateAgentToken returned error: %v", err)
@@ -340,7 +340,7 @@ func RegisterAgentToken(t *testing.T) {
 		Description:     "Some token",
 		AgentID:         5,
 		Status:          "active",
-		CreatedAt:       Time(time.Date(2022, time.March, 25, 14, 12, 11, 497000000, time.UTC)),
+		CreatedAt:       Ptr(time.Date(2022, time.March, 25, 14, 12, 11, 497000000, time.UTC)),
 		CreatedByUserID: 1,
 		LastUsedAt:      nil,
 		Token:           "qeY8UVRisx9y3Loxo1scLxFuRxYcgeX3sxsdrpP_fR3Loq4xyg",

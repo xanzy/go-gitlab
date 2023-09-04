@@ -72,8 +72,8 @@ func TestListGroupEpics(t *testing.T) {
 	})
 
 	listGroupEpics := &ListGroupEpicsOptions{
-		AuthorID: Int(26),
-		State:    String("opened"),
+		AuthorID: Ptr(26),
+		State:    Ptr("opened"),
 	}
 
 	epics, _, err := client.Epics.ListGroupEpics("7", listGroupEpics)
@@ -102,8 +102,8 @@ func TestCreateEpic(t *testing.T) {
 	})
 
 	createEpicOptions := &CreateEpicOptions{
-		Title:       String("Incredible idea"),
-		Description: String("This is a test epic"),
+		Title:       Ptr("Incredible idea"),
+		Description: Ptr("This is a test epic"),
 	}
 
 	epic, _, err := client.Epics.CreateEpic("7", createEpicOptions)
@@ -132,8 +132,8 @@ func TestUpdateEpic(t *testing.T) {
 	})
 
 	updateEpicOptions := &UpdateEpicOptions{
-		Title:       String("Incredible idea"),
-		Description: String("This is a test epic"),
+		Title:       Ptr("Incredible idea"),
+		Description: Ptr("This is a test epic"),
 	}
 
 	epic, _, err := client.Epics.UpdateEpic("7", 8, updateEpicOptions)

@@ -114,11 +114,11 @@ func TestProtectRepositoryTags(t *testing.T) {
 	}
 
 	opt := &ProtectRepositoryTagsOptions{
-		Name:              String("my-awesome-tag"),
-		CreateAccessLevel: AccessLevel(30),
+		Name:              Ptr("my-awesome-tag"),
+		CreateAccessLevel: Ptr(AccessLevelValue(30)),
 		AllowedToCreate: &[]*TagsPermissionOptions{
 			{
-				GroupID: Int(300),
+				GroupID: Ptr(300),
 			},
 		},
 	}

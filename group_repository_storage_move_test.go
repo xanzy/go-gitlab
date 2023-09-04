@@ -222,7 +222,7 @@ func TestGroupRepositoryStorageMove_ScheduleAllStorageMoves(t *testing.T) {
 
 	_, err := client.GroupRepositoryStorageMove.ScheduleAllStorageMoves(
 		ScheduleAllGroupStorageMovesOptions{
-			SourceStorageName: String("default"),
+			SourceStorageName: Ptr("default"),
 		},
 	)
 	require.NoError(t, err)

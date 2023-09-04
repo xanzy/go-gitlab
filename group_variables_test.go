@@ -81,10 +81,10 @@ func TestCreateGroupVariable(t *testing.T) {
 		})
 
 	opt := &CreateGroupVariableOptions{
-		Key:       String("TEST_VARIABLE_1"),
-		Value:     String("test1"),
-		Protected: Bool(false),
-		Masked:    Bool(true),
+		Key:       Ptr("TEST_VARIABLE_1"),
+		Value:     Ptr("test1"),
+		Protected: Ptr(false),
+		Masked:    Ptr(true),
 	}
 
 	variable, _, err := client.GroupVariables.CreateVariable(1, opt, nil)
