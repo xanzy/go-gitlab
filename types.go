@@ -52,6 +52,7 @@ const (
 
 // AccessControl is a helper routine that allocates a new AccessControlValue
 // to store v and returns a pointer to it.
+//
 // Deprecated: Please use Ptr instead.
 func AccessControl(v AccessControlValue) *AccessControlValue {
 	return Ptr(v)
@@ -83,6 +84,7 @@ const (
 
 // AccessLevel is a helper routine that allocates a new AccessLevelValue
 // to store v and returns a pointer to it.
+//
 // Deprecated: Please use Ptr instead.
 func AccessLevel(v AccessLevelValue) *AccessLevelValue {
 	return Ptr(v)
@@ -223,6 +225,7 @@ const (
 
 // Availability is a helper routine that allocates a new AvailabilityValue
 // to store v and returns a pointer to it.
+//
 // Deprecated: Please use Ptr instead.
 func Availability(v AvailabilityValue) *AvailabilityValue {
 	return Ptr(v)
@@ -248,6 +251,7 @@ const (
 
 // BuildState is a helper routine that allocates a new BuildStateValue
 // to store v and returns a pointer to it.
+//
 // Deprecated: Please use Ptr instead.
 func BuildState(v BuildStateValue) *BuildStateValue {
 	return Ptr(v)
@@ -267,6 +271,7 @@ const (
 
 // DeploymentStatus is a helper routine that allocates a new
 // DeploymentStatusValue to store v and returns a pointer to it.
+//
 // Deprecated: Please use Ptr instead.
 func DeploymentStatus(v DeploymentStatusValue) *DeploymentStatusValue {
 	return Ptr(v)
@@ -324,6 +329,7 @@ const (
 
 // FileAction is a helper routine that allocates a new FileActionValue value
 // to store v and returns a pointer to it.
+//
 // Deprecated: Please use Ptr instead.
 func FileAction(v FileActionValue) *FileActionValue {
 	return Ptr(v)
@@ -339,6 +345,7 @@ const (
 
 // GenericPackageSelect is a helper routine that allocates a new
 // GenericPackageSelectValue value to store v and returns a pointer to it.
+//
 // Deprecated: Please use Ptr instead.
 func GenericPackageSelect(v GenericPackageSelectValue) *GenericPackageSelectValue {
 	return Ptr(v)
@@ -355,6 +362,7 @@ const (
 
 // GenericPackageStatus is a helper routine that allocates a new
 // GenericPackageStatusValue value to store v and returns a pointer to it.
+//
 // Deprecated: Please use Ptr instead.
 func GenericPackageStatus(v GenericPackageStatusValue) *GenericPackageStatusValue {
 	return Ptr(v)
@@ -434,6 +442,7 @@ const (
 
 // LinkType is a helper routine that allocates a new LinkType value
 // to store v and returns a pointer to it.
+//
 // Deprecated: Please use Ptr instead.
 func LinkType(v LinkTypeValue) *LinkTypeValue {
 	return Ptr(v)
@@ -454,6 +463,7 @@ const (
 
 // LicenseApprovalStatus is a helper routine that allocates a new license
 // approval status value to store v and returns a pointer to it.
+//
 // Deprecated: Please use Ptr instead.
 func LicenseApprovalStatus(v LicenseApprovalStatusValue) *LicenseApprovalStatusValue {
 	return Ptr(v)
@@ -475,6 +485,7 @@ const (
 
 // MergeMethod is a helper routine that allocates a new MergeMethod
 // to store v and returns a pointer to it.
+//
 // Deprecated: Please use Ptr instead.
 func MergeMethod(v MergeMethodValue) *MergeMethodValue {
 	return Ptr(v)
@@ -493,6 +504,7 @@ const (
 
 // NoteType is a helper routine that allocates a new NoteTypeValue to
 // store v and returns a pointer to it.
+//
 // Deprecated: Please use Ptr instead.
 func NoteType(v NoteTypeValue) *NoteTypeValue {
 	return Ptr(v)
@@ -562,6 +574,7 @@ var notificationLevelTypes = map[string]NotificationLevelValue{
 
 // NotificationLevel is a helper routine that allocates a new NotificationLevelValue
 // to store v and returns a pointer to it.
+//
 // Deprecated: Please use Ptr instead.
 func NotificationLevel(v NotificationLevelValue) *NotificationLevelValue {
 	return Ptr(v)
@@ -610,6 +623,7 @@ const (
 
 // SharedRunnersSetting is a helper routine that allocates a new SharedRunnersSettingValue
 // to store v and returns a pointer to it.
+//
 // Deprecated: Please use Ptr instead.
 func SharedRunnersSetting(v SharedRunnersSettingValue) *SharedRunnersSettingValue {
 	return Ptr(v)
@@ -630,6 +644,7 @@ const (
 
 // SubGroupCreationLevel is a helper routine that allocates a new SubGroupCreationLevelValue
 // to store v and returns a pointer to it.
+//
 // Deprecated: Please use Ptr instead.
 func SubGroupCreationLevel(v SubGroupCreationLevelValue) *SubGroupCreationLevelValue {
 	return Ptr(v)
@@ -652,6 +667,7 @@ const (
 
 // SquashOption is a helper routine that allocates a new SquashOptionValue
 // to store s and returns a pointer to it.
+//
 // Deprecated: Please use Ptr instead.
 func SquashOption(s SquashOptionValue) *SquashOptionValue {
 	return Ptr(s)
@@ -714,6 +730,7 @@ const (
 
 // VariableType is a helper routine that allocates a new VariableTypeValue
 // to store v and returns a pointer to it.
+//
 // Deprecated: Please use Ptr instead.
 func VariableType(v VariableTypeValue) *VariableTypeValue {
 	return Ptr(v)
@@ -735,6 +752,7 @@ const (
 
 // Visibility is a helper routine that allocates a new VisibilityValue
 // to store v and returns a pointer to it.
+//
 // Deprecated: Please use Ptr instead.
 func Visibility(v VisibilityValue) *VisibilityValue {
 	return Ptr(v)
@@ -755,6 +773,7 @@ const (
 
 // WikiFormat is a helper routine that allocates a new WikiFormatValue
 // to store v and returns a pointer to it.
+//
 // Deprecated: Please use Ptr instead.
 func WikiFormat(v WikiFormatValue) *WikiFormatValue {
 	return Ptr(v)
@@ -762,6 +781,7 @@ func WikiFormat(v WikiFormatValue) *WikiFormatValue {
 
 // Bool is a helper routine that allocates a new bool value
 // to store v and returns a pointer to it.
+//
 // Deprecated: Please use Ptr instead.
 func Bool(v bool) *bool {
 	return Ptr(v)
@@ -769,6 +789,7 @@ func Bool(v bool) *bool {
 
 // Int is a helper routine that allocates a new int value
 // to store v and returns a pointer to it.
+//
 // Deprecated: Please use Ptr instead.
 func Int(v int) *int {
 	return Ptr(v)
@@ -776,6 +797,7 @@ func Int(v int) *int {
 
 // String is a helper routine that allocates a new string value
 // to store v and returns a pointer to it.
+//
 // Deprecated: Please use Ptr instead.
 func String(v string) *string {
 	return Ptr(v)
@@ -783,6 +805,7 @@ func String(v string) *string {
 
 // Time is a helper routine that allocates a new time.Time value
 // to store v and returns a pointer to it.
+//
 // Deprecated: Please use Ptr instead.
 func Time(v time.Time) *time.Time {
 	return Ptr(v)
