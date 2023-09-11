@@ -40,5 +40,5 @@ func repositoryArchiveExample() {
 		log.Fatal(err)
 	}
 
-	log.Printf("File contains %d byte(s)", content)
+	log.Printf("Repository archive contains %d byte(s)", len(content))
 }
