@@ -390,7 +390,7 @@ func (s *ProjectsService) ListUserProjects(uid interface{}, opt *ListProjectsOpt
 	return p, resp, nil
 }
 
-// ListUserProjects gets a list of visible projects a given user has contributed to.
+// ListUserContributedProjects gets a list of visible projects a given user has contributed to.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/projects.html#list-projects-a-user-has-contributed-to
