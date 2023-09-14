@@ -1194,6 +1194,7 @@ func TestCreateProjectApprovalRule(t *testing.T) {
 		ApprovalsRequired: Int(3),
 		UserIDs:           &[]int{5, 50},
 		GroupIDs:          &[]int{5},
+		ReportType:        String("code_coverage"),
 	}
 
 	rule, _, err := client.Projects.CreateProjectApprovalRule(1, opt)

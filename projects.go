@@ -1809,6 +1809,7 @@ func (s *ProjectsService) GetProjectApprovalRule(pid interface{}, ruleID int, op
 type CreateProjectLevelRuleOptions struct {
 	Name                          *string `url:"name,omitempty" json:"name,omitempty"`
 	ApprovalsRequired             *int    `url:"approvals_required,omitempty" json:"approvals_required,omitempty"`
+	ReportType                    *string `url:"report_type,omitempty" json:"report_type,omitempty"`
 	RuleType                      *string `url:"rule_type,omitempty" json:"rule_type,omitempty"`
 	UserIDs                       *[]int  `url:"user_ids,omitempty" json:"user_ids,omitempty"`
 	GroupIDs                      *[]int  `url:"group_ids,omitempty" json:"group_ids,omitempty"`
