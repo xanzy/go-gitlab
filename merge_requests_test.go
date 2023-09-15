@@ -260,6 +260,52 @@ func TestGetIssuesClosedOnMerge_Jira(t *testing.T) {
 	assert.Equal(t, "Title of this issue", issues[0].Title)
 }
 
+func TestListMergeRequesDiffs(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/projects/1/merge_requests/1/diffs", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		mustWriteHTTPResponse(t, w, "testdata/list_merge_request_diff.json")
+	})
+
+	opts := &ListMergeRequesDiffsOptions{
+		Page:    1,
+		PerPage: 2,
+	}
+
+	diffs, _, err := client.MergeRequests.ListMergeRequesDiffs(1, 1, opts)
+	if err != nil {
+		t.Errorf("MergeRequests.ListMergeRequesDiffs returned error: %v", err)
+	}
+
+	want := []*MergeRequestDiff{
+		{
+			OldPath:     "README",
+			NewPath:     "README",
+			AMode:       "100644",
+			BMode:       "100644",
+			Diff:        "@@ -1 +1 @@ -Title +README",
+			NewFile:     false,
+			RenamedFile: false,
+			DeletedFile: false,
+		},
+		{
+			OldPath:     "VERSION",
+			NewPath:     "VERSION",
+			AMode:       "100644",
+			BMode:       "100644",
+			Diff:        "@@ -1.9.7 +1.9.8",
+			NewFile:     false,
+			RenamedFile: false,
+			DeletedFile: false,
+		},
+	}
+
+	if !reflect.DeepEqual(want, diffs) {
+		t.Errorf("MergeRequests.ListMergeRequesDiffs returned %+v, want %+v", diffs, want)
+	}
+}
+
 func TestIntSliceOrString(t *testing.T) {
 	t.Run("any", func(t *testing.T) {
 		opts := &ListMergeRequestsOptions{}

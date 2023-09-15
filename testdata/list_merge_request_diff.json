@@ -1,0 +1,22 @@
+[
+  {
+    "old_path": "README",
+    "new_path": "README",
+    "a_mode": "100644",
+    "b_mode": "100644",
+    "diff": "@@ -1 +1 @@ -Title +README",
+    "new_file": false,
+    "renamed_file": false,
+    "deleted_file": false
+  },
+  {
+    "old_path": "VERSION",
+    "new_path": "VERSION",
+    "a_mode": "100644",
+    "b_mode": "100644",
+    "diff": "@@ -1.9.7 +1.9.8",
+    "new_file": false,
+    "renamed_file": false,
+    "deleted_file": false
+  }
+]
