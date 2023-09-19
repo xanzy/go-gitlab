@@ -402,6 +402,7 @@ type CommitStatus struct {
 	Name         string     `json:"name"`
 	AllowFailure bool       `json:"allow_failure"`
 	Coverage     float64    `json:"coverage"`
+	PipelineId   int        `json:"pipeline_id"`
 	Author       Author     `json:"author"`
 	Description  string     `json:"description"`
 	TargetURL    string     `json:"target_url"`
