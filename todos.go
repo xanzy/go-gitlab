@@ -88,6 +88,7 @@ type TodoTarget struct {
 	MergeWhenPipelineSucceeds bool         `json:"merge_when_pipeline_succeeds"`
 	MergeStatus               string       `json:"merge_status"`
 	Reference                 string       `json:"reference"`
+	References                []string     `json:"references"`
 	Reviewers                 []*BasicUser `json:"reviewers"`
 	SHA                       string       `json:"sha"`
 	ShouldRemoveSourceBranch  bool         `json:"should_remove_source_branch"`
