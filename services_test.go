@@ -133,6 +133,29 @@ func TestGetDataDogService(t *testing.T) {
 	}
 }
 
+func TestSetDataDogService(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/projects/1/services/datadog", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPut)
+		testBody(t, r, `{"api_url":"https://some-api.com","archive_trace_events":false,"datadog_env":"sandbox","datadog_service":"source-code","datadog_site":"datadoghq.eu","datadog_tags":"country=france"}`)
+	})
+
+	opt := &SetDataDogServiceOptions{
+		APIURL:             String("https://some-api.com"),
+		ArchiveTraceEvents: Bool(false),
+		DataDogEnv:         String("sandbox"),
+		DataDogService:     String("source-code"),
+		DataDogSite:        String("datadoghq.eu"),
+		DataDogTags:        String("country=france"),
+	}
+
+	_, err := client.Services.SetDataDogService(1, opt)
+	if err != nil {
+		t.Fatalf("Services.SetDataDogService returns an error: %v", err)
+	}
+}
+
 func TestGetDiscordService(t *testing.T) {
 	mux, client := setup(t)
 

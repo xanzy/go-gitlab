@@ -222,6 +222,39 @@ func (s *ServicesService) GetDataDogService(pid interface{}, options ...RequestO
 	return svc, resp, nil
 }
 
+// SetDataDogServiceOptions represents the available SetDataDogService()
+// options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/services.html#createedit-datadog-integration
+type SetDataDogServiceOptions struct {
+	APIURL             *string `url:"api_url,omitempty" json:"api_url,omitempty"`
+	ArchiveTraceEvents *bool   `url:"archive_trace_events,omitempty" json:"archive_trace_events,omitempty"`
+	DataDogEnv         *string `url:"datadog_env,omitempty" json:"datadog_env,omitempty"`
+	DataDogService     *string `url:"datadog_service,omitempty" json:"datadog_service,omitempty"`
+	DataDogSite        *string `url:"datadog_site,omitempty" json:"datadog_site,omitempty"`
+	DataDogTags        *string `url:"datadog_tags,omitempty" json:"datadog_tags,omitempty"`
+}
+
+// SetDataDogService sets DataDog service settings for a project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/services.html#createedit-datadog-integration
+func (s *ServicesService) SetDataDogService(pid interface{}, opt *SetDataDogServiceOptions, options ...RequestOptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/services/datadog", PathEscape(project))
+
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
+
 // DiscordService represents Discord service settings.
 //
 // GitLab API docs:
