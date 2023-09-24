@@ -201,6 +201,10 @@ type DataDogServiceProperties struct {
 	DataDogTags        string `url:"datadog_tags,omitempty" json:"datadog_tags,omitempty"`
 }
 
+// GetDataDogService gets DataDog service settings for a project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/services.html#get-datadog-integration-settings
 func (s *ServicesService) GetDataDogService(pid interface{}, options ...RequestOptionFunc) (*DataDogService, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
