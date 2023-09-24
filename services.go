@@ -193,12 +193,12 @@ type DataDogService struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/services.html#datadog
 type DataDogServiceProperties struct {
-	APIURL             string `json:"api_url,omitempty"`
-	ArchiveTraceEvents bool   `json:"archive_trace_events,omitempty"`
-	DataDogEnv         string `json:"datadog_env,omitempty"`
-	DataDogService     string `json:"datadog_service,omitempty"`
-	DataDogSite        string `json:"datadog_site,omitempty"`
-	DataDogTags        string `json:"datadog_tags,omitempty"`
+	APIURL             string `url:"api_url,omitempty" json:"api_url,omitempty"`
+	ArchiveTraceEvents bool   `url:"archive_trace_events,omitempty" json:"archive_trace_events,omitempty"`
+	DataDogEnv         string `url:"datadog_env,omitempty" json:"datadog_env,omitempty"`
+	DataDogService     string `url:"datadog_service,omitempty" json:"datadog_service,omitempty"`
+	DataDogSite        string `url:"datadog_site,omitempty" json:"datadog_site,omitempty"`
+	DataDogTags        string `url:"datadog_tags,omitempty" json:"datadog_tags,omitempty"`
 }
 
 func (s *ServicesService) GetDataDogService(pid interface{}, options ...RequestOptionFunc) (*DataDogService, *Response, error) {
