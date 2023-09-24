@@ -105,6 +105,34 @@ func TestDeleteCustomIssueTrackerService(t *testing.T) {
 	}
 }
 
+func TestGetDataDogService(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/projects/1/services/datadog", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		fmt.Fprint(w, `{"id": 1, "active": true, "properties": {"datadog_site":"datadoghq.com", "api_url": "", "archive_trace_events": true, "datadog_service": "gitlab", "datadog_env": "production", "datadog_tags": "country=canada\nprovince=ontario"}}`)
+	})
+	want := &DataDogService{
+		Service: Service{ID: 1, Active: true},
+		Properties: &DataDogServiceProperties{
+			APIURL:             "",
+			ArchiveTraceEvents: true,
+			DataDogEnv:         "production",
+			DataDogService:     "gitlab",
+			DataDogSite:        "datadoghq.com",
+			DataDogTags:        "country=canada\nprovince=ontario",
+		},
+	}
+
+	service, _, err := client.Services.GetDataDogService(1)
+	if err != nil {
+		t.Fatalf("Services.GetDataDogService returns an error: %v", err)
+	}
+	if !reflect.DeepEqual(want, service) {
+		t.Errorf("Services.GetDataDogService returned %+v, want %+v", service, want)
+	}
+}
+
 func TestGetDiscordService(t *testing.T) {
 	mux, client := setup(t)
 

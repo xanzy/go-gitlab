@@ -179,6 +179,49 @@ func (s *ServicesService) DeleteCustomIssueTrackerService(pid interface{}, optio
 	return s.client.Do(req, nil)
 }
 
+// DataDogService represents DataDog service settings.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/services.html#datadog
+type DataDogService struct {
+	Service
+	Properties *DataDogServiceProperties `json:"properties"`
+}
+
+// DataDogServiceProperties represents DataDog specific properties.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/services.html#datadog
+type DataDogServiceProperties struct {
+	APIURL             string `json:"api_url,omitempty"`
+	ArchiveTraceEvents bool   `json:"archive_trace_events,omitempty"`
+	DataDogEnv         string `json:"datadog_env,omitempty"`
+	DataDogService     string `json:"datadog_service,omitempty"`
+	DataDogSite        string `json:"datadog_site,omitempty"`
+	DataDogTags        string `json:"datadog_tags,omitempty"`
+}
+
+func (s *ServicesService) GetDataDogService(pid interface{}, options ...RequestOptionFunc) (*DataDogService, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/services/datadog", PathEscape(project))
+
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	svc := new(DataDogService)
+	resp, err := s.client.Do(req, svc)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return svc, resp, nil
+}
+
 // DiscordService represents Discord service settings.
 //
 // GitLab API docs:
