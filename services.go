@@ -259,6 +259,25 @@ func (s *ServicesService) SetDataDogService(pid interface{}, opt *SetDataDogServ
 	return s.client.Do(req, nil)
 }
 
+// DeleteDataDogService deletes the DataDog service settings for a project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/services.html#disable-datadog-integration
+func (s *ServicesService) DeleteDataDogService(pid interface{}, options ...RequestOptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/services/datadog", PathEscape(project))
+
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
+
 // DiscordService represents Discord service settings.
 //
 // GitLab API docs:

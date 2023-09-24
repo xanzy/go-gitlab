@@ -156,6 +156,19 @@ func TestSetDataDogService(t *testing.T) {
 	}
 }
 
+func TestDeleteDataDogService(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/projects/1/services/datadog", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodDelete)
+	})
+
+	_, err := client.Services.DeleteDataDogService(1)
+	if err != nil {
+		t.Fatalf("Services.DeleteDataDogService returns an error: %v", err)
+	}
+}
+
 func TestGetDiscordService(t *testing.T) {
 	mux, client := setup(t)
 
