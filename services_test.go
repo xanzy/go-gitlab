@@ -138,10 +138,11 @@ func TestSetDataDogService(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/services/datadog", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
-		testBody(t, r, `{"api_url":"https://some-api.com","archive_trace_events":false,"datadog_env":"sandbox","datadog_service":"source-code","datadog_site":"datadoghq.eu","datadog_tags":"country=france"}`)
+		testBody(t, r, `{"api_key":"secret","api_url":"https://some-api.com","archive_trace_events":false,"datadog_env":"sandbox","datadog_service":"source-code","datadog_site":"datadoghq.eu","datadog_tags":"country=france"}`)
 	})
 
 	opt := &SetDataDogServiceOptions{
+		APIKey:             String("secret"),
 		APIURL:             String("https://some-api.com"),
 		ArchiveTraceEvents: Bool(false),
 		DataDogEnv:         String("sandbox"),

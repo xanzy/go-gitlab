@@ -232,6 +232,7 @@ func (s *ServicesService) GetDataDogService(pid interface{}, options ...RequestO
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/services.html#createedit-datadog-integration
 type SetDataDogServiceOptions struct {
+	APIKey             *string `url:"api_key,omitempty" json:"api_key,omitempty"`
 	APIURL             *string `url:"api_url,omitempty" json:"api_url,omitempty"`
 	ArchiveTraceEvents *bool   `url:"archive_trace_events,omitempty" json:"archive_trace_events,omitempty"`
 	DataDogEnv         *string `url:"datadog_env,omitempty" json:"datadog_env,omitempty"`
