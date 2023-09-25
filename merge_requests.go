@@ -509,6 +509,40 @@ func (s *MergeRequestsService) GetMergeRequestParticipants(pid interface{}, merg
 	return ps, resp, nil
 }
 
+// MergeRequestReviewer represents a GitLab merge request reviewer.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/merge_requests.html#get-single-merge-request-reviewers
+type MergeRequestReviewer struct {
+	User      *BasicUser `json:"user"`
+	State     string     `json:"state"`
+	CreatedAt *time.Time `json:"created_at"`
+}
+
+// GetMergeRequestReviewers gets a list of merge request reviewers.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/merge_requests.html#get-single-merge-request-reviewers
+func (s *MergeRequestsService) GetMergeRequestReviewers(pid interface{}, mergeRequest int, options ...RequestOptionFunc) ([]*MergeRequestReviewer, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/merge_requests/%d/reviewers", PathEscape(project), mergeRequest)
+
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var ps []*MergeRequestReviewer
+	resp, err := s.client.Do(req, &ps)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return ps, resp, nil
+}
+
 // ListMergeRequestPipelines gets all pipelines for the provided merge request.
 //
 // GitLab API docs:

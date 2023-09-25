@@ -245,6 +245,34 @@ func TestGetMergeRequestParticipants(t *testing.T) {
 	}
 }
 
+func TestGetMergeRequestReviewers(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/projects/1/merge_requests/5/reviewers", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		testURL(t, r, "/api/v4/projects/1/merge_requests/5/reviewers")
+
+		fmt.Fprint(w, `[{"user":{"id":1,"name":"John Doe1","username":"user1","state":"active","avatar_url":"http://www.gravatar.com/avatar/c922747a93b40d1ea88262bf1aebee62?s=80&d=identicon","web_url":"http://localhost/user1"},"state":"unreviewed","created_at":"2022-07-27T17:03:27.684Z"},{"user":{"id":2,"name":"John Doe2","username":"user2","state":"active","avatar_url":"http://www.gravatar.com/avatar/10fc7f102be8de7657fb4d80898bbfe3?s=80&d=identicon","web_url":"http://localhost/user2"},"state":"reviewed","created_at":"2022-07-27T17:03:27.684Z"}]`)
+	})
+
+	mergeRequestReviewers, _, err := client.MergeRequests.GetMergeRequestReviewers("1", 5)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	createdAt := time.Date(2022, 07, 27, 17, 3, 27, 684000000, time.UTC)
+	user1 := BasicUser{ID: 1, Name: "John Doe1", Username: "user1", State: "active", AvatarURL: "http://www.gravatar.com/avatar/c922747a93b40d1ea88262bf1aebee62?s=80&d=identicon", WebURL: "http://localhost/user1"}
+	user2 := BasicUser{ID: 2, Name: "John Doe2", Username: "user2", State: "active", AvatarURL: "http://www.gravatar.com/avatar/10fc7f102be8de7657fb4d80898bbfe3?s=80&d=identicon", WebURL: "http://localhost/user2"}
+
+	assert.Len(t, mergeRequestReviewers, 2)
+	assert.Equal(t, "unreviewed", mergeRequestReviewers[0].State)
+	require.Equal(t, &user1, mergeRequestReviewers[0].User)
+	require.Equal(t, &createdAt, mergeRequestReviewers[0].CreatedAt)
+	assert.Equal(t, "reviewed", mergeRequestReviewers[1].State)
+	require.Equal(t, &user2, mergeRequestReviewers[1].User)
+	require.Equal(t, &createdAt, mergeRequestReviewers[1].CreatedAt)
+}
+
 func TestGetIssuesClosedOnMerge_Jira(t *testing.T) {
 	mux, client := setup(t)
 	mux.HandleFunc("/api/v4/projects/1/merge_requests/1/closes_issues", func(w http.ResponseWriter, r *http.Request) {
