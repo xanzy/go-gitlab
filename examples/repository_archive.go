@@ -31,9 +31,7 @@ func repositoryArchiveExample() {
 	// Get repository archive
 	opt := &gitlab.ArchiveOptions{
 		Format: gitlab.String("tar.gz"),
-		// Gitlab API supports archiving first level directories at the moment, e.g. "mygroup/myproject/mydir".
-		// If you pass 2+ level directory in path, whole repository will be archived and downloaded.
-		Path: gitlab.String("mydir"),
+		Path:   gitlab.String("mydir"),
 	}
 	content, _, err := git.Repositories.Archive("mygroup/myproject", opt, nil)
 	if err != nil {

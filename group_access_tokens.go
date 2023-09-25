@@ -147,6 +147,7 @@ func (s *GroupAccessTokensService) CreateGroupAccessToken(gid interface{}, opt *
 
 // RotateGroupAccessToken revokes a group access token and returns a new group
 // access token that expires in one week.
+//
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/group_access_tokens.html#rotate-a-group-access-token
 func (s *GroupAccessTokensService) RotateGroupAccessToken(gid interface{}, id int, options ...RequestOptionFunc) (*GroupAccessToken, *Response, error) {

@@ -32,11 +32,11 @@ func dataDogExample() {
 	// Create new DataDog integration
 	opts := &gitlab.SetDataDogServiceOptions{
 		APIKey:             gitlab.String("testing"),
-		ArchiveTraceEvents: gitlab.Bool(true),
 		DataDogEnv:         gitlab.String("sandbox"),
 		DataDogService:     gitlab.String("test"),
 		DataDogSite:        gitlab.String("datadoghq.com"),
 		DataDogTags:        gitlab.String("country:canada\nprovince:ontario"),
+		ArchiveTraceEvents: gitlab.Bool(true),
 	}
 
 	_, err = git.Services.SetDataDogService(1, opts)
@@ -50,9 +50,9 @@ func dataDogExample() {
 		log.Fatal(err)
 	}
 	fmt.Printf(
-		"api_url: %s, archive_trace_events: %v, datadog_env: %s, datadog_service: %s, datadog_site: %s, datadog_tags: %s",
-		svc.Properties.APIURL, svc.Properties.ArchiveTraceEvents, svc.Properties.DataDogEnv,
-		svc.Properties.DataDogService, svc.Properties.DataDogSite, svc.Properties.DataDogTags,
+		"api_url: %s, datadog_env: %s, datadog_service: %s, datadog_site: %s, datadog_tags: %s",
+		svc.Properties.APIURL, svc.Properties.DataDogEnv, svc.Properties.DataDogService,
+		svc.Properties.DataDogSite, svc.Properties.DataDogTags,
 	)
 
 	// Delete the integration

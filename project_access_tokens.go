@@ -148,6 +148,7 @@ func (s *ProjectAccessTokensService) CreateProjectAccessToken(pid interface{}, o
 
 // RotateProjectAccessToken revokes a project access token and returns a new
 // project access token that expires in one week.
+//
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/project_access_tokens.html#rotate-a-project-access-token
 func (s *ProjectAccessTokensService) RotateProjectAccessToken(pid interface{}, id int, options ...RequestOptionFunc) (*ProjectAccessToken, *Response, error) {

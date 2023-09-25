@@ -194,11 +194,11 @@ type DataDogService struct {
 // https://docs.gitlab.com/ee/api/services.html#datadog
 type DataDogServiceProperties struct {
 	APIURL             string `url:"api_url,omitempty" json:"api_url,omitempty"`
-	ArchiveTraceEvents bool   `url:"archive_trace_events,omitempty" json:"archive_trace_events,omitempty"`
 	DataDogEnv         string `url:"datadog_env,omitempty" json:"datadog_env,omitempty"`
 	DataDogService     string `url:"datadog_service,omitempty" json:"datadog_service,omitempty"`
 	DataDogSite        string `url:"datadog_site,omitempty" json:"datadog_site,omitempty"`
 	DataDogTags        string `url:"datadog_tags,omitempty" json:"datadog_tags,omitempty"`
+	ArchiveTraceEvents bool   `url:"archive_trace_events,omitempty" json:"archive_trace_events,omitempty"`
 }
 
 // GetDataDogService gets DataDog service settings for a project.
@@ -234,11 +234,11 @@ func (s *ServicesService) GetDataDogService(pid interface{}, options ...RequestO
 type SetDataDogServiceOptions struct {
 	APIKey             *string `url:"api_key,omitempty" json:"api_key,omitempty"`
 	APIURL             *string `url:"api_url,omitempty" json:"api_url,omitempty"`
-	ArchiveTraceEvents *bool   `url:"archive_trace_events,omitempty" json:"archive_trace_events,omitempty"`
 	DataDogEnv         *string `url:"datadog_env,omitempty" json:"datadog_env,omitempty"`
 	DataDogService     *string `url:"datadog_service,omitempty" json:"datadog_service,omitempty"`
 	DataDogSite        *string `url:"datadog_site,omitempty" json:"datadog_site,omitempty"`
 	DataDogTags        *string `url:"datadog_tags,omitempty" json:"datadog_tags,omitempty"`
+	ArchiveTraceEvents *bool   `url:"archive_trace_events,omitempty" json:"archive_trace_events,omitempty"`
 }
 
 // SetDataDogService sets DataDog service settings for a project.

@@ -542,18 +542,19 @@ func (s *MergeRequestsService) GetMergeRequestParticipants(pid interface{}, merg
 		return nil, nil, err
 	}
 
-	var ps []*BasicUser
-	resp, err := s.client.Do(req, &ps)
+	var bu []*BasicUser
+	resp, err := s.client.Do(req, &bu)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return ps, resp, nil
+	return bu, resp, nil
 }
 
 // MergeRequestReviewer represents a GitLab merge request reviewer.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/merge_requests.html#get-single-merge-request-reviewers
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/merge_requests.html#get-single-merge-request-reviewers
 type MergeRequestReviewer struct {
 	User      *BasicUser `json:"user"`
 	State     string     `json:"state"`
@@ -576,13 +577,13 @@ func (s *MergeRequestsService) GetMergeRequestReviewers(pid interface{}, mergeRe
 		return nil, nil, err
 	}
 
-	var ps []*MergeRequestReviewer
-	resp, err := s.client.Do(req, &ps)
+	var mrr []*MergeRequestReviewer
+	resp, err := s.client.Do(req, &mrr)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return ps, resp, nil
+	return mrr, resp, nil
 }
 
 // ListMergeRequestPipelines gets all pipelines for the provided merge request.
