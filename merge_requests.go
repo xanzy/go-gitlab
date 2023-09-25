@@ -36,59 +36,50 @@ type MergeRequestsService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/merge_requests.html
 type MergeRequest struct {
-	ID                        int              `json:"id"`
-	IID                       int              `json:"iid"`
-	TargetBranch              string           `json:"target_branch"`
-	SourceBranch              string           `json:"source_branch"`
-	ProjectID                 int              `json:"project_id"`
-	Title                     string           `json:"title"`
-	State                     string           `json:"state"`
-	CreatedAt                 *time.Time       `json:"created_at"`
-	UpdatedAt                 *time.Time       `json:"updated_at"`
-	Upvotes                   int              `json:"upvotes"`
-	Downvotes                 int              `json:"downvotes"`
-	Author                    *BasicUser       `json:"author"`
-	Assignee                  *BasicUser       `json:"assignee"`
-	Assignees                 []*BasicUser     `json:"assignees"`
-	Reviewers                 []*BasicUser     `json:"reviewers"`
-	SourceProjectID           int              `json:"source_project_id"`
-	TargetProjectID           int              `json:"target_project_id"`
-	Labels                    Labels           `json:"labels"`
-	LabelDetails              []*LabelDetails  `json:"label_details"`
-	Description               string           `json:"description"`
-	Draft                     bool             `json:"draft"`
-	WorkInProgress            bool             `json:"work_in_progress"`
-	Milestone                 *Milestone       `json:"milestone"`
-	MergeWhenPipelineSucceeds bool             `json:"merge_when_pipeline_succeeds"`
-	DetailedMergeStatus       string           `json:"detailed_merge_status"`
-	MergeError                string           `json:"merge_error"`
-	MergedBy                  *BasicUser       `json:"merged_by"`
-	MergedAt                  *time.Time       `json:"merged_at"`
-	ClosedBy                  *BasicUser       `json:"closed_by"`
-	ClosedAt                  *time.Time       `json:"closed_at"`
-	Subscribed                bool             `json:"subscribed"`
-	SHA                       string           `json:"sha"`
-	MergeCommitSHA            string           `json:"merge_commit_sha"`
-	SquashCommitSHA           string           `json:"squash_commit_sha"`
-	UserNotesCount            int              `json:"user_notes_count"`
-	ChangesCount              string           `json:"changes_count"`
-	ShouldRemoveSourceBranch  bool             `json:"should_remove_source_branch"`
-	ForceRemoveSourceBranch   bool             `json:"force_remove_source_branch"`
-	AllowCollaboration        bool             `json:"allow_collaboration"`
-	WebURL                    string           `json:"web_url"`
-	References                *IssueReferences `json:"references"`
-	DiscussionLocked          bool             `json:"discussion_locked"`
-	Changes                   []struct {
-		OldPath     string `json:"old_path"`
-		NewPath     string `json:"new_path"`
-		AMode       string `json:"a_mode"`
-		BMode       string `json:"b_mode"`
-		Diff        string `json:"diff"`
-		NewFile     bool   `json:"new_file"`
-		RenamedFile bool   `json:"renamed_file"`
-		DeletedFile bool   `json:"deleted_file"`
-	} `json:"changes"`
-	User struct {
+	ID                        int                 `json:"id"`
+	IID                       int                 `json:"iid"`
+	TargetBranch              string              `json:"target_branch"`
+	SourceBranch              string              `json:"source_branch"`
+	ProjectID                 int                 `json:"project_id"`
+	Title                     string              `json:"title"`
+	State                     string              `json:"state"`
+	CreatedAt                 *time.Time          `json:"created_at"`
+	UpdatedAt                 *time.Time          `json:"updated_at"`
+	Upvotes                   int                 `json:"upvotes"`
+	Downvotes                 int                 `json:"downvotes"`
+	Author                    *BasicUser          `json:"author"`
+	Assignee                  *BasicUser          `json:"assignee"`
+	Assignees                 []*BasicUser        `json:"assignees"`
+	Reviewers                 []*BasicUser        `json:"reviewers"`
+	SourceProjectID           int                 `json:"source_project_id"`
+	TargetProjectID           int                 `json:"target_project_id"`
+	Labels                    Labels              `json:"labels"`
+	LabelDetails              []*LabelDetails     `json:"label_details"`
+	Description               string              `json:"description"`
+	Draft                     bool                `json:"draft"`
+	WorkInProgress            bool                `json:"work_in_progress"`
+	Milestone                 *Milestone          `json:"milestone"`
+	MergeWhenPipelineSucceeds bool                `json:"merge_when_pipeline_succeeds"`
+	DetailedMergeStatus       string              `json:"detailed_merge_status"`
+	MergeError                string              `json:"merge_error"`
+	MergedBy                  *BasicUser          `json:"merged_by"`
+	MergedAt                  *time.Time          `json:"merged_at"`
+	ClosedBy                  *BasicUser          `json:"closed_by"`
+	ClosedAt                  *time.Time          `json:"closed_at"`
+	Subscribed                bool                `json:"subscribed"`
+	SHA                       string              `json:"sha"`
+	MergeCommitSHA            string              `json:"merge_commit_sha"`
+	SquashCommitSHA           string              `json:"squash_commit_sha"`
+	UserNotesCount            int                 `json:"user_notes_count"`
+	ChangesCount              string              `json:"changes_count"`
+	ShouldRemoveSourceBranch  bool                `json:"should_remove_source_branch"`
+	ForceRemoveSourceBranch   bool                `json:"force_remove_source_branch"`
+	AllowCollaboration        bool                `json:"allow_collaboration"`
+	WebURL                    string              `json:"web_url"`
+	References                *IssueReferences    `json:"references"`
+	DiscussionLocked          bool                `json:"discussion_locked"`
+	Changes                   []*MergeRequestDiff `json:"changes"`
+	User                      struct {
 		CanMerge bool `json:"can_merge"`
 	} `json:"user"`
 	TimeStats    *TimeStats    `json:"time_stats"`
@@ -150,6 +141,21 @@ func (m *MergeRequest) UnmarshalJSON(data []byte) error {
 	}
 
 	return json.Unmarshal(data, (*alias)(m))
+}
+
+// MergeRequestDiff represents Gitlab merge request diff.
+//
+// Gitlab API docs:
+// https://docs.gitlab.com/ee/api/merge_requests.html#list-merge-request-diffs
+type MergeRequestDiff struct {
+	OldPath     string `json:"old_path"`
+	NewPath     string `json:"new_path"`
+	AMode       string `json:"a_mode"`
+	BMode       string `json:"b_mode"`
+	Diff        string `json:"diff"`
+	NewFile     bool   `json:"new_file"`
+	RenamedFile bool   `json:"renamed_file"`
+	DeletedFile bool   `json:"deleted_file"`
 }
 
 // MergeRequestDiffVersion represents Gitlab merge request version.
@@ -461,6 +467,9 @@ type GetMergeRequestChangesOptions struct {
 // GetMergeRequestChanges shows information about the merge request including
 // its files and changes.
 //
+// Deprecated: This endpoint has been replaced by
+// MergeRequestsService.ListMergeRequesDiffs()
+//
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_requests.html#get-single-merge-request-changes
 func (s *MergeRequestsService) GetMergeRequestChanges(pid interface{}, mergeRequest int, opt *GetMergeRequestChangesOptions, options ...RequestOptionFunc) (*MergeRequest, *Response, error) {
@@ -477,6 +486,39 @@ func (s *MergeRequestsService) GetMergeRequestChanges(pid interface{}, mergeRequ
 
 	m := new(MergeRequest)
 	resp, err := s.client.Do(req, m)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return m, resp, nil
+}
+
+// ListMergeRequesDiffsOptions represents the available ListMergeRequesDiffs()
+// options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/merge_requests.html#list-merge-request-diffs
+type ListMergeRequesDiffsOptions ListOptions
+
+// ListMergeRequesDiffs List diffs of the files changed in a merge request
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/merge_requests.html#list-merge-request-diffs
+func (s *MergeRequestsService) ListMergeRequesDiffs(pid interface{}, mergeRequest int, opt *ListMergeRequesDiffsOptions, options ...RequestOptionFunc) ([]*MergeRequestDiff, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	u := fmt.Sprintf("/projects/%s/merge_requests/%d/diffs", PathEscape(project), mergeRequest)
+
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var m []*MergeRequestDiff
+	resp, err := s.client.Do(req, &m)
 	if err != nil {
 		return nil, resp, err
 	}
