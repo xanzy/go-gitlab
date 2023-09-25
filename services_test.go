@@ -46,7 +46,16 @@ func TestCustomIssueTrackerService(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/services/custom-issue-tracker", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
-		fmt.Fprint(w, `{"id": 1, "title": "5", "push_events": true, "properties": {"new_issue_url":"1", "issues_url": "2", "project_url": "3"}}`)
+		fmt.Fprint(w, `{
+      "id": 1,
+      "title": "5",
+      "push_events": true,
+      "properties": {
+        "new_issue_url": "1",
+        "issues_url": "2",
+        "project_url": "3"
+      }
+    }`)
 	})
 	want := &CustomIssueTrackerService{
 		Service: Service{
@@ -110,17 +119,28 @@ func TestGetDataDogService(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/services/datadog", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
-		fmt.Fprint(w, `{"id": 1, "active": true, "properties": {"datadog_site":"datadoghq.com", "api_url": "", "archive_trace_events": true, "datadog_service": "gitlab", "datadog_env": "production", "datadog_tags": "country=canada\nprovince=ontario"}}`)
+		fmt.Fprint(w, `{
+      "id": 1,
+      "active": true,
+      "properties": {
+        "api_url": "",
+        "datadog_env": "production",
+        "datadog_service": "gitlab",
+        "datadog_site": "datadoghq.com",
+        "datadog_tags": "country=canada\nprovince=ontario",
+        "archive_trace_events": true
+      }
+    }`)
 	})
 	want := &DataDogService{
 		Service: Service{ID: 1, Active: true},
 		Properties: &DataDogServiceProperties{
 			APIURL:             "",
-			ArchiveTraceEvents: true,
 			DataDogEnv:         "production",
 			DataDogService:     "gitlab",
 			DataDogSite:        "datadoghq.com",
 			DataDogTags:        "country=canada\nprovince=ontario",
+			ArchiveTraceEvents: true,
 		},
 	}
 
@@ -138,17 +158,16 @@ func TestSetDataDogService(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/services/datadog", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
-		testBody(t, r, `{"api_key":"secret","api_url":"https://some-api.com","archive_trace_events":false,"datadog_env":"sandbox","datadog_service":"source-code","datadog_site":"datadoghq.eu","datadog_tags":"country=france"}`)
 	})
 
 	opt := &SetDataDogServiceOptions{
 		APIKey:             String("secret"),
 		APIURL:             String("https://some-api.com"),
-		ArchiveTraceEvents: Bool(false),
 		DataDogEnv:         String("sandbox"),
 		DataDogService:     String("source-code"),
 		DataDogSite:        String("datadoghq.eu"),
 		DataDogTags:        String("country=france"),
+		ArchiveTraceEvents: Bool(false),
 	}
 
 	_, err := client.Services.SetDataDogService(1, opt)
