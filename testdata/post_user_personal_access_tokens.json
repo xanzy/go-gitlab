@@ -1,0 +1,13 @@
+{
+  "id": 3,
+  "name": "mytoken",
+  "revoked": false,
+  "created_at": "2020-10-14T11:58:53.526Z",
+  "scopes": [
+    "k8s_proxy"
+  ],
+  "user_id": 42,
+  "active": true,
+  "expires_at": "2020-10-15",
+  "token": "glpat-aaaaaaaa-bbbbbbbbb"
+}
