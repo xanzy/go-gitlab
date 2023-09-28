@@ -794,6 +794,7 @@ type PipelineEvent struct {
 	ObjectAttributes struct {
 		ID             int      `json:"id"`
 		IID            int      `json:"iid"`
+		Name           string   `json:"name"`
 		Ref            string   `json:"ref"`
 		Tag            bool     `json:"tag"`
 		SHA            string   `json:"sha"`
