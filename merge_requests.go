@@ -509,7 +509,6 @@ func (s *MergeRequestsService) ListMergeRequesDiffs(pid interface{}, mergeReques
 	if err != nil {
 		return nil, nil, err
 	}
-
 	u := fmt.Sprintf("projects/%s/merge_requests/%d/diffs", PathEscape(project), mergeRequest)
 
 	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
