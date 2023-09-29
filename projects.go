@@ -203,6 +203,7 @@ type ForkParent struct {
 	NameWithNamespace string `json:"name_with_namespace"`
 	Path              string `json:"path"`
 	PathWithNamespace string `json:"path_with_namespace"`
+	RepositoryStorage string `json:"repository_storage"`
 	WebURL            string `json:"web_url"`
 }
 
