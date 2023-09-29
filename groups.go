@@ -68,7 +68,7 @@ type Group struct {
 	MentionsDisabled        bool                       `json:"mentions_disabled"`
 	RunnersToken            string                     `json:"runners_token"`
 	SharedProjects          []*Project                 `json:"shared_projects"`
-	SharedRunnersEnabled    bool                       `json:"shared_runners_enabled"`
+	SharedRunnersSetting    SharedRunnersSettingValue  `json:"shared_runners_setting"`
 	SharedWithGroups        []struct {
 		GroupID          int      `json:"group_id"`
 		GroupName        string   `json:"group_name"`

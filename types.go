@@ -607,8 +607,11 @@ type SharedRunnersSettingValue string
 // https://docs.gitlab.com/ee/api/groups.html#options-for-shared_runners_setting
 const (
 	EnabledSharedRunnersSettingValue                  SharedRunnersSettingValue = "enabled"
-	DisabledWithOverrideSharedRunnersSettingValue     SharedRunnersSettingValue = "disabled_with_override"
+	DisabledAndOverridableSharedRunnersSettingValue   SharedRunnersSettingValue = "disabled_and_overridable"
 	DisabledAndUnoverridableSharedRunnersSettingValue SharedRunnersSettingValue = "disabled_and_unoverridable"
+
+	// Deprecated: DisabledWithOverrideSharedRunnersSettingValue is deprecated in favor of DisabledAndOverridableSharedRunnersSettingValue
+	DisabledWithOverrideSharedRunnersSettingValue SharedRunnersSettingValue = "disabled_with_override"
 )
 
 // SharedRunnersSetting is a helper routine that allocates a new SharedRunnersSettingValue
