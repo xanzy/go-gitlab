@@ -197,14 +197,14 @@ type ContainerExpirationPolicy struct {
 
 // ForkParent represents the parent project when this is a fork.
 type ForkParent struct {
-	HTTPURLToRepo     string `json:"http_url_to_repo"`
 	ID                int    `json:"id"`
 	Name              string `json:"name"`
 	NameWithNamespace string `json:"name_with_namespace"`
 	Path              string `json:"path"`
 	PathWithNamespace string `json:"path_with_namespace"`
-	RepositoryStorage string `json:"repository_storage"`
+	HTTPURLToRepo     string `json:"http_url_to_repo"`
 	WebURL            string `json:"web_url"`
+	RepositoryStorage string `json:"repository_storage"`
 }
 
 // GroupAccess represents group access.
