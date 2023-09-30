@@ -201,6 +201,7 @@ type Client struct {
 	Repositories                 *RepositoriesService
 	RepositoryFiles              *RepositoryFilesService
 	RepositorySubmodules         *RepositorySubmodulesService
+	ResourceIterationEvents      *ResourceIterationEventsService
 	ResourceLabelEvents          *ResourceLabelEventsService
 	ResourceMilestoneEvents      *ResourceMilestoneEventsService
 	ResourceStateEvents          *ResourceStateEventsService
@@ -424,6 +425,7 @@ func newClient(options ...ClientOptionFunc) (*Client, error) {
 	c.Repositories = &RepositoriesService{client: c}
 	c.RepositoryFiles = &RepositoryFilesService{client: c}
 	c.RepositorySubmodules = &RepositorySubmodulesService{client: c}
+	c.ResourceIterationEvents = &ResourceIterationEventsService{client: c}
 	c.ResourceLabelEvents = &ResourceLabelEventsService{client: c}
 	c.ResourceMilestoneEvents = &ResourceMilestoneEventsService{client: c}
 	c.ResourceStateEvents = &ResourceStateEventsService{client: c}
