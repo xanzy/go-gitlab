@@ -22,7 +22,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestListIssueIterationEvents(t *testing.T) {
+func TestListIssueIterationEventsService_ListIssueIterationEvents(t *testing.T) {
 	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/issues/11/resource_iteration_events", func(w http.ResponseWriter, r *http.Request) {
@@ -36,7 +36,7 @@ func TestListIssueIterationEvents(t *testing.T) {
 			        "name": "Administrator",
 			        "state": "active",
 			        "avatar_url": "https://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=80&d=identicon",
-			        "web_url": "http://gitlab.example.com/root"
+			        "web_url": "https://gitlab.example.com/root"
 			    },
 			    "created_at": "2023-09-22T06:51:04.801Z",
 			    "resource_type": "Issue",
@@ -53,7 +53,7 @@ func TestListIssueIterationEvents(t *testing.T) {
 			        "updated_at": "2023-09-24T00:05:10.476Z",
 			        "start_date": "2023-09-17",
 			        "due_date": "2023-09-23",
-			        "web_url": ""
+			        "web_url": "https://gitlab.example.com/groups/project/-/iterations/1"
 			    },
 			    "action": "add"
 			}
@@ -65,22 +65,11 @@ func TestListIssueIterationEvents(t *testing.T) {
 	mes, _, err := client.ResourceIterationEvents.ListIssueIterationEvents(5, 11, opt)
 	require.NoError(t, err)
 
-	eventCreatedAt, err := time.Parse(time.RFC3339, "2023-09-22T06:51:04.801Z")
+	startDateISOTime, err := ParseISOTime("2023-09-17")
 	require.NoError(t, err)
 
-	createdAt, err := time.Parse(time.RFC3339, "2023-07-15T00:05:06.509Z")
+	dueDateISOTime, err := ParseISOTime("2023-09-23")
 	require.NoError(t, err)
-
-	updatedAt, err := time.Parse(time.RFC3339, "2023-09-24T00:05:10.476Z")
-	require.NoError(t, err)
-
-	startDate, err := time.Parse(time.RFC3339, "2023-09-17T00:00:00.000Z")
-	require.NoError(t, err)
-	startDateISOTime := ISOTime(startDate)
-
-	dueDate, err := time.Parse(time.RFC3339, "2023-09-23T00:00:00.000Z")
-	require.NoError(t, err)
-	dueDateISOTime := ISOTime(dueDate)
 
 	want := []*IterationEvent{{
 		ID: 142,
@@ -90,11 +79,11 @@ func TestListIssueIterationEvents(t *testing.T) {
 			Name:      "Administrator",
 			State:     "active",
 			AvatarURL: "https://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=80&d=identicon",
-			WebURL:    "http://gitlab.example.com/root",
+			WebURL:    "https://gitlab.example.com/root",
 		},
 		ResourceType: "Issue",
 		ResourceID:   11,
-		CreatedAt:    &eventCreatedAt,
+		CreatedAt:    Time(time.Date(2023, time.September, 22, 06, 51, 04, 801000000, time.UTC)),
 		Iteration: &ProjectIssueIteration{
 			Id:          133,
 			Iid:         1,
@@ -103,32 +92,32 @@ func TestListIssueIterationEvents(t *testing.T) {
 			Title:       "Iteration 1",
 			Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
 			State:       1,
-			CreatedAt:   &createdAt,
-			UpdatedAt:   &updatedAt,
+			CreatedAt:   Time(time.Date(2023, time.July, 15, 00, 05, 06, 509000000, time.UTC)),
+			UpdatedAt:   Time(time.Date(2023, time.September, 24, 00, 05, 10, 476000000, time.UTC)),
 			StartDate:   &startDateISOTime,
 			DueDate:     &dueDateISOTime,
-			WebUrl:      "",
+			WebUrl:      "https://gitlab.example.com/groups/project/-/iterations/1",
 		},
 		Action: "add",
 	}}
 	require.Equal(t, want, mes)
 }
 
-func TestGetIssueIterationEvent(t *testing.T) {
+func TestListIssueIterationEventsService_GetIssueIterationEvent(t *testing.T) {
 	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/5/issues/11/resource_iteration_events/143", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
 		fmt.Fprintf(w, `
-						{
-			    "id": 142,
+			{
+			    "id": 143,
 			    "user": {
 			        "id": 1,
 			        "username": "root",
 			        "name": "Administrator",
 			        "state": "active",
 			        "avatar_url": "https://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=80&d=identicon",
-			        "web_url": "http://gitlab.example.com/root"
+			        "web_url": "https://gitlab.example.com/root"
 			    },
 			    "created_at": "2023-09-22T06:51:04.801Z",
 			    "resource_type": "Issue",
@@ -145,7 +134,7 @@ func TestGetIssueIterationEvent(t *testing.T) {
 			        "updated_at": "2023-09-24T00:05:10.476Z",
 			        "start_date": "2023-09-17",
 			        "due_date": "2023-09-23",
-			        "web_url": ""
+			        "web_url": "https://gitlab.example.com/groups/project/-/iterations/2"
 			    },
 			    "action": "add"
 			}`,
@@ -155,36 +144,25 @@ func TestGetIssueIterationEvent(t *testing.T) {
 	me, _, err := client.ResourceIterationEvents.GetIssueIterationEvent(5, 11, 143)
 	require.NoError(t, err)
 
-	eventCreatedAt, err := time.Parse(time.RFC3339, "2023-09-22T06:51:04.801Z")
+	startDateISOTime, err := ParseISOTime("2023-09-17")
 	require.NoError(t, err)
 
-	createdAt, err := time.Parse(time.RFC3339, "2023-07-15T00:05:06.509Z")
+	dueDateISOTime, err := ParseISOTime("2023-09-23")
 	require.NoError(t, err)
-
-	updatedAt, err := time.Parse(time.RFC3339, "2023-09-24T00:05:10.476Z")
-	require.NoError(t, err)
-
-	startDate, err := time.Parse(time.RFC3339, "2023-09-17T00:00:00.000Z")
-	require.NoError(t, err)
-	startDateISOTime := ISOTime(startDate)
-
-	dueDate, err := time.Parse(time.RFC3339, "2023-09-23T00:00:00.000Z")
-	require.NoError(t, err)
-	dueDateISOTime := ISOTime(dueDate)
 
 	want := &IterationEvent{
-		ID: 142,
+		ID: 143,
 		User: &BasicUser{
 			ID:        1,
 			Username:  "root",
 			Name:      "Administrator",
 			State:     "active",
 			AvatarURL: "https://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=80&d=identicon",
-			WebURL:    "http://gitlab.example.com/root",
+			WebURL:    "https://gitlab.example.com/root",
 		},
 		ResourceType: "Issue",
 		ResourceID:   11,
-		CreatedAt:    &eventCreatedAt,
+		CreatedAt:    Time(time.Date(2023, time.September, 22, 06, 51, 04, 801000000, time.UTC)),
 		Iteration: &ProjectIssueIteration{
 			Id:          133,
 			Iid:         1,
@@ -193,11 +171,11 @@ func TestGetIssueIterationEvent(t *testing.T) {
 			Title:       "Iteration 1",
 			Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
 			State:       1,
-			CreatedAt:   &createdAt,
-			UpdatedAt:   &updatedAt,
+			CreatedAt:   Time(time.Date(2023, time.July, 15, 00, 05, 06, 509000000, time.UTC)),
+			UpdatedAt:   Time(time.Date(2023, time.September, 24, 00, 05, 10, 476000000, time.UTC)),
 			StartDate:   &startDateISOTime,
 			DueDate:     &dueDateISOTime,
-			WebUrl:      "",
+			WebUrl:      "https://gitlab.example.com/groups/project/-/iterations/2",
 		},
 		Action: "add",
 	}

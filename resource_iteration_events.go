@@ -87,13 +87,13 @@ func (s *ResourceIterationEventsService) ListIssueIterationEvents(pid interface{
 		return nil, nil, err
 	}
 
-	var mes []*IterationEvent
-	resp, err := s.client.Do(req, &mes)
+	var ies []*IterationEvent
+	resp, err := s.client.Do(req, &ies)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return mes, resp, nil
+	return ies, resp, nil
 }
 
 // GetIssueIterationEvent gets a single issue iteration event.
@@ -112,11 +112,11 @@ func (s *ResourceIterationEventsService) GetIssueIterationEvent(pid interface{},
 		return nil, nil, err
 	}
 
-	me := new(IterationEvent)
-	resp, err := s.client.Do(req, me)
+	ie := new(IterationEvent)
+	resp, err := s.client.Do(req, ie)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return me, resp, nil
+	return ie, resp, nil
 }
