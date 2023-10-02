@@ -47,3 +47,66 @@ func TestGetGlobalSettings(t *testing.T) {
 		t.Errorf("NotificationSettings.GetGlobalSettings returned %+v, want %+v", settings, want)
 	}
 }
+
+func TestGetProjectSettings(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/projects/1/notification_settings", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		fmt.Fprintf(w, `{
+		"level":"custom",
+		"events":{
+			"new_note":true,
+			"new_issue":true,
+			"reopen_issue":true,
+			"close_issue":true,
+			"reassign_issue":true,
+			"issue_due":true,
+			"new_merge_request":true,
+			"push_to_merge_request":true,
+			"reopen_merge_request":true,
+			"close_merge_request":true,
+			"reassign_merge_request":true,
+			"merge_merge_request":true,
+			"failed_pipeline":true,
+			"fixed_pipeline":true,
+			"success_pipeline":true,
+			"moved_project":true,
+			"merge_when_pipeline_succeeds":true,
+			"new_epic":true
+			}
+		}`)
+	})
+
+	settings, _, err := client.NotificationSettings.GetSettingsForProject(1)
+	if err != nil {
+		t.Errorf("NotifcationSettings.GetSettingsForProject returned error: %v", err)
+	}
+
+	want := &NotificationSettings{
+		Level: 5, //custom
+		Events: &NotificationEvents{
+			NewEpic:                   true,
+			NewNote:                   true,
+			NewIssue:                  true,
+			ReopenIssue:               true,
+			CloseIssue:                true,
+			ReassignIssue:             true,
+			IssueDue:                  true,
+			NewMergeRequest:           true,
+			PushToMergeRequest:        true,
+			ReopenMergeRequest:        true,
+			CloseMergeRequest:         true,
+			ReassignMergeRequest:      true,
+			MergeMergeRequest:         true,
+			FailedPipeline:            true,
+			FixedPipeline:             true,
+			SuccessPipeline:           true,
+			MovedProject:              true,
+			MergeWhenPipelineSucceeds: true,
+		},
+	}
+	if !reflect.DeepEqual(settings, want) {
+		t.Errorf("NotificationSettings.GetSettingsForProject returned %+v, want %+v", settings, want)
+	}
+}

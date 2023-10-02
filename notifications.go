@@ -45,18 +45,24 @@ type NotificationSettings struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/notification_settings.html#valid-notification-levels
 type NotificationEvents struct {
-	CloseIssue           bool `json:"close_issue"`
-	CloseMergeRequest    bool `json:"close_merge_request"`
-	FailedPipeline       bool `json:"failed_pipeline"`
-	MergeMergeRequest    bool `json:"merge_merge_request"`
-	NewIssue             bool `json:"new_issue"`
-	NewMergeRequest      bool `json:"new_merge_request"`
-	NewNote              bool `json:"new_note"`
-	ReassignIssue        bool `json:"reassign_issue"`
-	ReassignMergeRequest bool `json:"reassign_merge_request"`
-	ReopenIssue          bool `json:"reopen_issue"`
-	ReopenMergeRequest   bool `json:"reopen_merge_request"`
-	SuccessPipeline      bool `json:"success_pipeline"`
+	CloseIssue                bool `json:"close_issue"`
+	CloseMergeRequest         bool `json:"close_merge_request"`
+	FailedPipeline            bool `json:"failed_pipeline"`
+	FixedPipeline             bool `json:"fixed_pipeline"`
+	IssueDue                  bool `json:"issue_due"`
+	MergeWhenPipelineSucceeds bool `json:"merge_when_pipeline_succeeds"`
+	MergeMergeRequest         bool `json:"merge_merge_request"`
+	MovedProject              bool `json:"moved_project"`
+	NewIssue                  bool `json:"new_issue"`
+	NewMergeRequest           bool `json:"new_merge_request"`
+	NewEpic                   bool `json:"new_epic"`
+	NewNote                   bool `json:"new_note"`
+	PushToMergeRequest        bool `json:"push_to_merge_request"`
+	ReassignIssue             bool `json:"reassign_issue"`
+	ReassignMergeRequest      bool `json:"reassign_merge_request"`
+	ReopenIssue               bool `json:"reopen_issue"`
+	ReopenMergeRequest        bool `json:"reopen_merge_request"`
+	SuccessPipeline           bool `json:"success_pipeline"`
 }
 
 func (ns NotificationSettings) String() string {
