@@ -260,7 +260,7 @@ func TestGetMergeRequestReviewers(t *testing.T) {
 		log.Fatal(err)
 	}
 
-	createdAt := time.Date(2022, 07, 27, 17, 3, 27, 684000000, time.UTC)
+	createdAt := time.Date(2022, 0o7, 27, 17, 3, 27, 684000000, time.UTC)
 	user1 := BasicUser{ID: 1, Name: "John Doe1", Username: "user1", State: "active", AvatarURL: "http://www.gravatar.com/avatar/c922747a93b40d1ea88262bf1aebee62?s=80&d=identicon", WebURL: "http://localhost/user1"}
 	user2 := BasicUser{ID: 2, Name: "John Doe2", Username: "user2", State: "active", AvatarURL: "http://www.gravatar.com/avatar/10fc7f102be8de7657fb4d80898bbfe3?s=80&d=identicon", WebURL: "http://localhost/user2"}
 
@@ -296,12 +296,12 @@ func TestListMergeRequesDiffs(t *testing.T) {
 		mustWriteHTTPResponse(t, w, "testdata/list_merge_request_diff.json")
 	})
 
-	opts := &ListMergeRequesDiffsOptions{
+	opts := &ListMergeRequestDiffsOptions{
 		Page:    1,
 		PerPage: 2,
 	}
 
-	diffs, _, err := client.MergeRequests.ListMergeRequesDiffs(1, 1, opts)
+	diffs, _, err := client.MergeRequests.ListMergeRequestDiffs(1, 1, opts)
 	if err != nil {
 		t.Errorf("MergeRequests.ListMergeRequesDiffs returned error: %v", err)
 	}
