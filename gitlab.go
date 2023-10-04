@@ -813,6 +813,7 @@ func (c *Client) Do(req *retryablehttp.Request, v interface{}) (*Response, error
 		return c.Do(req, v)
 	}
 	defer resp.Body.Close()
+	defer io.Copy(io.Discard, resp.Body)
 
 	// If not yet configured, try to configure the rate limiter
 	// using the response headers we just received. Fail silently
