@@ -564,3 +564,22 @@ func (s *JobsService) DeleteArtifacts(pid interface{}, jobID int, options ...Req
 
 	return s.client.Do(req, nil)
 }
+
+// DeleteProjectArtifacts delete artifacts eligible for deletion in a project
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/job_artifacts.html#delete-project-artifacts
+func (s *JobsService) DeleteProjectArtifacts(pid interface{}, options ...RequestOptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/artifacts", PathEscape(project))
+
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
