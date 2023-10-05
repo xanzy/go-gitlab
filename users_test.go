@@ -682,3 +682,37 @@ func TestCreateUserRunner(t *testing.T) {
 	require.Equal(t, "glrt-1234567890ABCD", response.Token)
 	require.Equal(t, (*time.Time)(nil), response.TokenExpiresAt)
 }
+
+func TestCreatePersonalAccessTokenForCurrentUser(t *testing.T) {
+	mux, client := setup(t)
+
+	path := "/api/v4/user/personal_access_tokens"
+
+	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPost)
+		mustWriteHTTPResponse(t, w, "testdata/post_user_personal_access_tokens.json")
+	})
+
+	scopes := []string{"k8s_proxy"}
+	expiresAt := ISOTime(time.Date(2020, time.October, 15, 0, 0, 0, 0, time.UTC))
+	user, _, err := client.Users.CreatePersonalAccessTokenForCurrentUser(&CreatePersonalAccessTokenForCurrentUserOptions{
+		Name:      String("mytoken"),
+		Scopes:    &scopes,
+		ExpiresAt: &expiresAt,
+	})
+	require.NoError(t, err)
+
+	createdAt := time.Date(2020, time.October, 14, 11, 58, 53, 526000000, time.UTC)
+	want := &PersonalAccessToken{
+		ID:        3,
+		Name:      "mytoken",
+		Revoked:   false,
+		CreatedAt: &createdAt,
+		Scopes:    scopes,
+		UserID:    42,
+		Active:    true,
+		ExpiresAt: &expiresAt,
+		Token:     "glpat-aaaaaaaa-bbbbbbbbb",
+	}
+	require.Equal(t, want, user)
+}
