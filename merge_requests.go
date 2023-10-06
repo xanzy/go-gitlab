@@ -468,7 +468,7 @@ type GetMergeRequestChangesOptions struct {
 // its files and changes.
 //
 // Deprecated: This endpoint has been replaced by
-// MergeRequestsService.ListMergeRequesDiffs()
+// MergeRequestsService.ListMergeRequestDiffs()
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_requests.html#get-single-merge-request-changes
@@ -493,7 +493,7 @@ func (s *MergeRequestsService) GetMergeRequestChanges(pid interface{}, mergeRequ
 	return m, resp, nil
 }
 
-// ListMergeRequestDiffsOptions represents the available ListMergeRequesDiffs()
+// ListMergeRequestDiffsOptions represents the available ListMergeRequestDiffs()
 // options.
 //
 // GitLab API docs:

@@ -288,7 +288,7 @@ func TestGetIssuesClosedOnMerge_Jira(t *testing.T) {
 	assert.Equal(t, "Title of this issue", issues[0].Title)
 }
 
-func TestListMergeRequesDiffs(t *testing.T) {
+func TestListMergeRequestDiffs(t *testing.T) {
 	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/merge_requests/1/diffs", func(w http.ResponseWriter, r *http.Request) {
@@ -303,7 +303,7 @@ func TestListMergeRequesDiffs(t *testing.T) {
 
 	diffs, _, err := client.MergeRequests.ListMergeRequestDiffs(1, 1, opts)
 	if err != nil {
-		t.Errorf("MergeRequests.ListMergeRequesDiffs returned error: %v", err)
+		t.Errorf("MergeRequests.ListMergeRequestDiffs returned error: %v", err)
 	}
 
 	want := []*MergeRequestDiff{
@@ -330,7 +330,7 @@ func TestListMergeRequesDiffs(t *testing.T) {
 	}
 
 	if !reflect.DeepEqual(want, diffs) {
-		t.Errorf("MergeRequests.ListMergeRequesDiffs returned %+v, want %+v", diffs, want)
+		t.Errorf("MergeRequests.ListMergeRequestDiffs returned %+v, want %+v", diffs, want)
 	}
 }
 
