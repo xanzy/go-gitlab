@@ -130,7 +130,7 @@ func TestUpdateProjectSettings(t *testing.T) {
 	mux.HandleFunc("/api/v4/projects/1/notification_settings", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
 
-		// Store the body for later, so we can check only some values are marshalled properly for update
+		// Store the body for later, so we can check only some values are marshaled properly for update
 		body, _ := io.ReadAll(r.Body)
 		json.Unmarshal(body, &reqBody)
 
