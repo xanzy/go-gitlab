@@ -76,3 +76,76 @@ func TestGetAppearance(t *testing.T) {
 		t.Errorf("Appearance.GetAppearance returned %+v, want %+v", appearance, want)
 	}
 }
+
+func TestPutAppearance(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/application/appearance", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPut)
+		fmt.Fprint(w, `{
+  "title": "GitLab Test Instance - 001",
+  "description": "gitlab-test.example.com",
+  "pwa_name": "GitLab PWA",
+  "pwa_short_name": "GitLab",
+  "pwa_description": "GitLab as PWA",
+  "pwa_icon": "/uploads/-/system/appearance/pwa_icon/1/pwa_logo.png",
+  "logo": "/uploads/-/system/appearance/logo/1/logo.png",
+  "header_logo": "/uploads/-/system/appearance/header_logo/1/header.png",
+  "favicon": "/uploads/-/system/appearance/favicon/1/favicon.png",
+  "new_project_guidelines": "Please read the FAQs for help.",
+  "profile_image_guidelines": "Custom profile image guidelines",
+  "header_message": "",
+  "footer_message": "",
+  "message_background_color": "#e75e40",
+  "message_font_color": "#ffffff",
+  "email_header_and_footer_enabled": false
+}`)
+	})
+
+	opt := &PutAppearanceRequestOptions{
+		Title:                       "GitLab Test Instance - 001",
+		Description:                 "gitlab-test.example.com",
+		PwaName:                     "GitLab PWA",
+		PwaShortName:                "GitLab",
+		PwaDescription:              "GitLab as PWA",
+		PwaIcon:                     "/uploads/-/system/appearance/pwa_icon/1/pwa_logo.png",
+		Logo:                        "/uploads/-/system/appearance/logo/1/logo.png",
+		HeaderLogo:                  "/uploads/-/system/appearance/header_logo/1/header.png",
+		Favicon:                     "/uploads/-/system/appearance/favicon/1/favicon.png",
+		NewProjectGuidelines:        "Please read the FAQs for help.",
+		ProfileImageGuidelines:      "Custom profile image guidelines",
+		HeaderMessage:               "",
+		FooterMessage:               "",
+		MessageBackgroundColor:      "#e75e40",
+		MessageFontColor:            "#ffffff",
+		EmailHeaderAndFooterEnabled: false,
+	}
+
+	appearance, _, err := client.Appearance.PutAppearance(opt)
+	if err != nil {
+		t.Errorf("Appearance.GetAppearance returned error: %v", err)
+	}
+
+	want := &Appearance{
+		Title:                       "GitLab Test Instance - 001",
+		Description:                 "gitlab-test.example.com",
+		PwaName:                     "GitLab PWA",
+		PwaShortName:                "GitLab",
+		PwaDescription:              "GitLab as PWA",
+		PwaIcon:                     "/uploads/-/system/appearance/pwa_icon/1/pwa_logo.png",
+		Logo:                        "/uploads/-/system/appearance/logo/1/logo.png",
+		HeaderLogo:                  "/uploads/-/system/appearance/header_logo/1/header.png",
+		Favicon:                     "/uploads/-/system/appearance/favicon/1/favicon.png",
+		NewProjectGuidelines:        "Please read the FAQs for help.",
+		ProfileImageGuidelines:      "Custom profile image guidelines",
+		HeaderMessage:               "",
+		FooterMessage:               "",
+		MessageBackgroundColor:      "#e75e40",
+		MessageFontColor:            "#ffffff",
+		EmailHeaderAndFooterEnabled: false,
+	}
+
+	if !reflect.DeepEqual(want, appearance) {
+		t.Errorf("Appearance.GetAppearance returned %+v, want %+v", appearance, want)
+	}
+}
