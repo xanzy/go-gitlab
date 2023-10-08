@@ -93,20 +93,26 @@ func (s *NotificationSettingsService) GetGlobalSettings(options ...RequestOption
 // NotificationSettingsOptions represents the available options that can be passed
 // to the API when updating the notification settings.
 type NotificationSettingsOptions struct {
-	Level                *NotificationLevelValue `url:"level,omitempty" json:"level,omitempty"`
-	NotificationEmail    *string                 `url:"notification_email,omitempty" json:"notification_email,omitempty"`
-	CloseIssue           *bool                   `url:"close_issue,omitempty" json:"close_issue,omitempty"`
-	CloseMergeRequest    *bool                   `url:"close_merge_request,omitempty" json:"close_merge_request,omitempty"`
-	FailedPipeline       *bool                   `url:"failed_pipeline,omitempty" json:"failed_pipeline,omitempty"`
-	MergeMergeRequest    *bool                   `url:"merge_merge_request,omitempty" json:"merge_merge_request,omitempty"`
-	NewIssue             *bool                   `url:"new_issue,omitempty" json:"new_issue,omitempty"`
-	NewMergeRequest      *bool                   `url:"new_merge_request,omitempty" json:"new_merge_request,omitempty"`
-	NewNote              *bool                   `url:"new_note,omitempty" json:"new_note,omitempty"`
-	ReassignIssue        *bool                   `url:"reassign_issue,omitempty" json:"reassign_issue,omitempty"`
-	ReassignMergeRequest *bool                   `url:"reassign_merge_request,omitempty" json:"reassign_merge_request,omitempty"`
-	ReopenIssue          *bool                   `url:"reopen_issue,omitempty" json:"reopen_issue,omitempty"`
-	ReopenMergeRequest   *bool                   `url:"reopen_merge_request,omitempty" json:"reopen_merge_request,omitempty"`
-	SuccessPipeline      *bool                   `url:"success_pipeline,omitempty" json:"success_pipeline,omitempty"`
+	Level                     *NotificationLevelValue `url:"level,omitempty" json:"level,omitempty"`
+	NotificationEmail         *string                 `url:"notification_email,omitempty" json:"notification_email,omitempty"`
+	CloseIssue                *bool                   `url:"close_issue,omitempty" json:"close_issue,omitempty"`
+	CloseMergeRequest         *bool                   `url:"close_merge_request,omitempty" json:"close_merge_request,omitempty"`
+	FailedPipeline            *bool                   `url:"failed_pipeline,omitempty" json:"failed_pipeline,omitempty"`
+	FixedPipeline             *bool                   `url:"fixed_pipeline,omitempty" json:"fixed_pipeline,omitempty"`
+	IssueDue                  *bool                   `url:"issue_due,omitempty" json:"issue_due,omitempty"`
+	MergeMergeRequest         *bool                   `url:"merge_merge_request,omitempty" json:"merge_merge_request,omitempty"`
+	MergeWhenPipelineSucceeds *bool                   `url:"merge_when_pipeline_succeeds,omitempty" json:"merge_when_pipeline_succeeds,omitempty"`
+	MovedProject              *bool                   `url:"moved_project,omitempty" json:"moved_project,omitempty"`
+	NewEpic                   *bool                   `url:"new_epic,omitempty" json:"new_epic,omitempty"`
+	NewIssue                  *bool                   `url:"new_issue,omitempty" json:"new_issue,omitempty"`
+	NewMergeRequest           *bool                   `url:"new_merge_request,omitempty" json:"new_merge_request,omitempty"`
+	NewNote                   *bool                   `url:"new_note,omitempty" json:"new_note,omitempty"`
+	PushToMergeRequest        *bool                   `url:"push_to_merge_request,omitempty" json:"push_to_merge_request,omitempty"`
+	ReassignIssue             *bool                   `url:"reassign_issue,omitempty" json:"reassign_issue,omitempty"`
+	ReassignMergeRequest      *bool                   `url:"reassign_merge_request,omitempty" json:"reassign_merge_request,omitempty"`
+	ReopenIssue               *bool                   `url:"reopen_issue,omitempty" json:"reopen_issue,omitempty"`
+	ReopenMergeRequest        *bool                   `url:"reopen_merge_request,omitempty" json:"reopen_merge_request,omitempty"`
+	SuccessPipeline           *bool                   `url:"success_pipeline,omitempty" json:"success_pipeline,omitempty"`
 }
 
 // UpdateGlobalSettings updates current notification settings and email address.
