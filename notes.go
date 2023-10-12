@@ -95,8 +95,8 @@ type LineRange struct {
 type LinePosition struct {
 	LineCode string `json:"line_code"`
 	Type     string `json:"type"`
-	OldLine  int    `json:"old_line"`
-	NewLine  int    `json:"new_line"`
+	OldLine  int    `json:"old_line,omitempty"`
+	NewLine  int    `json:"new_line,omitempty"`
 }
 
 func (n Note) String() string {
