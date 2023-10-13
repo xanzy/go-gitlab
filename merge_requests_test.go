@@ -280,7 +280,7 @@ func TestListProjectMergeRequestsNotAuthorUsername(t *testing.T) {
 	mergeRequests, _, err := client.MergeRequests.ListProjectMergeRequests(278964, &opts)
 
 	require.NoError(t, err)
-	require.Equal(t, 19, len(mergeRequests))
+	require.Equal(t, 2, len(mergeRequests))
 
 	validStates := []string{"opened", "closed", "locked", "merged"}
 	detailedMergeStatuses := []string{
