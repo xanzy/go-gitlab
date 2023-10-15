@@ -34,21 +34,21 @@ type ResourceIterationEventsService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/resource_iteration_events.html
 type IterationEvent struct {
-	ID           int                    `json:"id"`
-	Action       string                 `json:"action"`
-	CreatedAt    *time.Time             `json:"created_at"`
-	ResourceType string                 `json:"resource_type"`
-	ResourceID   int                    `json:"resource_id"`
-	User         *BasicUser             `json:"user"`
-	Iteration    *ProjectIssueIteration `json:"iteration"`
+	ID           int        `json:"id"`
+	User         *BasicUser `json:"user"`
+	CreatedAt    *time.Time `json:"created_at"`
+	ResourceType string     `json:"resource_type"`
+	ResourceID   int        `json:"resource_id"`
+	Iteration    *Iteration `json:"iteration"`
+	Action       string     `json:"action"`
 }
 
-// ProjectIssueIteration represents a project issue iteration.
+// Iteration represents a project issue iteration.
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/resource_iteration_events.html
-type ProjectIssueIteration struct {
-	Id          int        `json:"id"`
-	Iid         int        `json:"iid"`
+type Iteration struct {
+	ID          int        `json:"id"`
+	IID         int        `json:"iid"`
 	Sequence    int        `json:"sequence"`
 	GroupId     int        `json:"group_id"`
 	Title       string     `json:"title"`
@@ -58,11 +58,11 @@ type ProjectIssueIteration struct {
 	UpdatedAt   *time.Time `json:"updated_at"`
 	DueDate     *ISOTime   `json:"due_date"`
 	StartDate   *ISOTime   `json:"start_date"`
-	WebUrl      string     `json:"web_url"`
+	WebURL      string     `json:"web_url"`
 }
 
-// ListIterationEventsOptions represents the options for all resource state events
-// list methods.
+// ListIterationEventsOptions represents the options for all resource state
+// events list methods.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/resource_iteration_events.html#list-project-issue-iteration-events
@@ -70,8 +70,8 @@ type ListIterationEventsOptions struct {
 	ListOptions
 }
 
-// ListIssueIterationEvents retrieves resource iteration events for the specified
-// project and issue.
+// ListIssueIterationEvents retrieves resource iteration events for the
+// specified project and issue.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/resource_iteration_events.html#list-project-issue-iteration-events
