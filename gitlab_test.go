@@ -20,11 +20,13 @@ import (
 	"bytes"
 	"context"
 	"errors"
+	"fmt"
 	"io"
 	"log"
 	"net/http"
 	"net/http/httptest"
 	"os"
+	"reflect"
 	"strings"
 	"testing"
 	"time"
@@ -234,5 +236,170 @@ func TestPathEscape(t *testing.T) {
 	got := PathEscape("diaspora/diaspora")
 	if want != got {
 		t.Errorf("Expected: %s, got %s", want, got)
+	}
+}
+
+func TestParseLinkHeaderEmpty(t *testing.T) {
+	h := ``
+	want := map[string]string{}
+	got, err := parseLinkHeader(h)
+	if err != nil {
+		t.Errorf("unexpected error: %s", err.Error())
+	}
+
+	if !reflect.DeepEqual(want, got) {
+		t.Errorf("Expected %s, got %s", want, got)
+	}
+}
+
+func TestPaginationPopulatePageValuesEmpty(t *testing.T) {
+	wantPageHeaders := map[string]int{
+		xTotal:      0,
+		xTotalPages: 0,
+		xPerPage:    0,
+		xPage:       0,
+		xNextPage:   0,
+		xPrevPage:   0,
+	}
+	wantLinkHeaders := map[string]string{
+		linkPrev:  "",
+		linkNext:  "",
+		linkFirst: "",
+		linkLast:  "",
+	}
+
+	r := newResponse(&http.Response{
+		Header: http.Header{},
+	})
+
+	gotPageHeaders := map[string]int{
+		xTotal:      r.TotalItems,
+		xTotalPages: r.TotalPages,
+		xPerPage:    r.ItemsPerPage,
+		xPage:       r.CurrentPage,
+		xNextPage:   r.NextPage,
+		xPrevPage:   r.PreviousPage,
+	}
+	for k, v := range wantPageHeaders {
+		if v != gotPageHeaders[k] {
+			t.Errorf("For %s, expected %d, got %d", k, v, gotPageHeaders[k])
+		}
+	}
+
+	gotLinkHeaders := map[string]string{
+		linkPrev:  r.PreviousLink,
+		linkNext:  r.NextLink,
+		linkFirst: r.FirstLink,
+		linkLast:  r.LastLink,
+	}
+	for k, v := range wantLinkHeaders {
+		if v != gotLinkHeaders[k] {
+			t.Errorf("For %s, expected %s, got %s", k, v, gotLinkHeaders[k])
+		}
+	}
+}
+
+func TestPaginationPopulatePageValuesOffset(t *testing.T) {
+	wantPageHeaders := map[string]int{
+		xTotal:      100,
+		xTotalPages: 5,
+		xPerPage:    20,
+		xPage:       2,
+		xNextPage:   3,
+		xPrevPage:   1,
+	}
+	wantLinkHeaders := map[string]string{
+		linkPrev:  "https://gitlab.example.com/api/v4/projects/8/issues/8/notes?page=1&per_page=3",
+		linkNext:  "https://gitlab.example.com/api/v4/projects/8/issues/8/notes?page=3&per_page=3",
+		linkFirst: "https://gitlab.example.com/api/v4/projects/8/issues/8/notes?page=1&per_page=3",
+		linkLast:  "https://gitlab.example.com/api/v4/projects/8/issues/8/notes?page=3&per_page=3",
+	}
+
+	h := http.Header{}
+	for k, v := range wantPageHeaders {
+		h.Add(k, fmt.Sprint(v))
+	}
+	var linkHeaderComponents []string
+	for k, v := range wantLinkHeaders {
+		if v != "" {
+			linkHeaderComponents = append(linkHeaderComponents, fmt.Sprintf("<%s>; rel=\"%s\"", v, k))
+		}
+	}
+	h.Add("Link", strings.Join(linkHeaderComponents, ", "))
+
+	r := newResponse(&http.Response{
+		Header: h,
+	})
+
+	gotPageHeaders := map[string]int{
+		xTotal:      r.TotalItems,
+		xTotalPages: r.TotalPages,
+		xPerPage:    r.ItemsPerPage,
+		xPage:       r.CurrentPage,
+		xNextPage:   r.NextPage,
+		xPrevPage:   r.PreviousPage,
+	}
+	for k, v := range wantPageHeaders {
+		if v != gotPageHeaders[k] {
+			t.Errorf("For %s, expected %d, got %d", k, v, gotPageHeaders[k])
+		}
+	}
+
+	gotLinkHeaders := map[string]string{
+		linkPrev:  r.PreviousLink,
+		linkNext:  r.NextLink,
+		linkFirst: r.FirstLink,
+		linkLast:  r.LastLink,
+	}
+	for k, v := range wantLinkHeaders {
+		if v != gotLinkHeaders[k] {
+			t.Errorf("For %s, expected %s, got %s", k, v, gotLinkHeaders[k])
+		}
+	}
+}
+
+func TestPaginationPopulatePageValuesKeyset(t *testing.T) {
+	wantPageHeaders := map[string]int{
+		xTotal:      0,
+		xTotalPages: 0,
+		xPerPage:    0,
+		xPage:       0,
+		xNextPage:   0,
+		xPrevPage:   0,
+	}
+	wantLinkHeaders := map[string]string{
+		linkPrev:  "",
+		linkFirst: "",
+		linkLast:  "",
+	}
+
+	h := http.Header{}
+	for k, v := range wantPageHeaders {
+		h.Add(k, fmt.Sprint(v))
+	}
+	var linkHeaderComponents []string
+	for k, v := range wantLinkHeaders {
+		if v != "" {
+			linkHeaderComponents = append(linkHeaderComponents, fmt.Sprintf("<%s>; rel=\"%s\"", v, k))
+		}
+	}
+	h.Add("Link", strings.Join(linkHeaderComponents, ", "))
+
+	r := newResponse(&http.Response{
+		Header: h,
+	})
+
+	gotPageHeaders := map[string]int{
+		xTotal:      r.TotalItems,
+		xTotalPages: r.TotalPages,
+		xPerPage:    r.ItemsPerPage,
+		xPage:       r.CurrentPage,
+		xNextPage:   r.NextPage,
+		xPrevPage:   r.PreviousPage,
+	}
+	for k, v := range wantPageHeaders {
+		if v != gotPageHeaders[k] {
+			t.Errorf("For %s, expected %d, got %d", k, v, gotPageHeaders[k])
+		}
 	}
 }

@@ -18,6 +18,7 @@ package gitlab
 
 import (
 	"context"
+	"net/url"
 
 	retryablehttp "github.com/hashicorp/go-retryablehttp"
 )
@@ -48,6 +49,30 @@ func WithHeaders(headers map[string]string) RequestOptionFunc {
 		for k, v := range headers {
 			req.Header.Set(k, v)
 		}
+		return nil
+	}
+}
+
+// WithKeysetPaginationParameters takes a "next" link from the Link header of a
+// response to a keyset-based paginated request, and modifies the values of
+// each query parameter in the request with its corresponding parameter from
+// the response
+func WithKeysetPaginationParameters(rawNextLink string) RequestOptionFunc {
+	return func(req *retryablehttp.Request) error {
+		nextUrl, err := url.Parse(rawNextLink)
+		if err != nil {
+			return err
+		}
+		params := nextUrl.Query()
+		// must make a copy of the query inside the func's scope
+		q := req.URL.Query()
+		for k, values := range params {
+			q.Del(k)
+			for _, v := range values {
+				q.Add(k, v)
+			}
+		}
+		req.URL.RawQuery = q.Encode()
 		return nil
 	}
 }

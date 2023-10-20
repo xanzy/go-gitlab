@@ -16,7 +16,7 @@ func TestListGroupPendingInvites(t *testing.T) {
 	})
 
 	opt := &ListPendingInvitationsOptions{
-		ListOptions: ListOptions{2, 3},
+		ListOptions: ListOptions{Page: 2, PerPage: 3},
 	}
 
 	projects, _, err := client.Invites.ListPendingGroupInvitations("test", opt)
@@ -85,7 +85,7 @@ func TestListProjectPendingInvites(t *testing.T) {
 	})
 
 	opt := &ListPendingInvitationsOptions{
-		ListOptions: ListOptions{2, 3},
+		ListOptions: ListOptions{Page: 2, PerPage: 3},
 	}
 
 	projects, _, err := client.Invites.ListPendingProjectInvitations("test", opt)

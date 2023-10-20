@@ -19,6 +19,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/hashicorp/go-retryablehttp"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -160,4 +161,24 @@ func TestWithHeaders(t *testing.T) {
 
 	_, err = client.Do(req, nil)
 	assert.NoError(t, err)
+}
+
+func TestWithKeysetPaginationParameters(t *testing.T) {
+	req, err := retryablehttp.NewRequest("GET", "https://gitlab.example.com/api/v4/groups?pagination=keyset&per_page=50&order_by=name&sort=asc", nil)
+	assert.NoError(t, err)
+
+	linkNext := "https://gitlab.example.com/api/v4/groups?pagination=keyset&per_page=50&order_by=name&sort=asc&cursor=eyJuYW1lIjoiRmxpZ2h0anMiLCJpZCI6IjI2IiwiX2tkIjoibiJ9"
+
+	err = WithKeysetPaginationParameters(linkNext)(req)
+	assert.NoError(t, err)
+
+	values := req.URL.Query()
+	// Ensure all original parameters remain
+	assert.Equal(t, "keyset", values.Get("pagination"))
+	assert.Equal(t, "50", values.Get("per_page"))
+	assert.Equal(t, "name", values.Get("order_by"))
+	assert.Equal(t, "asc", values.Get("sort"))
+
+	// Ensure cursor gets properly pulled from "next link" header
+	assert.Equal(t, "eyJuYW1lIjoiRmxpZ2h0anMiLCJpZCI6IjI2IiwiX2tkIjoibiJ9", values.Get("cursor"))
 }

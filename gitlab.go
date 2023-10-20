@@ -227,11 +227,20 @@ type Client struct {
 // ListOptions specifies the optional parameters to various List methods that
 // support pagination.
 type ListOptions struct {
-	// For paginated result sets, page of results to retrieve.
+	// For keyset-based paginated result sets, name of the column by which to order
+	OrderBy string `url:"order_by,omitempty" json:"order_by,omitempty"`
+
+	// For offset-based paginated result sets, page of results to retrieve.
 	Page int `url:"page,omitempty" json:"page,omitempty"`
 
-	// For paginated result sets, the number of results to include per page.
+	// For keyset-based paginated result sets, the value must be `"keyset"`
+	Pagination string `url:"pagination,omitempty" json:"pagination,omitempty"`
+
+	// For offset-based and keyset-based paginated result sets, the number of results to include per page.
 	PerPage int `url:"per_page,omitempty" json:"per_page,omitempty"`
+
+	// For keyset-based paginated result sets, sort order (`"asc"`` or `"desc"`)
+	Sort string `url:"sort,omitempty" json:"sort,omitempty"`
 }
 
 // RateLimiter describes the interface that all (custom) rate limiters must implement.
@@ -720,12 +729,18 @@ type Response struct {
 	CurrentPage  int
 	NextPage     int
 	PreviousPage int
+
+	PreviousLink string
+	NextLink     string
+	FirstLink    string
+	LastLink     string
 }
 
 // newResponse creates a new Response for the provided http.Response.
 func newResponse(r *http.Response) *Response {
 	response := &Response{Response: r}
 	response.populatePageValues()
+	response.populateLinkValues()
 	return response
 }
 
@@ -736,6 +751,11 @@ const (
 	xPage       = "X-Page"
 	xNextPage   = "X-Next-Page"
 	xPrevPage   = "X-Prev-Page"
+
+	linkPrev  = "prev"
+	linkNext  = "next"
+	linkFirst = "first"
+	linkLast  = "last"
 )
 
 // populatePageValues parses the HTTP Link response headers and populates the
@@ -758,6 +778,16 @@ func (r *Response) populatePageValues() {
 	}
 	if previousPage := r.Header.Get(xPrevPage); previousPage != "" {
 		r.PreviousPage, _ = strconv.Atoi(previousPage)
+	}
+}
+
+func (r *Response) populateLinkValues() {
+	if link := r.Header.Get("Link"); link != "" {
+		linkHeaders, _ := parseLinkHeader(link)
+		r.PreviousLink = linkHeaders[linkPrev]
+		r.NextLink = linkHeaders[linkNext]
+		r.FirstLink = linkHeaders[linkFirst]
+		r.LastLink = linkHeaders[linkLast]
 	}
 }
 
@@ -881,6 +911,39 @@ func parseID(id interface{}) (string, error) {
 	default:
 		return "", fmt.Errorf("invalid ID type %#v, the ID must be an int or a string", id)
 	}
+}
+
+// parseLinkHeader splits a "Link" HTTP header into its "link" and "rel"
+// components, formatted in a comma-joined string of `<%s>; rel="%s"`
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/rest/#pagination-link-header
+func parseLinkHeader(link string) (map[string]string, error) {
+	result := make(map[string]string)
+
+	if len(link) == 0 {
+		return result, nil
+	}
+
+	// each link will be of the form: <%s>; rel="%s"
+	for _, link := range strings.Split(link, ",") {
+		pieces := strings.Split(link, ";")
+		if len(pieces) < 2 {
+			return result, fmt.Errorf("invalid format for link header component: %s", link)
+		}
+		linkType := strings.Trim(strings.Split(pieces[1], "=")[1], "\"")
+		// remove surrounding angle brackets _and_ whitespace
+		linkValue := strings.Trim(pieces[0], "< >")
+
+		switch linkType {
+		case linkPrev, linkNext, linkFirst, linkLast:
+			result[linkType] = linkValue
+		default:
+			return result, fmt.Errorf("invalid link type %s", linkType)
+		}
+	}
+
+	return result, nil
 }
 
 // Helper function to escape a project identifier.

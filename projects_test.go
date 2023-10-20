@@ -39,7 +39,7 @@ func TestListProjects(t *testing.T) {
 	})
 
 	opt := &ListProjectsOptions{
-		ListOptions: ListOptions{2, 3},
+		ListOptions: ListOptions{Page: 2, PerPage: 3},
 		Archived:    Bool(true),
 		OrderBy:     String("name"),
 		Sort:        String("asc"),
@@ -68,7 +68,7 @@ func TestListUserProjects(t *testing.T) {
 	})
 
 	opt := &ListProjectsOptions{
-		ListOptions: ListOptions{2, 3},
+		ListOptions: ListOptions{Page: 2, PerPage: 3},
 		Archived:    Bool(true),
 		OrderBy:     String("name"),
 		Sort:        String("asc"),
@@ -97,7 +97,7 @@ func TestListUserContributedProjects(t *testing.T) {
 	})
 
 	opt := &ListProjectsOptions{
-		ListOptions: ListOptions{2, 3},
+		ListOptions: ListOptions{Page: 2, PerPage: 3},
 		Archived:    Bool(true),
 		OrderBy:     String("name"),
 		Sort:        String("asc"),
@@ -126,7 +126,7 @@ func TestListUserStarredProjects(t *testing.T) {
 	})
 
 	opt := &ListProjectsOptions{
-		ListOptions: ListOptions{2, 3},
+		ListOptions: ListOptions{Page: 2, PerPage: 3},
 		Archived:    Bool(true),
 		OrderBy:     String("name"),
 		Sort:        String("asc"),
@@ -156,7 +156,7 @@ func TestListProjectsUsersByID(t *testing.T) {
 	})
 
 	opt := &ListProjectUserOptions{
-		ListOptions: ListOptions{2, 3},
+		ListOptions: ListOptions{Page: 2, PerPage: 3},
 		Search:      String("query"),
 	}
 
@@ -181,7 +181,7 @@ func TestListProjectsUsersByName(t *testing.T) {
 	})
 
 	opt := &ListProjectUserOptions{
-		ListOptions: ListOptions{2, 3},
+		ListOptions: ListOptions{Page: 2, PerPage: 3},
 		Search:      String("query"),
 	}
 
@@ -206,7 +206,7 @@ func TestListProjectsGroupsByID(t *testing.T) {
 	})
 
 	opt := &ListProjectGroupOptions{
-		ListOptions: ListOptions{2, 3},
+		ListOptions: ListOptions{Page: 2, PerPage: 3},
 		Search:      String("query"),
 	}
 
@@ -231,7 +231,7 @@ func TestListProjectsGroupsByName(t *testing.T) {
 	})
 
 	opt := &ListProjectGroupOptions{
-		ListOptions: ListOptions{2, 3},
+		ListOptions: ListOptions{Page: 2, PerPage: 3},
 		Search:      String("query"),
 	}
 
@@ -255,7 +255,7 @@ func TestListOwnedProjects(t *testing.T) {
 	})
 
 	opt := &ListProjectsOptions{
-		ListOptions: ListOptions{2, 3},
+		ListOptions: ListOptions{Page: 2, PerPage: 3},
 		Archived:    Bool(true),
 		OrderBy:     String("name"),
 		Sort:        String("asc"),
@@ -285,7 +285,7 @@ func TestListStarredProjects(t *testing.T) {
 	})
 
 	opt := &ListProjectsOptions{
-		ListOptions: ListOptions{2, 3},
+		ListOptions: ListOptions{Page: 2, PerPage: 3},
 		Archived:    Bool(true),
 		OrderBy:     String("name"),
 		Sort:        String("asc"),
@@ -572,7 +572,7 @@ func TestListProjectForks(t *testing.T) {
 	})
 
 	opt := &ListProjectsOptions{}
-	opt.ListOptions = ListOptions{2, 3}
+	opt.ListOptions = ListOptions{Page: 2, PerPage: 3}
 	opt.Archived = Bool(true)
 	opt.OrderBy = String("name")
 	opt.Sort = String("asc")
