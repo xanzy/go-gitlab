@@ -238,7 +238,7 @@ type Settings struct {
 	PasswordSymbolRequired                                bool              `json:"password_symbol_required"`
 	PasswordUppercaseRequired                             bool              `json:"password_uppercase_required"`
 	PasswordLowercaseRequired                             bool              `json:"password_lowercase_required"`
-	PerformanceBarAllowedGroupID                          string            `json:"performance_bar_allowed_group_id"`
+	PerformanceBarAllowedGroupID                          int               `json:"performance_bar_allowed_group_id"`
 	PerformanceBarAllowedGroupPath                        string            `json:"performance_bar_allowed_group_path"`
 	PerformanceBarEnabled                                 bool              `json:"performance_bar_enabled"`
 	PersonalAccessTokenPrefix                             string            `json:"personal_access_token_prefix"`
@@ -617,7 +617,7 @@ type UpdateSettingsOptions struct {
 	PasswordSymbolRequired                                *bool              `url:"password_symbol_required,omitempty" json:"password_symbol_required,omitempty"`
 	PasswordUppercaseRequired                             *bool              `url:"password_uppercase_required,omitempty" json:"password_uppercase_required,omitempty"`
 	PasswordLowercaseRequired                             *bool              `url:"password_lowercase_required,omitempty" json:"password_lowercase_required,omitempty"`
-	PerformanceBarAllowedGroupID                          *string            `url:"performance_bar_allowed_group_id,omitempty" json:"performance_bar_allowed_group_id,omitempty"`
+	PerformanceBarAllowedGroupID                          *int               `url:"performance_bar_allowed_group_id,omitempty" json:"performance_bar_allowed_group_id,omitempty"`
 	PerformanceBarAllowedGroupPath                        *string            `url:"performance_bar_allowed_group_path,omitempty" json:"performance_bar_allowed_group_path,omitempty"`
 	PerformanceBarEnabled                                 *bool              `url:"performance_bar_enabled,omitempty" json:"performance_bar_enabled,omitempty"`
 	PersonalAccessTokenPrefix                             *string            `url:"personal_access_token_prefix,omitempty" json:"personal_access_token_prefix,omitempty"`
