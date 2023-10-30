@@ -1,0 +1,28 @@
+[
+  {
+    "id": 1,
+    "name": "GuestCodeReader",
+    "description": "A Guest user that can read code",
+    "group_id": 1,
+    "base_access_level": 10,
+    "admin_merge_request": false,
+    "admin_vulnerability": false,
+    "read_code": true,
+    "read_dependency": false,
+    "read_vulnerability": false,
+    "manage_project_access_token": false
+  },
+  {
+    "id": 2,
+    "name": "GuestVulnerabilityReader",
+    "description": "A Guest user that can read vulnerabilities",
+    "group_id": 1,
+    "base_access_level": 10,
+    "admin_merge_request": false,
+    "admin_vulnerability": false,
+    "read_code": false,
+    "read_dependency": false,
+    "read_vulnerability": true,
+    "manage_project_access_token": false
+  }
+]
