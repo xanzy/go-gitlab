@@ -89,3 +89,16 @@ func TestCreateMemberRole(t *testing.T) {
 
 	require.Equal(t, want, memberRole)
 }
+
+func TestDeleteMemberRole(t *testing.T) {
+	mux, client := setup(t)
+
+	path := "/api/v4/groups/1/member_roles/2"
+
+	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodDelete)
+	})
+
+	_, err := client.MemberRolesService.DeleteMemberRole(1, 2)
+	require.NoError(t, err)
+}
