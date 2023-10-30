@@ -64,7 +64,7 @@ func TestCreateMemberRole(t *testing.T) {
 
 	memberRole, _, err := client.MemberRolesService.CreateMemberRole(84, &CreateMemberRoleOptions{
 		Name:               "Custom guest",
-		BaseAccessLevel:    10,
+		BaseAccessLevel:    GuestPermissions,
 		Description:        "a sample custom role",
 		AdminMergeRequest:  false,
 		AdminVulnerability: false,
@@ -78,7 +78,7 @@ func TestCreateMemberRole(t *testing.T) {
 		ID:                       3,
 		Name:                     "Custom guest",
 		Description:              "a sample custom role",
-		BaseAccessLevel:          10,
+		BaseAccessLevel:          GuestPermissions,
 		GroupId:                  84,
 		AdminMergeRequests:       false,
 		AdminVulnerability:       false,
