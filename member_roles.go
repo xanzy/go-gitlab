@@ -16,7 +16,7 @@ type MemberRolesService struct {
 }
 
 type MemberRole struct {
-	Id                       int    `json:"id"`
+	ID                       int    `json:"id"`
 	Name                     string `json:"name"`
 	Description              string `json:"description,omitempty"`
 	GroupId                  int    `json:"group_id"`
@@ -41,7 +41,8 @@ type CreateMemberRoleOptions struct {
 }
 
 func (s *MemberRolesService) ListMemberRoles(groupId int, options ...RequestOptionFunc) ([]*MemberRole, *Response, error) {
-	req, err := s.client.NewRequest(http.MethodGet, fmt.Sprintf("/groups/%d/member_roles", groupId), nil, options)
+	path := fmt.Sprintf("groups/%d/member_roles", groupId)
+	req, err := s.client.NewRequest(http.MethodGet, path, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -56,7 +57,7 @@ func (s *MemberRolesService) ListMemberRoles(groupId int, options ...RequestOpti
 }
 
 func (s *MemberRolesService) CreateMemberRole(groupId int, opt *CreateMemberRoleOptions, options ...RequestOptionFunc) (*MemberRole, *Response, error) {
-	req, err := s.client.NewRequest(http.MethodPost, fmt.Sprintf("/groups/%d/member_roles", groupId), opt, options)
+	req, err := s.client.NewRequest(http.MethodPost, fmt.Sprintf("groups/%d/member_roles", groupId), opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -71,7 +72,7 @@ func (s *MemberRolesService) CreateMemberRole(groupId int, opt *CreateMemberRole
 }
 
 func (s *MemberRolesService) DeleteMemberRole(groupId, memberRoleId int, options ...RequestOptionFunc) (*Response, error) {
-	req, err := s.client.NewRequest(http.MethodDelete, fmt.Sprintf("/groups/%d/member_roles/%d", groupId, memberRoleId), nil, options)
+	req, err := s.client.NewRequest(http.MethodDelete, fmt.Sprintf("groups/%d/member_roles/%d", groupId, memberRoleId), nil, options)
 	if err != nil {
 		return nil, err
 	}
