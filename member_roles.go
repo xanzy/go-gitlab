@@ -57,7 +57,8 @@ func (s *MemberRolesService) ListMemberRoles(groupId int, options ...RequestOpti
 }
 
 func (s *MemberRolesService) CreateMemberRole(groupId int, opt *CreateMemberRoleOptions, options ...RequestOptionFunc) (*MemberRole, *Response, error) {
-	req, err := s.client.NewRequest(http.MethodPost, fmt.Sprintf("groups/%d/member_roles", groupId), opt, options)
+	path := fmt.Sprintf("groups/%d/member_roles", groupId)
+	req, err := s.client.NewRequest(http.MethodPost, path, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -72,7 +73,8 @@ func (s *MemberRolesService) CreateMemberRole(groupId int, opt *CreateMemberRole
 }
 
 func (s *MemberRolesService) DeleteMemberRole(groupId, memberRoleId int, options ...RequestOptionFunc) (*Response, error) {
-	req, err := s.client.NewRequest(http.MethodDelete, fmt.Sprintf("groups/%d/member_roles/%d", groupId, memberRoleId), nil, options)
+	path := fmt.Sprintf("groups/%d/member_roles/%d", groupId, memberRoleId)
+	req, err := s.client.NewRequest(http.MethodDelete, path, nil, options)
 	if err != nil {
 		return nil, err
 	}
