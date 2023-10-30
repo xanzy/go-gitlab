@@ -50,3 +50,42 @@ func TestListMemberRoles(t *testing.T) {
 
 	require.Equal(t, want, memberRoles)
 }
+
+func TestCreateMemberRole(t *testing.T) {
+	mux, client := setup(t)
+
+	path := "/api/v4/groups/84/member_roles"
+
+	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPost)
+		mustWriteHTTPResponse(t, w, "testdata/create_member_role.json")
+	})
+
+	memberRole, _, err := client.MemberRolesService.CreateMemberRole(84, &CreateMemberRoleOptions{
+		Name:               "Custom guest",
+		BaseAccessLevel:    10,
+		Description:        "a sample custom role",
+		AdminMergeRequest:  false,
+		AdminVulnerability: false,
+		ReadCode:           true,
+		ReadDependency:     false,
+		ReadVulnerability:  false,
+	})
+	require.NoError(t, err)
+
+	want := &MemberRole{
+		ID:                       3,
+		Name:                     "Custom guest",
+		Description:              "a sample custom role",
+		BaseAccessLevel:          10,
+		GroupId:                  84,
+		AdminMergeRequests:       false,
+		AdminVulnerability:       false,
+		ReadCode:                 true,
+		ReadDependency:           false,
+		ReadVulnerability:        false,
+		ManageProjectAccessToken: false,
+	}
+
+	require.Equal(t, want, memberRole)
+}

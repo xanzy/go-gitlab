@@ -1,0 +1,12 @@
+{
+  "id": 3,
+  "name": "Custom guest",
+  "description": "a sample custom role",
+  "group_id": 84,
+  "base_access_level": 10,
+  "admin_merge_requests": false,
+  "admin_vulnerability": false,
+  "read_code": true,
+  "read_dependency": false,
+  "read_vulnerability": false
+}
