@@ -325,6 +325,8 @@ type ListProjectsOptions struct {
 	IDAfter                  *int              `url:"id_after,omitempty" json:"id_after,omitempty"`
 	IDBefore                 *int              `url:"id_before,omitempty" json:"id_before,omitempty"`
 	Imported                 *bool             `url:"imported,omitempty" json:"imported,omitempty"`
+	IncludeHidden            *bool             `url:"include_hidden,omitempty" json:"include_hidden,omitempty"`
+	IncludePendingDelete     *bool             `url:"include_pending_delete,omitempty" json:"include_pending_delete,omitempty"`
 	LastActivityAfter        *time.Time        `url:"last_activity_after,omitempty" json:"last_activity_after,omitempty"`
 	LastActivityBefore       *time.Time        `url:"last_activity_before,omitempty" json:"last_activity_before,omitempty"`
 	Membership               *bool             `url:"membership,omitempty" json:"membership,omitempty"`
