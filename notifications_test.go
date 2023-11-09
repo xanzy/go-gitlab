@@ -86,7 +86,7 @@ func TestGetProjectSettings(t *testing.T) {
 	}
 
 	want := &NotificationSettings{
-		Level: 5, //custom
+		Level: 5, // custom
 		Events: &NotificationEvents{
 			NewEpic:                   true,
 			NewNote:                   true,
