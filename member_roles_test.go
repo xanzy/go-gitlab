@@ -63,14 +63,14 @@ func TestCreateMemberRole(t *testing.T) {
 	})
 
 	memberRole, _, err := client.MemberRolesService.CreateMemberRole(84, &CreateMemberRoleOptions{
-		Name:               "Custom guest",
-		BaseAccessLevel:    GuestPermissions,
-		Description:        "a sample custom role",
-		AdminMergeRequest:  false,
-		AdminVulnerability: false,
-		ReadCode:           true,
-		ReadDependency:     false,
-		ReadVulnerability:  false,
+		Name:               Ptr("Custom guest"),
+		BaseAccessLevel:    Ptr(GuestPermissions),
+		Description:        Ptr("a sample custom role"),
+		AdminMergeRequest:  Ptr(false),
+		AdminVulnerability: Ptr(false),
+		ReadCode:           Ptr(true),
+		ReadDependency:     Ptr(false),
+		ReadVulnerability:  Ptr(false),
 	})
 	require.NoError(t, err)
 

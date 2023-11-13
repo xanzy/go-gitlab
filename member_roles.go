@@ -5,8 +5,8 @@ import (
 	"net/http"
 )
 
-// MemberRolesService handles communication with the member roles related methods of
-// the GitLab API.
+// MemberRolesService handles communication with the member roles related
+// methods of the GitLab API.
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/member_roles.html
 type MemberRolesService struct {
@@ -30,64 +30,83 @@ type MemberRole struct {
 	ManageProjectAccessToken bool             `json:"manage_project_access_token,omitempty"`
 }
 
-// CreateMemberRoleOptions represents the available CreateMemberRole() options.
-//
-// GitLab API docs: https://docs.gitlab.com/ee/api/member_roles.html#add-a-member-role-to-a-group
-type CreateMemberRoleOptions struct {
-	Name               string           `json:"name,"`
-	BaseAccessLevel    AccessLevelValue `json:"base_access_level"`
-	Description        string           `json:"description,omitempty"`
-	AdminMergeRequest  bool             `json:"admin_merge_request,omitempty"`
-	AdminVulnerability bool             `json:"admin_vulnerability,omitempty"`
-	ReadCode           bool             `json:"read_code,omitempty"`
-	ReadDependency     bool             `json:"read_dependency,omitempty"`
-	ReadVulnerability  bool             `json:"read_vulnerability,omitempty"`
-}
-
 // ListMemberRoles gets a list of member roles for a specified group.
 //
-// Gitlab API docs: https://docs.gitlab.com/ee/api/member_roles.html#list-all-member-roles-of-a-group
-func (s *MemberRolesService) ListMemberRoles(groupId int, options ...RequestOptionFunc) ([]*MemberRole, *Response, error) {
-	path := fmt.Sprintf("groups/%d/member_roles", groupId)
-	req, err := s.client.NewRequest(http.MethodGet, path, nil, options)
+// Gitlab API docs:
+// https://docs.gitlab.com/ee/api/member_roles.html#list-all-member-roles-of-a-group
+func (s *MemberRolesService) ListMemberRoles(gid interface{}, options ...RequestOptionFunc) ([]*MemberRole, *Response, error) {
+	group, err := parseID(gid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("groups/%s/member_roles", PathEscape(group))
+
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	var memberRoles []*MemberRole
-	resp, err := s.client.Do(req, &memberRoles)
+	var mrs []*MemberRole
+	resp, err := s.client.Do(req, &mrs)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return memberRoles, resp, nil
+	return mrs, resp, nil
+}
+
+// CreateMemberRoleOptions represents the available CreateMemberRole() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/member_roles.html#add-a-member-role-to-a-group
+type CreateMemberRoleOptions struct {
+	Name               *string           `url:"name,omitempty" json:"name,omitempty"`
+	BaseAccessLevel    *AccessLevelValue `url:"base_access_level,omitempty" json:"base_access_level,omitempty"`
+	Description        *string           `url:"description,omitempty" json:"description,omitempty"`
+	AdminMergeRequest  *bool             `url:"admin_merge_request,omitempty" json:"admin_merge_request,omitempty"`
+	AdminVulnerability *bool             `url:"admin_vulnerability,omitempty" json:"admin_vulnerability,omitempty"`
+	ReadCode           *bool             `url:"read_code,omitempty" json:"read_code,omitempty"`
+	ReadDependency     *bool             `url:"read_dependency,omitempty" json:"read_dependency,omitempty"`
+	ReadVulnerability  *bool             `url:"read_vulnerability,omitempty" json:"read_vulnerability,omitempty"`
 }
 
 // CreateMemberRole creates a new member role for a specified group.
 //
-// Gitlab API docs: https://docs.gitlab.com/ee/api/member_roles.html#add-a-member-role-to-a-group
-func (s *MemberRolesService) CreateMemberRole(groupId int, opt *CreateMemberRoleOptions, options ...RequestOptionFunc) (*MemberRole, *Response, error) {
-	path := fmt.Sprintf("groups/%d/member_roles", groupId)
-	req, err := s.client.NewRequest(http.MethodPost, path, opt, options)
+// Gitlab API docs:
+// https://docs.gitlab.com/ee/api/member_roles.html#add-a-member-role-to-a-group
+func (s *MemberRolesService) CreateMemberRole(gid interface{}, opt *CreateMemberRoleOptions, options ...RequestOptionFunc) (*MemberRole, *Response, error) {
+	group, err := parseID(gid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("groups/%s/member_roles", PathEscape(group))
+
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	memberRole := new(MemberRole)
-	resp, err := s.client.Do(req, memberRole)
+	mr := new(MemberRole)
+	resp, err := s.client.Do(req, mr)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return memberRole, resp, nil
+	return mr, resp, nil
 }
 
 // DeleteMemberRole deletes a member role from a specified group.
 //
-// Gitlab API docs: https://docs.gitlab.com/ee/api/member_roles.html#remove-member-role-of-a-group
-func (s *MemberRolesService) DeleteMemberRole(groupId, memberRoleId int, options ...RequestOptionFunc) (*Response, error) {
-	path := fmt.Sprintf("groups/%d/member_roles/%d", groupId, memberRoleId)
-	req, err := s.client.NewRequest(http.MethodDelete, path, nil, options)
+// Gitlab API docs:
+// https://docs.gitlab.com/ee/api/member_roles.html#remove-member-role-of-a-group
+func (s *MemberRolesService) DeleteMemberRole(gid interface{}, memberRole int, options ...RequestOptionFunc) (*Response, error) {
+	group, err := parseID(gid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("groups/%s/member_roles/%d", PathEscape(group), memberRole)
+
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
 		return nil, err
 	}
