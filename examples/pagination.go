@@ -56,3 +56,46 @@ func pagination() {
 		opt.Page = resp.NextPage
 	}
 }
+
+func keysetPagination() {
+	git, err := gitlab.NewClient("yourtokengoeshere")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	opt := &gitlab.ListProjectsOptions{
+		ListOptions: gitlab.ListOptions{
+			OrderBy:    "id",
+			Pagination: "keyset",
+			PerPage:    5,
+			Sort:       "asc",
+		},
+		Owned: gitlab.Bool(true),
+	}
+
+	options := []gitlab.RequestOptionFunc{}
+
+	for {
+		// Get the first page with projects.
+		ps, resp, err := git.Projects.ListProjects(opt, options...)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		// List all the projects we've found so far.
+		for _, p := range ps {
+			log.Printf("Found project: %s", p.Name)
+		}
+
+		// Exit the loop when we've seen all pages.
+		if resp.NextLink == "" {
+			break
+		}
+
+		// Set all query parameters in the next request to values in the
+		// returned parameters. This could go along with any existing options.
+		options = []gitlab.RequestOptionFunc{
+			gitlab.WithKeysetPaginationParameters(resp.NextLink),
+		}
+	}
+}

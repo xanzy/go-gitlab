@@ -32,7 +32,7 @@ func TestListProjectVulnerabilities(t *testing.T) {
 	})
 
 	opt := &ListProjectVulnerabilitiesOptions{
-		ListOptions: ListOptions{2, 3},
+		ListOptions: ListOptions{Page: 2, PerPage: 3},
 	}
 
 	projectVulnerabilities, _, err := client.ProjectVulnerabilities.ListProjectVulnerabilities(1, opt)
