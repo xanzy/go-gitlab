@@ -26,12 +26,9 @@ import (
 	"time"
 )
 
-// Ptr is a helper routine that allocates a new T
-// to store t and returns a pointer to it.
-func Ptr[T any](t T) *T {
-	p := new(T)
-	*p = t
-	return p
+// Ptr is a helper returns a pointer to v.
+func Ptr[T any](v T) *T {
+	return &v
 }
 
 // AccessControlValue represents an access control value within GitLab,
