@@ -533,6 +533,11 @@ func (c *Client) configureLimiter(ctx context.Context, headers http.Header) {
 			limit := rate.Limit(rateLimit * 0.66)
 			burst := int(rateLimit * 0.33)
 
+			// Need at least one allowed to burst or x/time will throw an error
+			if burst == 0 {
+				burst = 1
+			}
+
 			// Create a new limiter using the calculated values.
 			c.limiter = rate.NewLimiter(limit, burst)
 
