@@ -227,18 +227,15 @@ type Client struct {
 // ListOptions specifies the optional parameters to various List methods that
 // support pagination.
 type ListOptions struct {
-	// For keyset-based paginated result sets, name of the column by which to order
-	OrderBy string `url:"order_by,omitempty" json:"order_by,omitempty"`
-
 	// For offset-based paginated result sets, page of results to retrieve.
 	Page int `url:"page,omitempty" json:"page,omitempty"`
-
-	// For keyset-based paginated result sets, the value must be `"keyset"`
-	Pagination string `url:"pagination,omitempty" json:"pagination,omitempty"`
-
 	// For offset-based and keyset-based paginated result sets, the number of results to include per page.
 	PerPage int `url:"per_page,omitempty" json:"per_page,omitempty"`
 
+	// For keyset-based paginated result sets, name of the column by which to order
+	OrderBy string `url:"order_by,omitempty" json:"order_by,omitempty"`
+	// For keyset-based paginated result sets, the value must be `"keyset"`
+	Pagination string `url:"pagination,omitempty" json:"pagination,omitempty"`
 	// For keyset-based paginated result sets, sort order (`"asc"`` or `"desc"`)
 	Sort string `url:"sort,omitempty" json:"sort,omitempty"`
 }
@@ -719,10 +716,7 @@ func (c *Client) UploadRequest(method, path string, content io.Reader, filename 
 type Response struct {
 	*http.Response
 
-	// These fields provide the page values for paginating through a set of
-	// results. Any or all of these may be set to the zero value for
-	// responses that are not part of a paginated set, or for which there
-	// are no additional pages.
+	// Fields used for offset-based pagination.
 	TotalItems   int
 	TotalPages   int
 	ItemsPerPage int
@@ -730,6 +724,7 @@ type Response struct {
 	NextPage     int
 	PreviousPage int
 
+	// Fields used for keyset-based pagination.
 	PreviousLink string
 	NextLink     string
 	FirstLink    string
@@ -745,6 +740,7 @@ func newResponse(r *http.Response) *Response {
 }
 
 const (
+	// Headers used for offset-based pagination.
 	xTotal      = "X-Total"
 	xTotalPages = "X-Total-Pages"
 	xPerPage    = "X-Per-Page"
@@ -752,6 +748,7 @@ const (
 	xNextPage   = "X-Next-Page"
 	xPrevPage   = "X-Prev-Page"
 
+	// Headers used for keyset-based pagination.
 	linkPrev  = "prev"
 	linkNext  = "next"
 	linkFirst = "first"
@@ -783,11 +780,26 @@ func (r *Response) populatePageValues() {
 
 func (r *Response) populateLinkValues() {
 	if link := r.Header.Get("Link"); link != "" {
-		linkHeaders, _ := parseLinkHeader(link)
-		r.PreviousLink = linkHeaders[linkPrev]
-		r.NextLink = linkHeaders[linkNext]
-		r.FirstLink = linkHeaders[linkFirst]
-		r.LastLink = linkHeaders[linkLast]
+		for _, link := range strings.Split(link, ",") {
+			parts := strings.Split(link, ";")
+			if len(parts) < 2 {
+				continue
+			}
+
+			linkType := strings.Trim(strings.Split(parts[1], "=")[1], "\"")
+			linkValue := strings.Trim(parts[0], "< >")
+
+			switch linkType {
+			case linkPrev:
+				r.PreviousLink = linkValue
+			case linkNext:
+				r.NextLink = linkValue
+			case linkFirst:
+				r.FirstLink = linkValue
+			case linkLast:
+				r.LastLink = linkValue
+			}
+		}
 	}
 }
 
@@ -911,39 +923,6 @@ func parseID(id interface{}) (string, error) {
 	default:
 		return "", fmt.Errorf("invalid ID type %#v, the ID must be an int or a string", id)
 	}
-}
-
-// parseLinkHeader splits a "Link" HTTP header into its "link" and "rel"
-// components, formatted in a comma-joined string of `<%s>; rel="%s"`
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ee/api/rest/#pagination-link-header
-func parseLinkHeader(link string) (map[string]string, error) {
-	result := make(map[string]string)
-
-	if len(link) == 0 {
-		return result, nil
-	}
-
-	// each link will be of the form: <%s>; rel="%s"
-	for _, link := range strings.Split(link, ",") {
-		pieces := strings.Split(link, ";")
-		if len(pieces) < 2 {
-			return result, fmt.Errorf("invalid format for link header component: %s", link)
-		}
-		linkType := strings.Trim(strings.Split(pieces[1], "=")[1], "\"")
-		// remove surrounding angle brackets _and_ whitespace
-		linkValue := strings.Trim(pieces[0], "< >")
-
-		switch linkType {
-		case linkPrev, linkNext, linkFirst, linkLast:
-			result[linkType] = linkValue
-		default:
-			return result, fmt.Errorf("invalid link type %s", linkType)
-		}
-	}
-
-	return result, nil
 }
 
 // Helper function to escape a project identifier.

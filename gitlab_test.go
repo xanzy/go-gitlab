@@ -26,7 +26,6 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"os"
-	"reflect"
 	"strings"
 	"testing"
 	"time"
@@ -236,19 +235,6 @@ func TestPathEscape(t *testing.T) {
 	got := PathEscape("diaspora/diaspora")
 	if want != got {
 		t.Errorf("Expected: %s, got %s", want, got)
-	}
-}
-
-func TestParseLinkHeaderEmpty(t *testing.T) {
-	h := ``
-	want := map[string]string{}
-	got, err := parseLinkHeader(h)
-	if err != nil {
-		t.Errorf("unexpected error: %s", err.Error())
-	}
-
-	if !reflect.DeepEqual(want, got) {
-		t.Errorf("Expected %s, got %s", want, got)
 	}
 }
 

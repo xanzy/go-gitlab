@@ -54,19 +54,16 @@ func WithHeaders(headers map[string]string) RequestOptionFunc {
 }
 
 // WithKeysetPaginationParameters takes a "next" link from the Link header of a
-// response to a keyset-based paginated request, and modifies the values of
-// each query parameter in the request with its corresponding parameter from
-// the response
-func WithKeysetPaginationParameters(rawNextLink string) RequestOptionFunc {
+// response to a keyset-based paginated request and modifies the values of each
+// query parameter in the request with its corresponding response parameter.
+func WithKeysetPaginationParameters(nextLink string) RequestOptionFunc {
 	return func(req *retryablehttp.Request) error {
-		nextUrl, err := url.Parse(rawNextLink)
+		nextUrl, err := url.Parse(nextLink)
 		if err != nil {
 			return err
 		}
-		params := nextUrl.Query()
-		// must make a copy of the query inside the func's scope
 		q := req.URL.Query()
-		for k, values := range params {
+		for k, values := range nextUrl.Query() {
 			q.Del(k)
 			for _, v := range values {
 				q.Add(k, v)
