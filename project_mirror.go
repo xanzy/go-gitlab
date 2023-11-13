@@ -108,9 +108,9 @@ func (s *ProjectMirrorService) GetProjectMirror(pid interface{}, mirror int, opt
 type AddProjectMirrorOptions struct {
 	URL                   *string `url:"url,omitempty" json:"url,omitempty"`
 	Enabled               *bool   `url:"enabled,omitempty" json:"enabled,omitempty"`
-	MirrorBranchRegex     *string `url:"mirror_branch_regex,omitempty" json:"mirror_branch_regex,omitempty"`
-	OnlyProtectedBranches *bool   `url:"only_protected_branches,omitempty" json:"only_protected_branches,omitempty"`
 	KeepDivergentRefs     *bool   `url:"keep_divergent_refs,omitempty" json:"keep_divergent_refs,omitempty"`
+	OnlyProtectedBranches *bool   `url:"only_protected_branches,omitempty" json:"only_protected_branches,omitempty"`
+	MirrorBranchRegex     *string `url:"mirror_branch_regex,omitempty" json:"mirror_branch_regex,omitempty"`
 }
 
 // AddProjectMirror creates a new mirror on the project.
@@ -145,9 +145,9 @@ func (s *ProjectMirrorService) AddProjectMirror(pid interface{}, opt *AddProject
 // https://docs.gitlab.com/ee/api/remote_mirrors.html#update-a-remote-mirrors-attributes
 type EditProjectMirrorOptions struct {
 	Enabled               *bool   `url:"enabled,omitempty" json:"enabled,omitempty"`
-	MirrorBranchRegex     *string `url:"mirror_branch_regex,omitempty" json:"mirror_branch_regex,omitempty"`
-	OnlyProtectedBranches *bool   `url:"only_protected_branches,omitempty" json:"only_protected_branches,omitempty"`
 	KeepDivergentRefs     *bool   `url:"keep_divergent_refs,omitempty" json:"keep_divergent_refs,omitempty"`
+	OnlyProtectedBranches *bool   `url:"only_protected_branches,omitempty" json:"only_protected_branches,omitempty"`
+	MirrorBranchRegex     *string `url:"mirror_branch_regex,omitempty" json:"mirror_branch_regex,omitempty"`
 }
 
 // EditProjectMirror updates a project team member to a specified access level..
