@@ -95,8 +95,8 @@ func TestListNamespaces(t *testing.T) {
 		ownedOnly *bool
 	}{
 		{"with_nothing", nil, nil},
-		{"with_search", String("foobar"), nil},
-		{"with_owned_only", nil, Bool(false)},
+		{"with_search", Ptr("foobar"), nil},
+		{"with_owned_only", nil, Ptr(false)},
 	}
 
 	for _, tc := range testCases {
@@ -113,7 +113,7 @@ func TestListNamespaces(t *testing.T) {
 					Path:                 "user1",
 					Kind:                 "user",
 					FullPath:             "user1",
-					AvatarURL:            String("https://secure.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=80&d=identicon"),
+					AvatarURL:            Ptr("https://secure.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=80&d=identicon"),
 					WebURL:               "https://gitlab.example.com/user1",
 					Plan:                 "default",
 					BillableMembersCount: 1,
@@ -155,7 +155,7 @@ func TestListNamespaces(t *testing.T) {
 					Path:                 "group2",
 					Kind:                 "group",
 					FullPath:             "group2",
-					AvatarURL:            String("https://gitlab.example.com/groups/group2"),
+					AvatarURL:            Ptr("https://gitlab.example.com/groups/group2"),
 					WebURL:               "https://gitlab.example.com/group2",
 					Plan:                 "default",
 					BillableMembersCount: 1,
@@ -209,8 +209,8 @@ func TestGetNamespace(t *testing.T) {
 		WebURL:                      "https://gitlab.example.com/groups/group1",
 		MembersCountWithDescendants: 2,
 		BillableMembersCount:        2,
-		MaxSeatsUsed:                Int(0),
-		SeatsInUse:                  Int(0),
+		MaxSeatsUsed:                Ptr(0),
+		SeatsInUse:                  Ptr(0),
 		Plan:                        "default",
 		TrialEndsOn:                 nil,
 		Trial:                       false,
@@ -235,7 +235,7 @@ func TestNamespaceExists(t *testing.T) {
 	})
 
 	opt := &NamespaceExistsOptions{
-		ParentID: Int(1),
+		ParentID: Ptr(1),
 	}
 	exists, _, err := client.Namespaces.NamespaceExists("my-group", opt)
 	if err != nil {
@@ -292,8 +292,8 @@ func TestSearchNamespace(t *testing.T) {
 			WebURL:                      "https://gitlab.example.com/groups/twitter",
 			MembersCountWithDescendants: 2,
 			BillableMembersCount:        2,
-			MaxSeatsUsed:                Int(0),
-			SeatsInUse:                  Int(0),
+			MaxSeatsUsed:                Ptr(0),
+			SeatsInUse:                  Ptr(0),
 			Plan:                        "default",
 			TrialEndsOn:                 nil,
 			Trial:                       false,

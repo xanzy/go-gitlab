@@ -159,8 +159,8 @@ func TestListProjectMergeRequests(t *testing.T) {
 
 	opts := ListProjectMergeRequestsOptions{
 		AssigneeID:             AssigneeID(UserIDAny),
-		WithLabelsDetails:      Bool(true),
-		WithMergeStatusRecheck: Bool(true),
+		WithLabelsDetails:      Ptr(true),
+		WithMergeStatusRecheck: Ptr(true),
 	}
 
 	mergeRequests, _, err := client.MergeRequests.ListProjectMergeRequests(278964, &opts)

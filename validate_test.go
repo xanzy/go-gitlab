@@ -163,10 +163,10 @@ func TestValidateProjectNamespace(t *testing.T) {
 		{
 			description: "valid",
 			request: &ProjectNamespaceLintOptions{
-				Content:     String("{'build': {'script': 'echo build'}}"),
-				DryRun:      Bool(false),
-				IncludeJobs: Bool(true),
-				Ref:         String("foo"),
+				Content:     Ptr("{'build': {'script': 'echo build'}}"),
+				DryRun:      Ptr(false),
+				IncludeJobs: Ptr(true),
+				Ref:         Ptr("foo"),
 			},
 			response: `{
 				"valid": true,
@@ -184,8 +184,8 @@ func TestValidateProjectNamespace(t *testing.T) {
 		{
 			description: "invalid",
 			request: &ProjectNamespaceLintOptions{
-				Content: String("{'build': {'script': 'echo build', 'bad_key': 'value'}}"),
-				DryRun:  Bool(false),
+				Content: Ptr("{'build': {'script': 'echo build', 'bad_key': 'value'}}"),
+				DryRun:  Ptr(false),
 			},
 			response: `{
 				"valid": false,

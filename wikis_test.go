@@ -49,7 +49,7 @@ func TestListWikis(t *testing.T) {
 		  ]`)
 	})
 
-	wikis, _, err := client.Wikis.ListWikis(1, &ListWikisOptions{WithContent: Bool(true)})
+	wikis, _, err := client.Wikis.ListWikis(1, &ListWikisOptions{WithContent: Ptr(true)})
 	if err != nil {
 		t.Errorf("Wikis.ListWikis returned error: %v", err)
 	}
@@ -126,9 +126,9 @@ func TestCreateWikiPage(t *testing.T) {
 	})
 
 	opt := &CreateWikiPageOptions{
-		Content: String("Hello world"),
-		Title:   String("Hello"),
-		Format:  WikiFormat(WikiFormatMarkdown),
+		Content: Ptr("Hello world"),
+		Title:   Ptr("Hello"),
+		Format:  Ptr(WikiFormatMarkdown),
 	}
 	wiki, _, err := client.Wikis.CreateWikiPage(1, opt)
 	if err != nil {
@@ -161,9 +161,9 @@ func TestEditWikiPage(t *testing.T) {
 	})
 
 	opt := &EditWikiPageOptions{
-		Content: String("documentation"),
-		Format:  WikiFormat(WikiFormatMarkdown),
-		Title:   String("Docs"),
+		Content: Ptr("documentation"),
+		Format:  Ptr(WikiFormatMarkdown),
+		Title:   Ptr("Docs"),
 	}
 	wiki, _, err := client.Wikis.EditWikiPage(1, "foo", opt)
 	if err != nil {

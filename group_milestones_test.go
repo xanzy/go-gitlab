@@ -36,7 +36,7 @@ func TestGroupMilestonesService_ListGroupMilestones(t *testing.T) {
 		Title:       "10.0",
 		Description: "Version",
 		State:       "active",
-		Expired:     Bool(false),
+		Expired:     Ptr(false),
 	}}
 
 	gms, resp, err := client.GroupMilestones.ListGroupMilestones(5, nil, nil)
@@ -86,7 +86,7 @@ func TestGroupMilestonesService_GetGroupMilestone(t *testing.T) {
 		Title:       "10.0",
 		Description: "Version",
 		State:       "active",
-		Expired:     Bool(false),
+		Expired:     Ptr(false),
 	}
 
 	gm, resp, err := client.GroupMilestones.GetGroupMilestone(5, 12, nil, nil)
@@ -136,7 +136,7 @@ func TestGroupMilestonesService_CreateGroupMilestone(t *testing.T) {
 		Title:       "10.0",
 		Description: "Version",
 		State:       "active",
-		Expired:     Bool(false),
+		Expired:     Ptr(false),
 	}
 
 	gm, resp, err := client.GroupMilestones.CreateGroupMilestone(5, nil, nil)
@@ -186,7 +186,7 @@ func TestGroupMilestonesService_UpdateGroupMilestone(t *testing.T) {
 		Title:       "10.0",
 		Description: "Version",
 		State:       "active",
-		Expired:     Bool(false),
+		Expired:     Ptr(false),
 	}
 
 	gm, resp, err := client.GroupMilestones.UpdateGroupMilestone(5, 12, nil, nil)
@@ -561,8 +561,8 @@ func TestGroupMilestonesService_GetGroupMilestoneBurndownChartEvents(t *testing.
 	})
 
 	want := []*BurndownChartEvent{{
-		Weight: Int(10),
-		Action: String("update"),
+		Weight: Ptr(10),
+		Action: Ptr("update"),
 	}}
 
 	bces, resp, err := client.GroupMilestones.GetGroupMilestoneBurndownChartEvents(3, 12, nil, nil)

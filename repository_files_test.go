@@ -268,7 +268,7 @@ func TestRepositoryFilesService_CreateFile(t *testing.T) {
 	require.NotNil(t, resp)
 	require.Equal(t, want, fi)
 
-	fi, resp, err = client.RepositoryFiles.CreateFile(13083, "app%2Fproject%2Erb", &CreateFileOptions{ExecuteFilemode: Bool(true)})
+	fi, resp, err = client.RepositoryFiles.CreateFile(13083, "app%2Fproject%2Erb", &CreateFileOptions{ExecuteFilemode: Ptr(true)})
 	require.NoError(t, err)
 	require.NotNil(t, resp)
 	require.Equal(t, want, fi)
@@ -312,7 +312,7 @@ func TestRepositoryFilesService_UpdateFile(t *testing.T) {
 	require.NotNil(t, resp)
 	require.Equal(t, want, fi)
 
-	fi, resp, err = client.RepositoryFiles.UpdateFile(13083, "app%2Fproject%2Erb", &UpdateFileOptions{ExecuteFilemode: Bool(true)})
+	fi, resp, err = client.RepositoryFiles.UpdateFile(13083, "app%2Fproject%2Erb", &UpdateFileOptions{ExecuteFilemode: Ptr(true)})
 	require.NoError(t, err)
 	require.NotNil(t, resp)
 	require.Equal(t, want, fi)

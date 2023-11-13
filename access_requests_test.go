@@ -285,7 +285,7 @@ func TestApproveProjectAccessRequest(t *testing.T) {
 	}
 
 	opt := &ApproveAccessRequestOptions{
-		AccessLevel: AccessLevel(DeveloperPermissions),
+		AccessLevel: Ptr(DeveloperPermissions),
 	}
 
 	request, resp, err := client.AccessRequests.ApproveProjectAccessRequest(1, 10, opt)
@@ -344,7 +344,7 @@ func TestApproveGroupAccessRequest(t *testing.T) {
 	}
 
 	opt := &ApproveAccessRequestOptions{
-		AccessLevel: AccessLevel(DeveloperPermissions),
+		AccessLevel: Ptr(DeveloperPermissions),
 	}
 
 	request, resp, err := client.AccessRequests.ApproveGroupAccessRequest(1, 10, opt)

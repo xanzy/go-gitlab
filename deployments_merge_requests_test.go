@@ -20,8 +20,8 @@ func TestDeploymentMergeRequestsService_ListDeploymentMergeRequests(t *testing.T
 
 	opts := ListMergeRequestsOptions{
 		AssigneeID:             AssigneeID(UserIDAny),
-		WithLabelsDetails:      Bool(true),
-		WithMergeStatusRecheck: Bool(true),
+		WithLabelsDetails:      Ptr(true),
+		WithMergeStatusRecheck: Ptr(true),
 	}
 
 	mergeRequests, _, err := client.DeploymentMergeRequests.ListDeploymentMergeRequests(278964, 2, &opts)

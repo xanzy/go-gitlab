@@ -150,11 +150,11 @@ func TestProtectRepositoryBranches(t *testing.T) {
 	}`)
 	})
 	opt := &ProtectRepositoryBranchesOptions{
-		Name:                      String("master"),
-		PushAccessLevel:           AccessLevel(MaintainerPermissions),
-		MergeAccessLevel:          AccessLevel(MaintainerPermissions),
-		AllowForcePush:            Bool(true),
-		CodeOwnerApprovalRequired: Bool(true),
+		Name:                      Ptr("master"),
+		PushAccessLevel:           Ptr(MaintainerPermissions),
+		MergeAccessLevel:          Ptr(MaintainerPermissions),
+		AllowForcePush:            Ptr(true),
+		CodeOwnerApprovalRequired: Ptr(true),
 	}
 	projects, _, err := client.ProtectedBranches.ProtectRepositoryBranches("1", opt)
 	if err != nil {
@@ -195,7 +195,7 @@ func TestUpdateRepositoryBranches(t *testing.T) {
 		}`)
 	})
 	opt := &UpdateProtectedBranchOptions{
-		CodeOwnerApprovalRequired: Bool(true),
+		CodeOwnerApprovalRequired: Ptr(true),
 	}
 	protectedBranch, _, err := client.ProtectedBranches.UpdateProtectedBranch("1", "master", opt)
 	if err != nil {

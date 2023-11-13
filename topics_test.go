@@ -56,7 +56,7 @@ func TestTopicsService_ListTopics(t *testing.T) {
     ]`)
 	})
 
-	opt := &ListTopicsOptions{Search: String("git")}
+	opt := &ListTopicsOptions{Search: Ptr("git")}
 	topics, _, err := client.Topics.ListTopics(opt)
 	if err != nil {
 		t.Errorf("Tags.ListTags returned error: %v", err)
@@ -135,7 +135,7 @@ func TestTopicsService_CreateTopic(t *testing.T) {
     }`)
 	})
 
-	opt := &CreateTopicOptions{Name: String("topic1"), Title: String("Topic 1"), Description: String("description")}
+	opt := &CreateTopicOptions{Name: Ptr("topic1"), Title: Ptr("Topic 1"), Description: Ptr("description")}
 	release, _, err := client.Topics.CreateTopic(opt)
 	if err != nil {
 		t.Errorf("Topics.CreateTopic returned error: %v", err)
@@ -162,7 +162,7 @@ func TestTopicsService_UpdateTopic(t *testing.T) {
     }`)
 	})
 
-	opt := &UpdateTopicOptions{Name: String("topic1"), Title: String("Topic 1"), Description: String("description")}
+	opt := &UpdateTopicOptions{Name: Ptr("topic1"), Title: Ptr("Topic 1"), Description: Ptr("description")}
 	release, _, err := client.Topics.UpdateTopic(1, opt)
 	if err != nil {
 		t.Errorf("Topics.UpdateTopic returned error: %v", err)

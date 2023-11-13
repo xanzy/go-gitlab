@@ -225,7 +225,7 @@ func TestAddMergeRequestToMergeTrain(t *testing.T) {
 		mustWriteHTTPResponse(t, w, "testdata/add_merge_request_in_merge_train.json")
 	})
 
-	opt := &AddMergeRequestToMergeTrainOptions{WhenPipelineSucceeds: Bool(true), Squash: Bool(true)}
+	opt := &AddMergeRequestToMergeTrainOptions{WhenPipelineSucceeds: Ptr(true), Squash: Ptr(true)}
 
 	mergeTrains, _, err := client.MergeTrains.AddMergeRequestToMergeTrain(597, 1, opt)
 	if err != nil {

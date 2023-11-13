@@ -68,8 +68,8 @@ func TestReleaseLinksService_CreateReleaseLink(t *testing.T) {
 		{
 			description: "Mandatory Attributes",
 			options: &CreateReleaseLinkOptions{
-				Name: String("awesome-v0.2.dmg"),
-				URL:  String("http://192.168.10.15:3000"),
+				Name: Ptr("awesome-v0.2.dmg"),
+				URL:  Ptr("http://192.168.10.15:3000"),
 			},
 			response: `{
 				"id":1,
@@ -87,10 +87,10 @@ func TestReleaseLinksService_CreateReleaseLink(t *testing.T) {
 		{
 			description: "Optional Attributes",
 			options: &CreateReleaseLinkOptions{
-				Name:     String("release-notes.md"),
-				URL:      String("http://192.168.10.15:3000"),
-				FilePath: String("docs/release-notes.md"),
-				LinkType: LinkType(OtherLinkType),
+				Name:     Ptr("release-notes.md"),
+				URL:      Ptr("http://192.168.10.15:3000"),
+				FilePath: Ptr("docs/release-notes.md"),
+				LinkType: Ptr(OtherLinkType),
 			},
 			response: `{
 				"id":1,
@@ -159,9 +159,9 @@ func TestReleaseLinksService_UpdateReleaseLink(t *testing.T) {
 	releaseLink, _, err := client.ReleaseLinks.UpdateReleaseLink(
 		1, exampleTagName, 1,
 		&UpdateReleaseLinkOptions{
-			Name:     String(exampleReleaseName),
-			FilePath: String("http://192.168.10.15:3000/namespace/example/-/releases/v0.1/downloads/awesome-v0.2.dmg"),
-			LinkType: LinkType(OtherLinkType),
+			Name:     Ptr(exampleReleaseName),
+			FilePath: Ptr("http://192.168.10.15:3000/namespace/example/-/releases/v0.1/downloads/awesome-v0.2.dmg"),
+			LinkType: Ptr(OtherLinkType),
 		})
 
 	require.NoError(t, err)

@@ -74,7 +74,7 @@ func TestTagsService_CreateReleaseNote(t *testing.T) {
 			fmt.Fprint(w, `{"tag_name": "1.0.0", "description": "Amazing release. Wow"}`)
 		})
 
-	opt := &CreateReleaseNoteOptions{Description: String("Amazing release. Wow")}
+	opt := &CreateReleaseNoteOptions{Description: Ptr("Amazing release. Wow")}
 
 	release, _, err := client.Tags.CreateReleaseNote(1, "1.0.0", opt)
 	if err != nil {
@@ -96,7 +96,7 @@ func TestTagsService_UpdateReleaseNote(t *testing.T) {
 			fmt.Fprint(w, `{"tag_name": "1.0.0", "description": "Amazing release. Wow!"}`)
 		})
 
-	opt := &UpdateReleaseNoteOptions{Description: String("Amazing release. Wow!")}
+	opt := &UpdateReleaseNoteOptions{Description: Ptr("Amazing release. Wow!")}
 
 	release, _, err := client.Tags.UpdateReleaseNote(1, "1.0.0", opt)
 	if err != nil {

@@ -31,8 +31,8 @@ func topicExample() {
 
 	// New topic
 	topic, _, err := git.Topics.CreateTopic(&gitlab.CreateTopicOptions{
-		Name:        gitlab.String("My Topic 2"),
-		Description: gitlab.String("Some description"),
+		Name:        gitlab.Ptr("My Topic 2"),
+		Description: gitlab.Ptr("Some description"),
 	})
 	if err != nil {
 		panic(err)

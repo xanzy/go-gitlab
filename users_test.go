@@ -48,7 +48,7 @@ func TestGetUser(t *testing.T) {
 		Name:         "John Smith",
 		State:        "active",
 		WebURL:       "http://localhost:3000/john_smith",
-		CreatedAt:    Time(time.Date(2012, time.May, 23, 8, 0o0, 58, 0, time.UTC)),
+		CreatedAt:    Ptr(time.Date(2012, time.May, 23, 8, 0o0, 58, 0, time.UTC)),
 		Bio:          "Bio of John Smith",
 		Location:     "USA",
 		PublicEmail:  "john@example.com",
@@ -87,7 +87,7 @@ func TestGetUserAdmin(t *testing.T) {
 		Name:             "John Smith",
 		State:            "active",
 		WebURL:           "http://localhost:3000/john_smith",
-		CreatedAt:        Time(time.Date(2012, time.May, 23, 8, 0, 58, 0, time.UTC)),
+		CreatedAt:        Ptr(time.Date(2012, time.May, 23, 8, 0, 58, 0, time.UTC)),
 		Bio:              "Bio of John Smith",
 		Location:         "USA",
 		PublicEmail:      "john@example.com",
@@ -105,11 +105,11 @@ func TestGetUserAdmin(t *testing.T) {
 		CanCreateGroup:   true,
 		CanCreateProject: true,
 		ProjectsLimit:    100,
-		CurrentSignInAt:  Time(time.Date(2012, time.June, 2, 6, 36, 55, 0, time.UTC)),
+		CurrentSignInAt:  Ptr(time.Date(2012, time.June, 2, 6, 36, 55, 0, time.UTC)),
 		CurrentSignInIP:  &currentSignInIP,
-		LastSignInAt:     Time(time.Date(2012, time.June, 1, 11, 41, 1, 0, time.UTC)),
+		LastSignInAt:     Ptr(time.Date(2012, time.June, 1, 11, 41, 1, 0, time.UTC)),
 		LastSignInIP:     &lastSignInIP,
-		ConfirmedAt:      Time(time.Date(2012, time.May, 23, 9, 0o5, 22, 0, time.UTC)),
+		ConfirmedAt:      Ptr(time.Date(2012, time.May, 23, 9, 0o5, 22, 0, time.UTC)),
 		TwoFactorEnabled: true,
 		Note:             "DMCA Request: 2018-11-05 | DMCA Violation | Abuse | https://gitlab.zendesk.com/agent/tickets/123",
 		Identities:       []*UserIdentity{{Provider: "github", ExternUID: "2435223452345"}},
@@ -669,8 +669,8 @@ func TestCreateUserRunner(t *testing.T) {
 	})
 
 	createRunnerOpts := &CreateUserRunnerOptions{
-		ProjectID:  Int(1),
-		RunnerType: String("project_type"),
+		ProjectID:  Ptr(1),
+		RunnerType: Ptr("project_type"),
 	}
 
 	response, _, err := client.Users.CreateUserRunner(createRunnerOpts)

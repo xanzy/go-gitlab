@@ -72,8 +72,8 @@ func TestDisableErrorTracking(t *testing.T) {
 	et, _, err := client.ErrorTracking.EnableDisableErrorTracking(
 		1,
 		&EnableDisableErrorTrackingOptions{
-			Active:     Bool(false),
-			Integrated: Bool(false),
+			Active:     Ptr(false),
+			Integrated: Ptr(false),
 		},
 	)
 	if err != nil {

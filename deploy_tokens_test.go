@@ -184,8 +184,8 @@ func TestCreateProjectDeployToken(t *testing.T) {
 	expiresAt := time.Date(2021, 0o1, 0o1, 0, 0, 0, 0, time.UTC)
 
 	deployToken, _, err := client.DeployTokens.CreateProjectDeployToken(5, &CreateProjectDeployTokenOptions{
-		Name:      String("My deploy token"),
-		Username:  String("custom-user"),
+		Name:      Ptr("My deploy token"),
+		Username:  Ptr("custom-user"),
 		ExpiresAt: &expiresAt,
 		Scopes: &[]string{
 			"read_repository",
@@ -342,8 +342,8 @@ func TestCreateGroupDeployToken(t *testing.T) {
 	expiresAt := time.Date(2021, 0o1, 0o1, 0, 0, 0, 0, time.UTC)
 
 	deployToken, _, err := client.DeployTokens.CreateGroupDeployToken(5, &CreateGroupDeployTokenOptions{
-		Name:      String("My deploy token"),
-		Username:  String("custom-user"),
+		Name:      Ptr("My deploy token"),
+		Username:  Ptr("custom-user"),
 		ExpiresAt: &expiresAt,
 		Scopes: &[]string{
 			"read_repository",

@@ -142,7 +142,7 @@ func TestAddProjectToJobScopeAllowList(t *testing.T) {
 
 	addTokenResponse, resp, err := client.JobTokenScope.AddProjectToJobScopeAllowList(
 		1,
-		&JobTokenInboundAllowOptions{TargetProjectID: Int(2)},
+		&JobTokenInboundAllowOptions{TargetProjectID: Ptr(2)},
 	)
 	assert.NoError(t, err)
 	assert.Equal(t, want, addTokenResponse)

@@ -58,7 +58,7 @@ func TestGetCommit(t *testing.T) {
 		Message:        "Sanitize for network graph",
 		ParentIDs:      []string{"ae1d9fb46aa2b07ee9836d49862ec4e2c46fbbba"},
 		Stats:          &CommitStats{Additions: 15, Deletions: 10, Total: 25},
-		Status:         BuildState(Running),
+		Status:         Ptr(Running),
 		LastPipeline: &PipelineInfo{
 			ID:        8,
 			Ref:       "master",
@@ -83,10 +83,10 @@ func TestGetCommitStatuses(t *testing.T) {
 	})
 
 	opt := &GetCommitStatusesOptions{
-		Ref:   String("master"),
-		Stage: String("test"),
-		Name:  String("ci/jenkins"),
-		All:   Bool(true),
+		Ref:   Ptr("master"),
+		Stage: Ptr("test"),
+		Name:  Ptr("ci/jenkins"),
+		All:   Ptr(true),
 	}
 	statuses, _, err := client.Commits.GetCommitStatuses("1", "b0b3a907f41409829b307a28b82fdbd552ee5a27", opt)
 	if err != nil {
@@ -119,11 +119,11 @@ func TestSetCommitStatus(t *testing.T) {
 	cov := 99.9
 	opt := &SetCommitStatusOptions{
 		State:       Running,
-		Ref:         String("master"),
-		Name:        String("ci/jenkins"),
-		Context:     String(""),
-		TargetURL:   String("http://abc"),
-		Description: String("build"),
+		Ref:         Ptr("master"),
+		Name:        Ptr("ci/jenkins"),
+		Context:     Ptr(""),
+		TargetURL:   Ptr("http://abc"),
+		Description: Ptr("build"),
 		Coverage:    &cov,
 	}
 	status, _, err := client.Commits.SetCommitStatus("1", "b0b3a907f41409829b307a28b82fdbd552ee5a27", opt)
@@ -163,7 +163,7 @@ func TestRevertCommit_NoOptions(t *testing.T) {
 		Message:        "Sanitize for network graph",
 		ParentIDs:      []string{"ae1d9fb46aa2b07ee9836d49862ec4e2c46fbbba"},
 		Stats:          &CommitStats{Additions: 15, Deletions: 10, Total: 25},
-		Status:         BuildState(Running),
+		Status:         Ptr(Running),
 		LastPipeline: &PipelineInfo{
 			ID:        8,
 			Ref:       "master",
@@ -208,7 +208,7 @@ func TestRevertCommit_WithOptions(t *testing.T) {
 		Message:        "Sanitize for network graph",
 		ParentIDs:      []string{"ae1d9fb46aa2b07ee9836d49862ec4e2c46fbbba"},
 		Stats:          &CommitStats{Additions: 15, Deletions: 10, Total: 25},
-		Status:         BuildState(Running),
+		Status:         Ptr(Running),
 		LastPipeline: &PipelineInfo{
 			ID:        8,
 			Ref:       "master",
@@ -302,7 +302,7 @@ func TestCommitsService_ListCommits(t *testing.T) {
 		Message:        "Sanitize for network graph",
 		ParentIDs:      []string{"ae1d9fb46aa2b07ee9836d49862ec4e2c46fbbba"},
 		Stats:          &CommitStats{Additions: 15, Deletions: 10, Total: 25},
-		Status:         BuildState(Running),
+		Status:         Ptr(Running),
 		LastPipeline: &PipelineInfo{
 			ID:        8,
 			Ref:       "master",
@@ -442,7 +442,7 @@ func TestCommitsService_CreateCommit(t *testing.T) {
 		Message:        "Sanitize for network graph",
 		ParentIDs:      []string{"ae1d9fb46aa2b07ee9836d49862ec4e2c46fbbba"},
 		Stats:          &CommitStats{Additions: 15, Deletions: 10, Total: 25},
-		Status:         BuildState(Running),
+		Status:         Ptr(Running),
 		LastPipeline: &PipelineInfo{
 			ID:        8,
 			Ref:       "master",
@@ -896,7 +896,7 @@ func TestCommitsService_CherryPickCommit(t *testing.T) {
 		Message:        "Sanitize for network graph",
 		ParentIDs:      []string{"ae1d9fb46aa2b07ee9836d49862ec4e2c46fbbba"},
 		Stats:          &CommitStats{Additions: 15, Deletions: 10, Total: 25},
-		Status:         BuildState(Running),
+		Status:         Ptr(Running),
 		LastPipeline: &PipelineInfo{
 			ID:        8,
 			Ref:       "master",

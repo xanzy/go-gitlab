@@ -38,7 +38,7 @@ func TestCreateApplication(t *testing.T) {
 	)
 
 	opt := &CreateApplicationOptions{
-		Name: String("testApplication"),
+		Name: Ptr("testApplication"),
 	}
 	app, _, err := client.Applications.CreateApplication(opt)
 	if err != nil {

@@ -30,8 +30,8 @@ func labelExample() {
 
 	// Create new label
 	opt := &gitlab.CreateLabelOptions{
-		Name:  gitlab.String("My Label"),
-		Color: gitlab.String("#11FF22"),
+		Name:  gitlab.Ptr("My Label"),
+		Color: gitlab.Ptr("#11FF22"),
 	}
 	label, _, err := git.Labels.CreateLabel("myname/myproject", opt)
 	if err != nil {

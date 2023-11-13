@@ -247,16 +247,16 @@ func TestProtectRepositoryEnvironments(t *testing.T) {
 	}
 
 	opt := &ProtectRepositoryEnvironmentsOptions{
-		Name: String("my-awesome-environment"),
+		Name: Ptr("my-awesome-environment"),
 		DeployAccessLevels: &[]*EnvironmentAccessOptions{
-			{AccessLevel: AccessLevel(30)},
+			{AccessLevel: Ptr(AccessLevelValue(30))},
 		},
-		RequiredApprovalCount: Int(2),
+		RequiredApprovalCount: Ptr(2),
 		ApprovalRules: &[]*EnvironmentApprovalRuleOptions{
 			{
-				GroupID:                Int(10),
-				AccessLevel:            AccessLevel(0),
-				AccessLevelDescription: String("devops"),
+				GroupID:                Ptr(10),
+				AccessLevel:            Ptr(AccessLevelValue(0)),
+				AccessLevelDescription: Ptr("devops"),
 			},
 		},
 	}
@@ -290,9 +290,9 @@ func TestProtectRepositoryEnvironments(t *testing.T) {
 	}
 
 	opt = &ProtectRepositoryEnvironmentsOptions{
-		Name: String("my-awesome-environment2"),
+		Name: Ptr("my-awesome-environment2"),
 		DeployAccessLevels: &[]*EnvironmentAccessOptions{
-			{AccessLevel: AccessLevel(30)},
+			{AccessLevel: Ptr(AccessLevelValue(30))},
 		},
 	}
 	environment, _, err = client.ProtectedEnvironments.ProtectRepositoryEnvironments(2, opt)
@@ -353,16 +353,16 @@ func TestUpdateProtectedEnvironments(t *testing.T) {
 	}
 
 	opt := &UpdateProtectedEnvironmentsOptions{
-		Name: String(environmentName),
+		Name: Ptr(environmentName),
 		DeployAccessLevels: &[]*UpdateEnvironmentAccessOptions{
-			{AccessLevel: AccessLevel(30)},
+			{AccessLevel: Ptr(AccessLevelValue(30))},
 		},
-		RequiredApprovalCount: Int(2),
+		RequiredApprovalCount: Ptr(2),
 		ApprovalRules: &[]*UpdateEnvironmentApprovalRuleOptions{
 			{
-				GroupID:                Int(10),
-				AccessLevel:            AccessLevel(0),
-				AccessLevelDescription: String("devops"),
+				GroupID:                Ptr(10),
+				AccessLevel:            Ptr(AccessLevelValue(0)),
+				AccessLevelDescription: Ptr("devops"),
 			},
 		},
 	}
@@ -398,9 +398,9 @@ func TestUpdateProtectedEnvironments(t *testing.T) {
 	}
 
 	opt = &UpdateProtectedEnvironmentsOptions{
-		Name: String(environmentName),
+		Name: Ptr(environmentName),
 		DeployAccessLevels: &[]*UpdateEnvironmentAccessOptions{
-			{AccessLevel: AccessLevel(30)},
+			{AccessLevel: Ptr(AccessLevelValue(30))},
 		},
 	}
 	environment, _, err = client.ProtectedEnvironments.UpdateProtectedEnvironments(2, environmentName, opt)
@@ -436,11 +436,11 @@ func TestUpdateProtectedEnvironments(t *testing.T) {
 	}
 
 	opt = &UpdateProtectedEnvironmentsOptions{
-		Name: String(environmentName),
+		Name: Ptr(environmentName),
 		DeployAccessLevels: &[]*UpdateEnvironmentAccessOptions{
 			{
-				ID:          Int(42),
-				AccessLevel: AccessLevel(30),
+				ID:          Ptr(42),
+				AccessLevel: Ptr(AccessLevelValue(30)),
 			},
 		},
 	}
@@ -496,13 +496,13 @@ func TestUpdateProtectedEnvironments(t *testing.T) {
 	}
 
 	opt = &UpdateProtectedEnvironmentsOptions{
-		Name: String(environmentName),
+		Name: Ptr(environmentName),
 		ApprovalRules: &[]*UpdateEnvironmentApprovalRuleOptions{
 			{
-				ID:                     Int(1),
-				GroupID:                Int(10),
-				AccessLevel:            AccessLevel(0),
-				AccessLevelDescription: String("devops"),
+				ID:                     Ptr(1),
+				GroupID:                Ptr(10),
+				AccessLevel:            Ptr(AccessLevelValue(0)),
+				AccessLevelDescription: Ptr("devops"),
 			},
 		},
 	}
@@ -542,14 +542,14 @@ func TestUpdateProtectedEnvironments(t *testing.T) {
 	}
 
 	opt = &UpdateProtectedEnvironmentsOptions{
-		Name: String(environmentName),
+		Name: Ptr(environmentName),
 		ApprovalRules: &[]*UpdateEnvironmentApprovalRuleOptions{
 			{
-				ID:      Int(1),
-				Destroy: Bool(true),
+				ID:      Ptr(1),
+				Destroy: Ptr(true),
 			},
 		},
-		RequiredApprovalCount: Int(0),
+		RequiredApprovalCount: Ptr(0),
 	}
 
 	environment, _, err = client.ProtectedEnvironments.UpdateProtectedEnvironments(5, environmentName, opt)

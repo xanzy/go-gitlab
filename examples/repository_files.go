@@ -30,9 +30,9 @@ func repositoryFileExample() {
 
 	// Create a new repository file
 	cf := &gitlab.CreateFileOptions{
-		Branch:        gitlab.String("master"),
-		Content:       gitlab.String("My file contents"),
-		CommitMessage: gitlab.String("Adding a test file"),
+		Branch:        gitlab.Ptr("master"),
+		Content:       gitlab.Ptr("My file contents"),
+		CommitMessage: gitlab.Ptr("Adding a test file"),
 	}
 	file, _, err := git.RepositoryFiles.CreateFile("myname/myproject", "file.go", cf)
 	if err != nil {
@@ -41,9 +41,9 @@ func repositoryFileExample() {
 
 	// Update a repository file
 	uf := &gitlab.UpdateFileOptions{
-		Branch:        gitlab.String("master"),
-		Content:       gitlab.String("My file content"),
-		CommitMessage: gitlab.String("Fixing typo"),
+		Branch:        gitlab.Ptr("master"),
+		Content:       gitlab.Ptr("My file content"),
+		CommitMessage: gitlab.Ptr("Fixing typo"),
 	}
 	_, _, err = git.RepositoryFiles.UpdateFile("myname/myproject", file.FilePath, uf)
 	if err != nil {
@@ -51,7 +51,7 @@ func repositoryFileExample() {
 	}
 
 	gf := &gitlab.GetFileOptions{
-		Ref: gitlab.String("master"),
+		Ref: gitlab.Ptr("master"),
 	}
 	f, _, err := git.RepositoryFiles.GetFile("myname/myproject", file.FilePath, gf)
 	if err != nil {
@@ -61,7 +61,7 @@ func repositoryFileExample() {
 	log.Printf("File contains: %s", f.Content)
 
 	gfb := &gitlab.GetFileBlameOptions{
-		Ref: gitlab.String("master"),
+		Ref: gitlab.Ptr("master"),
 	}
 	fb, _, err := git.RepositoryFiles.GetFileBlame("myname/myproject", file.FilePath, gfb)
 	if err != nil {

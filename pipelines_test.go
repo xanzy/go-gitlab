@@ -33,7 +33,7 @@ func TestListProjectPipelines(t *testing.T) {
 		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
 	})
 
-	opt := &ListProjectPipelinesOptions{Ref: String("master")}
+	opt := &ListProjectPipelinesOptions{Ref: Ptr("master")}
 	piplines, _, err := client.Pipelines.ListProjectPipelines(1, opt)
 	if err != nil {
 		t.Errorf("Pipelines.ListProjectPipelines returned error: %v", err)
@@ -194,7 +194,7 @@ func TestGetLatestPipeline_WithRef(t *testing.T) {
 	})
 
 	pipeline, _, err := client.Pipelines.GetLatestPipeline(1, &GetLatestPipelineOptions{
-		Ref: String("abc"),
+		Ref: Ptr("abc"),
 	})
 
 	assert.NoError(t, err)
@@ -209,7 +209,7 @@ func TestCreatePipeline(t *testing.T) {
 		fmt.Fprint(w, `{"id":1, "status":"pending"}`)
 	})
 
-	opt := &CreatePipelineOptions{Ref: String("master")}
+	opt := &CreatePipelineOptions{Ref: Ptr("master")}
 	pipeline, _, err := client.Pipelines.CreatePipeline(1, opt)
 	if err != nil {
 		t.Errorf("Pipelines.CreatePipeline returned error: %v", err)

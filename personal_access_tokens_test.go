@@ -31,7 +31,7 @@ func TestListPersonalAccessTokensWithUserFilter(t *testing.T) {
 		mustWriteHTTPResponse(t, w, "testdata/list_personal_access_tokens_with_user_filter.json")
 	})
 
-	personalAccessTokens, _, err := client.PersonalAccessTokens.ListPersonalAccessTokens(&ListPersonalAccessTokensOptions{UserID: Int(1), ListOptions: ListOptions{Page: 1, PerPage: 10}})
+	personalAccessTokens, _, err := client.PersonalAccessTokens.ListPersonalAccessTokens(&ListPersonalAccessTokensOptions{UserID: Ptr(1), ListOptions: ListOptions{Page: 1, PerPage: 10}})
 	if err != nil {
 		t.Errorf("PersonalAccessTokens.ListPersonalAccessTokens returned error: %v", err)
 	}

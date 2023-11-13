@@ -40,12 +40,12 @@ func TestListProjects(t *testing.T) {
 
 	opt := &ListProjectsOptions{
 		ListOptions: ListOptions{Page: 2, PerPage: 3},
-		Archived:    Bool(true),
-		OrderBy:     String("name"),
-		Sort:        String("asc"),
-		Search:      String("query"),
-		Simple:      Bool(true),
-		Visibility:  Visibility(PublicVisibility),
+		Archived:    Ptr(true),
+		OrderBy:     Ptr("name"),
+		Sort:        Ptr("asc"),
+		Search:      Ptr("query"),
+		Simple:      Ptr(true),
+		Visibility:  Ptr(PublicVisibility),
 	}
 
 	projects, _, err := client.Projects.ListProjects(opt)
@@ -69,12 +69,12 @@ func TestListUserProjects(t *testing.T) {
 
 	opt := &ListProjectsOptions{
 		ListOptions: ListOptions{Page: 2, PerPage: 3},
-		Archived:    Bool(true),
-		OrderBy:     String("name"),
-		Sort:        String("asc"),
-		Search:      String("query"),
-		Simple:      Bool(true),
-		Visibility:  Visibility(PublicVisibility),
+		Archived:    Ptr(true),
+		OrderBy:     Ptr("name"),
+		Sort:        Ptr("asc"),
+		Search:      Ptr("query"),
+		Simple:      Ptr(true),
+		Visibility:  Ptr(PublicVisibility),
 	}
 
 	projects, _, err := client.Projects.ListUserProjects(1, opt)
@@ -127,12 +127,12 @@ func TestListUserStarredProjects(t *testing.T) {
 
 	opt := &ListProjectsOptions{
 		ListOptions: ListOptions{Page: 2, PerPage: 3},
-		Archived:    Bool(true),
-		OrderBy:     String("name"),
-		Sort:        String("asc"),
-		Search:      String("query"),
-		Simple:      Bool(true),
-		Visibility:  Visibility(PublicVisibility),
+		Archived:    Ptr(true),
+		OrderBy:     Ptr("name"),
+		Sort:        Ptr("asc"),
+		Search:      Ptr("query"),
+		Simple:      Ptr(true),
+		Visibility:  Ptr(PublicVisibility),
 	}
 
 	projects, _, err := client.Projects.ListUserStarredProjects(1, opt)
@@ -157,7 +157,7 @@ func TestListProjectsUsersByID(t *testing.T) {
 
 	opt := &ListProjectUserOptions{
 		ListOptions: ListOptions{Page: 2, PerPage: 3},
-		Search:      String("query"),
+		Search:      Ptr("query"),
 	}
 
 	projects, _, err := client.Projects.ListProjectsUsers(1, opt)
@@ -182,7 +182,7 @@ func TestListProjectsUsersByName(t *testing.T) {
 
 	opt := &ListProjectUserOptions{
 		ListOptions: ListOptions{Page: 2, PerPage: 3},
-		Search:      String("query"),
+		Search:      Ptr("query"),
 	}
 
 	projects, _, err := client.Projects.ListProjectsUsers("namespace/name", opt)
@@ -207,7 +207,7 @@ func TestListProjectsGroupsByID(t *testing.T) {
 
 	opt := &ListProjectGroupOptions{
 		ListOptions: ListOptions{Page: 2, PerPage: 3},
-		Search:      String("query"),
+		Search:      Ptr("query"),
 	}
 
 	groups, _, err := client.Projects.ListProjectsGroups(1, opt)
@@ -232,7 +232,7 @@ func TestListProjectsGroupsByName(t *testing.T) {
 
 	opt := &ListProjectGroupOptions{
 		ListOptions: ListOptions{Page: 2, PerPage: 3},
-		Search:      String("query"),
+		Search:      Ptr("query"),
 	}
 
 	groups, _, err := client.Projects.ListProjectsGroups("namespace/name", opt)
@@ -256,13 +256,13 @@ func TestListOwnedProjects(t *testing.T) {
 
 	opt := &ListProjectsOptions{
 		ListOptions: ListOptions{Page: 2, PerPage: 3},
-		Archived:    Bool(true),
-		OrderBy:     String("name"),
-		Sort:        String("asc"),
-		Search:      String("query"),
-		Simple:      Bool(true),
-		Owned:       Bool(true),
-		Visibility:  Visibility(PublicVisibility),
+		Archived:    Ptr(true),
+		OrderBy:     Ptr("name"),
+		Sort:        Ptr("asc"),
+		Search:      Ptr("query"),
+		Simple:      Ptr(true),
+		Owned:       Ptr(true),
+		Visibility:  Ptr(PublicVisibility),
 	}
 
 	projects, _, err := client.Projects.ListProjects(opt)
@@ -286,13 +286,13 @@ func TestListStarredProjects(t *testing.T) {
 
 	opt := &ListProjectsOptions{
 		ListOptions: ListOptions{Page: 2, PerPage: 3},
-		Archived:    Bool(true),
-		OrderBy:     String("name"),
-		Sort:        String("asc"),
-		Search:      String("query"),
-		Simple:      Bool(true),
-		Starred:     Bool(true),
-		Visibility:  Visibility(PublicVisibility),
+		Archived:    Ptr(true),
+		OrderBy:     Ptr("name"),
+		Sort:        Ptr("asc"),
+		Search:      Ptr("query"),
+		Simple:      Ptr(true),
+		Starred:     Ptr(true),
+		Visibility:  Ptr(PublicVisibility),
 	}
 
 	projects, _, err := client.Projects.ListProjects(opt)
@@ -403,7 +403,7 @@ func TestGetProjectWithOptions(t *testing.T) {
 		UploadsSize:           6523619,
 	}}
 
-	project, _, err := client.Projects.GetProject(1, &GetProjectOptions{Statistics: Bool(true)})
+	project, _, err := client.Projects.GetProject(1, &GetProjectOptions{Statistics: Ptr(true)})
 	if err != nil {
 		t.Fatalf("Projects.GetProject returns an error: %v", err)
 	}
@@ -422,8 +422,8 @@ func TestCreateProject(t *testing.T) {
 	})
 
 	opt := &CreateProjectOptions{
-		Name:        String("n"),
-		MergeMethod: MergeMethod(RebaseMerge),
+		Name:        Ptr("n"),
+		MergeMethod: Ptr(RebaseMerge),
 	}
 
 	project, _, err := client.Projects.CreateProject(opt)
@@ -573,12 +573,12 @@ func TestListProjectForks(t *testing.T) {
 
 	opt := &ListProjectsOptions{}
 	opt.ListOptions = ListOptions{Page: 2, PerPage: 3}
-	opt.Archived = Bool(true)
-	opt.OrderBy = String("name")
-	opt.Sort = String("asc")
-	opt.Search = String("query")
-	opt.Simple = Bool(true)
-	opt.Visibility = Visibility(PublicVisibility)
+	opt.Archived = Ptr(true)
+	opt.OrderBy = Ptr("name")
+	opt.Sort = Ptr("asc")
+	opt.Search = Ptr("query")
+	opt.Simple = Ptr(true)
+	opt.Visibility = Ptr(PublicVisibility)
 
 	projects, _, err := client.Projects.ListProjectForks("namespace/name", opt)
 	if err != nil {
@@ -599,8 +599,8 @@ func TestShareProjectWithGroup(t *testing.T) {
 	})
 
 	opt := &ShareWithGroupOptions{
-		GroupID:     Int(1),
-		GroupAccess: AccessLevel(AccessLevelValue(50)),
+		GroupID:     Ptr(1),
+		GroupAccess: Ptr(AccessLevelValue(50)),
 	}
 
 	_, err := client.Projects.ShareProjectWithGroup(1, opt)
@@ -679,7 +679,7 @@ func TestChangeApprovalConfiguration(t *testing.T) {
 	})
 
 	opt := &ChangeApprovalConfigurationOptions{
-		ApprovalsBeforeMerge: Int(3),
+		ApprovalsBeforeMerge: Ptr(3),
 	}
 
 	approvals, _, err := client.Projects.ChangeApprovalConfiguration(1, opt)
@@ -773,9 +773,9 @@ func TestForkProject(t *testing.T) {
 	})
 
 	project, _, err := client.Projects.ForkProject(1, &ForkProjectOptions{
-		NamespaceID: Int(namespaceID),
-		Name:        String(name),
-		Path:        String(path),
+		NamespaceID: Ptr(namespaceID),
+		Name:        Ptr(name),
+		Path:        Ptr(path),
 	})
 	if err != nil {
 		t.Errorf("Projects.ForkProject returned error: %v", err)
@@ -1219,8 +1219,8 @@ func TestCreateProjectApprovalRule(t *testing.T) {
 	})
 
 	opt := &CreateProjectLevelRuleOptions{
-		Name:              String("security"),
-		ApprovalsRequired: Int(3),
+		Name:              Ptr("security"),
+		ApprovalsRequired: Ptr(3),
 		UserIDs:           &[]int{5, 50},
 		GroupIDs:          &[]int{5},
 		ReportType:        String("code_coverage"),
@@ -1370,8 +1370,8 @@ func TestCreateProjectApprovalRuleEligibleApprovers(t *testing.T) {
 	})
 
 	opt := &CreateProjectLevelRuleOptions{
-		Name:              String("Any name"),
-		ApprovalsRequired: Int(1),
+		Name:              Ptr("Any name"),
+		ApprovalsRequired: Ptr(1),
 	}
 
 	rule, _, err := client.Projects.CreateProjectApprovalRule(1, opt)
@@ -1398,7 +1398,7 @@ func TestCreateProjectApprovalRuleEligibleApprovers(t *testing.T) {
 func TestProjectModelsOptionalMergeAttribute(t *testing.T) {
 	// Create a `CreateProjectOptions` struct, ensure that merge attribute doesn't serialize
 	jsonString, err := json.Marshal(&CreateProjectOptions{
-		Name: String("testProject"),
+		Name: Ptr("testProject"),
 	})
 	if err != nil {
 		t.Fatal("Failed to marshal object", err)
@@ -1407,7 +1407,7 @@ func TestProjectModelsOptionalMergeAttribute(t *testing.T) {
 
 	// Test the same thing but for `EditProjectOptions` struct
 	jsonString, err = json.Marshal(&EditProjectOptions{
-		Name: String("testProject"),
+		Name: Ptr("testProject"),
 	})
 	if err != nil {
 		t.Fatal("Failed to marshal object", err)

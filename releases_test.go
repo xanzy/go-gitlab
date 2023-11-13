@@ -92,9 +92,9 @@ func TestReleasesService_CreateRelease(t *testing.T) {
 		})
 
 	opts := &CreateReleaseOptions{
-		Name:        String("name"),
-		TagName:     String(exampleTagName),
-		Description: String("Description"),
+		Name:        Ptr("name"),
+		TagName:     Ptr(exampleTagName),
+		Description: Ptr("Description"),
 	}
 
 	release, _, err := client.Releases.CreateRelease(1, opts)
@@ -136,12 +136,12 @@ func TestReleasesService_CreateReleaseWithAsset(t *testing.T) {
 		})
 
 	opts := &CreateReleaseOptions{
-		Name:        String("name"),
-		TagName:     String(exampleTagName),
-		Description: String("Description"),
+		Name:        Ptr("name"),
+		TagName:     Ptr(exampleTagName),
+		Description: Ptr("Description"),
 		Assets: &ReleaseAssetsOptions{
 			Links: []*ReleaseAssetLinkOptions{
-				{String("sldkf"), String("sldkfj"), String("sldkfh"), LinkType(OtherLinkType)},
+				{Ptr("sldkf"), Ptr("sldkfj"), Ptr("sldkfh"), Ptr(OtherLinkType)},
 			},
 		},
 	}
@@ -185,12 +185,12 @@ func TestReleasesService_CreateReleaseWithAssetAndNameMetadata(t *testing.T) {
 		})
 
 	opts := &CreateReleaseOptions{
-		Name:        String("name"),
-		TagName:     String(exampleTagNameWithMetadata),
-		Description: String("Description"),
+		Name:        Ptr("name"),
+		TagName:     Ptr(exampleTagNameWithMetadata),
+		Description: Ptr("Description"),
 		Assets: &ReleaseAssetsOptions{
 			Links: []*ReleaseAssetLinkOptions{
-				{String("sldkf"), String("sldkfj"), String("sldkfh"), LinkType(OtherLinkType)},
+				{Ptr("sldkf"), Ptr("sldkfj"), Ptr("sldkfh"), Ptr(OtherLinkType)},
 			},
 		},
 	}
@@ -234,9 +234,9 @@ func TestReleasesService_CreateReleaseWithMilestones(t *testing.T) {
 		})
 
 	opts := &CreateReleaseOptions{
-		Name:        String("name"),
-		TagName:     String(exampleTagName),
-		Description: String("Description"),
+		Name:        Ptr("name"),
+		TagName:     Ptr(exampleTagName),
+		Description: Ptr("Description"),
 		Milestones:  &[]string{exampleTagName, "v0.1.0"},
 	}
 
@@ -279,9 +279,9 @@ func TestReleasesService_CreateReleaseWithReleasedAt(t *testing.T) {
 		})
 
 	opts := &CreateReleaseOptions{
-		Name:        String("name"),
-		TagName:     String(exampleTagName),
-		Description: String("Description"),
+		Name:        Ptr("name"),
+		TagName:     Ptr(exampleTagName),
+		Description: Ptr("Description"),
 		ReleasedAt:  &time.Time{},
 	}
 
@@ -316,8 +316,8 @@ func TestReleasesService_UpdateRelease(t *testing.T) {
 		})
 
 	opts := &UpdateReleaseOptions{
-		Name:        String("name"),
-		Description: String("Description"),
+		Name:        Ptr("name"),
+		Description: Ptr("Description"),
 	}
 
 	release, _, err := client.Releases.UpdateRelease(1, exampleTagName, opts)
@@ -351,8 +351,8 @@ func TestReleasesService_UpdateReleaseWithMilestones(t *testing.T) {
 		})
 
 	opts := &UpdateReleaseOptions{
-		Name:        String("name"),
-		Description: String("Description"),
+		Name:        Ptr("name"),
+		Description: Ptr("Description"),
 		Milestones:  &[]string{exampleTagName, "v0.1.0"},
 	}
 
@@ -387,8 +387,8 @@ func TestReleasesService_UpdateReleaseWithReleasedAt(t *testing.T) {
 		})
 
 	opts := &UpdateReleaseOptions{
-		Name:        String("name"),
-		Description: String("Description"),
+		Name:        Ptr("name"),
+		Description: Ptr("Description"),
 		ReleasedAt:  &time.Time{},
 	}
 

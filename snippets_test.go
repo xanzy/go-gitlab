@@ -49,11 +49,11 @@ func TestSnippetsService_CreateSnippet(t *testing.T) {
 	})
 
 	opt := &CreateSnippetOptions{
-		Title:       String("test"),
-		FileName:    String("file"),
-		Description: String("description"),
-		Content:     String("content"),
-		Visibility:  Visibility(PublicVisibility),
+		Title:       Ptr("test"),
+		FileName:    Ptr("file"),
+		Description: Ptr("description"),
+		Content:     Ptr("content"),
+		Visibility:  Ptr(PublicVisibility),
 	}
 
 	s, _, err := client.Snippets.CreateSnippet(opt)
@@ -72,11 +72,11 @@ func TestSnippetsService_UpdateSnippet(t *testing.T) {
 	})
 
 	opt := &UpdateSnippetOptions{
-		Title:       String("test"),
-		FileName:    String("file"),
-		Description: String("description"),
-		Content:     String("content"),
-		Visibility:  Visibility(PublicVisibility),
+		Title:       Ptr("test"),
+		FileName:    Ptr("file"),
+		Description: Ptr("description"),
+		Content:     Ptr("content"),
+		Visibility:  Ptr(PublicVisibility),
 	}
 
 	s, _, err := client.Snippets.UpdateSnippet(1, opt)

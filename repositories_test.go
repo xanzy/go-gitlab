@@ -146,7 +146,7 @@ func TestRepositoriesService_Archive(t *testing.T) {
 		)
 	})
 
-	opt := &ArchiveOptions{Format: String("gz")}
+	opt := &ArchiveOptions{Format: Ptr("gz")}
 	want := []byte("{" +
 		"size: 100" +
 		"content: content" +
@@ -181,7 +181,7 @@ func TestRepositoriesService_StreamArchive(t *testing.T) {
 	})
 
 	var w http.ResponseWriter
-	opt := &ArchiveOptions{Format: String("gz")}
+	opt := &ArchiveOptions{Format: Ptr("gz")}
 
 	resp, err := client.Repositories.StreamArchive(1, w, opt, nil)
 	require.NoError(t, err)
@@ -239,8 +239,8 @@ func TestRepositoriesService_Compare(t *testing.T) {
 	})
 
 	opt := &CompareOptions{
-		From: String("master"),
-		To:   String("feature"),
+		From: Ptr("master"),
+		To:   Ptr("feature"),
 	}
 	want := &Compare{
 		Commit: &Commit{
@@ -402,7 +402,7 @@ func TestAddChangelogData(t *testing.T) {
 	resp, err := client.Repositories.AddChangelog(
 		1,
 		&AddChangelogOptions{
-			Version: String("1.0.0"),
+			Version: Ptr("1.0.0"),
 		})
 	require.NoError(t, err)
 	assert.Equal(t, http.StatusOK, resp.StatusCode)
@@ -424,7 +424,7 @@ func TestGenerateChangelogData(t *testing.T) {
 	notes, _, err := client.Repositories.GenerateChangelogData(
 		1,
 		GenerateChangelogDataOptions{
-			Version: String("1.0.0"),
+			Version: Ptr("1.0.0"),
 		},
 	)
 	require.NoError(t, err)
