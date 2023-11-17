@@ -147,6 +147,7 @@ type Client struct {
 	GroupMilestones              *GroupMilestonesService
 	GroupProtectedEnvironments   *GroupProtectedEnvironmentsService
 	GroupRepositoryStorageMove   *GroupRepositoryStorageMoveService
+	GroupSSHCertificates         *GroupSSHCertificatesService
 	GroupVariables               *GroupVariablesService
 	GroupWikis                   *GroupWikisService
 	Groups                       *GroupsService
@@ -379,6 +380,7 @@ func newClient(options ...ClientOptionFunc) (*Client, error) {
 	c.GroupMilestones = &GroupMilestonesService{client: c}
 	c.GroupProtectedEnvironments = &GroupProtectedEnvironmentsService{client: c}
 	c.GroupRepositoryStorageMove = &GroupRepositoryStorageMoveService{client: c}
+	c.GroupSSHCertificates = &GroupSSHCertificatesService{client: c}
 	c.GroupVariables = &GroupVariablesService{client: c}
 	c.GroupWikis = &GroupWikisService{client: c}
 	c.Groups = &GroupsService{client: c}
