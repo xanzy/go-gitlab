@@ -175,7 +175,7 @@ func (l *Labels) MarshalJSON() ([]byte, error) {
 	if *l == nil {
 		return []byte(`null`), nil
 	}
-	return json.Marshal(strings.Join(*l, ","))
+	return json.Marshal(*l)
 }
 
 // UnmarshalJSON implements the json.Unmarshaler interface.
