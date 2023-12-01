@@ -1,0 +1,13 @@
+{
+  "id": 42,
+  "name": "Rotated Token",
+  "revoked": false,
+  "created_at": "2023-08-01T15:00:00.000Z",
+  "scopes": ["api"],
+  "user_id": 1337,
+  "last_used_at": null,
+  "active": true,
+  "expires_at": "2023-08-15",
+  "access_level": 30,
+  "token": "s3cr3t"
+}
