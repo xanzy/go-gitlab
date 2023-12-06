@@ -117,6 +117,21 @@ func TestGetProjectFeatureFlag(t *testing.T) {
 					},
 				},
 			},
+			{
+				ID:   24,
+				Name: "flexibleRollout",
+				Parameters: &ProjectFeatureFlagStrategyParameter{
+					GroupID:    "default",
+					Rollout:    "50",
+					Stickiness: "default",
+				},
+				Scopes: []*ProjectFeatureFlagScope{
+					{
+						ID:               52,
+						EnvironmentScope: "*",
+					},
+				},
+			},
 		},
 	}
 

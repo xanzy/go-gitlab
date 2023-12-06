@@ -17,6 +17,21 @@
           "environment_scope": "production"
         }
       ]
+    },
+    {
+      "id": 24,
+      "name": "flexibleRollout",
+      "parameters": {
+        "groupId": "default",
+        "rollout": "50",
+        "stickiness": "default"
+      },
+      "scopes": [
+        {
+          "id": 52,
+          "environment_scope": "*"
+        }
+      ]
     }
   ]
 }
