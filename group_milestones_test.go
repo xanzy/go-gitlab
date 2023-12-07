@@ -210,6 +210,30 @@ func TestGroupMilestonesService_UpdateGroupMilestone(t *testing.T) {
 	require.Equal(t, http.StatusNotFound, resp.StatusCode)
 }
 
+func TestGroupMilestonesService_DeleteGroupMilestone(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/groups/5/milestones/12", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodDelete)
+	})
+
+	resp, err := client.GroupMilestones.DeleteGroupMilestone(5, 12, nil)
+	require.NoError(t, err)
+	require.NotNil(t, resp)
+
+	resp, err = client.GroupMilestones.DeleteGroupMilestone(5.01, 12, nil)
+	require.EqualError(t, err, "invalid ID type 5.01, the ID must be an int or a string")
+	require.Nil(t, resp)
+
+	resp, err = client.GroupMilestones.DeleteGroupMilestone(5, 12, nil, errorOption)
+	require.EqualError(t, err, "RequestOptionFunc returns an error")
+	require.Nil(t, resp)
+
+	resp, err = client.GroupMilestones.DeleteGroupMilestone(3, 12, nil)
+	require.Error(t, err)
+	require.Equal(t, http.StatusNotFound, resp.StatusCode)
+}
+
 func TestGroupMilestonesService_GetGroupMilestoneIssues(t *testing.T) {
 	mux, client := setup(t)
 
