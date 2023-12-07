@@ -411,8 +411,7 @@ func TestListMergeRequestDiffs(t *testing.T) {
 	})
 
 	opts := &ListMergeRequestDiffsOptions{
-		Page:    1,
-		PerPage: 2,
+		ListOptions: ListOptions{Page: 1, PerPage: 2},
 	}
 
 	diffs, _, err := client.MergeRequests.ListMergeRequestDiffs(1, 1, opts)
