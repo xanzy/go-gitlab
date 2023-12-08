@@ -716,3 +716,28 @@ func TestCreatePersonalAccessTokenForCurrentUser(t *testing.T) {
 	}
 	require.Equal(t, want, user)
 }
+
+func TestCreateServiceAccountUser(t *testing.T) {
+	mux, client := setup(t)
+
+	path := "/api/v4/service_accounts"
+
+	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPost)
+		mustWriteHTTPResponse(t, w, "testdata/create_service_account_user.json")
+	})
+
+	user, _, err := client.Users.CreateServiceAccountUser()
+	require.NoError(t, err)
+
+	want := &User{
+		ID:        999,
+		Username:  "service_account_94e556c44d40d5a710ca59e3a0f40a3d",
+		Name:      "Service account user",
+		State:     "active",
+		Locked:    false,
+		AvatarURL: "http://localhost:3000/uploads/user/avatar/999/cd8.jpeg",
+		WebURL:    "http://localhost:3000/service_account_94e556c44d40d5a710ca59e3a0f40a3d",
+	}
+	require.Equal(t, want, user)
+}
