@@ -185,7 +185,7 @@ func TestStopEnvironment(t *testing.T) {
       "tier": "staging"
     }`)
 	})
-	_, _, err := client.Environments.StopEnvironment(1, 1)
+	_, _, err := client.Environments.StopEnvironment(1, 1, &StopEnvironmentOptions{})
 	if err != nil {
 		log.Fatal(err)
 	}
