@@ -1,6 +1,6 @@
 {
   "id": 1876,
   "title": "SSH Certificate",
-  "key": "ssh-rsa ssh-rsa AAAAB3NzaC1ea2dAAAADAQABAAAAgQDGbLkF44ScxRQi2FfA7VsHgGqptguSbmW26jkJhEiRZpGS4/+UzaaSqc8Psw2OhSsKc5QwfrB/ANpO4LhOjDzhf2FuD8ACkv3R7XtaJ+rN6PlyzoBfLAiSyzxhEoMFDBprTgaiZKgg2yQ9dRH55w3f6XMZ4hnaUae53nQgfQLxFw== example@gitlab.com",
+  "key": "ssh-rsa FAKE-KEY example@gitlab.com",
   "created_at": "2022-03-20T20:42:40.221Z"
 }

@@ -25,7 +25,7 @@ func TestListGroupSSHCertificates(t *testing.T) {
 		{
 			ID:        1876,
 			Title:     "SSH Certificate",
-			Key:       "ssh-rsa ssh-rsa AAAAB3NzaC1ea2dAAAADAQABAAAAgQDGbLkF44ScxRQi2FfA7VsHgGqptguSbmW26jkJhEiRZpGS4/+UzaaSqc8Psw2OhSsKc5QwfrB/ANpO4LhOjDzhf2FuD8ACkv3R7XtaJ+rN6PlyzoBfLAiSyzxhEoMFDBprTgaiZKgg2yQ9dRH55w3f6XMZ4hnaUae53nQgfQLxFw== example@gitlab.com",
+			Key:       "ssh-rsa FAKE-KEY example@gitlab.com",
 			CreatedAt: Ptr(time.Date(2022, time.March, 20, 20, 42, 40, 221000000, time.UTC)),
 		},
 	}
@@ -44,7 +44,7 @@ func TestCreateGroupSSHCertificate(t *testing.T) {
 	})
 
 	cert, _, err := client.GroupSSHCertificates.CreateGroupSSHCertificate(84, &CreateGroupSSHCertificateOptions{
-		Key:   Ptr("ssh-rsa ssh-rsa AAAAB3NzaC1ea2dAAAADAQABAAAAgQDGbLkF44ScxRQi2FfA7VsHgGqptguSbmW26jkJhEiRZpGS4/+UzaaSqc8Psw2OhSsKc5QwfrB/ANpO4LhOjDzhf2FuD8ACkv3R7XtaJ+rN6PlyzoBfLAiSyzxhEoMFDBprTgaiZKgg2yQ9dRH55w3f6XMZ4hnaUae53nQgfQLxFw== example@gitlab.com"),
+		Key:   Ptr("ssh-rsa FAKE-KEY example@gitlab.com"),
 		Title: Ptr("SSH Certificate"),
 	})
 	require.NoError(t, err)
@@ -52,12 +52,13 @@ func TestCreateGroupSSHCertificate(t *testing.T) {
 	want := &GroupSSHCertificate{
 		ID:        1876,
 		Title:     "SSH Certificate",
-		Key:       "ssh-rsa ssh-rsa AAAAB3NzaC1ea2dAAAADAQABAAAAgQDGbLkF44ScxRQi2FfA7VsHgGqptguSbmW26jkJhEiRZpGS4/+UzaaSqc8Psw2OhSsKc5QwfrB/ANpO4LhOjDzhf2FuD8ACkv3R7XtaJ+rN6PlyzoBfLAiSyzxhEoMFDBprTgaiZKgg2yQ9dRH55w3f6XMZ4hnaUae53nQgfQLxFw== example@gitlab.com",
+		Key:       "ssh-rsa FAKE-KEY example@gitlab.com",
 		CreatedAt: Ptr(time.Date(2022, time.March, 20, 20, 42, 40, 221000000, time.UTC)),
 	}
 
 	require.Equal(t, want, cert)
 }
+
 func TestDeleteGroupSSHCertificate(t *testing.T) {
 	mux, client := setup(t)
 
