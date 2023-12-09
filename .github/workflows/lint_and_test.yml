@@ -5,9 +5,6 @@ on:
   push:
     branches: [master]
 
-permissions:
-  contents: write
-
 jobs:
   lint_and_test:
     name: Lint and Test - ${{ matrix.go-version }}
@@ -42,6 +39,6 @@ jobs:
           amend: 'true'
           reuse-go: 'true'
         if:
-          # Only run for the latest go version to avoid race conditions when updating the wiki 
+          # Only run for the latest Go version to avoid race conditions
           github.event_name == 'push' && matrix.go-version == '1.20.x'
         continue-on-error: true
