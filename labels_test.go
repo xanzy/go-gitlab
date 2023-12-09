@@ -48,7 +48,21 @@ func TestCreateLabel(t *testing.T) {
 	}
 }
 
-func TestDeleteLabel(t *testing.T) {
+func TestDeleteLabelbyID(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/projects/1/labels/1", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodDelete)
+	})
+
+	// Delete label
+	_, err := client.Labels.DeleteLabel("1", "1", nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func TestDeleteLabelbyName(t *testing.T) {
 	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/labels", func(w http.ResponseWriter, r *http.Request) {
@@ -60,7 +74,7 @@ func TestDeleteLabel(t *testing.T) {
 		Name: Ptr("My Label"),
 	}
 
-	_, err := client.Labels.DeleteLabel("1", label)
+	_, err := client.Labels.DeleteLabel("1", nil, label)
 	if err != nil {
 		log.Fatal(err)
 	}
