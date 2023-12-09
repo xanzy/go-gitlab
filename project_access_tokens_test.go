@@ -147,6 +147,39 @@ func TestCreateProjectAccessToken(t *testing.T) {
 	}
 }
 
+func TestRotateProjectAccessToken(t *testing.T) {
+	mux, client := setup(t)
+	mux.HandleFunc("/api/v4/projects/1/access_tokens/42/rotate", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPost)
+		mustWriteHTTPResponse(t, w, "testdata/rotate_project_access_token.json")
+	})
+
+	createdAt, _ := time.Parse(time.RFC3339, "2023-08-01T15:00:00.000Z")
+	expiration := ISOTime(time.Date(2023, time.August, 15, 0, 0, 0, 0, time.UTC))
+	opts := &RotateProjectAccessTokenOptions{ExpiresAt: &expiration}
+	rotatedToken, _, err := client.ProjectAccessTokens.RotateProjectAccessToken(1, 42, opts)
+	if err != nil {
+		t.Errorf("ProjectAccessTokens.RotateProjectAccessToken returned error: %v", err)
+	}
+
+	want := &ProjectAccessToken{
+		ID:          42,
+		UserID:      1337,
+		Name:        "Rotated Token",
+		Scopes:      []string{"api"},
+		ExpiresAt:   &expiration,
+		CreatedAt:   &createdAt,
+		Active:      true,
+		Revoked:     false,
+		AccessLevel: AccessLevelValue(30),
+		Token:       "s3cr3t",
+	}
+
+	if !reflect.DeepEqual(want, rotatedToken) {
+		t.Errorf("ProjectAccessTokens.RotateProjectAccessTokens returned %+v, want %+v", rotatedToken, want)
+	}
+}
+
 func TestRevokeProjectAccessToken(t *testing.T) {
 	mux, client := setup(t)
 

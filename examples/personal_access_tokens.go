@@ -20,6 +20,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"time"
 
 	"github.com/xanzy/go-gitlab"
 )
@@ -68,7 +69,11 @@ func patRotateExample() {
 		log.Fatal(err)
 	}
 
-	newPersonalAccessToken, _, err := git.PersonalAccessTokens.RotatePersonalAccessToken(12345)
+	expiry := gitlab.ISOTime(time.Date(2023, time.August, 15, 0, 0, 0, 0, time.UTC))
+	opts := &gitlab.RotatePersonalAccessTokenOptions{
+		ExpiresAt: &expiry,
+	}
+	newPersonalAccessToken, _, err := git.PersonalAccessTokens.RotatePersonalAccessToken(12345, opts)
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -146,6 +146,38 @@ func TestCreateGroupAccessToken(t *testing.T) {
 		t.Errorf("GroupAccessTokens.CreateGroupAccessToken returned %+v, want %+v", groupAccessToken, want)
 	}
 }
+func TestRotateGroupAccessToken(t *testing.T) {
+	mux, client := setup(t)
+	mux.HandleFunc("/api/v4/groups/1/access_tokens/42/rotate", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPost)
+		mustWriteHTTPResponse(t, w, "testdata/rotate_group_access_token.json")
+	})
+
+	createdAt, _ := time.Parse(time.RFC3339, "2023-08-01T15:00:00.00Z")
+	expiration := ISOTime(time.Date(2023, time.August, 15, 0, 0, 0, 0, time.UTC))
+	opts := &RotateGroupAccessTokenOptions{ExpiresAt: &expiration}
+	rotatedToken, _, err := client.GroupAccessTokens.RotateGroupAccessToken(1, 42, opts)
+	if err != nil {
+		t.Errorf("GroupAccessTokens.RotateGroupAccessToken returned error: %v", err)
+	}
+
+	want := &GroupAccessToken{
+		ID:          42,
+		UserID:      1337,
+		Name:        "Rotated Token",
+		Scopes:      []string{"api"},
+		ExpiresAt:   &expiration,
+		CreatedAt:   &createdAt,
+		Active:      true,
+		Revoked:     false,
+		Token:       "s3cr3t",
+		AccessLevel: AccessLevelValue(30),
+	}
+
+	if !reflect.DeepEqual(want, rotatedToken) {
+		t.Errorf("GroupAccessTokens.RotateGroupAccessToken returned %+v, want %+v", rotatedToken, want)
+	}
+}
 
 func TestRevokeGroupAccessToken(t *testing.T) {
 	mux, client := setup(t)
