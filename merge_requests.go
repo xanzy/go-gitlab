@@ -465,6 +465,7 @@ func (s *MergeRequestsService) GetMergeRequestCommits(pid interface{}, mergeRequ
 // https://docs.gitlab.com/ee/api/merge_requests.html#get-single-merge-request-changes
 type GetMergeRequestChangesOptions struct {
 	AccessRawDiffs *bool `url:"access_raw_diffs,omitempty" json:"access_raw_diffs,omitempty"`
+	Unidiff        *bool `url:"unidiff,omitempty" json:"unidiff,omitempty"`
 }
 
 // GetMergeRequestChanges shows information about the merge request including
@@ -501,7 +502,10 @@ func (s *MergeRequestsService) GetMergeRequestChanges(pid interface{}, mergeRequ
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_requests.html#list-merge-request-diffs
-type ListMergeRequestDiffsOptions ListOptions
+type ListMergeRequestDiffsOptions struct {
+	ListOptions
+	Unidiff *bool `url:"unidiff,omitempty" json:"unidiff,omitempty"`
+}
 
 // ListMergeRequestDiffs List diffs of the files changed in a merge request
 //
@@ -908,18 +912,27 @@ func (s *MergeRequestsService) GetMergeRequestDiffVersions(pid interface{}, merg
 	return v, resp, nil
 }
 
+// GetSingleMergeRequestDiffVersionOptions represents the available
+// GetSingleMergeRequestDiffVersion() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/merge_requests.html#get-a-single-merge-request-diff-version
+type GetSingleMergeRequestDiffVersionOptions struct {
+	Unidiff *bool `url:"unidiff,omitempty" json:"unidiff,omitempty"`
+}
+
 // GetSingleMergeRequestDiffVersion get a single MR diff version
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_requests.html#get-a-single-merge-request-diff-version
-func (s *MergeRequestsService) GetSingleMergeRequestDiffVersion(pid interface{}, mergeRequest, version int, options ...RequestOptionFunc) (*MergeRequestDiffVersion, *Response, error) {
+func (s *MergeRequestsService) GetSingleMergeRequestDiffVersion(pid interface{}, mergeRequest, version int, opt *GetSingleMergeRequestDiffVersionOptions, options ...RequestOptionFunc) (*MergeRequestDiffVersion, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/merge_requests/%d/versions/%d", PathEscape(project), mergeRequest, version)
 
-	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
