@@ -136,21 +136,32 @@ func (s *GroupLabelsService) CreateGroupLabel(gid interface{}, opt *CreateGroupL
 	return l, resp, nil
 }
 
-// DeleteGroupLabel deletes a group label given by its name.
+// DeleteGroupLabelOptions represents the available DeleteGroupLabel() options.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/group_labels.html#delete-a-group-label
-func (s *GroupLabelsService) DeleteGroupLabel(gid interface{}, labelID interface{}, options ...RequestOptionFunc) (*Response, error) {
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/group_labels.html#delete-a-group-label
+type DeleteGroupLabelOptions DeleteLabelOptions
+
+// DeleteGroupLabel deletes a group label given by its name or ID.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/group_labels.html#delete-a-group-label
+func (s *GroupLabelsService) DeleteGroupLabel(gid interface{}, lid interface{}, opt *DeleteGroupLabelOptions, options ...RequestOptionFunc) (*Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
 		return nil, err
 	}
-	label, err := parseID(labelID)
-	if err != nil {
-		return nil, err
-	}
-	u := fmt.Sprintf("groups/%s/labels/%s", PathEscape(group), PathEscape(label))
+	u := fmt.Sprintf("groups/%s/labels", PathEscape(group))
 
-	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
+	if lid != nil {
+		label, err := parseID(lid)
+		if err != nil {
+			return nil, err
+		}
+		u = fmt.Sprintf("groups/%s/labels/%s", PathEscape(group), PathEscape(label))
+	}
+
+	req, err := s.client.NewRequest(http.MethodDelete, u, opt, options)
 	if err != nil {
 		return nil, err
 	}

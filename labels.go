@@ -168,21 +168,32 @@ func (s *LabelsService) CreateLabel(pid interface{}, opt *CreateLabelOptions, op
 	return l, resp, nil
 }
 
-// DeleteLabel deletes a label given by its id.
+// DeleteLabelOptions represents the available DeleteLabel() options.
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/labels.html#delete-a-label
-func (s *LabelsService) DeleteLabel(pid interface{}, labelID interface{}, options ...RequestOptionFunc) (*Response, error) {
+type DeleteLabelOptions struct {
+	Name *string `url:"name,omitempty" json:"name,omitempty"`
+}
+
+// DeleteLabel deletes a label given by its name or ID.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/labels.html#delete-a-label
+func (s *LabelsService) DeleteLabel(pid interface{}, lid interface{}, opt *DeleteLabelOptions, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, err
 	}
-	label, err := parseID(labelID)
-	if err != nil {
-		return nil, err
-	}
-	u := fmt.Sprintf("projects/%s/labels/%s", PathEscape(project), PathEscape(label))
+	u := fmt.Sprintf("projects/%s/labels", PathEscape(project))
 
-	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
+	if lid != nil {
+		label, err := parseID(lid)
+		if err != nil {
+			return nil, err
+		}
+		u = fmt.Sprintf("projects/%s/labels/%s", PathEscape(project), PathEscape(label))
+	}
+
+	req, err := s.client.NewRequest(http.MethodDelete, u, opt, options)
 	if err != nil {
 		return nil, err
 	}

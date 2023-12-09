@@ -46,14 +46,31 @@ func TestCreateGroupGroupLabel(t *testing.T) {
 	}
 }
 
-func TestDeleteGroupLabel(t *testing.T) {
+func TestDeleteGroupLabelByID(t *testing.T) {
 	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1/labels/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)
 	})
 
-	_, err := client.GroupLabels.DeleteGroupLabel("1", "1")
+	_, err := client.GroupLabels.DeleteGroupLabel("1", "1", nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func TestDeleteGroupLabelByName(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/groups/1/labels", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodDelete)
+	})
+
+	label := &DeleteGroupLabelOptions{
+		Name: Ptr("My / GroupLabel"),
+	}
+
+	_, err := client.GroupLabels.DeleteGroupLabel("1", nil, label)
 	if err != nil {
 		log.Fatal(err)
 	}
