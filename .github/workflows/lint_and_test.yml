@@ -5,9 +5,6 @@ on:
   push:
     branches: [main]
 
-permissions:
-  contents: read
-
 jobs:
   lint_and_test:
     name: Lint and Test - ${{ matrix.go-version }}
@@ -34,3 +31,14 @@ jobs:
         run: |
           go test -v ./... -coverprofile=coverage.txt -covermode count
           go tool cover -func coverage.txt
+
+      - name: Update coverage report
+        uses: ncruces/go-coverage-report@v0.2.3
+        with:
+          report: 'true'
+          amend: 'true'
+          reuse-go: 'true'
+        if:
+          # Only run for the latest Go version to avoid race conditions
+          github.event_name == 'push' && matrix.go-version == '1.20.x'
+        continue-on-error: true
