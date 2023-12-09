@@ -19,12 +19,12 @@ package gitlab
 import (
 	"fmt"
 	"net/http"
-	"time"
 )
 
 // GroupServiceAccount represents a GitLab service account user.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/groups.html#create-service-account-user
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/groups.html#create-service-account-user
 type GroupServiceAccount struct {
 	ID       int    `json:"id"`
 	Name     string `json:"name"`
@@ -33,7 +33,8 @@ type GroupServiceAccount struct {
 
 // CreateServiceAccount create a new service account user for a group.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/groups.html#create-service-account-user
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/groups.html#create-service-account-user
 func (s *GroupsService) CreateServiceAccount(gid interface{}, options ...RequestOptionFunc) (*GroupServiceAccount, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
@@ -55,49 +56,34 @@ func (s *GroupsService) CreateServiceAccount(gid interface{}, options ...Request
 	return sa, resp, nil
 }
 
-// GroupServiceAccountPAT represents a GitLab service account Personal Access Token.
+// CreateServiceAccountPersonalAccessTokenOptions represents the available
+// CreateServiceAccountPersonalAccessToken() options.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/groups.html#create-personal-access-token-for-service-account-user
-type GroupServiceAccountPAT struct {
-	ID         int         `json:"id"`
-	Name       string      `json:"name"`
-	Revoked    bool        `json:"revoked"`
-	CreatedAt  *time.Time  `json:"created_at"`
-	Scopes     []string    `json:"scopes"`
-	UserID     int         `json:"user_id"`
-	LastUsedAt interface{} `json:"last_used_at"`
-	Active     bool        `json:"active"`
-	ExpiresAt  string      `json:"expires_at"`
-	Token      string      `json:"token"`
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/groups.html#create-personal-access-token-for-service-account-user
+type CreateServiceAccountPersonalAccessTokenOptions struct {
+	Scopes *[]string `url:"scopes,omitempty" json:"scopes,omitempty"`
+	Name   *string   `url:"name,omitempty" json:"name,omitempty"`
 }
 
-// AddServiceAccountsPATOptions represents the available AddServiceAccountsPAT() options.
+// CreateServiceAccountPersonalAccessToken add a new Personal Access Token for a
+// service account user for a group.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/groups.html#create-personal-access-token-for-service-account-user
-type AddServiceAccountsPATOptions struct {
-	// Scopes cover the ranges of permission sets.
-	// https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html#personal-access-token-scopes
-	// e.g. api, read_user, read_api, read_repository, read_registry
-	Scopes []string `json:"scopes,omitempty"`
-	Name   string   `json:"name,omitempty"`
-}
-
-// AddServiceAccountsPAT add a new PAT for a service account user for a group.
-//
-// GitLab API docs: https://docs.gitlab.com/ee/api/groups.html#add-group-hook
-func (s *GroupsService) AddServiceAccountsPAT(gid interface{}, saID int, opt *AddServiceAccountsPATOptions, options ...RequestOptionFunc) (*GroupServiceAccountPAT, *Response, error) {
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/groups.html#create-personal-access-token-for-service-account-user
+func (s *GroupsService) CreateServiceAccountPersonalAccessToken(gid interface{}, serviceAccount int, opt *CreateServiceAccountPersonalAccessTokenOptions, options ...RequestOptionFunc) (*PersonalAccessToken, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s/service_accounts/%d/personal_access_tokens", PathEscape(group), saID)
+	u := fmt.Sprintf("groups/%s/service_accounts/%d/personal_access_tokens", PathEscape(group), serviceAccount)
 
 	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	pat := new(GroupServiceAccountPAT)
+	pat := new(PersonalAccessToken)
 	resp, err := s.client.Do(req, pat)
 	if err != nil {
 		return nil, resp, err
@@ -106,22 +92,23 @@ func (s *GroupsService) AddServiceAccountsPAT(gid interface{}, saID int, opt *Ad
 	return pat, resp, nil
 }
 
-// RotateServiceAccountsPAT rotate a PAT for a service account user for a group.
+// RotateServiceAccountPersonalAccessToken rotates a Personal Access Token for a
+// service account user for a group.
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/groups.html#create-personal-access-token-for-service-account-user
-func (s *GroupsService) RotateServiceAccountsPAT(gid interface{}, saID, tokenID int, options ...RequestOptionFunc) (*GroupServiceAccountPAT, *Response, error) {
+func (s *GroupsService) RotateServiceAccountPersonalAccessToken(gid interface{}, serviceAccount, token int, options ...RequestOptionFunc) (*PersonalAccessToken, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("groups/%s/service_accounts/%d/personal_access_tokens/%d/rotate", PathEscape(group), saID, tokenID)
+	u := fmt.Sprintf("groups/%s/service_accounts/%d/personal_access_tokens/%d/rotate", PathEscape(group), serviceAccount, token)
 
 	req, err := s.client.NewRequest(http.MethodPost, u, nil, options)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	pat := new(GroupServiceAccountPAT)
+	pat := new(PersonalAccessToken)
 	resp, err := s.client.Do(req, pat)
 	if err != nil {
 		return nil, resp, err

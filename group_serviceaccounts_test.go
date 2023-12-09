@@ -30,11 +30,11 @@ func TestCreateServiceAccount(t *testing.T) {
 	mux.HandleFunc("/api/v4/groups/1/service_accounts", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
 		fmt.Fprint(w, `
-{
-	"id": 57,
-	"username": "service_account_group_345_6018816a18e515214e0c34c2b33523fc",
-	"name": "Service account user"
-}`)
+      {
+	      "id": 57,
+	      "username": "service_account_group_345_6018816a18e515214e0c34c2b33523fc",
+	      "name": "Service account user"
+      }`)
 	})
 
 	sa, _, err := client.Groups.CreateServiceAccount(1)
@@ -53,88 +53,97 @@ func TestCreateServiceAccount(t *testing.T) {
 	}
 }
 
-func TestAddServiceAccountsPATServiceAccount(t *testing.T) {
+func TestCreateServiceAccountPersonalAccessToken(t *testing.T) {
 	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1/service_accounts/57/personal_access_tokens", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
 		fmt.Fprint(w, `
-{
-	"id":6,
-	"name":"service_accounts_token",
-	"revoked":false,
-	"created_at":"2023-06-13T07:47:13.000Z",
-	"scopes":["api"],
-	"user_id":71,
-	"last_used_at":null,
-	"active":true,
-	"expires_at":"2024-06-12",
-	"token":"random_token"
-}`)
+      {
+      	"id":6,
+      	"name":"service_account_token",
+      	"revoked":false,
+      	"created_at":"2023-06-13T07:47:13.000Z",
+      	"scopes":["api"],
+      	"user_id":71,
+      	"last_used_at":null,
+      	"active":true,
+      	"expires_at":"2024-06-12",
+      	"token":"random_token"
+      }`)
 	})
-	datePointer := time.Date(2023, 0o6, 13, 0o7, 47, 13, 0, time.UTC)
-	saPAT, _, err := client.Groups.AddServiceAccountsPAT(1, 57, &AddServiceAccountsPATOptions{Scopes: []string{"api"}, Name: "service_accounts_token"})
+	options := &CreateServiceAccountPersonalAccessTokenOptions{
+		Scopes: Ptr([]string{"api"}),
+		Name:   Ptr("service_account_token"),
+	}
+	pat, _, err := client.Groups.CreateServiceAccountPersonalAccessToken(1, 57, options)
 	if err != nil {
 		t.Error(err)
 	}
 
-	want := &GroupServiceAccountPAT{
+	datePointer := time.Date(2023, 0o6, 13, 0o7, 47, 13, 0, time.UTC)
+	expiresAt := ISOTime(time.Date(2024, time.June, 12, 0, 0, 0, 0, time.UTC))
+
+	want := &PersonalAccessToken{
 		ID:         6,
-		Name:       "service_accounts_token",
+		Name:       "service_account_token",
 		Revoked:    false,
 		CreatedAt:  &datePointer,
 		Scopes:     []string{"api"},
 		UserID:     71,
 		LastUsedAt: nil,
 		Active:     true,
-		ExpiresAt:  "2024-06-12",
+		ExpiresAt:  &expiresAt,
 		Token:      "random_token",
 	}
 
-	if !reflect.DeepEqual(saPAT, want) {
-		t.Errorf("AddServiceAccountsPAT returned \ngot:\n%v\nwant:\n%v", Stringify(saPAT), Stringify(want))
+	if !reflect.DeepEqual(pat, want) {
+		t.Errorf("CreateServiceAccountPersonalAccessToken returned \ngot:\n%v\nwant:\n%v", Stringify(pat), Stringify(want))
 	}
 }
 
-func TestRotateServiceAccountsPATServiceAccount(t *testing.T) {
+func TestRotateServiceAccountPersonalAccessToken(t *testing.T) {
 	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/groups/1/service_accounts/57/personal_access_tokens/6/rotate", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
 		fmt.Fprint(w, `
-{
-	"id":7,
-	"name":"service_accounts_token",
-	"revoked":false,
-	"created_at":"2023-06-13T07:54:49.000Z",
-	"scopes":["api"],
-	"user_id":71,
-	"last_used_at":null,
-	"active":true,
-	"expires_at":"2025-06-20",
-	"token":"random_token_2"
-}`)
+      {
+      	"id":7,
+      	"name":"service_account_token",
+      	"revoked":false,
+      	"created_at":"2023-06-13T07:54:49.000Z",
+      	"scopes":["api"],
+      	"user_id":71,
+      	"last_used_at":null,
+      	"active":true,
+      	"expires_at":"2025-06-20",
+      	"token":"random_token_2"
+      }`)
 	})
-	datePointer := time.Date(2023, 0o6, 13, 0o7, 54, 49, 0, time.UTC)
-	saPAT, _, err := client.Groups.RotateServiceAccountsPAT(1, 57, 6)
+
+	pat, _, err := client.Groups.RotateServiceAccountPersonalAccessToken(1, 57, 6)
 	if err != nil {
 		t.Error(err)
 	}
 
-	want := &GroupServiceAccountPAT{
+	datePointer := time.Date(2023, 0o6, 13, 0o7, 54, 49, 0, time.UTC)
+	expiresAt := ISOTime(time.Date(2025, time.June, 20, 0, 0, 0, 0, time.UTC))
+
+	want := &PersonalAccessToken{
 		ID:         7,
-		Name:       "service_accounts_token",
+		Name:       "service_account_token",
 		Revoked:    false,
 		CreatedAt:  &datePointer,
 		Scopes:     []string{"api"},
 		UserID:     71,
 		LastUsedAt: nil,
 		Active:     true,
-		ExpiresAt:  "2025-06-20",
+		ExpiresAt:  &expiresAt,
 		Token:      "random_token_2",
 	}
 
-	if !reflect.DeepEqual(saPAT, want) {
-		t.Errorf("RotateServiceAccountsPAT returned \ngot:\n%v\nwant:\n%v", Stringify(saPAT), Stringify(want))
+	if !reflect.DeepEqual(pat, want) {
+		t.Errorf("RotateServiceAccountPersonalAccessToken returned \ngot:\n%v\nwant:\n%v", Stringify(pat), Stringify(want))
 	}
 }
