@@ -1,0 +1,6 @@
+{
+  "id": 1876,
+  "title": "SSH Certificate",
+  "key": "ssh-rsa FAKE-KEY example@gitlab.com",
+  "created_at": "2022-03-20T20:42:40.221Z"
+}
