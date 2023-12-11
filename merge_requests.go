@@ -251,9 +251,9 @@ type ListProjectMergeRequestsOptions struct {
 	OrderBy                *string           `url:"order_by,omitempty" json:"order_by,omitempty"`
 	Sort                   *string           `url:"sort,omitempty" json:"sort,omitempty"`
 	Milestone              *string           `url:"milestone,omitempty" json:"milestone,omitempty"`
-	View                   *LabelOptions     `url:"view,omitempty" json:"view,omitempty"`
+	View                   *string           `url:"view,omitempty" json:"view,omitempty"`
 	Labels                 *LabelOptions     `url:"labels,comma,omitempty" json:"labels,omitempty"`
-	NotLabels              *Labels           `url:"not[labels],comma,omitempty" json:"not[labels],omitempty"`
+	NotLabels              *LabelOptions     `url:"not[labels],comma,omitempty" json:"not[labels],omitempty"`
 	WithLabelsDetails      *bool             `url:"with_labels_details,omitempty" json:"with_labels_details,omitempty"`
 	WithMergeStatusRecheck *bool             `url:"with_merge_status_recheck,omitempty" json:"with_merge_status_recheck,omitempty"`
 	CreatedAfter           *time.Time        `url:"created_after,omitempty" json:"created_after,omitempty"`
@@ -312,10 +312,10 @@ type ListGroupMergeRequestsOptions struct {
 	State                  *string           `url:"state,omitempty" json:"state,omitempty"`
 	OrderBy                *string           `url:"order_by,omitempty" json:"order_by,omitempty"`
 	Sort                   *string           `url:"sort,omitempty" json:"sort,omitempty"`
-	Milestone              *LabelOptions     `url:"milestone,omitempty" json:"milestone,omitempty"`
-	View                   *LabelOptions     `url:"view,omitempty" json:"view,omitempty"`
-	Labels                 *Labels           `url:"labels,comma,omitempty" json:"labels,omitempty"`
-	NotLabels              *Labels           `url:"not[labels],comma,omitempty" json:"not[labels],omitempty"`
+	Milestone              *string           `url:"milestone,omitempty" json:"milestone,omitempty"`
+	View                   *string           `url:"view,omitempty" json:"view,omitempty"`
+	Labels                 *LabelOptions     `url:"labels,comma,omitempty" json:"labels,omitempty"`
+	NotLabels              *LabelOptions     `url:"not[labels],comma,omitempty" json:"not[labels],omitempty"`
 	WithLabelsDetails      *bool             `url:"with_labels_details,omitempty" json:"with_labels_details,omitempty"`
 	WithMergeStatusRecheck *bool             `url:"with_merge_status_recheck,omitempty" json:"with_merge_status_recheck,omitempty"`
 	CreatedAfter           *time.Time        `url:"created_after,omitempty" json:"created_after,omitempty"`
@@ -682,10 +682,10 @@ func (s *MergeRequestsService) GetIssuesClosedOnMerge(pid interface{}, mergeRequ
 // https://docs.gitlab.com/ee/api/merge_requests.html#create-mr
 type CreateMergeRequestOptions struct {
 	Title              *string       `url:"title,omitempty" json:"title,omitempty"`
-	Description        *LabelOptions `url:"description,omitempty" json:"description,omitempty"`
+	Description        *string       `url:"description,omitempty" json:"description,omitempty"`
 	SourceBranch       *string       `url:"source_branch,omitempty" json:"source_branch,omitempty"`
 	TargetBranch       *string       `url:"target_branch,omitempty" json:"target_branch,omitempty"`
-	Labels             *Labels       `url:"labels,comma,omitempty" json:"labels,omitempty"`
+	Labels             *LabelOptions `url:"labels,comma,omitempty" json:"labels,omitempty"`
 	AssigneeID         *int          `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
 	AssigneeIDs        *[]int        `url:"assignee_ids,omitempty" json:"assignee_ids,omitempty"`
 	ReviewerIDs        *[]int        `url:"reviewer_ids,omitempty" json:"reviewer_ids,omitempty"`
@@ -730,12 +730,12 @@ type UpdateMergeRequestOptions struct {
 	Title              *string       `url:"title,omitempty" json:"title,omitempty"`
 	Description        *string       `url:"description,omitempty" json:"description,omitempty"`
 	TargetBranch       *string       `url:"target_branch,omitempty" json:"target_branch,omitempty"`
-	AssigneeID         *LabelOptions `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
-	AssigneeIDs        *LabelOptions `url:"assignee_ids,omitempty" json:"assignee_ids,omitempty"`
-	ReviewerIDs        *LabelOptions `url:"reviewer_ids,omitempty" json:"reviewer_ids,omitempty"`
-	Labels             *Labels       `url:"labels,comma,omitempty" json:"labels,omitempty"`
-	AddLabels          *Labels       `url:"add_labels,comma,omitempty" json:"add_labels,omitempty"`
-	RemoveLabels       *Labels       `url:"remove_labels,comma,omitempty" json:"remove_labels,omitempty"`
+	AssigneeID         *int          `url:"assignee_id,omitempty" json:"assignee_id,omitempty"`
+	AssigneeIDs        *[]int        `url:"assignee_ids,omitempty" json:"assignee_ids,omitempty"`
+	ReviewerIDs        *[]int        `url:"reviewer_ids,omitempty" json:"reviewer_ids,omitempty"`
+	Labels             *LabelOptions `url:"labels,comma,omitempty" json:"labels,omitempty"`
+	AddLabels          *LabelOptions `url:"add_labels,comma,omitempty" json:"add_labels,omitempty"`
+	RemoveLabels       *LabelOptions `url:"remove_labels,comma,omitempty" json:"remove_labels,omitempty"`
 	MilestoneID        *int          `url:"milestone_id,omitempty" json:"milestone_id,omitempty"`
 	StateEvent         *string       `url:"state_event,omitempty" json:"state_event,omitempty"`
 	RemoveSourceBranch *bool         `url:"remove_source_branch,omitempty" json:"remove_source_branch,omitempty"`
