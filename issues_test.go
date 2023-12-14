@@ -941,9 +941,7 @@ func TestReorderIssue(t *testing.T) {
 	})
 
 	afterID := 100
-	beforeID := 200
-
-	opt := ReorderIssueOptions{MoveAfterID: &afterID, MoveBeforeID: &beforeID}
+	opt := ReorderIssueOptions{MoveAfterID: &afterID}
 
 	issue, _, err := client.Issues.ReorderIssue("1", 5, &opt)
 	if err != nil {
