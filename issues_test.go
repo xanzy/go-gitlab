@@ -931,3 +931,34 @@ func TestGetIssueGroupMilestone(t *testing.T) {
 		t.Errorf("Issues.GetIssue returned %+v, want %+v", issue, want)
 	}
 }
+
+func TestReorderIssue(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/projects/1/issues/5/reorder", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPut)
+		fmt.Fprint(w, `{"id":1, "title" : "Reordered issue", "description": "This is the description of a reordered issue", "author" : {"id" : 1, "name": "corrie"}, "assignees":[{"id":1}]}`)
+	})
+
+	afterID := 100
+	beforeID := 200
+
+	opt := ReorderIssueOptions{MoveAfterID: &afterID, MoveBeforeID: &beforeID}
+
+	issue, _, err := client.Issues.ReorderIssue("1", 5, &opt)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	want := &Issue{
+		ID:          1,
+		Title:       "Reordered issue",
+		Description: "This is the description of a reordered issue",
+		Author:      &IssueAuthor{ID: 1, Name: "corrie"},
+		Assignees:   []*IssueAssignee{{ID: 1}},
+	}
+
+	if !reflect.DeepEqual(want, issue) {
+		t.Errorf("Issues.ReorderIssue returned %+v, want %+v", issue, want)
+	}
+}
