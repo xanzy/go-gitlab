@@ -1910,3 +1910,105 @@ func (s *ServicesService) DeleteYouTrackService(pid interface{}, options ...Requ
 
 	return s.client.Do(req, nil)
 }
+
+// TelegramService represents Telegram service settings.
+//
+// Gitlab API docs:
+// https://docs.gitlab.com/ee/api/integrations.html#telegram
+type TelegramService struct {
+	Service
+	Properties *TelegramServiceProperties `json:"properties"`
+}
+
+// TelegramServiceProperties represents Telegram specific properties.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/integrations.html#set-up-telegram
+type TelegramServiceProperties struct {
+	Room                      string `json:"room"`
+	NotifyOnlyBrokenPipelines bool   `json:"notify_only_broken_pipelines"`
+	BranchesToBeNotified      string `json:"branches_to_be_notified"`
+}
+
+// GetTelegramService gets MicrosoftTeams service settings for a project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/integrations.html#get-telegram-settings
+func (s *ServicesService) GetTelegramService(pid interface{}, options ...RequestOptionFunc) (*TelegramService, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/services/telegram", PathEscape(project))
+
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	svc := new(TelegramService)
+	resp, err := s.client.Do(req, svc)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return svc, resp, nil
+}
+
+// SetTelegramServiceOptions represents the available SetTelegramService()
+// options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/integrations.html#set-up-telegram
+type SetTelegramServiceOptions struct {
+	Token                     *string `url:"token,omitempty" json:"token,omitempty"`
+	Room                      *string `url:"room,omitempty" json:"room,omitempty"`
+	NotifyOnlyBrokenPipelines *bool   `url:"notify_only_broken_pipelines,omitempty" json:"notify_only_broken_pipelines,omitempty"`
+	BranchesToBeNotified      *string `url:"branches_to_be_notified,omitempty" json:"branches_to_be_notified,omitempty"`
+	PushEvents                *bool   `url:"push_events,omitempty" json:"push_events,omitempty"`
+	IssuesEvents              *bool   `url:"issues_events,omitempty" json:"issues_events,omitempty"`
+	ConfidentialIssuesEvents  *bool   `url:"confidential_issues_events,omitempty" json:"confidential_issues_events,omitempty"`
+	MergeRequestsEvents       *bool   `url:"merge_requests_events,omitempty" json:"merge_requests_events,omitempty"`
+	TagPushEvents             *bool   `url:"tag_push_events,omitempty" json:"tag_push_events,omitempty"`
+	NoteEvents                *bool   `url:"note_events,omitempty" json:"note_events,omitempty"`
+	ConfidentialNoteEvents    *bool   `url:"confidential_note_events,omitempty" json:"confidential_note_events,omitempty"`
+	PipelineEvents            *bool   `url:"pipeline_events,omitempty" json:"pipeline_events,omitempty"`
+	WikiPageEvents            *bool   `url:"wiki_page_events,omitempty" json:"wiki_page_events,omitempty"`
+}
+
+// SetTelegramService sets Telegram service for a project
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/integrations.html#set-up-telegram
+func (s *ServicesService) SetTelegramService(pid interface{}, opt *SetTelegramServiceOptions, options ...RequestOptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/services/telegram", PathEscape(project))
+
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
+	if err != nil {
+		return nil, err
+	}
+	return s.client.Do(req, nil)
+}
+
+// DeleteTelegramService deletes Telegram service for project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/integrations.html#disable-telegram
+func (s *ServicesService) DeleteTelegramService(pid interface{}, options ...RequestOptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/services/telegram", PathEscape(project))
+
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
