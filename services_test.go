@@ -479,6 +479,55 @@ func TestDeleteMattermostService(t *testing.T) {
 	}
 }
 
+func TestGetMattermostSlashCommandsService(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/projects/1/services/mattermost-slash-commands", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		fmt.Fprint(w, `{"id":1}`)
+	})
+	want := &MattermostSlashCommandsService{Service: Service{ID: 1}}
+
+	service, _, err := client.Services.GetMattermostSlashCommandsService(1)
+	if err != nil {
+		t.Fatalf("Services.mattermost-slash-commands returns an error: %v", err)
+	}
+	if !reflect.DeepEqual(want, service) {
+		t.Errorf("Services.mattermost-slash-commands returned %+v, want %+v", service, want)
+	}
+}
+
+func TestSetMattermostSlashCommandsService(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/projects/1/services/mattermost-slash-commands", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPut)
+	})
+
+	opt := &SetMattermostSlashCommandsServiceOptions{
+		Token:    Ptr("token"),
+		Username: Ptr("username"),
+	}
+
+	_, err := client.Services.SetMattermostSlashCommandsService(1, opt)
+	if err != nil {
+		t.Fatalf("Services.SetMattermostSlashCommandsService returns an error: %v", err)
+	}
+}
+
+func TestDeleteMattermostSlashCommandsService(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/projects/1/services/mattermost-slash-commands", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodDelete)
+	})
+
+	_, err := client.Services.DeleteMattermostSlashCommandsService(1)
+	if err != nil {
+		t.Fatalf("Services.DeleteMattermostSlashCommandsService returns an error: %v", err)
+	}
+}
+
 func TestGetPipelinesEmailService(t *testing.T) {
 	mux, client := setup(t)
 
@@ -628,57 +677,6 @@ func TestDeleteSlackService(t *testing.T) {
 	}
 }
 
-func TestGetYouTrackService(t *testing.T) {
-	mux, client := setup(t)
-
-	mux.HandleFunc("/api/v4/projects/1/services/youtrack", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, http.MethodGet)
-		fmt.Fprint(w, `{"id":1}`)
-	})
-	want := &YouTrackService{Service: Service{ID: 1}}
-
-	service, _, err := client.Services.GetYouTrackService(1)
-	if err != nil {
-		t.Fatalf("Services.GetYouTrackService returns an error: %v", err)
-	}
-	if !reflect.DeepEqual(want, service) {
-		t.Errorf("Services.GetYouTrackService returned %+v, want %+v", service, want)
-	}
-}
-
-func TestSetYouTrackService(t *testing.T) {
-	mux, client := setup(t)
-
-	mux.HandleFunc("/api/v4/projects/1/services/youtrack", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, http.MethodPut)
-	})
-
-	opt := &SetYouTrackServiceOptions{
-		IssuesURL:   Ptr("https://example.org/youtrack/issue/:id"),
-		ProjectURL:  Ptr("https://example.org/youtrack/projects/1"),
-		Description: Ptr("description"),
-		PushEvents:  Ptr(true),
-	}
-
-	_, err := client.Services.SetYouTrackService(1, opt)
-	if err != nil {
-		t.Fatalf("Services.SetYouTrackService returns an error: %v", err)
-	}
-}
-
-func TestDeleteYouTrackService(t *testing.T) {
-	mux, client := setup(t)
-
-	mux.HandleFunc("/api/v4/projects/1/services/youtrack", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, http.MethodDelete)
-	})
-
-	_, err := client.Services.DeleteYouTrackService(1)
-	if err != nil {
-		t.Fatalf("Services.DeleteYouTrackService returns an error: %v", err)
-	}
-}
-
 func TestGetSlackSlashCommandsService(t *testing.T) {
 	mux, client := setup(t)
 
@@ -724,55 +722,6 @@ func TestDeleteSlackSlashCommandsService(t *testing.T) {
 	_, err := client.Services.DeleteSlackSlashCommandsService(1)
 	if err != nil {
 		t.Fatalf("Services.DeleteSlackSlashCommandsService returns an error: %v", err)
-	}
-}
-
-func TestGetMattermostSlashCommandsService(t *testing.T) {
-	mux, client := setup(t)
-
-	mux.HandleFunc("/api/v4/projects/1/services/mattermost-slash-commands", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, http.MethodGet)
-		fmt.Fprint(w, `{"id":1}`)
-	})
-	want := &MattermostSlashCommandsService{Service: Service{ID: 1}}
-
-	service, _, err := client.Services.GetMattermostSlashCommandsService(1)
-	if err != nil {
-		t.Fatalf("Services.mattermost-slash-commands returns an error: %v", err)
-	}
-	if !reflect.DeepEqual(want, service) {
-		t.Errorf("Services.mattermost-slash-commands returned %+v, want %+v", service, want)
-	}
-}
-
-func TestSetMattermostSlashCommandsService(t *testing.T) {
-	mux, client := setup(t)
-
-	mux.HandleFunc("/api/v4/projects/1/services/mattermost-slash-commands", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, http.MethodPut)
-	})
-
-	opt := &SetMattermostSlashCommandsServiceOptions{
-		Token:    Ptr("token"),
-		Username: Ptr("username"),
-	}
-
-	_, err := client.Services.SetMattermostSlashCommandsService(1, opt)
-	if err != nil {
-		t.Fatalf("Services.SetMattermostSlashCommandsService returns an error: %v", err)
-	}
-}
-
-func TestDeleteMattermostSlashCommandsService(t *testing.T) {
-	mux, client := setup(t)
-
-	mux.HandleFunc("/api/v4/projects/1/services/mattermost-slash-commands", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, http.MethodDelete)
-	})
-
-	_, err := client.Services.DeleteMattermostSlashCommandsService(1)
-	if err != nil {
-		t.Fatalf("Services.DeleteMattermostSlashCommandsService returns an error: %v", err)
 	}
 }
 
@@ -894,5 +843,56 @@ func TestDeleteTelegramService(t *testing.T) {
 	_, err := client.Services.DeleteTelegramService(1)
 	if err != nil {
 		t.Fatalf("Services.DeleteTelegramService returns an error: %v", err)
+	}
+}
+
+func TestGetYouTrackService(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/projects/1/services/youtrack", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		fmt.Fprint(w, `{"id":1}`)
+	})
+	want := &YouTrackService{Service: Service{ID: 1}}
+
+	service, _, err := client.Services.GetYouTrackService(1)
+	if err != nil {
+		t.Fatalf("Services.GetYouTrackService returns an error: %v", err)
+	}
+	if !reflect.DeepEqual(want, service) {
+		t.Errorf("Services.GetYouTrackService returned %+v, want %+v", service, want)
+	}
+}
+
+func TestSetYouTrackService(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/projects/1/services/youtrack", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPut)
+	})
+
+	opt := &SetYouTrackServiceOptions{
+		IssuesURL:   Ptr("https://example.org/youtrack/issue/:id"),
+		ProjectURL:  Ptr("https://example.org/youtrack/projects/1"),
+		Description: Ptr("description"),
+		PushEvents:  Ptr(true),
+	}
+
+	_, err := client.Services.SetYouTrackService(1, opt)
+	if err != nil {
+		t.Fatalf("Services.SetYouTrackService returns an error: %v", err)
+	}
+}
+
+func TestDeleteYouTrackService(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/projects/1/services/youtrack", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodDelete)
+	})
+
+	_, err := client.Services.DeleteYouTrackService(1)
+	if err != nil {
+		t.Fatalf("Services.DeleteYouTrackService returns an error: %v", err)
 	}
 }
