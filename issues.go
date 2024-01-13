@@ -511,6 +511,38 @@ func (s *IssuesService) DeleteIssue(pid interface{}, issue int, options ...Reque
 	return s.client.Do(req, nil)
 }
 
+// ReorderIssueOptions represents the available ReorderIssue() options.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/issues.html#reorder-an-issue
+type ReorderIssueOptions struct {
+	MoveAfterID  *int `url:"move_after_id,omitempty" json:"move_after_id,omitempty"`
+	MoveBeforeID *int `url:"move_before_id,omitempty" json:"move_before_id,omitempty"`
+}
+
+// ReorderIssue reorders an issue.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/issues.html#reorder-an-issue
+func (s *IssuesService) ReorderIssue(pid interface{}, issue int, opt *ReorderIssueOptions, options ...RequestOptionFunc) (*Issue, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/issues/%d/reorder", PathEscape(project), issue)
+
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	i := new(Issue)
+	resp, err := s.client.Do(req, i)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return i, resp, nil
+}
+
 // MoveIssueOptions represents the available MoveIssue() options.
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/issues.html#move-an-issue
