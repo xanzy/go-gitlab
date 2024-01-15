@@ -256,6 +256,7 @@ func TestRotatePersonalAccessToken(t *testing.T) {
 		t.Errorf("PersonalAccessTokens.RotatePersonalAccessTokens returned %+v, want %+v", rotatedToken, want)
 	}
 }
+
 func TestRevokePersonalAccessToken(t *testing.T) {
 	mux, client := setup(t)
 

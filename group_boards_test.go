@@ -399,9 +399,9 @@ func TestGroupIssueBoardsService_UpdateIssueBoard(t *testing.T) {
 		},
 		Labels: []*GroupLabel{
 			{
-				ID: 11,
-				Name: "GroupLabel",
-				Color: "#428BCA",
+				ID:          11,
+				Name:        "GroupLabel",
+				Color:       "#428BCA",
 				Description: "",
 			},
 		},

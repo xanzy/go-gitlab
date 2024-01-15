@@ -146,6 +146,7 @@ func TestCreateGroupAccessToken(t *testing.T) {
 		t.Errorf("GroupAccessTokens.CreateGroupAccessToken returned %+v, want %+v", groupAccessToken, want)
 	}
 }
+
 func TestRotateGroupAccessToken(t *testing.T) {
 	mux, client := setup(t)
 	mux.HandleFunc("/api/v4/groups/1/access_tokens/42/rotate", func(w http.ResponseWriter, r *http.Request) {
