@@ -204,7 +204,7 @@ func TestGroupIssueBoardsService_GetGroupIssueBoard(t *testing.T) {
 			  "id": 12,
 			  "title": "10.0"
 			},
-			"labels": [ 
+			"labels": [
 				{
 					"id":1749,
 					"name":"my-scope1",

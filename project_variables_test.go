@@ -160,7 +160,7 @@ func TestProjectVariablesService_UpdateVariable(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/variables/NEW_VARIABLE", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
-		testBody(t, r, `{"filter":{"environment_scope":"prod"},"description":"updated description"}`)
+		testBody(t, r, `{"description":"updated description","filter":{"environment_scope":"prod"}}`)
 		fmt.Fprintf(w, `
 			{
 				"key": "NEW_VARIABLE",
