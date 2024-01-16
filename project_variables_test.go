@@ -18,7 +18,8 @@ func TestProjectVariablesService_ListVariables(t *testing.T) {
 				{
 					"key": "TEST_VARIABLE_1",
 					"variable_type": "env_var",
-					"value": "TEST_1"
+					"value": "TEST_1",
+					"description": "test variable 1"
 				}
 			]
 		`)
@@ -31,6 +32,7 @@ func TestProjectVariablesService_ListVariables(t *testing.T) {
 		Protected:        false,
 		Masked:           false,
 		EnvironmentScope: "",
+		Description:      "test variable 1",
 	}}
 
 	pvs, resp, err := client.ProjectVariables.ListVariables(1, nil, nil)
@@ -66,7 +68,8 @@ func TestProjectVariablesService_GetVariable(t *testing.T) {
 				"variable_type": "env_var",
 				"value": "TEST_1",
 				"protected": false,
-				"masked": true
+				"masked": true,
+				"description": "test variable 1"
 			}
 		`)
 	})
@@ -78,6 +81,7 @@ func TestProjectVariablesService_GetVariable(t *testing.T) {
 		Protected:        false,
 		Masked:           true,
 		EnvironmentScope: "",
+		Description:      "test variable 1",
 	}
 
 	pv, resp, err := client.ProjectVariables.GetVariable(1, "TEST_VARIABLE_1", &GetProjectVariableOptions{Filter: &VariableFilter{EnvironmentScope: "prod"}}, nil)
@@ -106,6 +110,7 @@ func TestProjectVariablesService_CreateVariable(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/variables", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
+		testBody(t, r, `{"description":"new variable"}`)
 		fmt.Fprintf(w, `
 			{
 				"key": "NEW_VARIABLE",
@@ -113,7 +118,8 @@ func TestProjectVariablesService_CreateVariable(t *testing.T) {
 				"protected": false,
 				"variable_type": "env_var",
 				"masked": false,
-				"environment_scope": "*"
+				"environment_scope": "*",
+				"description": "new variable"
 			}
 		`)
 	})
@@ -125,9 +131,10 @@ func TestProjectVariablesService_CreateVariable(t *testing.T) {
 		Protected:        false,
 		Masked:           false,
 		EnvironmentScope: "*",
+		Description:      "new variable",
 	}
 
-	pv, resp, err := client.ProjectVariables.CreateVariable(1, nil, nil)
+	pv, resp, err := client.ProjectVariables.CreateVariable(1, &CreateProjectVariableOptions{Description: Ptr("new variable")}, nil)
 	require.NoError(t, err)
 	require.NotNil(t, resp)
 	require.Equal(t, want, pv)
@@ -153,7 +160,7 @@ func TestProjectVariablesService_UpdateVariable(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/variables/NEW_VARIABLE", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
-		testBody(t, r, `{"filter":{"environment_scope":"prod"}}`)
+		testBody(t, r, `{"description":"updated description","filter":{"environment_scope":"prod"}}`)
 		fmt.Fprintf(w, `
 			{
 				"key": "NEW_VARIABLE",
@@ -161,7 +168,8 @@ func TestProjectVariablesService_UpdateVariable(t *testing.T) {
 				"protected": false,
 				"variable_type": "env_var",
 				"masked": false,
-				"environment_scope": "*"
+				"environment_scope": "*",
+				"description": "updated description"
 			}
 		`)
 	})
@@ -173,9 +181,13 @@ func TestProjectVariablesService_UpdateVariable(t *testing.T) {
 		Protected:        false,
 		Masked:           false,
 		EnvironmentScope: "*",
+		Description:      "updated description",
 	}
 
-	pv, resp, err := client.ProjectVariables.UpdateVariable(1, "NEW_VARIABLE", &UpdateProjectVariableOptions{Filter: &VariableFilter{EnvironmentScope: "prod"}}, nil)
+	pv, resp, err := client.ProjectVariables.UpdateVariable(1, "NEW_VARIABLE", &UpdateProjectVariableOptions{
+		Filter:      &VariableFilter{EnvironmentScope: "prod"},
+		Description: Ptr("updated description"),
+	}, nil)
 	require.NoError(t, err)
 	require.NotNil(t, resp)
 	require.Equal(t, want, pv)
