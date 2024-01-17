@@ -50,9 +50,12 @@ type Note struct {
 		WebURL    string `json:"web_url"`
 	} `json:"author"`
 	System       bool          `json:"system"`
+	Internal     bool          `json:"internal"`
+	Confidential bool          `json:"confidential"`
 	ExpiresAt    *time.Time    `json:"expires_at"`
 	UpdatedAt    *time.Time    `json:"updated_at"`
 	CreatedAt    *time.Time    `json:"created_at"`
+	ProjectID    int           `json:"project_id"`
 	NoteableID   int           `json:"noteable_id"`
 	NoteableType string        `json:"noteable_type"`
 	CommitID     string        `json:"commit_id"`
