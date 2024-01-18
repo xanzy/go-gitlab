@@ -129,7 +129,7 @@ type AddGroupMemberOptions struct {
 	UserID       *int              `url:"user_id,omitempty" json:"user_id,omitempty"`
 	AccessLevel  *AccessLevelValue `url:"access_level,omitempty" json:"access_level,omitempty"`
 	ExpiresAt    *string           `url:"expires_at,omitempty" json:"expires_at"`
-	MemberRoleId *int              `url:"member_role_id,omitempty" json:"member_role_id,omitempty"`
+	MemberRoleID *int              `url:"member_role_id,omitempty" json:"member_role_id,omitempty"`
 }
 
 // GetGroupMember gets a member of a group.
@@ -308,7 +308,7 @@ func (s *GroupMembersService) DeleteShareWithGroup(gid interface{}, groupID int,
 type EditGroupMemberOptions struct {
 	AccessLevel  *AccessLevelValue `url:"access_level,omitempty" json:"access_level,omitempty"`
 	ExpiresAt    *string           `url:"expires_at,omitempty" json:"expires_at,omitempty"`
-	MemberRoleId *int              `url:"member_role_id,omitempty" json:"member_role_id,omitempty"`
+	MemberRoleID *int              `url:"member_role_id,omitempty" json:"member_role_id,omitempty"`
 }
 
 // EditGroupMember updates a member of a group.
