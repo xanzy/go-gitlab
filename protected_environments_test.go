@@ -557,6 +557,30 @@ func TestUpdateProtectedEnvironments(t *testing.T) {
 	assert.Equal(t, expected, environment)
 }
 
+func TestUpdateRepositoryEnvironmentsEscapesURL(t *testing.T) {
+	mux, client := setup(t)
+
+	rawRequest := ""
+
+	// Use a "/" in the environment name, so it needs encoding
+	// Note: Mux requires the path to be unencoded for some reason. Using %2F will never intercept the request.
+	mux.HandleFunc("/api/v4/projects/1/protected_environments/test/environment", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPut)
+
+		// Store the raw request so we're sure it's encoded properly
+		rawRequest = r.URL.RawPath
+
+		fmt.Fprintf(w, `{
+			"name": "test/environment"
+		}`)
+	})
+
+	_, resp, err := client.ProtectedEnvironments.UpdateProtectedEnvironments(1, "test/environment", &UpdateProtectedEnvironmentsOptions{})
+	assert.NoError(t, err, "failed to get response")
+	assert.Equal(t, http.StatusOK, resp.StatusCode)
+	assert.Equal(t, rawRequest, "/api/v4/projects/1/protected_environments/test%2Fenvironment")
+}
+
 func TestUnprotectRepositoryEnvironments(t *testing.T) {
 	mux, client := setup(t)
 
