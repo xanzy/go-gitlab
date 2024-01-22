@@ -20,6 +20,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
 	"os"
 	"reflect"
@@ -276,6 +277,53 @@ func TestListOwnedProjects(t *testing.T) {
 	}
 }
 
+func TestEditProject(t *testing.T) {
+	mux, client := setup(t)
+
+	var developerAccessLevel AccessControlValue = "developer"
+	opt := &EditProjectOptions{
+		CIRestrictPipelineCancellationRole: Ptr(developerAccessLevel),
+	}
+
+	// Store whether we've set the restrict value in our edit properly
+	restrictValueSet := false
+
+	mux.HandleFunc("/api/v4/projects/1", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPut)
+
+		// Check that our request properly included ci_restrict_pipeline_cancellation_role
+		body, err := io.ReadAll(r.Body)
+		if err != nil {
+			t.Fatalf("Unable to read body properly. Error: %v", err)
+		}
+
+		// Set the value to check if our value is included
+		restrictValueSet = strings.Contains(string(body), "ci_restrict_pipeline_cancellation_role")
+
+		// Print the start of the mock example from https://docs.gitlab.com/ee/api/projects.html#edit-project
+		// including the attribute we edited
+		fmt.Fprint(w, `
+		{
+			"id": 1,
+			"description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+			"description_html": "<p data-sourcepos=\"1:1-1:56\" dir=\"auto\">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>",
+			"default_branch": "main",
+			"visibility": "private",
+			"ssh_url_to_repo": "git@example.com:diaspora/diaspora-project-site.git",
+			"http_url_to_repo": "http://example.com/diaspora/diaspora-project-site.git",
+			"web_url": "http://example.com/diaspora/diaspora-project-site",
+			"readme_url": "http://example.com/diaspora/diaspora-project-site/blob/main/README.md",
+			"ci_restrict_pipeline_cancellation_role": "developer"
+		}`)
+	})
+
+	project, resp, err := client.Projects.EditProject(1, opt)
+	assert.NoError(t, err)
+	assert.Equal(t, http.StatusOK, resp.StatusCode)
+	assert.Equal(t, true, restrictValueSet)
+	assert.Equal(t, developerAccessLevel, project.CIRestrictPipelineCancellationRole)
+}
+
 func TestListStarredProjects(t *testing.T) {
 	mux, client := setup(t)
 
@@ -323,6 +371,7 @@ func TestGetProjectByID(t *testing.T) {
 			  "name_regex_keep": null,
 			  "next_run_at": "2020-01-07T21:42:58.658Z"
 			},
+			"ci_restrict_pipeline_cancellation_role": "developer",
 			"packages_enabled": false,
 			"build_coverage_regex": "Total.*([0-9]{1,3})%"
 		  }`)
@@ -336,8 +385,9 @@ func TestGetProjectByID(t *testing.T) {
 			Cadence:   "7d",
 			NextRunAt: &wantTimestamp,
 		},
-		PackagesEnabled:    false,
-		BuildCoverageRegex: `Total.*([0-9]{1,3})%`,
+		PackagesEnabled:                    false,
+		BuildCoverageRegex:                 `Total.*([0-9]{1,3})%`,
+		CIRestrictPipelineCancellationRole: "developer",
 	}
 
 	project, _, err := client.Projects.GetProject(1, nil)
