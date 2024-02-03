@@ -11,7 +11,7 @@
     "id": 2,
     "state": "pending",
     "target": {
-      "id": 2,
+      "id": "1d76d1b2e3e886108f662765c97f4687f4134d8c",
       "approvals_before_merge": null
     }
   }
