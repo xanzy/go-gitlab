@@ -6,18 +6,22 @@ package gitlab
 //
 // It is also possible to specify additional pagination parameters:
 //
-//	mrs, err := gitlab.AllPages(gl.MergeRequests.ListMergeRequests, &gitlab.ListMergeRequestsOptions{
-//		ListOptions: gitlab.ListOptions{
-//			PerPage:    100,
-//			Pagination: "keyset",
-//			OrderBy:    "created_at",
+//	mrs, err := gitlab.AllPages(
+//		gl.MergeRequests.ListMergeRequests,
+//		&gitlab.ListMergeRequestsOptions{
+//			ListOptions: gitlab.ListOptions{
+//				PerPage:    100,
+//				Pagination: "keyset",
+//				OrderBy:    "created_at",
+//			},
 //		},
-//	})
-func AllPages[O, T any](f Paginatable[O, T], opt *O) ([]*T, error) {
+//		gitlab.WithContext(ctx),
+//	)
+func AllPages[O, T any](f Paginatable[O, T], opt *O, optFunc ...RequestOptionFunc) ([]*T, error) {
 	all := make([]*T, 0)
 	nextLink := ""
 	for {
-		page, resp, err := f(opt, WithKeysetPaginationParameters(nextLink))
+		page, resp, err := f(opt, append(optFunc, WithKeysetPaginationParameters(nextLink))...)
 		if err != nil {
 			return nil, err
 		}
