@@ -324,7 +324,6 @@ func (s ProjectApprovalRule) String() string {
 type ListProjectsOptions struct {
 	ListOptions
 	Archived                 *bool             `url:"archived,omitempty" json:"archived,omitempty"`
-	IDAfter                  *int              `url:"id_after,omitempty" json:"id_after,omitempty"`
 	IDBefore                 *int              `url:"id_before,omitempty" json:"id_before,omitempty"`
 	Imported                 *bool             `url:"imported,omitempty" json:"imported,omitempty"`
 	IncludeHidden            *bool             `url:"include_hidden,omitempty" json:"include_hidden,omitempty"`

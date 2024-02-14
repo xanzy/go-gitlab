@@ -234,6 +234,8 @@ type ListOptions struct {
 	// For offset-based and keyset-based paginated result sets, the number of results to include per page.
 	PerPage int `url:"per_page,omitempty" json:"per_page,omitempty"`
 
+	// For keyset-based paginated result sets, previous page last element id
+	IDAfter *int `url:"id_after,omitempty" json:"id_after,omitempty"`
 	// For keyset-based paginated result sets, name of the column by which to order
 	OrderBy string `url:"order_by,omitempty" json:"order_by,omitempty"`
 	// For keyset-based paginated result sets, the value must be `"keyset"`
