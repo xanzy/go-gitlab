@@ -39,3 +39,11 @@ func PageIterator[O, T any](f Paginatable[O, T], opt *O, optFunc ...RequestOptio
 		}
 	}
 }
+
+// PageIteratorForID is similar to [PageIterator] but for paginated resources that require a parent ID (e.g. tags of a project).
+func PageIteratorForID[O, T any](id any, f PaginatableForID[O, T], opt *O, optFunc ...RequestOptionFunc) iter.Seq2[*T, error] {
+	idFunc := func(opt *O, optFunc ...RequestOptionFunc) ([]*T, *Response, error) {
+		return f(id, opt, optFunc...)
+	}
+	return PageIterator(idFunc, opt, optFunc...)
+}
