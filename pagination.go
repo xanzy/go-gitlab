@@ -34,5 +34,20 @@ func AllPages[O, T any](f Paginatable[O, T], opt *O, optFunc ...RequestOptionFun
 	return all, nil
 }
 
-// Paginatable is the type that is implemented by all functions used to paginated content.
+// Paginatable is the type implemented by list functions that return paginated content (e.g. [UsersService.ListUsers]).
+// It works for top-level entities (e.g. users). See [PaginatableForID] for entities that require a parent ID (e.g.
+// tags).
 type Paginatable[O, T any] func(*O, ...RequestOptionFunc) ([]*T, *Response, error)
+
+// AllPagesForID is similar to [AllPages] but for paginated resources that require a parent ID (e.g. tags of a project).
+func AllPagesForID[O, T any](id any, f PaginatableForID[O, T], opt *O, optFunc ...RequestOptionFunc) ([]*T, error) {
+	idFunc := func(opt *O, optFunc ...RequestOptionFunc) ([]*T, *Response, error) {
+		return f(id, opt, optFunc...)
+	}
+	return AllPages(idFunc, opt, optFunc...)
+}
+
+// PaginatableForID is the type implemented by list functions that return paginated content for sub-entities (e.g.
+// [TagsService.ListTags]).
+// See also [Paginatable] for top-level entities (e.g. users).
+type PaginatableForID[O, T any] func(any, *O, ...RequestOptionFunc) ([]*T, *Response, error)
