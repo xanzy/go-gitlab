@@ -371,6 +371,8 @@ func TestGetProjectByID(t *testing.T) {
 			  "name_regex_keep": null,
 			  "next_run_at": "2020-01-07T21:42:58.658Z"
 			},
+			"ci_forward_deployment_enabled": true,
+			"ci_forward_deployment_rollback_allowed": true,
 			"ci_restrict_pipeline_cancellation_role": "developer",
 			"packages_enabled": false,
 			"build_coverage_regex": "Total.*([0-9]{1,3})%"
@@ -387,6 +389,8 @@ func TestGetProjectByID(t *testing.T) {
 		},
 		PackagesEnabled:                    false,
 		BuildCoverageRegex:                 `Total.*([0-9]{1,3})%`,
+		CIForwardDeploymentEnabled:         true,
+		CIForwardDeploymentRollbackAllowed: true,
 		CIRestrictPipelineCancellationRole: "developer",
 	}
 
