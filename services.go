@@ -756,6 +756,132 @@ func (s *ServicesService) DeleteGithubService(pid interface{}, options ...Reques
 	return s.client.Do(req, nil)
 }
 
+// SlackApplication represents GitLab for slack application settings.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/integrations.html#gitlab-for-slack-app
+type SlackApplication struct {
+	Service
+	Properties *SlackApplicationProperties `json:"properties"`
+}
+
+// SlackApplicationProperties represents GitLab for slack application specific properties.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/integrations.html#gitlab-for-slack-app
+type SlackApplicationProperties struct {
+	Channel                   string `json:"channel"`
+	NotifyOnlyBrokenPipelines bool   `json:"notify_only_broken_pipelines"`
+	BranchesToBeNotified      string `json:"branches_to_be_notified"`
+	AlertEvents               bool   `json:"alert_events"`
+	IssuesEvents              bool   `json:"issues_events"`
+	ConfidentialIssuesEvents  bool   `json:"confidential_issues_events"`
+	MergeRequestsEvents       bool   `json:"merge_requests_events"`
+	NoteEvents                bool   `json:"note_events"`
+	ConfidentialNoteEvents    bool   `json:"confidential_note_events"`
+	DeploymentEvents          bool   `json:"deployment_events"`
+	IncidentsEvents           bool   `json:"incidents_events"`
+	PipelineEvents            bool   `json:"pipeline_events"`
+	PushEvents                bool   `json:"push_events"`
+	TagPushEvents             bool   `json:"tag_push_events"`
+	VulnerabilityEvents       bool   `json:"vulnerability_events"`
+	WikiPageEvents            bool   `json:"wiki_page_events"`
+
+	// Deprecated: This parameter has been replaced with BranchesToBeNotified.
+	NotifyOnlyDefaultBranch bool `json:"notify_only_default_branch"`
+}
+
+// GetSlackApplication gets the GitLab for Slack app integration settings for a
+// project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/integrations.html#get-gitlab-for-slack-app-settings
+func (s *ServicesService) GetSlackApplication(pid interface{}, options ...RequestOptionFunc) (*SlackApplication, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/integrations/gitlab-slack-application", PathEscape(project))
+
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	svc := new(SlackApplication)
+	resp, err := s.client.Do(req, svc)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return svc, resp, nil
+}
+
+// SetSlackApplicationOptions represents the available SetSlackApplication()
+// options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/integrations.html#set-up-gitlab-for-slack-app
+type SetSlackApplicationOptions struct {
+	Channel                   *string `url:"channel,omitempty" json:"channel,omitempty"`
+	NotifyOnlyBrokenPipelines *bool   `url:"notify_only_broken_pipelines,omitempty" json:"notify_only_broken_pipelines,omitempty"`
+	BranchesToBeNotified      *string `url:"branches_to_be_notified,omitempty" json:"branches_to_be_notified,omitempty"`
+	AlertEvents               *bool   `url:"alert_events,omitempty" json:"alert_events,omitempty"`
+	IssuesEvents              *bool   `url:"issues_events,omitempty" json:"issues_events,omitempty"`
+	ConfidentialIssuesEvents  *bool   `url:"confidential_issues_events,omitempty" json:"confidential_issues_events,omitempty"`
+	MergeRequestsEvents       *bool   `url:"merge_requests_events,omitempty" json:"merge_requests_events,omitempty"`
+	NoteEvents                *bool   `url:"note_events,omitempty" json:"note_events,omitempty"`
+	ConfidentialNoteEvents    *bool   `url:"confidential_note_events,omitempty" json:"confidential_note_events,omitempty"`
+	DeploymentEvents          *bool   `url:"deployment_events,omitempty" json:"deployment_events,omitempty"`
+	IncidentsEvents           *bool   `url:"incidents_events,omitempty" json:"incidents_events,omitempty"`
+	PipelineEvents            *bool   `url:"pipeline_events,omitempty" json:"pipeline_events,omitempty"`
+	PushEvents                *bool   `url:"push_events,omitempty" json:"push_events,omitempty"`
+	TagPushEvents             *bool   `url:"tag_push_events,omitempty" json:"tag_push_events,omitempty"`
+	VulnerabilityEvents       *bool   `url:"vulnerability_events,omitempty" json:"vulnerability_events,omitempty"`
+	WikiPageEvents            *bool   `url:"wiki_page_events,omitempty" json:"wiki_page_events,omitempty"`
+
+	// Deprecated: This parameter has been replaced with BranchesToBeNotified.
+	NotifyOnlyDefaultBranch *bool `url:"notify_only_default_branch,omitempty" json:"notify_only_default_branch,omitempty"`
+}
+
+// SetSlackApplication update the GitLab for Slack app integration for a project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/integrations.html#set-up-gitlab-for-slack-app
+func (s *ServicesService) SetSlackApplication(pid interface{}, opt *SetSlackApplicationOptions, options ...RequestOptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/integrations/gitlab-slack-application", PathEscape(project))
+
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
+
+// DisableSlackApplication disable the GitLab for Slack app integration for a project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/integrations.html#disable-gitlab-for-slack-app
+func (s *ServicesService) DisableSlackApplication(pid interface{}, options ...RequestOptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/integrations/gitlab-slack-application", PathEscape(project))
+
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
+
 // SetGitLabCIServiceOptions represents the available SetGitLabCIService()
 // options.
 //

@@ -330,6 +330,52 @@ func TestDeleteEmailsOnPushService(t *testing.T) {
 	}
 }
 
+func TestGetSlackApplication(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/projects/1/integrations/gitlab-slack-application", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		fmt.Fprint(w, `{"id":1}`)
+	})
+	want := &SlackApplication{Service: Service{ID: 1}}
+
+	service, _, err := client.Services.GetSlackApplication(1)
+	if err != nil {
+		t.Fatalf("Services.GetSlackApplication returns an error: %v", err)
+	}
+	if !reflect.DeepEqual(want, service) {
+		t.Errorf("Services.GetSlackApplication returned %+v, want %+v", service, want)
+	}
+}
+
+func TestSetSlackApplication(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/projects/1/integrations/gitlab-slack-application", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPut)
+	})
+
+	opt := &SetSlackApplicationOptions{Channel: Ptr("#channel1"), NoteEvents: Ptr(true), AlertEvents: Ptr(true)}
+
+	_, err := client.Services.SetSlackApplication(1, opt)
+	if err != nil {
+		t.Fatalf("Services.SetSlackApplication returns an error: %v", err)
+	}
+}
+
+func TestDisableSlackApplication(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/projects/1/integrations/gitlab-slack-application", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodDelete)
+	})
+
+	_, err := client.Services.DisableSlackApplication(1)
+	if err != nil {
+		t.Fatalf("Services.DisableSlackApplication returns an error: %v", err)
+	}
+}
+
 func TestGetJiraService(t *testing.T) {
 	mux, client := setup(t)
 
