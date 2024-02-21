@@ -28,7 +28,7 @@ import (
 	"time"
 )
 
-// Ptr is a helper returns a pointer to v.
+// Ptr is a helper that returns a pointer to v.
 func Ptr[T any](v T) *T {
 	return &v
 }
