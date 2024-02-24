@@ -900,7 +900,7 @@ func (s *ServicesService) GetJenkinsCIService(pid interface{}, options ...Reques
 // https://docs.gitlab.com/ee/api/services.html#jenkins-ci
 type SetJenkinsCIServiceOptions struct {
 	URL                   *string `url:"jenkins_url,omitempty" json:"jenkins_url,omitempty"`
-	EnableSSLVerification *string `url:"enable_ssl_verification,omitempty" json:"enable_ssl_verification,omitempty"`
+	EnableSSLVerification *bool   `url:"enable_ssl_verification,omitempty" json:"enable_ssl_verification,omitempty"`
 	ProjectName           *string `url:"project_name,omitempty" json:"project_name,omitempty"`
 	Username              *string `url:"username,omitempty" json:"username,omitempty"`
 	Password              *string `url:"password,omitempty" json:"password,omitempty"`
