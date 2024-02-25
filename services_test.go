@@ -263,7 +263,7 @@ func TestSetDroneCIService(t *testing.T) {
 		testMethod(t, r, http.MethodPut)
 	})
 
-	opt := &SetDroneCIServiceOptions{Ptr("t"), Ptr("u"), Ptr(true)}
+	opt := &SetDroneCIServiceOptions{Ptr("token"), Ptr("drone-url"), Ptr(true), nil, nil, nil}
 
 	_, err := client.Services.SetDroneCIService(1, opt)
 	if err != nil {

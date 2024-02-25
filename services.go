@@ -27,14 +27,14 @@ import (
 // ServicesService handles communication with the services related methods of
 // the GitLab API.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/services.html
+// GitLab API docs: https://docs.gitlab.com/ee/api/integrations.html
 type ServicesService struct {
 	client *Client
 }
 
 // Service represents a GitLab service.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/services.html
+// GitLab API docs: https://docs.gitlab.com/ee/api/integrations.html
 type Service struct {
 	ID                       int        `json:"id"`
 	Title                    string     `json:"title"`
@@ -61,7 +61,7 @@ type Service struct {
 
 // ListServices gets a list of all active services.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/services.html#list-all-active-services
+// GitLab API docs: https://docs.gitlab.com/ee/api/integrations.html#list-all-active-services
 func (s *ServicesService) ListServices(pid interface{}, options ...RequestOptionFunc) ([]*Service, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -86,7 +86,7 @@ func (s *ServicesService) ListServices(pid interface{}, options ...RequestOption
 // CustomIssueTrackerService represents Custom Issue Tracker service settings.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#custom-issue-tracker
+// https://docs.gitlab.com/ee/api/integrations.html#custom-issue-tracker
 type CustomIssueTrackerService struct {
 	Service
 	Properties *CustomIssueTrackerServiceProperties `json:"properties"`
@@ -95,7 +95,7 @@ type CustomIssueTrackerService struct {
 // CustomIssueTrackerServiceProperties represents Custom Issue Tracker specific properties.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#custom-issue-tracker
+// https://docs.gitlab.com/ee/api/integrations.html#custom-issue-tracker
 type CustomIssueTrackerServiceProperties struct {
 	ProjectURL  string `json:"project_url,omitempty"`
 	IssuesURL   string `json:"issues_url,omitempty"`
@@ -105,7 +105,7 @@ type CustomIssueTrackerServiceProperties struct {
 // GetCustomIssueTrackerService gets Custom Issue Tracker service settings for a project.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#get-custom-issue-tracker-service-settings
+// https://docs.gitlab.com/ee/api/integrations.html#get-custom-issue-tracker-service-settings
 func (s *ServicesService) GetCustomIssueTrackerService(pid interface{}, options ...RequestOptionFunc) (*CustomIssueTrackerService, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -131,7 +131,7 @@ func (s *ServicesService) GetCustomIssueTrackerService(pid interface{}, options 
 // options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#createedit-custom-issue-tracker-service
+// https://docs.gitlab.com/ee/api/integrations.html#createedit-custom-issue-tracker-service
 type SetCustomIssueTrackerServiceOptions struct {
 	NewIssueURL *string `url:"new_issue_url,omitempty" json:"new_issue_url,omitempty"`
 	IssuesURL   *string `url:"issues_url,omitempty" json:"issues_url,omitempty"`
@@ -144,7 +144,7 @@ type SetCustomIssueTrackerServiceOptions struct {
 // SetCustomIssueTrackerService sets Custom Issue Tracker service for a project.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#createedit-custom-issue-tracker-service
+// https://docs.gitlab.com/ee/api/integrations.html#createedit-custom-issue-tracker-service
 func (s *ServicesService) SetCustomIssueTrackerService(pid interface{}, opt *SetCustomIssueTrackerServiceOptions, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -163,7 +163,7 @@ func (s *ServicesService) SetCustomIssueTrackerService(pid interface{}, opt *Set
 // DeleteCustomIssueTrackerService deletes Custom Issue Tracker service settings for a project.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#delete-custom-issue-tracker-service
+// https://docs.gitlab.com/ee/api/integrations.html#delete-custom-issue-tracker-service
 func (s *ServicesService) DeleteCustomIssueTrackerService(pid interface{}, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -182,7 +182,7 @@ func (s *ServicesService) DeleteCustomIssueTrackerService(pid interface{}, optio
 // DataDogService represents DataDog service settings.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#datadog
+// https://docs.gitlab.com/ee/api/integrations.html#datadog
 type DataDogService struct {
 	Service
 	Properties *DataDogServiceProperties `json:"properties"`
@@ -191,7 +191,7 @@ type DataDogService struct {
 // DataDogServiceProperties represents DataDog specific properties.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#datadog
+// https://docs.gitlab.com/ee/api/integrations.html#datadog
 type DataDogServiceProperties struct {
 	APIURL             string `url:"api_url,omitempty" json:"api_url,omitempty"`
 	DataDogEnv         string `url:"datadog_env,omitempty" json:"datadog_env,omitempty"`
@@ -204,7 +204,7 @@ type DataDogServiceProperties struct {
 // GetDataDogService gets DataDog service settings for a project.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#get-datadog-integration-settings
+// https://docs.gitlab.com/ee/api/integrations.html#get-datadog-integration-settings
 func (s *ServicesService) GetDataDogService(pid interface{}, options ...RequestOptionFunc) (*DataDogService, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -230,7 +230,7 @@ func (s *ServicesService) GetDataDogService(pid interface{}, options ...RequestO
 // options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#createedit-datadog-integration
+// https://docs.gitlab.com/ee/api/integrations.html#createedit-datadog-integration
 type SetDataDogServiceOptions struct {
 	APIKey             *string `url:"api_key,omitempty" json:"api_key,omitempty"`
 	APIURL             *string `url:"api_url,omitempty" json:"api_url,omitempty"`
@@ -244,7 +244,7 @@ type SetDataDogServiceOptions struct {
 // SetDataDogService sets DataDog service settings for a project.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#createedit-datadog-integration
+// https://docs.gitlab.com/ee/api/integrations.html#createedit-datadog-integration
 func (s *ServicesService) SetDataDogService(pid interface{}, opt *SetDataDogServiceOptions, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -263,7 +263,7 @@ func (s *ServicesService) SetDataDogService(pid interface{}, opt *SetDataDogServ
 // DeleteDataDogService deletes the DataDog service settings for a project.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#disable-datadog-integration
+// https://docs.gitlab.com/ee/api/integrations.html#disable-datadog-integration
 func (s *ServicesService) DeleteDataDogService(pid interface{}, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -282,7 +282,7 @@ func (s *ServicesService) DeleteDataDogService(pid interface{}, options ...Reque
 // DiscordService represents Discord service settings.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#discord
+// https://docs.gitlab.com/ee/api/integrations.html#discord
 type DiscordService struct {
 	Service
 	Properties *DiscordServiceProperties `json:"properties"`
@@ -291,7 +291,7 @@ type DiscordService struct {
 // DiscordServiceProperties represents Discord specific properties.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#discord
+// https://docs.gitlab.com/ee/api/integrations.html#discord
 type DiscordServiceProperties struct {
 	BranchesToBeNotified      string `url:"branches_to_be_notified,omitempty" json:"branches_to_be_notified,omitempty"`
 	NotifyOnlyBrokenPipelines bool   `url:"notify_only_broken_pipelines,omitempty" json:"notify_only_broken_pipelines,omitempty"`
@@ -300,7 +300,7 @@ type DiscordServiceProperties struct {
 // GetDiscordService gets Discord service settings for a project.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#get-discord-service-settings
+// https://docs.gitlab.com/ee/api/integrations.html#get-discord-service-settings
 func (s *ServicesService) GetDiscordService(pid interface{}, options ...RequestOptionFunc) (*DiscordService, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -326,7 +326,7 @@ func (s *ServicesService) GetDiscordService(pid interface{}, options ...RequestO
 // options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#createedit-discord-service
+// https://docs.gitlab.com/ee/api/integrations.html#createedit-discord-service
 type SetDiscordServiceOptions struct {
 	WebHook                   *string `url:"webhook,omitempty" json:"webhook,omitempty"`
 	BranchesToBeNotified      *string `url:"branches_to_be_notified,omitempty" json:"branches_to_be_notified,omitempty"`
@@ -345,7 +345,7 @@ type SetDiscordServiceOptions struct {
 // SetDiscordService sets Discord service for a project.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#createedit-discord-service
+// https://docs.gitlab.com/ee/api/integrations.html#createedit-discord-service
 func (s *ServicesService) SetDiscordService(pid interface{}, opt *SetDiscordServiceOptions, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -364,7 +364,7 @@ func (s *ServicesService) SetDiscordService(pid interface{}, opt *SetDiscordServ
 // DeleteDiscordService deletes Discord service settings for a project.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#delete-discord-service
+// https://docs.gitlab.com/ee/api/integrations.html#delete-discord-service
 func (s *ServicesService) DeleteDiscordService(pid interface{}, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -383,7 +383,7 @@ func (s *ServicesService) DeleteDiscordService(pid interface{}, options ...Reque
 // DroneCIService represents Drone CI service settings.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#drone-ci
+// https://docs.gitlab.com/ee/api/integrations.html#drone-ci
 type DroneCIService struct {
 	Service
 	Properties *DroneCIServiceProperties `json:"properties"`
@@ -392,7 +392,7 @@ type DroneCIService struct {
 // DroneCIServiceProperties represents Drone CI specific properties.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#drone-ci
+// https://docs.gitlab.com/ee/api/integrations.html#drone-ci
 type DroneCIServiceProperties struct {
 	Token                 string `json:"token"`
 	DroneURL              string `json:"drone_url"`
@@ -402,7 +402,7 @@ type DroneCIServiceProperties struct {
 // GetDroneCIService gets Drone CI service settings for a project.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#get-drone-ci-service-settings
+// https://docs.gitlab.com/ee/api/integrations.html#get-drone-ci-service-settings
 func (s *ServicesService) GetDroneCIService(pid interface{}, options ...RequestOptionFunc) (*DroneCIService, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -428,17 +428,20 @@ func (s *ServicesService) GetDroneCIService(pid interface{}, options ...RequestO
 // options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#createedit-drone-ci-service
+// https://docs.gitlab.com/ee/api/integrations.html#createedit-drone-ci-service
 type SetDroneCIServiceOptions struct {
 	Token                 *string `url:"token,omitempty" json:"token,omitempty"`
 	DroneURL              *string `url:"drone_url,omitempty" json:"drone_url,omitempty"`
 	EnableSSLVerification *bool   `url:"enable_ssl_verification,omitempty" json:"enable_ssl_verification,omitempty"`
+	PushEvents            *bool   `url:"push_events,omitempty" json:"push_events,omitempty"`
+	MergeRequestsEvents   *bool   `url:"merge_requests_events,omitempty" json:"merge_requests_events,omitempty"`
+	TagPushEvents         *bool   `url:"tag_push_events,omitempty" json:"tag_push_events,omitempty"`
 }
 
 // SetDroneCIService sets Drone CI service for a project.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#createedit-drone-ci-service
+// https://docs.gitlab.com/ee/api/integrations.html#createedit-drone-ci-service
 func (s *ServicesService) SetDroneCIService(pid interface{}, opt *SetDroneCIServiceOptions, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -457,7 +460,7 @@ func (s *ServicesService) SetDroneCIService(pid interface{}, opt *SetDroneCIServ
 // DeleteDroneCIService deletes Drone CI service settings for a project.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#delete-drone-ci-service
+// https://docs.gitlab.com/ee/api/integrations.html#delete-drone-ci-service
 func (s *ServicesService) DeleteDroneCIService(pid interface{}, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -575,7 +578,7 @@ func (s *ServicesService) DeleteEmailsOnPushService(pid interface{}, options ...
 // ExternalWikiService represents External Wiki service settings.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#external-wiki
+// https://docs.gitlab.com/ee/api/integrations.html#external-wiki
 type ExternalWikiService struct {
 	Service
 	Properties *ExternalWikiServiceProperties `json:"properties"`
@@ -584,7 +587,7 @@ type ExternalWikiService struct {
 // ExternalWikiServiceProperties represents External Wiki specific properties.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#external-wiki
+// https://docs.gitlab.com/ee/api/integrations.html#external-wiki
 type ExternalWikiServiceProperties struct {
 	ExternalWikiURL string `json:"external_wiki_url"`
 }
@@ -592,7 +595,7 @@ type ExternalWikiServiceProperties struct {
 // GetExternalWikiService gets External Wiki service settings for a project.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#get-external-wiki-service-settings
+// https://docs.gitlab.com/ee/api/integrations.html#get-external-wiki-service-settings
 func (s *ServicesService) GetExternalWikiService(pid interface{}, options ...RequestOptionFunc) (*ExternalWikiService, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -618,7 +621,7 @@ func (s *ServicesService) GetExternalWikiService(pid interface{}, options ...Req
 // options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#createedit-external-wiki-service
+// https://docs.gitlab.com/ee/api/integrations.html#createedit-external-wiki-service
 type SetExternalWikiServiceOptions struct {
 	ExternalWikiURL *string `url:"external_wiki_url,omitempty" json:"external_wiki_url,omitempty"`
 }
@@ -626,7 +629,7 @@ type SetExternalWikiServiceOptions struct {
 // SetExternalWikiService sets External Wiki service for a project.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#createedit-external-wiki-service
+// https://docs.gitlab.com/ee/api/integrations.html#createedit-external-wiki-service
 func (s *ServicesService) SetExternalWikiService(pid interface{}, opt *SetExternalWikiServiceOptions, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -645,7 +648,7 @@ func (s *ServicesService) SetExternalWikiService(pid interface{}, opt *SetExtern
 // DeleteExternalWikiService deletes External Wiki service for project.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#delete-external-wiki-service
+// https://docs.gitlab.com/ee/api/integrations.html#delete-external-wiki-service
 func (s *ServicesService) DeleteExternalWikiService(pid interface{}, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -664,7 +667,7 @@ func (s *ServicesService) DeleteExternalWikiService(pid interface{}, options ...
 // GithubService represents Github service settings.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#github-premium
+// https://docs.gitlab.com/ee/api/integrations.html#github-premium
 type GithubService struct {
 	Service
 	Properties *GithubServiceProperties `json:"properties"`
@@ -673,7 +676,7 @@ type GithubService struct {
 // GithubServiceProperties represents Github specific properties.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#github-premium
+// https://docs.gitlab.com/ee/api/integrations.html#github-premium
 type GithubServiceProperties struct {
 	RepositoryURL string `json:"repository_url"`
 	StaticContext bool   `json:"static_context"`
@@ -682,7 +685,7 @@ type GithubServiceProperties struct {
 // GetGithubService gets Github service settings for a project.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#get-github-service-settings
+// https://docs.gitlab.com/ee/api/integrations.html#get-github-service-settings
 func (s *ServicesService) GetGithubService(pid interface{}, options ...RequestOptionFunc) (*GithubService, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -708,7 +711,7 @@ func (s *ServicesService) GetGithubService(pid interface{}, options ...RequestOp
 // options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#createedit-github-service
+// https://docs.gitlab.com/ee/api/integrations.html#createedit-github-service
 type SetGithubServiceOptions struct {
 	Token         *string `url:"token,omitempty" json:"token,omitempty"`
 	RepositoryURL *string `url:"repository_url,omitempty" json:"repository_url,omitempty"`
@@ -718,7 +721,7 @@ type SetGithubServiceOptions struct {
 // SetGithubService sets Github service for a project
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#createedit-github-service
+// https://docs.gitlab.com/ee/api/integrations.html#createedit-github-service
 func (s *ServicesService) SetGithubService(pid interface{}, opt *SetGithubServiceOptions, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -737,7 +740,7 @@ func (s *ServicesService) SetGithubService(pid interface{}, opt *SetGithubServic
 // DeleteGithubService deletes Github service for a project
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#delete-github-service
+// https://docs.gitlab.com/ee/api/integrations.html#delete-github-service
 func (s *ServicesService) DeleteGithubService(pid interface{}, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -757,7 +760,7 @@ func (s *ServicesService) DeleteGithubService(pid interface{}, options ...Reques
 // options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#edit-gitlab-ci-service
+// https://docs.gitlab.com/ee/api/integrations.html#edit-gitlab-ci-service
 type SetGitLabCIServiceOptions struct {
 	Token      *string `url:"token,omitempty" json:"token,omitempty"`
 	ProjectURL *string `url:"project_url,omitempty" json:"project_url,omitempty"`
@@ -766,7 +769,7 @@ type SetGitLabCIServiceOptions struct {
 // SetGitLabCIService sets GitLab CI service for a project.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#edit-gitlab-ci-service
+// https://docs.gitlab.com/ee/api/integrations.html#edit-gitlab-ci-service
 func (s *ServicesService) SetGitLabCIService(pid interface{}, opt *SetGitLabCIServiceOptions, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -785,7 +788,7 @@ func (s *ServicesService) SetGitLabCIService(pid interface{}, opt *SetGitLabCISe
 // DeleteGitLabCIService deletes GitLab CI service settings for a project.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#delete-gitlab-ci-service
+// https://docs.gitlab.com/ee/api/integrations.html#delete-gitlab-ci-service
 func (s *ServicesService) DeleteGitLabCIService(pid interface{}, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -805,7 +808,7 @@ func (s *ServicesService) DeleteGitLabCIService(pid interface{}, options ...Requ
 // options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#edit-hipchat-service
+// https://docs.gitlab.com/ee/api/integrations.html#edit-hipchat-service
 type SetHipChatServiceOptions struct {
 	Token *string `url:"token,omitempty" json:"token,omitempty" `
 	Room  *string `url:"room,omitempty" json:"room,omitempty"`
@@ -814,7 +817,7 @@ type SetHipChatServiceOptions struct {
 // SetHipChatService sets HipChat service for a project
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#edit-hipchat-service
+// https://docs.gitlab.com/ee/api/integrations.html#edit-hipchat-service
 func (s *ServicesService) SetHipChatService(pid interface{}, opt *SetHipChatServiceOptions, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -833,7 +836,7 @@ func (s *ServicesService) SetHipChatService(pid interface{}, opt *SetHipChatServ
 // DeleteHipChatService deletes HipChat service for project.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#delete-hipchat-service
+// https://docs.gitlab.com/ee/api/integrations.html#delete-hipchat-service
 func (s *ServicesService) DeleteHipChatService(pid interface{}, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -852,7 +855,7 @@ func (s *ServicesService) DeleteHipChatService(pid interface{}, options ...Reque
 // JenkinsCIService represents Jenkins CI service settings.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#jenkins-ci
+// https://docs.gitlab.com/ee/api/integrations.html#jenkins-ci
 type JenkinsCIService struct {
 	Service
 	Properties *JenkinsCIServiceProperties `json:"properties"`
@@ -861,7 +864,7 @@ type JenkinsCIService struct {
 // JenkinsCIServiceProperties represents Jenkins CI specific properties.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#jenkins-ci
+// https://docs.gitlab.com/ee/api/integrations.html#jenkins-ci
 type JenkinsCIServiceProperties struct {
 	URL         string `json:"jenkins_url"`
 	ProjectName string `json:"project_name"`
@@ -871,7 +874,7 @@ type JenkinsCIServiceProperties struct {
 // GetJenkinsCIService gets Jenkins CI service settings for a project.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#get-jenkins-ci-service-settings
+// https://docs.gitlab.com/ee/api/integrations.html#get-jenkins-ci-service-settings
 func (s *ServicesService) GetJenkinsCIService(pid interface{}, options ...RequestOptionFunc) (*JenkinsCIService, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -897,7 +900,7 @@ func (s *ServicesService) GetJenkinsCIService(pid interface{}, options ...Reques
 // options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#jenkins-ci
+// https://docs.gitlab.com/ee/api/integrations.html#jenkins-ci
 type SetJenkinsCIServiceOptions struct {
 	URL                   *string `url:"jenkins_url,omitempty" json:"jenkins_url,omitempty"`
 	EnableSSLVerification *bool   `url:"enable_ssl_verification,omitempty" json:"enable_ssl_verification,omitempty"`
@@ -912,7 +915,7 @@ type SetJenkinsCIServiceOptions struct {
 // SetJenkinsCIService sets Jenkins service for a project
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#create-edit-jenkins-ci-service
+// https://docs.gitlab.com/ee/api/integrations.html#create-edit-jenkins-ci-service
 func (s *ServicesService) SetJenkinsCIService(pid interface{}, opt *SetJenkinsCIServiceOptions, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -931,7 +934,7 @@ func (s *ServicesService) SetJenkinsCIService(pid interface{}, opt *SetJenkinsCI
 // DeleteJenkinsCIService deletes Jenkins CI service for project.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#delete-jira-service
+// https://docs.gitlab.com/ee/api/integrations.html#delete-jira-service
 func (s *ServicesService) DeleteJenkinsCIService(pid interface{}, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -950,7 +953,7 @@ func (s *ServicesService) DeleteJenkinsCIService(pid interface{}, options ...Req
 // JiraService represents Jira service settings.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#jira
+// https://docs.gitlab.com/ee/api/integrations.html#jira
 type JiraService struct {
 	Service
 	Properties *JiraServiceProperties `json:"properties"`
@@ -959,7 +962,7 @@ type JiraService struct {
 // JiraServiceProperties represents Jira specific properties.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#jira
+// https://docs.gitlab.com/ee/api/integrations.html#jira
 type JiraServiceProperties struct {
 	URL                   string `json:"url"`
 	APIURL                string `json:"api_url"`
@@ -1002,7 +1005,7 @@ func (p *JiraServiceProperties) UnmarshalJSON(b []byte) error {
 // GetJiraService gets Jira service settings for a project.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#get-jira-service-settings
+// https://docs.gitlab.com/ee/api/integrations.html#get-jira-service-settings
 func (s *ServicesService) GetJiraService(pid interface{}, options ...RequestOptionFunc) (*JiraService, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -1028,7 +1031,7 @@ func (s *ServicesService) GetJiraService(pid interface{}, options ...RequestOpti
 // options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#edit-jira-service
+// https://docs.gitlab.com/ee/api/integrations.html#edit-jira-service
 type SetJiraServiceOptions struct {
 	URL                   *string `url:"url,omitempty" json:"url,omitempty"`
 	APIURL                *string `url:"api_url,omitempty" json:"api_url,omitempty"`
@@ -1045,7 +1048,7 @@ type SetJiraServiceOptions struct {
 // SetJiraService sets Jira service for a project
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#edit-jira-service
+// https://docs.gitlab.com/ee/api/integrations.html#edit-jira-service
 func (s *ServicesService) SetJiraService(pid interface{}, opt *SetJiraServiceOptions, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -1064,7 +1067,7 @@ func (s *ServicesService) SetJiraService(pid interface{}, opt *SetJiraServiceOpt
 // DeleteJiraService deletes Jira service for project.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#delete-jira-service
+// https://docs.gitlab.com/ee/api/integrations.html#delete-jira-service
 func (s *ServicesService) DeleteJiraService(pid interface{}, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -1083,7 +1086,7 @@ func (s *ServicesService) DeleteJiraService(pid interface{}, options ...RequestO
 // MattermostService represents Mattermost service settings.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#mattermost-notifications
+// https://docs.gitlab.com/ee/api/integrations.html#mattermost-notifications
 type MattermostService struct {
 	Service
 	Properties *MattermostServiceProperties `json:"properties"`
@@ -1092,7 +1095,7 @@ type MattermostService struct {
 // MattermostServiceProperties represents Mattermost specific properties.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#mattermost-notifications
+// https://docs.gitlab.com/ee/api/integrations.html#mattermost-notifications
 type MattermostServiceProperties struct {
 	WebHook                   string    `json:"webhook"`
 	Username                  string    `json:"username"`
@@ -1114,7 +1117,7 @@ type MattermostServiceProperties struct {
 // GetMattermostService gets Mattermost service settings for a project.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#get-slack-service-settings
+// https://docs.gitlab.com/ee/api/integrations.html#get-slack-service-settings
 func (s *ServicesService) GetMattermostService(pid interface{}, options ...RequestOptionFunc) (*MattermostService, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -1140,7 +1143,7 @@ func (s *ServicesService) GetMattermostService(pid interface{}, options ...Reque
 // options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#createedit-mattermost-notifications-service
+// https://docs.gitlab.com/ee/api/integrations.html#createedit-mattermost-notifications-service
 type SetMattermostServiceOptions struct {
 	WebHook                   *string `url:"webhook,omitempty" json:"webhook,omitempty"`
 	Username                  *string `url:"username,omitempty" json:"username,omitempty"`
@@ -1261,7 +1264,7 @@ func (s *ServicesService) DeleteMattermostSlashCommandsService(pid interface{}, 
 // SetMattermostService sets Mattermost service for a project.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#createedit-mattermost-notifications-service
+// https://docs.gitlab.com/ee/api/integrations.html#createedit-mattermost-notifications-service
 func (s *ServicesService) SetMattermostService(pid interface{}, opt *SetMattermostServiceOptions, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -1280,7 +1283,7 @@ func (s *ServicesService) SetMattermostService(pid interface{}, opt *SetMattermo
 // DeleteMattermostService deletes Mattermost service for project.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#delete-mattermost-notifications-service
+// https://docs.gitlab.com/ee/api/integrations.html#delete-mattermost-notifications-service
 func (s *ServicesService) DeleteMattermostService(pid interface{}, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -1299,7 +1302,7 @@ func (s *ServicesService) DeleteMattermostService(pid interface{}, options ...Re
 // MicrosoftTeamsService represents Microsoft Teams service settings.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#microsoft-teams
+// https://docs.gitlab.com/ee/api/integrations.html#microsoft-teams
 type MicrosoftTeamsService struct {
 	Service
 	Properties *MicrosoftTeamsServiceProperties `json:"properties"`
@@ -1308,7 +1311,7 @@ type MicrosoftTeamsService struct {
 // MicrosoftTeamsServiceProperties represents Microsoft Teams specific properties.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#microsoft-teams
+// https://docs.gitlab.com/ee/api/integrations.html#microsoft-teams
 type MicrosoftTeamsServiceProperties struct {
 	WebHook                   string    `json:"webhook"`
 	NotifyOnlyBrokenPipelines BoolValue `json:"notify_only_broken_pipelines"`
@@ -1326,7 +1329,7 @@ type MicrosoftTeamsServiceProperties struct {
 // GetMicrosoftTeamsService gets MicrosoftTeams service settings for a project.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#get-microsoft-teams-service-settings
+// https://docs.gitlab.com/ee/api/integrations.html#get-microsoft-teams-service-settings
 func (s *ServicesService) GetMicrosoftTeamsService(pid interface{}, options ...RequestOptionFunc) (*MicrosoftTeamsService, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -1352,7 +1355,7 @@ func (s *ServicesService) GetMicrosoftTeamsService(pid interface{}, options ...R
 // options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#create-edit-microsoft-teams-service
+// https://docs.gitlab.com/ee/api/integrations.html#create-edit-microsoft-teams-service
 type SetMicrosoftTeamsServiceOptions struct {
 	WebHook                   *string `url:"webhook,omitempty" json:"webhook,omitempty"`
 	NotifyOnlyBrokenPipelines *bool   `url:"notify_only_broken_pipelines,omitempty" json:"notify_only_broken_pipelines,omitempty"`
@@ -1371,7 +1374,7 @@ type SetMicrosoftTeamsServiceOptions struct {
 // SetMicrosoftTeamsService sets Microsoft Teams service for a project
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#create-edit-microsoft-teams-service
+// https://docs.gitlab.com/ee/api/integrations.html#create-edit-microsoft-teams-service
 func (s *ServicesService) SetMicrosoftTeamsService(pid interface{}, opt *SetMicrosoftTeamsServiceOptions, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -1389,7 +1392,7 @@ func (s *ServicesService) SetMicrosoftTeamsService(pid interface{}, opt *SetMicr
 // DeleteMicrosoftTeamsService deletes Microsoft Teams service for project.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#delete-microsoft-teams-service
+// https://docs.gitlab.com/ee/api/integrations.html#delete-microsoft-teams-service
 func (s *ServicesService) DeleteMicrosoftTeamsService(pid interface{}, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -1408,7 +1411,7 @@ func (s *ServicesService) DeleteMicrosoftTeamsService(pid interface{}, options .
 // PipelinesEmailService represents Pipelines Email service settings.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#pipeline-emails
+// https://docs.gitlab.com/ee/api/integrations.html#pipeline-emails
 type PipelinesEmailService struct {
 	Service
 	Properties *PipelinesEmailProperties `json:"properties"`
@@ -1417,7 +1420,7 @@ type PipelinesEmailService struct {
 // PipelinesEmailProperties represents PipelinesEmail specific properties.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#pipeline-emails
+// https://docs.gitlab.com/ee/api/integrations.html#pipeline-emails
 type PipelinesEmailProperties struct {
 	Recipients                string    `json:"recipients"`
 	NotifyOnlyBrokenPipelines BoolValue `json:"notify_only_broken_pipelines"`
@@ -1428,7 +1431,7 @@ type PipelinesEmailProperties struct {
 // GetPipelinesEmailService gets Pipelines Email service settings for a project.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#get-pipeline-emails-service-settings
+// https://docs.gitlab.com/ee/api/integrations.html#get-pipeline-emails-service-settings
 func (s *ServicesService) GetPipelinesEmailService(pid interface{}, options ...RequestOptionFunc) (*PipelinesEmailService, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -1454,7 +1457,7 @@ func (s *ServicesService) GetPipelinesEmailService(pid interface{}, options ...R
 // SetPipelinesEmailService() options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#pipeline-emails
+// https://docs.gitlab.com/ee/api/integrations.html#pipeline-emails
 type SetPipelinesEmailServiceOptions struct {
 	Recipients                *string `url:"recipients,omitempty" json:"recipients,omitempty"`
 	NotifyOnlyBrokenPipelines *bool   `url:"notify_only_broken_pipelines,omitempty" json:"notify_only_broken_pipelines,omitempty"`
@@ -1467,7 +1470,7 @@ type SetPipelinesEmailServiceOptions struct {
 // SetPipelinesEmailService sets Pipelines Email service for a project.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#pipeline-emails
+// https://docs.gitlab.com/ee/api/integrations.html#pipeline-emails
 func (s *ServicesService) SetPipelinesEmailService(pid interface{}, opt *SetPipelinesEmailServiceOptions, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -1486,7 +1489,7 @@ func (s *ServicesService) SetPipelinesEmailService(pid interface{}, opt *SetPipe
 // DeletePipelinesEmailService deletes Pipelines Email service settings for a project.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#delete-pipeline-emails-service
+// https://docs.gitlab.com/ee/api/integrations.html#delete-pipeline-emails-service
 func (s *ServicesService) DeletePipelinesEmailService(pid interface{}, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -1505,7 +1508,7 @@ func (s *ServicesService) DeletePipelinesEmailService(pid interface{}, options .
 // PrometheusService represents Prometheus service settings.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#prometheus
+// https://docs.gitlab.com/ee/api/integrations.html#prometheus
 type PrometheusService struct {
 	Service
 	Properties *PrometheusServiceProperties `json:"properties"`
@@ -1514,7 +1517,7 @@ type PrometheusService struct {
 // PrometheusServiceProperties represents Prometheus specific properties.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#prometheus
+// https://docs.gitlab.com/ee/api/integrations.html#prometheus
 type PrometheusServiceProperties struct {
 	APIURL                      string `json:"api_url"`
 	GoogleIAPAudienceClientID   string `json:"google_iap_audience_client_id"`
@@ -1524,7 +1527,7 @@ type PrometheusServiceProperties struct {
 // GetPrometheusService gets Prometheus service settings for a project.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#get-prometheus-service-settings
+// https://docs.gitlab.com/ee/api/integrations.html#get-prometheus-service-settings
 func (s *ServicesService) GetPrometheusService(pid interface{}, options ...RequestOptionFunc) (*PrometheusService, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -1550,7 +1553,7 @@ func (s *ServicesService) GetPrometheusService(pid interface{}, options ...Reque
 // options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#createedit-prometheus-service
+// https://docs.gitlab.com/ee/api/integrations.html#createedit-prometheus-service
 type SetPrometheusServiceOptions struct {
 	APIURL                      *string `url:"api_url,omitempty" json:"api_url,omitempty"`
 	GoogleIAPAudienceClientID   *string `url:"google_iap_audience_client_id,omitempty" json:"google_iap_audience_client_id,omitempty"`
@@ -1560,7 +1563,7 @@ type SetPrometheusServiceOptions struct {
 // SetPrometheusService sets Prometheus service for a project.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#createedit-prometheus-service
+// https://docs.gitlab.com/ee/api/integrations.html#createedit-prometheus-service
 func (s *ServicesService) SetPrometheusService(pid interface{}, opt *SetPrometheusServiceOptions, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -1579,7 +1582,7 @@ func (s *ServicesService) SetPrometheusService(pid interface{}, opt *SetPromethe
 // DeletePrometheusService deletes Prometheus service settings for a project.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#delete-prometheus-service
+// https://docs.gitlab.com/ee/api/integrations.html#delete-prometheus-service
 func (s *ServicesService) DeletePrometheusService(pid interface{}, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -1598,7 +1601,7 @@ func (s *ServicesService) DeletePrometheusService(pid interface{}, options ...Re
 // SlackService represents Slack service settings.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#slack
+// https://docs.gitlab.com/ee/api/integrations.html#slack
 type SlackService struct {
 	Service
 	Properties *SlackServiceProperties `json:"properties"`
@@ -1607,7 +1610,7 @@ type SlackService struct {
 // SlackServiceProperties represents Slack specific properties.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#slack
+// https://docs.gitlab.com/ee/api/integrations.html#slack
 type SlackServiceProperties struct {
 	WebHook                   string    `json:"webhook"`
 	Username                  string    `json:"username"`
@@ -1632,7 +1635,7 @@ type SlackServiceProperties struct {
 // GetSlackService gets Slack service settings for a project.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#get-slack-service-settings
+// https://docs.gitlab.com/ee/api/integrations.html#get-slack-service-settings
 func (s *ServicesService) GetSlackService(pid interface{}, options ...RequestOptionFunc) (*SlackService, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -1658,7 +1661,7 @@ func (s *ServicesService) GetSlackService(pid interface{}, options ...RequestOpt
 // options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#edit-slack-service
+// https://docs.gitlab.com/ee/api/integrations.html#edit-slack-service
 type SetSlackServiceOptions struct {
 	WebHook                   *string `url:"webhook,omitempty" json:"webhook,omitempty"`
 	Username                  *string `url:"username,omitempty" json:"username,omitempty"`
@@ -1693,7 +1696,7 @@ type SetSlackServiceOptions struct {
 // SetSlackService sets Slack service for a project
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#edit-slack-service
+// https://docs.gitlab.com/ee/api/integrations.html#edit-slack-service
 func (s *ServicesService) SetSlackService(pid interface{}, opt *SetSlackServiceOptions, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -1712,7 +1715,7 @@ func (s *ServicesService) SetSlackService(pid interface{}, opt *SetSlackServiceO
 // DeleteSlackService deletes Slack service for project.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#delete-slack-service
+// https://docs.gitlab.com/ee/api/integrations.html#delete-slack-service
 func (s *ServicesService) DeleteSlackService(pid interface{}, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -1774,7 +1777,7 @@ func (s *ServicesService) GetSlackSlashCommandsService(pid interface{}, options 
 // options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#createedit-slack-slash-command-service
+// https://docs.gitlab.com/ee/api/integrations.html#createedit-slack-slash-command-service
 type SetSlackSlashCommandsServiceOptions struct {
 	Token *string `url:"token,omitempty" json:"token,omitempty"`
 }
@@ -1782,7 +1785,7 @@ type SetSlackSlashCommandsServiceOptions struct {
 // SetSlackSlashCommandsService sets Slack slash commands service for a project
 //
 // GitLab API docs:
-// https://docs.gitlab.com/13.12/ee/api/services.html#createedit-slack-slash-command-service
+// https://docs.gitlab.com/13.12/ee/api/integrations.html#createedit-slack-slash-command-service
 func (s *ServicesService) SetSlackSlashCommandsService(pid interface{}, opt *SetSlackSlashCommandsServiceOptions, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -1801,7 +1804,7 @@ func (s *ServicesService) SetSlackSlashCommandsService(pid interface{}, opt *Set
 // DeleteSlackSlashCommandsService deletes Slack slash commands service for project.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/13.12/ee/api/services.html#delete-slack-slash-command-service
+// https://docs.gitlab.com/13.12/ee/api/integrations.html#delete-slack-slash-command-service
 func (s *ServicesService) DeleteSlackSlashCommandsService(pid interface{}, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -1923,7 +1926,7 @@ func (s *ServicesService) DeleteTelegramService(pid interface{}, options ...Requ
 // YouTrackService represents YouTrack service settings.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#youtrack
+// https://docs.gitlab.com/ee/api/integrations.html#youtrack
 type YouTrackService struct {
 	Service
 	Properties *YouTrackServiceProperties `json:"properties"`
@@ -1932,7 +1935,7 @@ type YouTrackService struct {
 // YouTrackServiceProperties represents YouTrack specific properties.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#youtrack
+// https://docs.gitlab.com/ee/api/integrations.html#youtrack
 type YouTrackServiceProperties struct {
 	IssuesURL   string `json:"issues_url"`
 	ProjectURL  string `json:"project_url"`
@@ -1943,7 +1946,7 @@ type YouTrackServiceProperties struct {
 // GetYouTrackService gets YouTrack service settings for a project.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#get-youtrack-service-settings
+// https://docs.gitlab.com/ee/api/integrations.html#get-youtrack-service-settings
 func (s *ServicesService) GetYouTrackService(pid interface{}, options ...RequestOptionFunc) (*YouTrackService, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -1969,7 +1972,7 @@ func (s *ServicesService) GetYouTrackService(pid interface{}, options ...Request
 // options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#createedit-youtrack-service
+// https://docs.gitlab.com/ee/api/integrations.html#createedit-youtrack-service
 type SetYouTrackServiceOptions struct {
 	IssuesURL   *string `url:"issues_url,omitempty" json:"issues_url,omitempty"`
 	ProjectURL  *string `url:"project_url,omitempty" json:"project_url,omitempty"`
@@ -1980,7 +1983,7 @@ type SetYouTrackServiceOptions struct {
 // SetYouTrackService sets YouTrack service for a project
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#createedit-youtrack-service
+// https://docs.gitlab.com/ee/api/integrations.html#createedit-youtrack-service
 func (s *ServicesService) SetYouTrackService(pid interface{}, opt *SetYouTrackServiceOptions, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -1999,7 +2002,7 @@ func (s *ServicesService) SetYouTrackService(pid interface{}, opt *SetYouTrackSe
 // DeleteYouTrackService deletes YouTrack service settings for a project.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/services.html#delete-youtrack-service
+// https://docs.gitlab.com/ee/api/integrations.html#delete-youtrack-service
 func (s *ServicesService) DeleteYouTrackService(pid interface{}, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
