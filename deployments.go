@@ -202,6 +202,39 @@ func (s *DeploymentsService) UpdateProjectDeployment(pid interface{}, deployment
 	return d, resp, nil
 }
 
+type DeploymentApprovalStatus string
+
+const (
+	DeploymentApproved DeploymentApprovalStatus = "approved"
+	DeploymentRejected DeploymentApprovalStatus = "rejected"
+)
+
+type ApproveOrRejectProjectDeploymentOptions struct {
+	Status        *DeploymentApprovalStatus `url:"status,omitempty" json:"status,omitempty"`
+	Comment       *string                   `url:"comment,omitempty" json:"comment,omitempty"`
+	RepresentedAs *string                   `url:"represented_as,omitempty" json:"represented_as,omitempty"`
+}
+
+// ApproveOrRejectProjectDeployment approve or reject a blocked deployment.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/deployments.html#approve-or-reject-a-blocked-deployment
+func (s *DeploymentsService) ApproveOrRejectProjectDeployment(pid interface{}, deployment int,
+	opt *ApproveOrRejectProjectDeploymentOptions, options ...RequestOptionFunc,
+) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/deployments/%d/approval", PathEscape(project), deployment)
+
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
+
 // DeleteProjectDeployment delete a project deployment.
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/deployments.html#delete-a-specific-deployment
