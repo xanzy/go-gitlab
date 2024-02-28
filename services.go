@@ -383,7 +383,7 @@ func (s *ServicesService) DeleteDiscordService(pid interface{}, options ...Reque
 // DroneCIService represents Drone CI service settings.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/integrations.html#drone-ci
+// https://docs.gitlab.com/ee/api/integrations.html#drone
 type DroneCIService struct {
 	Service
 	Properties *DroneCIServiceProperties `json:"properties"`
@@ -392,9 +392,8 @@ type DroneCIService struct {
 // DroneCIServiceProperties represents Drone CI specific properties.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/integrations.html#drone-ci
+// https://docs.gitlab.com/ee/api/integrations.html#drone
 type DroneCIServiceProperties struct {
-	Token                 string `json:"token"`
 	DroneURL              string `json:"drone_url"`
 	EnableSSLVerification bool   `json:"enable_ssl_verification"`
 }
@@ -402,7 +401,7 @@ type DroneCIServiceProperties struct {
 // GetDroneCIService gets Drone CI service settings for a project.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/integrations.html#get-drone-ci-service-settings
+// https://docs.gitlab.com/ee/api/integrations.html#get-drone-settings
 func (s *ServicesService) GetDroneCIService(pid interface{}, options ...RequestOptionFunc) (*DroneCIService, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -428,7 +427,7 @@ func (s *ServicesService) GetDroneCIService(pid interface{}, options ...RequestO
 // options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/integrations.html#createedit-drone-ci-service
+// https://docs.gitlab.com/ee/api/integrations.html#set-up-drone
 type SetDroneCIServiceOptions struct {
 	Token                 *string `url:"token,omitempty" json:"token,omitempty"`
 	DroneURL              *string `url:"drone_url,omitempty" json:"drone_url,omitempty"`
@@ -441,7 +440,7 @@ type SetDroneCIServiceOptions struct {
 // SetDroneCIService sets Drone CI service for a project.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/integrations.html#createedit-drone-ci-service
+// https://docs.gitlab.com/ee/api/integrations.html#set-up-drone
 func (s *ServicesService) SetDroneCIService(pid interface{}, opt *SetDroneCIServiceOptions, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -460,7 +459,7 @@ func (s *ServicesService) SetDroneCIService(pid interface{}, opt *SetDroneCIServ
 // DeleteDroneCIService deletes Drone CI service settings for a project.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/integrations.html#delete-drone-ci-service
+// https://docs.gitlab.com/ee/api/integrations.html#disable-drone
 func (s *ServicesService) DeleteDroneCIService(pid interface{}, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -981,7 +980,7 @@ func (s *ServicesService) DeleteHipChatService(pid interface{}, options ...Reque
 // JenkinsCIService represents Jenkins CI service settings.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/integrations.html#jenkins-ci
+// https://docs.gitlab.com/ee/api/integrations.html#jenkins
 type JenkinsCIService struct {
 	Service
 	Properties *JenkinsCIServiceProperties `json:"properties"`
@@ -990,17 +989,18 @@ type JenkinsCIService struct {
 // JenkinsCIServiceProperties represents Jenkins CI specific properties.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/integrations.html#jenkins-ci
+// https://docs.gitlab.com/ee/api/integrations.html#jenkins
 type JenkinsCIServiceProperties struct {
-	URL         string `json:"jenkins_url"`
-	ProjectName string `json:"project_name"`
-	Username    string `json:"username"`
+	URL                   string `json:"jenkins_url"`
+	EnableSSLVerification bool   `json:"enable_ssl_verification"`
+	ProjectName           string `json:"project_name"`
+	Username              string `json:"username"`
 }
 
 // GetJenkinsCIService gets Jenkins CI service settings for a project.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/integrations.html#get-jenkins-ci-service-settings
+// https://docs.gitlab.com/ee/api/integrations.html#get-jenkins-settings
 func (s *ServicesService) GetJenkinsCIService(pid interface{}, options ...RequestOptionFunc) (*JenkinsCIService, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -1026,7 +1026,7 @@ func (s *ServicesService) GetJenkinsCIService(pid interface{}, options ...Reques
 // options.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/integrations.html#jenkins-ci
+// https://docs.gitlab.com/ee/api/integrations.html#jenkins
 type SetJenkinsCIServiceOptions struct {
 	URL                   *string `url:"jenkins_url,omitempty" json:"jenkins_url,omitempty"`
 	EnableSSLVerification *bool   `url:"enable_ssl_verification,omitempty" json:"enable_ssl_verification,omitempty"`
@@ -1041,7 +1041,7 @@ type SetJenkinsCIServiceOptions struct {
 // SetJenkinsCIService sets Jenkins service for a project
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/integrations.html#create-edit-jenkins-ci-service
+// https://docs.gitlab.com/ee/api/integrations.html#set-up-jenkins
 func (s *ServicesService) SetJenkinsCIService(pid interface{}, opt *SetJenkinsCIServiceOptions, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -1060,7 +1060,7 @@ func (s *ServicesService) SetJenkinsCIService(pid interface{}, opt *SetJenkinsCI
 // DeleteJenkinsCIService deletes Jenkins CI service for project.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/integrations.html#delete-jira-service
+// https://docs.gitlab.com/ee/api/integrations.html#disable-jenkins
 func (s *ServicesService) DeleteJenkinsCIService(pid interface{}, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
