@@ -16,7 +16,7 @@ type AuditEvent struct {
 	EntityType string            `json:"entity_type"`
 	Details    AuditEventDetails `json:"details"`
 	CreatedAt  *time.Time        `json:"created_at"`
-	EventType  string 	     `json:"event_type"`
+	EventType  string            `json:"event_type"`
 }
 
 // AuditEventDetails represents the details portion of an audit event for
