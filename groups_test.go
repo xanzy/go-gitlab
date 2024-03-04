@@ -3,6 +3,7 @@ package gitlab
 import (
 	"fmt"
 	"net/http"
+	"net/url"
 	"reflect"
 	"testing"
 )
@@ -145,7 +146,7 @@ func TestDeleteGroup(t *testing.T) {
 			w.WriteHeader(http.StatusAccepted)
 		})
 
-	resp, err := client.Groups.DeleteGroup(1)
+	resp, err := client.Groups.DeleteGroup(1, nil)
 	if err != nil {
 		t.Errorf("Groups.DeleteGroup returned error: %v", err)
 	}
@@ -154,6 +155,48 @@ func TestDeleteGroup(t *testing.T) {
 	got := resp.StatusCode
 	if got != want {
 		t.Errorf("Groups.DeleteGroup returned %d, want %d", got, want)
+	}
+}
+
+func TestDeleteGroup_WithPermanentDelete(t *testing.T) {
+	mux, client := setup(t)
+	var params url.Values
+
+	mux.HandleFunc("/api/v4/groups/1",
+		func(w http.ResponseWriter, r *http.Request) {
+			testMethod(t, r, http.MethodDelete)
+			w.WriteHeader(http.StatusAccepted)
+
+			// Get the request parameters
+			parsedParams, err := url.ParseQuery(r.URL.RawQuery)
+			if err != nil {
+				t.Errorf("Groups.DeleteGroup returned error when parsing test parameters: %v", err)
+			}
+			params = parsedParams
+		})
+
+	resp, err := client.Groups.DeleteGroup(1, &DeleteGroupOptions{
+		PermanentlyRemove: Ptr(true),
+		FullPath:          Ptr("testPath"),
+	})
+
+	if err != nil {
+		t.Errorf("Groups.DeleteGroup returned error: %v", err)
+	}
+
+	// Test that our status code matches
+	if resp.StatusCode != http.StatusAccepted {
+		t.Errorf("Groups.DeleteGroup returned %d, want %d", resp.StatusCode, http.StatusAccepted)
+	}
+
+	// Test that "permanently_remove" is set to true
+	if params.Get("permanently_remove") != "true" {
+		t.Errorf("Groups.DeleteGroup returned %v, want %v", params.Get("permanently_remove"), true)
+	}
+
+	// Test that "full_path" is set to "testPath"
+	if params.Get("full_path") != "testPath" {
+		t.Errorf("Groups.DeleteGroup returned %v, want %v", params.Get("full_path"), "testPath")
 	}
 }
 
