@@ -256,6 +256,15 @@ func BuildState(v BuildStateValue) *BuildStateValue {
 	return Ptr(v)
 }
 
+// DeploymentApprovalStatus represents a Gitlab deployment approval status.
+type DeploymentApprovalStatus string
+
+// These constants represent all valid deployment approval statuses.
+const (
+	DeploymentApprovalStatusApproved DeploymentApprovalStatus = "approved"
+	DeploymentApprovalStatusRejected DeploymentApprovalStatus = "rejected"
+)
+
 // DeploymentStatusValue represents a Gitlab deployment status.
 type DeploymentStatusValue string
 
