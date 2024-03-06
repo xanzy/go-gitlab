@@ -34,7 +34,8 @@ func TestGroupListProtectedEnvironments(t *testing.T) {
       "deploy_access_levels": [
         {
           "access_level": 40,
-          "access_level_description": "Maintainers"
+          "access_level_description": "Maintainers",
+          "group_inheritance_type": 0
         }
       ],
       "required_approval_count": 1,
@@ -126,7 +127,8 @@ func TestGroupGetProtectedEnvironment(t *testing.T) {
       "deploy_access_levels": [
         {
           "access_level": 30,
-          "access_level_description": "Developers + Maintainers"
+          "access_level_description": "Developers + Maintainers",
+          "group_inheritance_type": 1
         }
       ],
       "required_approval_count": 1,
@@ -150,6 +152,7 @@ func TestGroupGetProtectedEnvironment(t *testing.T) {
 			{
 				AccessLevel:            30,
 				AccessLevelDescription: "Developers + Maintainers",
+				GroupInheritanceType:   1,
 			},
 		},
 		RequiredApprovalCount: 1,
@@ -177,7 +180,8 @@ func TestGroupGetProtectedEnvironment(t *testing.T) {
       "deploy_access_levels": [
         {
           "access_level": 30,
-          "access_level_description": "Developers + Maintainers"
+          "access_level_description": "Developers + Maintainers",
+          "group_inheritance_type": 1
         }
       ]
     }`, environmentName)
@@ -189,6 +193,7 @@ func TestGroupGetProtectedEnvironment(t *testing.T) {
 			{
 				AccessLevel:            30,
 				AccessLevelDescription: "Developers + Maintainers",
+				GroupInheritanceType:   1,
 			},
 		},
 	}
@@ -211,7 +216,8 @@ func TestGroupProtectEnvironments(t *testing.T) {
       "deploy_access_levels": [
         {
           "access_level": 30,
-          "access_level_description": "Developers + Maintainers"
+          "access_level_description": "Developers + Maintainers",
+          "group_inheritance_type": 0
         }
       ],
       "required_approval_count": 2,
@@ -318,7 +324,8 @@ func TestGroupUpdateProtectedEnvironments(t *testing.T) {
         {
           "id": 42,
           "access_level": 30,
-          "access_level_description": "Developers + Maintainers"
+          "access_level_description": "Developers + Maintainers",
+          "group_inheritance_type": 1
         }
       ],
       "required_approval_count": 2,
@@ -343,6 +350,7 @@ func TestGroupUpdateProtectedEnvironments(t *testing.T) {
 				ID:                     42,
 				AccessLevel:            30,
 				AccessLevelDescription: "Developers + Maintainers",
+				GroupInheritanceType:   1,
 			},
 		},
 		RequiredApprovalCount: 2,
@@ -359,13 +367,16 @@ func TestGroupUpdateProtectedEnvironments(t *testing.T) {
 	opt := &UpdateGroupProtectedEnvironmentOptions{
 		Name: Ptr(environmentName),
 		DeployAccessLevels: &[]*UpdateGroupEnvironmentAccessOptions{
-			{AccessLevel: Ptr(AccessLevelValue(30))},
+			{
+				AccessLevel:          Ptr(AccessLevelValue(30)),
+				GroupInheritanceType: Ptr(1),
+			},
 		},
 		RequiredApprovalCount: Ptr(2),
 		ApprovalRules: &[]*UpdateGroupEnvironmentApprovalRuleOptions{
 			{
 				GroupID:                Ptr(10),
-				AccessLevel:            Ptr(AccessLevelValue(0)),
+				AccessLevel:            Ptr(AccessLevelValue(5)),
 				AccessLevelDescription: Ptr("devops"),
 			},
 		},
@@ -420,7 +431,8 @@ func TestGroupUpdateProtectedEnvironments(t *testing.T) {
         {
           "id": 42,
           "access_level": 30,
-          "access_level_description": "Developers + Maintainers"
+          "access_level_description": "Developers + Maintainers",
+          "group_inheritance_type": 0
         }
       ],
 	  "required_approval_count": 2
@@ -434,6 +446,7 @@ func TestGroupUpdateProtectedEnvironments(t *testing.T) {
 				ID:                     42,
 				AccessLevel:            30,
 				AccessLevelDescription: "Developers + Maintainers",
+				GroupInheritanceType:   0,
 			},
 		},
 		RequiredApprovalCount: 2,
@@ -443,8 +456,9 @@ func TestGroupUpdateProtectedEnvironments(t *testing.T) {
 		Name: Ptr(environmentName),
 		DeployAccessLevels: &[]*UpdateGroupEnvironmentAccessOptions{
 			{
-				ID:          Ptr(42),
-				AccessLevel: Ptr(AccessLevelValue(30)),
+				ID:                   Ptr(42),
+				AccessLevel:          Ptr(AccessLevelValue(30)),
+				GroupInheritanceType: Ptr(0),
 			},
 		},
 	}
@@ -505,7 +519,7 @@ func TestGroupUpdateProtectedEnvironments(t *testing.T) {
 			{
 				ID:                     Ptr(1),
 				GroupID:                Ptr(10),
-				AccessLevel:            Ptr(AccessLevelValue(0)),
+				AccessLevel:            Ptr(AccessLevelValue(5)),
 				AccessLevelDescription: Ptr("devops"),
 			},
 		},
