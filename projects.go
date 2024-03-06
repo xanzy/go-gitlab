@@ -1217,6 +1217,7 @@ type ProjectHook struct {
 	ReleasesEvents           bool       `json:"releases_events"`
 	EnableSSLVerification    bool       `json:"enable_ssl_verification"`
 	CreatedAt                *time.Time `json:"created_at"`
+	CustomWebhookTemplate    string     `json:"custom_webhook_template"`
 }
 
 // ListProjectHooksOptions represents the available ListProjectHooks() options.
@@ -1295,6 +1296,7 @@ type AddProjectHookOptions struct {
 	Token                    *string `url:"token,omitempty" json:"token,omitempty"`
 	URL                      *string `url:"url,omitempty" json:"url,omitempty"`
 	WikiPageEvents           *bool   `url:"wiki_page_events,omitempty" json:"wiki_page_events,omitempty"`
+	CustomWebhookTemplate    *string `url:"custom_webhook_template,omitempty" json:"custom_webhook_template,omitempty"`
 }
 
 // AddProjectHook adds a hook to a specified project.
@@ -1343,6 +1345,7 @@ type EditProjectHookOptions struct {
 	Token                    *string `url:"token,omitempty" json:"token,omitempty"`
 	URL                      *string `url:"url,omitempty" json:"url,omitempty"`
 	WikiPageEvents           *bool   `url:"wiki_page_events,omitempty" json:"wiki_page_events,omitempty"`
+	CustomWebhookTemplate    *string `url:"custom_webhook_template,omitempty" json:"custom_webhook_template,omitempty"`
 }
 
 // EditProjectHook edits a hook for a specified project.
