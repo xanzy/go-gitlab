@@ -1471,7 +1471,6 @@ func TestProjectModelsOptionalMergeAttribute(t *testing.T) {
 
 // Test that the "CustomWebhookTemplate" serializes properly
 func TestProjectAddWebhook_CustomTemplate(t *testing.T) {
-
 	mux, client := setup(t)
 	customWebhookSet := false
 
@@ -1500,12 +1499,10 @@ func TestProjectAddWebhook_CustomTemplate(t *testing.T) {
 	assert.Equal(t, http.StatusCreated, resp.StatusCode)
 	assert.Equal(t, true, customWebhookSet)
 	assert.Equal(t, "testValue", hook.CustomWebhookTemplate)
-
 }
 
 // Test that the "CustomWebhookTemplate" serializes properly when editing
 func TestProjectEditWebhook_CustomTemplate(t *testing.T) {
-
 	mux, client := setup(t)
 	customWebhookSet := false
 
