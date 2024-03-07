@@ -174,7 +174,8 @@ func TestAddGroupHook(t *testing.T) {
 	"releases_events": true,
 	"subgroup_events": true,
 	"enable_ssl_verification": true,
-	"created_at": "2012-10-12T17:04:47Z"
+	"created_at": "2012-10-12T17:04:47Z",
+	"custom_webhook_template": "addTestValue"
 }`)
 	})
 
@@ -209,6 +210,7 @@ func TestAddGroupHook(t *testing.T) {
 		SubGroupEvents:           true,
 		EnableSSLVerification:    true,
 		CreatedAt:                &datePointer,
+		CustomWebhookTemplate:    "addTestValue",
 	}
 
 	if !reflect.DeepEqual(groupHooks, want) {
@@ -240,7 +242,8 @@ func TestEditGroupHook(t *testing.T) {
 	"releases_events": true,
 	"subgroup_events": true,
 	"enable_ssl_verification": true,
-	"created_at": "2012-10-12T17:04:47Z"
+	"created_at": "2012-10-12T17:04:47Z",
+	"custom_webhook_template": "testValue"
 }`)
 	})
 
@@ -275,6 +278,7 @@ func TestEditGroupHook(t *testing.T) {
 		SubGroupEvents:           true,
 		EnableSSLVerification:    true,
 		CreatedAt:                &datePointer,
+		CustomWebhookTemplate:    "testValue",
 	}
 
 	if !reflect.DeepEqual(groupHooks, want) {

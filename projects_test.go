@@ -1468,3 +1468,64 @@ func TestProjectModelsOptionalMergeAttribute(t *testing.T) {
 	}
 	assert.False(t, strings.Contains(string(jsonString), "only_allow_merge_if_all_status_checks_passed"))
 }
+
+// Test that the "CustomWebhookTemplate" serializes properly
+func TestProjectAddWebhook_CustomTemplate(t *testing.T) {
+	mux, client := setup(t)
+	customWebhookSet := false
+
+	mux.HandleFunc("/api/v4/projects/1/hooks",
+		func(w http.ResponseWriter, r *http.Request) {
+			testMethod(t, r, http.MethodPost)
+			w.WriteHeader(http.StatusCreated)
+
+			body, err := io.ReadAll(r.Body)
+			if err != nil {
+				t.Fatalf("Unable to read body properly. Error: %v", err)
+			}
+			customWebhookSet = strings.Contains(string(body), "custom_webhook_template")
+
+			fmt.Fprint(w, `{
+				"custom_webhook_template": "testValue"
+			}`)
+		},
+	)
+
+	hook, resp, err := client.Projects.AddProjectHook(1, &AddProjectHookOptions{
+		CustomWebhookTemplate: Ptr(`{"example":"{{object_kind}}"}`),
+	})
+
+	assert.NoError(t, err)
+	assert.Equal(t, http.StatusCreated, resp.StatusCode)
+	assert.Equal(t, true, customWebhookSet)
+	assert.Equal(t, "testValue", hook.CustomWebhookTemplate)
+}
+
+// Test that the "CustomWebhookTemplate" serializes properly when editing
+func TestProjectEditWebhook_CustomTemplate(t *testing.T) {
+	mux, client := setup(t)
+	customWebhookSet := false
+
+	mux.HandleFunc("/api/v4/projects/1/hooks/1",
+		func(w http.ResponseWriter, r *http.Request) {
+			testMethod(t, r, http.MethodPut)
+			w.WriteHeader(http.StatusOK)
+
+			body, err := io.ReadAll(r.Body)
+			if err != nil {
+				t.Fatalf("Unable to read body properly. Error: %v", err)
+			}
+			customWebhookSet = strings.Contains(string(body), "custom_webhook_template")
+
+			fmt.Fprint(w, "{}")
+		},
+	)
+
+	_, resp, err := client.Projects.EditProjectHook(1, 1, &EditProjectHookOptions{
+		CustomWebhookTemplate: Ptr(`{"example":"{{object_kind}}"}`),
+	})
+
+	assert.NoError(t, err)
+	assert.Equal(t, http.StatusOK, resp.StatusCode)
+	assert.Equal(t, true, customWebhookSet)
+}
