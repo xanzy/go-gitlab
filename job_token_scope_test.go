@@ -177,3 +177,100 @@ func TestRemoveProjectFromJobScopeAllowList(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Equal(t, 204, resp.StatusCode)
 }
+
+// This tests that when calling the GetProjectJobTokenInboundGroupsAllowList, we
+// get a list of groups back properly. There isn't a "deep" test with every
+// attribute specified, because the object returned is a *Group object, which
+// is already tested in groups.go.
+func TestGetProjectJobTokenInboundGroupsAllowList(t *testing.T) {
+	mux, client := setup(t)
+
+	// Handle project ID 1, and print a result of two groups
+	mux.HandleFunc("/api/v4/projects/1/job_token_scope/groups_allowlist", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+
+		// Print on the response
+		fmt.Fprint(w, `[{"id":1},{"id":2}]`)
+	})
+
+	want := []*Group{{ID: 1}, {ID: 2}}
+	groups, _, err := client.JobTokenScope.GetProjectJobTokenInboundGroupsAllowList(
+		1,
+		&GetJobTokenInboundGroupsAllowListOptions{},
+	)
+
+	assert.NoError(t, err)
+	assert.Equal(t, want, groups)
+}
+
+func TestAddGroupToJobScopeGroupsAllowList(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/projects/1/job_token_scope/groups_allowlist", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPost)
+
+		// Read the request to determine which target group is passed in
+		body, err := io.ReadAll(r.Body)
+		if err != nil {
+			t.Fatalf("JobTokenScope.AddGroupToJobScopeGroupsAllowList failed to read body")
+		}
+
+		// Parse to object to ensure it's sent on the request appropriately.
+		var createTokenRequest JobTokenInboundGroupsAllowOptions
+		err = json.Unmarshal(body, &createTokenRequest)
+		if err != nil {
+			t.Fatalf("JobTokenScope.AddGroupToJobScopeGroupsAllowList failed to unmarshal body: %v", err)
+		}
+
+		// Ensure we provide the proper response
+		w.WriteHeader(http.StatusCreated)
+
+		// Print on the response with the proper target group
+		fmt.Fprintf(w, `{
+			"source_project_id": 1,
+			"target_group_id": %d
+		}`, *createTokenRequest.TargetGroupID)
+	})
+
+	want := &JobTokenInboundGroupsAllowItem{
+		SourceProjectID: 1,
+		TargetGroupID:   2,
+	}
+
+	addTokenResponse, resp, err := client.JobTokenScope.AddGroupToJobScopeGroupsAllowList(
+		1,
+		&JobTokenInboundGroupsAllowOptions{TargetGroupID: Ptr(2)},
+	)
+	assert.NoError(t, err)
+	assert.Equal(t, want, addTokenResponse)
+	assert.Equal(t, 201, resp.StatusCode)
+}
+
+func TestRemoveGroupFromJobScopeGroupsAllowList(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/projects/1/job_token_scope/groups_allowlist/2", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodDelete)
+
+		// Read the request to determine which target group is passed in
+		body, err := io.ReadAll(r.Body)
+		if err != nil {
+			t.Fatalf("JobTokenScope.RemoveGroupFromJobScopeGroupsAllowList failed to read body")
+		}
+
+		// The body should be empty since all attributes are passed in the path
+		if body != nil && string(body) != "" {
+			t.Fatalf("JobTokenScope.RemoveGroupFromJobScopeGroupsAllowList failed to unmarshal body: %v", err)
+		}
+
+		// Ensure we provide the proper response
+		w.WriteHeader(http.StatusNoContent)
+
+		// Print an empty body, since that's what the API provides.
+		fmt.Fprint(w, "")
+	})
+
+	resp, err := client.JobTokenScope.RemoveGroupFromJobScopeGroupsAllowList(1, 2)
+	assert.NoError(t, err)
+	assert.Equal(t, 204, resp.StatusCode)
+}
