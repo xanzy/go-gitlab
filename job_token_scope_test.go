@@ -178,11 +178,11 @@ func TestRemoveProjectFromJobScopeAllowList(t *testing.T) {
 	assert.Equal(t, 204, resp.StatusCode)
 }
 
-// This tests that when calling the GetProjectJobTokenInboundGroupsAllowList, we
-// get a list of groups back properly. There isn't a "deep" test with every
-// attribute specified, because the object returned is a *Group object, which
-// is already tested in groups.go.
-func TestGetProjectJobTokenInboundGroupsAllowList(t *testing.T) {
+// This tests that when calling the GetJobTokenAllowlistGroups, we get a list
+// of groups back. There isn't a "deep" test with every attribute specified,
+// because the object returned is a *Group object, which is already tested in
+// groups.go.
+func TestGetJobTokenAllowlistGroups(t *testing.T) {
 	mux, client := setup(t)
 
 	// Handle project ID 1, and print a result of two groups
@@ -194,16 +194,16 @@ func TestGetProjectJobTokenInboundGroupsAllowList(t *testing.T) {
 	})
 
 	want := []*Group{{ID: 1}, {ID: 2}}
-	groups, _, err := client.JobTokenScope.GetProjectJobTokenInboundGroupsAllowList(
+	groups, _, err := client.JobTokenScope.GetJobTokenAllowlistGroups(
 		1,
-		&GetJobTokenInboundGroupsAllowListOptions{},
+		&GetJobTokenAllowlistGroupsOptions{},
 	)
 
 	assert.NoError(t, err)
 	assert.Equal(t, want, groups)
 }
 
-func TestAddGroupToJobScopeGroupsAllowList(t *testing.T) {
+func TestAddGroupToJobTokenAllowlist(t *testing.T) {
 	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/job_token_scope/groups_allowlist", func(w http.ResponseWriter, r *http.Request) {
@@ -212,14 +212,14 @@ func TestAddGroupToJobScopeGroupsAllowList(t *testing.T) {
 		// Read the request to determine which target group is passed in
 		body, err := io.ReadAll(r.Body)
 		if err != nil {
-			t.Fatalf("JobTokenScope.AddGroupToJobScopeGroupsAllowList failed to read body")
+			t.Fatalf("JobTokenScope.AddGroupToJobTokenAllowlist failed to read body")
 		}
 
 		// Parse to object to ensure it's sent on the request appropriately.
-		var createTokenRequest JobTokenInboundGroupsAllowOptions
+		var createTokenRequest AddGroupToJobTokenAllowlistOptions
 		err = json.Unmarshal(body, &createTokenRequest)
 		if err != nil {
-			t.Fatalf("JobTokenScope.AddGroupToJobScopeGroupsAllowList failed to unmarshal body: %v", err)
+			t.Fatalf("JobTokenScope.AddGroupToJobTokenAllowlist failed to unmarshal body: %v", err)
 		}
 
 		// Ensure we provide the proper response
@@ -232,21 +232,21 @@ func TestAddGroupToJobScopeGroupsAllowList(t *testing.T) {
 		}`, *createTokenRequest.TargetGroupID)
 	})
 
-	want := &JobTokenInboundGroupsAllowItem{
+	want := &JobTokenAllowlistItem{
 		SourceProjectID: 1,
 		TargetGroupID:   2,
 	}
 
-	addTokenResponse, resp, err := client.JobTokenScope.AddGroupToJobScopeGroupsAllowList(
+	addTokenResponse, resp, err := client.JobTokenScope.AddGroupToJobTokenAllowlist(
 		1,
-		&JobTokenInboundGroupsAllowOptions{TargetGroupID: Ptr(2)},
+		&AddGroupToJobTokenAllowlistOptions{TargetGroupID: Ptr(2)},
 	)
 	assert.NoError(t, err)
 	assert.Equal(t, want, addTokenResponse)
 	assert.Equal(t, 201, resp.StatusCode)
 }
 
-func TestRemoveGroupFromJobScopeGroupsAllowList(t *testing.T) {
+func TestRemoveGroupFromJobTokenAllowlist(t *testing.T) {
 	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/projects/1/job_token_scope/groups_allowlist/2", func(w http.ResponseWriter, r *http.Request) {
@@ -255,12 +255,12 @@ func TestRemoveGroupFromJobScopeGroupsAllowList(t *testing.T) {
 		// Read the request to determine which target group is passed in
 		body, err := io.ReadAll(r.Body)
 		if err != nil {
-			t.Fatalf("JobTokenScope.RemoveGroupFromJobScopeGroupsAllowList failed to read body")
+			t.Fatalf("JobTokenScope.RemoveGroupFromJobTokenAllowlist failed to read body")
 		}
 
 		// The body should be empty since all attributes are passed in the path
 		if body != nil && string(body) != "" {
-			t.Fatalf("JobTokenScope.RemoveGroupFromJobScopeGroupsAllowList failed to unmarshal body: %v", err)
+			t.Fatalf("JobTokenScope.RemoveGroupFromJobTokenAllowlist failed to unmarshal body: %v", err)
 		}
 
 		// Ensure we provide the proper response
@@ -270,7 +270,7 @@ func TestRemoveGroupFromJobScopeGroupsAllowList(t *testing.T) {
 		fmt.Fprint(w, "")
 	})
 
-	resp, err := client.JobTokenScope.RemoveGroupFromJobScopeGroupsAllowList(1, 2)
+	resp, err := client.JobTokenScope.RemoveGroupFromJobTokenAllowlist(1, 2)
 	assert.NoError(t, err)
 	assert.Equal(t, 204, resp.StatusCode)
 }

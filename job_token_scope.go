@@ -185,29 +185,29 @@ func (j *JobTokenScopeService) RemoveProjectFromJobScopeAllowList(pid interface{
 	return j.client.Do(req, nil)
 }
 
-// JobTokenInboundGroupsAllowItem represents a single job token inbound group allowlist item.
+// JobTokenAllowlistItem represents a single job token allowlist item.
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/project_job_token_scopes.html
-type JobTokenInboundGroupsAllowItem struct {
+type JobTokenAllowlistItem struct {
 	SourceProjectID int `json:"source_project_id"`
 	TargetGroupID   int `json:"target_group_id"`
 }
 
-// GetJobTokenInboundGroupsAllowListOptions represents the available
-// GetJobTokenInboundGroupsAllowList() options.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ee/api/project_job_token_scopes.html#get-a-projects-cicd-job-token-inbound-allowlist
-type GetJobTokenInboundGroupsAllowListOptions struct {
-	ListOptions
-}
-
-// GetProjectJobTokenInboundGroupsAllowList fetches the CI/CD job token inbound
-// groups allowlist (job token scope) of a project.
+// GetJobTokenAllowlistGroupsOptions represents the available
+// GetJobTokenAllowlistGroups() options.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/project_job_token_scopes.html#get-a-projects-cicd-job-token-allowlist-of-groups
-func (j *JobTokenScopeService) GetProjectJobTokenInboundGroupsAllowList(pid interface{}, opt *GetJobTokenInboundGroupsAllowListOptions, options ...RequestOptionFunc) ([]*Group, *Response, error) {
+type GetJobTokenAllowlistGroupsOptions struct {
+	ListOptions
+}
+
+// GetJobTokenAllowListGroups fetches the CI/CD job token allowlist groups
+// (job token scopes) of a project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/project_job_token_scopes.html#get-a-projects-cicd-job-token-allowlist-of-groups
+func (j *JobTokenScopeService) GetJobTokenAllowlistGroups(pid interface{}, opt *GetJobTokenAllowlistGroupsOptions, options ...RequestOptionFunc) ([]*Group, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -228,12 +228,12 @@ func (j *JobTokenScopeService) GetProjectJobTokenInboundGroupsAllowList(pid inte
 	return ps, resp, nil
 }
 
-// AddProjectToJobScopeGroupsAllowListOptions represents the available
-// AddProjectToJobScopeGroupsAllowList() options.
+// AddGroupToJobTokenAllowlistOptions represents the available
+// AddGroupToJobTokenAllowlist() options.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/project_job_token_scopes.html#add-a-group-to-a-cicd-job-token-allowlist
-type JobTokenInboundGroupsAllowOptions struct {
+type AddGroupToJobTokenAllowlistOptions struct {
 	TargetGroupID *int `url:"target_group_id,omitempty" json:"target_group_id,omitempty"`
 }
 
@@ -242,7 +242,7 @@ type JobTokenInboundGroupsAllowOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/project_job_token_scopes.html#add-a-group-to-a-cicd-job-token-allowlist
-func (j *JobTokenScopeService) AddGroupToJobScopeGroupsAllowList(pid interface{}, opt *JobTokenInboundGroupsAllowOptions, options ...RequestOptionFunc) (*JobTokenInboundGroupsAllowItem, *Response, error) {
+func (j *JobTokenScopeService) AddGroupToJobTokenAllowlist(pid interface{}, opt *AddGroupToJobTokenAllowlistOptions, options ...RequestOptionFunc) (*JobTokenAllowlistItem, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -254,7 +254,7 @@ func (j *JobTokenScopeService) AddGroupToJobScopeGroupsAllowList(pid interface{}
 		return nil, nil, err
 	}
 
-	jt := new(JobTokenInboundGroupsAllowItem)
+	jt := new(JobTokenAllowlistItem)
 	resp, err := j.client.Do(req, jt)
 	if err != nil {
 		return nil, resp, err
@@ -263,12 +263,12 @@ func (j *JobTokenScopeService) AddGroupToJobScopeGroupsAllowList(pid interface{}
 	return jt, resp, nil
 }
 
-// RemoveGroupFromJobScopeAllowList removes a group from a project's job
+// RemoveGroupFromJopTokenAllowlist removes a group from a project's job
 // token inbound groups allow list.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/project_job_token_scopes.html#remove-a-group-from-a-cicd-job-token-allowlist
-func (j *JobTokenScopeService) RemoveGroupFromJobScopeGroupsAllowList(pid interface{}, targetGroup int, options ...RequestOptionFunc) (*Response, error) {
+func (j *JobTokenScopeService) RemoveGroupFromJobTokenAllowlist(pid interface{}, targetGroup int, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, err
