@@ -860,20 +860,29 @@ func (s *MergeRequestsService) CancelMergeWhenPipelineSucceeds(pid interface{}, 
 	return m, resp, nil
 }
 
+// RebaseMergeRequestOptions represents the available RebaseMergeRequest()
+// options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/merge_requests.html#rebase-a-merge-request
+type RebaseMergeRequestOptions struct {
+	SkipCI *bool `url:"skip_ci,omitempty" json:"skip_ci,omitempty"`
+}
+
 // RebaseMergeRequest automatically rebases the source_branch of the merge
 // request against its target_branch. If you don’t have permissions to push
 // to the merge request’s source branch, you’ll get a 403 Forbidden response.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/merge_requests.html#rebase-a-merge-request
-func (s *MergeRequestsService) RebaseMergeRequest(pid interface{}, mergeRequest int, options ...RequestOptionFunc) (*Response, error) {
+func (s *MergeRequestsService) RebaseMergeRequest(pid interface{}, mergeRequest int, opt *RebaseMergeRequestOptions, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, err
 	}
 	u := fmt.Sprintf("projects/%s/merge_requests/%d/rebase", PathEscape(project), mergeRequest)
 
-	req, err := s.client.NewRequest(http.MethodPut, u, nil, options)
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
 		return nil, err
 	}
