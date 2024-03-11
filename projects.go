@@ -168,6 +168,7 @@ type Project struct {
 	SecurityAndComplianceAccessLevel         AccessControlValue `json:"security_and_compliance_access_level"`
 	MergeRequestDefaultTargetSelf            bool               `json:"mr_default_target_self"`
 	ModelExperimentsAccessLevel              AccessControlValue `json:"model_experiments_access_level"`
+	ModelRegistryAccessLevel                 AccessControlValue `json:"model_registry_access_level"`
 
 	// Deprecated: Use EmailsEnabled instead
 	EmailsDisabled bool `json:"emails_disabled"`
@@ -640,6 +641,7 @@ type CreateProjectOptions struct {
 	Mirror                                    *bool                                `url:"mirror,omitempty" json:"mirror,omitempty"`
 	MirrorTriggerBuilds                       *bool                                `url:"mirror_trigger_builds,omitempty" json:"mirror_trigger_builds,omitempty"`
 	ModelExperimentsAccessLevel               *AccessControlValue                  `url:"model_experiments_access_level,omitempty" json:"model_experiments_access_level,omitempty"`
+	ModelRegistryAccessLevel                  *AccessControlValue                  `url:"model_registry_access_level,omitempty" json:"model_registry_access_level,omitempty"`
 	Name                                      *string                              `url:"name,omitempty" json:"name,omitempty"`
 	NamespaceID                               *int                                 `url:"namespace_id,omitempty" json:"namespace_id,omitempty"`
 	OnlyAllowMergeIfAllDiscussionsAreResolved *bool                                `url:"only_allow_merge_if_all_discussions_are_resolved,omitempty" json:"only_allow_merge_if_all_discussions_are_resolved,omitempty"`
@@ -873,6 +875,7 @@ type EditProjectOptions struct {
 	MirrorTriggerBuilds                       *bool                                `url:"mirror_trigger_builds,omitempty" json:"mirror_trigger_builds,omitempty"`
 	MirrorUserID                              *int                                 `url:"mirror_user_id,omitempty" json:"mirror_user_id,omitempty"`
 	ModelExperimentsAccessLevel               *AccessControlValue                  `url:"model_experiments_access_level,omitempty" json:"model_experiments_access_level,omitempty"`
+	ModelRegistryAccessLevel                  *AccessControlValue                  `url:"model_registry_access_level,omitempty" json:"model_registry_access_level,omitempty"`
 	Name                                      *string                              `url:"name,omitempty" json:"name,omitempty"`
 	OnlyAllowMergeIfAllDiscussionsAreResolved *bool                                `url:"only_allow_merge_if_all_discussions_are_resolved,omitempty" json:"only_allow_merge_if_all_discussions_are_resolved,omitempty"`
 	OnlyAllowMergeIfPipelineSucceeds          *bool                                `url:"only_allow_merge_if_pipeline_succeeds,omitempty" json:"only_allow_merge_if_pipeline_succeeds,omitempty"`
