@@ -105,12 +105,13 @@ func TestPackagesService_ListPackageFiles(t *testing.T) {
 	})
 
 	want := []*PackageFile{{
-		ID:        25,
-		PackageID: 4,
-		FileName:  "my-app-1.5-20181107.152550-1.jar",
-		Size:      2421,
-		FileMD5:   "58e6a45a629910c6ff99145a688971ac",
-		FileSHA1:  "ebd193463d3915d7e22219f52740056dfd26cbfe",
+		ID:         25,
+		PackageID:  4,
+		FileName:   "my-app-1.5-20181107.152550-1.jar",
+		Size:       2421,
+		FileMD5:    "58e6a45a629910c6ff99145a688971ac",
+		FileSHA1:   "ebd193463d3915d7e22219f52740056dfd26cbfe",
+		FileSHA256: "a903393463d3915d7e22219f52740056dfd26cbfeff321b",
 	}}
 
 	ps, resp, err := client.Packages.ListPackageFiles(3, 4, nil)
