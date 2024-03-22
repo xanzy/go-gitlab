@@ -124,6 +124,8 @@ type ProjectLintOptions struct {
 	DryRun      *bool   `url:"dry_run,omitempty" json:"dry_run,omitempty"`
 	IncludeJobs *bool   `url:"include_jobs,omitempty" json:"include_jobs,omitempty"`
 	Ref         *string `url:"ref,omitempty" json:"ref,omitempty"`
+	ContentRef  *string `url:"content_ref" json:"content_ref,omitempty"`
+	DryRunRef   *string `url:"dry_run_ref" json:"dry_run_ref,omitempty"`
 }
 
 // ProjectLint validates .gitlab-ci.yml content by project.
