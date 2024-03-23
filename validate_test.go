@@ -223,3 +223,54 @@ func TestValidateProjectNamespace(t *testing.T) {
 		})
 	}
 }
+
+func TestValidateProjectLint(t *testing.T) {
+	testCases := []struct {
+		description string
+		request     *ProjectLintOptions
+		response    string
+		want        *ProjectLintResult
+	}{
+		{
+			description: "valid",
+			request: &ProjectLintOptions{
+				DryRun:      Ptr(false),
+				IncludeJobs: Ptr(true),
+				ContentRef:  Ptr("foo"),
+			},
+			response: `{
+				"valid": true,
+				"errors": [],
+				"warnings": [],
+				"merged_yaml": 	"---\n:build:\n  :script:\n  - echo build"
+			}`,
+			want: &ProjectLintResult{
+				Valid:      true,
+				Warnings:   []string{},
+				Errors:     []string{},
+				MergedYaml: "---\n:build:\n  :script:\n  - echo build",
+			},
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.description, func(t *testing.T) {
+			mux, client := setup(t)
+
+			mux.HandleFunc("/api/v4/projects/1/ci/lint", func(w http.ResponseWriter, r *http.Request) {
+				testMethod(t, r, http.MethodGet)
+				fmt.Fprint(w, tc.response)
+			})
+
+			got, _, err := client.Validate.ProjectLint(1, tc.request)
+			if err != nil {
+				t.Errorf("Validate returned error: %v", err)
+			}
+
+			want := tc.want
+			if !reflect.DeepEqual(got, want) {
+				t.Errorf("Validate returned \ngot:\n%v\nwant:\n%v", Stringify(got), Stringify(want))
+			}
+		})
+	}
+}
