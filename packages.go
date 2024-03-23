@@ -95,9 +95,9 @@ type PackageFile struct {
 	FileName   string      `json:"file_name"`
 	Size       int         `json:"size"`
 	FileMD5    string      `json:"file_md5"`
-	FileSHA1   string      `json:"file_sha1,omitempty"`
-	FileSHA256 string      `json:"file_sha256,omitempty"`
-	Pipeline  *[]Pipeline `json:"pipelines"`
+	FileSHA1   string      `json:"file_sha1"`
+	FileSHA256 string      `json:"file_sha256"`
+	Pipeline   *[]Pipeline `json:"pipelines"`
 }
 
 func (s PackageFile) String() string {
