@@ -189,3 +189,27 @@ func TestDeleteDraftNote(t *testing.T) {
 		t.Errorf("DraftNotes.DeleteDraftNote returned error: %v", err)
 	}
 }
+
+func TestPublishDraftNote(t *testing.T) {
+	mux, client := setup(t)
+	mux.HandleFunc("/api/v4/projects/1/merge_requests/4329/draft_notes/3/publish", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPut)
+	})
+
+	_, err := client.DraftNotes.PublishDraftNote("1", 4329, 3)
+	if err != nil {
+		t.Errorf("DraftNotes.PublishDraftNote returned error: %v", err)
+	}
+}
+
+func TestPublishAllDraftNotes(t *testing.T) {
+	mux, client := setup(t)
+	mux.HandleFunc("/api/v4/projects/1/merge_requests/4329/draft_notes/bulk_publish", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPost)
+	})
+
+	_, err := client.DraftNotes.PublishAllDraftNotes("1", 4329)
+	if err != nil {
+		t.Errorf("DraftNotes.PublishAllDraftNotes returned error: %v", err)
+	}
+}
