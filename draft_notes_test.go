@@ -123,7 +123,6 @@ func TestCreateDraftNote(t *testing.T) {
 	note, _, err := client.DraftNotes.CreateDraftNote("1", 4329, &CreateDraftNoteOptions{
 		Note: Ptr("Some new draft note"),
 	})
-
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -143,7 +142,6 @@ func TestCreateDraftNote(t *testing.T) {
 	if !reflect.DeepEqual(note, want) {
 		t.Errorf("DraftNotes.GetDraftNote want %#v, got %#v", note, want)
 	}
-
 }
 
 func TestUpdateDraftNote(t *testing.T) {
@@ -156,7 +154,6 @@ func TestUpdateDraftNote(t *testing.T) {
 	note, _, err := client.DraftNotes.UpdateDraftNote("1", 4329, 3, &UpdateDraftNoteOptions{
 		Note: Ptr("Some changed draft note"),
 	})
-
 	if err != nil {
 		t.Fatal(err)
 	}
