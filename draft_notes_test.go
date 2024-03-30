@@ -159,3 +159,68 @@ func TestListDraftNotes(t *testing.T) {
 		t.Errorf("DraftNotes.GetDraftNote want %#v, got %#v", notes, want)
 	}
 }
+
+func TestCreateDraftNote(t *testing.T) {
+	mux, client := setup(t)
+	mux.HandleFunc("/api/v4/projects/1/merge_requests/4329/draft_notes", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPost)
+		fmt.Fprint(w, `{"id": 37349980, "author_id": 10271899, "merge_request_id": 291473309, "resolve_discussion": false, "discussion_id": null, "note": "Some new draft note", "commit_id": null, "position": null, "line_code": null}`)
+	})
+
+	note, _, err := client.DraftNotes.CreateDraftNote("1", 4329, &CreateDraftNoteOptions{
+		Note: Ptr("Some new draft note"),
+	})
+
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	want := &DraftNote{
+		ID:                37349980,
+		AuthorID:          10271899,
+		MergeRequestID:    291473309,
+		ResolveDiscussion: false,
+		DiscussionID:      "",
+		Note:              "Some new draft note",
+		CommitID:          "",
+		LineCode:          "",
+		Position:          nil,
+	}
+
+	if !reflect.DeepEqual(note, want) {
+		t.Errorf("DraftNotes.GetDraftNote want %#v, got %#v", note, want)
+	}
+
+}
+
+func TestUpdateDraftNote(t *testing.T) {
+	mux, client := setup(t)
+	mux.HandleFunc("/api/v4/projects/1/merge_requests/4329/draft_notes/3", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPut)
+		fmt.Fprint(w, `{"id": 37349980, "author_id": 10271899, "merge_request_id": 291473309, "resolve_discussion": false, "discussion_id": null, "note": "Some changed draft note", "commit_id": null, "position": null, "line_code": null}`)
+	})
+
+	note, _, err := client.DraftNotes.UpdateDraftNote("1", 4329, 3, &UpdateDraftNoteOptions{
+		Note: Ptr("Some changed draft note"),
+	})
+
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	want := &DraftNote{
+		ID:                37349980,
+		AuthorID:          10271899,
+		MergeRequestID:    291473309,
+		ResolveDiscussion: false,
+		DiscussionID:      "",
+		Note:              "Some changed draft note",
+		CommitID:          "",
+		LineCode:          "",
+		Position:          nil,
+	}
+
+	if !reflect.DeepEqual(note, want) {
+		t.Errorf("DraftNotes.UpdateDraftNote want %#v, got %#v", note, want)
+	}
+}
