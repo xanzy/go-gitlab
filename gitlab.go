@@ -63,6 +63,7 @@ const (
 	JobToken
 	OAuthToken
 	PrivateToken
+	GitlabCookie
 )
 
 // A Client manages communication with the GitLab API.
@@ -87,6 +88,9 @@ type Client struct {
 
 	// Token type used to make authenticated API calls.
 	authType AuthType
+
+	// Auth Cookie for internal requests
+	cookie []*http.Cookie
 
 	// Username and password used for basic authentication.
 	username, password string
@@ -270,6 +274,18 @@ func NewBasicAuthClient(username, password string, options ...ClientOptionFunc) 
 	client.authType = BasicAuth
 	client.username = username
 	client.password = password
+
+	return client, nil
+}
+
+func NewCookieClient(cookie []*http.Cookie, options ...ClientOptionFunc) (*Client, error) {
+	client, err := newClient(options...)
+	if err != nil {
+		return nil, err
+	}
+
+	client.authType = GitlabCookie
+	client.cookie = cookie
 
 	return client, nil
 }
@@ -851,6 +867,13 @@ func (c *Client) Do(req *retryablehttp.Request, v interface{}) (*Response, error
 	case PrivateToken:
 		if values := req.Header.Values("PRIVATE-TOKEN"); len(values) == 0 {
 			req.Header.Set("PRIVATE-TOKEN", c.token)
+		}
+	case GitlabCookie:
+		sendCookie := c.cookie
+		if len(sendCookie) > 0 {
+			for _, value := range sendCookie {
+				req.Header.Add("Cookie", value.String())
+			}
 		}
 	}
 
