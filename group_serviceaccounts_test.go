@@ -73,8 +73,9 @@ func TestCreateServiceAccountPersonalAccessToken(t *testing.T) {
       }`)
 	})
 	options := &CreateServiceAccountPersonalAccessTokenOptions{
-		Scopes: Ptr([]string{"api"}),
-		Name:   Ptr("service_account_token"),
+		Scopes:    Ptr([]string{"api"}),
+		Name:      Ptr("service_account_token"),
+		ExpiresAt: Ptr("2024-06-12"),
 	}
 	pat, _, err := client.Groups.CreateServiceAccountPersonalAccessToken(1, 57, options)
 	if err != nil {
