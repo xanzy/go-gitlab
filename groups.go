@@ -64,7 +64,7 @@ type Group struct {
 	ProjectCreationLevel    ProjectCreationLevelValue  `json:"project_creation_level"`
 	AutoDevopsEnabled       bool                       `json:"auto_devops_enabled"`
 	SubGroupCreationLevel   SubGroupCreationLevelValue `json:"subgroup_creation_level"`
-	EmailsDisabled          bool                       `json:"emails_disabled"`
+	EmailsEnabled           bool                       `json:"emails_enabled"`
 	MentionsDisabled        bool                       `json:"mentions_disabled"`
 	RunnersToken            string                     `json:"runners_token"`
 	SharedProjects          []*Project                 `json:"shared_projects"`
@@ -87,6 +87,9 @@ type Group struct {
 	CreatedAt                      *time.Time         `json:"created_at"`
 	IPRestrictionRanges            string             `json:"ip_restriction_ranges"`
 	WikiAccessLevel                AccessControlValue `json:"wiki_access_level"`
+
+	// Deprecated: Use EmailsEnabled instead
+	EmailsDisabled bool `json:"emails_disabled"`
 }
 
 // GroupAvatar represents a GitLab group avatar.
@@ -347,7 +350,7 @@ type CreateGroupOptions struct {
 	ProjectCreationLevel           *ProjectCreationLevelValue  `url:"project_creation_level,omitempty" json:"project_creation_level,omitempty"`
 	AutoDevopsEnabled              *bool                       `url:"auto_devops_enabled,omitempty" json:"auto_devops_enabled,omitempty"`
 	SubGroupCreationLevel          *SubGroupCreationLevelValue `url:"subgroup_creation_level,omitempty" json:"subgroup_creation_level,omitempty"`
-	EmailsDisabled                 *bool                       `url:"emails_disabled,omitempty" json:"emails_disabled,omitempty"`
+	EmailsEnabled                  *bool                       `url:"emails_enabled,omitempty" json:"emails_enabled,omitempty"`
 	MentionsDisabled               *bool                       `url:"mentions_disabled,omitempty" json:"mentions_disabled,omitempty"`
 	LFSEnabled                     *bool                       `url:"lfs_enabled,omitempty" json:"lfs_enabled,omitempty"`
 	DefaultBranchProtection        *int                        `url:"default_branch_protection,omitempty" json:"default_branch_protection"`
@@ -357,6 +360,9 @@ type CreateGroupOptions struct {
 	ExtraSharedRunnersMinutesLimit *int                        `url:"extra_shared_runners_minutes_limit,omitempty" json:"extra_shared_runners_minutes_limit,omitempty"`
 	IPRestrictionRanges            *string                     `url:"ip_restriction_ranges,omitempty" json:"ip_restriction_ranges,omitempty"`
 	WikiAccessLevel                *AccessControlValue         `url:"wiki_access_level,omitempty" json:"wiki_access_level,omitempty"`
+
+	// Deprecated Use EmailsEnabled instead
+	EmailsDisabled *bool `url:"emails_disabled,omitempty" json:"emails_disabled,omitempty"`
 }
 
 // CreateGroup creates a new project group. Available only for users who can
@@ -473,7 +479,7 @@ type UpdateGroupOptions struct {
 	ProjectCreationLevel                 *ProjectCreationLevelValue  `url:"project_creation_level,omitempty" json:"project_creation_level,omitempty"`
 	AutoDevopsEnabled                    *bool                       `url:"auto_devops_enabled,omitempty" json:"auto_devops_enabled,omitempty"`
 	SubGroupCreationLevel                *SubGroupCreationLevelValue `url:"subgroup_creation_level,omitempty" json:"subgroup_creation_level,omitempty"`
-	EmailsDisabled                       *bool                       `url:"emails_disabled,omitempty" json:"emails_disabled,omitempty"`
+	EmailsEnabled                        *bool                       `url:"emails_enabled,omitempty" json:"emails_enabled,omitempty"`
 	MentionsDisabled                     *bool                       `url:"mentions_disabled,omitempty" json:"mentions_disabled,omitempty"`
 	LFSEnabled                           *bool                       `url:"lfs_enabled,omitempty" json:"lfs_enabled,omitempty"`
 	RequestAccessEnabled                 *bool                       `url:"request_access_enabled,omitempty" json:"request_access_enabled,omitempty"`
@@ -486,6 +492,9 @@ type UpdateGroupOptions struct {
 	PreventSharingGroupsOutsideHierarchy *bool                       `url:"prevent_sharing_groups_outside_hierarchy,omitempty" json:"prevent_sharing_groups_outside_hierarchy,omitempty"`
 	IPRestrictionRanges                  *string                     `url:"ip_restriction_ranges,omitempty" json:"ip_restriction_ranges,omitempty"`
 	WikiAccessLevel                      *AccessControlValue         `url:"wiki_access_level,omitempty" json:"wiki_access_level,omitempty"`
+
+	// Deprecated Use EmailsEnabled instead
+	EmailsDisabled *bool `url:"emails_disabled,omitempty" json:"emails_disabled,omitempty"`
 }
 
 // UpdateGroup updates an existing group; only available to group owners and
