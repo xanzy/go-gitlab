@@ -361,7 +361,7 @@ type CreateGroupOptions struct {
 	IPRestrictionRanges            *string                     `url:"ip_restriction_ranges,omitempty" json:"ip_restriction_ranges,omitempty"`
 	WikiAccessLevel                *AccessControlValue         `url:"wiki_access_level,omitempty" json:"wiki_access_level,omitempty"`
 
-	// Deprecated Use EmailsEnabled instead
+	// Deprecated: Use EmailsEnabled instead
 	EmailsDisabled *bool `url:"emails_disabled,omitempty" json:"emails_disabled,omitempty"`
 }
 
@@ -493,7 +493,7 @@ type UpdateGroupOptions struct {
 	IPRestrictionRanges                  *string                     `url:"ip_restriction_ranges,omitempty" json:"ip_restriction_ranges,omitempty"`
 	WikiAccessLevel                      *AccessControlValue         `url:"wiki_access_level,omitempty" json:"wiki_access_level,omitempty"`
 
-	// Deprecated Use EmailsEnabled instead
+	// Deprecated: Use EmailsEnabled instead
 	EmailsDisabled *bool `url:"emails_disabled,omitempty" json:"emails_disabled,omitempty"`
 }
 
