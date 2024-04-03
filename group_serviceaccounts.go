@@ -64,7 +64,7 @@ func (s *GroupsService) CreateServiceAccount(gid interface{}, options ...Request
 type CreateServiceAccountPersonalAccessTokenOptions struct {
 	Scopes    *[]string `url:"scopes,omitempty" json:"scopes,omitempty"`
 	Name      *string   `url:"name,omitempty" json:"name,omitempty"`
-	ExpiresAt *string   `url:"expires_at,omitempty" json:"expires_at,omitempty"`
+	ExpiresAt *ISOTime  `url:"expires_at,omitempty" json:"expires_at,omitempty"`
 }
 
 // CreateServiceAccountPersonalAccessToken add a new Personal Access Token for a
