@@ -36,7 +36,8 @@ type DraftNote struct {
 // DraftNotesService handles communication with the draft notes related methods
 // of the GitLab API.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/draft_notes.html#list-all-merge-request-draft-notes
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/draft_notes.html#list-all-merge-request-draft-notes
 type DraftNotesService struct {
 	client *Client
 }
@@ -44,7 +45,8 @@ type DraftNotesService struct {
 // ListDraftNotesOptions represents the available ListDraftNotes()
 // options.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/draft_notes.html#list-all-merge-request-draft-notes
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/draft_notes.html#list-all-merge-request-draft-notes
 type ListDraftNotesOptions struct {
 	ListOptions
 	OrderBy *string `url:"order_by,omitempty" json:"order_by,omitempty"`
@@ -53,13 +55,13 @@ type ListDraftNotesOptions struct {
 
 // ListDraftNotes gets a list of all draft notes for a merge request.
 //
-// Gitlab API docs: https://docs.gitlab.com/ee/api/draft_notes.html#list-all-merge-request-draft-notes
+// Gitlab API docs:
+// https://docs.gitlab.com/ee/api/draft_notes.html#list-all-merge-request-draft-notes
 func (s *DraftNotesService) ListDraftNotes(pid interface{}, mergeRequest int, opt *ListDraftNotesOptions, options ...RequestOptionFunc) ([]*DraftNote, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
-
 	u := fmt.Sprintf("projects/%s/merge_requests/%d/draft_notes", PathEscape(project), mergeRequest)
 
 	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
@@ -78,7 +80,8 @@ func (s *DraftNotesService) ListDraftNotes(pid interface{}, mergeRequest int, op
 
 // GetDraftNote gets a single draft note for a merge request.
 //
-// Gitlab API docs: https://docs.gitlab.com/ee/api/draft_notes.html#get-a-single-draft-note
+// Gitlab API docs:
+// https://docs.gitlab.com/ee/api/draft_notes.html#get-a-single-draft-note
 func (s *DraftNotesService) GetDraftNote(pid interface{}, mergeRequest int, note int, options ...RequestOptionFunc) (*DraftNote, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -103,7 +106,8 @@ func (s *DraftNotesService) GetDraftNote(pid interface{}, mergeRequest int, note
 // CreateDraftNoteOptions represents the available CreateDraftNote()
 // options.
 //
-// Gitlab API docs: https://docs.gitlab.com/ee/api/draft_notes.html#create-a-draft-note
+// Gitlab API docs:
+// https://docs.gitlab.com/ee/api/draft_notes.html#create-a-draft-note
 type CreateDraftNoteOptions struct {
 	Note                  *string          `url:"note" json:"note"`
 	CommitID              *string          `url:"commit_id,omitempty" json:"commit_id,omitempty"`
@@ -114,13 +118,13 @@ type CreateDraftNoteOptions struct {
 
 // CreateDraftNote creates a draft note for a merge request.
 //
-// Gitlab API docs: https://docs.gitlab.com/ee/api/draft_notes.html#create-a-draft-note
+// Gitlab API docs:
+// https://docs.gitlab.com/ee/api/draft_notes.html#create-a-draft-note
 func (s *DraftNotesService) CreateDraftNote(pid interface{}, mergeRequest int, opt *CreateDraftNoteOptions, options ...RequestOptionFunc) (*DraftNote, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
-
 	u := fmt.Sprintf("projects/%s/merge_requests/%d/draft_notes", PathEscape(project), mergeRequest)
 
 	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
@@ -140,7 +144,8 @@ func (s *DraftNotesService) CreateDraftNote(pid interface{}, mergeRequest int, o
 // UpdateDraftNoteOptions represents the available UpdateDraftNote()
 // options.
 //
-// Gitlab API docs: https://docs.gitlab.com/ee/api/draft_notes.html#create-a-draft-note
+// Gitlab API docs:
+// https://docs.gitlab.com/ee/api/draft_notes.html#create-a-draft-note
 type UpdateDraftNoteOptions struct {
 	Note     *string          `url:"note,omitempty" json:"note,omitempty"`
 	Position *PositionOptions `url:"position,omitempty" json:"position,omitempty"`
@@ -154,7 +159,6 @@ func (s *DraftNotesService) UpdateDraftNote(pid interface{}, mergeRequest int, n
 	if err != nil {
 		return nil, nil, err
 	}
-
 	u := fmt.Sprintf("projects/%s/merge_requests/%d/draft_notes/%d", PathEscape(project), mergeRequest, note)
 
 	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
@@ -173,7 +177,8 @@ func (s *DraftNotesService) UpdateDraftNote(pid interface{}, mergeRequest int, n
 
 // DeleteDraftNote deletes a single draft note for a merge request.
 //
-// Gitlab API docs: https://docs.gitlab.com/ee/api/draft_notes.html#delete-a-draft-note
+// Gitlab API docs:
+// https://docs.gitlab.com/ee/api/draft_notes.html#delete-a-draft-note
 func (s *DraftNotesService) DeleteDraftNote(pid interface{}, mergeRequest int, note int, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -191,7 +196,8 @@ func (s *DraftNotesService) DeleteDraftNote(pid interface{}, mergeRequest int, n
 
 // PublishDraftNote publishes a single draft note for a merge request.
 //
-// Gitlab API docs: https://docs.gitlab.com/ee/api/draft_notes.html#publish-a-draft-note
+// Gitlab API docs:
+// https://docs.gitlab.com/ee/api/draft_notes.html#publish-a-draft-note
 func (s *DraftNotesService) PublishDraftNote(pid interface{}, mergeRequest int, note int, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
@@ -209,13 +215,13 @@ func (s *DraftNotesService) PublishDraftNote(pid interface{}, mergeRequest int, 
 
 // PublishAllDraftNotes publishes all draft notes for a merge request that belong to the user.
 //
-// Gitlab API docs: https://docs.gitlab.com/ee/api/draft_notes.html#publish-a-draft-note
+// Gitlab API docs:
+// https://docs.gitlab.com/ee/api/draft_notes.html#publish-a-draft-note
 func (s *DraftNotesService) PublishAllDraftNotes(pid interface{}, mergeRequest int, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, err
 	}
-
 	u := fmt.Sprintf("projects/%s/merge_requests/%d/draft_notes/bulk_publish", PathEscape(project), mergeRequest)
 
 	req, err := s.client.NewRequest(http.MethodPost, u, nil, options)
