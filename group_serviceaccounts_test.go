@@ -18,11 +18,12 @@ package gitlab
 
 import (
 	"fmt"
-	"github.com/stretchr/testify/require"
 	"net/http"
 	"reflect"
 	"testing"
 	"time"
+
+	"github.com/stretchr/testify/require"
 )
 
 func TestCreateServiceAccount(t *testing.T) {
