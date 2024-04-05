@@ -1,7 +1,9 @@
 package gitlab
 
 import (
+	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
 	"net/url"
 	"reflect"
@@ -591,5 +593,117 @@ func TestUpdateGroupWithIPRestrictionRanges(t *testing.T) {
 	want := &Group{ID: 1, IPRestrictionRanges: "192.168.0.0/24"}
 	if !reflect.DeepEqual(want, group) {
 		t.Errorf("Groups.UpdatedGroup returned %+v, want %+v", group, want)
+	}
+}
+
+func TestGetGroupWithEmailsEnabled(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/groups/1",
+		func(w http.ResponseWriter, r *http.Request) {
+			testMethod(t, r, http.MethodGet)
+
+			// Modified from https://docs.gitlab.com/ee/api/groups.html#details-of-a-group
+			fmt.Fprint(w, `
+			{
+				"id": 1,
+				"name": "test",
+				"path": "test",
+				"emails_enabled": true,
+				"description": "Aliquid qui quis dignissimos distinctio ut commodi voluptas est.",
+				"visibility": "public",
+				"avatar_url": null,
+				"web_url": "https://gitlab.example.com/groups/test",
+				"request_access_enabled": false,
+				"repository_storage": "default",
+				"full_name": "test",
+				"full_path": "test",
+				"runners_token": "ba324ca7b1c77fc20bb9",
+				"file_template_project_id": 1,
+				"parent_id": null,
+				"enabled_git_access_protocol": "all",
+				"created_at": "2020-01-15T12:36:29.590Z",
+				"prevent_sharing_groups_outside_hierarchy": false,
+				"ip_restriction_ranges": null,
+				"math_rendering_limits_enabled": true,
+				"lock_math_rendering_limits_enabled": false
+			  }`)
+		})
+
+	group, _, err := client.Groups.GetGroup(1, &GetGroupOptions{})
+	if err != nil {
+		t.Errorf("Groups.UpdateGroup returned error: %v", err)
+	}
+
+	if !group.EmailsEnabled {
+		t.Fatalf("Failed to parse `emails_enabled`. Wanted true, got %v", group.EmailsEnabled)
+	}
+}
+
+func TestCreateGroupWithEmailsEnabled(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/groups",
+		func(w http.ResponseWriter, r *http.Request) {
+			testMethod(t, r, http.MethodPost)
+
+			body, err := io.ReadAll(r.Body)
+			if err != nil {
+				t.Fatalf("Failed to read the request body. Error: %v", err)
+			}
+
+			// unmarshal into generic JSON since we don't want to test CreateGroupOptions using itself to validate.
+			var bodyJson map[string]interface{}
+			err = json.Unmarshal(body, &bodyJson)
+			if err != nil {
+				t.Fatalf("Failed to parse the request body into JSON. Error: %v", err)
+			}
+
+			if bodyJson["emails_enabled"] != true {
+				t.Fatalf("Test failed. `emails_enabled` expected to be true, got %v", bodyJson["emails_enabled"])
+			}
+
+			// Response is tested via the "GET" test, only test the actual request here.
+			fmt.Fprint(w, `
+			{}`)
+		})
+
+	_, _, err := client.Groups.CreateGroup(&CreateGroupOptions{EmailsEnabled: Ptr(true)})
+	if err != nil {
+		t.Errorf("Groups.CreateGroup returned error: %v", err)
+	}
+}
+
+func TestUpdateGroupWithEmailsEnabled(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/groups/1",
+		func(w http.ResponseWriter, r *http.Request) {
+			testMethod(t, r, http.MethodPut)
+
+			body, err := io.ReadAll(r.Body)
+			if err != nil {
+				t.Fatalf("Failed to read the request body. Error: %v", err)
+			}
+
+			// unmarshal into generic JSON since we don't want to test UpdateGroupOptions using itself to validate.
+			var bodyJson map[string]interface{}
+			err = json.Unmarshal(body, &bodyJson)
+			if err != nil {
+				t.Fatalf("Failed to parse the request body into JSON. Error: %v", err)
+			}
+
+			if bodyJson["emails_enabled"] != true {
+				t.Fatalf("Test failed. `emails_enabled` expected to be true, got %v", bodyJson["emails_enabled"])
+			}
+
+			// Response is tested via the "GET" test, only test the actual request here.
+			fmt.Fprint(w, `
+			{}`)
+		})
+
+	_, _, err := client.Groups.UpdateGroup(1, &UpdateGroupOptions{EmailsEnabled: Ptr(true)})
+	if err != nil {
+		t.Errorf("Groups.UpdateGroup returned error: %v", err)
 	}
 }
