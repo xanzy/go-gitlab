@@ -512,7 +512,7 @@ type MergeCommentEvent struct {
 		System           bool          `json:"system"`
 		Type             string        `json:"type"`
 		UpdatedAt        string        `json:"updated_at"`
-		UpdatedByID      string        `json:"updated_by_id"`
+		UpdatedByID      int           `json:"updated_by_id"`
 		Description      string        `json:"description"`
 		URL              string        `json:"url"`
 	} `json:"object_attributes"`
