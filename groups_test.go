@@ -181,7 +181,6 @@ func TestDeleteGroup_WithPermanentDelete(t *testing.T) {
 		PermanentlyRemove: Ptr(true),
 		FullPath:          Ptr("testPath"),
 	})
-
 	if err != nil {
 		t.Errorf("Groups.DeleteGroup returned error: %v", err)
 	}
