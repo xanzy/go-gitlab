@@ -22,6 +22,8 @@ import (
 	"reflect"
 	"testing"
 	"time"
+
+	"github.com/stretchr/testify/require"
 )
 
 func TestCreateServiceAccount(t *testing.T) {
@@ -72,9 +74,14 @@ func TestCreateServiceAccountPersonalAccessToken(t *testing.T) {
       	"token":"random_token"
       }`)
 	})
+
+	expireTime, err := ParseISOTime("2024-06-12")
+	require.NoError(t, err)
+
 	options := &CreateServiceAccountPersonalAccessTokenOptions{
-		Scopes: Ptr([]string{"api"}),
-		Name:   Ptr("service_account_token"),
+		Scopes:    Ptr([]string{"api"}),
+		Name:      Ptr("service_account_token"),
+		ExpiresAt: Ptr(expireTime),
 	}
 	pat, _, err := client.Groups.CreateServiceAccountPersonalAccessToken(1, 57, options)
 	if err != nil {
