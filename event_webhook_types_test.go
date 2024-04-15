@@ -286,6 +286,49 @@ func TestFeatureFlagEventUnmarshal(t *testing.T) {
 	}
 }
 
+func TestGroupResourceAccessTokenEventUnmarshal(t *testing.T) {
+	jsonObject := loadFixture("testdata/webhooks/resource_access_token_group.json")
+	var event *GroupResourceAccessTokenEvent
+	err := json.Unmarshal(jsonObject, &event)
+	if err != nil {
+		t.Errorf("could not unmarshal event: %v\n ", err.Error())
+	}
+
+	if event == nil {
+		t.Errorf("event is null")
+	}
+
+	createdAt, err := time.Parse(time.RFC3339, "2024-02-05T03:13:44.855Z")
+	if err != nil {
+		t.Fatalf("could not parse time: %v", err)
+	}
+
+	expiresAt, err := ParseISOTime("2024-01-26")
+	if err != nil {
+		t.Fatalf("could not parse ISO time: %v", err)
+	}
+
+	expected := &GroupResourceAccessTokenEvent{
+		GroupID:    35,
+		ObjectKind: "access_token",
+		EventName:  "expiring_access_token",
+		ObjectAttributes: &ResourceAccessToken{
+			ID:        25,
+			UserID:    90,
+			Name:      "acd",
+			CreatedAt: &createdAt,
+			ExpiresAt: &expiresAt,
+		},
+	}
+
+	expected.Group.GroupID = 35
+	expected.Group.GroupName = "Twitter"
+	expected.Group.GroupPath = "twitter"
+	expected.Group.FullPath = "twitter"
+
+	assert.Equal(t, expected, event)
+}
+
 func TestIssueCommentEventUnmarshal(t *testing.T) {
 	jsonObject := loadFixture("testdata/webhooks/note_issue.json")
 
@@ -1012,6 +1055,61 @@ func TestPipelineEventUnmarshal(t *testing.T) {
 	if event.MergeRequest.DetailedMergeStatus != "mergeable" {
 		t.Errorf("MergeRequest.DetailedMergeStatus is %v, want %v", event.MergeRequest.DetailedMergeStatus, "mergeable")
 	}
+}
+
+func TestProjectResourceAccessTokenEventUnmarshal(t *testing.T) {
+	jsonObject := loadFixture("testdata/webhooks/resource_access_token_project.json")
+	var event *ProjectResourceAccessTokenEvent
+	err := json.Unmarshal(jsonObject, &event)
+	if err != nil {
+		t.Errorf("could not unmarshal event: %v\n ", err.Error())
+	}
+
+	if event == nil {
+		t.Errorf("event is null")
+	}
+
+	createdAt, err := time.Parse(time.RFC3339, "2024-02-05T03:13:44.855Z")
+	if err != nil {
+		t.Fatalf("could not parse time: %v", err)
+	}
+
+	expiresAt, err := ParseISOTime("2024-01-26")
+	if err != nil {
+		t.Fatalf("could not parse ISO time: %v", err)
+	}
+
+	expected := &ProjectResourceAccessTokenEvent{
+		ProjectID:  7,
+		ObjectKind: "access_token",
+		EventName:  "expiring_access_token",
+		ObjectAttributes: ResourceAccessToken{
+			ID:        25,
+			UserID:    90,
+			Name:      "acd",
+			CreatedAt: &createdAt,
+			ExpiresAt: &expiresAt,
+		},
+	}
+
+	expected.Project.ID = 7
+	expected.Project.Name = "Flight"
+	expected.Project.Description = "Eum dolore maxime atque reprehenderit voluptatem."
+	expected.Project.WebURL = "https://example.com/flightjs/Flight"
+	expected.Project.AvatarURL = ""
+	expected.Project.GitSSHURL = "ssh://git@example.com/flightjs/Flight.git"
+	expected.Project.GitHTTPURL = "https://example.com/flightjs/Flight.git"
+	expected.Project.Namespace = "Flightjs"
+	expected.Project.VisibilityLevel = 0
+	expected.Project.PathWithNamespace = "flightjs/Flight"
+	expected.Project.DefaultBranch = "master"
+	expected.Project.CIConfigPath = ""
+	expected.Project.Homepage = "https://example.com/flightjs/Flight"
+	expected.Project.URL = "ssh://git@example.com/flightjs/Flight.git"
+	expected.Project.SSHURL = "ssh://git@example.com/flightjs/Flight.git"
+	expected.Project.HTTPURL = "https://example.com/flightjs/Flight.git"
+
+	assert.Equal(t, expected, event)
 }
 
 func TestPushEventUnmarshal(t *testing.T) {
