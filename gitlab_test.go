@@ -203,6 +203,35 @@ func TestCheckResponseOnUnknownErrorFormat(t *testing.T) {
 	}
 }
 
+func TestCheckResponseOnHeadRequestError(t *testing.T) {
+	c, err := NewClient("")
+	if err != nil {
+		t.Fatalf("Failed to create client: %v", err)
+	}
+
+	req, err := c.NewRequest(http.MethodHead, "test", nil, nil)
+	if err != nil {
+		t.Fatalf("Failed to create request: %v", err)
+	}
+
+	resp := &http.Response{
+		Request:    req.Request,
+		StatusCode: http.StatusNotFound,
+		Body:       nil,
+	}
+
+	errResp := CheckResponse(resp)
+	if errResp == nil {
+		t.Fatal("Expected error response.")
+	}
+
+	want := "HEAD https://gitlab.com/api/v4/test: 404"
+
+	if errResp.Error() != want {
+		t.Errorf("Expected error: %s, got %s", want, errResp.Error())
+	}
+}
+
 func TestRequestWithContext(t *testing.T) {
 	c, err := NewClient("")
 	if err != nil {

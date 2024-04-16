@@ -953,8 +953,13 @@ type ErrorResponse struct {
 
 func (e *ErrorResponse) Error() string {
 	path, _ := url.QueryUnescape(e.Response.Request.URL.Path)
-	u := fmt.Sprintf("%s://%s%s", e.Response.Request.URL.Scheme, e.Response.Request.URL.Host, path)
-	return fmt.Sprintf("%s %s: %d %s", e.Response.Request.Method, u, e.Response.StatusCode, e.Message)
+	url := fmt.Sprintf("%s://%s%s", e.Response.Request.URL.Scheme, e.Response.Request.URL.Host, path)
+	str := fmt.Sprintf("%s %s: %d", e.Response.Request.Method, url, e.Response.StatusCode)
+	if e.Message != "" {
+		str += " " + e.Message
+	}
+
+	return str
 }
 
 // CheckResponse checks the API response for errors, and returns them if present.
@@ -965,6 +970,11 @@ func CheckResponse(r *http.Response) error {
 	}
 
 	errorResponse := &ErrorResponse{Response: r}
+
+	if r.Request.Method == http.MethodHead {
+		return errorResponse
+	}
+
 	data, err := io.ReadAll(r.Body)
 	if err == nil && data != nil {
 		errorResponse.Body = data
