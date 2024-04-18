@@ -260,11 +260,15 @@ func ParseWebhook(eventType EventType, payload []byte) (event interface{}, err e
 			return nil, err
 		}
 
-		if _, ok := data["project"]; ok {
-			event = &ProjectResourceAccessTokenEvent{}
-		} else if _, ok := data["group"]; ok {
+		_, groupEvent := data["group"]
+		_, projectEvent := data["project"]
+
+		switch {
+		case groupEvent:
 			event = &GroupResourceAccessTokenEvent{}
-		} else {
+		case projectEvent:
+			event = &ProjectResourceAccessTokenEvent{}
+		default:
 			return nil, fmt.Errorf("unexpected resource access token payload")
 		}
 	case EventTypeServiceHook:

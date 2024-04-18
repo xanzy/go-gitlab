@@ -312,19 +312,18 @@ func TestGroupResourceAccessTokenEventUnmarshal(t *testing.T) {
 		GroupID:    35,
 		ObjectKind: "access_token",
 		EventName:  "expiring_access_token",
-		ObjectAttributes: &ResourceAccessToken{
-			ID:        25,
-			UserID:    90,
-			Name:      "acd",
-			CreatedAt: &createdAt,
-			ExpiresAt: &expiresAt,
-		},
 	}
 
 	expected.Group.GroupID = 35
 	expected.Group.GroupName = "Twitter"
 	expected.Group.GroupPath = "twitter"
 	expected.Group.FullPath = "twitter"
+
+	expected.ObjectAttributes.ID = 25
+	expected.ObjectAttributes.UserID = 90
+	expected.ObjectAttributes.Name = "acd"
+	expected.ObjectAttributes.CreatedAt = &createdAt
+	expected.ObjectAttributes.ExpiresAt = &expiresAt
 
 	assert.Equal(t, expected, event)
 }
@@ -1083,14 +1082,13 @@ func TestProjectResourceAccessTokenEventUnmarshal(t *testing.T) {
 		ProjectID:  7,
 		ObjectKind: "access_token",
 		EventName:  "expiring_access_token",
-		ObjectAttributes: ResourceAccessToken{
-			ID:        25,
-			UserID:    90,
-			Name:      "acd",
-			CreatedAt: &createdAt,
-			ExpiresAt: &expiresAt,
-		},
 	}
+
+	expected.ObjectAttributes.ID = 25
+	expected.ObjectAttributes.UserID = 90
+	expected.ObjectAttributes.Name = "acd"
+	expected.ObjectAttributes.CreatedAt = &createdAt
+	expected.ObjectAttributes.ExpiresAt = &expiresAt
 
 	expected.Project.ID = 7
 	expected.Project.Name = "Flight"

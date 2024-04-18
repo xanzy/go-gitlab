@@ -131,7 +131,7 @@ type CommitCommentEvent struct {
 	} `json:"commit"`
 }
 
-// DeploymentEvent represents a deployment event
+// DeploymentEvent represents a deployment event.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/user/project/integrations/webhook_events.html#deployment-events
@@ -171,7 +171,7 @@ type DeploymentEvent struct {
 	CommitTitle string     `json:"commit_title"`
 }
 
-// FeatureFlagEvent represents a feature flag event
+// FeatureFlagEvent represents a feature flag event.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/user/project/integrations/webhook_events.html#feature-flag-events
@@ -205,7 +205,8 @@ type FeatureFlagEvent struct {
 	} `json:"object_attributes"`
 }
 
-// GroupResourceAccessTokenEvent represents a resource access token event for a group
+// GroupResourceAccessTokenEvent represents a resource access token event for a
+// group.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/user/project/integrations/webhook_events.html#project-and-group-access-token-events
@@ -219,16 +220,13 @@ type GroupResourceAccessTokenEvent struct {
 		GroupPath string `json:"group_path"`
 		FullPath  string `json:"full_path"`
 	} `json:"group"`
-	ObjectAttributes *ResourceAccessToken `json:"object_attributes"`
-}
-
-// ResourceAccessToken represents an access token record.
-type ResourceAccessToken struct {
-	ID        int        `json:"id"`
-	UserID    int        `json:"user_id"`
-	Name      string     `json:"name"`
-	CreatedAt *time.Time `json:"created_at"`
-	ExpiresAt *ISOTime   `json:"expires_at"`
+	ObjectAttributes struct {
+		ID        int        `json:"id"`
+		UserID    int        `json:"user_id"`
+		Name      string     `json:"name"`
+		CreatedAt *time.Time `json:"created_at"`
+		ExpiresAt *ISOTime   `json:"expires_at"`
+	} `json:"object_attributes"`
 }
 
 // IssueCommentEvent represents a comment on an issue event.
@@ -763,7 +761,8 @@ type MergeEvent struct {
 	Reviewers []*EventUser `json:"reviewers"`
 }
 
-// EventUser represents a user record in an event and is used as an even initiator or a merge assignee.
+// EventUser represents a user record in an event and is used as an even
+// initiator or a merge assignee.
 type EventUser struct {
 	ID        int    `json:"id"`
 	Name      string `json:"name"`
@@ -779,7 +778,8 @@ type MergeParams struct {
 
 // UnmarshalJSON decodes the merge parameters
 //
-// This allows support of ForceRemoveSourceBranch for both type bool (>11.9) and string (<11.9)
+// This allows support of ForceRemoveSourceBranch for both type
+// bool (>11.9) and string (<11.9)
 func (p *MergeParams) UnmarshalJSON(b []byte) error {
 	type Alias MergeParams
 	raw := struct {
@@ -925,7 +925,8 @@ type PipelineEvent struct {
 	} `json:"builds"`
 }
 
-// ProjectResourceAccessTokenEvent represents a resource access token event for a project
+// ProjectResourceAccessTokenEvent represents a resource access token event for
+// a project.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/user/project/integrations/webhook_events.html#project-and-group-access-token-events
@@ -951,7 +952,13 @@ type ProjectResourceAccessTokenEvent struct {
 		SSHURL            string `json:"ssh_url"`
 		HTTPURL           string `json:"http_url"`
 	} `json:"project"`
-	ObjectAttributes ResourceAccessToken `json:"object_attributes"`
+	ObjectAttributes struct {
+		ID        int        `json:"id"`
+		UserID    int        `json:"user_id"`
+		Name      string     `json:"name"`
+		CreatedAt *time.Time `json:"created_at"`
+		ExpiresAt *ISOTime   `json:"expires_at"`
+	} `json:"object_attributes"`
 }
 
 // PushEvent represents a push event.
