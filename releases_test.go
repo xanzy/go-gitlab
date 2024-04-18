@@ -141,7 +141,7 @@ func TestReleasesService_CreateReleaseWithAsset(t *testing.T) {
 		Description: Ptr("Description"),
 		Assets: &ReleaseAssetsOptions{
 			Links: []*ReleaseAssetLinkOptions{
-				{Ptr("sldkf"), Ptr("sldkfj"), Ptr("sldkfh"), Ptr(OtherLinkType)},
+				{Ptr("sldkf"), Ptr("sldkfj"), Ptr("sldkfh"), Ptr("direct-asset-path"), Ptr(OtherLinkType)},
 			},
 		},
 	}
@@ -190,7 +190,7 @@ func TestReleasesService_CreateReleaseWithAssetAndNameMetadata(t *testing.T) {
 		Description: Ptr("Description"),
 		Assets: &ReleaseAssetsOptions{
 			Links: []*ReleaseAssetLinkOptions{
-				{Ptr("sldkf"), Ptr("sldkfj"), Ptr("sldkfh"), Ptr(OtherLinkType)},
+				{Ptr("sldkf"), Ptr("sldkfj"), Ptr("sldkfh"), Ptr("direct-asset-path"), Ptr(OtherLinkType)},
 			},
 		},
 	}
