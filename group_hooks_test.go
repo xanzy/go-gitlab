@@ -49,10 +49,10 @@ func TestListGroupHooks(t *testing.T) {
 		"releases_events": true,
 		"subgroup_events": true,
 		"member_events": true,
-		"resource_access_token_events": true,
 		"enable_ssl_verification": true,
 		"alert_status": "executable",
-		"created_at": "2012-10-12T17:04:47Z"
+		"created_at": "2012-10-12T17:04:47Z",
+		"resource_access_token_events": true
 	}
 ]`)
 	})
@@ -81,10 +81,10 @@ func TestListGroupHooks(t *testing.T) {
 		ReleasesEvents:            true,
 		SubGroupEvents:            true,
 		MemberEvents:              true,
-		ResourceAccessTokenEvents: true,
 		EnableSSLVerification:     true,
 		AlertStatus:               "executable",
 		CreatedAt:                 &datePointer,
+		ResourceAccessTokenEvents: true,
 	}}
 
 	if !reflect.DeepEqual(groupHooks, want) {
@@ -116,10 +116,10 @@ func TestGetGroupHook(t *testing.T) {
 	"releases_events": true,
 	"subgroup_events": true,
 	"member_events": true,
-	"resource_access_token_events": true,
 	"enable_ssl_verification": true,
 	"alert_status": "executable",
-	"created_at": "2012-10-12T17:04:47Z"
+	"created_at": "2012-10-12T17:04:47Z",
+	"resource_access_token_events": true
 }`)
 	})
 
@@ -147,10 +147,10 @@ func TestGetGroupHook(t *testing.T) {
 		ReleasesEvents:            true,
 		SubGroupEvents:            true,
 		MemberEvents:              true,
-		ResourceAccessTokenEvents: true,
 		EnableSSLVerification:     true,
 		AlertStatus:               "executable",
 		CreatedAt:                 &datePointer,
+		ResourceAccessTokenEvents: true,
 	}
 
 	if !reflect.DeepEqual(groupHook, want) {
@@ -182,10 +182,10 @@ func TestAddGroupHook(t *testing.T) {
 	"releases_events": true,
 	"subgroup_events": true,
 	"member_events": true,
-	"resource_access_token_events": true,
 	"enable_ssl_verification": true,
 	"created_at": "2012-10-12T17:04:47Z",
-	"custom_webhook_template": "addTestValue"
+	"custom_webhook_template": "addTestValue",
+	"resource_access_token_events": true
 }`)
 	})
 
@@ -219,10 +219,10 @@ func TestAddGroupHook(t *testing.T) {
 		ReleasesEvents:            true,
 		SubGroupEvents:            true,
 		MemberEvents:              true,
-		ResourceAccessTokenEvents: true,
 		EnableSSLVerification:     true,
 		CreatedAt:                 &datePointer,
 		CustomWebhookTemplate:     "addTestValue",
+		ResourceAccessTokenEvents: true,
 	}
 
 	if !reflect.DeepEqual(groupHooks, want) {
@@ -254,10 +254,10 @@ func TestEditGroupHook(t *testing.T) {
 	"releases_events": true,
 	"subgroup_events": true,
 	"member_events": true,
-	"resource_access_token_events": true,
 	"enable_ssl_verification": true,
 	"created_at": "2012-10-12T17:04:47Z",
-	"custom_webhook_template": "testValue"
+	"custom_webhook_template": "testValue",
+	"resource_access_token_events": true
 }`)
 	})
 
@@ -291,10 +291,10 @@ func TestEditGroupHook(t *testing.T) {
 		ReleasesEvents:            true,
 		SubGroupEvents:            true,
 		MemberEvents:              true,
-		ResourceAccessTokenEvents: true,
 		EnableSSLVerification:     true,
 		CreatedAt:                 &datePointer,
 		CustomWebhookTemplate:     "testValue",
+		ResourceAccessTokenEvents: true,
 	}
 
 	if !reflect.DeepEqual(groupHooks, want) {

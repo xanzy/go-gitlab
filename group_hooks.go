@@ -44,11 +44,11 @@ type GroupHook struct {
 	ReleasesEvents            bool       `json:"releases_events"`
 	SubGroupEvents            bool       `json:"subgroup_events"`
 	MemberEvents              bool       `json:"member_events"`
-	ResourceAccessTokenEvents bool       `json:"resource_access_token_events"`
 	EnableSSLVerification     bool       `json:"enable_ssl_verification"`
 	AlertStatus               string     `json:"alert_status"`
 	CreatedAt                 *time.Time `json:"created_at"`
 	CustomWebhookTemplate     string     `json:"custom_webhook_template"`
+	ResourceAccessTokenEvents bool       `json:"resource_access_token_events"`
 }
 
 // ListGroupHooksOptions represents the available ListGroupHooks() options.
@@ -124,9 +124,9 @@ type AddGroupHookOptions struct {
 	ReleasesEvents            *bool   `url:"releases_events,omitempty" json:"releases_events,omitempty"`
 	SubGroupEvents            *bool   `url:"subgroup_events,omitempty" json:"subgroup_events,omitempty"`
 	MemberEvents              *bool   `url:"member_events,omitempty" json:"member_events,omitempty"`
-	ResourceAccessTokenEvents *bool   `url:"resource_access_token_events,omitempty" json:"resource_access_token_events,omitempty"`
 	EnableSSLVerification     *bool   `url:"enable_ssl_verification,omitempty"  json:"enable_ssl_verification,omitempty"`
 	Token                     *string `url:"token,omitempty" json:"token,omitempty"`
+	ResourceAccessTokenEvents *bool   `url:"resource_access_token_events,omitempty" json:"resource_access_token_events,omitempty"`
 	CustomWebhookTemplate     *string `url:"custom_webhook_template,omitempty" json:"custom_webhook_template,omitempty"`
 }
 
@@ -175,9 +175,9 @@ type EditGroupHookOptions struct {
 	ReleasesEvents            *bool   `url:"releases_events,omitempty" json:"releases_events,omitempty"`
 	SubGroupEvents            *bool   `url:"subgroup_events,omitempty" json:"subgroup_events,omitempty"`
 	MemberEvents              *bool   `url:"member_events,omitempty" json:"member_events,omitempty"`
-	ResourceAccessTokenEvents *bool   `url:"resource_access_token_events,omitempty" json:"resource_access_token_events,omitempty"`
 	EnableSSLVerification     *bool   `url:"enable_ssl_verification,omitempty" json:"enable_ssl_verification,omitempty"`
 	Token                     *string `url:"token,omitempty" json:"token,omitempty"`
+	ResourceAccessTokenEvents *bool   `url:"resource_access_token_events,omitempty" json:"resource_access_token_events,omitempty"`
 	CustomWebhookTemplate     *string `url:"custom_webhook_template,omitempty" json:"custom_webhook_template,omitempty"`
 }
 

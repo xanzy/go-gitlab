@@ -1215,9 +1215,9 @@ type ProjectHook struct {
 	WikiPageEvents            bool       `json:"wiki_page_events"`
 	DeploymentEvents          bool       `json:"deployment_events"`
 	ReleasesEvents            bool       `json:"releases_events"`
-	ResourceAccessTokenEvents bool       `json:"resource_access_token_events"`
 	EnableSSLVerification     bool       `json:"enable_ssl_verification"`
 	CreatedAt                 *time.Time `json:"created_at"`
+	ResourceAccessTokenEvents bool       `json:"resource_access_token_events"`
 	CustomWebhookTemplate     string     `json:"custom_webhook_template"`
 }
 
@@ -1293,11 +1293,11 @@ type AddProjectHookOptions struct {
 	PushEvents                *bool   `url:"push_events,omitempty" json:"push_events,omitempty"`
 	PushEventsBranchFilter    *string `url:"push_events_branch_filter,omitempty" json:"push_events_branch_filter,omitempty"`
 	ReleasesEvents            *bool   `url:"releases_events,omitempty" json:"releases_events,omitempty"`
-	ResourceAccessTokenEvents *bool   `url:"resource_access_token_events,omitempty" json:"resource_access_token_events,omitempty"`
 	TagPushEvents             *bool   `url:"tag_push_events,omitempty" json:"tag_push_events,omitempty"`
 	Token                     *string `url:"token,omitempty" json:"token,omitempty"`
 	URL                       *string `url:"url,omitempty" json:"url,omitempty"`
 	WikiPageEvents            *bool   `url:"wiki_page_events,omitempty" json:"wiki_page_events,omitempty"`
+	ResourceAccessTokenEvents *bool   `url:"resource_access_token_events,omitempty" json:"resource_access_token_events,omitempty"`
 	CustomWebhookTemplate     *string `url:"custom_webhook_template,omitempty" json:"custom_webhook_template,omitempty"`
 }
 
@@ -1343,11 +1343,11 @@ type EditProjectHookOptions struct {
 	PushEvents                *bool   `url:"push_events,omitempty" json:"push_events,omitempty"`
 	PushEventsBranchFilter    *string `url:"push_events_branch_filter,omitempty" json:"push_events_branch_filter,omitempty"`
 	ReleasesEvents            *bool   `url:"releases_events,omitempty" json:"releases_events,omitempty"`
-	ResourceAccessTokenEvents *bool   `url:"resource_access_token_events,omitempty" json:"resource_access_token_events,omitempty"`
 	TagPushEvents             *bool   `url:"tag_push_events,omitempty" json:"tag_push_events,omitempty"`
 	Token                     *string `url:"token,omitempty" json:"token,omitempty"`
 	URL                       *string `url:"url,omitempty" json:"url,omitempty"`
 	WikiPageEvents            *bool   `url:"wiki_page_events,omitempty" json:"wiki_page_events,omitempty"`
+	ResourceAccessTokenEvents *bool   `url:"resource_access_token_events,omitempty" json:"resource_access_token_events,omitempty"`
 	CustomWebhookTemplate     *string `url:"custom_webhook_template,omitempty" json:"custom_webhook_template,omitempty"`
 }
 
