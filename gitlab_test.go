@@ -225,7 +225,7 @@ func TestCheckResponseOnHeadRequestError(t *testing.T) {
 		t.Fatal("Expected error response.")
 	}
 
-	want := "HEAD https://gitlab.com/api/v4/test: 404"
+	want := "404 Not Found"
 
 	if errResp.Error() != want {
 		t.Errorf("Expected error: %s, got %s", want, errResp.Error())
