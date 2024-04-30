@@ -123,8 +123,9 @@ type LDAPGroupLink struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/groups.html#saml-group-links
 type SAMLGroupLink struct {
-	Name        string           `json:"name"`
-	AccessLevel AccessLevelValue `json:"access_level"`
+	Name         string           `json:"name"`
+	AccessLevel  AccessLevelValue `json:"access_level"`
+	MemberRoleID int              `json:"member_role_id,omitempty"`
 }
 
 // ListGroupsOptions represents the available ListGroups() options.
