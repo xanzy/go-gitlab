@@ -432,6 +432,38 @@ func TestListGroupSAMLLinks(t *testing.T) {
 	}
 }
 
+func TestListGroupSAMLLinksCustomRole(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/groups/1/saml_group_links",
+		func(w http.ResponseWriter, r *http.Request) {
+			testMethod(t, r, http.MethodGet)
+			fmt.Fprint(w, `[
+	{
+		"access_level":30,
+		"name":"gitlab_group_example_developer",
+		"member_role_id":123
+	}
+]`)
+		})
+
+	links, _, err := client.Groups.ListGroupSAMLLinks(1)
+	if err != nil {
+		t.Errorf("Groups.ListGroupSAMLLinks returned error: %v", err)
+	}
+
+	want := []*SAMLGroupLink{
+		{
+			AccessLevel:  DeveloperPermissions,
+			Name:         "gitlab_group_example_developer",
+			MemberRoleID: 123,
+		},
+	}
+	if !reflect.DeepEqual(want, links) {
+		t.Errorf("Groups.ListGroupSAMLLinks returned %+v, want %+v", links, want)
+	}
+}
+
 func TestGetGroupSAMLLink(t *testing.T) {
 	mux, client := setup(t)
 
@@ -453,6 +485,35 @@ func TestGetGroupSAMLLink(t *testing.T) {
 	want := &SAMLGroupLink{
 		AccessLevel: DeveloperPermissions,
 		Name:        "gitlab_group_example_developer",
+	}
+	if !reflect.DeepEqual(want, links) {
+		t.Errorf("Groups.GetGroupSAMLLink returned %+v, want %+v", links, want)
+	}
+}
+
+func TestGetGroupSAMLLinkCustomRole(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/groups/1/saml_group_links/gitlab_group_example_developer",
+		func(w http.ResponseWriter, r *http.Request) {
+			testMethod(t, r, http.MethodGet)
+			fmt.Fprint(w, `
+{
+	"access_level":30,
+	"name":"gitlab_group_example_developer",
+	"member_role_id":123
+}`)
+		})
+
+	links, _, err := client.Groups.GetGroupSAMLLink(1, "gitlab_group_example_developer")
+	if err != nil {
+		t.Errorf("Groups.GetGroupSAMLLinks returned error: %v", err)
+	}
+
+	want := &SAMLGroupLink{
+		AccessLevel:  DeveloperPermissions,
+		Name:         "gitlab_group_example_developer",
+		MemberRoleID: 123,
 	}
 	if !reflect.DeepEqual(want, links) {
 		t.Errorf("Groups.GetGroupSAMLLink returned %+v, want %+v", links, want)
@@ -485,6 +546,40 @@ func TestAddGroupSAMLLink(t *testing.T) {
 	want := &SAMLGroupLink{
 		AccessLevel: DeveloperPermissions,
 		Name:        "gitlab_group_example_developer",
+	}
+	if !reflect.DeepEqual(want, link) {
+		t.Errorf("Groups.AddGroupSAMLLink returned %+v, want %+v", link, want)
+	}
+}
+
+func TestAddGroupSAMLLinkCustomRole(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/groups/1/saml_group_links",
+		func(w http.ResponseWriter, r *http.Request) {
+			testMethod(t, r, http.MethodPost)
+			fmt.Fprint(w, `
+{
+	"access_level":30,
+	"name":"gitlab_group_example_developer",
+	"member_role_id":123
+}`)
+		})
+
+	opt := &AddGroupSAMLLinkOptions{
+		SAMLGroupName: Ptr("gitlab_group_example_developer"),
+		AccessLevel:   Ptr(DeveloperPermissions),
+	}
+
+	link, _, err := client.Groups.AddGroupSAMLLink(1, opt)
+	if err != nil {
+		t.Errorf("Groups.AddGroupSAMLLink returned error: %v", err)
+	}
+
+	want := &SAMLGroupLink{
+		AccessLevel:  DeveloperPermissions,
+		Name:         "gitlab_group_example_developer",
+		MemberRoleID: 123,
 	}
 	if !reflect.DeepEqual(want, link) {
 		t.Errorf("Groups.AddGroupSAMLLink returned %+v, want %+v", link, want)
