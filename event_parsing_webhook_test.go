@@ -160,8 +160,10 @@ func TestParseGroupResourceAccessTokenHook(t *testing.T) {
 		t.Errorf("Expected GroupResourceAccessTokenEvent, but parsing produced %T", parsedEvent)
 	}
 
-	if event.GroupID != 35 {
-		t.Errorf("GroupID is %v, want %v", event.GroupID, 35)
+	expectedEventName := "expiring_access_token"
+
+	if event.EventName != expectedEventName {
+		t.Errorf("EventName is %v, want %v", event.EventName, expectedEventName)
 	}
 }
 
@@ -382,8 +384,10 @@ func TestParseProjectResourceAccessTokenHook(t *testing.T) {
 		t.Errorf("Expected ProjectResourceAccessTokenEvent, but parsing produced %T", parsedEvent)
 	}
 
-	if event.ProjectID != 7 {
-		t.Errorf("ProjectID is %v, want %v", event.ProjectID, 7)
+	expectedEventName := "expiring_access_token"
+
+	if event.EventName != expectedEventName {
+		t.Errorf("EventName is %v, want %v", event.EventName, expectedEventName)
 	}
 }
 
