@@ -88,11 +88,7 @@ func TestRetryFailedStatusCheckForAMergeRequest(t *testing.T) {
 		fmt.Fprint(w, `{"message": "202 Accepted"}`)
 	})
 
-	opt := &RetryFailedStatusCheckForAMergeRequestOptions{
-		ExternalStatusCheckID: Ptr(3),
-	}
-
-	resp, err := client.ExternalStatusChecks.RetryFailedStatusCheckForAMergeRequest(1, 2, opt)
+	resp, err := client.ExternalStatusChecks.RetryFailedStatusCheckForAMergeRequest(1, 2, 3)
 	if err != nil {
 		t.Fatalf("ExternalStatusChecks.RetryFailedStatusCheckForAMergeRequest returns an error: %v", err)
 	}
