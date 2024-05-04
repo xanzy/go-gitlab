@@ -891,6 +891,102 @@ func (s *ServicesService) DisableSlackApplication(pid interface{}, options ...Re
 	return s.client.Do(req, nil)
 }
 
+// SetGitLabCIServiceOptions represents the available SetGitLabCIService()
+// options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/integrations.html#edit-gitlab-ci-service
+type SetGitLabCIServiceOptions struct {
+	Token      *string `url:"token,omitempty" json:"token,omitempty"`
+	ProjectURL *string `url:"project_url,omitempty" json:"project_url,omitempty"`
+}
+
+// SetGitLabCIService sets GitLab CI service for a project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/integrations.html#edit-gitlab-ci-service
+func (s *ServicesService) SetGitLabCIService(pid interface{}, opt *SetGitLabCIServiceOptions, options ...RequestOptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/services/gitlab-ci", PathEscape(project))
+
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
+
+// DeleteGitLabCIService deletes GitLab CI service settings for a project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/integrations.html#delete-gitlab-ci-service
+func (s *ServicesService) DeleteGitLabCIService(pid interface{}, options ...RequestOptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/services/gitlab-ci", PathEscape(project))
+
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
+
+// SetHipChatServiceOptions represents the available SetHipChatService()
+// options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/integrations.html#edit-hipchat-service
+type SetHipChatServiceOptions struct {
+	Token *string `url:"token,omitempty" json:"token,omitempty" `
+	Room  *string `url:"room,omitempty" json:"room,omitempty"`
+}
+
+// SetHipChatService sets HipChat service for a project
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/integrations.html#edit-hipchat-service
+func (s *ServicesService) SetHipChatService(pid interface{}, opt *SetHipChatServiceOptions, options ...RequestOptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/services/hipchat", PathEscape(project))
+
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
+
+// DeleteHipChatService deletes HipChat service for project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/integrations.html#delete-hipchat-service
+func (s *ServicesService) DeleteHipChatService(pid interface{}, options ...RequestOptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/services/hipchat", PathEscape(project))
+
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
+
 // JenkinsCIService represents Jenkins CI service settings.
 //
 // GitLab API docs:
