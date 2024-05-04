@@ -285,6 +285,36 @@ func DeploymentStatus(v DeploymentStatusValue) *DeploymentStatusValue {
 	return Ptr(v)
 }
 
+// DORAMetricType represents the name of the four types of metric in DORA
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/dora/metrics.html
+type DORAMetricType string
+
+// List of available DORA metric type names
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/dora/metrics.html
+const (
+	DORAMetricDeploymentFrequency  DORAMetricType = "deployment_frequency"
+	DORAMetricLeadTimeForChanges   DORAMetricType = "lead_time_for_changes"
+	DORAMetricTimeToRestoreService DORAMetricType = "time_to_restore_service"
+	DORAMetricChangeFailureRate    DORAMetricType = "change_failure_rate"
+)
+
+// DORAMetricInterval represents the time period over which the
+// metrics are aggregated
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/dora/metrics.html
+type DORAMetricInterval string
+
+// List of available DORA metric interval types
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/dora/metrics.html
+const (
+	DORAMetricIntervalDaily   DORAMetricInterval = "daily"
+	DORAMetricIntervalMonthly DORAMetricInterval = "monthly"
+	DORAMetricIntervalAll     DORAMetricInterval = "all"
+)
+
 // EventTypeValue represents actions type for contribution events
 type EventTypeValue string
 
