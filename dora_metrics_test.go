@@ -54,7 +54,7 @@ func TestDORAMetrics_GetProjectDORAMetrics(t *testing.T) {
 	endDate := ISOTime(time.Date(2021, time.March, 8, 0, 0, 0, 0, time.UTC))
 
 	d, resp, err := client.DORAMetrics.GetProjectDORAMetrics(1, GetDORAMetricsOptions{
-		Metric:    DORAMetricDeploymentFrequency,
+		Metric:    Ptr(DORAMetricDeploymentFrequency),
 		StartDate: &startDate,
 		EndDate:   &endDate,
 	})
@@ -108,7 +108,7 @@ func TestDORAMetrics_GetGroupDORAMetrics(t *testing.T) {
 	endDate := ISOTime(time.Date(2021, time.March, 8, 0, 0, 0, 0, time.UTC))
 
 	d, resp, err := client.DORAMetrics.GetGroupDORAMetrics(1, GetDORAMetricsOptions{
-		Metric:    DORAMetricDeploymentFrequency,
+		Metric:    Ptr(DORAMetricDeploymentFrequency),
 		StartDate: &startDate,
 		EndDate:   &endDate,
 	})
