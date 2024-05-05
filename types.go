@@ -256,13 +256,13 @@ func BuildState(v BuildStateValue) *BuildStateValue {
 	return Ptr(v)
 }
 
-// ContainerRegistryStatus represents the status of a Container Registry
+// ContainerRegistryStatus represents the status of a Container Registry.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/container_registry.html#list-registry-repositories
 type ContainerRegistryStatus string
 
-// ContainerRegistryStatus represents all valid statuses of a Container Registry
+// ContainerRegistryStatus represents all valid statuses of a Container Registry.
 //
 // Undocumented, see code at:
 // https://gitlab.com/gitlab-org/gitlab/-/blob/master/app/models/container_repository.rb?ref_type=heads#L35
