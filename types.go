@@ -256,6 +256,22 @@ func BuildState(v BuildStateValue) *BuildStateValue {
 	return Ptr(v)
 }
 
+// ContainerRegistryStatus represents the status of a Container Registry.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/container_registry.html#list-registry-repositories
+type ContainerRegistryStatus string
+
+// ContainerRegistryStatus represents all valid statuses of a Container Registry.
+//
+// Undocumented, see code at:
+// https://gitlab.com/gitlab-org/gitlab/-/blob/master/app/models/container_repository.rb?ref_type=heads#L35
+const (
+	ContainerRegistryStatusDeleteScheduled ContainerRegistryStatus = "delete_scheduled"
+	ContainerRegistryStatusDeleteFailed    ContainerRegistryStatus = "delete_failed"
+	ContainerRegistryStatusDeleteOngoing   ContainerRegistryStatus = "delete_ongoing"
+)
+
 // DeploymentApprovalStatus represents a Gitlab deployment approval status.
 type DeploymentApprovalStatus string
 
