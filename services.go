@@ -504,6 +504,8 @@ type EmailsOnPushServiceProperties struct {
 	Recipients             string `json:"recipients"`
 	DisableDiffs           bool   `json:"disable_diffs"`
 	SendFromCommitterEmail bool   `json:"send_from_committer_email"`
+	PushEvents             bool   `json:"push_events"`
+	TagPushEvents          bool   `json:"tag_push_events"`
 	BranchesToBeNotified   string `json:"branches_to_be_notified"`
 }
 
