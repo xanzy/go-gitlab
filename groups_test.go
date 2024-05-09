@@ -569,6 +569,7 @@ func TestAddGroupSAMLLinkCustomRole(t *testing.T) {
 	opt := &AddGroupSAMLLinkOptions{
 		SAMLGroupName: Ptr("gitlab_group_example_developer"),
 		AccessLevel:   Ptr(DeveloperPermissions),
+		MemberRoleID:  Ptr(123),
 	}
 
 	link, _, err := client.Groups.AddGroupSAMLLink(1, opt)
