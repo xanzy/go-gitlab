@@ -881,6 +881,7 @@ func (s *GroupsService) GetGroupSAMLLink(gid interface{}, samlGroupName string, 
 type AddGroupSAMLLinkOptions struct {
 	SAMLGroupName *string           `url:"saml_group_name,omitempty" json:"saml_group_name,omitempty"`
 	AccessLevel   *AccessLevelValue `url:"access_level,omitempty" json:"access_level,omitempty"`
+	MemberRoleID  *int              `url:"member_role_id,omitempty" json:"member_role_id,omitempty"`
 }
 
 // AddGroupSAMLLink creates a new group SAML link. Available only for users who
