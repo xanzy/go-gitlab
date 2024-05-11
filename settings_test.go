@@ -63,3 +63,44 @@ func TestUpdateSettings(t *testing.T) {
 		t.Errorf("Settings.UpdateSettings returned %+v, want %+v", settings, want)
 	}
 }
+
+// Test that a empty string on a date attribute is returned as nil properly
+func TestSettingsWithEmptyContainerRegistry(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/application/settings", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		fmt.Fprint(w, `{"id":1, "container_registry_import_created_before": "", "abuse_notification_email": "test@example.com"}`)
+	})
+
+	settings, _, err := client.Settings.GetSettings()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	// We should have nil for the setting if "" is in the body
+	want := &Settings{ID: 1, ContainerRegistryImportCreatedBefore: nil, AbuseNotificationEmail: "test@example.com"}
+	if !reflect.DeepEqual(settings, want) {
+		t.Errorf("Settings.UpdateSettings returned %+v, want %+v", settings, want)
+	}
+}
+
+// Test that a completely empty string is parsed as an empty struct properly.
+func TestSettingsWithEmptyString(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/application/settings", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		fmt.Fprint(w, `""`)
+	})
+
+	settings, _, err := client.Settings.GetSettings()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	want := &Settings{}
+	if !reflect.DeepEqual(settings, want) {
+		t.Errorf("Settings.UpdateSettings returned %+v, want %+v", settings, want)
+	}
+}
