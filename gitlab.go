@@ -21,6 +21,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"math/rand"
@@ -64,6 +65,8 @@ const (
 	OAuthToken
 	PrivateToken
 )
+
+var ErrNotFound = errors.New("404 Not Found")
 
 // A Client manages communication with the GitLab API.
 type Client struct {
@@ -504,7 +507,7 @@ func (c *Client) retryHTTPBackoff(min, max time.Duration, attemptNum int, resp *
 // min and max are mainly used for bounding the jitter that will be added to
 // the reset time retrieved from the headers. But if the final wait time is
 // less then min, min will be used instead.
-func rateLimitBackoff(min, max time.Duration, attemptNum int, resp *http.Response) time.Duration {
+func rateLimitBackoff(min, max time.Duration, _ int, resp *http.Response) time.Duration {
 	// rnd is used to generate pseudo-random numbers.
 	rnd := rand.New(rand.NewSource(time.Now().UnixNano()))
 
@@ -957,8 +960,13 @@ type ErrorResponse struct {
 
 func (e *ErrorResponse) Error() string {
 	path, _ := url.QueryUnescape(e.Response.Request.URL.Path)
-	u := fmt.Sprintf("%s://%s%s", e.Response.Request.URL.Scheme, e.Response.Request.URL.Host, path)
-	return fmt.Sprintf("%s %s: %d %s", e.Response.Request.Method, u, e.Response.StatusCode, e.Message)
+	url := fmt.Sprintf("%s://%s%s", e.Response.Request.URL.Scheme, e.Response.Request.URL.Host, path)
+
+	if e.Message == "" {
+		return fmt.Sprintf("%s %s: %d", e.Response.Request.Method, url, e.Response.StatusCode)
+	} else {
+		return fmt.Sprintf("%s %s: %d %s", e.Response.Request.Method, url, e.Response.StatusCode, e.Message)
+	}
 }
 
 // CheckResponse checks the API response for errors, and returns them if present.
@@ -966,11 +974,14 @@ func CheckResponse(r *http.Response) error {
 	switch r.StatusCode {
 	case 200, 201, 202, 204, 304:
 		return nil
+	case 404:
+		return ErrNotFound
 	}
 
 	errorResponse := &ErrorResponse{Response: r}
+
 	data, err := io.ReadAll(r.Body)
-	if err == nil && data != nil {
+	if err == nil && strings.TrimSpace(string(data)) != "" {
 		errorResponse.Body = data
 
 		var raw interface{}
