@@ -82,12 +82,12 @@ func (s *ResourceGroupService) GetAllResourceGroupsForAProject(pid interface{}, 
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/resource_groups.html#get-a-specific-resource-group
-func (s *ResourceGroupService) GetASpecificResourceGroup(pid interface{}, key int, options ...RequestOptionFunc) (*ResourceGroup, *Response, error) {
+func (s *ResourceGroupService) GetASpecificResourceGroup(pid interface{}, key string, options ...RequestOptionFunc) (*ResourceGroup, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/resource_groups/%d", PathEscape(project), key)
+	u := fmt.Sprintf("projects/%s/resource_groups/%s", PathEscape(project), key)
 
 	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
@@ -108,12 +108,12 @@ func (s *ResourceGroupService) GetASpecificResourceGroup(pid interface{}, key in
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/resource_groups.html#list-upcoming-jobs-for-a-specific-resource-group
-func (s *ResourceGroupService) ListUpcomingJobsForASpecificResourceGroup(pid interface{}, key int, options ...RequestOptionFunc) ([]*Job, *Response, error) {
+func (s *ResourceGroupService) ListUpcomingJobsForASpecificResourceGroup(pid interface{}, key string, options ...RequestOptionFunc) ([]*Job, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/resource_groups/%d/upcoming_jobs", PathEscape(project), key)
+	u := fmt.Sprintf("projects/%s/resource_groups/%s/upcoming_jobs", PathEscape(project), key)
 
 	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
@@ -143,12 +143,12 @@ type EditAnExistingResourceGroupOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/resource_groups.html#edit-an-existing-resource-group
-func (s *ResourceGroupService) EditAnExistingResourceGroup(pid interface{}, key int, opts *EditAnExistingResourceGroupOptions, options ...RequestOptionFunc) (*ResourceGroup, *Response, error) {
+func (s *ResourceGroupService) EditAnExistingResourceGroup(pid interface{}, key string, opts *EditAnExistingResourceGroupOptions, options ...RequestOptionFunc) (*ResourceGroup, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/resource_groups/%d", PathEscape(project), key)
+	u := fmt.Sprintf("projects/%s/resource_groups/%s", PathEscape(project), key)
 
 	req, err := s.client.NewRequest(http.MethodPut, u, opts, options)
 	if err != nil {

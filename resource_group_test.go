@@ -59,7 +59,7 @@ func TestResourceGroups_GetAllResourceGroupsForAProject(t *testing.T) {
 func TestResourceGroups_GetASpecificResourceGroup(t *testing.T) {
 	mux, client := setup(t)
 
-	mux.HandleFunc("/api/v4/projects/1/resource_groups/3", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v4/projects/1/resource_groups/production", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
 		fmt.Fprint(w, `
 			{
@@ -82,22 +82,22 @@ func TestResourceGroups_GetASpecificResourceGroup(t *testing.T) {
 		UpdatedAt:   &date,
 	}
 
-	rg, resp, err := client.ResourceGroup.GetASpecificResourceGroup(1, 3)
+	rg, resp, err := client.ResourceGroup.GetASpecificResourceGroup(1, "production")
 	require.NoError(t, err)
 	require.NotNil(t, resp)
 	require.Equal(t, want, rg)
 
-	rg, resp, err = client.ResourceGroup.GetASpecificResourceGroup(1.01, 3)
+	rg, resp, err = client.ResourceGroup.GetASpecificResourceGroup(1.01, "production")
 	require.EqualError(t, err, "invalid ID type 1.01, the ID must be an int or a string")
 	require.Nil(t, resp)
 	require.Nil(t, rg)
 
-	rg, resp, err = client.ResourceGroup.GetASpecificResourceGroup(1, 3, errorOption)
+	rg, resp, err = client.ResourceGroup.GetASpecificResourceGroup(1, "production", errorOption)
 	require.EqualError(t, err, "RequestOptionFunc returns an error")
 	require.Nil(t, resp)
 	require.Nil(t, rg)
 
-	rg, resp, err = client.ResourceGroup.GetASpecificResourceGroup(2, 3)
+	rg, resp, err = client.ResourceGroup.GetASpecificResourceGroup(2, "production")
 	require.Error(t, err)
 	require.Equal(t, http.StatusNotFound, resp.StatusCode)
 	require.Nil(t, rg)
@@ -106,7 +106,7 @@ func TestResourceGroups_GetASpecificResourceGroup(t *testing.T) {
 func TestResourceGroups_ListUpcomingJobsForASpecificResourceGroup(t *testing.T) {
 	mux, client := setup(t)
 
-	mux.HandleFunc("/api/v4/projects/1/resource_groups/3/upcoming_jobs", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v4/projects/1/resource_groups/production/upcoming_jobs", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
 		fmt.Fprint(w, `[
 			{
@@ -119,22 +119,22 @@ func TestResourceGroups_ListUpcomingJobsForASpecificResourceGroup(t *testing.T) 
 		ID: 6,
 	}}
 
-	jobs, resp, err := client.ResourceGroup.ListUpcomingJobsForASpecificResourceGroup(1, 3)
+	jobs, resp, err := client.ResourceGroup.ListUpcomingJobsForASpecificResourceGroup(1, "production")
 	require.NoError(t, err)
 	require.NotNil(t, resp)
 	require.ElementsMatch(t, want, jobs)
 
-	jobs, resp, err = client.ResourceGroup.ListUpcomingJobsForASpecificResourceGroup(1.01, 3)
+	jobs, resp, err = client.ResourceGroup.ListUpcomingJobsForASpecificResourceGroup(1.01, "production")
 	require.EqualError(t, err, "invalid ID type 1.01, the ID must be an int or a string")
 	require.Nil(t, resp)
 	require.Nil(t, jobs)
 
-	jobs, resp, err = client.ResourceGroup.ListUpcomingJobsForASpecificResourceGroup(1, 3, errorOption)
+	jobs, resp, err = client.ResourceGroup.ListUpcomingJobsForASpecificResourceGroup(1, "production", errorOption)
 	require.EqualError(t, err, "RequestOptionFunc returns an error")
 	require.Nil(t, resp)
 	require.Nil(t, jobs)
 
-	jobs, resp, err = client.ResourceGroup.ListUpcomingJobsForASpecificResourceGroup(2, 3)
+	jobs, resp, err = client.ResourceGroup.ListUpcomingJobsForASpecificResourceGroup(2, "production")
 	require.Error(t, err)
 	require.Equal(t, http.StatusNotFound, resp.StatusCode)
 	require.Nil(t, jobs)
@@ -143,7 +143,7 @@ func TestResourceGroups_ListUpcomingJobsForASpecificResourceGroup(t *testing.T) 
 func TestResourceGroup_EditAnExistingResourceGroup(t *testing.T) {
 	mux, client := setup(t)
 
-	mux.HandleFunc("/api/v4/projects/1/resource_groups/3", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v4/projects/1/resource_groups/production", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
 		fmt.Fprint(w, `
 			{
@@ -168,22 +168,22 @@ func TestResourceGroup_EditAnExistingResourceGroup(t *testing.T) {
 
 	opts := &EditAnExistingResourceGroupOptions{ProcessMode: Ptr(OldestFirst)}
 
-	rg, resp, err := client.ResourceGroup.EditAnExistingResourceGroup(1, 3, opts)
+	rg, resp, err := client.ResourceGroup.EditAnExistingResourceGroup(1, "production", opts)
 	require.NoError(t, err)
 	require.NotNil(t, resp)
 	require.Equal(t, want, rg)
 
-	rg, resp, err = client.ResourceGroup.EditAnExistingResourceGroup(1.01, 3, opts)
+	rg, resp, err = client.ResourceGroup.EditAnExistingResourceGroup(1.01, "production", opts)
 	require.EqualError(t, err, "invalid ID type 1.01, the ID must be an int or a string")
 	require.Nil(t, resp)
 	require.Nil(t, rg)
 
-	rg, resp, err = client.ResourceGroup.EditAnExistingResourceGroup(1, 3, opts, errorOption)
+	rg, resp, err = client.ResourceGroup.EditAnExistingResourceGroup(1, "production", opts, errorOption)
 	require.EqualError(t, err, "RequestOptionFunc returns an error")
 	require.Nil(t, resp)
 	require.Nil(t, rg)
 
-	rg, resp, err = client.ResourceGroup.EditAnExistingResourceGroup(2, 3, opts)
+	rg, resp, err = client.ResourceGroup.EditAnExistingResourceGroup(2, "production", opts)
 	require.Error(t, err)
 	require.Equal(t, http.StatusNotFound, resp.StatusCode)
 	require.Nil(t, rg)
