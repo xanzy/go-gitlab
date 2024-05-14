@@ -153,6 +153,7 @@ type Client struct {
 	GroupVariables               *GroupVariablesService
 	GroupWikis                   *GroupWikisService
 	Groups                       *GroupsService
+	Import                       *ImportService
 	InstanceCluster              *InstanceClustersService
 	InstanceVariables            *InstanceVariablesService
 	Invites                      *InvitesService
@@ -389,6 +390,7 @@ func newClient(options ...ClientOptionFunc) (*Client, error) {
 	c.GroupVariables = &GroupVariablesService{client: c}
 	c.GroupWikis = &GroupWikisService{client: c}
 	c.Groups = &GroupsService{client: c}
+	c.Import = &ImportService{client: c}
 	c.InstanceCluster = &InstanceClustersService{client: c}
 	c.InstanceVariables = &InstanceVariablesService{client: c}
 	c.Invites = &InvitesService{client: c}
