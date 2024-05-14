@@ -2,11 +2,11 @@ package gitlab
 
 import (
 	"fmt"
-	"log"
 	"net/http"
-	"reflect"
 	"testing"
 	"time"
+
+	"github.com/stretchr/testify/require"
 )
 
 func TestResourceGroups_GetAllResourceGroupsForAProject(t *testing.T) {
@@ -25,11 +25,6 @@ func TestResourceGroups_GetAllResourceGroupsForAProject(t *testing.T) {
 		]`)
 	})
 
-	rgs, _, err := client.ResourceGroup.GetAllResourceGroupsForAProject(1)
-	if err != nil {
-		log.Fatal(err)
-	}
-
 	date, _ := time.Parse(timeLayout, "2021-09-01T08:04:59.650Z")
 
 	want := []*ResourceGroup{{
@@ -40,9 +35,25 @@ func TestResourceGroups_GetAllResourceGroupsForAProject(t *testing.T) {
 		UpdatedAt:   &date,
 	}}
 
-	if !reflect.DeepEqual(want, rgs) {
-		t.Errorf("ResourceGroup.GetAllResourceGroupsForAProject returned %+v, want %+v", rgs, want)
-	}
+	rgs, resp, err := client.ResourceGroup.GetAllResourceGroupsForAProject(1)
+	require.NoError(t, err)
+	require.NotNil(t, resp)
+	require.ElementsMatch(t, want, rgs)
+
+	rgs, resp, err = client.ResourceGroup.GetAllResourceGroupsForAProject(1.01)
+	require.EqualError(t, err, "invalid ID type 1.01, the ID must be an int or a string")
+	require.Nil(t, resp)
+	require.Nil(t, rgs)
+
+	rgs, resp, err = client.ResourceGroup.GetAllResourceGroupsForAProject(1, errorOption)
+	require.EqualError(t, err, "RequestOptionFunc returns an error")
+	require.Nil(t, resp)
+	require.Nil(t, rgs)
+
+	rgs, resp, err = client.ResourceGroup.GetAllResourceGroupsForAProject(2)
+	require.Error(t, err)
+	require.Equal(t, http.StatusNotFound, resp.StatusCode)
+	require.Nil(t, rgs)
 }
 
 func TestResourceGroups_GetASpecificResourceGroup(t *testing.T) {
@@ -50,7 +61,7 @@ func TestResourceGroups_GetASpecificResourceGroup(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/resource_groups/3", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
-		fmt.Fprint(w, `[
+		fmt.Fprint(w, `
 			{
 				"id": 3,
 				"key": "production",
@@ -58,25 +69,122 @@ func TestResourceGroups_GetASpecificResourceGroup(t *testing.T) {
 				"created_at": "2021-09-01T08:04:59.650Z",
 				"updated_at": "2021-09-01T08:04:59.650Z"
 			  }
-		]`)
+		`)
 	})
-
-	rgs, _, err := client.ResourceGroup.GetASpecificResourceGroup(1, 3)
-	if err != nil {
-		log.Fatal(err)
-	}
 
 	date, _ := time.Parse(timeLayout, "2021-09-01T08:04:59.650Z")
 
-	want := []*ResourceGroup{{
+	want := &ResourceGroup{
 		ID:          3,
 		Key:         "production",
 		ProcessMode: "unordered",
 		CreatedAt:   &date,
 		UpdatedAt:   &date,
+	}
+
+	rg, resp, err := client.ResourceGroup.GetASpecificResourceGroup(1, 3)
+	require.NoError(t, err)
+	require.NotNil(t, resp)
+	require.Equal(t, want, rg)
+
+	rg, resp, err = client.ResourceGroup.GetASpecificResourceGroup(1.01, 3)
+	require.EqualError(t, err, "invalid ID type 1.01, the ID must be an int or a string")
+	require.Nil(t, resp)
+	require.Nil(t, rg)
+
+	rg, resp, err = client.ResourceGroup.GetASpecificResourceGroup(1, 3, errorOption)
+	require.EqualError(t, err, "RequestOptionFunc returns an error")
+	require.Nil(t, resp)
+	require.Nil(t, rg)
+
+	rg, resp, err = client.ResourceGroup.GetASpecificResourceGroup(2, 3)
+	require.Error(t, err)
+	require.Equal(t, http.StatusNotFound, resp.StatusCode)
+	require.Nil(t, rg)
+}
+
+func TestResourceGroups_ListUpcomingJobsForASpecificResourceGroup(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/projects/1/resource_groups/3/upcoming_jobs", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		fmt.Fprint(w, `[
+			{
+				"id": 6
+			}
+		]`)
+	})
+
+	want := []*Job{{
+		ID: 6,
 	}}
 
-	if !reflect.DeepEqual(want, rgs) {
-		t.Errorf("ResourceGroup.GetAllResourceGroupsForAProject returned %+v, want %+v", rgs, want)
+	jobs, resp, err := client.ResourceGroup.ListUpcomingJobsForASpecificResourceGroup(1, 3)
+	require.NoError(t, err)
+	require.NotNil(t, resp)
+	require.ElementsMatch(t, want, jobs)
+
+	jobs, resp, err = client.ResourceGroup.ListUpcomingJobsForASpecificResourceGroup(1.01, 3)
+	require.EqualError(t, err, "invalid ID type 1.01, the ID must be an int or a string")
+	require.Nil(t, resp)
+	require.Nil(t, jobs)
+
+	jobs, resp, err = client.ResourceGroup.ListUpcomingJobsForASpecificResourceGroup(1, 3, errorOption)
+	require.EqualError(t, err, "RequestOptionFunc returns an error")
+	require.Nil(t, resp)
+	require.Nil(t, jobs)
+
+	jobs, resp, err = client.ResourceGroup.ListUpcomingJobsForASpecificResourceGroup(2, 3)
+	require.Error(t, err)
+	require.Equal(t, http.StatusNotFound, resp.StatusCode)
+	require.Nil(t, jobs)
+}
+
+func TestResourceGroup_EditAnExistingResourceGroup(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/projects/1/resource_groups/3", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPut)
+		fmt.Fprint(w, `
+			{
+				"id": 3,
+				"key": "production",
+				"process_mode": "unordered",
+				"created_at": "2021-09-01T08:04:59.650Z",
+				"updated_at": "2021-09-01T08:04:59.650Z"
+			}
+		`)
+	})
+
+	date, _ := time.Parse(timeLayout, "2021-09-01T08:04:59.650Z")
+
+	want := &ResourceGroup{
+		ID:          3,
+		Key:         "production",
+		ProcessMode: "unordered",
+		CreatedAt:   &date,
+		UpdatedAt:   &date,
 	}
+
+	opts := &EditAnExistingResourceGroupOptions{ProcessMode: Ptr(OldestFirst)}
+
+	rg, resp, err := client.ResourceGroup.EditAnExistingResourceGroup(1, 3, opts)
+	require.NoError(t, err)
+	require.NotNil(t, resp)
+	require.Equal(t, want, rg)
+
+	rg, resp, err = client.ResourceGroup.EditAnExistingResourceGroup(1.01, 3, opts)
+	require.EqualError(t, err, "invalid ID type 1.01, the ID must be an int or a string")
+	require.Nil(t, resp)
+	require.Nil(t, rg)
+
+	rg, resp, err = client.ResourceGroup.EditAnExistingResourceGroup(1, 3, opts, errorOption)
+	require.EqualError(t, err, "RequestOptionFunc returns an error")
+	require.Nil(t, resp)
+	require.Nil(t, rg)
+
+	rg, resp, err = client.ResourceGroup.EditAnExistingResourceGroup(2, 3, opts)
+	require.Error(t, err)
+	require.Equal(t, http.StatusNotFound, resp.StatusCode)
+	require.Nil(t, rg)
 }
