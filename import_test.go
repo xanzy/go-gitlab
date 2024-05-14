@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-func TestImportService_ImportRepositoryFromGithub(t *testing.T) {
+func TestImportService_ImportRepositoryFromGitHub(t *testing.T) {
 	mux, client := setup(t)
 
 	mux.HandleFunc("/api/v4/import/github", func(w http.ResponseWriter, r *http.Request) {
@@ -29,7 +29,7 @@ func TestImportService_ImportRepositoryFromGithub(t *testing.T) {
 		`)
 	})
 
-	want := &GithubImport{
+	want := &GitHubImport{
 		ID:                    27,
 		Name:                  "my-repo",
 		FullPath:              "/root/my-repo",
@@ -41,18 +41,18 @@ func TestImportService_ImportRepositoryFromGithub(t *testing.T) {
 		ProviderLink:          "/my-github/repo",
 	}
 
-	opt := &ImportRepositoryFromGithubOptions{
+	opt := &ImportRepositoryFromGitHubOptions{
 		PersonalAccessToken: Ptr("token"),
 		RepoID:              Ptr(34),
 		TargetNamespace:     Ptr("root"),
 	}
 
-	gi, _, err := client.Import.ImportRepositoryFromGithub(opt)
+	gi, _, err := client.Import.ImportRepositoryFromGitHub(opt)
 	if err != nil {
-		t.Errorf("Import.ImportRepositoryFromGithub returned error: %v", err)
+		t.Errorf("Import.ImportRepositoryFromGitHub returned error: %v", err)
 	}
 
 	if !reflect.DeepEqual(want, gi) {
-		t.Errorf("Import.ImportRepositoryFromGithub return %+v, want %+v", gi, want)
+		t.Errorf("Import.ImportRepositoryFromGitHub return %+v, want %+v", gi, want)
 	}
 }

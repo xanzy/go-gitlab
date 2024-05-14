@@ -29,11 +29,11 @@ type ImportService struct {
 	client *Client
 }
 
-// GithubImport represents the response from an import from Github.
+// GitHubImport represents the response from an import from GitHub.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/import.html#import-repository-from-github
-type GithubImport struct {
+type GitHubImport struct {
 	ID                    int    `json:"id"`
 	Name                  string `json:"name"`
 	FullPath              string `json:"full_path"`
@@ -47,21 +47,21 @@ type GithubImport struct {
 	ImportWarning         string `json:"import_warning"`
 }
 
-func (s GithubImport) String() string {
+func (s GitHubImport) String() string {
 	return Stringify(s)
 }
 
-// ImportRepositoryFromGithubOptions represents the available
-// ImportRepositoryFromGithub() options.
+// ImportRepositoryFromGitHubOptions represents the available
+// ImportRepositoryFromGitHub() options.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/import.html#import-repository-from-github
-type ImportRepositoryFromGithubOptions struct {
+type ImportRepositoryFromGitHubOptions struct {
 	PersonalAccessToken *string `url:"personal_access_token,omitempty" json:"personal_access_token,omitempty"`
 	RepoID              *int    `url:"repo_id,omitempty" json:"repo_id,omitempty"`
 	NewName             *string `url:"new_name,omitempty" json:"new_name,omitempty"`
 	TargetNamespace     *string `url:"target_namespace,omitempty" json:"target_namespace,omitempty"`
-	GithubHostname      *string `url:"github_hostname,omitempty" json:"github_hostname,omitempty"`
+	GitHubHostname      *string `url:"github_hostname,omitempty" json:"github_hostname,omitempty"`
 	OptionalStages      struct {
 		SingleEndpointNotesImport *bool `url:"single_endpoint_notes_import,omitempty" json:"single_endpoint_notes_import,omitempty"`
 		AttachmentsImport         *bool `url:"attachments_import,omitempty" json:"attachments_import,omitempty"`
@@ -70,17 +70,17 @@ type ImportRepositoryFromGithubOptions struct {
 	TimeoutStrategy *string `url:"timeout_strategy,omitempty" json:"timeout_strategy,omitempty"`
 }
 
-// Import a repository from Github.
+// Import a repository from GitHub.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/import.html#import-repository-from-github
-func (s *ImportService) ImportRepositoryFromGithub(opt *ImportRepositoryFromGithubOptions, options ...RequestOptionFunc) (*GithubImport, *Response, error) {
+func (s *ImportService) ImportRepositoryFromGitHub(opt *ImportRepositoryFromGitHubOptions, options ...RequestOptionFunc) (*GitHubImport, *Response, error) {
 	req, err := s.client.NewRequest(http.MethodPost, "import/github", opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	gi := new(GithubImport)
+	gi := new(GitHubImport)
 	resp, err := s.client.Do(req, gi)
 	if err != nil {
 		return nil, resp, err
