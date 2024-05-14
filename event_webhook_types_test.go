@@ -298,18 +298,12 @@ func TestGroupResourceAccessTokenEventUnmarshal(t *testing.T) {
 		t.Errorf("event is null")
 	}
 
-	createdAt, err := time.Parse(time.RFC3339, "2024-02-05T03:13:44.855Z")
-	if err != nil {
-		t.Fatalf("could not parse time: %v", err)
-	}
-
 	expiresAt, err := ParseISOTime("2024-01-26")
 	if err != nil {
 		t.Fatalf("could not parse ISO time: %v", err)
 	}
 
 	expected := &GroupResourceAccessTokenEvent{
-		GroupID:    35,
 		ObjectKind: "access_token",
 		EventName:  "expiring_access_token",
 	}
@@ -317,12 +311,11 @@ func TestGroupResourceAccessTokenEventUnmarshal(t *testing.T) {
 	expected.Group.GroupID = 35
 	expected.Group.GroupName = "Twitter"
 	expected.Group.GroupPath = "twitter"
-	expected.Group.FullPath = "twitter"
 
 	expected.ObjectAttributes.ID = 25
 	expected.ObjectAttributes.UserID = 90
 	expected.ObjectAttributes.Name = "acd"
-	expected.ObjectAttributes.CreatedAt = &createdAt
+	expected.ObjectAttributes.CreatedAt = "2024-01-24 16:27:40 UTC"
 	expected.ObjectAttributes.ExpiresAt = &expiresAt
 
 	assert.Equal(t, expected, event)
@@ -1068,18 +1061,12 @@ func TestProjectResourceAccessTokenEventUnmarshal(t *testing.T) {
 		t.Errorf("event is null")
 	}
 
-	createdAt, err := time.Parse(time.RFC3339, "2024-02-05T03:13:44.855Z")
-	if err != nil {
-		t.Fatalf("could not parse time: %v", err)
-	}
-
 	expiresAt, err := ParseISOTime("2024-01-26")
 	if err != nil {
 		t.Fatalf("could not parse ISO time: %v", err)
 	}
 
 	expected := &ProjectResourceAccessTokenEvent{
-		ProjectID:  7,
 		ObjectKind: "access_token",
 		EventName:  "expiring_access_token",
 	}
@@ -1087,7 +1074,7 @@ func TestProjectResourceAccessTokenEventUnmarshal(t *testing.T) {
 	expected.ObjectAttributes.ID = 25
 	expected.ObjectAttributes.UserID = 90
 	expected.ObjectAttributes.Name = "acd"
-	expected.ObjectAttributes.CreatedAt = &createdAt
+	expected.ObjectAttributes.CreatedAt = "2024-01-24 16:27:40 UTC"
 	expected.ObjectAttributes.ExpiresAt = &expiresAt
 
 	expected.Project.ID = 7

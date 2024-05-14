@@ -1,6 +1,5 @@
 {
   "object_kind": "access_token",
-  "project_id": 7,
   "project": {
     "id": 7,
     "name": "Flight",
@@ -21,7 +20,7 @@
   },
   "object_attributes": {
     "user_id": 90,
-    "created_at": "2024-02-05T03:13:44.855Z",
+    "created_at": "2024-01-24 16:27:40 UTC",
     "id": 25,
     "name": "acd",
     "expires_at": "2024-01-26"

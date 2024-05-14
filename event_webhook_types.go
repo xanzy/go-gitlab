@@ -213,19 +213,17 @@ type FeatureFlagEvent struct {
 type GroupResourceAccessTokenEvent struct {
 	EventName  string `json:"event_name"`
 	ObjectKind string `json:"object_kind"`
-	GroupID    int    `json:"group_id"`
 	Group      struct {
 		GroupID   int    `json:"group_id"`
 		GroupName string `json:"group_name"`
 		GroupPath string `json:"group_path"`
-		FullPath  string `json:"full_path"`
 	} `json:"group"`
 	ObjectAttributes struct {
-		ID        int        `json:"id"`
-		UserID    int        `json:"user_id"`
-		Name      string     `json:"name"`
-		CreatedAt *time.Time `json:"created_at"`
-		ExpiresAt *ISOTime   `json:"expires_at"`
+		ID        int      `json:"id"`
+		UserID    int      `json:"user_id"`
+		Name      string   `json:"name"`
+		CreatedAt string   `json:"created_at"`
+		ExpiresAt *ISOTime `json:"expires_at"`
 	} `json:"object_attributes"`
 }
 
@@ -933,7 +931,6 @@ type PipelineEvent struct {
 type ProjectResourceAccessTokenEvent struct {
 	EventName  string `json:"event_name"`
 	ObjectKind string `json:"object_kind"`
-	ProjectID  int    `json:"project_id"`
 	Project    struct {
 		ID                int    `json:"id"`
 		Name              string `json:"name"`
@@ -953,11 +950,11 @@ type ProjectResourceAccessTokenEvent struct {
 		HTTPURL           string `json:"http_url"`
 	} `json:"project"`
 	ObjectAttributes struct {
-		ID        int        `json:"id"`
-		UserID    int        `json:"user_id"`
-		Name      string     `json:"name"`
-		CreatedAt *time.Time `json:"created_at"`
-		ExpiresAt *ISOTime   `json:"expires_at"`
+		ID        int      `json:"id"`
+		UserID    int      `json:"user_id"`
+		Name      string   `json:"name"`
+		CreatedAt string   `json:"created_at"`
+		ExpiresAt *ISOTime `json:"expires_at"`
 	} `json:"object_attributes"`
 }
 
