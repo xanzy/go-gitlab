@@ -217,6 +217,7 @@ type Settings struct {
 	MaxPagesSize                                          int               `json:"max_pages_size"`
 	MaxPersonalAccessTokenLifetime                        int               `json:"max_personal_access_token_lifetime"`
 	MaxSSHKeyLifetime                                     int               `json:"max_ssh_key_lifetime"`
+	MaxTerraformStateSizeBytes                            int               `json:"max_terraform_state_size_bytes"`
 	MaxYAMLDepth                                          int               `json:"max_yaml_depth"`
 	MaxYAMLSizeBytes                                      int               `json:"max_yaml_size_bytes"`
 	MetricsMethodCallThreshold                            int               `json:"metrics_method_call_threshold"`
@@ -596,6 +597,7 @@ type UpdateSettingsOptions struct {
 	MaxPagesSize                                          *int               `url:"max_pages_size,omitempty" json:"max_pages_size,omitempty"`
 	MaxPersonalAccessTokenLifetime                        *int               `url:"max_personal_access_token_lifetime,omitempty" json:"max_personal_access_token_lifetime,omitempty"`
 	MaxSSHKeyLifetime                                     *int               `url:"max_ssh_key_lifetime,omitempty" json:"max_ssh_key_lifetime,omitempty"`
+	MaxTerraformStateSizeBytes                            *int               `url:"max_terraform_state_size_bytes,omitempty" json:"max_terraform_state_size_bytes,omitempty"`
 	MaxYAMLDepth                                          *int               `url:"max_yaml_depth,omitempty" json:"max_yaml_depth,omitempty"`
 	MaxYAMLSizeBytes                                      *int               `url:"max_yaml_size_bytes,omitempty" json:"max_yaml_size_bytes,omitempty"`
 	MetricsMethodCallThreshold                            *int               `url:"metrics_method_call_threshold,omitempty" json:"metrics_method_call_threshold,omitempty"`
