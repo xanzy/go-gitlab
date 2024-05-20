@@ -17,6 +17,7 @@
 package gitlab
 
 import (
+	"encoding/json"
 	"net/http"
 	"time"
 )
@@ -391,6 +392,31 @@ type Settings struct {
 	ThrottleUnauthenticatedRequestsPerPeriod int `json:"throttle_unauthenticated_requests_per_period"`
 	// Deprecated: Replaced by SearchRateLimit in GitLab 14.9 (removed in 15.0).
 	UserEmailLookupLimit int `json:"user_email_lookup_limit"`
+}
+
+// Settings requires a custom unmarshaller in order to properly unmarshal
+// `container_registry_import_created_before` which is either a time.Time or
+// an empty string if no value is set.
+func (s *Settings) UnmarshalJSON(data []byte) error {
+	type Alias Settings
+
+	raw := make(map[string]interface{})
+	err := json.Unmarshal(data, &raw)
+	if err != nil {
+		return err
+	}
+
+	// If empty string, remove the value to leave it nil in the response.
+	if v, ok := raw["container_registry_import_created_before"]; ok && v == "" {
+		delete(raw, "container_registry_import_created_before")
+
+		data, err = json.Marshal(raw)
+		if err != nil {
+			return err
+		}
+	}
+
+	return json.Unmarshal(data, (*Alias)(s))
 }
 
 func (s Settings) String() string {

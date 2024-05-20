@@ -63,3 +63,22 @@ func TestUpdateSettings(t *testing.T) {
 		t.Errorf("Settings.UpdateSettings returned %+v, want %+v", settings, want)
 	}
 }
+
+func TestSettingsWithEmptyContainerRegistry(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/application/settings", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		fmt.Fprint(w, `{"id":1, "container_registry_import_created_before": ""}`)
+	})
+
+	settings, _, err := client.Settings.GetSettings()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	want := &Settings{ID: 1, ContainerRegistryImportCreatedBefore: nil}
+	if !reflect.DeepEqual(settings, want) {
+		t.Errorf("Settings.UpdateSettings returned %+v, want %+v", settings, want)
+	}
+}
