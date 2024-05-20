@@ -689,12 +689,14 @@ func ProjectCreationLevel(v ProjectCreationLevelValue) *ProjectCreationLevelValu
 // ResourceGroupProcessMode represents a process mode for a resource group
 // within a GitLab project.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/ci/resource_groups/index.html#process-modes
+// GitLab API docs:
+// https://docs.gitlab.com/ee/ci/resource_groups/index.html#process-modes
 type ResourceGroupProcessMode string
 
 // List of available resource group process modes.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/ci/resource_groups/index.html#process-modes
+// GitLab API docs:
+// https://docs.gitlab.com/ee/ci/resource_groups/index.html#process-modes
 const (
 	Unordered   ResourceGroupProcessMode = "unordered"
 	OldestFirst ResourceGroupProcessMode = "oldest_first"
