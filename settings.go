@@ -393,41 +393,29 @@ type Settings struct {
 	UserEmailLookupLimit int `json:"user_email_lookup_limit"`
 }
 
-// Settings requires a custom unmarshaller because the `container_registry_import_created_before` attribute (which is time.Time)
-// returns as "" when the registry has not been enabled, which is not parseable as a date. This causes an error any time
-// GetSettings is called on an instance with the registry disabled.
-// To prevent this error, Settings has a custom UnmarshalJson that nils out the empty string value prior to parsing.
+// Settings requires a custom unmarshaller in order to properly unmarshal
+// `container_registry_import_created_before` which is either a time.Time or
+// an empty string if no value is set.
 func (s *Settings) UnmarshalJSON(data []byte) error {
-	// Ignore null, like in the main JSON package.
-	if string(data) == "null" || string(data) == `""` {
-		return nil
-	}
+	type Alias Settings
 
-	// Parse into an interface so we can check the value of the container registry to see if it's empty
-	var m map[string]interface{}
-	if err := json.Unmarshal(data, &m); err != nil {
-		return err
-	}
-
-	// If empty string, remove the value to leave it nil in the response, so it can parse to time properly.
-	if m["container_registry_import_created_before"] == "" {
-		delete(m, "container_registry_import_created_before")
-	}
-
-	// Write the interface to string so we can re-marshal to settings
-	jsonString, err := json.Marshal(m)
+	raw := make(map[string]interface{})
+	err := json.Unmarshal(data, &raw)
 	if err != nil {
 		return err
 	}
 
-	// use an intermediate type to prevent infinite recursion
-	type MarshalSettings Settings
-	intermediate := MarshalSettings(*s)
-	if err := json.Unmarshal(jsonString, &intermediate); err != nil {
-		return err
+	// If empty string, remove the value to leave it nil in the response.
+	if v, ok := raw["container_registry_import_created_before"]; ok && v == "" {
+		delete(raw, "container_registry_import_created_before")
+
+		data, err = json.Marshal(raw)
+		if err != nil {
+			return err
+		}
 	}
-	*s = (Settings)(intermediate)
-	return nil
+
+	return json.Unmarshal(data, (*Alias)(s))
 }
 
 func (s Settings) String() string {
