@@ -151,11 +151,19 @@ func (s *CommitsService) GetCommitRefs(pid interface{}, sha string, opt *GetComm
 	return cs, resp, nil
 }
 
+// GetCommitOptions represents the available GetCommit() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/commits.html#get-a-single-commit
+type GetCommitOptions struct {
+	Stats *bool `url:"stats,omitempty" json:"stats,omitempty"`
+}
+
 // GetCommit gets a specific commit identified by the commit hash or name of a
 // branch or tag.
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/commits.html#get-a-single-commit
-func (s *CommitsService) GetCommit(pid interface{}, sha string, options ...RequestOptionFunc) (*Commit, *Response, error) {
+func (s *CommitsService) GetCommit(pid interface{}, sha string, opt *GetCommitOptions, options ...RequestOptionFunc) (*Commit, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -165,7 +173,7 @@ func (s *CommitsService) GetCommit(pid interface{}, sha string, options ...Reque
 	}
 	u := fmt.Sprintf("projects/%s/repository/commits/%s", PathEscape(project), url.PathEscape(sha))
 
-	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
+	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
