@@ -89,7 +89,7 @@ func (s *ImportService) ImportRepositoryFromGitHub(opt *ImportRepositoryFromGitH
 	return gi, resp, nil
 }
 
-// CancelledGitHubImport represents the response when cancelling
+// CancelledGitHubImport represents the response when canceling
 // an import from GitHub.
 //
 // GitLab API docs:
