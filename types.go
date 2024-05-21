@@ -424,15 +424,6 @@ func GenericPackageStatus(v GenericPackageStatusValue) *GenericPackageStatusValu
 	return Ptr(v)
 }
 
-// ImportTimeoutStrategy represents the timeout strategy of an import.
-type ImportTimeoutStrategy string
-
-// The available import timeout strategies.
-const (
-	Optimistic  ImportTimeoutStrategy = "optimistic"
-	Pessimistic ImportTimeoutStrategy = "pessimistic"
-)
-
 // ISOTime represents an ISO 8601 formatted date.
 type ISOTime time.Time
 
