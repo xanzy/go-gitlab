@@ -88,3 +88,73 @@ func (s *ImportService) ImportRepositoryFromGitHub(opt *ImportRepositoryFromGitH
 
 	return gi, resp, nil
 }
+
+// CancelledGitHubImport represents the response when canceling
+// an import from GitHub.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/import.html#cancel-github-project-import
+type CancelledGitHubImport struct {
+	ID                    int    `json:"id"`
+	Name                  string `json:"name"`
+	FullPath              string `json:"full_path"`
+	FullName              string `json:"full_name"`
+	ImportSource          string `json:"import_source"`
+	ImportStatus          string `json:"import_status"`
+	HumanImportStatusName string `json:"human_import_status_name"`
+	ProviderLink          string `json:"provider_link"`
+}
+
+func (s CancelledGitHubImport) String() string {
+	return Stringify(s)
+}
+
+// CancelGitHubProjectImportOptions represents the available
+// CancelGitHubProjectImport() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/import.html#cancel-github-project-import
+type CancelGitHubProjectImportOptions struct {
+	ProjectID *int `url:"project_id,omitempty" json:"project_id,omitempty"`
+}
+
+// Cancel an import of a repository from GitHub.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/import.html#cancel-github-project-import
+func (s *ImportService) CancelGitHubProjectImport(opt *CancelGitHubProjectImportOptions, options ...RequestOptionFunc) (*CancelledGitHubImport, *Response, error) {
+	req, err := s.client.NewRequest(http.MethodPost, "import/github/cancel", opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	cgi := new(CancelledGitHubImport)
+	resp, err := s.client.Do(req, cgi)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return cgi, resp, nil
+}
+
+// ImportGitHubGistsIntoGitLabSnippetsOptions represents the available
+// ImportGitHubGistsIntoGitLabSnippets() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/import.html#import-github-gists-into-gitlab-snippets
+type ImportGitHubGistsIntoGitLabSnippetsOptions struct {
+	PersonalAccessToken *string `url:"personal_access_token,omitempty" json:"personal_access_token,omitempty"`
+}
+
+// Import personal GitHub Gists into personal GitLab Snippets.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/import.html#import-github-gists-into-gitlab-snippets
+func (s *ImportService) ImportGitHubGistsIntoGitLabSnippets(opt *ImportGitHubGistsIntoGitLabSnippetsOptions, options ...RequestOptionFunc) (*Response, error) {
+	req, err := s.client.NewRequest(http.MethodPost, "import/github/gists", opt, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
