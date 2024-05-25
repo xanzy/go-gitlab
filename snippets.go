@@ -57,6 +57,7 @@ type Snippet struct {
 		RawURL string `json:"raw_url"`
 	} `json:"files"`
 	RepositoryStorage string `json:"repository_storage"`
+	ProjectID         int    `json:"project_id"`
 }
 
 func (s Snippet) String() string {
