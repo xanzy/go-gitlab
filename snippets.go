@@ -50,6 +50,7 @@ type Snippet struct {
 	} `json:"author"`
 	UpdatedAt *time.Time `json:"updated_at"`
 	CreatedAt *time.Time `json:"created_at"`
+	ProjectID int        `json:"project_id"`
 	WebURL    string     `json:"web_url"`
 	RawURL    string     `json:"raw_url"`
 	Files     []struct {
@@ -57,7 +58,6 @@ type Snippet struct {
 		RawURL string `json:"raw_url"`
 	} `json:"files"`
 	RepositoryStorage string `json:"repository_storage"`
-	ProjectID         int    `json:"project_id"`
 }
 
 func (s Snippet) String() string {

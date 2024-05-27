@@ -55,9 +55,9 @@ func TestProjectSnippetsService_ListSnippets(t *testing.T) {
 			Name:     "Venkatesh Thalluri",
 			State:    "active",
 		},
+		ProjectID: 1,
 		WebURL:    "http://example.com/example/example/snippets/1",
 		RawURL:    "http://example.com/example/example/snippets/1/raw",
-		ProjectID: 1,
 	}}
 
 	ss, resp, err := client.ProjectSnippets.ListSnippets(1, nil, nil)
@@ -125,9 +125,9 @@ func TestProjectSnippetsService_GetSnippet(t *testing.T) {
 			Name:     "Venkatesh Thalluri",
 			State:    "active",
 		},
+		ProjectID: 1,
 		WebURL:    "http://example.com/example/example/snippets/1",
 		RawURL:    "http://example.com/example/example/snippets/1/raw",
-		ProjectID: 1,
 	}
 
 	s, resp, err := client.ProjectSnippets.GetSnippet(1, 1, nil, nil)
@@ -201,8 +201,9 @@ func TestProjectSnippetsService_CreateSnippet(t *testing.T) {
 			Name:     "Venkatesh Thalluri",
 			State:    "active",
 		},
-		WebURL: "http://example.com/example/example/snippets/1",
-		RawURL: "http://example.com/example/example/snippets/1/raw",
+		ProjectID: 1,
+		WebURL:    "http://example.com/example/example/snippets/1",
+		RawURL:    "http://example.com/example/example/snippets/1/raw",
 		Files: []struct {
 			Path   string `json:"path"`
 			RawURL string `json:"raw_url"`
@@ -212,7 +213,6 @@ func TestProjectSnippetsService_CreateSnippet(t *testing.T) {
 				RawURL: "http://example.com/example/example/-/snippets/1/raw/main/add.rb",
 			},
 		},
-		ProjectID: 1,
 	}
 
 	s, resp, err := client.ProjectSnippets.CreateSnippet(1, nil, nil, nil)
@@ -280,9 +280,9 @@ func TestProjectSnippetsService_UpdateSnippet(t *testing.T) {
 			Name:     "Venkatesh Thalluri",
 			State:    "active",
 		},
+		ProjectID: 1,
 		WebURL:    "http://example.com/example/example/snippets/1",
 		RawURL:    "http://example.com/example/example/snippets/1/raw",
-		ProjectID: 1,
 	}
 
 	s, resp, err := client.ProjectSnippets.UpdateSnippet(1, 1, nil, nil, nil)
