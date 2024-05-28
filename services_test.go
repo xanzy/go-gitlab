@@ -91,9 +91,6 @@ func TestSetCustomIssueTrackerService(t *testing.T) {
 		NewIssueURL: Ptr("1"),
 		IssuesURL:   Ptr("2"),
 		ProjectURL:  Ptr("3"),
-		Description: Ptr("4"),
-		Title:       Ptr("5"),
-		PushEvents:  Ptr(true),
 	}
 
 	_, err := client.Services.SetCustomIssueTrackerService(1, opt)

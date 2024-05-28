@@ -101,7 +101,7 @@ func TestParseCommitCommentHook(t *testing.T) {
 	}
 }
 
-func TestParseFeatureFLagHook(t *testing.T) {
+func TestParseFeatureFlagHook(t *testing.T) {
 	raw := loadFixture("testdata/webhooks/feature_flag.json")
 
 	parsedEvent, err := ParseWebhook("Feature Flag Hook", raw)
@@ -144,6 +144,26 @@ func TestParseFeatureFLagHook(t *testing.T) {
 
 	if event.ObjectAttributes.Active != true {
 		t.Errorf("ObjectAttributes.Active is %t, want %t", event.ObjectAttributes.Active, true)
+	}
+}
+
+func TestParseGroupResourceAccessTokenHook(t *testing.T) {
+	raw := loadFixture("testdata/webhooks/resource_access_token_group.json")
+
+	parsedEvent, err := ParseWebhook("Resource Access Token Hook", raw)
+	if err != nil {
+		t.Errorf("Error parsing group resource access token hook: %s", err)
+	}
+
+	event, ok := parsedEvent.(*GroupResourceAccessTokenEvent)
+	if !ok {
+		t.Errorf("Expected GroupResourceAccessTokenEvent, but parsing produced %T", parsedEvent)
+	}
+
+	expectedEventName := "expiring_access_token"
+
+	if event.EventName != expectedEventName {
+		t.Errorf("EventName is %v, want %v", event.EventName, expectedEventName)
 	}
 }
 
@@ -348,6 +368,26 @@ func TestParsePipelineHook(t *testing.T) {
 
 	if event.Builds[0].Runner.RunnerType != "instance_type" {
 		t.Errorf("Builds[0] Runner RunnerType is %v, want %v", event.Builds[0].Runner.RunnerType, "instance_type")
+	}
+}
+
+func TestParseProjectResourceAccessTokenHook(t *testing.T) {
+	raw := loadFixture("testdata/webhooks/resource_access_token_project.json")
+
+	parsedEvent, err := ParseWebhook("Resource Access Token Hook", raw)
+	if err != nil {
+		t.Errorf("Error parsing project resource access token hook: %s", err)
+	}
+
+	event, ok := parsedEvent.(*ProjectResourceAccessTokenEvent)
+	if !ok {
+		t.Errorf("Expected ProjectResourceAccessTokenEvent, but parsing produced %T", parsedEvent)
+	}
+
+	expectedEventName := "expiring_access_token"
+
+	if event.EventName != expectedEventName {
+		t.Errorf("EventName is %v, want %v", event.EventName, expectedEventName)
 	}
 }
 

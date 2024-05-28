@@ -79,3 +79,19 @@ func TestListProjectStatusChecks(t *testing.T) {
 
 	assert.Equal(t, expectedProjectStatusChecks, projectStatusChecks)
 }
+
+func TestRetryFailedStatusCheckForAMergeRequest(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/projects/1/merge_requests/2/status_checks/3/retry", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPost)
+		fmt.Fprint(w, `{"message": "202 Accepted"}`)
+	})
+
+	resp, err := client.ExternalStatusChecks.RetryFailedStatusCheckForAMergeRequest(1, 2, 3)
+	if err != nil {
+		t.Fatalf("ExternalStatusChecks.RetryFailedStatusCheckForAMergeRequest returns an error: %v", err)
+	}
+
+	assert.NotNil(t, resp)
+}

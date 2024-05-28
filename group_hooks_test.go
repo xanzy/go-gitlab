@@ -48,9 +48,11 @@ func TestListGroupHooks(t *testing.T) {
 		"deployment_events": true,
 		"releases_events": true,
 		"subgroup_events": true,
+		"member_events": true,
 		"enable_ssl_verification": true,
 		"alert_status": "executable",
-		"created_at": "2012-10-12T17:04:47Z"
+		"created_at": "2012-10-12T17:04:47Z",
+		"resource_access_token_events": true
 	}
 ]`)
 	})
@@ -62,25 +64,27 @@ func TestListGroupHooks(t *testing.T) {
 
 	datePointer := time.Date(2012, 10, 12, 17, 4, 47, 0, time.UTC)
 	want := []*GroupHook{{
-		ID:                       1,
-		URL:                      "http://example.com/hook",
-		GroupID:                  3,
-		PushEvents:               true,
-		PushEventsBranchFilter:   "main",
-		IssuesEvents:             true,
-		ConfidentialIssuesEvents: true,
-		MergeRequestsEvents:      true,
-		TagPushEvents:            true,
-		NoteEvents:               true,
-		JobEvents:                true,
-		PipelineEvents:           true,
-		WikiPageEvents:           true,
-		DeploymentEvents:         true,
-		ReleasesEvents:           true,
-		SubGroupEvents:           true,
-		EnableSSLVerification:    true,
-		AlertStatus:              "executable",
-		CreatedAt:                &datePointer,
+		ID:                        1,
+		URL:                       "http://example.com/hook",
+		GroupID:                   3,
+		PushEvents:                true,
+		PushEventsBranchFilter:    "main",
+		IssuesEvents:              true,
+		ConfidentialIssuesEvents:  true,
+		MergeRequestsEvents:       true,
+		TagPushEvents:             true,
+		NoteEvents:                true,
+		JobEvents:                 true,
+		PipelineEvents:            true,
+		WikiPageEvents:            true,
+		DeploymentEvents:          true,
+		ReleasesEvents:            true,
+		SubGroupEvents:            true,
+		MemberEvents:              true,
+		EnableSSLVerification:     true,
+		AlertStatus:               "executable",
+		CreatedAt:                 &datePointer,
+		ResourceAccessTokenEvents: true,
 	}}
 
 	if !reflect.DeepEqual(groupHooks, want) {
@@ -111,9 +115,11 @@ func TestGetGroupHook(t *testing.T) {
 	"deployment_events": true,
 	"releases_events": true,
 	"subgroup_events": true,
+	"member_events": true,
 	"enable_ssl_verification": true,
 	"alert_status": "executable",
-	"created_at": "2012-10-12T17:04:47Z"
+	"created_at": "2012-10-12T17:04:47Z",
+	"resource_access_token_events": true
 }`)
 	})
 
@@ -124,25 +130,27 @@ func TestGetGroupHook(t *testing.T) {
 
 	datePointer := time.Date(2012, 10, 12, 17, 4, 47, 0, time.UTC)
 	want := &GroupHook{
-		ID:                       1,
-		URL:                      "http://example.com/hook",
-		GroupID:                  3,
-		PushEvents:               true,
-		PushEventsBranchFilter:   "main",
-		IssuesEvents:             true,
-		ConfidentialIssuesEvents: true,
-		MergeRequestsEvents:      true,
-		TagPushEvents:            true,
-		NoteEvents:               true,
-		JobEvents:                true,
-		PipelineEvents:           true,
-		WikiPageEvents:           true,
-		DeploymentEvents:         true,
-		ReleasesEvents:           true,
-		SubGroupEvents:           true,
-		EnableSSLVerification:    true,
-		AlertStatus:              "executable",
-		CreatedAt:                &datePointer,
+		ID:                        1,
+		URL:                       "http://example.com/hook",
+		GroupID:                   3,
+		PushEvents:                true,
+		PushEventsBranchFilter:    "main",
+		IssuesEvents:              true,
+		ConfidentialIssuesEvents:  true,
+		MergeRequestsEvents:       true,
+		TagPushEvents:             true,
+		NoteEvents:                true,
+		JobEvents:                 true,
+		PipelineEvents:            true,
+		WikiPageEvents:            true,
+		DeploymentEvents:          true,
+		ReleasesEvents:            true,
+		SubGroupEvents:            true,
+		MemberEvents:              true,
+		EnableSSLVerification:     true,
+		AlertStatus:               "executable",
+		CreatedAt:                 &datePointer,
+		ResourceAccessTokenEvents: true,
 	}
 
 	if !reflect.DeepEqual(groupHook, want) {
@@ -173,9 +181,11 @@ func TestAddGroupHook(t *testing.T) {
 	"deployment_events": true,
 	"releases_events": true,
 	"subgroup_events": true,
+	"member_events": true,
 	"enable_ssl_verification": true,
 	"created_at": "2012-10-12T17:04:47Z",
-	"custom_webhook_template": "addTestValue"
+	"custom_webhook_template": "addTestValue",
+	"resource_access_token_events": true
 }`)
 	})
 
@@ -191,26 +201,28 @@ func TestAddGroupHook(t *testing.T) {
 
 	datePointer := time.Date(2012, 10, 12, 17, 4, 47, 0, time.UTC)
 	want := &GroupHook{
-		ID:                       1,
-		URL:                      "http://example.com/hook",
-		GroupID:                  3,
-		PushEvents:               true,
-		PushEventsBranchFilter:   "main",
-		IssuesEvents:             true,
-		ConfidentialIssuesEvents: true,
-		ConfidentialNoteEvents:   false,
-		MergeRequestsEvents:      true,
-		TagPushEvents:            true,
-		NoteEvents:               true,
-		JobEvents:                true,
-		PipelineEvents:           true,
-		WikiPageEvents:           true,
-		DeploymentEvents:         true,
-		ReleasesEvents:           true,
-		SubGroupEvents:           true,
-		EnableSSLVerification:    true,
-		CreatedAt:                &datePointer,
-		CustomWebhookTemplate:    "addTestValue",
+		ID:                        1,
+		URL:                       "http://example.com/hook",
+		GroupID:                   3,
+		PushEvents:                true,
+		PushEventsBranchFilter:    "main",
+		IssuesEvents:              true,
+		ConfidentialIssuesEvents:  true,
+		ConfidentialNoteEvents:    false,
+		MergeRequestsEvents:       true,
+		TagPushEvents:             true,
+		NoteEvents:                true,
+		JobEvents:                 true,
+		PipelineEvents:            true,
+		WikiPageEvents:            true,
+		DeploymentEvents:          true,
+		ReleasesEvents:            true,
+		SubGroupEvents:            true,
+		MemberEvents:              true,
+		EnableSSLVerification:     true,
+		CreatedAt:                 &datePointer,
+		CustomWebhookTemplate:     "addTestValue",
+		ResourceAccessTokenEvents: true,
 	}
 
 	if !reflect.DeepEqual(groupHooks, want) {
@@ -241,9 +253,11 @@ func TestEditGroupHook(t *testing.T) {
 	"deployment_events": true,
 	"releases_events": true,
 	"subgroup_events": true,
+	"member_events": true,
 	"enable_ssl_verification": true,
 	"created_at": "2012-10-12T17:04:47Z",
-	"custom_webhook_template": "testValue"
+	"custom_webhook_template": "testValue",
+	"resource_access_token_events": true
 }`)
 	})
 
@@ -259,26 +273,28 @@ func TestEditGroupHook(t *testing.T) {
 
 	datePointer := time.Date(2012, 10, 12, 17, 4, 47, 0, time.UTC)
 	want := &GroupHook{
-		ID:                       1,
-		URL:                      "http://example.com/hook",
-		GroupID:                  3,
-		PushEvents:               true,
-		PushEventsBranchFilter:   "main",
-		IssuesEvents:             true,
-		ConfidentialIssuesEvents: true,
-		ConfidentialNoteEvents:   false,
-		MergeRequestsEvents:      true,
-		TagPushEvents:            true,
-		NoteEvents:               true,
-		JobEvents:                true,
-		PipelineEvents:           true,
-		WikiPageEvents:           true,
-		DeploymentEvents:         true,
-		ReleasesEvents:           true,
-		SubGroupEvents:           true,
-		EnableSSLVerification:    true,
-		CreatedAt:                &datePointer,
-		CustomWebhookTemplate:    "testValue",
+		ID:                        1,
+		URL:                       "http://example.com/hook",
+		GroupID:                   3,
+		PushEvents:                true,
+		PushEventsBranchFilter:    "main",
+		IssuesEvents:              true,
+		ConfidentialIssuesEvents:  true,
+		ConfidentialNoteEvents:    false,
+		MergeRequestsEvents:       true,
+		TagPushEvents:             true,
+		NoteEvents:                true,
+		JobEvents:                 true,
+		PipelineEvents:            true,
+		WikiPageEvents:            true,
+		DeploymentEvents:          true,
+		ReleasesEvents:            true,
+		SubGroupEvents:            true,
+		MemberEvents:              true,
+		EnableSSLVerification:     true,
+		CreatedAt:                 &datePointer,
+		CustomWebhookTemplate:     "testValue",
+		ResourceAccessTokenEvents: true,
 	}
 
 	if !reflect.DeepEqual(groupHooks, want) {

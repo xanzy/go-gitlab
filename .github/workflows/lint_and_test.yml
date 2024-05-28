@@ -15,15 +15,16 @@ jobs:
     runs-on: ${{ matrix.platform }}
     steps:
       - name: Install Go
-        uses: actions/setup-go@v4
+        uses: actions/setup-go@v5
         with:
           go-version: ${{ matrix.go-version }}
+          cache: false
 
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Lint package
-        uses: golangci/golangci-lint-action@v3
+        uses: golangci/golangci-lint-action@v5
         with:
           version: latest
 
@@ -33,7 +34,7 @@ jobs:
           go tool cover -func coverage.txt
 
       - name: Update coverage report
-        uses: ncruces/go-coverage-report@v0.2.3
+        uses: ncruces/go-coverage-report@v0.3.0
         with:
           report: 'true'
           amend: 'true'

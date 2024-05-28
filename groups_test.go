@@ -1,7 +1,9 @@
 package gitlab
 
 import (
+	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
 	"net/url"
 	"reflect"
@@ -179,7 +181,6 @@ func TestDeleteGroup_WithPermanentDelete(t *testing.T) {
 		PermanentlyRemove: Ptr(true),
 		FullPath:          Ptr("testPath"),
 	})
-
 	if err != nil {
 		t.Errorf("Groups.DeleteGroup returned error: %v", err)
 	}
@@ -431,6 +432,38 @@ func TestListGroupSAMLLinks(t *testing.T) {
 	}
 }
 
+func TestListGroupSAMLLinksCustomRole(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/groups/1/saml_group_links",
+		func(w http.ResponseWriter, r *http.Request) {
+			testMethod(t, r, http.MethodGet)
+			fmt.Fprint(w, `[
+	{
+		"access_level":30,
+		"name":"gitlab_group_example_developer",
+		"member_role_id":123
+	}
+]`)
+		})
+
+	links, _, err := client.Groups.ListGroupSAMLLinks(1)
+	if err != nil {
+		t.Errorf("Groups.ListGroupSAMLLinks returned error: %v", err)
+	}
+
+	want := []*SAMLGroupLink{
+		{
+			AccessLevel:  DeveloperPermissions,
+			Name:         "gitlab_group_example_developer",
+			MemberRoleID: 123,
+		},
+	}
+	if !reflect.DeepEqual(want, links) {
+		t.Errorf("Groups.ListGroupSAMLLinks returned %+v, want %+v", links, want)
+	}
+}
+
 func TestGetGroupSAMLLink(t *testing.T) {
 	mux, client := setup(t)
 
@@ -452,6 +485,35 @@ func TestGetGroupSAMLLink(t *testing.T) {
 	want := &SAMLGroupLink{
 		AccessLevel: DeveloperPermissions,
 		Name:        "gitlab_group_example_developer",
+	}
+	if !reflect.DeepEqual(want, links) {
+		t.Errorf("Groups.GetGroupSAMLLink returned %+v, want %+v", links, want)
+	}
+}
+
+func TestGetGroupSAMLLinkCustomRole(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/groups/1/saml_group_links/gitlab_group_example_developer",
+		func(w http.ResponseWriter, r *http.Request) {
+			testMethod(t, r, http.MethodGet)
+			fmt.Fprint(w, `
+{
+	"access_level":30,
+	"name":"gitlab_group_example_developer",
+	"member_role_id":123
+}`)
+		})
+
+	links, _, err := client.Groups.GetGroupSAMLLink(1, "gitlab_group_example_developer")
+	if err != nil {
+		t.Errorf("Groups.GetGroupSAMLLinks returned error: %v", err)
+	}
+
+	want := &SAMLGroupLink{
+		AccessLevel:  DeveloperPermissions,
+		Name:         "gitlab_group_example_developer",
+		MemberRoleID: 123,
 	}
 	if !reflect.DeepEqual(want, links) {
 		t.Errorf("Groups.GetGroupSAMLLink returned %+v, want %+v", links, want)
@@ -484,6 +546,41 @@ func TestAddGroupSAMLLink(t *testing.T) {
 	want := &SAMLGroupLink{
 		AccessLevel: DeveloperPermissions,
 		Name:        "gitlab_group_example_developer",
+	}
+	if !reflect.DeepEqual(want, link) {
+		t.Errorf("Groups.AddGroupSAMLLink returned %+v, want %+v", link, want)
+	}
+}
+
+func TestAddGroupSAMLLinkCustomRole(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/groups/1/saml_group_links",
+		func(w http.ResponseWriter, r *http.Request) {
+			testMethod(t, r, http.MethodPost)
+			fmt.Fprint(w, `
+{
+	"access_level":30,
+	"name":"gitlab_group_example_developer",
+	"member_role_id":123
+}`)
+		})
+
+	opt := &AddGroupSAMLLinkOptions{
+		SAMLGroupName: Ptr("gitlab_group_example_developer"),
+		AccessLevel:   Ptr(DeveloperPermissions),
+		MemberRoleID:  Ptr(123),
+	}
+
+	link, _, err := client.Groups.AddGroupSAMLLink(1, opt)
+	if err != nil {
+		t.Errorf("Groups.AddGroupSAMLLink returned error: %v", err)
+	}
+
+	want := &SAMLGroupLink{
+		AccessLevel:  DeveloperPermissions,
+		Name:         "gitlab_group_example_developer",
+		MemberRoleID: 123,
 	}
 	if !reflect.DeepEqual(want, link) {
 		t.Errorf("Groups.AddGroupSAMLLink returned %+v, want %+v", link, want)
@@ -591,5 +688,291 @@ func TestUpdateGroupWithIPRestrictionRanges(t *testing.T) {
 	want := &Group{ID: 1, IPRestrictionRanges: "192.168.0.0/24"}
 	if !reflect.DeepEqual(want, group) {
 		t.Errorf("Groups.UpdatedGroup returned %+v, want %+v", group, want)
+	}
+}
+
+func TestGetGroupWithEmailsEnabled(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/groups/1",
+		func(w http.ResponseWriter, r *http.Request) {
+			testMethod(t, r, http.MethodGet)
+
+			// Modified from https://docs.gitlab.com/ee/api/groups.html#details-of-a-group
+			fmt.Fprint(w, `
+			{
+				"id": 1,
+				"name": "test",
+				"path": "test",
+				"emails_enabled": true,
+				"description": "Aliquid qui quis dignissimos distinctio ut commodi voluptas est.",
+				"visibility": "public",
+				"avatar_url": null,
+				"web_url": "https://gitlab.example.com/groups/test",
+				"request_access_enabled": false,
+				"repository_storage": "default",
+				"full_name": "test",
+				"full_path": "test",
+				"runners_token": "ba324ca7b1c77fc20bb9",
+				"file_template_project_id": 1,
+				"parent_id": null,
+				"enabled_git_access_protocol": "all",
+				"created_at": "2020-01-15T12:36:29.590Z",
+				"prevent_sharing_groups_outside_hierarchy": false,
+				"ip_restriction_ranges": null,
+				"math_rendering_limits_enabled": true,
+				"lock_math_rendering_limits_enabled": false
+			  }`)
+		})
+
+	group, _, err := client.Groups.GetGroup(1, &GetGroupOptions{})
+	if err != nil {
+		t.Errorf("Groups.UpdateGroup returned error: %v", err)
+	}
+
+	if !group.EmailsEnabled {
+		t.Fatalf("Failed to parse `emails_enabled`. Wanted true, got %v", group.EmailsEnabled)
+	}
+}
+
+func TestCreateGroupWithEmailsEnabled(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/groups",
+		func(w http.ResponseWriter, r *http.Request) {
+			testMethod(t, r, http.MethodPost)
+
+			body, err := io.ReadAll(r.Body)
+			if err != nil {
+				t.Fatalf("Failed to read the request body. Error: %v", err)
+			}
+
+			// unmarshal into generic JSON since we don't want to test CreateGroupOptions using itself to validate.
+			var bodyJson map[string]interface{}
+			err = json.Unmarshal(body, &bodyJson)
+			if err != nil {
+				t.Fatalf("Failed to parse the request body into JSON. Error: %v", err)
+			}
+
+			if bodyJson["emails_enabled"] != true {
+				t.Fatalf("Test failed. `emails_enabled` expected to be true, got %v", bodyJson["emails_enabled"])
+			}
+
+			// Response is tested via the "GET" test, only test the actual request here.
+			fmt.Fprint(w, `
+			{}`)
+		})
+
+	_, _, err := client.Groups.CreateGroup(&CreateGroupOptions{EmailsEnabled: Ptr(true)})
+	if err != nil {
+		t.Errorf("Groups.CreateGroup returned error: %v", err)
+	}
+}
+
+func TestUpdateGroupWithEmailsEnabled(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/groups/1",
+		func(w http.ResponseWriter, r *http.Request) {
+			testMethod(t, r, http.MethodPut)
+
+			body, err := io.ReadAll(r.Body)
+			if err != nil {
+				t.Fatalf("Failed to read the request body. Error: %v", err)
+			}
+
+			// unmarshal into generic JSON since we don't want to test UpdateGroupOptions using itself to validate.
+			var bodyJson map[string]interface{}
+			err = json.Unmarshal(body, &bodyJson)
+			if err != nil {
+				t.Fatalf("Failed to parse the request body into JSON. Error: %v", err)
+			}
+
+			if bodyJson["emails_enabled"] != true {
+				t.Fatalf("Test failed. `emails_enabled` expected to be true, got %v", bodyJson["emails_enabled"])
+			}
+
+			// Response is tested via the "GET" test, only test the actual request here.
+			fmt.Fprint(w, `
+			{}`)
+		})
+
+	_, _, err := client.Groups.UpdateGroup(1, &UpdateGroupOptions{EmailsEnabled: Ptr(true)})
+	if err != nil {
+		t.Errorf("Groups.UpdateGroup returned error: %v", err)
+	}
+}
+
+func TestGetGroupPushRules(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/groups/1/push_rule", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		fmt.Fprint(w, `{
+			"id": 1,
+			"commit_message_regex": "Fixes \\d+\\..*",
+			"commit_message_negative_regex": "ssh\\:\\/\\/",
+			"branch_name_regex": "(feat|fix)\\/*",
+			"deny_delete_tag": false,
+			"member_check": false,
+			"prevent_secrets": false,
+			"author_email_regex": "@company.com$",
+			"file_name_regex": "(jar|exe)$",
+			"max_file_size": 5,
+			"commit_committer_check": false,
+			"commit_committer_name_check": false,
+			"reject_unsigned_commits": false
+		  }`)
+	})
+
+	rule, _, err := client.Groups.GetGroupPushRules(1)
+	if err != nil {
+		t.Errorf("Groups.GetGroupPushRules returned error: %v", err)
+	}
+
+	want := &GroupPushRules{
+		ID:                         1,
+		CommitMessageRegex:         "Fixes \\d+\\..*",
+		CommitMessageNegativeRegex: "ssh\\:\\/\\/",
+		BranchNameRegex:            "(feat|fix)\\/*",
+		DenyDeleteTag:              false,
+		MemberCheck:                false,
+		PreventSecrets:             false,
+		AuthorEmailRegex:           "@company.com$",
+		FileNameRegex:              "(jar|exe)$",
+		MaxFileSize:                5,
+		CommitCommitterCheck:       false,
+		CommitCommitterNameCheck:   false,
+		RejectUnsignedCommits:      false,
+	}
+
+	if !reflect.DeepEqual(want, rule) {
+		t.Errorf("Groups.GetGroupPushRules returned %+v, want %+v", rule, want)
+	}
+}
+
+func TestAddGroupPushRules(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/groups/1/push_rule", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPost)
+		fmt.Fprint(w, `{
+			"id": 1,
+			"commit_message_regex": "Fixes \\d+\\..*",
+			"commit_message_negative_regex": "ssh\\:\\/\\/",
+			"branch_name_regex": "(feat|fix)\\/*",
+			"deny_delete_tag": false,
+			"member_check": false,
+			"prevent_secrets": false,
+			"author_email_regex": "@company.com$",
+			"file_name_regex": "(jar|exe)$",
+			"max_file_size": 5,
+			"commit_committer_check": false,
+			"commit_committer_name_check": false,
+			"reject_unsigned_commits": false
+		  }`)
+	})
+
+	opt := &AddGroupPushRuleOptions{
+		CommitMessageRegex:         Ptr("Fixes \\d+\\..*"),
+		CommitMessageNegativeRegex: Ptr("ssh\\:\\/\\/"),
+		BranchNameRegex:            Ptr("(feat|fix)\\/*"),
+		DenyDeleteTag:              Ptr(false),
+		MemberCheck:                Ptr(false),
+		PreventSecrets:             Ptr(false),
+		AuthorEmailRegex:           Ptr("@company.com$"),
+		FileNameRegex:              Ptr("(jar|exe)$"),
+		MaxFileSize:                Ptr(5),
+		CommitCommitterCheck:       Ptr(false),
+		CommitCommitterNameCheck:   Ptr(false),
+		RejectUnsignedCommits:      Ptr(false),
+	}
+
+	rule, _, err := client.Groups.AddGroupPushRule(1, opt)
+	if err != nil {
+		t.Errorf("Groups.AddGroupPushRule returned error: %v", err)
+	}
+
+	want := &GroupPushRules{
+		ID:                         1,
+		CommitMessageRegex:         "Fixes \\d+\\..*",
+		CommitMessageNegativeRegex: "ssh\\:\\/\\/",
+		BranchNameRegex:            "(feat|fix)\\/*",
+		DenyDeleteTag:              false,
+		MemberCheck:                false,
+		PreventSecrets:             false,
+		AuthorEmailRegex:           "@company.com$",
+		FileNameRegex:              "(jar|exe)$",
+		MaxFileSize:                5,
+		CommitCommitterCheck:       false,
+		CommitCommitterNameCheck:   false,
+		RejectUnsignedCommits:      false,
+	}
+
+	if !reflect.DeepEqual(want, rule) {
+		t.Errorf("Groups.AddGroupPushRule returned %+v, want %+v", rule, want)
+	}
+}
+
+func TestEditGroupPushRules(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/groups/1/push_rule", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPut)
+		fmt.Fprint(w, `{
+			"id": 1,
+			"commit_message_regex": "Fixes \\d+\\..*",
+			"commit_message_negative_regex": "ssh\\:\\/\\/",
+			"branch_name_regex": "(feat|fix)\\/*",
+			"deny_delete_tag": false,
+			"member_check": false,
+			"prevent_secrets": false,
+			"author_email_regex": "@company.com$",
+			"file_name_regex": "(jar|exe)$",
+			"max_file_size": 5,
+			"commit_committer_check": false,
+			"commit_committer_name_check": false,
+			"reject_unsigned_commits": false
+		  }`)
+	})
+
+	opt := &EditGroupPushRuleOptions{
+		CommitMessageRegex:         Ptr("Fixes \\d+\\..*"),
+		CommitMessageNegativeRegex: Ptr("ssh\\:\\/\\/"),
+		BranchNameRegex:            Ptr("(feat|fix)\\/*"),
+		DenyDeleteTag:              Ptr(false),
+		MemberCheck:                Ptr(false),
+		PreventSecrets:             Ptr(false),
+		AuthorEmailRegex:           Ptr("@company.com$"),
+		FileNameRegex:              Ptr("(jar|exe)$"),
+		MaxFileSize:                Ptr(5),
+		CommitCommitterCheck:       Ptr(false),
+		CommitCommitterNameCheck:   Ptr(false),
+		RejectUnsignedCommits:      Ptr(false),
+	}
+
+	rule, _, err := client.Groups.EditGroupPushRule(1, opt)
+	if err != nil {
+		t.Errorf("Groups.EditGroupPushRule returned error: %v", err)
+	}
+
+	want := &GroupPushRules{
+		ID:                         1,
+		CommitMessageRegex:         "Fixes \\d+\\..*",
+		CommitMessageNegativeRegex: "ssh\\:\\/\\/",
+		BranchNameRegex:            "(feat|fix)\\/*",
+		DenyDeleteTag:              false,
+		MemberCheck:                false,
+		PreventSecrets:             false,
+		AuthorEmailRegex:           "@company.com$",
+		FileNameRegex:              "(jar|exe)$",
+		MaxFileSize:                5,
+		CommitCommitterCheck:       false,
+		CommitCommitterNameCheck:   false,
+		RejectUnsignedCommits:      false,
+	}
+
+	if !reflect.DeepEqual(want, rule) {
+		t.Errorf("Groups.EditGroupPushRule returned %+v, want %+v", rule, want)
 	}
 }

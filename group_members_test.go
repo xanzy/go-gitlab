@@ -287,3 +287,62 @@ func TestListGroupMembersWithSAML(t *testing.T) {
 		t.Errorf("Groups.ListBillableGroupMembers returned %+v, want %+v", members[0], want[0])
 	}
 }
+
+func TestGetGroupMemberCustomRole(t *testing.T) {
+	mux, client := setup(t)
+
+	path := fmt.Sprintf("/%sgroups/1/members/2", apiVersionPath)
+	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+
+		// This is pulled straight from a `/group/<group_id>/members/<user_id>` call, then obfuscated.
+		fmt.Fprint(w, `
+		{
+			"id":1,
+			"username":"test",
+			"name":"testName",
+			"access_level":30,
+			"member_role":{
+				"id":1,
+				"group_id":2,
+				"name":"TestingCustomRole",
+				"description":"",
+				"base_access_level":30,
+				"admin_cicd_variables":true,
+				"admin_group_member":null,
+				"admin_merge_request":null,
+				"admin_push_rules":null,
+				"admin_terraform_state":null,
+				"admin_vulnerability":null,
+				"archive_project":null,
+				"manage_group_access_tokens":null,
+				"manage_project_access_tokens":null,
+				"read_code":null,
+				"read_dependency":null,
+				"read_vulnerability":null,
+				"remove_group":null,
+				"remove_project":null
+			}
+		}
+		`)
+	})
+
+	want := &GroupMember{
+		ID:          1,
+		Username:    "test",
+		Name:        "testName",
+		AccessLevel: AccessLevelValue(30),
+		MemberRole: &MemberRole{
+			ID:                 1,
+			GroupId:            2,
+			Name:               "TestingCustomRole",
+			Description:        "",
+			BaseAccessLevel:    AccessLevelValue(30),
+			AdminCICDVariables: true,
+		},
+	}
+	member, _, err := client.GroupMembers.GetGroupMember(1, 2)
+
+	assert.NoError(t, err)
+	assert.Equal(t, want, member)
+}

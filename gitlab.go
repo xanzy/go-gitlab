@@ -21,6 +21,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"math/rand"
@@ -65,6 +66,8 @@ const (
 	PrivateToken
 	GitlabCookie
 )
+
+var ErrNotFound = errors.New("404 Not Found")
 
 // A Client manages communication with the GitLab API.
 type Client struct {
@@ -128,6 +131,8 @@ type Client struct {
 	Deployments                  *DeploymentsService
 	Discussions                  *DiscussionsService
 	DockerfileTemplate           *DockerfileTemplatesService
+	DORAMetrics                  *DORAMetricsService
+	DraftNotes                   *DraftNotesService
 	Environments                 *EnvironmentsService
 	EpicIssues                   *EpicIssuesService
 	Epics                        *EpicsService
@@ -155,6 +160,7 @@ type Client struct {
 	GroupVariables               *GroupVariablesService
 	GroupWikis                   *GroupWikisService
 	Groups                       *GroupsService
+	Import                       *ImportService
 	InstanceCluster              *InstanceClustersService
 	InstanceVariables            *InstanceVariablesService
 	Invites                      *InvitesService
@@ -208,6 +214,7 @@ type Client struct {
 	Repositories                 *RepositoriesService
 	RepositoryFiles              *RepositoryFilesService
 	RepositorySubmodules         *RepositorySubmodulesService
+	ResourceGroup                *ResourceGroupService
 	ResourceIterationEvents      *ResourceIterationEventsService
 	ResourceLabelEvents          *ResourceLabelEventsService
 	ResourceMilestoneEvents      *ResourceMilestoneEventsService
@@ -373,6 +380,8 @@ func newClient(options ...ClientOptionFunc) (*Client, error) {
 	c.Deployments = &DeploymentsService{client: c}
 	c.Discussions = &DiscussionsService{client: c}
 	c.DockerfileTemplate = &DockerfileTemplatesService{client: c}
+	c.DORAMetrics = &DORAMetricsService{client: c}
+	c.DraftNotes = &DraftNotesService{client: c}
 	c.Environments = &EnvironmentsService{client: c}
 	c.EpicIssues = &EpicIssuesService{client: c}
 	c.Epics = &EpicsService{client: c}
@@ -400,6 +409,7 @@ func newClient(options ...ClientOptionFunc) (*Client, error) {
 	c.GroupVariables = &GroupVariablesService{client: c}
 	c.GroupWikis = &GroupWikisService{client: c}
 	c.Groups = &GroupsService{client: c}
+	c.Import = &ImportService{client: c}
 	c.InstanceCluster = &InstanceClustersService{client: c}
 	c.InstanceVariables = &InstanceVariablesService{client: c}
 	c.Invites = &InvitesService{client: c}
@@ -453,6 +463,7 @@ func newClient(options ...ClientOptionFunc) (*Client, error) {
 	c.Repositories = &RepositoriesService{client: c}
 	c.RepositoryFiles = &RepositoryFilesService{client: c}
 	c.RepositorySubmodules = &RepositorySubmodulesService{client: c}
+	c.ResourceGroup = &ResourceGroupService{client: c}
 	c.ResourceIterationEvents = &ResourceIterationEventsService{client: c}
 	c.ResourceLabelEvents = &ResourceLabelEventsService{client: c}
 	c.ResourceMilestoneEvents = &ResourceMilestoneEventsService{client: c}
@@ -514,7 +525,7 @@ func (c *Client) retryHTTPBackoff(min, max time.Duration, attemptNum int, resp *
 // min and max are mainly used for bounding the jitter that will be added to
 // the reset time retrieved from the headers. But if the final wait time is
 // less then min, min will be used instead.
-func rateLimitBackoff(min, max time.Duration, attemptNum int, resp *http.Response) time.Duration {
+func rateLimitBackoff(min, max time.Duration, _ int, resp *http.Response) time.Duration {
 	// rnd is used to generate pseudo-random numbers.
 	rnd := rand.New(rand.NewSource(time.Now().UnixNano()))
 
@@ -974,8 +985,13 @@ type ErrorResponse struct {
 
 func (e *ErrorResponse) Error() string {
 	path, _ := url.QueryUnescape(e.Response.Request.URL.Path)
-	u := fmt.Sprintf("%s://%s%s", e.Response.Request.URL.Scheme, e.Response.Request.URL.Host, path)
-	return fmt.Sprintf("%s %s: %d %s", e.Response.Request.Method, u, e.Response.StatusCode, e.Message)
+	url := fmt.Sprintf("%s://%s%s", e.Response.Request.URL.Scheme, e.Response.Request.URL.Host, path)
+
+	if e.Message == "" {
+		return fmt.Sprintf("%s %s: %d", e.Response.Request.Method, url, e.Response.StatusCode)
+	} else {
+		return fmt.Sprintf("%s %s: %d %s", e.Response.Request.Method, url, e.Response.StatusCode, e.Message)
+	}
 }
 
 // CheckResponse checks the API response for errors, and returns them if present.
@@ -983,11 +999,14 @@ func CheckResponse(r *http.Response) error {
 	switch r.StatusCode {
 	case 200, 201, 202, 204, 304:
 		return nil
+	case 404:
+		return ErrNotFound
 	}
 
 	errorResponse := &ErrorResponse{Response: r}
+
 	data, err := io.ReadAll(r.Body)
-	if err == nil && data != nil {
+	if err == nil && strings.TrimSpace(string(data)) != "" {
 		errorResponse.Body = data
 
 		var raw interface{}
