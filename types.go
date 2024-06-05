@@ -256,6 +256,17 @@ func BuildState(v BuildStateValue) *BuildStateValue {
 	return Ptr(v)
 }
 
+// CommentEventAction identifies if a comment has been newly created or updated.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/user/project/integrations/webhook_events.html#comment-events
+type CommentEventAction string
+
+const (
+	CommentEventActionCreate CommentEventAction = "create"
+	CommentEventActionUpdate CommentEventAction = "update"
+)
+
 // ContainerRegistryStatus represents the status of a Container Registry.
 //
 // GitLab API docs:

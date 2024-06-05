@@ -46,6 +46,7 @@
     "noteable_id": 7,
     "system": false,
     "st_diff": null,
+    "action": "create",
     "url": "http://example.com/gitlab-org/gitlab-test/merge_requests/1#note_1244"
   },
   "merge_request": {

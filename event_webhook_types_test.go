@@ -101,6 +101,10 @@ func TestCommitCommentEventUnmarshal(t *testing.T) {
 		t.Errorf("NoteableType is %v, want %v", event.ObjectAttributes.NoteableType, "Commit")
 	}
 
+	if event.ObjectAttributes.Action != CommentEventActionCreate {
+		t.Errorf("Action is %v, want %v", event.ObjectAttributes.Action, "create")
+	}
+
 	if event.Commit.Title != "Add submodule" {
 		t.Errorf("Issue title is %v, want %v", event.Commit.Title, "Add submodule")
 	}
@@ -350,6 +354,10 @@ func TestIssueCommentEventUnmarshal(t *testing.T) {
 		t.Errorf("NoteableType is %v, want %v", event.ObjectAttributes.NoteableType, "Issue")
 	}
 
+	if event.ObjectAttributes.Action != CommentEventActionCreate {
+		t.Errorf("Action is %v, want %v", event.ObjectAttributes.Action, "create")
+	}
+
 	if event.Issue.Title != "test_issue" {
 		t.Errorf("Issue title is %v, want %v", event.Issue.Title, "test_issue")
 	}
@@ -545,6 +553,10 @@ func TestMergeCommentEventUnmarshal(t *testing.T) {
 
 	if event.ObjectAttributes.NoteableType != "MergeRequest" {
 		t.Errorf("ObjectAttributes.NoteableType is %v, want %v", event.ObjectAttributes.NoteableType, "MergeRequest")
+	}
+
+	if event.ObjectAttributes.Action != CommentEventActionCreate {
+		t.Errorf("Action is %v, want %v", event.ObjectAttributes.Action, "create")
 	}
 
 	if event.ObjectAttributes.AuthorID != 1 {
