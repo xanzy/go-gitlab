@@ -1470,9 +1470,10 @@ func TestProjectModelsOptionalMergeAttribute(t *testing.T) {
 }
 
 // Test that the "CustomWebhookTemplate" serializes properly
-func TestProjectAddWebhook_CustomTemplate(t *testing.T) {
+func TestProjectAddWebhook_CustomTemplateStuff(t *testing.T) {
 	mux, client := setup(t)
 	customWebhookSet := false
+	authValueSet := false
 
 	mux.HandleFunc("/api/v4/projects/1/hooks",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -1484,27 +1485,49 @@ func TestProjectAddWebhook_CustomTemplate(t *testing.T) {
 				t.Fatalf("Unable to read body properly. Error: %v", err)
 			}
 			customWebhookSet = strings.Contains(string(body), "custom_webhook_template")
+			authValueSet = strings.Contains(string(body), `"value":"stuff"`)
 
 			fmt.Fprint(w, `{
-				"custom_webhook_template": "testValue"
+				"custom_webhook_template": "testValue",
+				"custom_headers": [
+					{
+						"key": "Authorization"
+					},
+					{
+						"key": "Favorite-Pet"
+					}
+				]
 			}`)
 		},
 	)
 
 	hook, resp, err := client.Projects.AddProjectHook(1, &AddProjectHookOptions{
 		CustomWebhookTemplate: Ptr(`{"example":"{{object_kind}}"}`),
+		CustomHeaders: []*ProjectHookCustomHeader{
+			{
+				Key:   "Authorization",
+				Value: "stuff",
+			},
+			{
+				Key:   "Favorite-Pet",
+				Value: "Cats",
+			},
+		},
 	})
 
 	assert.NoError(t, err)
 	assert.Equal(t, http.StatusCreated, resp.StatusCode)
 	assert.Equal(t, true, customWebhookSet)
+	assert.Equal(t, true, authValueSet)
 	assert.Equal(t, "testValue", hook.CustomWebhookTemplate)
+	assert.Equal(t, 2, len(hook.CustomHeaders))
 }
 
 // Test that the "CustomWebhookTemplate" serializes properly when editing
-func TestProjectEditWebhook_CustomTemplate(t *testing.T) {
+func TestProjectEditWebhook_CustomTemplateStuff(t *testing.T) {
 	mux, client := setup(t)
 	customWebhookSet := false
+	authValueSet := false
 
 	mux.HandleFunc("/api/v4/projects/1/hooks/1",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -1516,18 +1539,41 @@ func TestProjectEditWebhook_CustomTemplate(t *testing.T) {
 				t.Fatalf("Unable to read body properly. Error: %v", err)
 			}
 			customWebhookSet = strings.Contains(string(body), "custom_webhook_template")
+			authValueSet = strings.Contains(string(body), `"value":"stuff"`)
 
-			fmt.Fprint(w, "{}")
+			fmt.Fprint(w, `{
+				"custom_webhook_template": "testValue",
+				"custom_headers": [
+					{
+						"key": "Authorization"
+					},
+					{
+						"key": "Favorite-Pet"
+					}
+				]}`)
 		},
 	)
 
-	_, resp, err := client.Projects.EditProjectHook(1, 1, &EditProjectHookOptions{
+	hook, resp, err := client.Projects.EditProjectHook(1, 1, &EditProjectHookOptions{
 		CustomWebhookTemplate: Ptr(`{"example":"{{object_kind}}"}`),
+		CustomHeaders: []*ProjectHookCustomHeader{
+			{
+				Key:   "Authorization",
+				Value: "stuff",
+			},
+			{
+				Key:   "Favorite-Pet",
+				Value: "Cats",
+			},
+		},
 	})
 
 	assert.NoError(t, err)
 	assert.Equal(t, http.StatusOK, resp.StatusCode)
 	assert.Equal(t, true, customWebhookSet)
+	assert.Equal(t, true, authValueSet)
+	assert.Equal(t, "testValue", hook.CustomWebhookTemplate)
+	assert.Equal(t, 2, len(hook.CustomHeaders))
 }
 
 func TestGetProjectPushRules(t *testing.T) {
@@ -1702,4 +1748,95 @@ func TestEditProjectPushRules(t *testing.T) {
 	if !reflect.DeepEqual(want, rule) {
 		t.Errorf("Projects.EditProjectPushRule returned %+v, want %+v", rule, want)
 	}
+}
+
+func TestGetProjectWebhookHeader(t *testing.T) {
+	mux, client := setup(t)
+
+	// Removed most of the arguments to keep test slim
+	mux.HandleFunc("/api/v4/projects/1/hooks/1", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		fmt.Fprint(w, `{
+			"id": 1,
+			"custom_webhook_template": "{\"event\":\"{{object_kind}}\"}",
+			"custom_headers": [
+			  {
+				"key": "Authorization"
+			  },
+			  {
+				"key": "OtherKey"
+			  }
+			]
+		  }`)
+	})
+
+	hook, _, err := client.Projects.GetProjectHook(1, 1)
+	if err != nil {
+		t.Errorf("Projects.GetProjectHook returned error: %v", err)
+	}
+
+	want := &ProjectHook{
+		ID:                    1,
+		CustomWebhookTemplate: "{\"event\":\"{{object_kind}}\"}",
+		CustomHeaders: []ProjectHookCustomHeader{
+			{
+				Key: "Authorization",
+			},
+			{
+				Key: "OtherKey",
+			},
+		},
+	}
+
+	if !reflect.DeepEqual(want, hook) {
+		t.Errorf("Projects.GetProjectHook returned %+v, want %+v", hook, want)
+	}
+}
+
+func TestSetProjectWebhookHeader(t *testing.T) {
+	mux, client := setup(t)
+	var bodyJson map[string]interface{}
+
+	// Removed most of the arguments to keep test slim
+	mux.HandleFunc("/api/v4/projects/1/hooks/1/custom_headers/Authorization", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPut)
+		w.WriteHeader(http.StatusNoContent)
+
+		// validate that the `value` body is sent properly
+		body, err := io.ReadAll(r.Body)
+		if err != nil {
+			t.Fatalf("Unable to read body properly. Error: %v", err)
+		}
+
+		// Unmarshal the body into JSON so we can check it
+		_ = json.Unmarshal(body, &bodyJson)
+
+		fmt.Fprint(w, ``)
+	})
+
+	req, err := client.Projects.SetProjectCustomHeader(1, 1, "Authorization", &SetProjectHookCustomHeaderOptions{Value: Ptr("testValue")})
+	if err != nil {
+		t.Errorf("Projects.SetProjectCustomHeader returned error: %v", err)
+	}
+
+	assert.Equal(t, bodyJson["value"], "testValue")
+	assert.Equal(t, http.StatusNoContent, req.StatusCode)
+}
+
+func TestDeleteProjectWebhookHeader(t *testing.T) {
+	mux, client := setup(t)
+
+	// Removed most of the arguments to keep test slim
+	mux.HandleFunc("/api/v4/projects/1/hooks/1/custom_headers/Authorization", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodDelete)
+		w.WriteHeader(http.StatusNoContent)
+		fmt.Fprint(w, ``)
+	})
+
+	req, err := client.Projects.DeleteProjectCustomHeader(1, 1, "Authorization")
+	if err != nil {
+		t.Errorf("Projects.DeleteProjectCustomHeader returned error: %v", err)
+	}
+
+	assert.Equal(t, http.StatusNoContent, req.StatusCode)
 }
