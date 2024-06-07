@@ -193,3 +193,22 @@ func (s *ProjectMirrorService) DeleteProjectMirror(pid interface{}, mirror int, 
 
 	return s.client.Do(req, nil)
 }
+
+// Force push mirror update.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/remote_mirrors.html#force-push-mirror-update
+func (s *ProjectMirrorService) ForcePushProjectMirror(pid interface{}, mirror int, options ...RequestOptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/remote_mirrors/%d/sync", PathEscape(project), mirror)
+
+	req, err := s.client.NewRequest(http.MethodPost, u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}

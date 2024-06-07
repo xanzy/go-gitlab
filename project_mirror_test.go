@@ -196,3 +196,28 @@ func TestProjectMirrorService_EditProjectMirror(t *testing.T) {
 	require.Nil(t, pm)
 	require.Equal(t, http.StatusNotFound, resp.StatusCode)
 }
+
+func TestProjectMirrorService_ForcePushProjectMirror(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/projects/42/remote_mirrors/101486/sync", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPost)
+		w.WriteHeader(http.StatusNoContent)
+	})
+
+	resp, err := client.ProjectMirrors.ForcePushProjectMirror(42, 101486, nil)
+	require.NoError(t, err)
+	require.NotNil(t, resp)
+
+	resp, err = client.ProjectMirrors.ForcePushProjectMirror(42.01, 101486, nil)
+	require.EqualError(t, err, "invalid ID type 42.01, the ID must be an int or a string")
+	require.Nil(t, resp)
+
+	resp, err = client.ProjectMirrors.ForcePushProjectMirror(42, 101486, errorOption)
+	require.EqualError(t, err, "RequestOptionFunc returns an error")
+	require.Nil(t, resp)
+
+	resp, err = client.ProjectMirrors.ForcePushProjectMirror(43, 101486, nil)
+	require.Error(t, err)
+	require.Equal(t, http.StatusNotFound, resp.StatusCode)
+}
