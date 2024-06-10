@@ -133,8 +133,8 @@ type RotatePersonalAccessTokenOptions struct {
 // expires in one week per default.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/personal_access_tokens.html#rotate-a-personal-access-token
-func (s *PersonalAccessTokensService) RotatePersonalAccessToken(token int, opt *RotatePersonalAccessTokenOptions, options ...RequestOptionFunc) (*PersonalAccessToken, *Response, error) {
+// https://docs.gitlab.com/ee/api/personal_access_tokens.html#use-a-personal-access-token-id
+func (s *PersonalAccessTokensService) RotatePersonalAccessTokenByID(token int, opt *RotatePersonalAccessTokenOptions, options ...RequestOptionFunc) (*PersonalAccessToken, *Response, error) {
 	u := fmt.Sprintf("personal_access_tokens/%d/rotate", token)
 
 	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
@@ -151,12 +151,50 @@ func (s *PersonalAccessTokensService) RotatePersonalAccessToken(token int, opt *
 	return pat, resp, nil
 }
 
-// RevokePersonalAccessToken revokes a personal access token.
+// RotatePersonalAccessToken revokes the currently authenticated token
+// and returns a new token that expires in one week per default.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/personal_access_tokens.html#revoke-a-personal-access-token
-func (s *PersonalAccessTokensService) RevokePersonalAccessToken(token int, options ...RequestOptionFunc) (*Response, error) {
+// https://docs.gitlab.com/ee/api/personal_access_tokens.html#use-a-request-header
+func (s *PersonalAccessTokensService) RotatePersonalAccessToken(opt *RotatePersonalAccessTokenOptions, options ...RequestOptionFunc) (*PersonalAccessToken, *Response, error) {
+	u := "personal_access_tokens/self/rotate"
+
+	req, err := s.client.NewRequest(http.MethodPost, u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	pat := new(PersonalAccessToken)
+	resp, err := s.client.Do(req, pat)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return pat, resp, nil
+}
+
+// RevokePersonalAccessToken revokes a personal access token by its ID.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/personal_access_tokens.html#using-a-personal-access-token-id-1
+func (s *PersonalAccessTokensService) RevokePersonalAccessTokenByID(token int, options ...RequestOptionFunc) (*Response, error) {
 	u := fmt.Sprintf("personal_access_tokens/%d", token)
+
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
+
+// RevokePersonalAccessToken revokes the currently authenticated
+// personal access token.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/personal_access_tokens.html#using-a-personal-access-token-id-1
+func (s *PersonalAccessTokensService) RevokePersonalAccessToken(options ...RequestOptionFunc) (*Response, error) {
+	u := "personal_access_tokens/self"
 
 	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
