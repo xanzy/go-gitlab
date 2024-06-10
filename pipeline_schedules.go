@@ -56,6 +56,7 @@ type LastPipeline struct {
 	SHA    string `json:"sha"`
 	Ref    string `json:"ref"`
 	Status string `json:"status"`
+	WebURL string `json:"web_url"`
 }
 
 // ListPipelineSchedulesOptions represents the available ListPipelineTriggers() options.
