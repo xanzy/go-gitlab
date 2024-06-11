@@ -93,7 +93,7 @@ func TestListGroupHooks(t *testing.T) {
 		AlertStatus:               "executable",
 		CreatedAt:                 &datePointer,
 		ResourceAccessTokenEvents: true,
-		CustomHeaders: []HookCustomHeader{
+		CustomHeaders: []*HookCustomHeader{
 			{
 				Key: "Authorization",
 			},
@@ -171,7 +171,7 @@ func TestGetGroupHook(t *testing.T) {
 		AlertStatus:               "executable",
 		CreatedAt:                 &datePointer,
 		ResourceAccessTokenEvents: true,
-		CustomHeaders: []HookCustomHeader{
+		CustomHeaders: []*HookCustomHeader{
 			{
 				Key: "Authorization",
 			},
@@ -255,7 +255,7 @@ func TestAddGroupHook(t *testing.T) {
 		CreatedAt:                 &datePointer,
 		CustomWebhookTemplate:     "addTestValue",
 		ResourceAccessTokenEvents: true,
-		CustomHeaders: []HookCustomHeader{
+		CustomHeaders: []*HookCustomHeader{
 			{
 				Key:   "Authorization",
 				Value: "testMe",
@@ -341,7 +341,7 @@ func TestEditGroupHook(t *testing.T) {
 		CreatedAt:                 &datePointer,
 		CustomWebhookTemplate:     "testValue",
 		ResourceAccessTokenEvents: true,
-		CustomHeaders: []HookCustomHeader{
+		CustomHeaders: []*HookCustomHeader{
 			{
 				Key:   "Authorization",
 				Value: "testMe",
@@ -399,7 +399,7 @@ func TestGetGroupWebhookHeader(t *testing.T) {
 	want := &GroupHook{
 		ID:                    1,
 		CustomWebhookTemplate: "{\"event\":\"{{object_kind}}\"}",
-		CustomHeaders: []HookCustomHeader{
+		CustomHeaders: []*HookCustomHeader{
 			{
 				Key: "Authorization",
 			},

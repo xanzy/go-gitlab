@@ -1503,7 +1503,7 @@ func TestProjectAddWebhook_CustomTemplateStuff(t *testing.T) {
 
 	hook, resp, err := client.Projects.AddProjectHook(1, &AddProjectHookOptions{
 		CustomWebhookTemplate: Ptr(`{"example":"{{object_kind}}"}`),
-		CustomHeaders: []*HookCustomHeader{
+		CustomHeaders: &[]*HookCustomHeader{
 			{
 				Key:   "Authorization",
 				Value: "stuff",
@@ -1556,7 +1556,7 @@ func TestProjectEditWebhook_CustomTemplateStuff(t *testing.T) {
 
 	hook, resp, err := client.Projects.EditProjectHook(1, 1, &EditProjectHookOptions{
 		CustomWebhookTemplate: Ptr(`{"example":"{{object_kind}}"}`),
-		CustomHeaders: []*HookCustomHeader{
+		CustomHeaders: &[]*HookCustomHeader{
 			{
 				Key:   "Authorization",
 				Value: "stuff",
@@ -1778,7 +1778,7 @@ func TestGetProjectWebhookHeader(t *testing.T) {
 	want := &ProjectHook{
 		ID:                    1,
 		CustomWebhookTemplate: "{\"event\":\"{{object_kind}}\"}",
-		CustomHeaders: []HookCustomHeader{
+		CustomHeaders: []*HookCustomHeader{
 			{
 				Key: "Authorization",
 			},
