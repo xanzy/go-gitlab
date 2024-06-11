@@ -83,8 +83,8 @@ func (s *PersonalAccessTokensService) ListPersonalAccessTokens(opt *ListPersonal
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/personal_access_tokens.html#using-a-personal-access-token-id
-func (s *PersonalAccessTokensService) GetSinglePersonalAccessTokenByID(user int, options ...RequestOptionFunc) (*PersonalAccessToken, *Response, error) {
-	u := fmt.Sprintf("personal_access_tokens/%d", user)
+func (s *PersonalAccessTokensService) GetSinglePersonalAccessTokenByID(token int, options ...RequestOptionFunc) (*PersonalAccessToken, *Response, error) {
+	u := fmt.Sprintf("personal_access_tokens/%d", token)
 	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
 		return nil, nil, err
