@@ -47,6 +47,7 @@
     "system": false,
     "st_diff": null,
     "description": "Hello world",
+    "action": "create",
     "url": "http://example.com/gitlab-org/gitlab-test/issues/17#note_1241"
   },
   "issue": {
