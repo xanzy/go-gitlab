@@ -17,11 +17,15 @@
 package gitlab
 
 import (
+	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
 	"reflect"
 	"testing"
 	"time"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestListGroupHooks(t *testing.T) {
@@ -52,7 +56,11 @@ func TestListGroupHooks(t *testing.T) {
 		"enable_ssl_verification": true,
 		"alert_status": "executable",
 		"created_at": "2012-10-12T17:04:47Z",
-		"resource_access_token_events": true
+		"resource_access_token_events": true,
+		"custom_headers": [
+			{"key": "Authorization"},
+			{"key": "OtherHeader"}
+		]
 	}
 ]`)
 	})
@@ -85,6 +93,14 @@ func TestListGroupHooks(t *testing.T) {
 		AlertStatus:               "executable",
 		CreatedAt:                 &datePointer,
 		ResourceAccessTokenEvents: true,
+		CustomHeaders: []*HookCustomHeader{
+			{
+				Key: "Authorization",
+			},
+			{
+				Key: "OtherHeader",
+			},
+		},
 	}}
 
 	if !reflect.DeepEqual(groupHooks, want) {
@@ -119,7 +135,11 @@ func TestGetGroupHook(t *testing.T) {
 	"enable_ssl_verification": true,
 	"alert_status": "executable",
 	"created_at": "2012-10-12T17:04:47Z",
-	"resource_access_token_events": true
+	"resource_access_token_events": true,
+	"custom_headers": [
+		{"key": "Authorization"},
+		{"key": "OtherHeader"}
+	]
 }`)
 	})
 
@@ -151,6 +171,14 @@ func TestGetGroupHook(t *testing.T) {
 		AlertStatus:               "executable",
 		CreatedAt:                 &datePointer,
 		ResourceAccessTokenEvents: true,
+		CustomHeaders: []*HookCustomHeader{
+			{
+				Key: "Authorization",
+			},
+			{
+				Key: "OtherHeader",
+			},
+		},
 	}
 
 	if !reflect.DeepEqual(groupHook, want) {
@@ -185,7 +213,11 @@ func TestAddGroupHook(t *testing.T) {
 	"enable_ssl_verification": true,
 	"created_at": "2012-10-12T17:04:47Z",
 	"custom_webhook_template": "addTestValue",
-	"resource_access_token_events": true
+	"resource_access_token_events": true,
+	"custom_headers": [
+		{"key": "Authorization", "value": "testMe"},
+		{"key": "OtherHeader", "value": "otherTest"}
+	]
 }`)
 	})
 
@@ -223,6 +255,16 @@ func TestAddGroupHook(t *testing.T) {
 		CreatedAt:                 &datePointer,
 		CustomWebhookTemplate:     "addTestValue",
 		ResourceAccessTokenEvents: true,
+		CustomHeaders: []*HookCustomHeader{
+			{
+				Key:   "Authorization",
+				Value: "testMe",
+			},
+			{
+				Key:   "OtherHeader",
+				Value: "otherTest",
+			},
+		},
 	}
 
 	if !reflect.DeepEqual(groupHooks, want) {
@@ -257,7 +299,11 @@ func TestEditGroupHook(t *testing.T) {
 	"enable_ssl_verification": true,
 	"created_at": "2012-10-12T17:04:47Z",
 	"custom_webhook_template": "testValue",
-	"resource_access_token_events": true
+	"resource_access_token_events": true,
+	"custom_headers": [
+		{"key": "Authorization", "value": "testMe"},
+		{"key": "OtherHeader", "value": "otherTest"}
+	]
 }`)
 	})
 
@@ -295,6 +341,16 @@ func TestEditGroupHook(t *testing.T) {
 		CreatedAt:                 &datePointer,
 		CustomWebhookTemplate:     "testValue",
 		ResourceAccessTokenEvents: true,
+		CustomHeaders: []*HookCustomHeader{
+			{
+				Key:   "Authorization",
+				Value: "testMe",
+			},
+			{
+				Key:   "OtherHeader",
+				Value: "otherTest",
+			},
+		},
 	}
 
 	if !reflect.DeepEqual(groupHooks, want) {
@@ -313,4 +369,77 @@ func TestDeleteGroupHook(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
+}
+
+func TestGetGroupWebhookHeader(t *testing.T) {
+	mux, client := setup(t)
+
+	// Removed most of the arguments to keep test slim
+	mux.HandleFunc("/api/v4/groups/1/hooks/1", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		fmt.Fprint(w, `{
+			"id": 1,
+			"custom_webhook_template": "{\"event\":\"{{object_kind}}\"}",
+			"custom_headers": [
+			  {
+				"key": "Authorization"
+			  },
+			  {
+				"key": "OtherKey"
+			  }
+			]
+		  }`)
+	})
+
+	hook, _, err := client.Groups.GetGroupHook(1, 1)
+	if err != nil {
+		t.Errorf("Projects.GetGroupHook returned error: %v", err)
+	}
+
+	want := &GroupHook{
+		ID:                    1,
+		CustomWebhookTemplate: "{\"event\":\"{{object_kind}}\"}",
+		CustomHeaders: []*HookCustomHeader{
+			{
+				Key: "Authorization",
+			},
+			{
+				Key: "OtherKey",
+			},
+		},
+	}
+
+	if !reflect.DeepEqual(want, hook) {
+		t.Errorf("Projects.GetGroupHook returned %+v, want %+v", hook, want)
+	}
+}
+
+func TestSetGroupWebhookHeader(t *testing.T) {
+	mux, client := setup(t)
+	var bodyJson map[string]interface{}
+
+	// Removed most of the arguments to keep test slim
+	mux.HandleFunc("/api/v4/groups/1/hooks/1/custom_headers/Authorization", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPut)
+		w.WriteHeader(http.StatusNoContent)
+
+		// validate that the `value` body is sent properly
+		body, err := io.ReadAll(r.Body)
+		if err != nil {
+			t.Fatalf("Unable to read body properly. Error: %v", err)
+		}
+
+		// Unmarshal the body into JSON so we can check it
+		_ = json.Unmarshal(body, &bodyJson)
+
+		fmt.Fprint(w, ``)
+	})
+
+	req, err := client.Groups.SetGroupCustomHeader(1, 1, "Authorization", &SetHookCustomHeaderOptions{Value: Ptr("testValue")})
+	if err != nil {
+		t.Errorf("Groups.SetGroupCustomHeader returned error: %v", err)
+	}
+
+	assert.Equal(t, bodyJson["value"], "testValue")
+	assert.Equal(t, http.StatusNoContent, req.StatusCode)
 }
