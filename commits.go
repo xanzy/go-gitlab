@@ -35,25 +35,25 @@ type CommitsService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/commits.html
 type Commit struct {
-	ID             string            `json:"id"`
-	ShortID        string            `json:"short_id"`
-	Title          string            `json:"title"`
-	AuthorName     string            `json:"author_name"`
-	AuthorEmail    string            `json:"author_email"`
-	AuthoredDate   *time.Time        `json:"authored_date"`
-	CommitterName  string            `json:"committer_name"`
-	CommitterEmail string            `json:"committer_email"`
-	CommittedDate  *time.Time        `json:"committed_date"`
-	CreatedAt      *time.Time        `json:"created_at"`
-	Message        string            `json:"message"`
-	ParentIDs      []string          `json:"parent_ids"`
-	Stats          *CommitStats      `json:"stats"`
-	Status         *BuildStateValue  `json:"status"`
-	LastPipeline   *PipelineInfo     `json:"last_pipeline"`
-	ProjectID      int               `json:"project_id"`
-	Trailers       map[string]string `json:"trailers"`
+	ID               string            `json:"id"`
+	ShortID          string            `json:"short_id"`
+	Title            string            `json:"title"`
+	AuthorName       string            `json:"author_name"`
+	AuthorEmail      string            `json:"author_email"`
+	AuthoredDate     *time.Time        `json:"authored_date"`
+	CommitterName    string            `json:"committer_name"`
+	CommitterEmail   string            `json:"committer_email"`
+	CommittedDate    *time.Time        `json:"committed_date"`
+	CreatedAt        *time.Time        `json:"created_at"`
+	Message          string            `json:"message"`
+	ParentIDs        []string          `json:"parent_ids"`
+	Stats            *CommitStats      `json:"stats"`
+	Status           *BuildStateValue  `json:"status"`
+	LastPipeline     *PipelineInfo     `json:"last_pipeline"`
+	ProjectID        int               `json:"project_id"`
+	Trailers         map[string]string `json:"trailers"`
 	ExtendedTrailers map[string]string `json:"extended_trailers"`
-	WebURL         string            `json:"web_url"`
+	WebURL           string            `json:"web_url"`
 }
 
 // CommitStats represents the number of added and deleted files in a commit.
