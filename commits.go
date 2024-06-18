@@ -52,6 +52,7 @@ type Commit struct {
 	LastPipeline   *PipelineInfo     `json:"last_pipeline"`
 	ProjectID      int               `json:"project_id"`
 	Trailers       map[string]string `json:"trailers"`
+	Extended_trailers map[string]string `json:"extended_trailers"`
 	WebURL         string            `json:"web_url"`
 }
 
