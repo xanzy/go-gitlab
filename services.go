@@ -1110,7 +1110,7 @@ type JiraServiceProperties struct {
 	JiraIssueTransitionID string   `json:"jira_issue_transition_id"`
 
 	// Deprecated: This parameter was removed in GitLab 17.0
-	ProjectKey            string   `json:"project_key" `
+	ProjectKey string `json:"project_key" `
 }
 
 // UnmarshalJSON decodes the Jira Service Properties.
@@ -1186,7 +1186,7 @@ type SetJiraServiceOptions struct {
 	CommentOnEventEnabled *bool     `url:"comment_on_event_enabled,omitempty" json:"comment_on_event_enabled,omitempty"`
 
 	// Deprecated: This parameter was removed in GitLab 17.0
-	ProjectKey            *string   `url:"project_key,omitempty" json:"project_key,omitempty" `
+	ProjectKey *string `url:"project_key,omitempty" json:"project_key,omitempty" `
 }
 
 // SetJiraService sets Jira service for a project
