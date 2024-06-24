@@ -459,6 +459,32 @@ func TestSetJiraService(t *testing.T) {
 	}
 }
 
+func TestSetJiraServiceProjecKeys(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/projects/1/services/jira", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPut)
+	})
+
+	opt := &SetJiraServiceOptions{
+		URL:                   Ptr("asd"),
+		APIURL:                Ptr("asd"),
+		ProjectKeys:           Ptr([]string{"as"}),
+		Username:              Ptr("aas"),
+		Password:              Ptr("asd"),
+		Active:                Ptr(true),
+		JiraIssueTransitionID: Ptr("2,3"),
+		CommitEvents:          Ptr(true),
+		CommentOnEventEnabled: Ptr(true),
+		MergeRequestsEvents:   Ptr(true),
+	}
+
+	_, err := client.Services.SetJiraService(1, opt)
+	if err != nil {
+		t.Fatalf("Services.SetJiraService returns an error: %v", err)
+	}
+}
+
 func TestDeleteJiraService(t *testing.T) {
 	mux, client := setup(t)
 
