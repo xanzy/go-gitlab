@@ -1176,7 +1176,6 @@ func (s *ServicesService) GetJiraService(pid interface{}, options ...RequestOpti
 type SetJiraServiceOptions struct {
 	URL                   *string   `url:"url,omitempty" json:"url,omitempty"`
 	APIURL                *string   `url:"api_url,omitempty" json:"api_url,omitempty"`
-	ProjectKey            *string   `url:"project_key,omitempty" json:"project_key,omitempty" `
 	ProjectKeys           *[]string `url:"project_keys,comma,omitempty" json:"project_keys,omitempty" `
 	Username              *string   `url:"username,omitempty" json:"username,omitempty" `
 	Password              *string   `url:"password,omitempty" json:"password,omitempty" `
@@ -1185,6 +1184,9 @@ type SetJiraServiceOptions struct {
 	CommitEvents          *bool     `url:"commit_events,omitempty" json:"commit_events,omitempty"`
 	MergeRequestsEvents   *bool     `url:"merge_requests_events,omitempty" json:"merge_requests_events,omitempty"`
 	CommentOnEventEnabled *bool     `url:"comment_on_event_enabled,omitempty" json:"comment_on_event_enabled,omitempty"`
+
+	// Deprecated: This parameter was removed in GitLab 17.0
+	ProjectKey            *string   `url:"project_key,omitempty" json:"project_key,omitempty" `
 }
 
 // SetJiraService sets Jira service for a project
