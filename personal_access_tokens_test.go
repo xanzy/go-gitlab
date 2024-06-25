@@ -31,7 +31,9 @@ func TestListPersonalAccessTokensWithUserFilter(t *testing.T) {
 		mustWriteHTTPResponse(t, w, "testdata/list_personal_access_tokens_with_user_filter.json")
 	})
 
-	personalAccessTokens, _, err := client.PersonalAccessTokens.ListPersonalAccessTokens(&ListPersonalAccessTokensOptions{UserID: Ptr(1), ListOptions: ListOptions{Page: 1, PerPage: 10}})
+	personalAccessTokens, _, err := client.PersonalAccessTokens.ListPersonalAccessTokens(
+		&ListPersonalAccessTokensOptions{UserID: Ptr(1), ListOptions: ListOptions{Page: 1, PerPage: 10}},
+	)
 	if err != nil {
 		t.Errorf("PersonalAccessTokens.ListPersonalAccessTokens returned error: %v", err)
 	}
@@ -81,7 +83,9 @@ func TestListPersonalAccessTokensWithUserFilter(t *testing.T) {
 	}
 
 	if !reflect.DeepEqual(want, personalAccessTokens) {
-		t.Errorf("PersonalAccessTokens.ListPersonalAccessTokens returned %+v, want %+v", personalAccessTokens, want)
+		t.Errorf(
+			"PersonalAccessTokens.ListPersonalAccessTokens returned %+v, want %+v", personalAccessTokens, want,
+		)
 	}
 }
 
@@ -93,7 +97,9 @@ func TestListPersonalAccessTokensNoUserFilter(t *testing.T) {
 		mustWriteHTTPResponse(t, w, "testdata/list_personal_access_tokens_without_user_filter.json")
 	})
 
-	personalAccessTokens, _, err := client.PersonalAccessTokens.ListPersonalAccessTokens(&ListPersonalAccessTokensOptions{ListOptions: ListOptions{Page: 1, PerPage: 10}})
+	personalAccessTokens, _, err := client.PersonalAccessTokens.ListPersonalAccessTokens(
+		&ListPersonalAccessTokensOptions{ListOptions: ListOptions{Page: 1, PerPage: 10}},
+	)
 	if err != nil {
 		t.Errorf("PersonalAccessTokens.ListPersonalAccessTokens returned error: %v", err)
 	}
@@ -143,7 +149,9 @@ func TestListPersonalAccessTokensNoUserFilter(t *testing.T) {
 	}
 
 	if !reflect.DeepEqual(want, personalAccessTokens) {
-		t.Errorf("PersonalAccessTokens.ListPersonalAccessTokens returned %+v, want %+v", personalAccessTokens, want)
+		t.Errorf(
+			"PersonalAccessTokens.ListPersonalAccessTokens returned %+v, want %+v", personalAccessTokens, want,
+		)
 	}
 }
 
@@ -253,7 +261,9 @@ func TestRotatePersonalAccessToken(t *testing.T) {
 	}
 
 	if !reflect.DeepEqual(want, rotatedToken) {
-		t.Errorf("PersonalAccessTokens.RotatePersonalAccessToken returned %+v, want %+v", rotatedToken, want)
+		t.Errorf(
+			"PersonalAccessTokens.RotatePersonalAccessToken returned %+v, want %+v", rotatedToken, want,
+		)
 	}
 }
 
@@ -285,7 +295,9 @@ func TestRotatePersonalAccessTokenByID(t *testing.T) {
 	}
 
 	if !reflect.DeepEqual(want, rotatedToken) {
-		t.Errorf("PersonalAccessTokens.RotatePersonalAccessTokenByID returned %+v, want %+v", rotatedToken, want)
+		t.Errorf(
+			"PersonalAccessTokens.RotatePersonalAccessTokenByID returned %+v, want %+v", rotatedToken, want,
+		)
 	}
 }
 
