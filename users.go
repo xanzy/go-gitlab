@@ -19,6 +19,7 @@ package gitlab
 import (
 	"errors"
 	"fmt"
+	"io"
 	"net"
 	"net/http"
 	"time"
@@ -212,6 +213,7 @@ type CreateUserOptions struct {
 	PrivateProfile      *bool   `url:"private_profile,omitempty" json:"private_profile,omitempty"`
 	Note                *string `url:"note,omitempty" json:"note,omitempty"`
 	ThemeID             *int    `url:"theme_id,omitempty" json:"theme_id,omitempty"`
+	Avatar              *string `url:"avatar,omitempty" json:"avatar,omitempty"`
 }
 
 // CreateUser creates a new user. Note only administrators can create new users.
@@ -260,6 +262,7 @@ type ModifyUserOptions struct {
 	ThemeID            *int    `url:"theme_id,omitempty" json:"theme_id,omitempty"`
 	PublicEmail        *string `url:"public_email,omitempty" json:"public_email,omitempty"`
 	CommitEmail        *string `url:"commit_email,omitempty" json:"commit_email,omitempty"`
+	Avatar             *string `url:"avatar,omitempty" json:"avatar,omitempty"`
 }
 
 // ModifyUser modifies an existing user. Only administrators can change attributes
@@ -1495,6 +1498,34 @@ func (s *UsersService) CreateUserRunner(opts *CreateUserRunnerOptions, options .
 // GitLab API docs: https://docs.gitlab.com/ee/api/users.html#create-service-account-user
 func (s *UsersService) CreateServiceAccountUser(options ...RequestOptionFunc) (*User, *Response, error) {
 	req, err := s.client.NewRequest(http.MethodPost, "service_accounts", nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	usr := new(User)
+	resp, err := s.client.Do(req, usr)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return usr, resp, nil
+}
+// UploadAvatar uploads an avatar to the current user.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/users.html#upload-a-current-user-avatar
+func (s *UsersService) UploadAvatar(avatar io.Reader, filename string, options ...RequestOptionFunc) (*User, *Response, error) {
+	u := "user/avatar"
+
+	req, err := s.client.UploadRequest(
+		http.MethodPut,
+		u,
+		avatar,
+		filename,
+		UploadAvatar,
+		nil,
+		options,
+	)
 	if err != nil {
 		return nil, nil, err
 	}
