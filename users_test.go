@@ -17,11 +17,13 @@
 package gitlab
 
 import (
+	"bytes"
 	"errors"
 	"fmt"
 	"net"
 	"net/http"
 	"reflect"
+	"strings"
 	"testing"
 	"time"
 
@@ -740,4 +742,25 @@ func TestCreateServiceAccountUser(t *testing.T) {
 		WebURL:    "http://localhost:3000/service_account_94e556c44d40d5a710ca59e3a0f40a3d",
 	}
 	require.Equal(t, want, user)
+}
+
+func TestUploadAvatarUser(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/user/avatar", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPut)
+		if !strings.Contains(r.Header.Get("Content-Type"), "multipart/form-data;") {
+			t.Fatalf("Users.UploadAvatar request content-type %+v want multipart/form-data;", r.Header.Get("Content-Type"))
+		}
+		if r.ContentLength == -1 {
+			t.Fatalf("Users.UploadAvatar request content-length is -1")
+		}
+		fmt.Fprint(w, `{}`)
+	})
+
+	avatar := new(bytes.Buffer)
+	_, _, err := client.Users.UploadAvatar(avatar, "avatar.png")
+	if err != nil {
+		t.Fatalf("Users.UploadAvatar returns an error: %v", err)
+	}
 }
