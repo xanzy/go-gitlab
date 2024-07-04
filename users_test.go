@@ -17,11 +17,13 @@
 package gitlab
 
 import (
+	"bytes"
 	"errors"
 	"fmt"
 	"net"
 	"net/http"
 	"reflect"
+	"strings"
 	"testing"
 	"time"
 
@@ -740,4 +742,153 @@ func TestCreateServiceAccountUser(t *testing.T) {
 		WebURL:    "http://localhost:3000/service_account_94e556c44d40d5a710ca59e3a0f40a3d",
 	}
 	require.Equal(t, want, user)
+}
+
+func TestCreateUser(t *testing.T) {
+	mux, client := setup(t)
+
+	path := "/api/v4/users"
+
+	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPost)
+		if !strings.Contains(r.Header.Get("Content-Type"), "application/json") {
+			t.Fatalf("Users.CreateUser request content-type %+v want application/json;", r.Header.Get("Content-Type"))
+		}
+		if r.ContentLength == -1 {
+			t.Fatalf("Users.CreateUser request content-length is -1")
+		}
+		w.WriteHeader(http.StatusCreated)
+		w.Write([]byte(`
+    {
+      "email": "user999@example.com",
+      "id": 999,
+      "name":"Firstname Lastname",
+      "username":"user"
+    }`))
+	})
+
+	user, _, err := client.Users.CreateUser(&CreateUserOptions{
+		Email:    Ptr("user999@example.com"),
+		Name:     Ptr("Firstname Lastname"),
+		Username: Ptr("user"),
+	})
+	require.NoError(t, err)
+
+	want := &User{
+		Email:    "user999@example.com",
+		ID:       999,
+		Name:     "Firstname Lastname",
+		Username: "user",
+	}
+	require.Equal(t, want, user)
+}
+
+func TestCreateUserAvatar(t *testing.T) {
+	mux, client := setup(t)
+
+	path := "/api/v4/users"
+
+	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPost)
+		if !strings.Contains(r.Header.Get("Content-Type"), "multipart/form-data") {
+			t.Fatalf("Users.CreateUser request content-type %+v want multipart/form-data;", r.Header.Get("Content-Type"))
+		}
+		if r.ContentLength == -1 {
+			t.Fatalf("Users.CreateUser request content-length is -1")
+		}
+		w.WriteHeader(http.StatusCreated)
+		w.Write([]byte(`
+    {
+      "avatar_url":"http://localhost:3000/uploads/-/system/user/avatar/999/avatar.png",
+      "email": "user999@example.com",
+      "id": 999,
+      "name":"Firstname Lastname",
+      "username":"user"
+    }`))
+	})
+	avatar := new(bytes.Buffer)
+	userAvatar := &UserAvatar{
+		Image:    avatar,
+		Filename: "avatar.png",
+	}
+	user, _, err := client.Users.CreateUser(&CreateUserOptions{
+		Avatar:   userAvatar,
+		Email:    Ptr("user999@example.com"),
+		Name:     Ptr("Firstname Lastname"),
+		Username: Ptr("user"),
+	})
+	require.NoError(t, err)
+
+	want := &User{
+		AvatarURL: "http://localhost:3000/uploads/-/system/user/avatar/999/avatar.png",
+		Email:     "user999@example.com",
+		ID:        999,
+		Name:      "Firstname Lastname",
+		Username:  "user",
+	}
+	require.Equal(t, want, user)
+}
+
+func TestModifyUser(t *testing.T) {
+	mux, client := setup(t)
+
+	path := "/api/v4/users/1"
+
+	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPut)
+		if !strings.Contains(r.Header.Get("Content-Type"), "application/json") {
+			t.Fatalf("Users.ModifyUser request content-type %+v want application/json;", r.Header.Get("Content-Type"))
+		}
+		if r.ContentLength == -1 {
+			t.Fatalf("Users.ModifyUser request content-length is -1")
+		}
+		fmt.Fprint(w, `{}`)
+	})
+	_, _, err := client.Users.ModifyUser(1, &ModifyUserOptions{})
+	require.NoError(t, err)
+}
+
+func TestModifyUserAvatar(t *testing.T) {
+	mux, client := setup(t)
+
+	path := "/api/v4/users/1"
+
+	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPut)
+		if !strings.Contains(r.Header.Get("Content-Type"), "multipart/form-data;") {
+			t.Fatalf("Users.ModifyUser request content-type %+v want multipart/form-data;", r.Header.Get("Content-Type"))
+		}
+		if r.ContentLength == -1 {
+			t.Fatalf("Users.ModifyUser request content-length is -1")
+		}
+		fmt.Fprint(w, `{}`)
+	})
+	avatar := new(bytes.Buffer)
+	userAvatar := &UserAvatar{
+		Image:    avatar,
+		Filename: "avatar.png",
+	}
+	_, _, err := client.Users.ModifyUser(1, &ModifyUserOptions{Avatar: userAvatar})
+	require.NoError(t, err)
+}
+
+func TestUploadAvatarUser(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/user/avatar", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPut)
+		if !strings.Contains(r.Header.Get("Content-Type"), "multipart/form-data;") {
+			t.Fatalf("Users.UploadAvatar request content-type %+v want multipart/form-data;", r.Header.Get("Content-Type"))
+		}
+		if r.ContentLength == -1 {
+			t.Fatalf("Users.UploadAvatar request content-length is -1")
+		}
+		fmt.Fprint(w, `{}`)
+	})
+
+	avatar := new(bytes.Buffer)
+	_, _, err := client.Users.UploadAvatar(avatar, "avatar.png")
+	if err != nil {
+		t.Fatalf("Users.UploadAvatar returns an error: %v", err)
+	}
 }
