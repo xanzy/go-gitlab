@@ -1521,6 +1521,7 @@ func (s *ProjectsService) DeleteProjectForkRelation(pid interface{}, options ...
 type ProjectFile struct {
 	Alt      string `json:"alt"`
 	URL      string `json:"url"`
+	FullPath string `json:"full_path"`
 	Markdown string `json:"markdown"`
 }
 
