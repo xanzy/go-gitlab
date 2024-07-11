@@ -441,16 +441,21 @@ func TestSetJiraService(t *testing.T) {
 	})
 
 	opt := &SetJiraServiceOptions{
-		URL:                   Ptr("asd"),
-		APIURL:                Ptr("asd"),
-		ProjectKey:            Ptr("as"),
-		Username:              Ptr("aas"),
-		Password:              Ptr("asd"),
-		Active:                Ptr(true),
-		JiraIssueTransitionID: Ptr("2,3"),
-		CommitEvents:          Ptr(true),
-		CommentOnEventEnabled: Ptr(true),
-		MergeRequestsEvents:   Ptr(true),
+		URL:                          Ptr("asd"),
+		APIURL:                       Ptr("asd"),
+		ProjectKey:                   Ptr("as"),
+		Username:                     Ptr("aas"),
+		Password:                     Ptr("asd"),
+		Active:                       Ptr(true),
+		JiraIssuePrefix:              Ptr("ASD"),
+		JiraIssueRegex:               Ptr("ASD"),
+		JiraIssueTransitionAutomatic: Ptr(true),
+		JiraIssueTransitionID:        Ptr("2,3"),
+		CommitEvents:                 Ptr(true),
+		MergeRequestsEvents:          Ptr(true),
+		CommentOnEventEnabled:        Ptr(true),
+		IssuesEnabled:                Ptr(true),
+		UseInheritedSettings:         Ptr(true),
 	}
 
 	_, err := client.Services.SetJiraService(1, opt)
@@ -467,16 +472,60 @@ func TestSetJiraServiceProjecKeys(t *testing.T) {
 	})
 
 	opt := &SetJiraServiceOptions{
-		URL:                   Ptr("asd"),
-		APIURL:                Ptr("asd"),
-		ProjectKeys:           Ptr([]string{"as"}),
-		Username:              Ptr("aas"),
-		Password:              Ptr("asd"),
-		Active:                Ptr(true),
-		JiraIssueTransitionID: Ptr("2,3"),
-		CommitEvents:          Ptr(true),
-		CommentOnEventEnabled: Ptr(true),
-		MergeRequestsEvents:   Ptr(true),
+		URL:                          Ptr("asd"),
+		APIURL:                       Ptr("asd"),
+		Username:                     Ptr("aas"),
+		Password:                     Ptr("asd"),
+		Active:                       Ptr(true),
+		JiraIssuePrefix:              Ptr("ASD"),
+		JiraIssueRegex:               Ptr("ASD"),
+		JiraIssueTransitionAutomatic: Ptr(true),
+		JiraIssueTransitionID:        Ptr("2,3"),
+		CommitEvents:                 Ptr(true),
+		MergeRequestsEvents:          Ptr(true),
+		CommentOnEventEnabled:        Ptr(true),
+		IssuesEnabled:                Ptr(true),
+		ProjectKeys:                  Ptr([]string{"as"}),
+		UseInheritedSettings:         Ptr(true),
+	}
+
+	_, err := client.Services.SetJiraService(1, opt)
+	if err != nil {
+		t.Fatalf("Services.SetJiraService returns an error: %v", err)
+	}
+}
+
+func TestSetJiraServiceAuthTypeBasicAuth(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/projects/1/services/jira", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPut)
+	})
+
+	opt := &SetJiraServiceOptions{
+		URL:          Ptr("asd"),
+		Username:     Ptr("aas"),
+		Password:     Ptr("asd"),
+		JiraAuthType: Ptr(0),
+	}
+
+	_, err := client.Services.SetJiraService(1, opt)
+	if err != nil {
+		t.Fatalf("Services.SetJiraService returns an error: %v", err)
+	}
+}
+
+func TestSetJiraServiceAuthTypeTokenAuth(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/projects/1/services/jira", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPut)
+	})
+
+	opt := &SetJiraServiceOptions{
+		URL:          Ptr("asd"),
+		Password:     Ptr("asd"),
+		JiraAuthType: Ptr(1),
 	}
 
 	_, err := client.Services.SetJiraService(1, opt)
