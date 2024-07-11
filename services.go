@@ -1174,16 +1174,22 @@ func (s *ServicesService) GetJiraService(pid interface{}, options ...RequestOpti
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/integrations.html#edit-jira-service
 type SetJiraServiceOptions struct {
-	URL                   *string   `url:"url,omitempty" json:"url,omitempty"`
-	APIURL                *string   `url:"api_url,omitempty" json:"api_url,omitempty"`
-	ProjectKeys           *[]string `url:"project_keys,comma,omitempty" json:"project_keys,omitempty" `
-	Username              *string   `url:"username,omitempty" json:"username,omitempty" `
-	Password              *string   `url:"password,omitempty" json:"password,omitempty" `
-	Active                *bool     `url:"active,omitempty" json:"active,omitempty"`
-	JiraIssueTransitionID *string   `url:"jira_issue_transition_id,omitempty" json:"jira_issue_transition_id,omitempty"`
-	CommitEvents          *bool     `url:"commit_events,omitempty" json:"commit_events,omitempty"`
-	MergeRequestsEvents   *bool     `url:"merge_requests_events,omitempty" json:"merge_requests_events,omitempty"`
-	CommentOnEventEnabled *bool     `url:"comment_on_event_enabled,omitempty" json:"comment_on_event_enabled,omitempty"`
+	URL                          *string   `url:"url,omitempty" json:"url,omitempty"`
+	APIURL                       *string   `url:"api_url,omitempty" json:"api_url,omitempty"`
+	Username                     *string   `url:"username,omitempty" json:"username,omitempty" `
+	Password                     *string   `url:"password,omitempty" json:"password,omitempty" `
+	Active                       *bool     `url:"active,omitempty" json:"active,omitempty"`
+	JiraAuthType                 *int      `url:"jira_auth_type,omitempty" json:"jira_auth_type,omitempty"`
+	JiraIssuePrefix              *string   `url:"jira_issue_prefix,omitempty" json:"jira_issue_prefix,omitempty"`
+	JiraIssueRegex               *string   `url:"jira_issue_regex,omitempty" json:"jira_issue_regex,omitempty"`
+	JiraIssueTransitionAutomatic *string   `url:"jira_issue_transition_automatic,omitempty" json:"jira_issue_transition_automatic,omitempty"`
+	JiraIssueTransitionID        *string   `url:"jira_issue_transition_id,omitempty" json:"jira_issue_transition_id,omitempty"`
+	CommitEvents                 *bool     `url:"commit_events,omitempty" json:"commit_events,omitempty"`
+	MergeRequestsEvents          *bool     `url:"merge_requests_events,omitempty" json:"merge_requests_events,omitempty"`
+	CommentOnEventEnabled        *bool     `url:"comment_on_event_enabled,omitempty" json:"comment_on_event_enabled,omitempty"`
+	IssuesEnabled                *bool     `url:"issues_enabled,omitempty" json:"issues_enabled,omitempty"`
+	ProjectKeys                  *[]string `url:"project_keys,comma,omitempty" json:"project_keys,omitempty" `
+	UseInheritedSettings         *bool     `url:"use_inherited_settings,omitempty" json:"use_inherited_settings,omitempty"`
 
 	// Deprecated: This parameter was removed in GitLab 17.0
 	ProjectKey *string `url:"project_key,omitempty" json:"project_key,omitempty" `
