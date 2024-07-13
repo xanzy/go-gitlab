@@ -1411,6 +1411,33 @@ func (s *ProjectsService) DeleteProjectHook(pid interface{}, hook int, options .
 	return s.client.Do(req, nil)
 }
 
+// TriggerTestProjectHook Trigger a test hook for a specified project.
+//
+// In GitLab 17.0 and later, this endpoint has a special rate limit.
+// In GitLab 17.0 the rate was three requests per minute for each project hook.
+// In GitLab 17.1 this was changed to five requests per minute for each project
+// and authenticated user.
+//
+// To disable this limit on self-managed GitLab and GitLab Dedicated,
+// an administrator can disable the feature flag named web_hook_test_api_endpoint_rate_limit.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/projects.html#trigger-a-test-project-hook
+func (s *ProjectsService) TriggerTestProjectHook(pid interface{}, hook int, event ProjectHookEvent, options ...RequestOptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/hooks/%d/test/%s", PathEscape(project), hook, string(event))
+
+	req, err := s.client.NewRequest(http.MethodPost, u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
+
 // SetHookCustomHeaderOptions represents a project or group hook custom header.
 // If the header isn't present, it will be created.
 //
