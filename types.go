@@ -697,6 +697,29 @@ func ProjectCreationLevel(v ProjectCreationLevelValue) *ProjectCreationLevelValu
 	return Ptr(v)
 }
 
+// ProjectHookEvent represents a project hook event.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/projects.html#hook-events
+type ProjectHookEvent string
+
+// List of available project hook events.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/projects.html#hook-events
+const (
+	ProjectHookEventPush                ProjectHookEvent = "push_events"
+	ProjectHookEventTagPush             ProjectHookEvent = "tag_push_events"
+	ProjectHookEventIssues              ProjectHookEvent = "issues_events"
+	ProjectHookEventConfidentialIssues  ProjectHookEvent = "confidential_issues_events"
+	ProjectHookEventNote                ProjectHookEvent = "note_events"
+	ProjectHookEventMergeRequests       ProjectHookEvent = "merge_requests_events"
+	ProjectHookEventJob                 ProjectHookEvent = "job_events"
+	ProjectHookEventPipeline            ProjectHookEvent = "pipeline_events"
+	ProjectHookEventWiki                ProjectHookEvent = "wiki_page_events"
+	ProjectHookEventReleases            ProjectHookEvent = "releases_events"
+	ProjectHookEventEmoji               ProjectHookEvent = "emoji_events"
+	ProjectHookEventResourceAccessToken ProjectHookEvent = "resource_access_token_events"
+)
+
 // ResourceGroupProcessMode represents a process mode for a resource group
 // within a GitLab project.
 //

@@ -1411,28 +1411,13 @@ func (s *ProjectsService) DeleteProjectHook(pid interface{}, hook int, options .
 	return s.client.Do(req, nil)
 }
 
-type ProjectHookEvent string
-
-const (
-	ProjectHookEventPush                ProjectHookEvent = "push_events"
-	ProjectHookEventTagPush             ProjectHookEvent = "tag_push_events"
-	ProjectHookEventIssues              ProjectHookEvent = "issues_events"
-	ProjectHookEventConfidentialIssues  ProjectHookEvent = "confidential_issues_events"
-	ProjectHookEventNote                ProjectHookEvent = "note_events"
-	ProjectHookEventMergeRequests       ProjectHookEvent = "merge_requests_events"
-	ProjectHookEventJob                 ProjectHookEvent = "job_events"
-	ProjectHookEventPipeline            ProjectHookEvent = "pipeline_events"
-	ProjectHookEventWiki                ProjectHookEvent = "wiki_page_events"
-	ProjectHookEventReleases            ProjectHookEvent = "releases_events"
-	ProjectHookEventEmoji               ProjectHookEvent = "emoji_events"
-	ProjectHookEventResourceAccessToken ProjectHookEvent = "resource_access_token_events"
-)
-
 // TriggerTestProjectHook Trigger a test hook for a specified project.
 //
 // In GitLab 17.0 and later, this endpoint has a special rate limit.
 // In GitLab 17.0 the rate was three requests per minute for each project hook.
-// In GitLab 17.1 this was changed to five requests per minute for each project and authenticated user.
+// In GitLab 17.1 this was changed to five requests per minute for each project
+// and authenticated user.
+//
 // To disable this limit on self-managed GitLab and GitLab Dedicated,
 // an administrator can disable the feature flag named web_hook_test_api_endpoint_rate_limit.
 //
