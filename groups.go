@@ -46,13 +46,13 @@ type Group struct {
 	MembershipLock                  bool            `json:"membership_lock"`
 	Visibility                      VisibilityValue `json:"visibility"`
 	LFSEnabled                      bool            `json:"lfs_enabled"`
-	AvatarURL                       string          `json:"avatar_url"`
 	DefaultBranchProtectionDefaults struct {
 		AllowedToPush           []*GroupAccessLevel `json:"allowed_to_push"`
 		AllowForcePush          bool                `json:"allow_force_push"`
 		AllowedToMerge          []*GroupAccessLevel `json:"allowed_to_merge"`
 		DeveloperCanInitialPush bool                `json:"developer_can_initial_push"`
 	} `json:"default_branch_protection_defaults"`
+	AvatarURL             string                     `json:"avatar_url"`
 	WebURL                string                     `json:"web_url"`
 	RequestAccessEnabled  bool                       `json:"request_access_enabled"`
 	RepositoryStorage     string                     `json:"repository_storage"`
@@ -100,9 +100,10 @@ type Group struct {
 	DefaultBranchProtection int `json:"default_branch_protection"`
 }
 
-// GroupAccessLevel represents an entry in a Group defining the access level for default protections
+// GroupAccessLevel represents default branch protection defaults access levels.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/groups.html#options-for-default_branch_protection_defaults
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/groups.html#options-for-default_branch_protection_defaults
 type GroupAccessLevel struct {
 	AccessLevel *AccessLevelValue `url:"access_level,omitempty" json:"access_level,omitempty"`
 }
@@ -384,14 +385,16 @@ type CreateGroupOptions struct {
 	DefaultBranchProtection *int `url:"default_branch_protection,omitempty" json:"default_branch_protection,omitempty"`
 }
 
-// DefaultBranchProtectionDefaultsOptions represents the available options for using default_branch_protection_defaults in CreateGroup() or UpdateGroup()
+// DefaultBranchProtectionDefaultsOptions represents the available options for
+// using default_branch_protection_defaults in CreateGroup() or UpdateGroup()
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/groups.html#options-for-default_branch_protection_defaults
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/groups.html#options-for-default_branch_protection_defaults
 type DefaultBranchProtectionDefaultsOptions struct {
-	AllowedToPush           []GroupAccessLevel `url:"allowed_to_push,omitempty" json:"allowed_to_push,omitempty"`
-	AllowForcePush          bool               `url:"allow_force_push,omitempty" json:"allow_force_push,omitempty"`
-	AllowedToMerge          []GroupAccessLevel `url:"allowed_to_merge.omitempty" json:"allowed_to_merge.omitempty"`
-	DeveloperCanInitialPush bool               `url:"developer_can_initial_push,omitempty" json:"developer_can_initial_push,omitempty"`
+	AllowedToPush           *[]*GroupAccessLevel `url:"allowed_to_push,omitempty" json:"allowed_to_push,omitempty"`
+	AllowForcePush          *bool                `url:"allow_force_push,omitempty" json:"allow_force_push,omitempty"`
+	AllowedToMerge          *[]*GroupAccessLevel `url:"allowed_to_merge.omitempty" json:"allowed_to_merge.omitempty"`
+	DeveloperCanInitialPush *bool                `url:"developer_can_initial_push,omitempty" json:"developer_can_initial_push,omitempty"`
 }
 
 // CreateGroup creates a new project group. Available only for users who can

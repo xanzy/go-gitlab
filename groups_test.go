@@ -137,12 +137,12 @@ func TestCreateGroupDefaultBranchSettings(t *testing.T) {
 		Name: Ptr("g"),
 		Path: Ptr("g"),
 		DefaultBranchProtectionDefaults: &DefaultBranchProtectionDefaultsOptions{
-			AllowedToPush: []GroupAccessLevel{
+			AllowedToPush: &[]*GroupAccessLevel{
 				{
 					AccessLevel: Ptr(AccessLevelValue(40)),
 				},
 			},
-			AllowedToMerge: []GroupAccessLevel{
+			AllowedToMerge: &[]*GroupAccessLevel{
 				{
 					AccessLevel: Ptr(AccessLevelValue(40)),
 				},
@@ -174,8 +174,10 @@ func TestCreateGroupDefaultBranchSettings(t *testing.T) {
 	}
 
 	// Validate the request does what we want it to
-	assert.Equal(t, Ptr(MaintainerPermissions), jsonRequestBody.DefaultBranchProtectionDefaults.AllowedToMerge[0].AccessLevel)
-	assert.Equal(t, Ptr(MaintainerPermissions), jsonRequestBody.DefaultBranchProtectionDefaults.AllowedToPush[0].AccessLevel)
+	allowedToMerge := *jsonRequestBody.DefaultBranchProtectionDefaults.AllowedToMerge
+	allowedToPush := *jsonRequestBody.DefaultBranchProtectionDefaults.AllowedToPush
+	assert.Equal(t, Ptr(MaintainerPermissions), allowedToMerge[0].AccessLevel)
+	assert.Equal(t, Ptr(MaintainerPermissions), allowedToPush[0].AccessLevel)
 }
 
 func TestTransferGroup(t *testing.T) {
