@@ -96,7 +96,7 @@ type MergeRequestApprovalRule struct {
 	RuleType             string               `json:"rule_type"`
 	ReportType           string               `json:"report_type"`
 	EligibleApprovers    []*BasicUser         `json:"eligible_approvers"`
-	ApprovalsRequired    int                  `json:"appro:wvals_required"`
+	ApprovalsRequired    int                  `json:"approvals_required"`
 	SourceRule           *ProjectApprovalRule `json:"source_rule"`
 	Users                []*BasicUser         `json:"users"`
 	Groups               []*Group             `json:"groups"`
