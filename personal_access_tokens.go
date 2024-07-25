@@ -57,7 +57,14 @@ func (p PersonalAccessToken) String() string {
 // https://docs.gitlab.com/ee/api/personal_access_tokens.html#list-personal-access-tokens
 type ListPersonalAccessTokensOptions struct {
 	ListOptions
-	UserID *int `url:"user_id,omitempty" json:"user_id,omitempty"`
+	CreatedAfter   *time.Time `url:"created_after,omitempty" json:"created_after,omitempty"`
+	CreatedBefore  *time.Time `url:"created_before,omitempty" json:"created_before,omitempty"`
+	LastUsedAfter  *time.Time `url:"last_used_after,omitempty" json:"last_used_after,omitempty"`
+	LastUsedBefore *time.Time `url:"last_used_before,omitempty" json:"last_used_before,omitempty"`
+	Revoked        *int       `url:"revoked,omitempty" json:"revoked,omitempty"`
+	Search         *string    `url:"search,omitempty" json:"search,omitempty"`
+	State          *string    `url:"state,omitempty" json:"state,omitempty"`
+	UserID         *int       `url:"user_id,omitempty" json:"user_id,omitempty"`
 }
 
 // ListPersonalAccessTokens gets a list of all personal access tokens.
