@@ -61,7 +61,7 @@ type ListPersonalAccessTokensOptions struct {
 	CreatedBefore  *time.Time `url:"created_before,omitempty" json:"created_before,omitempty"`
 	LastUsedAfter  *time.Time `url:"last_used_after,omitempty" json:"last_used_after,omitempty"`
 	LastUsedBefore *time.Time `url:"last_used_before,omitempty" json:"last_used_before,omitempty"`
-	Revoked        *int       `url:"revoked,omitempty" json:"revoked,omitempty"`
+	Revoked        *bool      `url:"revoked,omitempty" json:"revoked,omitempty"`
 	Search         *string    `url:"search,omitempty" json:"search,omitempty"`
 	State          *string    `url:"state,omitempty" json:"state,omitempty"`
 	UserID         *int       `url:"user_id,omitempty" json:"user_id,omitempty"`
