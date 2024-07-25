@@ -1,4 +1,4 @@
-module github.com/xanzy/go-gitlab
+module github.com/hjweddie/go-gitlab
 
 go 1.19
 
