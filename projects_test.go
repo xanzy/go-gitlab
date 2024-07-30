@@ -441,7 +441,8 @@ func TestGetProjectWithOptions(t *testing.T) {
 				"pipeline_artifacts_size": 0,
 				"packages_size": 238906167,
 				"snippets_size": 146800,
-				"uploads_size": 6523619
+				"uploads_size": 6523619,
+				"container_registry_size": 284453
 			}}`)
 	})
 	want := &Project{ID: 1, Statistics: &Statistics{
@@ -455,6 +456,7 @@ func TestGetProjectWithOptions(t *testing.T) {
 		PackagesSize:          238906167,
 		SnippetsSize:          146800,
 		UploadsSize:           6523619,
+		ContainerRegistrySize: 284453,
 	}}
 
 	project, _, err := client.Projects.GetProject(1, &GetProjectOptions{Statistics: Ptr(true)})
