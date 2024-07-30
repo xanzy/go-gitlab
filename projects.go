@@ -292,6 +292,7 @@ type Statistics struct {
 	PackagesSize          int64 `json:"packages_size"`
 	SnippetsSize          int64 `json:"snippets_size"`
 	UploadsSize           int64 `json:"uploads_size"`
+	ContainerRegistrySize int64 `json:"container_registry_size"`
 }
 
 func (s Project) String() string {
