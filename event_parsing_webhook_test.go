@@ -37,6 +37,19 @@ func TestWebhookEventType(t *testing.T) {
 	}
 }
 
+func TestWebhookEventToken(t *testing.T) {
+	req, err := http.NewRequest(http.MethodGet, "https://gitlab.com", nil)
+	if err != nil {
+		t.Errorf("Error creating HTTP request: %s", err)
+	}
+	req.Header.Set("X-Gitlab-Token", "798d3dd3-67f5-41df-ad19-7882cc6263bf")
+
+	actualToken := HookEventToken(req)
+	if actualToken != "798d3dd3-67f5-41df-ad19-7882cc6263bf" {
+		t.Errorf("WebhookEventToken is %q, want %q", actualToken, "798d3dd3-67f5-41df-ad19-7882cc6263bf")
+	}
+}
+
 func TestParseBuildHook(t *testing.T) {
 	raw := loadFixture("testdata/webhooks/build.json")
 
