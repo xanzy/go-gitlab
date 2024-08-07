@@ -103,6 +103,7 @@ func TestGetUserAdmin(t *testing.T) {
 		LastActivityOn:   &lastActivityOn,
 		ColorSchemeID:    2,
 		IsAdmin:          true,
+		IsAuditor:        true,
 		AvatarURL:        "http://localhost:3000/uploads/user/avatar/1/index.jpg",
 		CanCreateGroup:   true,
 		CanCreateProject: true,
