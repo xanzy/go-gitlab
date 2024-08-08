@@ -906,7 +906,8 @@ func TestGetGroupPushRules(t *testing.T) {
 			"max_file_size": 5,
 			"commit_committer_check": false,
 			"commit_committer_name_check": false,
-			"reject_unsigned_commits": false
+			"reject_unsigned_commits": false,
+			"reject_non_dco_commits": false
 		  }`)
 	})
 
@@ -929,6 +930,7 @@ func TestGetGroupPushRules(t *testing.T) {
 		CommitCommitterCheck:       false,
 		CommitCommitterNameCheck:   false,
 		RejectUnsignedCommits:      false,
+		RejectNonDCOCommits:        false,
 	}
 
 	if !reflect.DeepEqual(want, rule) {
@@ -954,7 +956,8 @@ func TestAddGroupPushRules(t *testing.T) {
 			"max_file_size": 5,
 			"commit_committer_check": false,
 			"commit_committer_name_check": false,
-			"reject_unsigned_commits": false
+			"reject_unsigned_commits": false,
+			"reject_non_dco_commits": false
 		  }`)
 	})
 
@@ -971,6 +974,7 @@ func TestAddGroupPushRules(t *testing.T) {
 		CommitCommitterCheck:       Ptr(false),
 		CommitCommitterNameCheck:   Ptr(false),
 		RejectUnsignedCommits:      Ptr(false),
+		RejectNonDCOCommits:        Ptr(false),
 	}
 
 	rule, _, err := client.Groups.AddGroupPushRule(1, opt)
@@ -992,6 +996,7 @@ func TestAddGroupPushRules(t *testing.T) {
 		CommitCommitterCheck:       false,
 		CommitCommitterNameCheck:   false,
 		RejectUnsignedCommits:      false,
+		RejectNonDCOCommits:        false,
 	}
 
 	if !reflect.DeepEqual(want, rule) {
@@ -1017,7 +1022,8 @@ func TestEditGroupPushRules(t *testing.T) {
 			"max_file_size": 5,
 			"commit_committer_check": false,
 			"commit_committer_name_check": false,
-			"reject_unsigned_commits": false
+			"reject_unsigned_commits": false,
+			"reject_non_dco_commits": false
 		  }`)
 	})
 
@@ -1034,6 +1040,7 @@ func TestEditGroupPushRules(t *testing.T) {
 		CommitCommitterCheck:       Ptr(false),
 		CommitCommitterNameCheck:   Ptr(false),
 		RejectUnsignedCommits:      Ptr(false),
+		RejectNonDCOCommits:        Ptr(false),
 	}
 
 	rule, _, err := client.Groups.EditGroupPushRule(1, opt)
@@ -1055,6 +1062,7 @@ func TestEditGroupPushRules(t *testing.T) {
 		CommitCommitterCheck:       false,
 		CommitCommitterNameCheck:   false,
 		RejectUnsignedCommits:      false,
+		RejectNonDCOCommits:        false,
 	}
 
 	if !reflect.DeepEqual(want, rule) {
