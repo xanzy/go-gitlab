@@ -122,6 +122,52 @@ func TestImportService_ImportGitHubGistsIntoGitLabSnippets(t *testing.T) {
 	require.Nil(t, resp)
 }
 
+func TestImportService_ImportRepositoryFromBitbucketServer(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/import/bitbucket_server", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPost)
+		fmt.Fprintf(w, `
+			{
+				"id": 27,
+				"name": "my-repo",
+				"full_path": "/root/my-repo",
+				"full_name": "Administrator / my-repo",
+				"refs_url": "/root/my-repo/refs"
+			}
+		`)
+	})
+
+	want := &BitbucketServerImport{
+		ID:       27,
+		Name:     "my-repo",
+		FullPath: "/root/my-repo",
+		FullName: "Administrator / my-repo",
+		RefsUrl:  "/root/my-repo/refs",
+	}
+
+	opt := &ImportRepositoryFromBitbucketServerOptions{
+		BitbucketServerUrl:      Ptr("https://bitbucket.example.com"),
+		BitbucketServerUsername: Ptr("username"),
+		PersonalAccessToken:     Ptr("token"),
+		BitbucketServerProject:  Ptr("root"),
+		BitbucketServerRepo:     Ptr("my-repo"),
+		NewName:                 Ptr("my-repo"),
+		NewNamespace:            Ptr("root"),
+		TimeoutStrategy:         Ptr("pessimistic"),
+	}
+
+	bsi, resp, err := client.Import.ImportRepositoryFromBitbucketServer(opt)
+	require.NoError(t, err)
+	require.NotNil(t, resp)
+	require.Equal(t, want, bsi)
+
+	bsi, resp, err = client.Import.ImportRepositoryFromBitbucketServer(opt, errorOption)
+	require.EqualError(t, err, "RequestOptionFunc returns an error")
+	require.Nil(t, resp)
+	require.Nil(t, bsi)
+}
+
 func TestImportService_ImportRepositoryFromBitbucketCloud(t *testing.T) {
 	mux, client := setup(t)
 
@@ -173,50 +219,4 @@ func TestImportService_ImportRepositoryFromBitbucketCloud(t *testing.T) {
 	require.EqualError(t, err, "RequestOptionFunc returns an error")
 	require.Nil(t, resp)
 	require.Nil(t, bci)
-}
-
-func TestImportService_ImportRepositoryFromBitbucketServer(t *testing.T) {
-	mux, client := setup(t)
-
-	mux.HandleFunc("/api/v4/import/bitbucket_server", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, http.MethodPost)
-		fmt.Fprintf(w, `
-			{
-				"id": 27,
-				"name": "my-repo",
-				"full_path": "/root/my-repo",
-				"full_name": "Administrator / my-repo",
-				"refs_url": "/root/my-repo/refs"
-			}
-		`)
-	})
-
-	want := &BitbucketServerImport{
-		ID:       27,
-		Name:     "my-repo",
-		FullPath: "/root/my-repo",
-		FullName: "Administrator / my-repo",
-		RefsUrl:  "/root/my-repo/refs",
-	}
-
-	opt := &ImportRepositoryFromBitbucketServerOptions{
-		BitbucketServerUrl:      Ptr("https://bitbucket.example.com"),
-		BitbucketServerUsername: Ptr("username"),
-		PersonalAccessToken:     Ptr("token"),
-		BitbucketServerProject:  Ptr("root"),
-		BitbucketServerRepo:     Ptr("my-repo"),
-		NewName:                 Ptr("my-repo"),
-		NewNamespace:            Ptr("root"),
-		TimeoutStrategy:         Ptr("pessimistic"),
-	}
-
-	bsi, resp, err := client.Import.ImportRepositoryFromBitbucketServer(opt)
-	require.NoError(t, err)
-	require.NotNil(t, resp)
-	require.Equal(t, want, bsi)
-
-	bsi, resp, err = client.Import.ImportRepositoryFromBitbucketServer(opt, errorOption)
-	require.EqualError(t, err, "RequestOptionFunc returns an error")
-	require.Nil(t, resp)
-	require.Nil(t, bsi)
 }

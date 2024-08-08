@@ -159,62 +159,8 @@ func (s *ImportService) ImportGitHubGistsIntoGitLabSnippets(opt *ImportGitHubGis
 	return s.client.Do(req, nil)
 }
 
-// BitbucketCloudImport represents the response from an import from Bitbucket Cloud.
-// This uses the same "ProjectImportEntity" as GitHub, but is copied here to avoid conflicts.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ee/api/import.html#import-repository-from-bitbucket-cloud
-type BitbucketCloudImport struct {
-	ID                    int    `json:"id"`
-	Name                  string `json:"name"`
-	FullPath              string `json:"full_path"`
-	FullName              string `json:"full_name"`
-	RefsUrl               string `json:"refs_url"`
-	ImportSource          string `json:"import_source"`
-	ImportStatus          string `json:"import_status"`
-	HumanImportStatusName string `json:"human_import_status_name"`
-	ProviderLink          string `json:"provider_link"`
-	RelationType          string `json:"relation_type"`
-	ImportWarning         string `json:"import_warning"`
-}
-
-func (s BitbucketCloudImport) String() string {
-	return Stringify(s)
-}
-
-// ImportRepositoryFromBitbucketCloudOptions represents the available ImportRepositoryFromBitbucketCloud() options.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ee/api/import.html#import-repository-from-bitbucket-cloud
-type ImportRepositoryFromBitbucketCloudOptions struct {
-	BitbucketUsername    *string `url:"bitbucket_username,omitempty" json:"bitbucket_username,omitempty"`
-	BitbucketAppPassword *string `url:"bitbucket_app_password,omitempty" json:"bitbucket_app_password,omitempty"`
-	RepoPath             *string `url:"repo_path,omitempty" json:"repo_path,omitempty"`
-	TargetNamespace      *string `url:"target_namespace,omitempty" json:"target_namespace,omitempty"`
-	NewName              *string `url:"new_name,omitempty" json:"new_name,omitempty"`
-}
-
-// Import a repository from Bitbucket Cloud.
-// For importing repositories from Bitbucket Server or Data Center, see ImportRepositoryFromBitbucketServer().
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ee/api/import.html#import-repository-from-bitbucket-cloud
-func (s *ImportService) ImportRepositoryFromBitbucketCloud(opt *ImportRepositoryFromBitbucketCloudOptions, options ...RequestOptionFunc) (*BitbucketCloudImport, *Response, error) {
-	req, err := s.client.NewRequest(http.MethodPost, "import/bitbucket", opt, options)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	bci := new(BitbucketCloudImport)
-	resp, err := s.client.Do(req, bci)
-	if err != nil {
-		return nil, resp, err
-	}
-
-	return bci, resp, nil
-}
-
-// BitbucketServerImport represents the response from an import from Bitbucket Server.
+// BitbucketServerImport represents the response from an import from Bitbucket
+// Server.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/import.html#import-repository-from-bitbucket-server
@@ -246,7 +192,6 @@ type ImportRepositoryFromBitbucketServerOptions struct {
 }
 
 // Import a repository from Bitbucket Server.
-// For importing repositories from Bitbucket Cloud, see ImportRepositoryFromBitbucketCloud().
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/import.html#import-repository-from-bitbucket-server
@@ -263,4 +208,59 @@ func (s *ImportService) ImportRepositoryFromBitbucketServer(opt *ImportRepositor
 	}
 
 	return bsi, resp, nil
+}
+
+// BitbucketCloudImport represents the response from an import from Bitbucket
+// Cloud.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/import.html#import-repository-from-bitbucket-cloud
+type BitbucketCloudImport struct {
+	ID                    int    `json:"id"`
+	Name                  string `json:"name"`
+	FullPath              string `json:"full_path"`
+	FullName              string `json:"full_name"`
+	RefsUrl               string `json:"refs_url"`
+	ImportSource          string `json:"import_source"`
+	ImportStatus          string `json:"import_status"`
+	HumanImportStatusName string `json:"human_import_status_name"`
+	ProviderLink          string `json:"provider_link"`
+	RelationType          string `json:"relation_type"`
+	ImportWarning         string `json:"import_warning"`
+}
+
+func (s BitbucketCloudImport) String() string {
+	return Stringify(s)
+}
+
+// ImportRepositoryFromBitbucketCloudOptions represents the available
+// ImportRepositoryFromBitbucketCloud() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/import.html#import-repository-from-bitbucket-cloud
+type ImportRepositoryFromBitbucketCloudOptions struct {
+	BitbucketUsername    *string `url:"bitbucket_username,omitempty" json:"bitbucket_username,omitempty"`
+	BitbucketAppPassword *string `url:"bitbucket_app_password,omitempty" json:"bitbucket_app_password,omitempty"`
+	RepoPath             *string `url:"repo_path,omitempty" json:"repo_path,omitempty"`
+	TargetNamespace      *string `url:"target_namespace,omitempty" json:"target_namespace,omitempty"`
+	NewName              *string `url:"new_name,omitempty" json:"new_name,omitempty"`
+}
+
+// Import a repository from Bitbucket Cloud.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/import.html#import-repository-from-bitbucket-cloud
+func (s *ImportService) ImportRepositoryFromBitbucketCloud(opt *ImportRepositoryFromBitbucketCloudOptions, options ...RequestOptionFunc) (*BitbucketCloudImport, *Response, error) {
+	req, err := s.client.NewRequest(http.MethodPost, "import/bitbucket", opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	bci := new(BitbucketCloudImport)
+	resp, err := s.client.Do(req, bci)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return bci, resp, nil
 }
