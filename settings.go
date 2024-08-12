@@ -50,21 +50,34 @@ type Settings struct {
 	AfterSignUpText                                       string            `json:"after_sign_up_text"`
 	AkismetAPIKey                                         string            `json:"akismet_api_key"`
 	AkismetEnabled                                        bool              `json:"akismet_enabled"`
+	AllowAccountDeletion                                  bool              `json:"allow_account_deletion"`
 	AllowGroupOwnersToManageLDAP                          bool              `json:"allow_group_owners_to_manage_ldap"`
 	AllowLocalRequestsFromSystemHooks                     bool              `json:"allow_local_requests_from_system_hooks"`
 	AllowLocalRequestsFromWebHooksAndServices             bool              `json:"allow_local_requests_from_web_hooks_and_services"`
+	AllowProjectCreationForGuestAndBelow                  bool              `json:"allow_project_creation_for_guest_and_below"`
+	AllowRunnerRegistrationToken                          bool              `json:"allow_runner_registration_token"`
 	ArchiveBuildsInHumanReadable                          string            `json:"archive_builds_in_human_readable"`
+	ASCIIDocMaxIncludes                                   int               `json:"asciidoc_max_includes"`
 	AssetProxyAllowlist                                   []string          `json:"asset_proxy_allowlist"`
 	AssetProxyEnabled                                     bool              `json:"asset_proxy_enabled"`
 	AssetProxyURL                                         string            `json:"asset_proxy_url"`
 	AssetProxySecretKey                                   string            `json:"asset_proxy_secret_key"`
 	AuthorizedKeysEnabled                                 bool              `json:"authorized_keys_enabled"`
+	AutoBanUserOnExcessiveProjectsDownload                bool              `json:"auto_ban_user_on_excessive_projects_download"`
 	AutoDevOpsDomain                                      string            `json:"auto_devops_domain"`
 	AutoDevOpsEnabled                                     bool              `json:"auto_devops_enabled"`
 	AutomaticPurchasedStorageAllocation                   bool              `json:"automatic_purchased_storage_allocation"`
+	BulkImportConcurrentPipelineBatchLimit                int               `json:"bulk_import_concurrent_pipeline_batch_limit"`
+	BulkImportEnabled                                     bool              `json:"bulk_import_enabled"`
+	BulkImportMaxDownloadFileSize                         int               `json:"bulk_import_max_download_file_size"`
 	CanCreateGroup                                        bool              `json:"can_create_group"`
 	CheckNamespacePlan                                    bool              `json:"check_namespace_plan"`
+	CIMaxIncludes                                         int               `json:"ci_max_includes"`
+	CIMaxTotalYAMLSizeBytes                               int               `json:"ci_max_total_yaml_size_bytes"`
 	CommitEmailHostname                                   string            `json:"commit_email_hostname"`
+	ConcurrentBitbucketImportJobsLimit                    int               `json:"concurrent_bitbucket_import_jobs_limit"`
+	ConcurrentBitbucketServerImportJobsLimit              int               `json:"concurrent_bitbucket_server_import_jobs_limit"`
+	ConcurrentGitHubImportJobsLimit                       int               `json:"concurrent_github_import_jobs_limit"`
 	ContainerExpirationPoliciesEnableHistoricEntries      bool              `json:"container_expiration_policies_enable_historic_entries"`
 	ContainerRegistryCleanupTagsServiceMaxListSize        int               `json:"container_registry_cleanup_tags_service_max_list_size"`
 	ContainerRegistryDeleteTagsServiceTimeout             int               `json:"container_registry_delete_tags_service_timeout"`
@@ -82,6 +95,8 @@ type Settings struct {
 	DNSRebindingProtectionEnabled                         bool              `json:"dns_rebinding_protection_enabled"`
 	DSAKeyRestriction                                     int               `json:"dsa_key_restriction"`
 	DeactivateDormantUsers                                bool              `json:"deactivate_dormant_users"`
+	DeactivateDormantUsersPeriod                          int               `json:"deactivate_dormant_users_period"`
+	DecompressArchiveFileTimeout                          int               `json:"decompress_archive_file_timeout"`
 	DefaultArtifactsExpireIn                              string            `json:"default_artifacts_expire_in"`
 	DefaultBranchName                                     string            `json:"default_branch_name"`
 	DefaultBranchProtection                               int               `json:"default_branch_protection"`
@@ -454,23 +469,36 @@ type UpdateSettingsOptions struct {
 	AfterSignUpText                                       *string            `url:"after_sign_up_text,omitempty" json:"after_sign_up_text,omitempty"`
 	AkismetAPIKey                                         *string            `url:"akismet_api_key,omitempty" json:"akismet_api_key,omitempty"`
 	AkismetEnabled                                        *bool              `url:"akismet_enabled,omitempty" json:"akismet_enabled,omitempty"`
+	AllowAccountDeletion                                  *bool              `url:"allow_account_deletion,omitempty" json:"allow_account_deletion,omitempty"`
 	AllowGroupOwnersToManageLDAP                          *bool              `url:"allow_group_owners_to_manage_ldap,omitempty" json:"allow_group_owners_to_manage_ldap,omitempty"`
 	AllowLocalRequestsFromHooksAndServices                *bool              `url:"allow_local_requests_from_hooks_and_services,omitempty" json:"allow_local_requests_from_hooks_and_services,omitempty"`
 	AllowLocalRequestsFromSystemHooks                     *bool              `url:"allow_local_requests_from_system_hooks,omitempty" json:"allow_local_requests_from_system_hooks,omitempty"`
 	AllowLocalRequestsFromWebHooksAndServices             *bool              `url:"allow_local_requests_from_web_hooks_and_services,omitempty" json:"allow_local_requests_from_web_hooks_and_services,omitempty"`
+	AllowProjectCreationForGuestAndBelow                  *bool              `url:"allow_project_creation_for_guest_and_below,omitempty" json:"allow_project_creation_for_guest_and_below,omitempty"`
+	AllowRunnerRegistrationToken                          *bool              `url:"allow_runner_registration_token,omitempty" json:"allow_runner_registration_token,omitempty"`
 	ArchiveBuildsInHumanReadable                          *string            `url:"archive_builds_in_human_readable,omitempty" json:"archive_builds_in_human_readable,omitempty"`
+	ASCIIDocMaxIncludes                                   *int               `url:"asciidoc_max_includes,omitempty" json:"asciidoc_max_includes,omitempty"`
 	AssetProxyAllowlist                                   *[]string          `url:"asset_proxy_allowlist,omitempty" json:"asset_proxy_allowlist,omitempty"`
 	AssetProxyEnabled                                     *bool              `url:"asset_proxy_enabled,omitempty" json:"asset_proxy_enabled,omitempty"`
 	AssetProxySecretKey                                   *string            `url:"asset_proxy_secret_key,omitempty" json:"asset_proxy_secret_key,omitempty"`
 	AssetProxyURL                                         *string            `url:"asset_proxy_url,omitempty" json:"asset_proxy_url,omitempty"`
 	AssetProxyWhitelist                                   *[]string          `url:"asset_proxy_whitelist,omitempty" json:"asset_proxy_whitelist,omitempty"`
 	AuthorizedKeysEnabled                                 *bool              `url:"authorized_keys_enabled,omitempty" json:"authorized_keys_enabled,omitempty"`
+	AutoBanUserOnExcessiveProjectsDownload                *bool              `url:"auto_ban_user_on_excessive_projects_download,omitempty" json:"auto_ban_user_on_excessive_projects_download,omitempty"`
 	AutoDevOpsDomain                                      *string            `url:"auto_devops_domain,omitempty" json:"auto_devops_domain,omitempty"`
 	AutoDevOpsEnabled                                     *bool              `url:"auto_devops_enabled,omitempty" json:"auto_devops_enabled,omitempty"`
 	AutomaticPurchasedStorageAllocation                   *bool              `url:"automatic_purchased_storage_allocation,omitempty" json:"automatic_purchased_storage_allocation,omitempty"`
+	BulkImportConcurrentPipelineBatchLimit                *int               `url:"bulk_import_concurrent_pipeline_batch_limit,omitempty" json:"bulk_import_concurrent_pipeline_batch_limit,omitempty"`
+	BulkImportEnabled                                     *bool              `url:"bulk_import_enabled,omitempty" json:"bulk_import_enabled,omitempty"`
+	BulkImportMaxDownloadFileSize                         *int               `url:"bulk_import_max_download_file_size,omitempty" json:"bulk_import_max_download_file_size,omitempty"`
 	CanCreateGroup                                        *bool              `url:"can_create_group,omitempty" json:"can_create_group,omitempty"`
 	CheckNamespacePlan                                    *bool              `url:"check_namespace_plan,omitempty" json:"check_namespace_plan,omitempty"`
+	CIMaxIncludes                                         *int               `url:"ci_max_includes,omitempty" json:"ci_max_includes,omitempty"`
+	CIMaxTotalYAMLSizeBytes                               *int               `url:"ci_max_total_yaml_size_bytes,omitempty" json:"ci_max_total_yaml_size_bytes,omitempty"`
 	CommitEmailHostname                                   *string            `url:"commit_email_hostname,omitempty" json:"commit_email_hostname,omitempty"`
+	ConcurrentBitbucketImportJobsLimit                    *int               `url:"concurrent_bitbucket_import_jobs_limit,omitempty" json:"concurrent_bitbucket_import_jobs_limit,omitempty"`
+	ConcurrentBitbucketServerImportJobsLimit              *int               `url:"concurrent_bitbucket_server_import_jobs_limit,omitempty" json:"concurrent_bitbucket_server_import_jobs_limit,omitempty"`
+	ConcurrentGitHubImportJobsLimit                       *int               `url:"concurrent_github_import_jobs_limit,omitempty" json:"concurrent_github_import_jobs_limit,omitempty"`
 	ContainerExpirationPoliciesEnableHistoricEntries      *bool              `url:"container_expiration_policies_enable_historic_entries,omitempty" json:"container_expiration_policies_enable_historic_entries,omitempty"`
 	ContainerRegistryCleanupTagsServiceMaxListSize        *int               `url:"container_registry_cleanup_tags_service_max_list_size,omitempty" json:"container_registry_cleanup_tags_service_max_list_size,omitempty"`
 	ContainerRegistryDeleteTagsServiceTimeout             *int               `url:"container_registry_delete_tags_service_timeout,omitempty" json:"container_registry_delete_tags_service_timeout,omitempty"`
@@ -487,6 +515,8 @@ type UpdateSettingsOptions struct {
 	DNSRebindingProtectionEnabled                         *bool              `url:"dns_rebinding_protection_enabled,omitempty" json:"dns_rebinding_protection_enabled,omitempty"`
 	DSAKeyRestriction                                     *int               `url:"dsa_key_restriction,omitempty" json:"dsa_key_restriction,omitempty"`
 	DeactivateDormantUsers                                *bool              `url:"deactivate_dormant_users,omitempty" json:"deactivate_dormant_users,omitempty"`
+	DeactivateDormantUsersPeriod                          *int               `url:"deactivate_dormant_users_period,omitempty" json:"deactivate_dormant_users_period,omitempty"`
+	DecompressArchiveFileTimeout                          *int               `url:"decompress_archive_file_timeout,omitempty" json:"decompress_archive_file_timeout,omitempty"`
 	DefaultArtifactsExpireIn                              *string            `url:"default_artifacts_expire_in,omitempty" json:"default_artifacts_expire_in,omitempty"`
 	DefaultBranchName                                     *string            `url:"default_branch_name,omitempty" json:"default_branch_name,omitempty"`
 	DefaultBranchProtection                               *int               `url:"default_branch_protection,omitempty" json:"default_branch_protection,omitempty"`
