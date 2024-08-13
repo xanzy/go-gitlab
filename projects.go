@@ -86,6 +86,7 @@ type Project struct {
 	OnlyAllowMergeIfPipelineSucceeds          bool                       `json:"only_allow_merge_if_pipeline_succeeds"`
 	OnlyAllowMergeIfAllDiscussionsAreResolved bool                       `json:"only_allow_merge_if_all_discussions_are_resolved"`
 	RemoveSourceBranchAfterMerge              bool                       `json:"remove_source_branch_after_merge"`
+	PreventMergeWithoutJiraIssue              bool                       `json:"prevent_merge_without_jira_issue"`
 	PrintingMergeRequestLinkEnabled           bool                       `json:"printing_merge_request_link_enabled"`
 	LFSEnabled                                bool                       `json:"lfs_enabled"`
 	RepositoryStorage                         string                     `json:"repository_storage"`
@@ -893,6 +894,7 @@ type EditProjectOptions struct {
 	InfrastructureAccessLevel                 *AccessControlValue                  `url:"infrastructure_access_level,omitempty" json:"infrastructure_access_level,omitempty"`
 	MonitorAccessLevel                        *AccessControlValue                  `url:"monitor_access_level,omitempty" json:"monitor_access_level,omitempty"`
 	RemoveSourceBranchAfterMerge              *bool                                `url:"remove_source_branch_after_merge,omitempty" json:"remove_source_branch_after_merge,omitempty"`
+	PreventMergeWithoutJiraIssue              *bool                                `url:"prevent_merge_without_jira_issue,omitempty" json:"prevent_merge_without_jira_issue,omitempty"`
 	PrintingMergeRequestLinkEnabled           *bool                                `url:"printing_merge_request_link_enabled,omitempty" json:"printing_merge_request_link_enabled,omitempty"`
 	RepositoryAccessLevel                     *AccessControlValue                  `url:"repository_access_level,omitempty" json:"repository_access_level,omitempty"`
 	RepositoryStorage                         *string                              `url:"repository_storage,omitempty" json:"repository_storage,omitempty"`
