@@ -230,6 +230,17 @@ func Availability(v AvailabilityValue) *AvailabilityValue {
 	return Ptr(v)
 }
 
+// BranchProtectionDefaults represents default Git protected branch permissions.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/groups.html#options-for-default_branch_protection_defaults
+type BranchProtectionDefaults struct {
+	AllowedToPush           []int `json:"allowed_to_push,omitempty"`
+	AllowForcePush          bool  `json:"allow_force_push,omitempty"`
+	AllowedToMerge          []int `json:"allowed_to_merge,omitempty"`
+	DeveloperCanInitialPush bool  `json:"developer_can_initial_push,omitempty"`
+}
+
 // BuildStateValue represents a GitLab build state.
 type BuildStateValue string
 
