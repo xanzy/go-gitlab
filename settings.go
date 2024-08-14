@@ -103,24 +103,33 @@ type Settings struct {
 	DefaultBranchProtectionDefaults                       BranchProtectionDefaults `json:"default_branch_protection_defaults,omitempty"`
 	DefaultCiConfigPath                                   string                   `json:"default_ci_config_path"`
 	DefaultGroupVisibility                                VisibilityValue          `json:"default_group_visibility"`
+	DefaultPreferredLanguage                              string                   `json:"default_preferred_language"`
 	DefaultProjectCreation                                int                      `json:"default_project_creation"`
 	DefaultProjectDeletionProtection                      bool                     `json:"default_project_deletion_protection"`
 	DefaultProjectVisibility                              VisibilityValue          `json:"default_project_visibility"`
 	DefaultProjectsLimit                                  int                      `json:"default_projects_limit"`
 	DefaultSnippetVisibility                              VisibilityValue          `json:"default_snippet_visibility"`
+	DefaultSyntaxHighlightingTheme                        int                      `json:"default_syntax_highlighting_theme"`
 	DelayedGroupDeletion                                  bool                     `json:"delayed_group_deletion"`
 	DelayedProjectDeletion                                bool                     `json:"delayed_project_deletion"`
 	DeleteInactiveProjects                                bool                     `json:"delete_inactive_projects"`
+	DeleteUnconfirmedUsers                                bool                     `json:"delete_unconfirmed_users"`
 	DeletionAdjournedPeriod                               int                      `json:"deletion_adjourned_period"`
+	DiagramsnetEnabled                                    bool                     `json:"diagramsnet_enabled"`
+	DiagramsnetURL                                        string                   `json:"diagramsnet_url"`
 	DiffMaxFiles                                          int                      `json:"diff_max_files"`
 	DiffMaxLines                                          int                      `json:"diff_max_lines"`
 	DiffMaxPatchBytes                                     int                      `json:"diff_max_patch_bytes"`
+	DisableAdminOAuthScopes                               bool                     `json:"disable_admin_oauth_scopes"`
 	DisableFeedToken                                      bool                     `json:"disable_feed_token"`
 	DisableOverridingApproversPerMergeRequest             bool                     `json:"disable_overriding_approvers_per_merge_request"`
+	DisablePersonalAccessTokens                           bool                     `json:"disable_personal_access_tokens"`
 	DisabledOauthSignInSources                            []string                 `json:"disabled_oauth_sign_in_sources"`
 	DomainAllowlist                                       []string                 `json:"domain_allowlist"`
 	DomainDenylist                                        []string                 `json:"domain_denylist"`
 	DomainDenylistEnabled                                 bool                     `json:"domain_denylist_enabled"`
+	DownstreamPipelineTriggerLimitPerProjectUserSHA       int                      `json:"downstream_pipeline_trigger_limit_per_project_user_sha"`
+	DuoFeaturesEnabled                                    bool                     `json:"duo_features_enabled"`
 	ECDSAKeyRestriction                                   int                      `json:"ecdsa_key_restriction"`
 	ECDSASKKeyRestriction                                 int                      `json:"ecdsa_sk_key_restriction"`
 	EKSAccessKeyID                                        string                   `json:"eks_access_key_id"`
@@ -144,19 +153,24 @@ type Settings struct {
 	ElasticsearchLimitIndexing                            bool                     `json:"elasticsearch_limit_indexing"`
 	ElasticsearchMaxBulkConcurrency                       int                      `json:"elasticsearch_max_bulk_concurrency"`
 	ElasticsearchMaxBulkSizeMB                            int                      `json:"elasticsearch_max_bulk_size_mb"`
+	ElasticsearchMaxCodeIndexingConcurrency               int                      `json:"elasticsearch_max_code_indexing_concurrency"`
 	ElasticsearchNamespaceIDs                             []int                    `json:"elasticsearch_namespace_ids"`
 	ElasticsearchPassword                                 string                   `json:"elasticsearch_password"`
 	ElasticsearchPauseIndexing                            bool                     `json:"elasticsearch_pause_indexing"`
 	ElasticsearchProjectIDs                               []int                    `json:"elasticsearch_project_ids"`
 	ElasticsearchReplicas                                 int                      `json:"elasticsearch_replicas"`
+	ElasticsearchRequeueWorkers                           bool                     `json:"elasticsearch_requeue_workers"`
 	ElasticsearchSearch                                   bool                     `json:"elasticsearch_search"`
 	ElasticsearchShards                                   int                      `json:"elasticsearch_shards"`
 	ElasticsearchURL                                      []string                 `json:"elasticsearch_url"`
 	ElasticsearchUsername                                 string                   `json:"elasticsearch_username"`
+	ElasticsearchWorkerNumberOfShards                     int                      `json:"elasticsearch_worker_number_of_shards"`
 	EmailAdditionalText                                   string                   `json:"email_additional_text"`
 	EmailAuthorInBody                                     bool                     `json:"email_author_in_body"`
+	EmailConfirmationSetting                              string                   `json:"email_confirmation_setting"`
 	EmailRestrictions                                     string                   `json:"email_restrictions"`
 	EmailRestrictionsEnabled                              bool                     `json:"email_restrictions_enabled"`
+	EnableArtifactExternalRedirectWarningPage             bool                     `json:"enable_artifact_external_redirect_warning_page"`
 	EnabledGitAccessProtocol                              string                   `json:"enabled_git_access_protocol"`
 	EnforceNamespaceStorageLimit                          bool                     `json:"enforce_namespace_storage_limit"`
 	EnforcePATExpiration                                  bool                     `json:"enforce_pat_expiration"`
@@ -172,18 +186,24 @@ type Settings struct {
 	ExternalPipelineValidationServiceTimeout              int                      `json:"external_pipeline_validation_service_timeout"`
 	ExternalPipelineValidationServiceToken                string                   `json:"external_pipeline_validation_service_token"`
 	ExternalPipelineValidationServiceURL                  string                   `json:"external_pipeline_validation_service_url"`
+	FailedLoginAttemptsUnlockPeriodInMinutes              int                      `json:"failed_login_attempts_unlock_period_in_minutes"`
 	FileTemplateProjectID                                 int                      `json:"file_template_project_id"`
 	FirstDayOfWeek                                        int                      `json:"first_day_of_week"`
 	FlocEnabled                                           bool                     `json:"floc_enabled"`
 	GeoNodeAllowedIPs                                     string                   `json:"geo_node_allowed_ips"`
 	GeoStatusTimeout                                      int                      `json:"geo_status_timeout"`
+	GitRateLimitUsersAlertlist                            []string                 `json:"git_rate_limit_users_alertlist"`
 	GitTwoFactorSessionExpiry                             int                      `json:"git_two_factor_session_expiry"`
 	GitalyTimeoutDefault                                  int                      `json:"gitaly_timeout_default"`
 	GitalyTimeoutFast                                     int                      `json:"gitaly_timeout_fast"`
 	GitalyTimeoutMedium                                   int                      `json:"gitaly_timeout_medium"`
+	GitlabDedicatedInstance                               bool                     `json:"gitlab_dedicated_instance"`
+	GitlabEnvironmentToolkitInstance                      bool                     `json:"gitlab_environment_toolkit_instance"`
+	GitlabShellOperationLimit                             int                      `json:"gitlab_shell_operation_limit"`
 	GitpodEnabled                                         bool                     `json:"gitpod_enabled"`
 	GitpodURL                                             string                   `json:"gitpod_url"`
 	GitRateLimitUsersAllowlist                            []string                 `json:"git_rate_limit_users_allowlist"`
+	GloballyAllowedIPs                                    string                   `json:"globally_allowed_ips"`
 	GrafanaEnabled                                        bool                     `json:"grafana_enabled"`
 	GrafanaURL                                            string                   `json:"grafana_url"`
 	GravatarEnabled                                       bool                     `json:"gravatar_enabled"`
@@ -211,9 +231,13 @@ type Settings struct {
 	InactiveProjectsDeleteAfterMonths                     int                      `json:"inactive_projects_delete_after_months"`
 	InactiveProjectsMinSizeMB                             int                      `json:"inactive_projects_min_size_mb"`
 	InactiveProjectsSendWarningEmailAfterMonths           int                      `json:"inactive_projects_send_warning_email_after_months"`
+	IncludeOptionalMetricsInServicePing                   bool                     `json:"include_optional_metrics_in_service_ping"`
 	InProductMarketingEmailsEnabled                       bool                     `json:"in_product_marketing_emails_enabled"`
 	InvisibleCaptchaEnabled                               bool                     `json:"invisible_captcha_enabled"`
 	IssuesCreateLimit                                     int                      `json:"issues_create_limit"`
+	JiraConnectApplicationKey                             string                   `json:"jira_connect_application_key"`
+	JiraConnectPublicKeyStorageEnabled                    bool                     `json:"jira_connect_public_key_storage_enabled"`
+	JiraConnectProxyURL                                   string                   `json:"jira_connect_proxy_url"`
 	KeepLatestArtifact                                    bool                     `json:"keep_latest_artifact"`
 	KrokiEnabled                                          bool                     `json:"kroki_enabled"`
 	KrokiFormats                                          map[string]bool          `json:"kroki_formats"`
@@ -524,24 +548,33 @@ type UpdateSettingsOptions struct {
 	DefaultBranchProtectionDefaults                       *BranchProtectionDefaults `url:"default_branch_protection_defaults,omitempty" json:"default_branch_protection_defaults,omitempty"`
 	DefaultCiConfigPath                                   *string                   `url:"default_ci_config_path,omitempty" json:"default_ci_config_path,omitempty"`
 	DefaultGroupVisibility                                *VisibilityValue          `url:"default_group_visibility,omitempty" json:"default_group_visibility,omitempty"`
+	DefaultPreferredLanguage                              *string                   `url:"default_preferred_language,omitempty" json:"default_preferred_language,omitempty"`
 	DefaultProjectCreation                                *int                      `url:"default_project_creation,omitempty" json:"default_project_creation,omitempty"`
 	DefaultProjectDeletionProtection                      *bool                     `url:"default_project_deletion_protection,omitempty" json:"default_project_deletion_protection,omitempty"`
 	DefaultProjectVisibility                              *VisibilityValue          `url:"default_project_visibility,omitempty" json:"default_project_visibility,omitempty"`
 	DefaultProjectsLimit                                  *int                      `url:"default_projects_limit,omitempty" json:"default_projects_limit,omitempty"`
 	DefaultSnippetVisibility                              *VisibilityValue          `url:"default_snippet_visibility,omitempty" json:"default_snippet_visibility,omitempty"`
+	DefaultSyntaxHighlightingTheme                        *int                      `url:"default_syntax_highlighting_theme,omitempty" json:"default_syntax_highlighting_theme,omitempty"`
 	DelayedGroupDeletion                                  *bool                     `url:"delayed_group_deletion,omitempty" json:"delayed_group_deletion,omitempty"`
 	DelayedProjectDeletion                                *bool                     `url:"delayed_project_deletion,omitempty" json:"delayed_project_deletion,omitempty"`
 	DeleteInactiveProjects                                *bool                     `url:"delete_inactive_projects,omitempty" json:"delete_inactive_projects,omitempty"`
+	DeleteUnconfirmedUsers                                *bool                     `url:"delete_unconfirmed_users,omitempty" json:"delete_unconfirmed_users,omitempty"`
 	DeletionAdjournedPeriod                               *int                      `url:"deletion_adjourned_period,omitempty" json:"deletion_adjourned_period,omitempty"`
+	DiagramsnetEnabled                                    *bool                     `url:"diagramsnet_enabled,omitempty" json:"diagramsnet_enabled,omitempty"`
+	DiagramsnetURL                                        *string                   `url:"diagramsnet_url,omitempty" json:"diagramsnet_url,omitempty"`
 	DiffMaxFiles                                          *int                      `url:"diff_max_files,omitempty" json:"diff_max_files,omitempty"`
 	DiffMaxLines                                          *int                      `url:"diff_max_lines,omitempty" json:"diff_max_lines,omitempty"`
 	DiffMaxPatchBytes                                     *int                      `url:"diff_max_patch_bytes,omitempty" json:"diff_max_patch_bytes,omitempty"`
 	DisableFeedToken                                      *bool                     `url:"disable_feed_token,omitempty" json:"disable_feed_token,omitempty"`
+	DisableAdminOAuthScopes                               *bool                     `url:"disable_admin_oauth_scopes,omitempty" json:"disable_admin_oauth_scopes,omitempty"`
 	DisableOverridingApproversPerMergeRequest             *bool                     `url:"disable_overriding_approvers_per_merge_request,omitempty" json:"disable_overriding_approvers_per_merge_request,omitempty"`
+	DisablePersonalAccessTokens                           *bool                     `url:"disable_personal_access_tokens,omitempty" json:"disable_personal_access_tokens,omitempty"`
 	DisabledOauthSignInSources                            *[]string                 `url:"disabled_oauth_sign_in_sources,omitempty" json:"disabled_oauth_sign_in_sources,omitempty"`
 	DomainAllowlist                                       *[]string                 `url:"domain_allowlist,omitempty" json:"domain_allowlist,omitempty"`
 	DomainDenylist                                        *[]string                 `url:"domain_denylist,omitempty" json:"domain_denylist,omitempty"`
 	DomainDenylistEnabled                                 *bool                     `url:"domain_denylist_enabled,omitempty" json:"domain_denylist_enabled,omitempty"`
+	DownstreamPipelineTriggerLimitPerProjectUserSHA       *int                      `url:"downstream_pipeline_trigger_limit_per_project_user_sha,omitempty" json:"downstream_pipeline_trigger_limit_per_project_user_sha,omitempty"`
+	DuoFeaturesEnabled                                    *bool                     `url:"duo_features_enabled,omitempty" json:"duo_features_enabled,omitempty"`
 	ECDSAKeyRestriction                                   *int                      `url:"ecdsa_key_restriction,omitempty" json:"ecdsa_key_restriction,omitempty"`
 	ECDSASKKeyRestriction                                 *int                      `url:"ecdsa_sk_key_restriction,omitempty" json:"ecdsa_sk_key_restriction,omitempty"`
 	EKSAccessKeyID                                        *string                   `url:"eks_access_key_id,omitempty" json:"eks_access_key_id,omitempty"`
@@ -565,19 +598,24 @@ type UpdateSettingsOptions struct {
 	ElasticsearchLimitIndexing                            *bool                     `url:"elasticsearch_limit_indexing,omitempty" json:"elasticsearch_limit_indexing,omitempty"`
 	ElasticsearchMaxBulkConcurrency                       *int                      `url:"elasticsearch_max_bulk_concurrency,omitempty" json:"elasticsearch_max_bulk_concurrency,omitempty"`
 	ElasticsearchMaxBulkSizeMB                            *int                      `url:"elasticsearch_max_bulk_size_mb,omitempty" json:"elasticsearch_max_bulk_size_mb,omitempty"`
+	ElasticsearchMaxCodeIndexingConcurrency               *int                      `url:"elasticsearch_max_code_indexing_concurrency,omitempty" json:"elasticsearch_max_code_indexing_concurrency,omitempty"`
 	ElasticsearchNamespaceIDs                             *[]int                    `url:"elasticsearch_namespace_ids,omitempty" json:"elasticsearch_namespace_ids,omitempty"`
 	ElasticsearchPassword                                 *string                   `url:"elasticsearch_password,omitempty" json:"elasticsearch_password,omitempty"`
 	ElasticsearchPauseIndexing                            *bool                     `url:"elasticsearch_pause_indexing,omitempty" json:"elasticsearch_pause_indexing,omitempty"`
 	ElasticsearchProjectIDs                               *[]int                    `url:"elasticsearch_project_ids,omitempty" json:"elasticsearch_project_ids,omitempty"`
 	ElasticsearchReplicas                                 *int                      `url:"elasticsearch_replicas,omitempty" json:"elasticsearch_replicas,omitempty"`
+	ElasticsearchRequeueWorkers                           *bool                     `url:"elasticsearch_requeue_workers,omitempty" json:"elasticsearch_requeue_workers,omitempty"`
 	ElasticsearchSearch                                   *bool                     `url:"elasticsearch_search,omitempty" json:"elasticsearch_search,omitempty"`
 	ElasticsearchShards                                   *int                      `url:"elasticsearch_shards,omitempty" json:"elasticsearch_shards,omitempty"`
 	ElasticsearchURL                                      *string                   `url:"elasticsearch_url,omitempty" json:"elasticsearch_url,omitempty"`
 	ElasticsearchUsername                                 *string                   `url:"elasticsearch_username,omitempty" json:"elasticsearch_username,omitempty"`
+	ElasticsearchWorkerNumberOfShards                     *int                      `url:"elasticsearch_worker_number_of_shards,omitempty" json:"elasticsearch_worker_number_of_shards,omitempty"`
 	EmailAdditionalText                                   *string                   `url:"email_additional_text,omitempty" json:"email_additional_text,omitempty"`
 	EmailAuthorInBody                                     *bool                     `url:"email_author_in_body,omitempty" json:"email_author_in_body,omitempty"`
+	EmailConfirmationSetting                              *string                   `url:"email_confirmation_setting,omitempty" json:"email_confirmation_setting,omitempty"`
 	EmailRestrictions                                     *string                   `url:"email_restrictions,omitempty" json:"email_restrictions,omitempty"`
 	EmailRestrictionsEnabled                              *bool                     `url:"email_restrictions_enabled,omitempty" json:"email_restrictions_enabled,omitempty"`
+	EnableArtifactExternalRedirectWarningPage             *bool                     `url:"enable_artifact_external_redirect_warning_page,omitempty" json:"enable_artifact_external_redirect_warning_page,omitempty"`
 	EnabledGitAccessProtocol                              *string                   `url:"enabled_git_access_protocol,omitempty" json:"enabled_git_access_protocol,omitempty"`
 	EnforceNamespaceStorageLimit                          *bool                     `url:"enforce_namespace_storage_limit,omitempty" json:"enforce_namespace_storage_limit,omitempty"`
 	EnforcePATExpiration                                  *bool                     `url:"enforce_pat_expiration,omitempty" json:"enforce_pat_expiration,omitempty"`
@@ -593,18 +631,24 @@ type UpdateSettingsOptions struct {
 	ExternalPipelineValidationServiceTimeout              *int                      `url:"external_pipeline_validation_service_timeout,omitempty" json:"external_pipeline_validation_service_timeout,omitempty"`
 	ExternalPipelineValidationServiceToken                *string                   `url:"external_pipeline_validation_service_token,omitempty" json:"external_pipeline_validation_service_token,omitempty"`
 	ExternalPipelineValidationServiceURL                  *string                   `url:"external_pipeline_validation_service_url,omitempty" json:"external_pipeline_validation_service_url,omitempty"`
+	FailedLoginAttemptsUnlockPeriodInMinutes              *int                      `url:"failed_login_attempts_unlock_period_in_minutes,omitempty" json:"failed_login_attempts_unlock_period_in_minutes,omitempty"`
 	FileTemplateProjectID                                 *int                      `url:"file_template_project_id,omitempty" json:"file_template_project_id,omitempty"`
 	FirstDayOfWeek                                        *int                      `url:"first_day_of_week,omitempty" json:"first_day_of_week,omitempty"`
 	FlocEnabled                                           *bool                     `url:"floc_enabled,omitempty" json:"floc_enabled,omitempty"`
 	GeoNodeAllowedIPs                                     *string                   `url:"geo_node_allowed_ips,omitempty" json:"geo_node_allowed_ips,omitempty"`
 	GeoStatusTimeout                                      *int                      `url:"geo_status_timeout,omitempty" json:"geo_status_timeout,omitempty"`
+	GitRateLimitUsersAlertlist                            *[]string                 `url:"git_rate_limit_users_alertlist,omitempty" json:"git_rate_limit_users_alertlist,omitempty"`
 	GitTwoFactorSessionExpiry                             *int                      `url:"git_two_factor_session_expiry,omitempty" json:"git_two_factor_session_expiry,omitempty"`
 	GitalyTimeoutDefault                                  *int                      `url:"gitaly_timeout_default,omitempty" json:"gitaly_timeout_default,omitempty"`
 	GitalyTimeoutFast                                     *int                      `url:"gitaly_timeout_fast,omitempty" json:"gitaly_timeout_fast,omitempty"`
 	GitalyTimeoutMedium                                   *int                      `url:"gitaly_timeout_medium,omitempty" json:"gitaly_timeout_medium,omitempty"`
+	GitlabDedicatedInstance                               *bool                     `url:"gitlab_dedicated_instance,omitempty" json:"gitlab_dedicated_instance,omitempty"`
+	GitlabEnvironmentToolkitInstance                      *bool                     `url:"gitlab_environment_toolkit_instance,omitempty" json:"gitlab_environment_toolkit_instance,omitempty"`
+	GitlabShellOperationLimit                             *int                      `url:"gitlab_shell_operation_limit,omitempty" json:"gitlab_shell_operation_limit,omitempty"`
 	GitpodEnabled                                         *bool                     `url:"gitpod_enabled,omitempty" json:"gitpod_enabled,omitempty"`
 	GitpodURL                                             *string                   `url:"gitpod_url,omitempty" json:"gitpod_url,omitempty"`
 	GitRateLimitUsersAllowlist                            *[]string                 `url:"git_rate_limit_users_allowlist,omitempty" json:"git_rate_limit_users_allowlist,omitempty"`
+	GloballyAllowedIPs                                    *string                   `url:"globally_allowed_ips,omitempty" json:"globally_allowed_ips,omitempty"`
 	GrafanaEnabled                                        *bool                     `url:"grafana_enabled,omitempty" json:"grafana_enabled,omitempty"`
 	GrafanaURL                                            *string                   `url:"grafana_url,omitempty" json:"grafana_url,omitempty"`
 	GravatarEnabled                                       *bool                     `url:"gravatar_enabled,omitempty" json:"gravatar_enabled,omitempty"`
@@ -632,9 +676,13 @@ type UpdateSettingsOptions struct {
 	InactiveProjectsDeleteAfterMonths                     *int                      `url:"inactive_projects_delete_after_months,omitempty" json:"inactive_projects_delete_after_months,omitempty"`
 	InactiveProjectsMinSizeMB                             *int                      `url:"inactive_projects_min_size_mb,omitempty" json:"inactive_projects_min_size_mb,omitempty"`
 	InactiveProjectsSendWarningEmailAfterMonths           *int                      `url:"inactive_projects_send_warning_email_after_months,omitempty" json:"inactive_projects_send_warning_email_after_months,omitempty"`
+	IncludeOptionalMetricsInServicePing                   *bool                     `url:"include_optional_metrics_in_service_ping,omitempty" json:"include_optional_metrics_in_service_ping,omitempty"`
 	InProductMarketingEmailsEnabled                       *bool                     `url:"in_product_marketing_emails_enabled,omitempty" json:"in_product_marketing_emails_enabled,omitempty"`
 	InvisibleCaptchaEnabled                               *bool                     `url:"invisible_captcha_enabled,omitempty" json:"invisible_captcha_enabled,omitempty"`
 	IssuesCreateLimit                                     *int                      `url:"issues_create_limit,omitempty" json:"issues_create_limit,omitempty"`
+	JiraConnectApplicationKey                             *string                   `url:"jira_connect_application_key,omitempty" json:"jira_connect_application_key,omitempty"`
+	JiraConnectPublicKeyStorageEnabled                    *bool                     `url:"jira_connect_public_key_storage_enabled,omitempty" json:"jira_connect_public_key_storage_enabled,omitempty"`
+	JiraConnectProxyURL                                   *string                   `url:"jira_connect_proxy_url,omitempty" json:"jira_connect_proxy_url,omitempty"`
 	KeepLatestArtifact                                    *bool                     `url:"keep_latest_artifact,omitempty" json:"keep_latest_artifact,omitempty"`
 	KrokiEnabled                                          *bool                     `url:"kroki_enabled,omitempty" json:"kroki_enabled,omitempty"`
 	KrokiFormats                                          *map[string]bool          `url:"kroki_formats,omitempty" json:"kroki_formats,omitempty"`
