@@ -168,7 +168,6 @@ func (t *testListener) OnMergeComment(ctx context.Context, event *MergeCommentEv
 	testDispatcherContext(ctx, t.t)
 	assert.Equal(t.t, "Gitlab Test", event.Project.Name)
 	return nil
-
 }
 
 func (t *testListener) OnMerge(ctx context.Context, event *MergeEvent) error {
