@@ -442,12 +442,15 @@ func TestExponentialBackoffLogic(t *testing.T) {
 
 	// Send a request (which will get a bunch of 429s)
 	// None of the responses matter, so ignore them all
-	_, _, _ = client.Projects.GetProject(1, nil)
+	_, resp, _ := client.Projects.GetProject(1, nil)
 	end := time.Now()
 
 	// The test should run for _at least_ 3,200 milliseconds
 	duration := float64(end.Sub(start))
 	if duration < float64(3200*time.Millisecond) {
 		t.Fatal("Wait was shorter than expected. Expected a minimum of 5 retries taking 3200 milliseconds, got:", duration)
+	}
+	if resp.StatusCode != 429 {
+		t.Fatal("Expected to get a 429 code given the server is hard-coded to return this. Received instead:", resp.StatusCode)
 	}
 }
