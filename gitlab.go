@@ -24,6 +24,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"math"
 	"math/rand"
 	"mime/multipart"
 	"net/http"
@@ -509,7 +510,7 @@ func (c *Client) retryHTTPBackoff(min, max time.Duration, attemptNum int, resp *
 // min and max are mainly used for bounding the jitter that will be added to
 // the reset time retrieved from the headers. But if the final wait time is
 // less then min, min will be used instead.
-func rateLimitBackoff(min, max time.Duration, _ int, resp *http.Response) time.Duration {
+func rateLimitBackoff(min, max time.Duration, attemptNum int, resp *http.Response) time.Duration {
 	// rnd is used to generate pseudo-random numbers.
 	rnd := rand.New(rand.NewSource(time.Now().UnixNano()))
 
@@ -527,6 +528,9 @@ func rateLimitBackoff(min, max time.Duration, _ int, resp *http.Response) time.D
 		}
 	}
 
+	// For each attempt, back off an additiona 100% exponentially. With the default milliseconds
+	// being set to 100 for `min`, this makes the 5th retry wait 3.2 seconds (3,200 ms) by default
+	min = time.Duration(float64(min) * math.Pow(2, float64(attemptNum)))
 	return min + jitter
 }
 
