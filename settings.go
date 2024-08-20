@@ -434,6 +434,17 @@ type Settings struct {
 	UserEmailLookupLimit int `json:"user_email_lookup_limit"`
 }
 
+// BranchProtectionDefaults represents default Git protected branch permissions.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/groups.html#options-for-default_branch_protection_defaults
+type BranchProtectionDefaults struct {
+	AllowedToPush           []int `json:"allowed_to_push,omitempty"`
+	AllowForcePush          bool  `json:"allow_force_push,omitempty"`
+	AllowedToMerge          []int `json:"allowed_to_merge,omitempty"`
+	DeveloperCanInitialPush bool  `json:"developer_can_initial_push,omitempty"`
+}
+
 // Settings requires a custom unmarshaller in order to properly unmarshal
 // `container_registry_import_created_before` which is either a time.Time or
 // an empty string if no value is set.
@@ -867,6 +878,17 @@ type UpdateSettingsOptions struct {
 	WikiPageMaxContentBytes                               *int                             `url:"wiki_page_max_content_bytes,omitempty" json:"wiki_page_max_content_bytes,omitempty"`
 }
 
+// BranchProtectionDefaultsOptions represents default Git protected branch permissions options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/groups.html#options-for-default_branch_protection_defaults
+type BranchProtectionDefaultsOptions struct {
+	AllowedToPush           *[]int `url:"allowed_to_push,omitempty" json:"allowed_to_push,omitempty"`
+	AllowForcePush          *bool  `url:"allow_force_push,omitempty" json:"allow_force_push,omitempty"`
+	AllowedToMerge          *[]int `url:"allowed_to_merge,omitempty" json:"allowed_to_merge,omitempty"`
+	DeveloperCanInitialPush *bool  `url:"developer_can_initial_push,omitempty" json:"developer_can_initial_push,omitempty"`
+}
+
 // UpdateSettings updates the application settings.
 //
 // GitLab API docs:
@@ -884,26 +906,4 @@ func (s *SettingsService) UpdateSettings(opt *UpdateSettingsOptions, options ...
 	}
 
 	return as, resp, nil
-}
-
-// BranchProtectionDefaults represents default Git protected branch permissions.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ee/api/groups.html#options-for-default_branch_protection_defaults
-type BranchProtectionDefaults struct {
-	AllowedToPush           []int `json:"allowed_to_push,omitempty"`
-	AllowForcePush          bool  `json:"allow_force_push,omitempty"`
-	AllowedToMerge          []int `json:"allowed_to_merge,omitempty"`
-	DeveloperCanInitialPush bool  `json:"developer_can_initial_push,omitempty"`
-}
-
-// BranchProtectionDefaultsOptions represents default Git protected branch permissions options.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ee/api/groups.html#options-for-default_branch_protection_defaults
-type BranchProtectionDefaultsOptions struct {
-	AllowedToPush           *[]int `url:"allowed_to_push,omitempty" json:"allowed_to_push,omitempty"`
-	AllowForcePush          *bool  `url:"allow_force_push,omitempty" json:"allow_force_push,omitempty"`
-	AllowedToMerge          *[]int `url:"allowed_to_merge,omitempty" json:"allowed_to_merge,omitempty"`
-	DeveloperCanInitialPush *bool  `url:"developer_can_initial_push,omitempty" json:"developer_can_initial_push,omitempty"`
 }
