@@ -247,6 +247,8 @@ type ListOptions struct {
 	Pagination string `url:"pagination,omitempty" json:"pagination,omitempty"`
 	// For keyset-based paginated result sets, sort order (`"asc"`` or `"desc"`)
 	Sort string `url:"sort,omitempty" json:"sort,omitempty"`
+	// For keyset-based paginated result sets, tree record ID at which to fetch the next page.
+	PageToken string `url:"page_token,omitempty" json:"page_token,omitempty"`
 }
 
 // RateLimiter describes the interface that all (custom) rate limiters must implement.
