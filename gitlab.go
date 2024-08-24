@@ -525,12 +525,13 @@ func rateLimitBackoff(min, max time.Duration, attemptNum int, resp *http.Respons
 					min = wait
 				}
 			}
+		} else {
+			// For each attempt without the header, back off an additiona 100% exponentially. With the default milliseconds
+			// being set to 100 for `min`, this makes the 5th retry wait 3.2 seconds (3,200 ms) by default
+			min = time.Duration(float64(min) * math.Pow(2, float64(attemptNum)))
 		}
 	}
 
-	// For each attempt, back off an additiona 100% exponentially. With the default milliseconds
-	// being set to 100 for `min`, this makes the 5th retry wait 3.2 seconds (3,200 ms) by default
-	min = time.Duration(float64(min) * math.Pow(2, float64(attemptNum)))
 	return min + jitter
 }
 
