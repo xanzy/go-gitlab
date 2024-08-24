@@ -37,6 +37,13 @@ func TestRepositoriesService_ListTree(t *testing.T) {
 		},
 	}
 
+	lto := ListTreeOptions{
+		ListOptions: ListOptions{
+			PerPage:   1,
+			PageToken: "a1e8f8d745cc87e3a9248358d9352bb7f9a0aeba",
+		},
+	}
+
 	tns, resp, err := client.Repositories.ListTree(1, nil)
 	require.NoError(t, err)
 	require.NotNil(t, resp)
@@ -56,6 +63,11 @@ func TestRepositoriesService_ListTree(t *testing.T) {
 	require.Error(t, err)
 	require.Nil(t, tns)
 	require.Equal(t, http.StatusNotFound, resp.StatusCode)
+
+	tns, resp, err = client.Repositories.ListTree(1, &lto)
+	require.NoError(t, err)
+	require.NotNil(t, resp)
+	require.Equal(t, want, tns)
 }
 
 func TestRepositoriesService_Blob(t *testing.T) {
