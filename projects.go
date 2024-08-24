@@ -169,7 +169,7 @@ type Project struct {
 	MergeRequestDefaultTargetSelf            bool               `json:"mr_default_target_self"`
 	ModelExperimentsAccessLevel              AccessControlValue `json:"model_experiments_access_level"`
 	ModelRegistryAccessLevel                 AccessControlValue `json:"model_registry_access_level"`
-	PreReceiveSecretDetectionEnabled         bool              `json:"pre_receive_secret_detection_enabled"`
+	PreReceiveSecretDetectionEnabled         bool               `json:"pre_receive_secret_detection_enabled"`
 
 	// Deprecated: Use EmailsEnabled instead
 	EmailsDisabled bool `json:"emails_disabled"`
