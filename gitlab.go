@@ -236,19 +236,18 @@ type Client struct {
 // ListOptions specifies the optional parameters to various List methods that
 // support pagination.
 type ListOptions struct {
-	// For offset-based paginated result sets, page of results to retrieve.
-	Page int `url:"page,omitempty" json:"page,omitempty"`
-	// For offset-based and keyset-based paginated result sets, the number of results to include per page.
-	PerPage int `url:"per_page,omitempty" json:"per_page,omitempty"`
-
-	// For keyset-based paginated result sets, name of the column by which to order
-	OrderBy string `url:"order_by,omitempty" json:"order_by,omitempty"`
 	// For keyset-based paginated result sets, the value must be `"keyset"`
 	Pagination string `url:"pagination,omitempty" json:"pagination,omitempty"`
-	// For keyset-based paginated result sets, sort order (`"asc"`` or `"desc"`)
-	Sort string `url:"sort,omitempty" json:"sort,omitempty"`
+	// For offset-based and keyset-based paginated result sets, the number of results to include per page.
+	PerPage int `url:"per_page,omitempty" json:"per_page,omitempty"`
+	// For offset-based paginated result sets, page of results to retrieve.
+	Page int `url:"page,omitempty" json:"page,omitempty"`
 	// For keyset-based paginated result sets, tree record ID at which to fetch the next page.
 	PageToken string `url:"page_token,omitempty" json:"page_token,omitempty"`
+	// For keyset-based paginated result sets, name of the column by which to order
+	OrderBy string `url:"order_by,omitempty" json:"order_by,omitempty"`
+	// For keyset-based paginated result sets, sort order (`"asc"`` or `"desc"`)
+	Sort string `url:"sort,omitempty" json:"sort,omitempty"`
 }
 
 // RateLimiter describes the interface that all (custom) rate limiters must implement.
