@@ -22,30 +22,20 @@ func TestListMemberRoles(t *testing.T) {
 
 	want := []*MemberRole{
 		{
-			ID:                       1,
-			Name:                     "GuestCodeReader",
-			Description:              "A Guest user that can read code",
-			GroupId:                  1,
-			BaseAccessLevel:          10, // Guest Base Level
-			AdminMergeRequests:       false,
-			AdminVulnerability:       false,
-			ReadCode:                 true,
-			ReadDependency:           false,
-			ReadVulnerability:        false,
-			ManageProjectAccessToken: false,
+			ID:              1,
+			Name:            "GuestCodeReader",
+			Description:     "A Guest user that can read code",
+			GroupId:         1,
+			BaseAccessLevel: 10, // Guest Base Level
+			ReadCode:        true,
 		},
 		{
-			ID:                       2,
-			Name:                     "GuestVulnerabilityReader",
-			Description:              "A Guest user that can read vulnerabilities",
-			GroupId:                  1,
-			BaseAccessLevel:          10, // Guest Base Level
-			AdminMergeRequests:       false,
-			AdminVulnerability:       false,
-			ReadCode:                 false,
-			ReadDependency:           false,
-			ReadVulnerability:        true,
-			ManageProjectAccessToken: false,
+			ID:                2,
+			Name:              "GuestVulnerabilityReader",
+			Description:       "A Guest user that can read vulnerabilities",
+			GroupId:           1,
+			BaseAccessLevel:   10, // Guest Base Level
+			ReadVulnerability: true,
 		},
 	}
 
