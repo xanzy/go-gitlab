@@ -25,7 +25,7 @@ func TestListMemberRoles(t *testing.T) {
 			ID:              1,
 			Name:            "GuestCodeReader",
 			Description:     "A Guest user that can read code",
-			GroupId:         1,
+			GroupID:         1,
 			BaseAccessLevel: 10, // Guest Base Level
 			ReadCode:        true,
 		},
@@ -33,7 +33,7 @@ func TestListMemberRoles(t *testing.T) {
 			ID:                2,
 			Name:              "GuestVulnerabilityReader",
 			Description:       "A Guest user that can read vulnerabilities",
-			GroupId:           1,
+			GroupID:           1,
 			BaseAccessLevel:   10, // Guest Base Level
 			ReadVulnerability: true,
 		},
@@ -84,7 +84,7 @@ func TestCreateMemberRole(t *testing.T) {
 		Name:                       "Custom guest",
 		Description:                "a sample custom role",
 		BaseAccessLevel:            GuestPermissions,
-		GroupId:                    84,
+		GroupID:                    84,
 		AdminCICDVariables:         false,
 		AdminComplianceFramework:   false,
 		AdminGroupMembers:          false,

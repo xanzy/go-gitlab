@@ -335,7 +335,7 @@ func TestGetGroupMemberCustomRole(t *testing.T) {
 		AccessLevel: AccessLevelValue(30),
 		MemberRole: &MemberRole{
 			ID:                 1,
-			GroupId:            2,
+			GroupID:            2,
 			Name:               "TestingCustomRole",
 			Description:        "",
 			BaseAccessLevel:    AccessLevelValue(30),

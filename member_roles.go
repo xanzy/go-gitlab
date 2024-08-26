@@ -20,7 +20,7 @@ type MemberRole struct {
 	ID                         int              `json:"id"`
 	Name                       string           `json:"name"`
 	Description                string           `json:"description,omitempty"`
-	GroupId                    int              `json:"group_id"`
+	GroupID                    int              `json:"group_id"`
 	BaseAccessLevel            AccessLevelValue `json:"base_access_level"`
 	AdminCICDVariables         bool             `json:"admin_cicd_variables,omitempty"`
 	AdminComplianceFramework   bool             `json:"admin_compliance_framework,omitempty"`
