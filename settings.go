@@ -243,16 +243,21 @@ type Settings struct {
 	KrokiFormats                                          map[string]bool          `json:"kroki_formats"`
 	KrokiURL                                              string                   `json:"kroki_url"`
 	LocalMarkdownVersion                                  int                      `json:"local_markdown_version"`
+	LockDuoFeaturesEnabled                                bool                     `json:"lock_duo_features_enabled"`
 	LockMembershipsToLDAP                                 bool                     `json:"lock_memberships_to_ldap"`
 	LoginRecaptchaProtectionEnabled                       bool                     `json:"login_recaptcha_protection_enabled"`
 	MailgunEventsEnabled                                  bool                     `json:"mailgun_events_enabled"`
 	MailgunSigningKey                                     string                   `json:"mailgun_signing_key"`
 	MaintenanceMode                                       bool                     `json:"maintenance_mode"`
 	MaintenanceModeMessage                                string                   `json:"maintenance_mode_message"`
+	MavenPackageRequestsForwarding                        bool                     `json:"maven_package_requests_forwarding"`
 	MaxArtifactsSize                                      int                      `json:"max_artifacts_size"`
 	MaxAttachmentSize                                     int                      `json:"max_attachment_size"`
+	MaxDecompressedArchiveSize                            int                      `json:"max_decompressed_archive_size"`
 	MaxExportSize                                         int                      `json:"max_export_size"`
+	MaxImportRemoteFileSize                               int                      `json:"max_import_remote_file_size"`
 	MaxImportSize                                         int                      `json:"max_import_size"`
+	MaxLoginAttempts                                      int                      `json:"max_login_attempts"`
 	MaxNumberOfRepositoryDownloads                        int                      `json:"max_number_of_repository_downloads"`
 	MaxNumberOfRepositoryDownloadsWithinTimePeriod        int                      `json:"max_number_of_repository_downloads_within_time_period"`
 	MaxPagesSize                                          int                      `json:"max_pages_size"`
@@ -270,8 +275,11 @@ type Settings struct {
 	NPMPackageRequestsForwarding                          bool                     `json:"npm_package_requests_forwarding"`
 	NotesCreateLimit                                      int                      `json:"notes_create_limit"`
 	NotifyOnUnknownSignIn                                 bool                     `json:"notify_on_unknown_sign_in"`
+	NugetSkipMetadataURLValidation                        bool                     `json:"nuget_skip_metadata_url_validation"`
 	OutboundLocalRequestsAllowlistRaw                     string                   `json:"outbound_local_requests_allowlist_raw"`
 	OutboundLocalRequestsWhitelist                        []string                 `json:"outbound_local_requests_whitelist"`
+	PackageMetadataPURLTypes                              []int                    `json:"package_metadata_purl_types"`
+	PackageRegistryAllowAnyoneToPullOption                bool                     `json:"package_registry_allow_anyone_to_pull_option"`
 	PackageRegistryCleanupPoliciesWorkerCapacity          int                      `json:"package_registry_cleanup_policies_worker_capacity"`
 	PagesDomainVerificationEnabled                        bool                     `json:"pages_domain_verification_enabled"`
 	PasswordAuthenticationEnabledForGit                   bool                     `json:"password_authentication_enabled_for_git"`
@@ -294,7 +302,9 @@ type Settings struct {
 	ProjectExportEnabled                                  bool                     `json:"project_export_enabled"`
 	ProjectExportLimit                                    int                      `json:"project_export_limit"`
 	ProjectImportLimit                                    int                      `json:"project_import_limit"`
+	ProjectJobsAPIRateLimit                               int                      `json:"project_jobs_api_rate_limit"`
 	ProjectRunnerTokenExpirationInterval                  int                      `json:"project_runner_token_expiration_interval"`
+	ProjectsAPIRateLimitUnauthenticated                   int                      `json:"projects_api_rate_limit_unauthenticated"`
 	PrometheusMetricsEnabled                              bool                     `json:"prometheus_metrics_enabled"`
 	ProtectedCIVariables                                  bool                     `json:"protected_ci_variables"`
 	PseudonymizerEnabled                                  bool                     `json:"pseudonymizer_enabled"`
@@ -308,11 +318,15 @@ type Settings struct {
 	RecaptchaPrivateKey                                   string                   `json:"recaptcha_private_key"`
 	RecaptchaSiteKey                                      string                   `json:"recaptcha_site_key"`
 	ReceiveMaxInputSize                                   int                      `json:"receive_max_input_size"`
+	ReceptiveClusterAgentsEnabled                         bool                     `json:"receptive_cluster_agents_enabled"`
+	RememberMeEnabled                                     bool                     `json:"remember_me_enabled"`
 	RepositoryChecksEnabled                               bool                     `json:"repository_checks_enabled"`
 	RepositorySizeLimit                                   int                      `json:"repository_size_limit"`
 	RepositoryStorages                                    []string                 `json:"repository_storages"`
 	RepositoryStoragesWeighted                            map[string]int           `json:"repository_storages_weighted"`
 	RequireAdminApprovalAfterUserSignup                   bool                     `json:"require_admin_approval_after_user_signup"`
+	RequireAdminTwoFactorAuthentication                   bool                     `json:"require_admin_two_factor_authentication"`
+	RequirePersonalAccessTokenExpiry                      bool                     `json:"require_personal_access_token_expiry"`
 	RequireTwoFactorAuthentication                        bool                     `json:"require_two_factor_authentication"`
 	RestrictedVisibilityLevels                            []VisibilityValue        `json:"restricted_visibility_levels"`
 	RunnerTokenExpirationInterval                         int                      `json:"runner_token_expiration_interval"`
@@ -322,11 +336,15 @@ type Settings struct {
 	SecretDetectionTokenRevocationEnabled                 bool                     `json:"secret_detection_token_revocation_enabled"`
 	SecretDetectionTokenRevocationToken                   string                   `json:"secret_detection_token_revocation_token"`
 	SecretDetectionTokenRevocationURL                     string                   `json:"secret_detection_token_revocation_url"`
+	SecurityApprovalPoliciesLimit                         int                      `json:"security_approval_policies_limit"`
+	SecurityPolicyGlobalGroupApproversEnabled             bool                     `json:"security_policy_global_group_approvers_enabled"`
+	SecurityTXTContent                                    string                   `json:"security_txt_content"`
 	SendUserConfirmationEmail                             bool                     `json:"send_user_confirmation_email"`
 	SentryClientsideDSN                                   string                   `json:"sentry_clientside_dsn"`
 	SentryDSN                                             string                   `json:"sentry_dsn"`
 	SentryEnabled                                         bool                     `json:"sentry_enabled"`
 	SentryEnvironment                                     string                   `json:"sentry_environment"`
+	ServiceAccessTokensExpirationEnforced                 bool                     `json:"service_access_tokens_expiration_enforced"`
 	SessionExpireDelay                                    int                      `json:"session_expire_delay"`
 	SharedRunnersEnabled                                  bool                     `json:"shared_runners_enabled"`
 	SharedRunnersMinutes                                  int                      `json:"shared_runners_minutes"`
@@ -336,6 +354,8 @@ type Settings struct {
 	SidekiqJobLimiterMode                                 string                   `json:"sidekiq_job_limiter_mode"`
 	SignInText                                            string                   `json:"sign_in_text"`
 	SignupEnabled                                         bool                     `json:"signup_enabled"`
+	SilentAdminExportsEnabled                             bool                     `json:"silent_admin_exports_enabled"`
+	SilentModeEnabled                                     bool                     `json:"silent_mode_enabled"`
 	SlackAppEnabled                                       bool                     `json:"slack_app_enabled"`
 	SlackAppID                                            string                   `json:"slack_app_id"`
 	SlackAppSecret                                        string                   `json:"slack_app_secret"`
@@ -345,6 +365,7 @@ type Settings struct {
 	SnowplowAppID                                         string                   `json:"snowplow_app_id"`
 	SnowplowCollectorHostname                             string                   `json:"snowplow_collector_hostname"`
 	SnowplowCookieDomain                                  string                   `json:"snowplow_cookie_domain"`
+	SnowplowDatabaseCollectorHostname                     string                   `json:"snowplow_database_collector_hostname"`
 	SnowplowEnabled                                       bool                     `json:"snowplow_enabled"`
 	SourcegraphEnabled                                    bool                     `json:"sourcegraph_enabled"`
 	SourcegraphPublicOnly                                 bool                     `json:"sourcegraph_public_only"`
@@ -352,6 +373,8 @@ type Settings struct {
 	SpamCheckAPIKey                                       string                   `json:"spam_check_api_key"`
 	SpamCheckEndpointEnabled                              bool                     `json:"spam_check_endpoint_enabled"`
 	SpamCheckEndpointURL                                  string                   `json:"spam_check_endpoint_url"`
+	StaticObjectsExternalStorageAuthToken                 string                   `json:"static_objects_external_storage_auth_token"`
+	StaticObjectsExternalStorageURL                       string                   `json:"static_objects_external_storage_url"`
 	SuggestPipelineEnabled                                bool                     `json:"suggest_pipeline_enabled"`
 	TerminalMaxSessionTime                                int                      `json:"terminal_max_session_time"`
 	Terms                                                 string                   `json:"terms"`
@@ -399,20 +422,25 @@ type Settings struct {
 	ThrottleUnauthenticatedWebRequestsPerPeriod           int                      `json:"throttle_unauthenticated_web_requests_per_period"`
 	TimeTrackingLimitToHours                              bool                     `json:"time_tracking_limit_to_hours"`
 	TwoFactorGracePeriod                                  int                      `json:"two_factor_grace_period"`
+	UnconfirmedUsersDeleteAfterDays                       int                      `json:"unconfirmed_users_delete_after_days"`
 	UniqueIPsLimitEnabled                                 bool                     `json:"unique_ips_limit_enabled"`
 	UniqueIPsLimitPerUser                                 int                      `json:"unique_ips_limit_per_user"`
 	UniqueIPsLimitTimeWindow                              int                      `json:"unique_ips_limit_time_window"`
+	UpdateRunnerVersionsEnabled                           bool                     `json:"update_runner_versions_enabled"`
 	UpdatedAt                                             *time.Time               `json:"updated_at"`
 	UpdatingNameDisabledForUsers                          bool                     `json:"updating_name_disabled_for_users"`
 	UsagePingEnabled                                      bool                     `json:"usage_ping_enabled"`
 	UsagePingFeaturesEnabled                              bool                     `json:"usage_ping_features_enabled"`
+	UseClickhouseForAnalytics                             bool                     `json:"use_clickhouse_for_analytics"`
 	UserDeactivationEmailsEnabled                         bool                     `json:"user_deactivation_emails_enabled"`
 	UserDefaultExternal                                   bool                     `json:"user_default_external"`
 	UserDefaultInternalRegex                              string                   `json:"user_default_internal_regex"`
+	UserDefaultsToPrivateProfile                          bool                     `json:"user_defaults_to_private_profile"`
 	UserOauthApplications                                 bool                     `json:"user_oauth_applications"`
 	UserShowAddSSHKeyMessage                              bool                     `json:"user_show_add_ssh_key_message"`
 	UsersGetByIDLimit                                     int                      `json:"users_get_by_id_limit"`
 	UsersGetByIDLimitAllowlistRaw                         string                   `json:"users_get_by_id_limit_allowlist_raw"`
+	ValidRunnerRegistrars                                 []string                 `json:"valid_runner_registrars"`
 	VersionCheckEnabled                                   bool                     `json:"version_check_enabled"`
 	WebIDEClientsidePreviewEnabled                        bool                     `json:"web_ide_clientside_preview_enabled"`
 	WhatsNewVariant                                       string                   `json:"whats_new_variant"`
@@ -699,16 +727,21 @@ type UpdateSettingsOptions struct {
 	KrokiFormats                                          *map[string]bool                 `url:"kroki_formats,omitempty" json:"kroki_formats,omitempty"`
 	KrokiURL                                              *string                          `url:"kroki_url,omitempty" json:"kroki_url,omitempty"`
 	LocalMarkdownVersion                                  *int                             `url:"local_markdown_version,omitempty" json:"local_markdown_version,omitempty"`
+	LockDuoFeaturesEnabled                                *bool                            `url:"lock_duo_features_enabled,omitempty" json:"lock_duo_features_enabled,omitempty"`
 	LockMembershipsToLDAP                                 *bool                            `url:"lock_memberships_to_ldap,omitempty" json:"lock_memberships_to_ldap,omitempty"`
 	LoginRecaptchaProtectionEnabled                       *bool                            `url:"login_recaptcha_protection_enabled,omitempty" json:"login_recaptcha_protection_enabled,omitempty"`
 	MailgunEventsEnabled                                  *bool                            `url:"mailgun_events_enabled,omitempty" json:"mailgun_events_enabled,omitempty"`
 	MailgunSigningKey                                     *string                          `url:"mailgun_signing_key,omitempty" json:"mailgun_signing_key,omitempty"`
 	MaintenanceMode                                       *bool                            `url:"maintenance_mode,omitempty" json:"maintenance_mode,omitempty"`
 	MaintenanceModeMessage                                *string                          `url:"maintenance_mode_message,omitempty" json:"maintenance_mode_message,omitempty"`
+	MavenPackageRequestsForwarding                        *bool                            `url:"maven_package_requests_forwarding,omitempty" json:"maven_package_requests_forwarding,omitempty"`
 	MaxArtifactsSize                                      *int                             `url:"max_artifacts_size,omitempty" json:"max_artifacts_size,omitempty"`
 	MaxAttachmentSize                                     *int                             `url:"max_attachment_size,omitempty" json:"max_attachment_size,omitempty"`
+	MaxDecompressedArchiveSize                            *int                             `url:"max_decompressed_archive_size,omitempty" json:"max_decompressed_archive_size,omitempty"`
 	MaxExportSize                                         *int                             `url:"max_export_size,omitempty" json:"max_export_size,omitempty"`
+	MaxImportRemoteFileSize                               *int                             `url:"max_import_remote_file_size,omitempty" json:"max_import_remote_file_size,omitempty"`
 	MaxImportSize                                         *int                             `url:"max_import_size,omitempty" json:"max_import_size,omitempty"`
+	MaxLoginAttempts                                      *int                             `url:"max_login_attempts,omitempty" json:"max_login_attempts,omitempty"`
 	MaxNumberOfRepositoryDownloads                        *int                             `url:"max_number_of_repository_downloads,omitempty" json:"max_number_of_repository_downloads,omitempty"`
 	MaxNumberOfRepositoryDownloadsWithinTimePeriod        *int                             `url:"max_number_of_repository_downloads_within_time_period,omitempty" json:"max_number_of_repository_downloads_within_time_period,omitempty"`
 	MaxPagesSize                                          *int                             `url:"max_pages_size,omitempty" json:"max_pages_size,omitempty"`
@@ -726,8 +759,11 @@ type UpdateSettingsOptions struct {
 	NPMPackageRequestsForwarding                          *bool                            `url:"npm_package_requests_forwarding,omitempty" json:"npm_package_requests_forwarding,omitempty"`
 	NotesCreateLimit                                      *int                             `url:"notes_create_limit,omitempty" json:"notes_create_limit,omitempty"`
 	NotifyOnUnknownSignIn                                 *bool                            `url:"notify_on_unknown_sign_in,omitempty" json:"notify_on_unknown_sign_in,omitempty"`
+	NugetSkipMetadataURLValidation                        *bool                            `url:"nuget_skip_metadata_url_validation,omitempty" json:"nuget_skip_metadata_url_validation,omitempty"`
 	OutboundLocalRequestsAllowlistRaw                     *string                          `url:"outbound_local_requests_allowlist_raw,omitempty" json:"outbound_local_requests_allowlist_raw,omitempty"`
 	OutboundLocalRequestsWhitelist                        *[]string                        `url:"outbound_local_requests_whitelist,omitempty" json:"outbound_local_requests_whitelist,omitempty"`
+	PackageMetadataPURLTypes                              *[]int                           `url:"package_metadata_purl_types,omitempty" json:"package_metadata_purl_types,omitempty"`
+	PackageRegistryAllowAnyoneToPullOption                *bool                            `url:"package_registry_allow_anyone_to_pull_option,omitempty" json:"package_registry_allow_anyone_to_pull_option,omitempty"`
 	PackageRegistryCleanupPoliciesWorkerCapacity          *int                             `url:"package_registry_cleanup_policies_worker_capacity,omitempty" json:"package_registry_cleanup_policies_worker_capacity,omitempty"`
 	PagesDomainVerificationEnabled                        *bool                            `url:"pages_domain_verification_enabled,omitempty" json:"pages_domain_verification_enabled,omitempty"`
 	PasswordAuthenticationEnabledForGit                   *bool                            `url:"password_authentication_enabled_for_git,omitempty" json:"password_authentication_enabled_for_git,omitempty"`
@@ -750,7 +786,9 @@ type UpdateSettingsOptions struct {
 	ProjectExportEnabled                                  *bool                            `url:"project_export_enabled,omitempty" json:"project_export_enabled,omitempty"`
 	ProjectExportLimit                                    *int                             `url:"project_export_limit,omitempty" json:"project_export_limit,omitempty"`
 	ProjectImportLimit                                    *int                             `url:"project_import_limit,omitempty" json:"project_import_limit,omitempty"`
+	ProjectJobsAPIRateLimit                               *int                             `url:"project_jobs_api_rate_limit,omitempty" json:"project_jobs_api_rate_limit,omitempty"`
 	ProjectRunnerTokenExpirationInterval                  *int                             `url:"project_runner_token_expiration_interval,omitempty" json:"project_runner_token_expiration_interval,omitempty"`
+	ProjectsAPIRateLimitUnauthenticated                   *int                             `url:"projects_api_rate_limit_unauthenticated,omitempty" json:"projects_api_rate_limit_unauthenticated,omitempty"`
 	PrometheusMetricsEnabled                              *bool                            `url:"prometheus_metrics_enabled,omitempty" json:"prometheus_metrics_enabled,omitempty"`
 	ProtectedCIVariables                                  *bool                            `url:"protected_ci_variables,omitempty" json:"protected_ci_variables,omitempty"`
 	PseudonymizerEnabled                                  *bool                            `url:"pseudonymizer_enabled,omitempty" json:"pseudonymizer_enabled,omitempty"`
@@ -764,11 +802,15 @@ type UpdateSettingsOptions struct {
 	RecaptchaPrivateKey                                   *string                          `url:"recaptcha_private_key,omitempty" json:"recaptcha_private_key,omitempty"`
 	RecaptchaSiteKey                                      *string                          `url:"recaptcha_site_key,omitempty" json:"recaptcha_site_key,omitempty"`
 	ReceiveMaxInputSize                                   *int                             `url:"receive_max_input_size,omitempty" json:"receive_max_input_size,omitempty"`
+	ReceptiveClusterAgentsEnabled                         *bool                            `url:"receptive_cluster_agents_enabled,omitempty" json:"receptive_cluster_agents_enabled,omitempty"`
+	RememberMeEnabled                                     *bool                            `url:"remember_me_enabled,omitempty" json:"remember_me_enabled,omitempty"`
 	RepositoryChecksEnabled                               *bool                            `url:"repository_checks_enabled,omitempty" json:"repository_checks_enabled,omitempty"`
 	RepositorySizeLimit                                   *int                             `url:"repository_size_limit,omitempty" json:"repository_size_limit,omitempty"`
 	RepositoryStorages                                    *[]string                        `url:"repository_storages,omitempty" json:"repository_storages,omitempty"`
 	RepositoryStoragesWeighted                            *map[string]int                  `url:"repository_storages_weighted,omitempty" json:"repository_storages_weighted,omitempty"`
 	RequireAdminApprovalAfterUserSignup                   *bool                            `url:"require_admin_approval_after_user_signup,omitempty" json:"require_admin_approval_after_user_signup,omitempty"`
+	RequireAdminTwoFactorAuthentication                   *bool                            `url:"require_admin_two_factor_authentication,omitempty" json:"require_admin_two_factor_authentication,omitempty"`
+	RequirePersonalAccessTokenExpiry                      *bool                            `url:"require_personal_access_token_expiry,omitempty" json:"require_personal_access_token_expiry,omitempty"`
 	RequireTwoFactorAuthentication                        *bool                            `url:"require_two_factor_authentication,omitempty" json:"require_two_factor_authentication,omitempty"`
 	RestrictedVisibilityLevels                            *[]VisibilityValue               `url:"restricted_visibility_levels,omitempty" json:"restricted_visibility_levels,omitempty"`
 	RunnerTokenExpirationInterval                         *int                             `url:"runner_token_expiration_interval,omitempty" json:"runner_token_expiration_interval,omitempty"`
@@ -778,11 +820,15 @@ type UpdateSettingsOptions struct {
 	SecretDetectionTokenRevocationEnabled                 *bool                            `url:"secret_detection_token_revocation_enabled,omitempty" json:"secret_detection_token_revocation_enabled,omitempty"`
 	SecretDetectionTokenRevocationToken                   *string                          `url:"secret_detection_token_revocation_token,omitempty" json:"secret_detection_token_revocation_token,omitempty"`
 	SecretDetectionTokenRevocationURL                     *string                          `url:"secret_detection_token_revocation_url,omitempty" json:"secret_detection_token_revocation_url,omitempty"`
+	SecurityApprovalPoliciesLimit                         *int                             `url:"security_approval_policies_limit,omitempty" json:"security_approval_policies_limit,omitempty"`
+	SecurityPolicyGlobalGroupApproversEnabled             *bool                            `url:"security_policy_global_group_approvers_enabled,omitempty" json:"security_policy_global_group_approvers_enabled,omitempty"`
+	SecurityTXTContent                                    *string                          `url:"security_txt_content,omitempty" json:"security_txt_content,omitempty"`
 	SendUserConfirmationEmail                             *bool                            `url:"send_user_confirmation_email,omitempty" json:"send_user_confirmation_email,omitempty"`
 	SentryClientsideDSN                                   *string                          `url:"sentry_clientside_dsn,omitempty" json:"sentry_clientside_dsn,omitempty"`
 	SentryDSN                                             *string                          `url:"sentry_dsn,omitempty" json:"sentry_dsn,omitempty"`
 	SentryEnabled                                         *string                          `url:"sentry_enabled,omitempty" json:"sentry_enabled,omitempty"`
 	SentryEnvironment                                     *string                          `url:"sentry_environment,omitempty" json:"sentry_environment,omitempty"`
+	ServiceAccessTokensExpirationEnforced                 *bool                            `url:"service_access_tokens_expiration_enforced,omitempty" json:"service_access_tokens_expiration_enforced,omitempty"`
 	SessionExpireDelay                                    *int                             `url:"session_expire_delay,omitempty" json:"session_expire_delay,omitempty"`
 	SharedRunnersEnabled                                  *bool                            `url:"shared_runners_enabled,omitempty" json:"shared_runners_enabled,omitempty"`
 	SharedRunnersMinutes                                  *int                             `url:"shared_runners_minutes,omitempty" json:"shared_runners_minutes,omitempty"`
@@ -792,6 +838,8 @@ type UpdateSettingsOptions struct {
 	SidekiqJobLimiterMode                                 *string                          `url:"sidekiq_job_limiter_mode,omitempty" json:"sidekiq_job_limiter_mode,omitempty"`
 	SignInText                                            *string                          `url:"sign_in_text,omitempty" json:"sign_in_text,omitempty"`
 	SignupEnabled                                         *bool                            `url:"signup_enabled,omitempty" json:"signup_enabled,omitempty"`
+	SilentAdminExportsEnabled                             *bool                            `url:"silent_admin_exports_enabled,omitempty" json:"silent_admin_exports_enabled,omitempty"`
+	SilentModeEnabled                                     *bool                            `url:"silent_mode_enabled,omitempty" json:"silent_mode_enabled,omitempty"`
 	SlackAppEnabled                                       *bool                            `url:"slack_app_enabled,omitempty" json:"slack_app_enabled,omitempty"`
 	SlackAppID                                            *string                          `url:"slack_app_id,omitempty" json:"slack_app_id,omitempty"`
 	SlackAppSecret                                        *string                          `url:"slack_app_secret,omitempty" json:"slack_app_secret,omitempty"`
@@ -801,6 +849,7 @@ type UpdateSettingsOptions struct {
 	SnowplowAppID                                         *string                          `url:"snowplow_app_id,omitempty" json:"snowplow_app_id,omitempty"`
 	SnowplowCollectorHostname                             *string                          `url:"snowplow_collector_hostname,omitempty" json:"snowplow_collector_hostname,omitempty"`
 	SnowplowCookieDomain                                  *string                          `url:"snowplow_cookie_domain,omitempty" json:"snowplow_cookie_domain,omitempty"`
+	SnowplowDatabaseCollectorHostname                     *string                          `url:"snowplow_database_collector_hostname,omitempty" json:"snowplow_database_collector_hostname,omitempty"`
 	SnowplowEnabled                                       *bool                            `url:"snowplow_enabled,omitempty" json:"snowplow_enabled,omitempty"`
 	SourcegraphEnabled                                    *bool                            `url:"sourcegraph_enabled,omitempty" json:"sourcegraph_enabled,omitempty"`
 	SourcegraphPublicOnly                                 *bool                            `url:"sourcegraph_public_only,omitempty" json:"sourcegraph_public_only,omitempty"`
@@ -808,6 +857,8 @@ type UpdateSettingsOptions struct {
 	SpamCheckAPIKey                                       *string                          `url:"spam_check_api_key,omitempty" json:"spam_check_api_key,omitempty"`
 	SpamCheckEndpointEnabled                              *bool                            `url:"spam_check_endpoint_enabled,omitempty" json:"spam_check_endpoint_enabled,omitempty"`
 	SpamCheckEndpointURL                                  *string                          `url:"spam_check_endpoint_url,omitempty" json:"spam_check_endpoint_url,omitempty"`
+	StaticObjectsExternalStorageAuthToken                 *string                          `url:"static_objects_external_storage_auth_token,omitempty" json:"static_objects_external_storage_auth_token,omitempty"`
+	StaticObjectsExternalStorageURL                       *string                          `url:"static_objects_external_storage_url,omitempty" json:"static_objects_external_storage_url,omitempty"`
 	SuggestPipelineEnabled                                *bool                            `url:"suggest_pipeline_enabled,omitempty" json:"suggest_pipeline_enabled,omitempty"`
 	TerminalMaxSessionTime                                *int                             `url:"terminal_max_session_time,omitempty" json:"terminal_max_session_time,omitempty"`
 	Terms                                                 *string                          `url:"terms,omitempty" json:"terms,omitempty"`
@@ -858,20 +909,25 @@ type UpdateSettingsOptions struct {
 	ThrottleUnauthenticatedWebRequestsPerPeriod           *int                             `url:"throttle_unauthenticated_web_requests_per_period,omitempty" json:"throttle_unauthenticated_web_requests_per_period,omitempty"`
 	TimeTrackingLimitToHours                              *bool                            `url:"time_tracking_limit_to_hours,omitempty" json:"time_tracking_limit_to_hours,omitempty"`
 	TwoFactorGracePeriod                                  *int                             `url:"two_factor_grace_period,omitempty" json:"two_factor_grace_period,omitempty"`
+	UnconfirmedUsersDeleteAfterDays                       *int                             `url:"unconfirmed_users_delete_after_days,omitempty" json:"unconfirmed_users_delete_after_days,omitempty"`
 	UniqueIPsLimitEnabled                                 *bool                            `url:"unique_ips_limit_enabled,omitempty" json:"unique_ips_limit_enabled,omitempty"`
 	UniqueIPsLimitPerUser                                 *int                             `url:"unique_ips_limit_per_user,omitempty" json:"unique_ips_limit_per_user,omitempty"`
 	UniqueIPsLimitTimeWindow                              *int                             `url:"unique_ips_limit_time_window,omitempty" json:"unique_ips_limit_time_window,omitempty"`
+	UpdateRunnerVersionsEnabled                           *bool                            `url:"update_runner_versions_enabled,omitempty" json:"update_runner_versions_enabled,omitempty"`
 	UpdatingNameDisabledForUsers                          *bool                            `url:"updating_name_disabled_for_users,omitempty" json:"updating_name_disabled_for_users,omitempty"`
 	UsagePingEnabled                                      *bool                            `url:"usage_ping_enabled,omitempty" json:"usage_ping_enabled,omitempty"`
 	UsagePingFeaturesEnabled                              *bool                            `url:"usage_ping_features_enabled,omitempty" json:"usage_ping_features_enabled,omitempty"`
+	UseClickhouseForAnalytics                             *bool                            `url:"use_clickhouse_for_analytics,omitempty" json:"use_clickhouse_for_analytics,omitempty"`
 	UserDeactivationEmailsEnabled                         *bool                            `url:"user_deactivation_emails_enabled,omitempty" json:"user_deactivation_emails_enabled,omitempty"`
 	UserDefaultExternal                                   *bool                            `url:"user_default_external,omitempty" json:"user_default_external,omitempty"`
 	UserDefaultInternalRegex                              *string                          `url:"user_default_internal_regex,omitempty" json:"user_default_internal_regex,omitempty"`
+	UserDefaultsToPrivateProfile                          *bool                            `url:"user_defaults_to_private_profile,omitempty" json:"user_defaults_to_private_profile,omitempty"`
 	UserEmailLookupLimit                                  *int                             `url:"user_email_lookup_limit,omitempty" json:"user_email_lookup_limit,omitempty"`
 	UserOauthApplications                                 *bool                            `url:"user_oauth_applications,omitempty" json:"user_oauth_applications,omitempty"`
 	UserShowAddSSHKeyMessage                              *bool                            `url:"user_show_add_ssh_key_message,omitempty" json:"user_show_add_ssh_key_message,omitempty"`
 	UsersGetByIDLimit                                     *int                             `url:"users_get_by_id_limit,omitempty" json:"users_get_by_id_limit,omitempty"`
 	UsersGetByIDLimitAllowlistRaw                         *string                          `url:"users_get_by_id_limit_allowlist_raw,omitempty" json:"users_get_by_id_limit_allowlist_raw,omitempty"`
+	ValidRunnerRegistrars                                 *[]string                        `url:"valid_runner_registrars,omitempty" json:"valid_runner_registrars,omitempty"`
 	VersionCheckEnabled                                   *bool                            `url:"version_check_enabled,omitempty" json:"version_check_enabled,omitempty"`
 	WebIDEClientsidePreviewEnabled                        *bool                            `url:"web_ide_clientside_preview_enabled,omitempty" json:"web_ide_clientside_preview_enabled,omitempty"`
 	WhatsNewVariant                                       *string                          `url:"whats_new_variant,omitempty" json:"whats_new_variant,omitempty"`
