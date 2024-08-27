@@ -8,6 +8,7 @@
   "web_url": "http://localhost:3000/john_smith",
   "created_at": "2012-05-23T08:00:58Z",
   "is_admin": true,
+  "is_auditor": true,
   "bio": "Bio of John Smith",
   "location": "USA",
   "public_email": "john@example.com",

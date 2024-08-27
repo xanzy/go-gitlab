@@ -24,6 +24,7 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestListBillableGroupMembers(t *testing.T) {
@@ -334,7 +335,7 @@ func TestGetGroupMemberCustomRole(t *testing.T) {
 		AccessLevel: AccessLevelValue(30),
 		MemberRole: &MemberRole{
 			ID:                 1,
-			GroupId:            2,
+			GroupID:            2,
 			Name:               "TestingCustomRole",
 			Description:        "",
 			BaseAccessLevel:    AccessLevelValue(30),
@@ -345,4 +346,60 @@ func TestGetGroupMemberCustomRole(t *testing.T) {
 
 	assert.NoError(t, err)
 	assert.Equal(t, want, member)
+}
+
+func TestGetGroupMemberAll(t *testing.T) {
+	mux, client := setup(t)
+
+	path := fmt.Sprintf("/%sgroups/1/members/all/2", apiVersionPath)
+	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+
+		fmt.Fprint(w, `
+		{
+		  "id": 2,
+		  "name": "aaa",
+		  "username": "aaaName",
+		  "state": "active",
+		  "avatar_url": "https://secure.gravatar.com/avatar/e547676d82f1e16954b2280a5b4cbe79?s=80&d=identicon",
+		  "web_url": "https://gitlab.example.cn/aaa",
+		  "access_level": 30,
+		  "created_at": "2024-06-19T07:14:02.793Z",
+		  "expires_at": null
+		}
+		`)
+	})
+
+	createAt, _ := time.Parse(time.RFC3339, "2024-06-19T07:14:02.793Z")
+
+	want := &GroupMember{
+		ID:          2,
+		Name:        "aaa",
+		Username:    "aaaName",
+		State:       "active",
+		AvatarURL:   "https://secure.gravatar.com/avatar/e547676d82f1e16954b2280a5b4cbe79?s=80&d=identicon",
+		WebURL:      "https://gitlab.example.cn/aaa",
+		AccessLevel: AccessLevelValue(30),
+		CreatedAt:   &createAt,
+	}
+
+	pm, resp, err := client.GroupMembers.GetInheritedGroupMember(1, 2, nil, nil)
+	require.NoError(t, err)
+	require.NotNil(t, resp)
+	require.Equal(t, want, pm)
+
+	member, resp, err := client.GroupMembers.GetInheritedGroupMember(1.01, 2, nil, nil)
+	require.EqualError(t, err, "invalid ID type 1.01, the ID must be an int or a string")
+	require.Nil(t, resp)
+	require.Nil(t, member)
+
+	member, resp, err = client.GroupMembers.GetInheritedGroupMember(1, 1, nil, errorOption)
+	require.EqualError(t, err, "RequestOptionFunc returns an error")
+	require.Nil(t, resp)
+	require.Nil(t, member)
+
+	member, resp, err = client.GroupMembers.GetInheritedGroupMember(2, 1, nil, nil)
+	require.Error(t, err)
+	require.Nil(t, member)
+	require.Equal(t, http.StatusNotFound, resp.StatusCode)
 }

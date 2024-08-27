@@ -8,6 +8,8 @@ import (
 	"net/url"
 	"reflect"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestListGroups(t *testing.T) {
@@ -93,6 +95,89 @@ func TestCreateGroup(t *testing.T) {
 	if !reflect.DeepEqual(want, group) {
 		t.Errorf("Groups.CreateGroup returned %+v, want %+v", group, want)
 	}
+}
+
+func TestCreateGroupDefaultBranchSettings(t *testing.T) {
+	mux, client := setup(t)
+
+	var jsonRequestBody CreateGroupOptions
+	mux.HandleFunc("/api/v4/groups",
+		func(w http.ResponseWriter, r *http.Request) {
+			testMethod(t, r, http.MethodPost)
+
+			testData, _ := io.ReadAll(r.Body)
+			err := json.Unmarshal(testData, &jsonRequestBody)
+			if err != nil {
+				t.Fatal("Failed to unmarshal request body into an interface.")
+			}
+
+			fmt.Fprint(w, `
+			{
+				"id": 1,
+				"name": "g",
+				"path": "g",
+				"default_branch_protection_defaults": {
+					"allowed_to_push": [
+						{
+							"access_level": 40
+						}
+					],
+					"allow_force_push": false,
+					"allowed_to_merge": [
+						{
+							"access_level": 40
+						}
+					]
+				}
+			}
+			`)
+		})
+
+	opt := &CreateGroupOptions{
+		Name: Ptr("g"),
+		Path: Ptr("g"),
+		DefaultBranchProtectionDefaults: &DefaultBranchProtectionDefaultsOptions{
+			AllowedToPush: &[]*GroupAccessLevel{
+				{
+					AccessLevel: Ptr(AccessLevelValue(40)),
+				},
+			},
+			AllowedToMerge: &[]*GroupAccessLevel{
+				{
+					AccessLevel: Ptr(AccessLevelValue(40)),
+				},
+			},
+		},
+	}
+
+	group, _, err := client.Groups.CreateGroup(opt, nil)
+	if err != nil {
+		t.Errorf("Groups.CreateGroup returned error: %v", err)
+	}
+
+	// Create the group that we want to get back
+	want := &Group{
+		ID:   1,
+		Name: "g",
+		Path: "g",
+	}
+	want.DefaultBranchProtectionDefaults.AllowForcePush = false
+	want.DefaultBranchProtectionDefaults.AllowedToMerge = []*GroupAccessLevel{{
+		AccessLevel: Ptr(MaintainerPermissions),
+	}}
+	want.DefaultBranchProtectionDefaults.AllowedToPush = []*GroupAccessLevel{{
+		AccessLevel: Ptr(MaintainerPermissions),
+	}}
+
+	if !reflect.DeepEqual(want, group) {
+		t.Errorf("Groups.CreateGroup returned %+v, want %+v", group, want)
+	}
+
+	// Validate the request does what we want it to
+	allowedToMerge := *jsonRequestBody.DefaultBranchProtectionDefaults.AllowedToMerge
+	allowedToPush := *jsonRequestBody.DefaultBranchProtectionDefaults.AllowedToPush
+	assert.Equal(t, Ptr(MaintainerPermissions), allowedToMerge[0].AccessLevel)
+	assert.Equal(t, Ptr(MaintainerPermissions), allowedToPush[0].AccessLevel)
 }
 
 func TestTransferGroup(t *testing.T) {
@@ -821,7 +906,8 @@ func TestGetGroupPushRules(t *testing.T) {
 			"max_file_size": 5,
 			"commit_committer_check": false,
 			"commit_committer_name_check": false,
-			"reject_unsigned_commits": false
+			"reject_unsigned_commits": false,
+			"reject_non_dco_commits": false
 		  }`)
 	})
 
@@ -844,6 +930,7 @@ func TestGetGroupPushRules(t *testing.T) {
 		CommitCommitterCheck:       false,
 		CommitCommitterNameCheck:   false,
 		RejectUnsignedCommits:      false,
+		RejectNonDCOCommits:        false,
 	}
 
 	if !reflect.DeepEqual(want, rule) {
@@ -869,7 +956,8 @@ func TestAddGroupPushRules(t *testing.T) {
 			"max_file_size": 5,
 			"commit_committer_check": false,
 			"commit_committer_name_check": false,
-			"reject_unsigned_commits": false
+			"reject_unsigned_commits": false,
+			"reject_non_dco_commits": false
 		  }`)
 	})
 
@@ -886,6 +974,7 @@ func TestAddGroupPushRules(t *testing.T) {
 		CommitCommitterCheck:       Ptr(false),
 		CommitCommitterNameCheck:   Ptr(false),
 		RejectUnsignedCommits:      Ptr(false),
+		RejectNonDCOCommits:        Ptr(false),
 	}
 
 	rule, _, err := client.Groups.AddGroupPushRule(1, opt)
@@ -907,6 +996,7 @@ func TestAddGroupPushRules(t *testing.T) {
 		CommitCommitterCheck:       false,
 		CommitCommitterNameCheck:   false,
 		RejectUnsignedCommits:      false,
+		RejectNonDCOCommits:        false,
 	}
 
 	if !reflect.DeepEqual(want, rule) {
@@ -932,7 +1022,8 @@ func TestEditGroupPushRules(t *testing.T) {
 			"max_file_size": 5,
 			"commit_committer_check": false,
 			"commit_committer_name_check": false,
-			"reject_unsigned_commits": false
+			"reject_unsigned_commits": false,
+			"reject_non_dco_commits": false
 		  }`)
 	})
 
@@ -949,6 +1040,7 @@ func TestEditGroupPushRules(t *testing.T) {
 		CommitCommitterCheck:       Ptr(false),
 		CommitCommitterNameCheck:   Ptr(false),
 		RejectUnsignedCommits:      Ptr(false),
+		RejectNonDCOCommits:        Ptr(false),
 	}
 
 	rule, _, err := client.Groups.EditGroupPushRule(1, opt)
@@ -970,6 +1062,7 @@ func TestEditGroupPushRules(t *testing.T) {
 		CommitCommitterCheck:       false,
 		CommitCommitterNameCheck:   false,
 		RejectUnsignedCommits:      false,
+		RejectNonDCOCommits:        false,
 	}
 
 	if !reflect.DeepEqual(want, rule) {

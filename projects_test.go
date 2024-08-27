@@ -441,7 +441,8 @@ func TestGetProjectWithOptions(t *testing.T) {
 				"pipeline_artifacts_size": 0,
 				"packages_size": 238906167,
 				"snippets_size": 146800,
-				"uploads_size": 6523619
+				"uploads_size": 6523619,
+				"container_registry_size": 284453
 			}}`)
 	})
 	want := &Project{ID: 1, Statistics: &Statistics{
@@ -455,6 +456,7 @@ func TestGetProjectWithOptions(t *testing.T) {
 		PackagesSize:          238906167,
 		SnippetsSize:          146800,
 		UploadsSize:           6523619,
+		ContainerRegistrySize: 284453,
 	}}
 
 	project, _, err := client.Projects.GetProject(1, &GetProjectOptions{Statistics: Ptr(true)})
@@ -1594,7 +1596,8 @@ func TestGetProjectPushRules(t *testing.T) {
 			"max_file_size": 5,
 			"commit_committer_check": false,
 			"commit_committer_name_check": false,
-			"reject_unsigned_commits": false
+			"reject_unsigned_commits": false,
+			"reject_non_dco_commits": false
 		  }`)
 	})
 
@@ -1617,6 +1620,7 @@ func TestGetProjectPushRules(t *testing.T) {
 		CommitCommitterCheck:       false,
 		CommitCommitterNameCheck:   false,
 		RejectUnsignedCommits:      false,
+		RejectNonDCOCommits:        false,
 	}
 
 	if !reflect.DeepEqual(want, rule) {
@@ -1642,7 +1646,8 @@ func TestAddProjectPushRules(t *testing.T) {
 			"max_file_size": 5,
 			"commit_committer_check": false,
 			"commit_committer_name_check": false,
-			"reject_unsigned_commits": false
+			"reject_unsigned_commits": false,
+			"reject_non_dco_commits": false
 		  }`)
 	})
 
@@ -1659,6 +1664,7 @@ func TestAddProjectPushRules(t *testing.T) {
 		CommitCommitterCheck:       Ptr(false),
 		CommitCommitterNameCheck:   Ptr(false),
 		RejectUnsignedCommits:      Ptr(false),
+		RejectNonDCOCommits:        Ptr(false),
 	}
 
 	rule, _, err := client.Projects.AddProjectPushRule(1, opt)
@@ -1680,6 +1686,7 @@ func TestAddProjectPushRules(t *testing.T) {
 		CommitCommitterCheck:       false,
 		CommitCommitterNameCheck:   false,
 		RejectUnsignedCommits:      false,
+		RejectNonDCOCommits:        false,
 	}
 
 	if !reflect.DeepEqual(want, rule) {
@@ -1705,7 +1712,8 @@ func TestEditProjectPushRules(t *testing.T) {
 			"max_file_size": 5,
 			"commit_committer_check": false,
 			"commit_committer_name_check": false,
-			"reject_unsigned_commits": false
+			"reject_unsigned_commits": false,
+			"reject_non_dco_commits": false
 		  }`)
 	})
 
@@ -1722,6 +1730,7 @@ func TestEditProjectPushRules(t *testing.T) {
 		CommitCommitterCheck:       Ptr(false),
 		CommitCommitterNameCheck:   Ptr(false),
 		RejectUnsignedCommits:      Ptr(false),
+		RejectNonDCOCommits:        Ptr(false),
 	}
 
 	rule, _, err := client.Projects.EditProjectPushRule(1, opt)
@@ -1743,6 +1752,7 @@ func TestEditProjectPushRules(t *testing.T) {
 		CommitCommitterCheck:       false,
 		CommitCommitterNameCheck:   false,
 		RejectUnsignedCommits:      false,
+		RejectNonDCOCommits:        false,
 	}
 
 	if !reflect.DeepEqual(want, rule) {

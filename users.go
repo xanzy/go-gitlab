@@ -88,6 +88,7 @@ type User struct {
 	LastActivityOn                 *ISOTime           `json:"last_activity_on"`
 	ColorSchemeID                  int                `json:"color_scheme_id"`
 	IsAdmin                        bool               `json:"is_admin"`
+	IsAuditor                      bool               `json:"is_auditor"`
 	AvatarURL                      string             `json:"avatar_url"`
 	CanCreateGroup                 bool               `json:"can_create_group"`
 	CanCreateProject               bool               `json:"can_create_project"`

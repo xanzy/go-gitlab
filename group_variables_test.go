@@ -57,10 +57,11 @@ func TestGetGroupVariable(t *testing.T) {
 	mux.HandleFunc("/api/v4/groups/1/variables/TEST_VARIABLE_1",
 		func(w http.ResponseWriter, r *http.Request) {
 			testMethod(t, r, http.MethodGet)
+			testParams(t, r, "filter%5Benvironment_scope%5D=prod")
 			fmt.Fprint(w, `{"key": "TEST_VARIABLE_1","value": "test1","protected": false,"masked": true}`)
 		})
 
-	variable, _, err := client.GroupVariables.GetVariable(1, "TEST_VARIABLE_1")
+	variable, _, err := client.GroupVariables.GetVariable(1, "TEST_VARIABLE_1", &GetGroupVariableOptions{Filter: &VariableFilter{EnvironmentScope: "prod"}})
 	if err != nil {
 		t.Errorf("GroupVariables.GetVariable returned error: %v", err)
 	}
