@@ -396,6 +396,11 @@ func TestGetJiraService(t *testing.T) {
 		fmt.Fprint(w, `{"id":1, "properties": {"jira_issue_transition_id": "2,3"}}`)
 	})
 
+	mux.HandleFunc("/api/v4/projects/4/integrations/jira", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		fmt.Fprint(w, `{"id":1, "properties": {"jira_auth_type": 1}}`)
+	})
+
 	want := []*JiraService{
 		{
 			Service:    Service{ID: 1},
@@ -417,6 +422,12 @@ func TestGetJiraService(t *testing.T) {
 			Service: Service{ID: 1},
 			Properties: &JiraServiceProperties{
 				JiraIssueTransitionID: "2,3",
+			},
+		},
+		{
+			Service: Service{ID: 1},
+			Properties: &JiraServiceProperties{
+				JiraAuthType: 1,
 			},
 		},
 	}
