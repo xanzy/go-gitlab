@@ -1162,7 +1162,7 @@ func (s *ServicesService) GetJiraService(pid interface{}, options ...RequestOpti
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("projects/%s/services/jira", PathEscape(project))
+	u := fmt.Sprintf("projects/%s/integrations/jira", PathEscape(project))
 
 	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
 	if err != nil {
@@ -1214,7 +1214,7 @@ func (s *ServicesService) SetJiraService(pid interface{}, opt *SetJiraServiceOpt
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/services/jira", PathEscape(project))
+	u := fmt.Sprintf("projects/%s/integrations/jira", PathEscape(project))
 
 	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
@@ -1233,7 +1233,7 @@ func (s *ServicesService) DeleteJiraService(pid interface{}, options ...RequestO
 	if err != nil {
 		return nil, err
 	}
-	u := fmt.Sprintf("projects/%s/services/jira", PathEscape(project))
+	u := fmt.Sprintf("projects/%s/integrations/jira", PathEscape(project))
 
 	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {

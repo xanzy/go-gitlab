@@ -376,27 +376,31 @@ func TestDisableSlackApplication(t *testing.T) {
 func TestGetJiraService(t *testing.T) {
 	mux, client := setup(t)
 
-	mux.HandleFunc("/api/v4/projects/0/services/jira", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, http.MethodGet)
-		fmt.Fprint(w, `{"id":1, "properties": {"jira_issue_transition_id": "2"}}`)
-	})
-
-	mux.HandleFunc("/api/v4/projects/1/services/jira", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, http.MethodGet)
-		fmt.Fprint(w, `{"id":1, "properties": {"jira_issue_transition_id": 2}}`)
-	})
-
-	mux.HandleFunc("/api/v4/projects/2/services/jira", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, http.MethodGet)
-		fmt.Fprint(w, `{"id":1, "properties": {"jira_issue_transition_id": "2,3"}}`)
-	})
-
-	mux.HandleFunc("/api/v4/projects/3/services/jira", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v4/projects/0/integrations/jira", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodGet)
 		fmt.Fprint(w, `{"id":1, "properties": {}}`)
 	})
 
+	mux.HandleFunc("/api/v4/projects/1/integrations/jira", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		fmt.Fprint(w, `{"id":1, "properties": {"jira_issue_transition_id": "2"}}`)
+	})
+
+	mux.HandleFunc("/api/v4/projects/2/integrations/jira", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		fmt.Fprint(w, `{"id":1, "properties": {"jira_issue_transition_id": 2}}`)
+	})
+
+	mux.HandleFunc("/api/v4/projects/3/integrations/jira", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		fmt.Fprint(w, `{"id":1, "properties": {"jira_issue_transition_id": "2,3"}}`)
+	})
+
 	want := []*JiraService{
+		{
+			Service:    Service{ID: 1},
+			Properties: &JiraServiceProperties{},
+		},
 		{
 			Service: Service{ID: 1},
 			Properties: &JiraServiceProperties{
@@ -415,10 +419,6 @@ func TestGetJiraService(t *testing.T) {
 				JiraIssueTransitionID: "2,3",
 			},
 		},
-		{
-			Service:    Service{ID: 1},
-			Properties: &JiraServiceProperties{},
-		},
 	}
 
 	for testcase := 0; testcase < len(want); testcase++ {
@@ -436,7 +436,7 @@ func TestGetJiraService(t *testing.T) {
 func TestSetJiraService(t *testing.T) {
 	mux, client := setup(t)
 
-	mux.HandleFunc("/api/v4/projects/1/services/jira", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v4/projects/1/integrations/jira", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
 	})
 
@@ -467,7 +467,7 @@ func TestSetJiraService(t *testing.T) {
 func TestSetJiraServiceProjecKeys(t *testing.T) {
 	mux, client := setup(t)
 
-	mux.HandleFunc("/api/v4/projects/1/services/jira", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v4/projects/1/integrations/jira", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
 	})
 
@@ -498,7 +498,7 @@ func TestSetJiraServiceProjecKeys(t *testing.T) {
 func TestSetJiraServiceAuthTypeBasicAuth(t *testing.T) {
 	mux, client := setup(t)
 
-	mux.HandleFunc("/api/v4/projects/1/services/jira", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v4/projects/1/integrations/jira", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
 	})
 
@@ -518,7 +518,7 @@ func TestSetJiraServiceAuthTypeBasicAuth(t *testing.T) {
 func TestSetJiraServiceAuthTypeTokenAuth(t *testing.T) {
 	mux, client := setup(t)
 
-	mux.HandleFunc("/api/v4/projects/1/services/jira", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v4/projects/1/integrations/jira", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
 	})
 
@@ -537,7 +537,7 @@ func TestSetJiraServiceAuthTypeTokenAuth(t *testing.T) {
 func TestDeleteJiraService(t *testing.T) {
 	mux, client := setup(t)
 
-	mux.HandleFunc("/api/v4/projects/1/services/jira", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v4/projects/1/integrations/jira", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)
 	})
 
