@@ -647,21 +647,6 @@ func TestListProjectForks(t *testing.T) {
 	}
 }
 
-func TestListProjectsInvitedGroups(t *testing.T) {
-	mux, client := setup(t)
-
-	mux.HandleFunc("/api/v4/projects/1/invited_groups", func(w http.ResponseWriter, r *http.Request) {
-		testMethod(t, r, http.MethodGet)
-	})
-
-	opt := &ListProjectInvidedGroupOptions{}
-
-	_, err := client.Projects.ListProjectsInvitedGroups(1, opt)
-	if err != nil {
-		t.Errorf("Projects.ListProjectsInvitedGroups returned error: %v", err)
-	}
-}
-
 func TestShareProjectWithGroup(t *testing.T) {
 	mux, client := setup(t)
 
