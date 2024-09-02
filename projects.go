@@ -1061,7 +1061,7 @@ type ListProjectInvidedGroupOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/projects.html#list-a-projects-invited-groups
-func (s *ProjectsService) ListProjectsInvitedGroups(pid interface{}, opt *ListProjectInvidedGroupOptions, options ...RequestOptionFunc) (*ProjectGroup, *Response, error) {
+func (s *ProjectsService) ListProjectsInvitedGroups(pid interface{}, opt *ListProjectInvidedGroupOptions, options ...RequestOptionFunc) ([]*ProjectGroup, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
@@ -1073,8 +1073,8 @@ func (s *ProjectsService) ListProjectsInvitedGroups(pid interface{}, opt *ListPr
 		return nil, nil, err
 	}
 
-	pg := new(ProjectGroup)
-	resp, err := s.client.Do(req, pg)
+	var pg []*ProjectGroup
+	resp, err := s.client.Do(req, &pg)
 	if err != nil {
 		return nil, resp, err
 	}
