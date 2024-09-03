@@ -43,7 +43,7 @@ type ListServiceAccountsOptions struct {
 // ListServiceAccounts gets a list of service acxcounts.
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/group_service_accounts.html#list-service-account-users
-func (s *UsersService) ListServiceAccounts(gid interface{}, opt *ListServiceAccountsOptions, options ...RequestOptionFunc) ([]*User, *Response, error) {
+func (s *GroupsService) ListServiceAccounts(gid interface{}, opt *ListServiceAccountsOptions, options ...RequestOptionFunc) ([]*GroupServiceAccount, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
 		return nil, nil, err
@@ -55,7 +55,7 @@ func (s *UsersService) ListServiceAccounts(gid interface{}, opt *ListServiceAcco
 		return nil, nil, err
 	}
 
-	var sa []*User
+	var sa []*GroupServiceAccount
 	resp, err := s.client.Do(req, &sa)
 	if err != nil {
 		return nil, resp, err
