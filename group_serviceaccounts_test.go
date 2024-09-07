@@ -39,7 +39,10 @@ func TestCreateServiceAccount(t *testing.T) {
       }`)
 	})
 
-	sa, _, err := client.Groups.CreateServiceAccount(1)
+	sa, _, err := client.Groups.CreateServiceAccount(1, &CreateServiceAccountOptions{
+		Name:     Ptr("Service account user"),
+		Username: Ptr("service_account_group_345_6018816a18e515214e0c34c2b33523fc"),
+	})
 	if err != nil {
 		t.Error(err)
 	}
