@@ -756,6 +756,52 @@ func TestDeletePrometheusService(t *testing.T) {
 	}
 }
 
+func TestGetRedmineService(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/projects/1/integrations/redmine", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		fmt.Fprint(w, `{"id":1}`)
+	})
+	want := &RedmineService{Service: Service{ID: 1}}
+
+	service, _, err := client.Services.GetRedmineService(1)
+	if err != nil {
+		t.Fatalf("Services.GetRedmineService returns an error: %v", err)
+	}
+	if !reflect.DeepEqual(want, service) {
+		t.Errorf("Services.GetRedmineService returned %+v, want %+v", service, want)
+	}
+}
+
+func TestSetRedmineService(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/projects/1/integrations/redmine", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPut)
+	})
+
+	opt := &SetRedmineServiceOptions{Ptr("t"), Ptr("u"), Ptr("a"), Ptr(false)}
+
+	_, err := client.Services.SetRedmineService(1, opt)
+	if err != nil {
+		t.Fatalf("Services.SetRedmineService returns an error: %v", err)
+	}
+}
+
+func TestDeleteRedmineService(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/projects/1/integrations/redmine", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodDelete)
+	})
+
+	_, err := client.Services.DeleteRedmineService(1)
+	if err != nil {
+		t.Fatalf("Services.DeleteRedmineService returns an error: %v", err)
+	}
+}
+
 func TestGetSlackService(t *testing.T) {
 	mux, client := setup(t)
 
