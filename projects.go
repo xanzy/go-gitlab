@@ -1159,18 +1159,28 @@ func (s *ProjectsService) UnarchiveProject(pid interface{}, options ...RequestOp
 	return p, resp, nil
 }
 
+// DeleteProjectOptions represents options to delete a project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/projects.html#delete-project
+type DeleteProjectOptions struct {
+	FullPath          *string `url:"full_path" json:"full_path"`
+	PermanentlyRemove *bool   `url:"permanently_remove" json:"permanently_remove"`
+}
+
 // DeleteProject removes a project including all associated resources
 // (issues, merge requests etc.)
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/projects.html#delete-project
-func (s *ProjectsService) DeleteProject(pid interface{}, options ...RequestOptionFunc) (*Response, error) {
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/projects.html#delete-project
+func (s *ProjectsService) DeleteProject(pid interface{}, opt *DeleteProjectOptions, options ...RequestOptionFunc) (*Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, err
 	}
 	u := fmt.Sprintf("projects/%s", PathEscape(project))
 
-	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
+	req, err := s.client.NewRequest(http.MethodDelete, u, opt, options)
 	if err != nil {
 		return nil, err
 	}

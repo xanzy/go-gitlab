@@ -647,6 +647,24 @@ func TestListProjectForks(t *testing.T) {
 	}
 }
 
+func TestDeleteProject(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/projects/1", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodDelete)
+	})
+
+	opt := &DeleteProjectOptions{
+		FullPath:          Ptr("group/project"),
+		PermanentlyRemove: Ptr(true),
+	}
+
+	_, err := client.Projects.DeleteProject(1, opt)
+	if err != nil {
+		t.Errorf("Projects.DeleteProject returned error: %v", err)
+	}
+}
+
 func TestShareProjectWithGroup(t *testing.T) {
 	mux, client := setup(t)
 
