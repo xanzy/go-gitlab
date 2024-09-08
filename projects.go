@@ -1159,7 +1159,7 @@ func (s *ProjectsService) UnarchiveProject(pid interface{}, options ...RequestOp
 	return p, resp, nil
 }
 
-// DeleteProjectOptions represents options to delete a project.
+// DeleteProjectOptions represents the available DeleteProject() options.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/projects.html#delete-project
@@ -1188,7 +1188,7 @@ func (s *ProjectsService) DeleteProject(pid interface{}, opt *DeleteProjectOptio
 	return s.client.Do(req, nil)
 }
 
-// ShareWithGroupOptions represents options to share project with groups
+// ShareWithGroupOptions represents the available SharedWithGroup() options.
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/projects.html#share-project-with-group
 type ShareWithGroupOptions struct {
@@ -1491,8 +1491,8 @@ func (s *ProjectsService) TriggerTestProjectHook(pid interface{}, hook int, even
 	return s.client.Do(req, nil)
 }
 
-// SetHookCustomHeaderOptions represents a project or group hook custom header.
-// If the header isn't present, it will be created.
+// SetHookCustomHeaderOptions represents the available SetProjectCustomHeader()
+// options.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/projects.html#set-a-custom-header
@@ -1937,9 +1937,11 @@ func (s *ProjectsService) ChangeApprovalConfiguration(pid interface{}, opt *Chan
 	return pa, resp, nil
 }
 
-// GetProjectApprovalRulesListsOptions represents the available GetProjectApprovalRules() options.
+// GetProjectApprovalRulesListsOptions represents the available
+// GetProjectApprovalRules() options.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/merge_request_approvals.html#get-project-level-rules
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/merge_request_approvals.html#get-project-level-rules
 type GetProjectApprovalRulesListsOptions ListOptions
 
 // GetProjectApprovalRules looks up the list of project level approver rules.
@@ -2192,7 +2194,8 @@ func (s *ProjectsService) StartMirroringProject(pid interface{}, options ...Requ
 
 // TransferProjectOptions represents the available TransferProject() options.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/projects.html#transfer-a-project-to-a-new-namespace
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/projects.html#transfer-a-project-to-a-new-namespace
 type TransferProjectOptions struct {
 	Namespace interface{} `url:"namespace,omitempty" json:"namespace,omitempty"`
 }
