@@ -893,7 +893,7 @@ func TestUploadAvatarUser(t *testing.T) {
 		t.Fatalf("Users.UploadAvatar returns an error: %v", err)
 	}
 }
-func TestGetServiceAccount(t *testing.T) {
+func TestListServiceAccounts(t *testing.T) {
 	mux, client := setup(t)
 
 	path := "/api/v4/service_accounts"
