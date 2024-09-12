@@ -1561,6 +1561,37 @@ func (s *UsersService) CreateServiceAccountUser(options ...RequestOptionFunc) (*
 	return usr, resp, nil
 }
 
+// ServiceAccount represents the available ServiceAccount options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/user_service_accounts.html#list-all-service-account-users
+
+type ServiceAccount struct {
+	ID       int    `json:"id"`
+	Username string `json:"username"`
+	Name     string `json:"name"`
+}
+
+// ListServiceAccounts lists all service accounts. Note only administrators can list service accounts.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/users.html#create-service-account-user
+
+func (s *UsersService) ListServiceAccounts(opt *ListServiceAccountsOptions, options ...RequestOptionFunc) ([]*ServiceAccount, *Response, error) {
+
+	req, err := s.client.NewRequest(http.MethodGet, "service_accounts", opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var serviceaccounts []*ServiceAccount
+	resp, err := s.client.Do(req, &serviceaccounts)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return serviceaccounts, resp, nil
+}
+
 // UploadAvatar uploads an avatar to the current user.
 //
 // GitLab API docs:
@@ -1588,31 +1619,4 @@ func (s *UsersService) UploadAvatar(avatar io.Reader, filename string, options .
 	}
 
 	return usr, resp, nil
-}
-
-// ServiceAccount represents the available ServiceAccount options.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ee/api/user_service_accounts.html#list-all-service-account-users
-
-type ServiceAccount struct {
-	ID       int    `json:"id"`
-	Username string `json:"username"`
-	Name     string `json:"name"`
-}
-
-func (s *UsersService) ListServiceAccounts(opt *ListServiceAccountsOptions, options ...RequestOptionFunc) ([]*ServiceAccount, *Response, error) {
-
-	req, err := s.client.NewRequest(http.MethodGet, "service_accounts", opt, options)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	var serviceaccounts []*ServiceAccount
-	resp, err := s.client.Do(req, &serviceaccounts)
-	if err != nil {
-		return nil, resp, err
-	}
-
-	return serviceaccounts, resp, nil
 }

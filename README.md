@@ -96,6 +96,7 @@ to add new and/or missing endpoints. Currently, the following services are suppo
 - [x] Todos
 - [x] Topics
 - [x] Users
+- [x] Users (ServiceAccounts)
 - [x] Validate CI Configuration
 - [x] Version
 - [x] Wikis
