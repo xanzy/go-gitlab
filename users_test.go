@@ -893,3 +893,29 @@ func TestUploadAvatarUser(t *testing.T) {
 		t.Fatalf("Users.UploadAvatar returns an error: %v", err)
 	}
 }
+func TestListServiceAccounts(t *testing.T) {
+	mux, client := setup(t)
+
+	path := "/api/v4/service_accounts"
+
+	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		mustWriteHTTPResponse(t, w, "testdata/get_serviceaccounts.json")
+	})
+
+	serviceaccounts, _, err := client.Users.ListServiceAccounts(&ListServiceAccountsOptions{})
+	require.NoError(t, err)
+	want := []*ServiceAccount{
+		{
+			ID:       114,
+			Username: "service_account_33",
+			Name:     "Service account user",
+		},
+		{
+			ID:       137,
+			Username: "service_account_34",
+			Name:     "john doe",
+		},
+	}
+	require.Equal(t, want, serviceaccounts)
+}
