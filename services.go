@@ -1758,6 +1758,101 @@ func (s *ServicesService) DeletePrometheusService(pid interface{}, options ...Re
 	return s.client.Do(req, nil)
 }
 
+// RedmineService represents the Redmine service settings.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/integrations.html#redmine
+type RedmineService struct {
+	Service
+	Properties *RedmineServiceProperties `json:"properties"`
+}
+
+// RedmineServiceProperties represents Redmine specific properties.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/integrations.html#redmine
+type RedmineServiceProperties struct {
+	NewIssueURL          string    `json:"new_issue_url"`
+	ProjectURL           string    `json:"project_url"`
+	IssuesURL            string    `json:"issues_url"`
+	UseInheritedSettings BoolValue `json:"use_inherited_settings"`
+}
+
+// GetRedmineService gets Redmine service settings for a project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/integrations.html#get-redmine-settings
+func (s *ServicesService) GetRedmineService(pid interface{}, options ...RequestOptionFunc) (*RedmineService, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/integrations/redmine", PathEscape(project))
+
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	svc := new(RedmineService)
+	resp, err := s.client.Do(req, svc)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return svc, resp, nil
+}
+
+// SetRedmineServiceOptions represents the available SetRedmineService().
+// options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/integrations.html#set-up-redmine
+type SetRedmineServiceOptions struct {
+	NewIssueURL          *string `url:"new_issue_url,omitempty" json:"new_issue_url,omitempty"`
+	ProjectURL           *string `url:"project_url,omitempty" json:"project_url,omitempty"`
+	IssuesURL            *string `url:"issues_url,omitempty" json:"issues_url,omitempty"`
+	UseInheritedSettings *bool   `url:"use_inherited_settings,omitempty" json:"use_inherited_settings,omitempty"`
+}
+
+// SetRedmineService sets Redmine service for a project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/integrations.html#set-up-redmine
+func (s *ServicesService) SetRedmineService(pid interface{}, opt *SetRedmineServiceOptions, options ...RequestOptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/integrations/redmine", PathEscape(project))
+
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
+
+// DeleteRedmineService deletes Redmine service for project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/integrations.html#disable-redmine
+func (s *ServicesService) DeleteRedmineService(pid interface{}, options ...RequestOptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/integrations/redmine", PathEscape(project))
+
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
+
 // SlackService represents Slack service settings.
 //
 // GitLab API docs:
