@@ -61,6 +61,16 @@ type BasicUser struct {
 	WebURL    string     `json:"web_url"`
 }
 
+// ServiceAccount represents a GitLab service account.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/user_service_accounts.html
+type ServiceAccount struct {
+	ID       int    `json:"id"`
+	Username string `json:"username"`
+	Name     string `json:"name"`
+}
+
 // User represents a GitLab user.
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/users.html
@@ -1543,9 +1553,10 @@ func (s *UsersService) CreateUserRunner(opts *CreateUserRunnerOptions, options .
 	return r, resp, nil
 }
 
-// CreateServiceAccountUser creates a new service account user. Note only administrators can create new service account users.
+// CreateServiceAccountUser creates a new service account user.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/users.html#create-service-account-user
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/users.html#create-service-account-user
 func (s *UsersService) CreateServiceAccountUser(options ...RequestOptionFunc) (*User, *Response, error) {
 	req, err := s.client.NewRequest(http.MethodPost, "service_accounts", nil, options)
 	if err != nil {
@@ -1561,35 +1572,23 @@ func (s *UsersService) CreateServiceAccountUser(options ...RequestOptionFunc) (*
 	return usr, resp, nil
 }
 
-// ServiceAccount represents the available ServiceAccount options.
+// ListServiceAccounts lists all service accounts.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/user_service_accounts.html#list-all-service-account-users
-
-type ServiceAccount struct {
-	ID       int    `json:"id"`
-	Username string `json:"username"`
-	Name     string `json:"name"`
-}
-
-// ListServiceAccounts lists all service accounts. Note only administrators can list service accounts.
-//
-// GitLab API docs: https://docs.gitlab.com/ee/api/users.html#create-service-account-user
-
+// https://docs.gitlab.com/ee/api/users.html#create-service-account-user
 func (s *UsersService) ListServiceAccounts(opt *ListServiceAccountsOptions, options ...RequestOptionFunc) ([]*ServiceAccount, *Response, error) {
-
 	req, err := s.client.NewRequest(http.MethodGet, "service_accounts", opt, options)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	var serviceaccounts []*ServiceAccount
-	resp, err := s.client.Do(req, &serviceaccounts)
+	var sas []*ServiceAccount
+	resp, err := s.client.Do(req, &sas)
 	if err != nil {
 		return nil, resp, err
 	}
 
-	return serviceaccounts, resp, nil
+	return sas, resp, nil
 }
 
 // UploadAvatar uploads an avatar to the current user.
