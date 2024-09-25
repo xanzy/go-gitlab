@@ -84,6 +84,7 @@ type RunnerDetails struct {
 		Name   string `json:"name"`
 		WebURL string `json:"web_url"`
 	} `json:"groups"`
+	MaintenanceNote string `json:"maintenance_note"`
 
 	// Deprecated: Use Paused instead. (Deprecated in GitLab 14.8)
 	Active bool `json:"active"`
@@ -180,6 +181,7 @@ type UpdateRunnerDetailsOptions struct {
 	Locked         *bool     `url:"locked,omitempty" json:"locked,omitempty"`
 	AccessLevel    *string   `url:"access_level,omitempty" json:"access_level,omitempty"`
 	MaximumTimeout *int      `url:"maximum_timeout,omitempty" json:"maximum_timeout,omitempty"`
+	MaintenanceNote *string  `url:"maintenance_note,omitempty" json:"maintenance_note,omitempty"`
 
 	// Deprecated: Use Paused instead. (Deprecated in GitLab 14.8)
 	Active *bool `url:"active,omitempty" json:"active,omitempty"`
