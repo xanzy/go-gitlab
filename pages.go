@@ -19,10 +19,31 @@ package gitlab
 import (
 	"fmt"
 	"net/http"
+	"time"
 )
 
 type PagesService struct {
 	client *Client
+}
+
+// PagesDeployment represents a Pages deployment.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/pages.html
+type PagesDeployment struct {
+	CreatedAt     *time.Time `json:"created_at"`
+	URL           string     `json:"url"`
+	PathPrefix    *string    `json:"path_prefix"`
+	RootDirectory *string    `json:"root_directory"`
+}
+
+// Pages represents the Pages of a project.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/pages.html
+type Pages struct {
+	URL                   string            `json:"url"`
+	IsUniqueDomainEnabled bool              `json:"is_unique_domain_enabled"`
+	ForceHTTPS            bool              `json:"force_https"`
+	Deployments           []PagesDeployment `json:"deployments"`
 }
 
 // UnpublishPages unpublished pages. The user must have admin privileges.
@@ -42,4 +63,31 @@ func (s *PagesService) UnpublishPages(gid interface{}, options ...RequestOptionF
 	}
 
 	return s.client.Do(req, nil)
+}
+
+// GetPages lists Pages settings for a project. The user must have at least
+// maintainer privileges.
+//
+// GitLab API Docs:
+// https://docs.gitlab.com/ee/api/pages.html#get-pages-settings-for-a-project
+func (s *PagesService) GetPages(gid interface{}, options ...RequestOptionFunc) (*Pages, *Response, error) {
+	project, err := parseID(gid)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	u := fmt.Sprintf("projects/%s/pages", PathEscape(project))
+
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	p := new(Pages)
+	resp, err := s.client.Do(req, p)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return p, resp, nil
 }

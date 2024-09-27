@@ -17,8 +17,12 @@
 package gitlab
 
 import (
+	"fmt"
 	"net/http"
 	"testing"
+	"time"
+
+	"github.com/stretchr/testify/require"
 )
 
 func TestUnpublishPages(t *testing.T) {
@@ -32,4 +36,45 @@ func TestUnpublishPages(t *testing.T) {
 	if err != nil {
 		t.Errorf("Pages.UnpublishPages returned error: %v", err)
 	}
+}
+
+func TestGetPages(t *testing.T) {
+	mux, client := setup(t)
+	mux.HandleFunc("/api/v4/projects/2/pages", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		fmt.Fprint(w, `
+		  {
+			"url": "https://ssl.domain.example",
+			"deployments": [
+			  {
+				"created_at": "2021-04-27T21:27:38.584Z",
+				"url": "https://ssl.domain.example/",
+				"path_prefix": "",
+				"root_directory": null
+			  }
+			],
+			"is_unique_domain_enabled": false,
+			"force_https": false
+		  }
+		`)
+	})
+
+	want := &Pages{
+		URL:                   "https://ssl.domain.example",
+		IsUniqueDomainEnabled: false,
+		ForceHTTPS:            false,
+		Deployments: []PagesDeployment{
+			{
+				CreatedAt:     Ptr(time.Date(2021, time.April, 27, 21, 27, 38, 584000000, time.UTC)),
+				URL:           "https://ssl.domain.example/",
+				PathPrefix:    Ptr(""),
+				RootDirectory: nil,
+			},
+		},
+	}
+
+	p, resp, err := client.Pages.GetPages(2)
+	require.NoError(t, err)
+	require.NotNil(t, resp)
+	require.Equal(t, want, p)
 }
