@@ -60,6 +60,7 @@ type RunnerDetails struct {
 	IsShared     bool       `json:"is_shared"`
 	RunnerType   string     `json:"runner_type"`
 	ContactedAt  *time.Time `json:"contacted_at"`
+	MaintenanceNote string `json:"maintenance_note"`
 	Name         string     `json:"name"`
 	Online       bool       `json:"online"`
 	Status       string     `json:"status"`
@@ -180,6 +181,7 @@ type UpdateRunnerDetailsOptions struct {
 	Locked         *bool     `url:"locked,omitempty" json:"locked,omitempty"`
 	AccessLevel    *string   `url:"access_level,omitempty" json:"access_level,omitempty"`
 	MaximumTimeout *int      `url:"maximum_timeout,omitempty" json:"maximum_timeout,omitempty"`
+	MaintenanceNote *string  `url:"maintenance_note,omitempty" json:"maintenance_note,omitempty"`
 
 	// Deprecated: Use Paused instead. (Deprecated in GitLab 14.8)
 	Active *bool `url:"active,omitempty" json:"active,omitempty"`
