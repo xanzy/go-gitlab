@@ -60,6 +60,7 @@ type RunnerDetails struct {
 	IsShared     bool       `json:"is_shared"`
 	RunnerType   string     `json:"runner_type"`
 	ContactedAt  *time.Time `json:"contacted_at"`
+	MaintenanceNote string `json:"maintenance_note"`
 	Name         string     `json:"name"`
 	Online       bool       `json:"online"`
 	Status       string     `json:"status"`
@@ -84,7 +85,6 @@ type RunnerDetails struct {
 		Name   string `json:"name"`
 		WebURL string `json:"web_url"`
 	} `json:"groups"`
-	MaintenanceNote string `json:"maintenance_note"`
 
 	// Deprecated: Use Paused instead. (Deprecated in GitLab 14.8)
 	Active bool `json:"active"`
