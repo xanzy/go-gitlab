@@ -81,6 +81,51 @@ func TestListBillableGroupMembers(t *testing.T) {
 	assert.Equal(t, want, billableMembers, "Expected returned Groups.ListBillableGroupMembers to equal")
 }
 
+func TestListMembershipsForBillableGroupMember(t *testing.T) {
+	mux, client := setup(t)
+	mux.HandleFunc("/api/v4/groups/1/billable_members/42/memberships",
+		func(w http.ResponseWriter, r *http.Request) {
+			testMethod(t, r, http.MethodGet)
+			fmt.Fprint(w,
+				`[
+					{
+						"id":21,
+						"source_id":36,
+						"source_full_name":"Root Group / Test Group",
+						"source_members_url":"https://gitlab.example.com/groups/root-group/test-group/-/group_members",
+						"created_at":"2021-03-31T17:28:44.812Z",
+						"access_level": {
+							"string_value": "Developer",
+							"integer_value": 30
+						}
+					}
+				]`)
+		})
+
+	memberships, _, err := client.Groups.ListMembershipsForBillableGroupMember(1, 42)
+	if err != nil {
+		t.Errorf("Groups.ListMembershipsForBillableGroupMember returned error: %v", err)
+	}
+
+	createdAt, _ := time.Parse(time.RFC3339, "2021-03-31T17:28:44.812Z")
+
+	want := []*BillableUserMembership{
+		{
+			ID:               21,
+			SourceId:         36,
+			SourceFullName:   "Root Group / Test Group",
+			SourceMembersUrl: "https://gitlab.example.com/groups/root-group/test-group/-/group_members",
+			CreatedAt:        &createdAt,
+			ExpiresAt:        nil,
+			AccessLevel: &AccessLevelDetails{
+				ID:   30,
+				Name: "Developer",
+			},
+		},
+	}
+	assert.Equal(t, want, memberships, "Expected returned Groups.ListMembershipsForBillableGroupMember to equal")
+}
+
 func TestListGroupMembersWithoutEmail(t *testing.T) {
 	mux, client := setup(t)
 

@@ -239,6 +239,46 @@ func (s *GroupsService) ListBillableGroupMembers(gid interface{}, opt *ListBilla
 	return bgm, resp, nil
 }
 
+// BillableUserMembership represents a Membership of a billable user of a group
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/members.html#list-memberships-for-a-billable-member-of-a-group
+type BillableUserMembership struct {
+	ID               int                 `json:"id"`
+	SourceId         int                 `json:"source_id"`
+	SourceFullName   string              `json:"source_full_name"`
+	SourceMembersUrl string              `json:"source_members_url"`
+	CreatedAt        *time.Time          `json:"created_at,omitempty"`
+	ExpiresAt        *time.Time          `json:"expires_at,omitempty"`
+	AccessLevel      *AccessLevelDetails `json:"access_level,omitempty"`
+}
+
+// ListMembershipsForBillableGroupMember Gets a list of memberships for a billable member of a group.
+// Lists all projects and groups a user is a member of. Only projects and groups within the group hierarchy are included.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/members.html#list-memberships-for-a-billable-member-of-a-group
+func (s *GroupsService) ListMembershipsForBillableGroupMember(gid interface{}, user int, options ...RequestOptionFunc) ([]*BillableUserMembership, *Response, error) {
+	group, err := parseID(gid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("groups/%s/billable_members/%d/memberships", PathEscape(group), user)
+
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var bum []*BillableUserMembership
+	resp, err := s.client.Do(req, &bum)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return bum, resp, nil
+}
+
 // RemoveBillableGroupMember removes a given group members that count as billable.
 //
 // GitLab API docs:
