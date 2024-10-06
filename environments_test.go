@@ -183,23 +183,23 @@ func TestCreateEnvironment(t *testing.T) {
       "slug": "deploy",
       "external_url": "https://deploy.example.gitlab.com",
       "tier": "production",
-  	  "cluster_agent": {
-		"id": 1,
-		"name": "agent-1",
-		"config_project": {
-		  "id": 20,
-		  "description": "",
-		  "name": "test",
-		  "name_with_namespace": "Administrator / test",
-		  "path": "test",
-		  "path_with_namespace": "root/test",
-		  "created_at": "2013-10-02T10:12:29Z"
-		},
-		"created_at": "2013-10-02T10:12:29Z",
-		"created_by_user_id": 42
-	  },
-	  "kubernetes_namespace": "flux-system",
-	  "flux_resource_path": "HelmRelease/flux-system"
+      "cluster_agent": {
+        "id": 1,
+        "name": "agent-1",
+        "config_project": {
+          "id": 20,
+          "description": "",
+          "name": "test",
+          "name_with_namespace": "Administrator / test",
+          "path": "test",
+          "path_with_namespace": "root/test",
+          "created_at": "2013-10-02T10:12:29Z"
+        },
+        "created_at": "2013-10-02T10:12:29Z",
+        "created_by_user_id": 42
+      },
+      "kubernetes_namespace": "flux-system",
+      "flux_resource_path": "HelmRelease/flux-system"
     }`)
 	})
 
@@ -256,21 +256,21 @@ func TestEditEnvironment(t *testing.T) {
       "slug": "staging",
       "external_url": "https://staging.example.gitlab.com",
       "tier": "staging",
-  	  "cluster_agent": {
-		"id": 1,
-		"name": "agent-1",
-		"config_project": {
-		  "id": 20,
-		  "description": "",
-		  "name": "test",
-		  "name_with_namespace": "Administrator / test",
-		  "path": "test",
-		  "path_with_namespace": "root/test",
-		  "created_at": "2013-10-02T10:12:29Z"
-		},
-		"created_at": "2013-10-02T10:12:29Z",
-		"created_by_user_id": 42
-	  },
+      "cluster_agent": {
+        "id": 1,
+        "name": "agent-1",
+        "config_project": {
+          "id": 20,
+          "description": "",
+          "name": "test",
+          "name_with_namespace": "Administrator / test",
+          "path": "test",
+          "path_with_namespace": "root/test",
+          "created_at": "2013-10-02T10:12:29Z"
+        },
+        "created_at": "2013-10-02T10:12:29Z",
+        "created_by_user_id": 42
+    },
 	  "kubernetes_namespace": "flux-system",
 	  "flux_resource_path": "HelmRelease/flux-system"
     }`)
@@ -290,11 +290,11 @@ func TestEditEnvironment(t *testing.T) {
 
 	createdAtWant, _ := time.Parse(timeLayout, "2013-10-02T10:12:29Z")
 	want := &Environment{
-		ID: 1,
-		Name: "staging",
-		Slug: "staging",
+		ID:          1,
+		Name:        "staging",
+		Slug:        "staging",
 		ExternalURL: "https://staging.example.gitlab.com",
-		Tier: "staging",
+		Tier:        "staging",
 		ClusterAgent: &Agent{
 			ID:   1,
 			Name: "agent-1",
