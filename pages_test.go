@@ -63,12 +63,12 @@ func TestGetPages(t *testing.T) {
 		URL:                   "https://ssl.domain.example",
 		IsUniqueDomainEnabled: false,
 		ForceHTTPS:            false,
-		Deployments: []PagesDeployment{
+		Deployments: []*PagesDeployment{
 			{
-				CreatedAt:     Ptr(time.Date(2021, time.April, 27, 21, 27, 38, 584000000, time.UTC)),
+				CreatedAt:     time.Date(2021, time.April, 27, 21, 27, 38, 584000000, time.UTC),
 				URL:           "https://ssl.domain.example/",
-				PathPrefix:    Ptr(""),
-				RootDirectory: nil,
+				PathPrefix:    "",
+				RootDirectory: "",
 			},
 		},
 	}
