@@ -112,14 +112,13 @@ func TestListMembershipsForBillableGroupMember(t *testing.T) {
 	want := []*BillableUserMembership{
 		{
 			ID:               21,
-			SourceId:         36,
+			SourceID:         36,
 			SourceFullName:   "Root Group / Test Group",
-			SourceMembersUrl: "https://gitlab.example.com/groups/root-group/test-group/-/group_members",
+			SourceMembersURL: "https://gitlab.example.com/groups/root-group/test-group/-/group_members",
 			CreatedAt:        &createdAt,
-			ExpiresAt:        nil,
 			AccessLevel: &AccessLevelDetails{
-				ID:   30,
-				Name: "Developer",
+				IntegerValue: 30,
+				StringValue:  "Developer",
 			},
 		},
 	}

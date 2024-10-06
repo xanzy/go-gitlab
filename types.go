@@ -90,9 +90,8 @@ func AccessLevel(v AccessLevelValue) *AccessLevelValue {
 }
 
 type AccessLevelDetails struct {
-	ID         AccessLevelValue `json:"integer_value"`
-	Name       string           `json:"string_value"`
-	CustomRole string           `json:"custom_role,omitempty"`
+	IntegerValue AccessLevelValue `json:"integer_value"`
+	StringValue  string           `json:"string_value"`
 }
 
 // UserIDValue represents a user ID value within GitLab.

@@ -30,17 +30,6 @@ type GroupMembersService struct {
 	client *Client
 }
 
-// GroupMemberSAMLIdentity represents the SAML Identity link for the group member.
-//
-// GitLab API docs: https://docs.gitlab.com/ee/api/members.html#list-all-members-of-a-group-or-project
-// Gitlab MR for API change: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/20357
-// Gitlab MR for API Doc change: https://gitlab.com/gitlab-org/gitlab/-/merge_requests/25652
-type GroupMemberSAMLIdentity struct {
-	ExternUID      string `json:"extern_uid"`
-	Provider       string `json:"provider"`
-	SAMLProviderID int    `json:"saml_provider_id"`
-}
-
 // GroupMember represents a GitLab group member.
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/members.html
@@ -57,6 +46,50 @@ type GroupMember struct {
 	Email             string                   `json:"email,omitempty"`
 	GroupSAMLIdentity *GroupMemberSAMLIdentity `json:"group_saml_identity"`
 	MemberRole        *MemberRole              `json:"member_role"`
+}
+
+// GroupMemberSAMLIdentity represents the SAML Identity link for the group member.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/members.html#list-all-members-of-a-group-or-project
+type GroupMemberSAMLIdentity struct {
+	ExternUID      string `json:"extern_uid"`
+	Provider       string `json:"provider"`
+	SAMLProviderID int    `json:"saml_provider_id"`
+}
+
+// BillableGroupMember represents a GitLab billable group member.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/members.html#list-all-billable-members-of-a-group
+type BillableGroupMember struct {
+	ID             int        `json:"id"`
+	Username       string     `json:"username"`
+	Name           string     `json:"name"`
+	State          string     `json:"state"`
+	AvatarURL      string     `json:"avatar_url"`
+	WebURL         string     `json:"web_url"`
+	Email          string     `json:"email"`
+	LastActivityOn *ISOTime   `json:"last_activity_on"`
+	MembershipType string     `json:"membership_type"`
+	Removable      bool       `json:"removable"`
+	CreatedAt      *time.Time `json:"created_at"`
+	IsLastOwner    bool       `json:"is_last_owner"`
+	LastLoginAt    *time.Time `json:"last_login_at"`
+}
+
+// BillableUserMembership represents a Membership of a billable user of a group
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/members.html#list-memberships-for-a-billable-member-of-a-group
+type BillableUserMembership struct {
+	ID               int                 `json:"id"`
+	SourceID         int                 `json:"source_id"`
+	SourceFullName   string              `json:"source_full_name"`
+	SourceMembersURL string              `json:"source_members_url"`
+	CreatedAt        *time.Time          `json:"created_at"`
+	ExpiresAt        *time.Time          `json:"expires_at"`
+	AccessLevel      *AccessLevelDetails `json:"access_level"`
 }
 
 // ListGroupMembersOptions represents the available ListGroupMembers() and
@@ -184,25 +217,6 @@ func (s *GroupMembersService) GetInheritedGroupMember(gid interface{}, user int,
 	return gm, resp, err
 }
 
-// BillableGroupMember represents a GitLab billable group member.
-//
-// GitLab API docs: https://docs.gitlab.com/ee/api/members.html#list-all-billable-members-of-a-group
-type BillableGroupMember struct {
-	ID             int        `json:"id"`
-	Username       string     `json:"username"`
-	Name           string     `json:"name"`
-	State          string     `json:"state"`
-	AvatarURL      string     `json:"avatar_url"`
-	WebURL         string     `json:"web_url"`
-	Email          string     `json:"email"`
-	LastActivityOn *ISOTime   `json:"last_activity_on"`
-	MembershipType string     `json:"membership_type"`
-	Removable      bool       `json:"removable"`
-	CreatedAt      *time.Time `json:"created_at"`
-	IsLastOwner    bool       `json:"is_last_owner"`
-	LastLoginAt    *time.Time `json:"last_login_at"`
-}
-
 // ListBillableGroupMembersOptions represents the available ListBillableGroupMembers() options.
 //
 // GitLab API docs:
@@ -237,20 +251,6 @@ func (s *GroupsService) ListBillableGroupMembers(gid interface{}, opt *ListBilla
 	}
 
 	return bgm, resp, nil
-}
-
-// BillableUserMembership represents a Membership of a billable user of a group
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ee/api/members.html#list-memberships-for-a-billable-member-of-a-group
-type BillableUserMembership struct {
-	ID               int                 `json:"id"`
-	SourceId         int                 `json:"source_id"`
-	SourceFullName   string              `json:"source_full_name"`
-	SourceMembersUrl string              `json:"source_members_url"`
-	CreatedAt        *time.Time          `json:"created_at,omitempty"`
-	ExpiresAt        *time.Time          `json:"expires_at,omitempty"`
-	AccessLevel      *AccessLevelDetails `json:"access_level,omitempty"`
 }
 
 // ListMembershipsForBillableGroupMember Gets a list of memberships for a billable member of a group.
