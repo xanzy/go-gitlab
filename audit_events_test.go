@@ -20,7 +20,9 @@ func TestAuditEventsService_ListInstanceAuditEvents(t *testing.T) {
 				"author_id": 1,
 				"entity_id": 6,
 				"entity_type": "Project",
+				"event_name": "project_archived",
 				"details": {
+				  "event_name": "project_archived",
 				  "custom_message": "Project archived",
 				  "author_name": "Venkatesh Thalluri",
 				  "target_id": "flightjs/flight",
@@ -39,7 +41,9 @@ func TestAuditEventsService_ListInstanceAuditEvents(t *testing.T) {
 		AuthorID:   1,
 		EntityID:   6,
 		EntityType: "Project",
+		EventName:  "project_archived",
 		Details: AuditEventDetails{
+			EventName:     "project_archived",
 			CustomMessage: "Project archived",
 			AuthorName:    "Venkatesh Thalluri",
 			TargetID:      "flightjs/flight",
@@ -86,7 +90,9 @@ func TestAuditEventsService_GetInstanceAuditEvent(t *testing.T) {
 			"author_id": 1,
 			"entity_id": 6,
 			"entity_type": "Project",
+			"event_name": "project_archived",
 			"details": {
+			  "event_name": "project_archived",
 			  "custom_message": "Project archived",
 			  "author_name": "Venkatesh Thalluri",
 			  "target_id": "flightjs/flight",
@@ -103,8 +109,10 @@ func TestAuditEventsService_GetInstanceAuditEvent(t *testing.T) {
 		ID:         1,
 		AuthorID:   1,
 		EntityID:   6,
+		EventName:  "project_archived",
 		EntityType: "Project",
 		Details: AuditEventDetails{
+			EventName:     "project_archived",
 			CustomMessage: "Project archived",
 			AuthorName:    "Venkatesh Thalluri",
 			TargetID:      "flightjs/flight",
@@ -143,7 +151,9 @@ func TestAuditEventsService_ListGroupAuditEvents(t *testing.T) {
 				"author_id": 1,
 				"entity_id": 6,
 				"entity_type": "Group",
+			    "event_name": "group_archived",
 				"details": {
+			      "event_name": "group_archived",
 				  "custom_message": "Group archived",
 				  "author_name": "Venkatesh Thalluri",
 				  "target_id": "flightjs/flight",
@@ -162,7 +172,9 @@ func TestAuditEventsService_ListGroupAuditEvents(t *testing.T) {
 		AuthorID:   1,
 		EntityID:   6,
 		EntityType: "Group",
+		EventName:  "group_archived",
 		Details: AuditEventDetails{
+			EventName:     "group_archived",
 			CustomMessage: "Group archived",
 			AuthorName:    "Venkatesh Thalluri",
 			TargetID:      "flightjs/flight",
@@ -205,7 +217,9 @@ func TestAuditEventsService_GetGroupAuditEvent(t *testing.T) {
 			"author_id": 1,
 			"entity_id": 6,
 			"entity_type": "Group",
+			"event_name": "group_archived",
 			"details": {
+			  "event_name": "group_archived",
 			  "custom_message": "Group archived",
 			  "author_name": "Venkatesh Thalluri",
 			  "target_id": "flightjs/flight",
@@ -223,7 +237,9 @@ func TestAuditEventsService_GetGroupAuditEvent(t *testing.T) {
 		AuthorID:   1,
 		EntityID:   6,
 		EntityType: "Group",
+		EventName:  "group_archived",
 		Details: AuditEventDetails{
+			EventName:     "group_archived",
 			CustomMessage: "Group archived",
 			AuthorName:    "Venkatesh Thalluri",
 			TargetID:      "flightjs/flight",
@@ -267,7 +283,9 @@ func TestAuditEventsService_ListProjectAuditEvents(t *testing.T) {
 				"author_id": 1,
 				"entity_id": 6,
 				"entity_type": "Project",
+				"event_name": "project_archived",
 				"details": {
+				  "event_name": "project_archived",
 				  "custom_message": "Project archived",
 				  "author_name": "Venkatesh Thalluri",
 				  "target_id": "flightjs/flight",
@@ -286,7 +304,9 @@ func TestAuditEventsService_ListProjectAuditEvents(t *testing.T) {
 		AuthorID:   1,
 		EntityID:   6,
 		EntityType: "Project",
+		EventName:  "project_archived",
 		Details: AuditEventDetails{
+			EventName:     "project_archived",
 			CustomMessage: "Project archived",
 			AuthorName:    "Venkatesh Thalluri",
 			TargetID:      "flightjs/flight",
@@ -329,7 +349,9 @@ func TestAuditEventsService_GetProjectAuditEvent(t *testing.T) {
 			"author_id": 1,
 			"entity_id": 6,
 			"entity_type": "Project",
+			"event_name": "project_archived",
 			"details": {
+			  "event_name": "project_archived",
 			  "custom_message": "Project archived",
 			  "author_name": "Venkatesh Thalluri",
 			  "target_id": "flightjs/flight",
@@ -347,7 +369,9 @@ func TestAuditEventsService_GetProjectAuditEvent(t *testing.T) {
 		AuthorID:   1,
 		EntityID:   6,
 		EntityType: "Project",
+		EventName:  "project_archived",
 		Details: AuditEventDetails{
+			EventName:     "project_archived",
 			CustomMessage: "Project archived",
 			AuthorName:    "Venkatesh Thalluri",
 			TargetID:      "flightjs/flight",
