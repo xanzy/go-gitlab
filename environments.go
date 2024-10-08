@@ -37,6 +37,7 @@ type Environment struct {
 	ID                  int         `json:"id"`
 	Name                string      `json:"name"`
 	Slug                string      `json:"slug"`
+	Description         string      `json:"description"`
 	State               string      `json:"state"`
 	Tier                string      `json:"tier"`
 	ExternalURL         string      `json:"external_url"`
@@ -121,6 +122,7 @@ func (s *EnvironmentsService) GetEnvironment(pid interface{}, environment int, o
 // https://docs.gitlab.com/ee/api/environments.html#create-a-new-environment
 type CreateEnvironmentOptions struct {
 	Name                *string `url:"name,omitempty" json:"name,omitempty"`
+	Description         *string `url:"description,omitempty" json:"description,omitempty"`
 	ExternalURL         *string `url:"external_url,omitempty" json:"external_url,omitempty"`
 	Tier                *string `url:"tier,omitempty" json:"tier,omitempty"`
 	ClusterAgentID      *int    `url:"cluster_agent_id,omitempty" json:"cluster_agent_id,omitempty"`
@@ -162,6 +164,7 @@ func (s *EnvironmentsService) CreateEnvironment(pid interface{}, opt *CreateEnvi
 // https://docs.gitlab.com/ee/api/environments.html#update-an-existing-environment
 type EditEnvironmentOptions struct {
 	Name                *string `url:"name,omitempty" json:"name,omitempty"`
+	Description         *string `url:"description,omitempty" json:"description,omitempty"`
 	ExternalURL         *string `url:"external_url,omitempty" json:"external_url,omitempty"`
 	Tier                *string `url:"tier,omitempty" json:"tier,omitempty"`
 	ClusterAgentID      *int    `url:"cluster_agent_id,omitempty" json:"cluster_agent_id,omitempty"`

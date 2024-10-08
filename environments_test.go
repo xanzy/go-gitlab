@@ -38,6 +38,7 @@ func TestListEnvironments(t *testing.T) {
 			{
 				"id": 1,
 				"name": "review/fix-foo",
+				"description": "test",
 				"slug": "review-fix-foo-dfjre3",
 				"external_url": "https://review-fix-foo-dfjre3.example.gitlab.com",
 				"state": "stopped",
@@ -75,6 +76,7 @@ func TestListEnvironments(t *testing.T) {
 		ID:          1,
 		Name:        "review/fix-foo",
 		Slug:        "review-fix-foo-dfjre3",
+		Description: "test",
 		ExternalURL: "https://review-fix-foo-dfjre3.example.gitlab.com",
 		State:       "stopped",
 		CreatedAt:   &createdAtWant,
@@ -109,6 +111,7 @@ func TestGetEnvironment(t *testing.T) {
 		fmt.Fprint(w, `{
 			"id": 1,
 			"name": "review/fix-foo",
+			"description": "test",
 			"slug": "review-fix-foo-dfjre3",
 			"external_url": "https://review-fix-foo-dfjre3.example.gitlab.com",
 			"state": "stopped",
@@ -145,6 +148,7 @@ func TestGetEnvironment(t *testing.T) {
 		ID:          1,
 		Name:        "review/fix-foo",
 		Slug:        "review-fix-foo-dfjre3",
+		Description: "test",
 		ExternalURL: "https://review-fix-foo-dfjre3.example.gitlab.com",
 		State:       "stopped",
 		CreatedAt:   &createdAtWant,
@@ -180,6 +184,7 @@ func TestCreateEnvironment(t *testing.T) {
 		fmt.Fprint(w, `{
       "id": 1,
       "name": "deploy",
+	  "description": "test",
       "slug": "deploy",
       "external_url": "https://deploy.example.gitlab.com",
       "tier": "production",
@@ -205,6 +210,7 @@ func TestCreateEnvironment(t *testing.T) {
 
 	envs, _, err := client.Environments.CreateEnvironment(1, &CreateEnvironmentOptions{
 		Name:                Ptr("deploy"),
+		Description:         Ptr("test"),
 		ExternalURL:         Ptr("https://deploy.example.gitlab.com"),
 		Tier:                Ptr("production"),
 		ClusterAgentID:      Ptr(1),
@@ -220,6 +226,7 @@ func TestCreateEnvironment(t *testing.T) {
 		ID:          1,
 		Name:        "deploy",
 		Slug:        "deploy",
+		Description: "test",
 		ExternalURL: "https://deploy.example.gitlab.com",
 		Tier:        "production",
 		ClusterAgent: &Agent{
@@ -253,6 +260,7 @@ func TestEditEnvironment(t *testing.T) {
 		fmt.Fprint(w, `{
       "id": 1,
       "name": "staging",
+	  "description": "test",
       "slug": "staging",
       "external_url": "https://staging.example.gitlab.com",
       "tier": "staging",
@@ -278,6 +286,7 @@ func TestEditEnvironment(t *testing.T) {
 
 	envs, _, err := client.Environments.EditEnvironment(1, 1, &EditEnvironmentOptions{
 		Name:                Ptr("staging"),
+		Description:         Ptr("test"),
 		ExternalURL:         Ptr("https://staging.example.gitlab.com"),
 		Tier:                Ptr("staging"),
 		ClusterAgentID:      Ptr(1),
@@ -293,6 +302,7 @@ func TestEditEnvironment(t *testing.T) {
 		ID:          1,
 		Name:        "staging",
 		Slug:        "staging",
+		Description: "test",
 		ExternalURL: "https://staging.example.gitlab.com",
 		Tier:        "staging",
 		ClusterAgent: &Agent{
@@ -356,6 +366,7 @@ func TestUnmarshal(t *testing.T) {
     {
         "id": 10,
         "name": "production",
+		"description": "test",
         "slug": "production",
         "external_url": "https://example.com",
         "project": {
@@ -396,6 +407,7 @@ func TestUnmarshal(t *testing.T) {
 	if assert.NoError(t, err) {
 		assert.Equal(t, 10, env.ID)
 		assert.Equal(t, "production", env.Name)
+		assert.Equal(t, "test", env.Description)
 		assert.Equal(t, "https://example.com", env.ExternalURL)
 		assert.Equal(t, "available", env.State)
 		if assert.NotNil(t, env.Project) {
