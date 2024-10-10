@@ -46,6 +46,7 @@ type Group struct {
 	MembershipLock                  bool            `json:"membership_lock"`
 	Visibility                      VisibilityValue `json:"visibility"`
 	LFSEnabled                      bool            `json:"lfs_enabled"`
+	DefaultBranch                   string          `json:"default_branch"`
 	DefaultBranchProtectionDefaults struct {
 		AllowedToPush           []*GroupAccessLevel `json:"allowed_to_push"`
 		AllowForcePush          bool                `json:"allow_force_push"`
@@ -358,6 +359,7 @@ type CreateGroupOptions struct {
 	Name                            *string                                 `url:"name,omitempty" json:"name,omitempty"`
 	Path                            *string                                 `url:"path,omitempty" json:"path,omitempty"`
 	Avatar                          *GroupAvatar                            `url:"-" json:"-"`
+	DefaultBranch                   *string                                 `url:"default_branch,omitempty" json:"default_branch,omitempty"`
 	Description                     *string                                 `url:"description,omitempty" json:"description,omitempty"`
 	MembershipLock                  *bool                                   `url:"membership_lock,omitempty" json:"membership_lock,omitempty"`
 	Visibility                      *VisibilityValue                        `url:"visibility,omitempty" json:"visibility,omitempty"`
@@ -502,6 +504,7 @@ type UpdateGroupOptions struct {
 	Name                                 *string                                 `url:"name,omitempty" json:"name,omitempty"`
 	Path                                 *string                                 `url:"path,omitempty" json:"path,omitempty"`
 	Avatar                               *GroupAvatar                            `url:"-" json:"avatar,omitempty"`
+	DefaultBranch                        *string                                 `url:"default_branch,omitempty" json:"default_branch,omitempty"`
 	Description                          *string                                 `url:"description,omitempty" json:"description,omitempty"`
 	MembershipLock                       *bool                                   `url:"membership_lock,omitempty" json:"membership_lock,omitempty"`
 	Visibility                           *VisibilityValue                        `url:"visibility,omitempty" json:"visibility,omitempty"`
