@@ -813,7 +813,7 @@ func (s *ServicesService) GetHarborService(pid interface{}, options ...RequestOp
 	return svc, resp, nil
 }
 
-// SetHarborServiceOptions represents the available SetHarborService().
+// SetHarborServiceOptions represents the available SetHarborService()
 // options.
 //
 // GitLab API docs:
