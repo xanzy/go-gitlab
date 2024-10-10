@@ -823,7 +823,7 @@ type SetHarborServiceOptions struct {
 	ProjectName          *string `url:"project_name,omitempty" json:"project_name,omitempty"`
 	Username             *string `url:"username,omitempty" json:"username,omitempty"`
 	Password             *string `url:"password,omitempty" json:"password,omitempty"`
-	UseInheritedSettings *bool   `url:"use_inherited_settings" json:"use_inherited_settings"`
+	UseInheritedSettings *bool   `url:"use_inherited_settings,omitempty" json:"use_inherited_settings,omitempty"`
 }
 
 // SetHarborService sets Harbor service for a project.
