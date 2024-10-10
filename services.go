@@ -781,11 +781,11 @@ type HarborService struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/integrations.html#harbor
 type HarborServiceProperties struct {
-	URL                  string    `json:"url"`
-	ProjectName          string    `json:"project_name"`
-	Username             string    `json:"username"`
-	Password             string    `json:"password"`
-	UseInheritedSettings BoolValue `json:"use_inherited_settings"`
+	URL                  string `json:"url"`
+	ProjectName          string `json:"project_name"`
+	Username             string `json:"username"`
+	Password             string `json:"password"`
+	UseInheritedSettings bool   `json:"use_inherited_settings"`
 }
 
 // GetHarborService gets Harbor service settings for a project.
