@@ -38,7 +38,7 @@ func TestGetGroup(t *testing.T) {
 	mux.HandleFunc("/api/v4/groups/g",
 		func(w http.ResponseWriter, r *http.Request) {
 			testMethod(t, r, http.MethodGet)
-			fmt.Fprint(w, `{"id": 1, "name": "g"}`)
+			fmt.Fprint(w, `{"id": 1, "name": "g", "default_branch": "branch"}`)
 		})
 
 	group, _, err := client.Groups.GetGroup("g", &GetGroupOptions{})
@@ -46,7 +46,7 @@ func TestGetGroup(t *testing.T) {
 		t.Errorf("Groups.GetGroup returned error: %v", err)
 	}
 
-	want := &Group{ID: 1, Name: "g"}
+	want := &Group{ID: 1, Name: "g", DefaultBranch: "branch"}
 	if !reflect.DeepEqual(want, group) {
 		t.Errorf("Groups.GetGroup returned %+v, want %+v", group, want)
 	}
@@ -92,6 +92,32 @@ func TestCreateGroup(t *testing.T) {
 	}
 
 	want := &Group{ID: 1, Name: "g", Path: "g"}
+	if !reflect.DeepEqual(want, group) {
+		t.Errorf("Groups.CreateGroup returned %+v, want %+v", group, want)
+	}
+}
+
+func TestCreateGroupWithDefaultBranch(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/groups",
+		func(w http.ResponseWriter, r *http.Request) {
+			testMethod(t, r, http.MethodPost)
+			fmt.Fprint(w, `{"id": 1, "name": "g", "path": "g", "default_branch": "branch"}`)
+		})
+
+	opt := &CreateGroupOptions{
+		Name:          Ptr("g"),
+		Path:          Ptr("g"),
+		DefaultBranch: Ptr("branch"),
+	}
+
+	group, _, err := client.Groups.CreateGroup(opt, nil)
+	if err != nil {
+		t.Errorf("Groups.CreateGroup returned error: %v", err)
+	}
+
+	want := &Group{ID: 1, Name: "g", Path: "g", DefaultBranch: "branch"}
 	if !reflect.DeepEqual(want, group) {
 		t.Errorf("Groups.CreateGroup returned %+v, want %+v", group, want)
 	}
@@ -321,6 +347,30 @@ func TestUpdateGroup(t *testing.T) {
 	}
 
 	want := &Group{ID: 1}
+	if !reflect.DeepEqual(want, group) {
+		t.Errorf("Groups.UpdatedGroup returned %+v, want %+v", group, want)
+	}
+}
+
+func TestUpdateGroupWithDefaultBranch(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/groups/1",
+		func(w http.ResponseWriter, r *http.Request) {
+			testMethod(t, r, http.MethodPut)
+			fmt.Fprint(w, `{"id": 1, "default_branch": "branch"}`)
+		})
+
+	opt := &UpdateGroupOptions{
+		DefaultBranch: Ptr("branch"),
+	}
+
+	group, _, err := client.Groups.UpdateGroup(1, opt)
+	if err != nil {
+		t.Errorf("Groups.UpdateGroup returned error: %v", err)
+	}
+
+	want := &Group{ID: 1, DefaultBranch: "branch"}
 	if !reflect.DeepEqual(want, group) {
 		t.Errorf("Groups.UpdatedGroup returned %+v, want %+v", group, want)
 	}
