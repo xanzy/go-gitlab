@@ -353,10 +353,11 @@ func TestSetHarborService(t *testing.T) {
 	})
 
 	opt := &SetHarborServiceOptions{
-		URL:         Ptr("url"),
-		ProjectName: Ptr("project"),
-		Username:    Ptr("user"),
-		Password:    Ptr("pass"),
+		URL:                  Ptr("url"),
+		ProjectName:          Ptr("project"),
+		Username:             Ptr("user"),
+		Password:             Ptr("pass"),
+		UseInheritedSettings: Ptr(false),
 	}
 
 	_, err := client.Services.SetHarborService(1, opt)
