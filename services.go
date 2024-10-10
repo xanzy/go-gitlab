@@ -767,6 +767,103 @@ func (s *ServicesService) DeleteGithubService(pid interface{}, options ...Reques
 	return s.client.Do(req, nil)
 }
 
+// HarborService represents the Harbor service settings.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/integrations.html#harbor
+type HarborService struct {
+	Service
+	Properties *HarborServiceProperties `json:"properties"`
+}
+
+// HarborServiceProperties represents Harbor specific properties.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/integrations.html#harbor
+type HarborServiceProperties struct {
+	URL                  string `json:"url"`
+	ProjectName          string `json:"project_name"`
+	Username             string `json:"username"`
+	Password             string `json:"password"`
+	UseInheritedSettings bool   `json:"use_inherited_settings"`
+}
+
+// GetHarborService gets Harbor service settings for a project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/integrations.html#get-harbor-settings
+func (s *ServicesService) GetHarborService(pid interface{}, options ...RequestOptionFunc) (*HarborService, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/integrations/harbor", PathEscape(project))
+
+	req, err := s.client.NewRequest(http.MethodGet, u, nil, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	svc := new(HarborService)
+	resp, err := s.client.Do(req, svc)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return svc, resp, nil
+}
+
+// SetHarborServiceOptions represents the available SetHarborService()
+// options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/integrations.html#set-up-harbor
+type SetHarborServiceOptions struct {
+	URL                  *string `url:"url,omitempty" json:"url,omitempty"`
+	ProjectName          *string `url:"project_name,omitempty" json:"project_name,omitempty"`
+	Username             *string `url:"username,omitempty" json:"username,omitempty"`
+	Password             *string `url:"password,omitempty" json:"password,omitempty"`
+	UseInheritedSettings *bool   `url:"use_inherited_settings,omitempty" json:"use_inherited_settings,omitempty"`
+}
+
+// SetHarborService sets Harbor service for a project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/integrations.html#set-up-harbor
+func (s *ServicesService) SetHarborService(pid interface{}, opt *SetHarborServiceOptions, options ...RequestOptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/integrations/harbor", PathEscape(project))
+
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
+
+// DeleteHarborService deletes Harbor service for a project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/integrations.html#disable-harbor
+func (s *ServicesService) DeleteHarborService(pid interface{}, options ...RequestOptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/integrations/harbor", PathEscape(project))
+
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
+
 // SlackApplication represents GitLab for slack application settings.
 //
 // GitLab API docs:

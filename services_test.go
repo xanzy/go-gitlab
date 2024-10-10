@@ -327,6 +327,58 @@ func TestDeleteEmailsOnPushService(t *testing.T) {
 	}
 }
 
+func TestGetHarborService(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/projects/1/integrations/harbor", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		fmt.Fprint(w, `{"id":1}`)
+	})
+	want := &HarborService{Service: Service{ID: 1}}
+
+	service, _, err := client.Services.GetHarborService(1)
+	if err != nil {
+		t.Fatalf("Services.GetHarborService returns an error: %v", err)
+	}
+	if !reflect.DeepEqual(want, service) {
+		t.Errorf("Services.GetHarborService returned %+v, want %+v", service, want)
+	}
+}
+
+func TestSetHarborService(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/projects/1/integrations/harbor", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPut)
+	})
+
+	opt := &SetHarborServiceOptions{
+		URL:                  Ptr("url"),
+		ProjectName:          Ptr("project"),
+		Username:             Ptr("user"),
+		Password:             Ptr("pass"),
+		UseInheritedSettings: Ptr(false),
+	}
+
+	_, err := client.Services.SetHarborService(1, opt)
+	if err != nil {
+		t.Fatalf("Services.SetHarborService returns an error: %v", err)
+	}
+}
+
+func TestDeleteHarborService(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/projects/1/integrations/harbor", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodDelete)
+	})
+
+	_, err := client.Services.DeleteHarborService(1)
+	if err != nil {
+		t.Fatalf("Services.DeleteHarborService returns an error: %v", err)
+	}
+}
+
 func TestGetSlackApplication(t *testing.T) {
 	mux, client := setup(t)
 
