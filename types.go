@@ -261,6 +261,29 @@ func BuildState(v BuildStateValue) *BuildStateValue {
 	return Ptr(v)
 }
 
+// EventAction defines a constant string identifying the possible `action` values
+// of the various GitLab event webhook payloads.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/user/project/integrations/webhook_events.html#comment-events
+type EventAction string
+
+const (
+	EventActionApproval   EventAction = "approval"
+	EventActionApproved   EventAction = "approved"
+	EventActionAward      EventAction = "award"
+	EventActionClose      EventAction = "close"
+	EventActionCreate     EventAction = "create"
+	EventActionDelete     EventAction = "delete"
+	EventActionMerge      EventAction = "merge"
+	EventActionOpen       EventAction = "open"
+	EventActionReopen     EventAction = "reopen"
+	EventActionRevoke     EventAction = "revoke"
+	EventActionUnapproval EventAction = "unapproval"
+	EventActionUnapproved EventAction = "unapproved"
+	EventActionUpdate     EventAction = "update"
+)
+
 // CommentEventAction identifies if a comment has been newly created or updated.
 //
 // GitLab API docs:
@@ -268,8 +291,8 @@ func BuildState(v BuildStateValue) *BuildStateValue {
 type CommentEventAction string
 
 const (
-	CommentEventActionCreate CommentEventAction = "create"
-	CommentEventActionUpdate CommentEventAction = "update"
+	CommentEventActionCreate CommentEventAction = CommentEventAction(EventActionCreate)
+	CommentEventActionUpdate CommentEventAction = CommentEventAction(EventActionUpdate)
 )
 
 // ContainerRegistryStatus represents the status of a Container Registry.
