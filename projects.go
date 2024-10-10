@@ -26,6 +26,11 @@ import (
 	"github.com/hashicorp/go-retryablehttp"
 )
 
+var (
+	UserContributedProjectsEndpoint = "users/%s/contributed_projects"
+	UserStarredProjectsEndpoint     = "users/%s/starred_projects"
+)
+
 // ProjectsService handles communication with the repositories related methods
 // of the GitLab API.
 //
@@ -410,7 +415,7 @@ func (s *ProjectsService) ListUserContributedProjects(uid interface{}, opt *List
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("users/%s/contributed_projects", user)
+	u := fmt.Sprintf(UserContributedProjectsEndpoint, user)
 
 	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
@@ -435,7 +440,7 @@ func (s *ProjectsService) ListUserStarredProjects(uid interface{}, opt *ListProj
 	if err != nil {
 		return nil, nil, err
 	}
-	u := fmt.Sprintf("users/%s/starred_projects", user)
+	u := fmt.Sprintf(UserStarredProjectsEndpoint, user)
 
 	req, err := s.client.NewRequest(http.MethodGet, u, opt, options)
 	if err != nil {
