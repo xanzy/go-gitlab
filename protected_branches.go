@@ -56,6 +56,7 @@ type BranchAccessDescription struct {
 	AccessLevelDescription string           `json:"access_level_description"`
 	UserID                 int              `json:"user_id"`
 	GroupID                int              `json:"group_id"`
+	DeployKeyID            int              `json:"deploy_key_id"`
 }
 
 // ListProtectedBranchesOptions represents the available ListProtectedBranches()
