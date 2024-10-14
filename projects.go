@@ -1282,8 +1282,8 @@ type ProjectHook struct {
 	DeploymentEvents          bool                `json:"deployment_events"`
 	ReleasesEvents            bool                `json:"releases_events"`
 	EnableSSLVerification     bool                `json:"enable_ssl_verification"`
-	CreatedAt                 *time.Time          `json:"created_at"`
 	AlertStatus               string              `json:"alert_status"`
+	CreatedAt                 *time.Time          `json:"created_at"`
 	ResourceAccessTokenEvents bool                `json:"resource_access_token_events"`
 	CustomWebhookTemplate     string              `json:"custom_webhook_template"`
 	CustomHeaders             []*HookCustomHeader `json:"custom_headers"`
