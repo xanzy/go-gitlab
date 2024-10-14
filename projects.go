@@ -66,6 +66,7 @@ type Project struct {
 	ContainerRegistryAccessLevel              AccessControlValue         `json:"container_registry_access_level"`
 	ContainerRegistryImagePrefix              string                     `json:"container_registry_image_prefix,omitempty"`
 	CreatedAt                                 *time.Time                 `json:"created_at,omitempty"`
+	UpdatedAt                                 *time.Time                 `json:"updated_at,omitempty"`
 	LastActivityAt                            *time.Time                 `json:"last_activity_at,omitempty"`
 	CreatorID                                 int                        `json:"creator_id"`
 	Namespace                                 *ProjectNamespace          `json:"namespace"`
