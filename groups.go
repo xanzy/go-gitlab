@@ -39,43 +39,38 @@ type GroupsService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/groups.html
 type Group struct {
-	ID                              int             `json:"id"`
-	Name                            string          `json:"name"`
-	Path                            string          `json:"path"`
-	Description                     string          `json:"description"`
-	MembershipLock                  bool            `json:"membership_lock"`
-	Visibility                      VisibilityValue `json:"visibility"`
-	LFSEnabled                      bool            `json:"lfs_enabled"`
-	DefaultBranch                   string          `json:"default_branch"`
-	DefaultBranchProtectionDefaults struct {
-		AllowedToPush           []*GroupAccessLevel `json:"allowed_to_push"`
-		AllowForcePush          bool                `json:"allow_force_push"`
-		AllowedToMerge          []*GroupAccessLevel `json:"allowed_to_merge"`
-		DeveloperCanInitialPush bool                `json:"developer_can_initial_push"`
-	} `json:"default_branch_protection_defaults"`
-	AvatarURL             string                     `json:"avatar_url"`
-	WebURL                string                     `json:"web_url"`
-	RequestAccessEnabled  bool                       `json:"request_access_enabled"`
-	RepositoryStorage     string                     `json:"repository_storage"`
-	FullName              string                     `json:"full_name"`
-	FullPath              string                     `json:"full_path"`
-	FileTemplateProjectID int                        `json:"file_template_project_id"`
-	ParentID              int                        `json:"parent_id"`
-	Projects              []*Project                 `json:"projects"`
-	Statistics            *Statistics                `json:"statistics"`
-	CustomAttributes      []*CustomAttribute         `json:"custom_attributes"`
-	ShareWithGroupLock    bool                       `json:"share_with_group_lock"`
-	RequireTwoFactorAuth  bool                       `json:"require_two_factor_authentication"`
-	TwoFactorGracePeriod  int                        `json:"two_factor_grace_period"`
-	ProjectCreationLevel  ProjectCreationLevelValue  `json:"project_creation_level"`
-	AutoDevopsEnabled     bool                       `json:"auto_devops_enabled"`
-	SubGroupCreationLevel SubGroupCreationLevelValue `json:"subgroup_creation_level"`
-	EmailsEnabled         bool                       `json:"emails_enabled"`
-	MentionsDisabled      bool                       `json:"mentions_disabled"`
-	RunnersToken          string                     `json:"runners_token"`
-	SharedProjects        []*Project                 `json:"shared_projects"`
-	SharedRunnersSetting  SharedRunnersSettingValue  `json:"shared_runners_setting"`
-	SharedWithGroups      []struct {
+	ID                              int                        `json:"id"`
+	Name                            string                     `json:"name"`
+	Path                            string                     `json:"path"`
+	Description                     string                     `json:"description"`
+	MembershipLock                  bool                       `json:"membership_lock"`
+	Visibility                      VisibilityValue            `json:"visibility"`
+	LFSEnabled                      bool                       `json:"lfs_enabled"`
+	DefaultBranch                   string                     `json:"default_branch"`
+	DefaultBranchProtectionDefaults *BranchProtectionDefaults  `json:"default_branch_protection_defaults"`
+	AvatarURL                       string                     `json:"avatar_url"`
+	WebURL                          string                     `json:"web_url"`
+	RequestAccessEnabled            bool                       `json:"request_access_enabled"`
+	RepositoryStorage               string                     `json:"repository_storage"`
+	FullName                        string                     `json:"full_name"`
+	FullPath                        string                     `json:"full_path"`
+	FileTemplateProjectID           int                        `json:"file_template_project_id"`
+	ParentID                        int                        `json:"parent_id"`
+	Projects                        []*Project                 `json:"projects"`
+	Statistics                      *Statistics                `json:"statistics"`
+	CustomAttributes                []*CustomAttribute         `json:"custom_attributes"`
+	ShareWithGroupLock              bool                       `json:"share_with_group_lock"`
+	RequireTwoFactorAuth            bool                       `json:"require_two_factor_authentication"`
+	TwoFactorGracePeriod            int                        `json:"two_factor_grace_period"`
+	ProjectCreationLevel            ProjectCreationLevelValue  `json:"project_creation_level"`
+	AutoDevopsEnabled               bool                       `json:"auto_devops_enabled"`
+	SubGroupCreationLevel           SubGroupCreationLevelValue `json:"subgroup_creation_level"`
+	EmailsEnabled                   bool                       `json:"emails_enabled"`
+	MentionsDisabled                bool                       `json:"mentions_disabled"`
+	RunnersToken                    string                     `json:"runners_token"`
+	SharedProjects                  []*Project                 `json:"shared_projects"`
+	SharedRunnersSetting            SharedRunnersSettingValue  `json:"shared_runners_setting"`
+	SharedWithGroups                []struct {
 		GroupID          int      `json:"group_id"`
 		GroupName        string   `json:"group_name"`
 		GroupFullPath    string   `json:"group_full_path"`
@@ -99,6 +94,17 @@ type Group struct {
 
 	// Deprecated: Use DefaultBranchProtectionDefaults instead
 	DefaultBranchProtection int `json:"default_branch_protection"`
+}
+
+// BranchProtectionDefaults represents default Git protected branch permissions.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/groups.html#options-for-default_branch_protection_defaults
+type BranchProtectionDefaults struct {
+	AllowedToPush           []*GroupAccessLevel `json:"allowed_to_push,omitempty"`
+	AllowForcePush          bool                `json:"allow_force_push,omitempty"`
+	AllowedToMerge          []*GroupAccessLevel `json:"allowed_to_merge,omitempty"`
+	DeveloperCanInitialPush bool                `json:"developer_can_initial_push,omitempty"`
 }
 
 // GroupAccessLevel represents default branch protection defaults access levels.
