@@ -1489,6 +1489,85 @@ func TestProjectModelsOptionalMergeAttribute(t *testing.T) {
 	assert.False(t, strings.Contains(string(jsonString), "only_allow_merge_if_all_status_checks_passed"))
 }
 
+func TestListProjectHooks(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/projects/1/hooks", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodGet)
+		fmt.Fprint(w, `[
+	{
+		"id": 1,
+		"url": "http://example.com/hook",
+		"confidential_note_events": true,
+		"project_id": 1,
+		"push_events": true,
+		"push_events_branch_filter": "main",
+		"issues_events": true,
+		"confidential_issues_events": true,
+		"merge_requests_events": true,
+		"tag_push_events": true,
+		"note_events": true,
+		"job_events": true,
+		"pipeline_events": true,
+		"wiki_page_events": true,
+		"deployment_events": true,
+		"releases_events": true,
+		"enable_ssl_verification": true,
+		"alert_status": "executable",
+		"created_at": "2024-10-13T13:37:00Z",
+		"resource_access_token_events": true,
+		"custom_webhook_template": "my custom template",
+		"custom_headers": [
+			{"key": "Authorization"},
+			{"key": "OtherHeader"}
+		]
+	}
+]`)
+	})
+
+	hooks, _, err := client.Projects.ListProjectHooks(1, nil)
+	if err != nil {
+		t.Errorf("Projects.ListProjectHooks returned error: %v", err)
+	}
+
+	createdAt := time.Date(2024, 10, 13, 13, 37, 0, 0, time.UTC)
+	want := []*ProjectHook{{
+		ID:                        1,
+		URL:                       "http://example.com/hook",
+		ConfidentialNoteEvents:    true,
+		ProjectID:                 1,
+		PushEvents:                true,
+		PushEventsBranchFilter:    "main",
+		IssuesEvents:              true,
+		ConfidentialIssuesEvents:  true,
+		MergeRequestsEvents:       true,
+		TagPushEvents:             true,
+		NoteEvents:                true,
+		JobEvents:                 true,
+		PipelineEvents:            true,
+		WikiPageEvents:            true,
+		DeploymentEvents:          true,
+		ReleasesEvents:            true,
+		EnableSSLVerification:     true,
+		CreatedAt:                 &createdAt,
+		AlertStatus:               "executable",
+		ResourceAccessTokenEvents: true,
+		CustomWebhookTemplate:     "my custom template",
+		CustomHeaders: []*HookCustomHeader{
+			{
+				Key: "Authorization",
+			},
+			{
+				Key: "OtherHeader",
+			},
+		},
+	}}
+
+	if !reflect.DeepEqual(hooks, want) {
+		t.Errorf("Projects.ListProjectHooks returned \ngot:\n%v\nwant:\n%v", Stringify(hooks), Stringify(want))
+	}
+}
+
 // Test that the "CustomWebhookTemplate" serializes properly
 func TestProjectAddWebhook_CustomTemplateStuff(t *testing.T) {
 	mux, client := setup(t)
