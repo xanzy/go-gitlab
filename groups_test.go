@@ -186,14 +186,19 @@ func TestCreateGroupDefaultBranchSettings(t *testing.T) {
 		ID:   1,
 		Name: "g",
 		Path: "g",
+		DefaultBranchProtectionDefaults: &BranchProtectionDefaults{
+			AllowedToMerge: []*GroupAccessLevel{
+				{
+					AccessLevel: Ptr(MaintainerPermissions),
+				},
+			},
+			AllowedToPush: []*GroupAccessLevel{
+				{
+					AccessLevel: Ptr(MaintainerPermissions),
+				},
+			},
+		},
 	}
-	want.DefaultBranchProtectionDefaults.AllowForcePush = false
-	want.DefaultBranchProtectionDefaults.AllowedToMerge = []*GroupAccessLevel{{
-		AccessLevel: Ptr(MaintainerPermissions),
-	}}
-	want.DefaultBranchProtectionDefaults.AllowedToPush = []*GroupAccessLevel{{
-		AccessLevel: Ptr(MaintainerPermissions),
-	}}
 
 	if !reflect.DeepEqual(want, group) {
 		t.Errorf("Groups.CreateGroup returned %+v, want %+v", group, want)
