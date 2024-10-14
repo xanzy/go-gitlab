@@ -35,12 +35,31 @@ func TestListProtectedBranches(t *testing.T) {
 		"push_access_levels":[{
 			"id":1,
 			"access_level":40,
-			"access_level_description":"Maintainers"
+			"access_level_description":"Maintainers",
+			"deploy_key_id":null,
+			"user_id":null,
+			"group_id":null
+		},{
+			"id":2,
+			"access_level":30,
+			"access_level_description":"User name",
+			"deploy_key_id":null,
+			"user_id":123,
+			"group_id":null
+		},{
+			"id":3,
+			"access_level":40,
+			"access_level_description":"deploy key",
+			"deploy_key_id":456,
+			"user_id":null,
+			"group_id":null
 		}],
 		"merge_access_levels":[{
 			"id":1,
 			"access_level":40,
-			"access_level_description":"Maintainers"
+			"access_level_description":"Maintainers",
+			"user_id":null,
+			"group_id":null
 		}],
 		"code_owner_approval_required":false
 	}
@@ -60,6 +79,18 @@ func TestListProtectedBranches(t *testing.T) {
 					ID:                     1,
 					AccessLevel:            40,
 					AccessLevelDescription: "Maintainers",
+				},
+				{
+					ID:                     2,
+					AccessLevel:            30,
+					AccessLevelDescription: "User name",
+					UserID:                 123,
+				},
+				{
+					ID:                     3,
+					AccessLevel:            40,
+					AccessLevelDescription: "deploy key",
+					DeployKeyID:            456,
 				},
 			},
 			MergeAccessLevels: []*BranchAccessDescription{
