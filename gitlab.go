@@ -596,22 +596,7 @@ func (c *Client) setBaseURL(urlStr string) error {
 	return nil
 }
 
-// NewRequest creates a new API request. The method expects a relative URL
-// path that will be resolved relative to the base URL of the Client.
-// Relative URL paths should always be specified without a preceding slash.
-// If specified, the value pointed to by body is JSON encoded and included
-// as the request body.
-func (c *Client) NewRequest(method, path string, opt interface{}, options []RequestOptionFunc) (*retryablehttp.Request, error) {
-	u := *c.baseURL
-	unescaped, err := url.PathUnescape(path)
-	if err != nil {
-		return nil, err
-	}
-
-	// Set the encoded path data
-	u.RawPath = c.baseURL.Path + path
-	u.Path = c.baseURL.Path + unescaped
-
+func (c *Client) createRetryableRequest(method string, url *url.URL, body interface{}, options []RequestOptionFunc) (*retryablehttp.Request, error) {
 	// Create a request specific headers map.
 	reqHeaders := make(http.Header)
 	reqHeaders.Set("Accept", "application/json")
@@ -620,26 +605,11 @@ func (c *Client) NewRequest(method, path string, opt interface{}, options []Requ
 		reqHeaders.Set("User-Agent", c.UserAgent)
 	}
 
-	var body interface{}
-	switch {
-	case method == http.MethodPatch || method == http.MethodPost || method == http.MethodPut:
+	if body != nil {
 		reqHeaders.Set("Content-Type", "application/json")
-
-		if opt != nil {
-			body, err = json.Marshal(opt)
-			if err != nil {
-				return nil, err
-			}
-		}
-	case opt != nil:
-		q, err := query.Values(opt)
-		if err != nil {
-			return nil, err
-		}
-		u.RawQuery = q.Encode()
 	}
 
-	req, err := retryablehttp.NewRequest(method, u.String(), body)
+	req, err := retryablehttp.NewRequest(method, url.String(), body)
 	if err != nil {
 		return nil, err
 	}
@@ -659,6 +629,56 @@ func (c *Client) NewRequest(method, path string, opt interface{}, options []Requ
 	}
 
 	return req, nil
+}
+
+// NewPutQueryRequest creates a new `PUT` API request that sends the parameters
+// for the operation on as part of the query string. The method expects a relative URL
+// path that will be resolved relative to the base URL of the Client.
+// Relative URL paths should always be specified without a preceding slash.
+func (c *Client) NewPutQueryRequest(path string, opt interface{}, options []RequestOptionFunc) (*retryablehttp.Request, error) {
+	u, err := createUrl(*c.baseURL, path)
+	if err != nil {
+		return nil, err
+	}
+
+	q, err := query.Values(opt)
+	if err != nil {
+		return nil, err
+	}
+	u.RawQuery = q.Encode()
+
+	return c.createRetryableRequest(http.MethodPut, u, nil, options)
+}
+
+// NewRequest creates a new API request. The method expects a relative URL
+// path that will be resolved relative to the base URL of the Client.
+// Relative URL paths should always be specified without a preceding slash.
+// If specified, the value pointed to by body is JSON encoded and included
+// as the request body.
+func (c *Client) NewRequest(method, path string, opt interface{}, options []RequestOptionFunc) (*retryablehttp.Request, error) {
+	u, err := createUrl(*c.baseURL, path)
+	if err != nil {
+		return nil, err
+	}
+
+	var body interface{}
+	switch {
+	case method == http.MethodPatch || method == http.MethodPost || method == http.MethodPut:
+		if opt != nil {
+			body, err = json.Marshal(opt)
+			if err != nil {
+				return nil, err
+			}
+		}
+	case opt != nil:
+		q, err := query.Values(opt)
+		if err != nil {
+			return nil, err
+		}
+		u.RawQuery = q.Encode()
+	}
+
+	return c.createRetryableRequest(method, u, body, options)
 }
 
 // UploadRequest creates an API request for uploading a file. The method
@@ -1023,6 +1043,21 @@ func CheckResponse(r *http.Response) error {
 //	    },
 //	    "error": "<error-message>"
 //	}
+
+func createUrl(base url.URL, path string) (*url.URL, error) {
+	u := base
+	unescaped, err := url.PathUnescape(path)
+	if err != nil {
+		return nil, err
+	}
+
+	// Set the encoded path data
+	u.RawPath = base.Path + path
+	u.Path = base.Path + unescaped
+
+	return &u, nil
+}
+
 func parseError(raw interface{}) string {
 	switch raw := raw.(type) {
 	case string:

@@ -122,6 +122,32 @@ func TestNewClient(t *testing.T) {
 	}
 }
 
+func TestNewPutQueryRequest(t *testing.T) {
+	c, err := NewClient("")
+	if err != nil {
+		t.Fatalf("Failed to create client: %v", err)
+	}
+
+	type Query struct {
+		A string `url:"a"`
+		B string `url:"b"`
+	}
+
+	resp, err := c.NewPutQueryRequest("test", Query{"1", "2"}, nil)
+	if err != nil {
+		t.Fatalf("Failed to create request: %v", err)
+	}
+
+	if resp.Method != "PUT" {
+		t.Errorf("Expected: 'PUT' method, got %s", resp.Method)
+	}
+
+	want := "https://gitlab.com/api/v4/test?a=1&b=2"
+	if resp.URL.String() != want {
+		t.Errorf("Expected: %s, got %s", want, resp.URL.String())
+	}
+}
+
 func TestCheckResponse(t *testing.T) {
 	c, err := NewClient("")
 	if err != nil {
