@@ -102,7 +102,7 @@ func TestListMembershipsForBillableGroupMember(t *testing.T) {
 				]`)
 		})
 
-	memberships, _, err := client.Groups.ListMembershipsForBillableGroupMember(1, 42)
+	memberships, _, err := client.Groups.ListMembershipsForBillableGroupMember(1, 42, &ListOptions{})
 	if err != nil {
 		t.Errorf("Groups.ListMembershipsForBillableGroupMember returned error: %v", err)
 	}
