@@ -253,12 +253,18 @@ func (s *GroupsService) ListBillableGroupMembers(gid interface{}, opt *ListBilla
 	return bgm, resp, nil
 }
 
+// ListMembershipsForBillableGroupMemberOptions represents the available ListMembershipsForBillableGroupMember() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/members.html#list-memberships-for-a-billable-member-of-a-group
+type ListMembershipsForBillableGroupMemberOptions = ListOptions
+
 // ListMembershipsForBillableGroupMember Gets a list of memberships for a billable member of a group.
 // Lists all projects and groups a user is a member of. Only projects and groups within the group hierarchy are included.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/members.html#list-memberships-for-a-billable-member-of-a-group
-func (s *GroupsService) ListMembershipsForBillableGroupMember(gid interface{}, user int, opt *ListOptions, options ...RequestOptionFunc) ([]*BillableUserMembership, *Response, error) {
+func (s *GroupsService) ListMembershipsForBillableGroupMember(gid interface{}, user int, opt *ListMembershipsForBillableGroupMemberOptions, options ...RequestOptionFunc) ([]*BillableUserMembership, *Response, error) {
 	group, err := parseID(gid)
 	if err != nil {
 		return nil, nil, err
