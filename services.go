@@ -36,27 +36,31 @@ type ServicesService struct {
 //
 // GitLab API docs: https://docs.gitlab.com/ee/api/integrations.html
 type Service struct {
-	ID                       int        `json:"id"`
-	Title                    string     `json:"title"`
-	Slug                     string     `json:"slug"`
-	CreatedAt                *time.Time `json:"created_at"`
-	UpdatedAt                *time.Time `json:"updated_at"`
-	Active                   bool       `json:"active"`
-	PushEvents               bool       `json:"push_events"`
-	IssuesEvents             bool       `json:"issues_events"`
-	AlertEvents              bool       `json:"alert_events"`
-	ConfidentialIssuesEvents bool       `json:"confidential_issues_events"`
-	CommitEvents             bool       `json:"commit_events"`
-	MergeRequestsEvents      bool       `json:"merge_requests_events"`
-	CommentOnEventEnabled    bool       `json:"comment_on_event_enabled"`
-	TagPushEvents            bool       `json:"tag_push_events"`
-	NoteEvents               bool       `json:"note_events"`
-	ConfidentialNoteEvents   bool       `json:"confidential_note_events"`
-	PipelineEvents           bool       `json:"pipeline_events"`
-	JobEvents                bool       `json:"job_events"`
-	WikiPageEvents           bool       `json:"wiki_page_events"`
-	VulnerabilityEvents      bool       `json:"vulnerability_events"`
-	DeploymentEvents         bool       `json:"deployment_events"`
+	ID                             int        `json:"id"`
+	Title                          string     `json:"title"`
+	Slug                           string     `json:"slug"`
+	CreatedAt                      *time.Time `json:"created_at"`
+	UpdatedAt                      *time.Time `json:"updated_at"`
+	Active                         bool       `json:"active"`
+	AlertEvents                    bool       `json:"alert_events"`
+	CommitEvents                   bool       `json:"commit_events"`
+	ConfidentialIssuesEvents       bool       `json:"confidential_issues_events"`
+	ConfidentialNoteEvents         bool       `json:"confidential_note_events"`
+	DeploymentEvents               bool       `json:"deployment_events"`
+	GroupConfidentialMentionEvents bool       `json:"group_confidential_mention_events"`
+	GroupMentionEvents             bool       `json:"group_mention_events"`
+	IncidentEvents                 bool       `json:"incident_events"`
+	IssuesEvents                   bool       `json:"issues_events"`
+	JobEvents                      bool       `json:"job_events"`
+	MergeRequestsEvents            bool       `json:"merge_requests_events"`
+	NoteEvents                     bool       `json:"note_events"`
+	PipelineEvents                 bool       `json:"pipeline_events"`
+	PushEvents                     bool       `json:"push_events"`
+	TagPushEvents                  bool       `json:"tag_push_events"`
+	VulnerabilityEvents            bool       `json:"vulnerability_events"`
+	WikiPageEvents                 bool       `json:"wiki_page_events"`
+	CommentOnEventEnabled          bool       `json:"comment_on_event_enabled"`
+	Inherited                      bool       `json:"inherited"`
 }
 
 // ListServices gets a list of all active services.
@@ -878,22 +882,24 @@ type SlackApplication struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/integrations.html#gitlab-for-slack-app
 type SlackApplicationProperties struct {
-	Channel                   string `json:"channel"`
-	NotifyOnlyBrokenPipelines bool   `json:"notify_only_broken_pipelines"`
-	BranchesToBeNotified      string `json:"branches_to_be_notified"`
-	AlertEvents               bool   `json:"alert_events"`
-	IssuesEvents              bool   `json:"issues_events"`
-	ConfidentialIssuesEvents  bool   `json:"confidential_issues_events"`
-	MergeRequestsEvents       bool   `json:"merge_requests_events"`
-	NoteEvents                bool   `json:"note_events"`
-	ConfidentialNoteEvents    bool   `json:"confidential_note_events"`
-	DeploymentEvents          bool   `json:"deployment_events"`
-	IncidentsEvents           bool   `json:"incidents_events"`
-	PipelineEvents            bool   `json:"pipeline_events"`
-	PushEvents                bool   `json:"push_events"`
-	TagPushEvents             bool   `json:"tag_push_events"`
-	VulnerabilityEvents       bool   `json:"vulnerability_events"`
-	WikiPageEvents            bool   `json:"wiki_page_events"`
+	Channel                    string `json:"channel"`
+	NotifyOnlyBrokenPipelines  bool   `json:"notify_only_broken_pipelines"`
+	BranchesToBeNotified       string `json:"branches_to_be_notified"`
+	LabelsToBeNotified         string `json:"labels_to_be_notified"`
+	LabelsToBeNotifiedBehavior string `json:"labels_to_be_notified_behavior"`
+	PushChannel                string `json:"push_channel"`
+	IssueChannel               string `json:"issue_channel"`
+	ConfidentialIssueChannel   string `json:"confidential_issue_channel"`
+	MergeRequestChannel        string `json:"merge_request_channel"`
+	NoteChannel                string `json:"note_channel"`
+	ConfidentialNoteChannel    string `json:"confidential_note_channel"`
+	TagPushChannel             string `json:"tag_push_channel"`
+	PipelineChannel            string `json:"pipeline_channel"`
+	WikiPageChannel            string `json:"wiki_page_channel"`
+	DeploymentChannel          string `json:"deployment_channel"`
+	IncidentChannel            string `json:"incident_channel"`
+	VulnerabilityChannel       string `json:"vulnerability_channel"`
+	AlertChannel               string `json:"alert_channel"`
 
 	// Deprecated: This parameter has been replaced with BranchesToBeNotified.
 	NotifyOnlyDefaultBranch bool `json:"notify_only_default_branch"`
@@ -931,22 +937,38 @@ func (s *ServicesService) GetSlackApplication(pid interface{}, options ...Reques
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/integrations.html#set-up-gitlab-for-slack-app
 type SetSlackApplicationOptions struct {
-	Channel                   *string `url:"channel,omitempty" json:"channel,omitempty"`
-	NotifyOnlyBrokenPipelines *bool   `url:"notify_only_broken_pipelines,omitempty" json:"notify_only_broken_pipelines,omitempty"`
-	BranchesToBeNotified      *string `url:"branches_to_be_notified,omitempty" json:"branches_to_be_notified,omitempty"`
-	AlertEvents               *bool   `url:"alert_events,omitempty" json:"alert_events,omitempty"`
-	IssuesEvents              *bool   `url:"issues_events,omitempty" json:"issues_events,omitempty"`
-	ConfidentialIssuesEvents  *bool   `url:"confidential_issues_events,omitempty" json:"confidential_issues_events,omitempty"`
-	MergeRequestsEvents       *bool   `url:"merge_requests_events,omitempty" json:"merge_requests_events,omitempty"`
-	NoteEvents                *bool   `url:"note_events,omitempty" json:"note_events,omitempty"`
-	ConfidentialNoteEvents    *bool   `url:"confidential_note_events,omitempty" json:"confidential_note_events,omitempty"`
-	DeploymentEvents          *bool   `url:"deployment_events,omitempty" json:"deployment_events,omitempty"`
-	IncidentsEvents           *bool   `url:"incidents_events,omitempty" json:"incidents_events,omitempty"`
-	PipelineEvents            *bool   `url:"pipeline_events,omitempty" json:"pipeline_events,omitempty"`
-	PushEvents                *bool   `url:"push_events,omitempty" json:"push_events,omitempty"`
-	TagPushEvents             *bool   `url:"tag_push_events,omitempty" json:"tag_push_events,omitempty"`
-	VulnerabilityEvents       *bool   `url:"vulnerability_events,omitempty" json:"vulnerability_events,omitempty"`
-	WikiPageEvents            *bool   `url:"wiki_page_events,omitempty" json:"wiki_page_events,omitempty"`
+	Channel                    *string `url:"channel,omitempty" json:"channel,omitempty"`
+	NotifyOnlyBrokenPipelines  *bool   `url:"notify_only_broken_pipelines,omitempty" json:"notify_only_broken_pipelines,omitempty"`
+	BranchesToBeNotified       *string `url:"branches_to_be_notified,omitempty" json:"branches_to_be_notified,omitempty"`
+	AlertEvents                *bool   `url:"alert_events,omitempty" json:"alert_events,omitempty"`
+	IssuesEvents               *bool   `url:"issues_events,omitempty" json:"issues_events,omitempty"`
+	ConfidentialIssuesEvents   *bool   `url:"confidential_issues_events,omitempty" json:"confidential_issues_events,omitempty"`
+	MergeRequestsEvents        *bool   `url:"merge_requests_events,omitempty" json:"merge_requests_events,omitempty"`
+	NoteEvents                 *bool   `url:"note_events,omitempty" json:"note_events,omitempty"`
+	ConfidentialNoteEvents     *bool   `url:"confidential_note_events,omitempty" json:"confidential_note_events,omitempty"`
+	DeploymentEvents           *bool   `url:"deployment_events,omitempty" json:"deployment_events,omitempty"`
+	IncidentsEvents            *bool   `url:"incidents_events,omitempty" json:"incidents_events,omitempty"`
+	PipelineEvents             *bool   `url:"pipeline_events,omitempty" json:"pipeline_events,omitempty"`
+	PushEvents                 *bool   `url:"push_events,omitempty" json:"push_events,omitempty"`
+	TagPushEvents              *bool   `url:"tag_push_events,omitempty" json:"tag_push_events,omitempty"`
+	VulnerabilityEvents        *bool   `url:"vulnerability_events,omitempty" json:"vulnerability_events,omitempty"`
+	WikiPageEvents             *bool   `url:"wiki_page_events,omitempty" json:"wiki_page_events,omitempty"`
+	LabelsToBeNotified         *string `url:"labels_to_be_notified,omitempty" json:"labels_to_be_notified,omitempty"`
+	LabelsToBeNotifiedBehavior *string `url:"labels_to_be_notified_behavior,omitempty" json:"labels_to_be_notified_behavior,omitempty"`
+	PushChannel                *string `url:"push_channel,omitempty" json:"push_channel,omitempty"`
+	IssueChannel               *string `url:"issue_channel,omitempty" json:"issue_channel,omitempty"`
+	ConfidentialIssueChannel   *string `url:"confidential_issue_channel,omitempty" json:"confidential_issue_channel,omitempty"`
+	MergeRequestChannel        *string `url:"merge_request_channel,omitempty" json:"merge_request_channel,omitempty"`
+	NoteChannel                *string `url:"note_channel,omitempty" json:"note_channel,omitempty"`
+	ConfidentialNoteChannel    *string `url:"confidential_note_channel,omitempty" json:"confidential_note_channel,omitempty"`
+	TagPushChannel             *string `url:"tag_push_channel,omitempty" json:"tag_push_channel,omitempty"`
+	PipelineChannel            *string `url:"pipeline_channel,omitempty" json:"pipeline_channel,omitempty"`
+	WikiPageChannel            *string `url:"wiki_page_channel,omitempty" json:"wiki_page_channel,omitempty"`
+	DeploymentChannel          *string `url:"deployment_channel,omitempty" json:"deployment_channel,omitempty"`
+	IncidentChannel            *string `url:"incident_channel,omitempty" json:"incident_channel,omitempty"`
+	VulnerabilityChannel       *string `url:"vulnerability_channel,omitempty" json:"vulnerability_channel,omitempty"`
+	AlertChannel               *string `url:"alert_channel,omitempty" json:"alert_channel,omitempty"`
+	UseInheritedSettings       *bool   `url:"use_inherited_settings,omitempty" json:"use_inherited_settings,omitempty"`
 
 	// Deprecated: This parameter has been replaced with BranchesToBeNotified.
 	NotifyOnlyDefaultBranch *bool `url:"notify_only_default_branch,omitempty" json:"notify_only_default_branch,omitempty"`
