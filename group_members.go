@@ -217,7 +217,8 @@ func (s *GroupMembersService) GetInheritedGroupMember(gid interface{}, user int,
 	return gm, resp, err
 }
 
-// ListBillableGroupMembersOptions represents the available ListBillableGroupMembers() options.
+// ListBillableGroupMembersOptions represents the available
+// ListBillableGroupMembers() options.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/members.html#list-all-billable-members-of-a-group
@@ -253,14 +254,15 @@ func (s *GroupsService) ListBillableGroupMembers(gid interface{}, opt *ListBilla
 	return bgm, resp, nil
 }
 
-// ListMembershipsForBillableGroupMemberOptions represents the available ListMembershipsForBillableGroupMember() options.
+// ListMembershipsForBillableGroupMemberOptions represents the available
+// ListMembershipsForBillableGroupMember() options.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/members.html#list-memberships-for-a-billable-member-of-a-group
 type ListMembershipsForBillableGroupMemberOptions = ListOptions
 
-// ListMembershipsForBillableGroupMember Gets a list of memberships for a billable member of a group.
-// Lists all projects and groups a user is a member of. Only projects and groups within the group hierarchy are included.
+// ListMembershipsForBillableGroupMember gets a list of memberships for a
+// billable member of a group.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/members.html#list-memberships-for-a-billable-member-of-a-group
@@ -411,7 +413,8 @@ func (s *GroupMembersService) EditGroupMember(gid interface{}, user int, opt *Ed
 
 // RemoveGroupMemberOptions represents the available options to remove a group member.
 //
-// GitLab API docs: https://docs.gitlab.com/ee/api/members.html#remove-a-member-from-a-group-or-project
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/members.html#remove-a-member-from-a-group-or-project
 type RemoveGroupMemberOptions struct {
 	SkipSubresources  *bool `url:"skip_subresources,omitempty" json:"skip_subresources,omitempty"`
 	UnassignIssuables *bool `url:"unassign_issuables,omitempty" json:"unassign_issuables,omitempty"`
