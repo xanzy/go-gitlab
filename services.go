@@ -146,19 +146,25 @@ type SetCustomIssueTrackerServiceOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/integrations.html#set-up-a-custom-issue-tracker
-func (s *ServicesService) SetCustomIssueTrackerService(pid interface{}, opt *SetCustomIssueTrackerServiceOptions, options ...RequestOptionFunc) (*Response, error) {
+func (s *ServicesService) SetCustomIssueTrackerService(pid interface{}, opt *SetCustomIssueTrackerServiceOptions, options ...RequestOptionFunc) (*CustomIssueTrackerService, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/services/custom-issue-tracker", PathEscape(project))
 
 	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	return s.client.Do(req, nil)
+	svc := new(CustomIssueTrackerService)
+	resp, err := s.client.Do(req, svc)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return svc, resp, nil
 }
 
 // DeleteCustomIssueTrackerService deletes Custom Issue Tracker service settings for a project.
@@ -246,19 +252,25 @@ type SetDataDogServiceOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/integrations.html#set-up-datadog
-func (s *ServicesService) SetDataDogService(pid interface{}, opt *SetDataDogServiceOptions, options ...RequestOptionFunc) (*Response, error) {
+func (s *ServicesService) SetDataDogService(pid interface{}, opt *SetDataDogServiceOptions, options ...RequestOptionFunc) (*DataDogService, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/services/datadog", PathEscape(project))
 
 	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	return s.client.Do(req, nil)
+	svc := new(DataDogService)
+	resp, err := s.client.Do(req, svc)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return svc, resp, nil
 }
 
 // DeleteDataDogService deletes the DataDog service settings for a project.
@@ -362,19 +374,25 @@ type SetDiscordServiceOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/integrations.html#set-up-discord-notifications
-func (s *ServicesService) SetDiscordService(pid interface{}, opt *SetDiscordServiceOptions, options ...RequestOptionFunc) (*Response, error) {
+func (s *ServicesService) SetDiscordService(pid interface{}, opt *SetDiscordServiceOptions, options ...RequestOptionFunc) (*DiscordService, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/services/discord", PathEscape(project))
 
 	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	return s.client.Do(req, nil)
+	svc := new(DiscordService)
+	resp, err := s.client.Do(req, svc)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return svc, resp, nil
 }
 
 // DeleteDiscordService deletes Discord service settings for a project.
@@ -457,19 +475,25 @@ type SetDroneCIServiceOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/integrations.html#set-up-drone
-func (s *ServicesService) SetDroneCIService(pid interface{}, opt *SetDroneCIServiceOptions, options ...RequestOptionFunc) (*Response, error) {
+func (s *ServicesService) SetDroneCIService(pid interface{}, opt *SetDroneCIServiceOptions, options ...RequestOptionFunc) (*DroneCIService, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/services/drone-ci", PathEscape(project))
 
 	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	return s.client.Do(req, nil)
+	svc := new(DroneCIService)
+	resp, err := s.client.Do(req, svc)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return svc, resp, nil
 }
 
 // DeleteDroneCIService deletes Drone CI service settings for a project.
@@ -556,19 +580,25 @@ type SetEmailsOnPushServiceOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/integrations.html#set-up-emails-on-push
-func (s *ServicesService) SetEmailsOnPushService(pid interface{}, opt *SetEmailsOnPushServiceOptions, options ...RequestOptionFunc) (*Response, error) {
+func (s *ServicesService) SetEmailsOnPushService(pid interface{}, opt *SetEmailsOnPushServiceOptions, options ...RequestOptionFunc) (*EmailsOnPushService, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/integrations/emails-on-push", PathEscape(project))
 
 	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	return s.client.Do(req, nil)
+	svc := new(EmailsOnPushService)
+	resp, err := s.client.Do(req, svc)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return svc, resp, nil
 }
 
 // DeleteEmailsOnPushService deletes Emails on Push service settings for a project.
@@ -645,19 +675,25 @@ type SetExternalWikiServiceOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/integrations.html#set-up-an-external-wiki
-func (s *ServicesService) SetExternalWikiService(pid interface{}, opt *SetExternalWikiServiceOptions, options ...RequestOptionFunc) (*Response, error) {
+func (s *ServicesService) SetExternalWikiService(pid interface{}, opt *SetExternalWikiServiceOptions, options ...RequestOptionFunc) (*ExternalWikiService, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/services/external-wiki", PathEscape(project))
 
 	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	return s.client.Do(req, nil)
+	svc := new(ExternalWikiService)
+	resp, err := s.client.Do(req, svc)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return svc, resp, nil
 }
 
 // DeleteExternalWikiService deletes External Wiki service for project.
@@ -737,19 +773,25 @@ type SetGithubServiceOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/integrations.html#set-up-github
-func (s *ServicesService) SetGithubService(pid interface{}, opt *SetGithubServiceOptions, options ...RequestOptionFunc) (*Response, error) {
+func (s *ServicesService) SetGithubService(pid interface{}, opt *SetGithubServiceOptions, options ...RequestOptionFunc) (*GithubService, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/services/github", PathEscape(project))
 
 	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	return s.client.Do(req, nil)
+	svc := new(GithubService)
+	resp, err := s.client.Do(req, svc)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return svc, resp, nil
 }
 
 // DeleteGithubService deletes Github service for a project
@@ -834,19 +876,25 @@ type SetHarborServiceOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/integrations.html#set-up-harbor
-func (s *ServicesService) SetHarborService(pid interface{}, opt *SetHarborServiceOptions, options ...RequestOptionFunc) (*Response, error) {
+func (s *ServicesService) SetHarborService(pid interface{}, opt *SetHarborServiceOptions, options ...RequestOptionFunc) (*HarborService, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/integrations/harbor", PathEscape(project))
 
 	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	return s.client.Do(req, nil)
+	svc := new(HarborService)
+	resp, err := s.client.Do(req, svc)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return svc, resp, nil
 }
 
 // DeleteHarborService deletes Harbor service for a project.
@@ -978,19 +1026,25 @@ type SetSlackApplicationOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/integrations.html#set-up-gitlab-for-slack-app
-func (s *ServicesService) SetSlackApplication(pid interface{}, opt *SetSlackApplicationOptions, options ...RequestOptionFunc) (*Response, error) {
+func (s *ServicesService) SetSlackApplication(pid interface{}, opt *SetSlackApplicationOptions, options ...RequestOptionFunc) (*SlackApplication, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/integrations/gitlab-slack-application", PathEscape(project))
 
 	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	return s.client.Do(req, nil)
+	svc := new(SlackApplication)
+	resp, err := s.client.Do(req, svc)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return svc, resp, nil
 }
 
 // DisableSlackApplication disable the GitLab for Slack app integration for a project.
@@ -1173,19 +1227,25 @@ type SetJenkinsCIServiceOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/integrations.html#set-up-jenkins
-func (s *ServicesService) SetJenkinsCIService(pid interface{}, opt *SetJenkinsCIServiceOptions, options ...RequestOptionFunc) (*Response, error) {
+func (s *ServicesService) SetJenkinsCIService(pid interface{}, opt *SetJenkinsCIServiceOptions, options ...RequestOptionFunc) (*JenkinsCIService, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/services/jenkins", PathEscape(project))
 
 	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	return s.client.Do(req, nil)
+	svc := new(JenkinsCIService)
+	resp, err := s.client.Do(req, svc)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return svc, resp, nil
 }
 
 // DeleteJenkinsCIService deletes Jenkins CI service for project.
@@ -1328,19 +1388,25 @@ type SetJiraServiceOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/integrations.html#edit-jira-service
-func (s *ServicesService) SetJiraService(pid interface{}, opt *SetJiraServiceOptions, options ...RequestOptionFunc) (*Response, error) {
+func (s *ServicesService) SetJiraService(pid interface{}, opt *SetJiraServiceOptions, options ...RequestOptionFunc) (*JiraService, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/integrations/jira", PathEscape(project))
 
 	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	return s.client.Do(req, nil)
+	svc := new(JiraService)
+	resp, err := s.client.Do(req, svc)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return svc, resp, nil
 }
 
 // DeleteJiraService deletes Jira service for project.
@@ -1449,6 +1515,50 @@ type SetMattermostServiceOptions struct {
 	WikiPageChannel           *string `url:"wiki_page_channel,omitempty" json:"wiki_page_channel,omitempty"`
 }
 
+// SetMattermostService sets Mattermost service for a project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/integrations.html#createedit-mattermost-notifications-service
+func (s *ServicesService) SetMattermostService(pid interface{}, opt *SetMattermostServiceOptions, options ...RequestOptionFunc) (*MattermostService, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/services/mattermost", PathEscape(project))
+
+	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	svc := new(MattermostService)
+	resp, err := s.client.Do(req, svc)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return svc, resp, nil
+}
+
+// DeleteMattermostService deletes Mattermost service for project.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/integrations.html#delete-mattermost-notifications-service
+func (s *ServicesService) DeleteMattermostService(pid interface{}, options ...RequestOptionFunc) (*Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, err
+	}
+	u := fmt.Sprintf("projects/%s/services/mattermost", PathEscape(project))
+
+	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
+	if err != nil {
+		return nil, err
+	}
+
+	return s.client.Do(req, nil)
+}
+
 // MattermostSlashCommandsService represents Mattermost slash commands settings.
 //
 // GitLab API docs:
@@ -1506,19 +1616,25 @@ type SetMattermostSlashCommandsServiceOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/integrations.html#createedit-mattermost-slash-command-integration
-func (s *ServicesService) SetMattermostSlashCommandsService(pid interface{}, opt *SetMattermostSlashCommandsServiceOptions, options ...RequestOptionFunc) (*Response, error) {
+func (s *ServicesService) SetMattermostSlashCommandsService(pid interface{}, opt *SetMattermostSlashCommandsServiceOptions, options ...RequestOptionFunc) (*MattermostSlashCommandsService, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/services/mattermost-slash-commands", PathEscape(project))
 
 	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	return s.client.Do(req, nil)
+	svc := new(MattermostSlashCommandsService)
+	resp, err := s.client.Do(req, svc)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return svc, resp, nil
 }
 
 // DeleteMattermostSlashCommandsService deletes Mattermost slash commands service for project.
@@ -1531,44 +1647,6 @@ func (s *ServicesService) DeleteMattermostSlashCommandsService(pid interface{}, 
 		return nil, err
 	}
 	u := fmt.Sprintf("projects/%s/services/mattermost-slash-commands", PathEscape(project))
-
-	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
-	if err != nil {
-		return nil, err
-	}
-
-	return s.client.Do(req, nil)
-}
-
-// SetMattermostService sets Mattermost service for a project.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ee/api/integrations.html#createedit-mattermost-notifications-service
-func (s *ServicesService) SetMattermostService(pid interface{}, opt *SetMattermostServiceOptions, options ...RequestOptionFunc) (*Response, error) {
-	project, err := parseID(pid)
-	if err != nil {
-		return nil, err
-	}
-	u := fmt.Sprintf("projects/%s/services/mattermost", PathEscape(project))
-
-	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
-	if err != nil {
-		return nil, err
-	}
-
-	return s.client.Do(req, nil)
-}
-
-// DeleteMattermostService deletes Mattermost service for project.
-//
-// GitLab API docs:
-// https://docs.gitlab.com/ee/api/integrations.html#delete-mattermost-notifications-service
-func (s *ServicesService) DeleteMattermostService(pid interface{}, options ...RequestOptionFunc) (*Response, error) {
-	project, err := parseID(pid)
-	if err != nil {
-		return nil, err
-	}
-	u := fmt.Sprintf("projects/%s/services/mattermost", PathEscape(project))
 
 	req, err := s.client.NewRequest(http.MethodDelete, u, nil, options)
 	if err != nil {
@@ -1654,18 +1732,25 @@ type SetMicrosoftTeamsServiceOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/integrations.html#create-edit-microsoft-teams-service
-func (s *ServicesService) SetMicrosoftTeamsService(pid interface{}, opt *SetMicrosoftTeamsServiceOptions, options ...RequestOptionFunc) (*Response, error) {
+func (s *ServicesService) SetMicrosoftTeamsService(pid interface{}, opt *SetMicrosoftTeamsServiceOptions, options ...RequestOptionFunc) (*MicrosoftTeamsService, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/services/microsoft-teams", PathEscape(project))
 
 	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
-	return s.client.Do(req, nil)
+
+	svc := new(MicrosoftTeamsService)
+	resp, err := s.client.Do(req, svc)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return svc, resp, nil
 }
 
 // DeleteMicrosoftTeamsService deletes Microsoft Teams service for project.
@@ -1750,19 +1835,25 @@ type SetPipelinesEmailServiceOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/integrations.html#pipeline-emails
-func (s *ServicesService) SetPipelinesEmailService(pid interface{}, opt *SetPipelinesEmailServiceOptions, options ...RequestOptionFunc) (*Response, error) {
+func (s *ServicesService) SetPipelinesEmailService(pid interface{}, opt *SetPipelinesEmailServiceOptions, options ...RequestOptionFunc) (*PipelinesEmailService, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/services/pipelines-email", PathEscape(project))
 
 	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	return s.client.Do(req, nil)
+	svc := new(PipelinesEmailService)
+	resp, err := s.client.Do(req, svc)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return svc, resp, nil
 }
 
 // DeletePipelinesEmailService deletes Pipelines Email service settings for a project.
@@ -1843,19 +1934,25 @@ type SetPrometheusServiceOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/integrations.html#createedit-prometheus-service
-func (s *ServicesService) SetPrometheusService(pid interface{}, opt *SetPrometheusServiceOptions, options ...RequestOptionFunc) (*Response, error) {
+func (s *ServicesService) SetPrometheusService(pid interface{}, opt *SetPrometheusServiceOptions, options ...RequestOptionFunc) (*PrometheusService, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/services/prometheus", PathEscape(project))
 
 	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	return s.client.Do(req, nil)
+	svc := new(PrometheusService)
+	resp, err := s.client.Do(req, svc)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return svc, resp, nil
 }
 
 // DeletePrometheusService deletes Prometheus service settings for a project.
@@ -1938,19 +2035,25 @@ type SetRedmineServiceOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/integrations.html#set-up-redmine
-func (s *ServicesService) SetRedmineService(pid interface{}, opt *SetRedmineServiceOptions, options ...RequestOptionFunc) (*Response, error) {
+func (s *ServicesService) SetRedmineService(pid interface{}, opt *SetRedmineServiceOptions, options ...RequestOptionFunc) (*RedmineService, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/integrations/redmine", PathEscape(project))
 
 	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	return s.client.Do(req, nil)
+	svc := new(RedmineService)
+	resp, err := s.client.Do(req, svc)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return svc, resp, nil
 }
 
 // DeleteRedmineService deletes Redmine service for project.
@@ -2071,19 +2174,25 @@ type SetSlackServiceOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/integrations.html#edit-slack-service
-func (s *ServicesService) SetSlackService(pid interface{}, opt *SetSlackServiceOptions, options ...RequestOptionFunc) (*Response, error) {
+func (s *ServicesService) SetSlackService(pid interface{}, opt *SetSlackServiceOptions, options ...RequestOptionFunc) (*SlackService, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/services/slack", PathEscape(project))
 
 	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	return s.client.Do(req, nil)
+	svc := new(SlackService)
+	resp, err := s.client.Do(req, svc)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return svc, resp, nil
 }
 
 // DeleteSlackService deletes Slack service for project.
@@ -2160,19 +2269,25 @@ type SetSlackSlashCommandsServiceOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/13.12/ee/api/integrations.html#createedit-slack-slash-command-service
-func (s *ServicesService) SetSlackSlashCommandsService(pid interface{}, opt *SetSlackSlashCommandsServiceOptions, options ...RequestOptionFunc) (*Response, error) {
+func (s *ServicesService) SetSlackSlashCommandsService(pid interface{}, opt *SetSlackSlashCommandsServiceOptions, options ...RequestOptionFunc) (*SlackSlashCommandsService, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/services/slack-slash-commands", PathEscape(project))
 
 	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	return s.client.Do(req, nil)
+	svc := new(SlackSlashCommandsService)
+	resp, err := s.client.Do(req, svc)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return svc, resp, nil
 }
 
 // DeleteSlackSlashCommandsService deletes Slack slash commands service for project.
@@ -2263,19 +2378,25 @@ type SetTelegramServiceOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/integrations.html#set-up-telegram
-func (s *ServicesService) SetTelegramService(pid interface{}, opt *SetTelegramServiceOptions, options ...RequestOptionFunc) (*Response, error) {
+func (s *ServicesService) SetTelegramService(pid interface{}, opt *SetTelegramServiceOptions, options ...RequestOptionFunc) (*TelegramService, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/services/telegram", PathEscape(project))
 
 	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	return s.client.Do(req, nil)
+	svc := new(TelegramService)
+	resp, err := s.client.Do(req, svc)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return svc, resp, nil
 }
 
 // DeleteTelegramService deletes Telegram service for project.
@@ -2358,19 +2479,25 @@ type SetYouTrackServiceOptions struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/integrations.html#createedit-youtrack-service
-func (s *ServicesService) SetYouTrackService(pid interface{}, opt *SetYouTrackServiceOptions, options ...RequestOptionFunc) (*Response, error) {
+func (s *ServicesService) SetYouTrackService(pid interface{}, opt *SetYouTrackServiceOptions, options ...RequestOptionFunc) (*YouTrackService, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/services/youtrack", PathEscape(project))
 
+	svc := new(YouTrackService)
 	req, err := s.client.NewRequest(http.MethodPut, u, opt, options)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	return s.client.Do(req, nil)
+	resp, err := s.client.Do(req, svc)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return svc, resp, nil
 }
 
 // DeleteYouTrackService deletes YouTrack service settings for a project.

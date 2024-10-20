@@ -39,16 +39,11 @@ func dataDogExample() {
 		ArchiveTraceEvents: gitlab.Bool(true),
 	}
 
-	_, err = git.Services.SetDataDogService(1, opts)
+	svc, _, err := git.Services.SetDataDogService(1, opts)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	// Query the integration
-	svc, _, err := git.Services.GetDataDogService(1)
-	if err != nil {
-		log.Fatal(err)
-	}
 	fmt.Printf(
 		"api_url: %s, datadog_env: %s, datadog_service: %s, datadog_site: %s, datadog_tags: %s",
 		svc.Properties.APIURL, svc.Properties.DataDogEnv, svc.Properties.DataDogService,
