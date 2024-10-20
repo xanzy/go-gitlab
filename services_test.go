@@ -93,7 +93,7 @@ func TestSetCustomIssueTrackerService(t *testing.T) {
 		ProjectURL:  Ptr("3"),
 	}
 
-	_, err := client.Services.SetCustomIssueTrackerService(1, opt)
+	_, _, err := client.Services.SetCustomIssueTrackerService(1, opt)
 	if err != nil {
 		t.Fatalf("Services.SetCustomIssueTrackerService returns an error: %v", err)
 	}
@@ -168,7 +168,7 @@ func TestSetDataDogService(t *testing.T) {
 		ArchiveTraceEvents: Bool(false),
 	}
 
-	_, err := client.Services.SetDataDogService(1, opt)
+	_, _, err := client.Services.SetDataDogService(1, opt)
 	if err != nil {
 		t.Fatalf("Services.SetDataDogService returns an error: %v", err)
 	}
@@ -216,7 +216,7 @@ func TestSetDiscordService(t *testing.T) {
 		WebHook: Ptr("webhook_uri"),
 	}
 
-	_, err := client.Services.SetDiscordService(1, opt)
+	_, _, err := client.Services.SetDiscordService(1, opt)
 	if err != nil {
 		t.Fatalf("Services.SetDiscordService returns an error: %v", err)
 	}
@@ -262,7 +262,7 @@ func TestSetDroneCIService(t *testing.T) {
 
 	opt := &SetDroneCIServiceOptions{Ptr("token"), Ptr("drone-url"), Ptr(true), nil, nil, nil}
 
-	_, err := client.Services.SetDroneCIService(1, opt)
+	_, _, err := client.Services.SetDroneCIService(1, opt)
 	if err != nil {
 		t.Fatalf("Services.SetDroneCIService returns an error: %v", err)
 	}
@@ -308,7 +308,7 @@ func TestSetEmailsOnPushService(t *testing.T) {
 
 	opt := &SetEmailsOnPushServiceOptions{Ptr("t"), Ptr(true), Ptr(true), Ptr(true), Ptr(true), Ptr("t")}
 
-	_, err := client.Services.SetEmailsOnPushService(1, opt)
+	_, _, err := client.Services.SetEmailsOnPushService(1, opt)
 	if err != nil {
 		t.Fatalf("Services.SetEmailsOnPushService returns an error: %v", err)
 	}
@@ -360,7 +360,7 @@ func TestSetHarborService(t *testing.T) {
 		UseInheritedSettings: Ptr(false),
 	}
 
-	_, err := client.Services.SetHarborService(1, opt)
+	_, _, err := client.Services.SetHarborService(1, opt)
 	if err != nil {
 		t.Fatalf("Services.SetHarborService returns an error: %v", err)
 	}
@@ -406,7 +406,7 @@ func TestSetSlackApplication(t *testing.T) {
 
 	opt := &SetSlackApplicationOptions{Channel: Ptr("#channel1"), NoteEvents: Ptr(true), AlertEvents: Ptr(true)}
 
-	_, err := client.Services.SetSlackApplication(1, opt)
+	_, _, err := client.Services.SetSlackApplication(1, opt)
 	if err != nil {
 		t.Fatalf("Services.SetSlackApplication returns an error: %v", err)
 	}
@@ -521,7 +521,7 @@ func TestSetJiraService(t *testing.T) {
 		UseInheritedSettings:         Ptr(true),
 	}
 
-	_, err := client.Services.SetJiraService(1, opt)
+	_, _, err := client.Services.SetJiraService(1, opt)
 	if err != nil {
 		t.Fatalf("Services.SetJiraService returns an error: %v", err)
 	}
@@ -552,7 +552,7 @@ func TestSetJiraServiceProjecKeys(t *testing.T) {
 		UseInheritedSettings:         Ptr(true),
 	}
 
-	_, err := client.Services.SetJiraService(1, opt)
+	_, _, err := client.Services.SetJiraService(1, opt)
 	if err != nil {
 		t.Fatalf("Services.SetJiraService returns an error: %v", err)
 	}
@@ -572,7 +572,7 @@ func TestSetJiraServiceAuthTypeBasicAuth(t *testing.T) {
 		JiraAuthType: Ptr(0),
 	}
 
-	_, err := client.Services.SetJiraService(1, opt)
+	_, _, err := client.Services.SetJiraService(1, opt)
 	if err != nil {
 		t.Fatalf("Services.SetJiraService returns an error: %v", err)
 	}
@@ -591,7 +591,7 @@ func TestSetJiraServiceAuthTypeTokenAuth(t *testing.T) {
 		JiraAuthType: Ptr(1),
 	}
 
-	_, err := client.Services.SetJiraService(1, opt)
+	_, _, err := client.Services.SetJiraService(1, opt)
 	if err != nil {
 		t.Fatalf("Services.SetJiraService returns an error: %v", err)
 	}
@@ -641,7 +641,7 @@ func TestSetMattermostService(t *testing.T) {
 		Channel:  Ptr("#development"),
 	}
 
-	_, err := client.Services.SetMattermostService(1, opt)
+	_, _, err := client.Services.SetMattermostService(1, opt)
 	if err != nil {
 		t.Fatalf("Services.SetMasttermostService returns an error: %v", err)
 	}
@@ -690,7 +690,7 @@ func TestSetMattermostSlashCommandsService(t *testing.T) {
 		Username: Ptr("username"),
 	}
 
-	_, err := client.Services.SetMattermostSlashCommandsService(1, opt)
+	_, _, err := client.Services.SetMattermostSlashCommandsService(1, opt)
 	if err != nil {
 		t.Fatalf("Services.SetMattermostSlashCommandsService returns an error: %v", err)
 	}
@@ -743,7 +743,7 @@ func TestSetPipelinesEmailService(t *testing.T) {
 		PipelineEvents:            nil,
 	}
 
-	_, err := client.Services.SetPipelinesEmailService(1, opt)
+	_, _, err := client.Services.SetPipelinesEmailService(1, opt)
 	if err != nil {
 		t.Fatalf("Services.SetPipelinesEmailService returns an error: %v", err)
 	}
@@ -789,7 +789,7 @@ func TestSetPrometheusService(t *testing.T) {
 
 	opt := &SetPrometheusServiceOptions{Ptr("t"), Ptr("u"), Ptr("a")}
 
-	_, err := client.Services.SetPrometheusService(1, opt)
+	_, _, err := client.Services.SetPrometheusService(1, opt)
 	if err != nil {
 		t.Fatalf("Services.SetDroneCIService returns an error: %v", err)
 	}
@@ -835,7 +835,7 @@ func TestSetRedmineService(t *testing.T) {
 
 	opt := &SetRedmineServiceOptions{Ptr("t"), Ptr("u"), Ptr("a"), Ptr(false)}
 
-	_, err := client.Services.SetRedmineService(1, opt)
+	_, _, err := client.Services.SetRedmineService(1, opt)
 	if err != nil {
 		t.Fatalf("Services.SetRedmineService returns an error: %v", err)
 	}
@@ -885,7 +885,7 @@ func TestSetSlackService(t *testing.T) {
 		Channel:  Ptr("#development"),
 	}
 
-	_, err := client.Services.SetSlackService(1, opt)
+	_, _, err := client.Services.SetSlackService(1, opt)
 	if err != nil {
 		t.Fatalf("Services.SetSlackService returns an error: %v", err)
 	}
@@ -933,7 +933,7 @@ func TestSetSlackSlashCommandsService(t *testing.T) {
 		Token: Ptr("token"),
 	}
 
-	_, err := client.Services.SetSlackSlashCommandsService(1, opt)
+	_, _, err := client.Services.SetSlackSlashCommandsService(1, opt)
 	if err != nil {
 		t.Fatalf("Services.SetSlackSlashCommandsService returns an error: %v", err)
 	}
@@ -1054,7 +1054,7 @@ func TestSetTelegramService(t *testing.T) {
 		WikiPageEvents:            Ptr(true),
 	}
 
-	_, err := client.Services.SetTelegramService(1, opt)
+	_, _, err := client.Services.SetTelegramService(1, opt)
 	if err != nil {
 		t.Fatalf("Services.SetTelegramService returns an error: %v", err)
 	}
@@ -1105,7 +1105,7 @@ func TestSetYouTrackService(t *testing.T) {
 		PushEvents:  Ptr(true),
 	}
 
-	_, err := client.Services.SetYouTrackService(1, opt)
+	_, _, err := client.Services.SetYouTrackService(1, opt)
 	if err != nil {
 		t.Fatalf("Services.SetYouTrackService returns an error: %v", err)
 	}
