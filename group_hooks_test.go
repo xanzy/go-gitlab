@@ -358,6 +358,78 @@ func TestEditGroupHook(t *testing.T) {
 	}
 }
 
+func TestTriggerTestGroupHook(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/groups/1/hooks/1/test/push_events", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPost)
+		w.WriteHeader(http.StatusCreated)
+		fmt.Fprint(w, `{"message":"201 Created"}`)
+	})
+
+	mux.HandleFunc("/api/v4/groups/1/hooks/1/test/invalid_trigger", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPost)
+		w.WriteHeader(http.StatusBadRequest)
+		fmt.Fprint(w, `{"error": "trigger does not have a valid value"}`)
+	})
+
+	tests := []struct {
+		name        string
+		groupID     interface{}
+		hookID      int
+		triggerType GroupHookTriggerType
+		wantErr     bool
+		wantStatus  int
+		wantErrMsg  string
+	}{
+		{
+			name:        "Valid trigger",
+			groupID:     1,
+			hookID:      1,
+			triggerType: GroupHookTriggerPush,
+			wantErr:     false,
+			wantStatus:  http.StatusCreated,
+		},
+		{
+			name:        "Invalid group ID",
+			groupID:     "invalid",
+			hookID:      1,
+			triggerType: GroupHookTriggerPush,
+			wantErr:     true,
+			wantStatus:  0, // No status code expected for client-side errors
+		},
+		{
+			name:        "Invalid trigger type",
+			groupID:     1,
+			hookID:      1,
+			triggerType: "invalid_trigger",
+			wantErr:     true,
+			wantStatus:  http.StatusBadRequest,
+			wantErrMsg:  "trigger does not have a valid value",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			resp, err := client.Groups.TriggerTestGroupHook(tt.groupID, tt.hookID, tt.triggerType)
+
+			if tt.wantErr {
+				assert.Error(t, err)
+				if tt.wantStatus != 0 {
+					assert.Equal(t, tt.wantStatus, resp.StatusCode)
+				}
+				if tt.wantErrMsg != "" {
+					assert.Contains(t, err.Error(), tt.wantErrMsg)
+				}
+			} else {
+				assert.NoError(t, err)
+				assert.NotNil(t, resp)
+				assert.Equal(t, tt.wantStatus, resp.StatusCode)
+			}
+		})
+	}
+}
+
 func TestDeleteGroupHook(t *testing.T) {
 	mux, client := setup(t)
 
