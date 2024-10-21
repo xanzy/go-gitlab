@@ -396,7 +396,7 @@ func TestTriggerTestGroupHook(t *testing.T) {
 			hookID:      1,
 			triggerType: GroupHookTriggerPush,
 			wantErr:     true,
-			wantStatus:  0, // No status code expected for client-side errors
+			wantStatus:  http.StatusNotFound,
 		},
 		{
 			name:        "Invalid trigger type",
