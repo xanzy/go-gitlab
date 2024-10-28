@@ -20,6 +20,8 @@ import (
 	"fmt"
 	"net/http"
 	"time"
+
+	"github.com/oapi-codegen/nullable"
 )
 
 // EnvironmentsService handles communication with the environment related methods
@@ -163,13 +165,13 @@ func (s *EnvironmentsService) CreateEnvironment(pid interface{}, opt *CreateEnvi
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/environments.html#update-an-existing-environment
 type EditEnvironmentOptions struct {
-	Name                *string `url:"name,omitempty" json:"name,omitempty"`
-	Description         *string `url:"description,omitempty" json:"description,omitempty"`
-	ExternalURL         *string `url:"external_url,omitempty" json:"external_url,omitempty"`
-	Tier                *string `url:"tier,omitempty" json:"tier,omitempty"`
-	ClusterAgentID      *int    `url:"cluster_agent_id,omitempty" json:"cluster_agent_id,omitempty"`
-	KubernetesNamespace *string `url:"kubernetes_namespace,omitempty" json:"kubernetes_namespace,omitempty"`
-	FluxResourcePath    *string `url:"flux_resource_path,omitempty" json:"flux_resource_path,omitempty"`
+	Name                *string                `url:"name,omitempty" json:"name,omitempty"`
+	Description         *string                `url:"description,omitempty" json:"description,omitempty"`
+	ExternalURL         *string                `url:"external_url,omitempty" json:"external_url,omitempty"`
+	Tier                *string                `url:"tier,omitempty" json:"tier,omitempty"`
+	ClusterAgentID      nullable.Nullable[int] `url:"cluster_agent_id,omitempty" json:"cluster_agent_id,omitempty"`
+	KubernetesNamespace *string                `url:"kubernetes_namespace,omitempty" json:"kubernetes_namespace,omitempty"`
+	FluxResourcePath    *string                `url:"flux_resource_path,omitempty" json:"flux_resource_path,omitempty"`
 }
 
 // EditEnvironment updates a project team environment to a specified access level..

@@ -6,6 +6,7 @@ require (
 	github.com/google/go-querystring v1.1.0
 	github.com/hashicorp/go-cleanhttp v0.5.2
 	github.com/hashicorp/go-retryablehttp v0.7.7
+	github.com/oapi-codegen/nullable v1.1.0
 	github.com/stretchr/testify v1.8.1
 	golang.org/x/oauth2 v0.6.0
 	golang.org/x/time v0.3.0

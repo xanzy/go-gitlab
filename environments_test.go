@@ -25,6 +25,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/oapi-codegen/nullable"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -257,6 +258,7 @@ func TestEditEnvironment(t *testing.T) {
 	mux.HandleFunc("/api/v4/projects/1/environments/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
 		testURL(t, r, "/api/v4/projects/1/environments/1")
+		testBody(t, r, `{"name":"staging","description":"test","external_url":"https://staging.example.gitlab.com","tier":"staging","cluster_agent_id":1,"kubernetes_namespace":"flux-system","flux_resource_path":"HelmRelease/flux-system"}`)
 		fmt.Fprint(w, `{
       "id": 1,
       "name": "staging",
@@ -289,7 +291,7 @@ func TestEditEnvironment(t *testing.T) {
 		Description:         Ptr("test"),
 		ExternalURL:         Ptr("https://staging.example.gitlab.com"),
 		Tier:                Ptr("staging"),
-		ClusterAgentID:      Ptr(1),
+		ClusterAgentID:      nullable.NewNullableWithValue(1),
 		KubernetesNamespace: Ptr("flux-system"),
 		FluxResourcePath:    Ptr("HelmRelease/flux-system"),
 	})
@@ -321,6 +323,121 @@ func TestEditEnvironment(t *testing.T) {
 		},
 		KubernetesNamespace: "flux-system",
 		FluxResourcePath:    "HelmRelease/flux-system",
+	}
+	if !reflect.DeepEqual(want, envs) {
+		t.Errorf("Environments.EditEnvironment returned %+v, want %+v", envs, want)
+	}
+}
+
+func TestEditEnvironment_LeaveClusterAgentUnchanged(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/projects/1/environments/1", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPut)
+		testURL(t, r, "/api/v4/projects/1/environments/1")
+		testBody(t, r, `{"name":"staging","description":"test","external_url":"https://staging.example.gitlab.com","tier":"staging"}`)
+		fmt.Fprint(w, `{
+      "id": 1,
+      "name": "staging",
+	  "description": "test",
+      "slug": "staging",
+      "external_url": "https://staging.example.gitlab.com",
+      "tier": "staging",
+      "cluster_agent": {
+        "id": 1,
+        "name": "agent-1",
+        "config_project": {
+          "id": 20,
+          "description": "",
+          "name": "test",
+          "name_with_namespace": "Administrator / test",
+          "path": "test",
+          "path_with_namespace": "root/test",
+          "created_at": "2013-10-02T10:12:29Z"
+        },
+        "created_at": "2013-10-02T10:12:29Z",
+        "created_by_user_id": 42
+    },
+	  "kubernetes_namespace": "flux-system",
+	  "flux_resource_path": "HelmRelease/flux-system"
+    }`)
+	})
+
+	envs, _, err := client.Environments.EditEnvironment(1, 1, &EditEnvironmentOptions{
+		Name:                Ptr("staging"),
+		Description:         Ptr("test"),
+		ExternalURL:         Ptr("https://staging.example.gitlab.com"),
+		Tier:                Ptr("staging"),
+	})
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	createdAtWant, _ := time.Parse(timeLayout, "2013-10-02T10:12:29Z")
+	want := &Environment{
+		ID:          1,
+		Name:        "staging",
+		Slug:        "staging",
+		Description: "test",
+		ExternalURL: "https://staging.example.gitlab.com",
+		Tier:        "staging",
+		ClusterAgent: &Agent{
+			ID:   1,
+			Name: "agent-1",
+			ConfigProject: ConfigProject{
+				ID:                20,
+				Name:              "test",
+				NameWithNamespace: "Administrator / test",
+				Path:              "test",
+				PathWithNamespace: "root/test",
+				CreatedAt:         &createdAtWant,
+			},
+			CreatedAt:       &createdAtWant,
+			CreatedByUserID: 42,
+		},
+		KubernetesNamespace: "flux-system",
+		FluxResourcePath:    "HelmRelease/flux-system",
+	}
+	if !reflect.DeepEqual(want, envs) {
+		t.Errorf("Environments.EditEnvironment returned %+v, want %+v", envs, want)
+	}
+}
+
+func TestEditEnvironment_UnsetClusterAgent(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/projects/1/environments/1", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPut)
+		testURL(t, r, "/api/v4/projects/1/environments/1")
+		testBody(t, r, `{"name":"staging","description":"test","external_url":"https://staging.example.gitlab.com","tier":"staging","cluster_agent_id":null}`)
+		fmt.Fprint(w, `{
+      "id": 1,
+      "name": "staging",
+	  "description": "test",
+      "slug": "staging",
+      "external_url": "https://staging.example.gitlab.com",
+      "tier": "staging"
+    }`)
+	})
+
+	envs, _, err := client.Environments.EditEnvironment(1, 1, &EditEnvironmentOptions{
+		Name:                Ptr("staging"),
+		Description:         Ptr("test"),
+		ExternalURL:         Ptr("https://staging.example.gitlab.com"),
+		Tier:                Ptr("staging"),
+		ClusterAgentID:      nullable.NewNullNullable[int](),
+	})
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	want := &Environment{
+		ID:          1,
+		Name:        "staging",
+		Slug:        "staging",
+		Description: "test",
+		ExternalURL: "https://staging.example.gitlab.com",
+		Tier:        "staging",
 	}
 	if !reflect.DeepEqual(want, envs) {
 		t.Errorf("Environments.EditEnvironment returned %+v, want %+v", envs, want)
