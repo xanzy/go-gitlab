@@ -229,30 +229,11 @@ func (s *GroupsService) DeleteGroupHook(pid interface{}, hook int, options ...Re
 	return s.client.Do(req, nil)
 }
 
-// GroupHookTriggerType represents the type of event to trigger for a group hook test.
-type GroupHookTriggerType string
-
-// List of available group hook trigger types.
-const (
-	GroupHookTriggerPush                GroupHookTriggerType = "push_events"
-	GroupHookTriggerTagPush             GroupHookTriggerType = "tag_push_events"
-	GroupHookTriggerIssue               GroupHookTriggerType = "issues_events"
-	GroupHookTriggerConfidentialIssue   GroupHookTriggerType = "confidential_issues_events"
-	GroupHookTriggerNote                GroupHookTriggerType = "note_events"
-	GroupHookTriggerMergeRequest        GroupHookTriggerType = "merge_requests_events"
-	GroupHookTriggerJob                 GroupHookTriggerType = "job_events"
-	GroupHookTriggerPipeline            GroupHookTriggerType = "pipeline_events"
-	GroupHookTriggerWikiPage            GroupHookTriggerType = "wiki_page_events"
-	GroupHookTriggerRelease             GroupHookTriggerType = "releases_events"
-	GroupHookTriggerEmoji               GroupHookTriggerType = "emoji_events"
-	GroupHookTriggerResourceAccessToken GroupHookTriggerType = "resource_access_token_events"
-)
-
 // TriggerTestGroupHook triggers a test hook for a specified group.
 //
 // GitLab API docs:
-// https://docs.gitlab.com/ee/api/group_hooks.html#trigger-a-test-group-hook
-func (s *GroupsService) TriggerTestGroupHook(pid interface{}, hook int, trigger GroupHookTriggerType, options ...RequestOptionFunc) (*Response, error) {
+// https://docs.gitlab.com/ee/api/group_webhooks.html#trigger-a-test-group-hook
+func (s *GroupsService) TriggerTestGroupHook(pid interface{}, hook int, trigger GroupHookTrigger, options ...RequestOptionFunc) (*Response, error) {
 	group, err := parseID(pid)
 	if err != nil {
 		return nil, err

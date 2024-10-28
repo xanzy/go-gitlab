@@ -374,44 +374,44 @@ func TestTriggerTestGroupHook(t *testing.T) {
 	})
 
 	tests := []struct {
-		name        string
-		groupID     interface{}
-		hookID      int
-		triggerType GroupHookTriggerType
-		wantErr     bool
-		wantStatus  int
-		wantErrMsg  string
+		name       string
+		groupID    interface{}
+		hookID     int
+		trigger    GroupHookTrigger
+		wantErr    bool
+		wantStatus int
+		wantErrMsg string
 	}{
 		{
-			name:        "Valid trigger",
-			groupID:     1,
-			hookID:      1,
-			triggerType: GroupHookTriggerPush,
-			wantErr:     false,
-			wantStatus:  http.StatusCreated,
+			name:       "Valid trigger",
+			groupID:    1,
+			hookID:     1,
+			trigger:    GroupHookTriggerPush,
+			wantErr:    false,
+			wantStatus: http.StatusCreated,
 		},
 		{
-			name:        "Invalid group ID",
-			groupID:     "invalid",
-			hookID:      1,
-			triggerType: GroupHookTriggerPush,
-			wantErr:     true,
-			wantStatus:  http.StatusNotFound,
+			name:       "Invalid group ID",
+			groupID:    "invalid",
+			hookID:     1,
+			trigger:    GroupHookTriggerPush,
+			wantErr:    true,
+			wantStatus: http.StatusNotFound,
 		},
 		{
-			name:        "Invalid trigger type",
-			groupID:     1,
-			hookID:      1,
-			triggerType: "invalid_trigger",
-			wantErr:     true,
-			wantStatus:  http.StatusBadRequest,
-			wantErrMsg:  "trigger does not have a valid value",
+			name:       "Invalid trigger type",
+			groupID:    1,
+			hookID:     1,
+			trigger:    "invalid_trigger",
+			wantErr:    true,
+			wantStatus: http.StatusBadRequest,
+			wantErrMsg: "trigger does not have a valid value",
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			resp, err := client.Groups.TriggerTestGroupHook(tt.groupID, tt.hookID, tt.triggerType)
+			resp, err := client.Groups.TriggerTestGroupHook(tt.groupID, tt.hookID, tt.trigger)
 
 			if tt.wantErr {
 				assert.Error(t, err)
