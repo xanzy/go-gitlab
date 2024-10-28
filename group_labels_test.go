@@ -29,18 +29,18 @@ func TestCreateGroupGroupLabel(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/groups/1/labels", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
-		fmt.Fprint(w, `{"id":1, "name": "My / GroupLabel", "color" : "#11FF22"}`)
+		fmt.Fprint(w, `{"id":1, "name": "MyGroupLabel", "color" : "#11FF22"}`)
 	})
 
 	l := &CreateGroupLabelOptions{
-		Name:  Ptr("My / GroupLabel"),
+		Name:  Ptr("MyGroupLabel"),
 		Color: Ptr("#11FF22"),
 	}
 	label, _, err := client.GroupLabels.CreateGroupLabel("1", l)
 	if err != nil {
 		log.Fatal(err)
 	}
-	want := &GroupLabel{ID: 1, Name: "My / GroupLabel", Color: "#11FF22"}
+	want := &GroupLabel{ID: 1, Name: "MyGroupLabel", Color: "#11FF22"}
 	if !reflect.DeepEqual(want, label) {
 		t.Errorf("GroupLabels.CreateGroupLabel returned %+v, want %+v", label, want)
 	}
@@ -62,15 +62,11 @@ func TestDeleteGroupLabelByID(t *testing.T) {
 func TestDeleteGroupLabelByName(t *testing.T) {
 	mux, client := setup(t)
 
-	mux.HandleFunc("/api/v4/groups/1/labels", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v4/groups/1/labels/MyGroupLabel", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)
 	})
 
-	label := &DeleteGroupLabelOptions{
-		Name: Ptr("My / GroupLabel"),
-	}
-
-	_, err := client.GroupLabels.DeleteGroupLabel("1", nil, label)
+	_, err := client.GroupLabels.DeleteGroupLabel("1", "MyGroupLabel", nil)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -79,19 +75,18 @@ func TestDeleteGroupLabelByName(t *testing.T) {
 func TestUpdateGroupLabel(t *testing.T) {
 	mux, client := setup(t)
 
-	mux.HandleFunc("/api/v4/groups/1/labels", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v4/groups/1/labels/MyGroupLabel", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
-		fmt.Fprint(w, `{"id":1, "name": "New / GroupLabel", "color" : "#11FF23" , "description":"This is updated label"}`)
+		fmt.Fprint(w, `{"id":1, "name": "NewLabel", "color" : "#11FF23" , "description":"This is updated label"}`)
 	})
 
 	l := &UpdateGroupLabelOptions{
-		Name:        Ptr("My / GroupLabel"),
-		NewName:     Ptr("New / GroupLabel"),
+		NewName:     Ptr("NewLabel"),
 		Color:       Ptr("#11FF23"),
 		Description: Ptr("This is updated label"),
 	}
 
-	label, resp, err := client.GroupLabels.UpdateGroupLabel("1", l)
+	label, resp, err := client.GroupLabels.UpdateGroupLabel("1", "MyGroupLabel", l)
 
 	if resp == nil {
 		log.Fatal(err)
@@ -100,7 +95,7 @@ func TestUpdateGroupLabel(t *testing.T) {
 		log.Fatal(err)
 	}
 
-	want := &GroupLabel{ID: 1, Name: "New / GroupLabel", Color: "#11FF23", Description: "This is updated label"}
+	want := &GroupLabel{ID: 1, Name: "NewLabel", Color: "#11FF23", Description: "This is updated label"}
 
 	if !reflect.DeepEqual(want, label) {
 		t.Errorf("GroupLabels.UpdateGroupLabel returned %+v, want %+v", label, want)

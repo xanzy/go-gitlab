@@ -29,12 +29,12 @@ func TestCreateLabel(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/labels", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
-		fmt.Fprint(w, `{"id":1, "name": "My Label", "color" : "#11FF22", "priority": 2}`)
+		fmt.Fprint(w, `{"id":1, "name": "MyLabel", "color" : "#11FF22", "priority": 2}`)
 	})
 
 	// Create new label
 	l := &CreateLabelOptions{
-		Name:     Ptr("My Label"),
+		Name:     Ptr("MyLabel"),
 		Color:    Ptr("#11FF22"),
 		Priority: Ptr(2),
 	}
@@ -42,7 +42,7 @@ func TestCreateLabel(t *testing.T) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	want := &Label{ID: 1, Name: "My Label", Color: "#11FF22", Priority: 2}
+	want := &Label{ID: 1, Name: "MyLabel", Color: "#11FF22", Priority: 2}
 	if !reflect.DeepEqual(want, label) {
 		t.Errorf("Labels.CreateLabel returned %+v, want %+v", label, want)
 	}
@@ -65,16 +65,16 @@ func TestDeleteLabelbyID(t *testing.T) {
 func TestDeleteLabelbyName(t *testing.T) {
 	mux, client := setup(t)
 
-	mux.HandleFunc("/api/v4/projects/1/labels", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v4/projects/1/labels/MyLabel", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodDelete)
 	})
 
 	// Delete label
 	label := &DeleteLabelOptions{
-		Name: Ptr("My Label"),
+		Name: Ptr("MyLabel"),
 	}
 
-	_, err := client.Labels.DeleteLabel("1", nil, label)
+	_, err := client.Labels.DeleteLabel("1", "MyLabel", label)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -83,21 +83,20 @@ func TestDeleteLabelbyName(t *testing.T) {
 func TestUpdateLabel(t *testing.T) {
 	mux, client := setup(t)
 
-	mux.HandleFunc("/api/v4/projects/1/labels", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/api/v4/projects/1/labels/MyLabel", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
 		fmt.Fprint(w, `{"id":1, "name": "New Label", "color" : "#11FF23" , "description":"This is updated label", "priority": 42}`)
 	})
 
 	// Update label
 	l := &UpdateLabelOptions{
-		Name:        Ptr("My Label"),
 		NewName:     Ptr("New Label"),
 		Color:       Ptr("#11FF23"),
 		Description: Ptr("This is updated label"),
 		Priority:    Ptr(42),
 	}
 
-	label, resp, err := client.Labels.UpdateLabel("1", l)
+	label, resp, err := client.Labels.UpdateLabel("1", "MyLabel", l)
 
 	if resp == nil {
 		log.Fatal(err)
