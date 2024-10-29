@@ -271,3 +271,23 @@ func TestDeletePipeline(t *testing.T) {
 		t.Errorf("Pipelines.DeletePipeline returned error: %v", err)
 	}
 }
+
+func TestUpdateMetadata(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/projects/1/pipelines/234/metadata", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPut)
+		fmt.Fprint(w, `{"id":1, "status":"running"}`)
+	})
+
+	opt := &UpdateMetadataOptions{Name: "new pipeline title"}
+	pipeline, _, err := client.Pipelines.UpdateMetadata("1", 234, opt)
+	if err != nil {
+		t.Errorf("Pipelines.UpdateMetadata returned error: %v", err)
+	}
+
+	want := &Pipeline{ID: 1, Status: "running"}
+	if !reflect.DeepEqual(want, pipeline) {
+		t.Errorf("Pipelines.UpdateMetadata returned %+v, want %+v", pipeline, want)
+	}
+}
