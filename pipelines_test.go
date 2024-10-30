@@ -280,14 +280,14 @@ func TestUpdateMetadata(t *testing.T) {
 		fmt.Fprint(w, `{"id":1, "status":"running"}`)
 	})
 
-	opt := &UpdateMetadataOptions{Name: "new pipeline title"}
-	pipeline, _, err := client.Pipelines.UpdateMetadata("1", 234, opt)
+	opt := &UpdatePipelineMetadataOptions{Name: Ptr("new pipeline title")}
+	pipeline, _, err := client.Pipelines.UpdatePipelineMetadata("1", 234, opt)
 	if err != nil {
-		t.Errorf("Pipelines.UpdateMetadata returned error: %v", err)
+		t.Errorf("Pipelines.UpdatePipelineMetadata returned error: %v", err)
 	}
 
 	want := &Pipeline{ID: 1, Status: "running"}
 	if !reflect.DeepEqual(want, pipeline) {
-		t.Errorf("Pipelines.UpdateMetadata returned %+v, want %+v", pipeline, want)
+		t.Errorf("Pipelines.UpdatePipelineMetadata returned %+v, want %+v", pipeline, want)
 	}
 }

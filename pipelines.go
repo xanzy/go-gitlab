@@ -407,18 +407,20 @@ func (s *PipelinesService) DeletePipeline(pid interface{}, pipeline int, options
 	return s.client.Do(req, nil)
 }
 
-// UpdateMetadataOptions represents the available UpdateMetadata() options.
-//
-// https://docs.gitlab.com/ee/api/pipelines.html#update-pipeline-metadata
-type UpdateMetadataOptions struct {
-	Name string `url:"ref" json:"name"`
-}
-
-// UpdateMetadata You can update the metadata of a pipeline. The metadata contains the name of the pipeline.
+// UpdatePipelineMetadataOptions represents the available UpdatePipelineMetadata() options.
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/pipelines.html#update-pipeline-metadata
-func (s *PipelinesService) UpdateMetadata(pid interface{}, pipeline int, opt *UpdateMetadataOptions, options ...RequestOptionFunc) (*Pipeline, *Response, error) {
+type UpdatePipelineMetadataOptions struct {
+	Name *string `url:"name,omitempty" json:"name,omitempty"`
+}
+
+// UpdatePipelineMetadata You can update the metadata of a pipeline. The metadata
+// contains the name of the pipeline.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/pipelines.html#update-pipeline-metadata
+func (s *PipelinesService) UpdatePipelineMetadata(pid interface{}, pipeline int, opt *UpdatePipelineMetadataOptions, options ...RequestOptionFunc) (*Pipeline, *Response, error) {
 	project, err := parseID(pid)
 	if err != nil {
 		return nil, nil, err
