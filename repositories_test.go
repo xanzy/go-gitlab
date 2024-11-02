@@ -281,6 +281,7 @@ func TestRepositoriesService_Compare(t *testing.T) {
 		}},
 		CompareTimeout: false,
 		CompareSameRef: false,
+		WebUrl:         "https://gitlab.example.com/thedude/gitlab-foss/-/compare/ae73cb07c9eeaf35924a10f713b364d32b2dd34f...0b4bc9a49b562e85de7cc9e834518ea6828729b9",
 	}
 
 	c, resp, err := client.Repositories.Compare("12d65c8dd2b2676fa3ac47d955accc085a37a9c1", opt, nil)
