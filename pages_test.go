@@ -78,3 +78,47 @@ func TestGetPages(t *testing.T) {
 	require.NotNil(t, resp)
 	require.Equal(t, want, p)
 }
+
+func TestUpdatePages(t *testing.T) {
+	mux, client := setup(t)
+	mux.HandleFunc("/api/v4/projects/2/pages", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPatch)
+		fmt.Fprint(w, `
+		  {
+			"url": "https://ssl.domain.example",
+			"deployments": [
+			  {
+				"created_at": "2021-04-27T21:27:38.584Z",
+				"url": "https://ssl.domain.example/",
+				"path_prefix": "",
+				"root_directory": null
+			  }
+			],
+			"is_unique_domain_enabled": true,
+			"force_https": false
+		  }
+		`)
+	})
+
+	want := &Pages{
+		URL:                   "https://ssl.domain.example",
+		IsUniqueDomainEnabled: true,
+		ForceHTTPS:            false,
+		Deployments: []*PagesDeployment{
+			{
+				CreatedAt:     time.Date(2021, time.April, 27, 21, 27, 38, 584000000, time.UTC),
+				URL:           "https://ssl.domain.example/",
+				PathPrefix:    "",
+				RootDirectory: "",
+			},
+		},
+	}
+
+	p, resp, err := client.Pages.UpdatePages(2, UpdatePagesOptions{
+		PagesUniqueDomainEnabled: Ptr(true),
+		PagesHttpsOnly:           Ptr(false),
+	})
+	require.NoError(t, err)
+	require.NotNil(t, resp)
+	require.Equal(t, want, p)
+}
