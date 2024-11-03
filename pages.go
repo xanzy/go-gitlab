@@ -97,7 +97,7 @@ func (s *PagesService) GetPages(gid interface{}, options ...RequestOptionFunc) (
 // https://docs.gitlab.com/ee/api/pages.html#update-pages-settings-for-a-project
 type UpdatePagesOptions struct {
 	PagesUniqueDomainEnabled *bool `url:"pages_unique_domain_enabled,omitempty" json:"pages_unique_domain_enabled,omitempty"`
-	PagesHttpsOnly           *bool `url:"pages_https_only,omitempty" json:"pages_https_only,omitempty"`
+	PagesHTTPSOnly           *bool `url:"pages_https_only,omitempty" json:"pages_https_only,omitempty"`
 }
 
 // UpdatePages updates Pages settings for a project. The user must have

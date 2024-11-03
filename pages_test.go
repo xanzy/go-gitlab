@@ -116,7 +116,7 @@ func TestUpdatePages(t *testing.T) {
 
 	p, resp, err := client.Pages.UpdatePages(2, UpdatePagesOptions{
 		PagesUniqueDomainEnabled: Ptr(true),
-		PagesHttpsOnly:           Ptr(false),
+		PagesHTTPSOnly:           Ptr(false),
 	})
 	require.NoError(t, err)
 	require.NotNil(t, resp)
