@@ -85,6 +85,7 @@ func TestSetCustomIssueTrackerService(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/services/custom-issue-tracker", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
+		fmt.Fprint(w, `{"id":1, "properties": {}}`)
 	})
 
 	opt := &SetCustomIssueTrackerServiceOptions{
@@ -156,6 +157,7 @@ func TestSetDataDogService(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/services/datadog", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
+		fmt.Fprint(w, `{"id":1, "properties": {}}`)
 	})
 
 	opt := &SetDataDogServiceOptions{
@@ -210,6 +212,7 @@ func TestSetDiscordService(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/services/discord", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
+		fmt.Fprint(w, `{"id":1, "properties": {}}`)
 	})
 
 	opt := &SetDiscordServiceOptions{
@@ -258,6 +261,7 @@ func TestSetDroneCIService(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/services/drone-ci", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
+		fmt.Fprint(w, `{"id":1, "properties": {}}`)
 	})
 
 	opt := &SetDroneCIServiceOptions{Ptr("token"), Ptr("drone-url"), Ptr(true), nil, nil, nil}
@@ -304,6 +308,7 @@ func TestSetEmailsOnPushService(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/integrations/emails-on-push", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
+		fmt.Fprint(w, `{"id":1, "properties": {}}`)
 	})
 
 	opt := &SetEmailsOnPushServiceOptions{Ptr("t"), Ptr(true), Ptr(true), Ptr(true), Ptr(true), Ptr("t")}
@@ -350,6 +355,7 @@ func TestSetHarborService(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/integrations/harbor", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
+		fmt.Fprint(w, `{"id":1, "properties": {}}`)
 	})
 
 	opt := &SetHarborServiceOptions{
@@ -402,6 +408,7 @@ func TestSetSlackApplication(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/integrations/gitlab-slack-application", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
+		fmt.Fprint(w, `{"id":1, "properties": {}}`)
 	})
 
 	opt := &SetSlackApplicationOptions{Channel: Ptr("#channel1"), NoteEvents: Ptr(true), AlertEvents: Ptr(true)}
@@ -501,6 +508,7 @@ func TestSetJiraService(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/integrations/jira", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
+		fmt.Fprint(w, `{"id":1, "properties": {}}`)
 	})
 
 	opt := &SetJiraServiceOptions{
@@ -532,6 +540,7 @@ func TestSetJiraServiceProjecKeys(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/integrations/jira", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
+		fmt.Fprint(w, `{"id":1, "properties": {}}`)
 	})
 
 	opt := &SetJiraServiceOptions{
@@ -563,6 +572,7 @@ func TestSetJiraServiceAuthTypeBasicAuth(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/integrations/jira", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
+		fmt.Fprint(w, `{"id":1, "properties": {}}`)
 	})
 
 	opt := &SetJiraServiceOptions{
@@ -583,6 +593,7 @@ func TestSetJiraServiceAuthTypeTokenAuth(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/integrations/jira", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
+		fmt.Fprint(w, `{"id":1, "properties": {}}`)
 	})
 
 	opt := &SetJiraServiceOptions{
@@ -633,6 +644,7 @@ func TestSetMattermostService(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/services/mattermost", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
+		fmt.Fprint(w, `{"id":1, "properties": {}}`)
 	})
 
 	opt := &SetMattermostServiceOptions{
@@ -683,6 +695,7 @@ func TestSetMattermostSlashCommandsService(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/services/mattermost-slash-commands", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
+		fmt.Fprint(w, `{"id":1, "properties": {}}`)
 	})
 
 	opt := &SetMattermostSlashCommandsServiceOptions{
@@ -732,6 +745,7 @@ func TestSetPipelinesEmailService(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/services/pipelines-email", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
+		fmt.Fprint(w, `{"id":1, "properties": {}}`)
 	})
 
 	opt := &SetPipelinesEmailServiceOptions{
@@ -785,6 +799,7 @@ func TestSetPrometheusService(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/services/prometheus", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
+		fmt.Fprint(w, `{"id":1, "properties": {}}`)
 	})
 
 	opt := &SetPrometheusServiceOptions{Ptr("t"), Ptr("u"), Ptr("a")}
@@ -831,6 +846,7 @@ func TestSetRedmineService(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/integrations/redmine", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
+		fmt.Fprint(w, `{"id":1, "properties": {}}`)
 	})
 
 	opt := &SetRedmineServiceOptions{Ptr("t"), Ptr("u"), Ptr("a"), Ptr(false)}
@@ -877,6 +893,7 @@ func TestSetSlackService(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/services/slack", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
+		fmt.Fprint(w, `{"id":1, "properties": {}}`)
 	})
 
 	opt := &SetSlackServiceOptions{
@@ -927,6 +944,7 @@ func TestSetSlackSlashCommandsService(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/services/slack-slash-commands", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
+		fmt.Fprint(w, `{"id":1, "properties": {}}`)
 	})
 
 	opt := &SetSlackSlashCommandsServiceOptions{
@@ -1036,6 +1054,7 @@ func TestSetTelegramService(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/services/telegram", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
+		fmt.Fprint(w, `{"id":1, "properties": {}}`)
 	})
 
 	opt := &SetTelegramServiceOptions{
@@ -1096,6 +1115,7 @@ func TestSetYouTrackService(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/projects/1/services/youtrack", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
+		fmt.Fprint(w, `{"id":1, "properties": {}}`)
 	})
 
 	opt := &SetYouTrackServiceOptions{
