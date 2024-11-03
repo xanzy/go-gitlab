@@ -90,3 +90,38 @@ func (s *PagesService) GetPages(gid interface{}, options ...RequestOptionFunc) (
 
 	return p, resp, nil
 }
+
+// UpdatePages represents the available UpdatePages() options.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/api/pages.html#update-pages-settings-for-a-project
+type UpdatePagesOptions struct {
+	PagesUniqueDomainEnabled *bool `url:"pages_unique_domain_enabled,omitempty" json:"pages_unique_domain_enabled,omitempty"`
+	PagesHTTPSOnly           *bool `url:"pages_https_only,omitempty" json:"pages_https_only,omitempty"`
+}
+
+// UpdatePages updates Pages settings for a project. The user must have
+// administrator privileges.
+//
+// GitLab API Docs:
+// https://docs.gitlab.com/ee/api/pages.html#update-pages-settings-for-a-project
+func (s *PagesService) UpdatePages(pid interface{}, opt UpdatePagesOptions, options ...RequestOptionFunc) (*Pages, *Response, error) {
+	project, err := parseID(pid)
+	if err != nil {
+		return nil, nil, err
+	}
+	u := fmt.Sprintf("projects/%s/pages", PathEscape(project))
+
+	req, err := s.client.NewRequest(http.MethodPatch, u, opt, options)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	p := new(Pages)
+	resp, err := s.client.Do(req, p)
+	if err != nil {
+		return nil, resp, err
+	}
+
+	return p, resp, nil
+}
