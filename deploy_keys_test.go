@@ -272,13 +272,16 @@ func TestAddDeployKey_withExpiresAt(t *testing.T) {
 		 }`)
 	})
 
-	expiresAtIsoTime := ISOTime(time.Date(2999, time.March, 1, 0, 0, 0, 0, time.UTC))
+	expiresAt, err := time.Parse(timeLayout, "2999-03-01T00:00:00.000Z")
+	if err != nil {
+		t.Errorf("DeployKeys.AddDeployKey returned an error while parsing time: %v", err)
+	}
 
 	opt := &AddDeployKeyOptions{
 		Key:       Ptr("ssh-rsa AAAA..."),
 		Title:     Ptr("My deploy key"),
 		CanPush:   Ptr(true),
-		ExpiresAt: &expiresAtIsoTime,
+		ExpiresAt: &expiresAt,
 	}
 	deployKey, _, err := client.DeployKeys.AddDeployKey(5, opt)
 	if err != nil {
@@ -287,12 +290,7 @@ func TestAddDeployKey_withExpiresAt(t *testing.T) {
 
 	createdAt, err := time.Parse(timeLayout, "2015-08-29T12:44:31.550Z")
 	if err != nil {
-		t.Errorf("DeployKeys.ListAllDeployKeys returned an error while parsing time: %v", err)
-	}
-
-	expiresAt, err := time.Parse(timeLayout, "2999-03-01T00:00:00.000Z")
-	if err != nil {
-		t.Errorf("DeployKeys.ListAllDeployKeys returned an error while parsing time: %v", err)
+		t.Errorf("DeployKeys.AddDeployKey returned an error while parsing time: %v", err)
 	}
 
 	want := &ProjectDeployKey{

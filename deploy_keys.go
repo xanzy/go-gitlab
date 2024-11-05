@@ -165,10 +165,10 @@ func (s *DeployKeysService) GetDeployKey(pid interface{}, deployKey int, options
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/deploy_keys.html#add-deploy-key-for-a-project
 type AddDeployKeyOptions struct {
-	Key       *string  `url:"key,omitempty" json:"key,omitempty"`
-	Title     *string  `url:"title,omitempty" json:"title,omitempty"`
-	CanPush   *bool    `url:"can_push,omitempty" json:"can_push,omitempty"`
-	ExpiresAt *ISOTime `url:"expires_at,omitempty" json:"expires_at,omitempty"`
+	Key       *string    `url:"key,omitempty" json:"key,omitempty"`
+	Title     *string    `url:"title,omitempty" json:"title,omitempty"`
+	CanPush   *bool      `url:"can_push,omitempty" json:"can_push,omitempty"`
+	ExpiresAt *time.Time `url:"expires_at,omitempty" json:"expires_at,omitempty"`
 }
 
 // AddDeployKey creates a new deploy key for a project. If deploy key already
