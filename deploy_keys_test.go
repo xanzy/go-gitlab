@@ -225,7 +225,8 @@ func TestAddDeployKey(t *testing.T) {
 			"id" : 12,
 			"title" : "My deploy key",
 			"can_push": true,
-			"created_at" : "2015-08-29T12:44:31.550Z"
+			"created_at" : "2015-08-29T12:44:31.550Z",
+			"expires_at": null
 		 }`)
 	})
 
@@ -250,6 +251,55 @@ func TestAddDeployKey(t *testing.T) {
 		Key:       "ssh-rsa AAAA...",
 		CreatedAt: &createdAt,
 		CanPush:   true,
+	}
+	if !reflect.DeepEqual(want, deployKey) {
+		t.Errorf("DeployKeys.AddDeployKey returned %+v, want %+v", deployKey, want)
+	}
+}
+
+func TestAddDeployKey_withExpiresAt(t *testing.T) {
+	mux, client := setup(t)
+
+	mux.HandleFunc("/api/v4/projects/5/deploy_keys", func(w http.ResponseWriter, r *http.Request) {
+		testMethod(t, r, http.MethodPost)
+		fmt.Fprintf(w, `{
+			"key" : "ssh-rsa AAAA...",
+			"id" : 12,
+			"title" : "My deploy key",
+			"can_push": true,
+			"created_at" : "2015-08-29T12:44:31.550Z",
+			"expires_at": "2999-03-01T00:00:00.000Z"
+		 }`)
+	})
+
+	expiresAt, err := time.Parse(timeLayout, "2999-03-01T00:00:00.000Z")
+	if err != nil {
+		t.Errorf("DeployKeys.AddDeployKey returned an error while parsing time: %v", err)
+	}
+
+	opt := &AddDeployKeyOptions{
+		Key:       Ptr("ssh-rsa AAAA..."),
+		Title:     Ptr("My deploy key"),
+		CanPush:   Ptr(true),
+		ExpiresAt: &expiresAt,
+	}
+	deployKey, _, err := client.DeployKeys.AddDeployKey(5, opt)
+	if err != nil {
+		t.Errorf("DeployKey.AddDeployKey returned error: %v", err)
+	}
+
+	createdAt, err := time.Parse(timeLayout, "2015-08-29T12:44:31.550Z")
+	if err != nil {
+		t.Errorf("DeployKeys.AddDeployKey returned an error while parsing time: %v", err)
+	}
+
+	want := &ProjectDeployKey{
+		Title:     "My deploy key",
+		ID:        12,
+		Key:       "ssh-rsa AAAA...",
+		CreatedAt: &createdAt,
+		CanPush:   true,
+		ExpiresAt: &expiresAt,
 	}
 	if !reflect.DeepEqual(want, deployKey) {
 		t.Errorf("DeployKeys.AddDeployKey returned %+v, want %+v", deployKey, want)
