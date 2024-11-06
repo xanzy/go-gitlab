@@ -280,13 +280,14 @@ func TestListOwnedProjects(t *testing.T) {
 func TestEditProject(t *testing.T) {
 	mux, client := setup(t)
 
-	var developerAccessLevel AccessControlValue = "developer"
+	var developerRole AccessControlValue = "developer"
 	opt := &EditProjectOptions{
-		CIRestrictPipelineCancellationRole: Ptr(developerAccessLevel),
+		CIRestrictPipelineCancellationRole:     Ptr(developerRole),
+		CIPipelineVariablesMinimumOverrideRole: Ptr(developerRole),
 	}
 
-	// Store whether we've set the restrict value in our edit properly
-	restrictValueSet := false
+	// Store whether we've seen all the attributes we set
+	attributesFound := false
 
 	mux.HandleFunc("/api/v4/projects/1", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPut)
@@ -298,7 +299,8 @@ func TestEditProject(t *testing.T) {
 		}
 
 		// Set the value to check if our value is included
-		restrictValueSet = strings.Contains(string(body), "ci_restrict_pipeline_cancellation_role")
+		attributesFound = strings.Contains(string(body), "ci_restrict_pipeline_cancellation_role") &&
+			strings.Contains(string(body), "ci_pipeline_variables_minimum_override_role")
 
 		// Print the start of the mock example from https://docs.gitlab.com/ee/api/projects.html#edit-project
 		// including the attribute we edited
@@ -313,15 +315,17 @@ func TestEditProject(t *testing.T) {
 			"http_url_to_repo": "http://example.com/diaspora/diaspora-project-site.git",
 			"web_url": "http://example.com/diaspora/diaspora-project-site",
 			"readme_url": "http://example.com/diaspora/diaspora-project-site/blob/main/README.md",
-			"ci_restrict_pipeline_cancellation_role": "developer"
+			"ci_restrict_pipeline_cancellation_role": "developer",
+			"ci_pipeline_variables_minimum_override_role": "developer"
 		}`)
 	})
 
 	project, resp, err := client.Projects.EditProject(1, opt)
 	assert.NoError(t, err)
 	assert.Equal(t, http.StatusOK, resp.StatusCode)
-	assert.Equal(t, true, restrictValueSet)
-	assert.Equal(t, developerAccessLevel, project.CIRestrictPipelineCancellationRole)
+	assert.Equal(t, true, attributesFound)
+	assert.Equal(t, developerRole, project.CIRestrictPipelineCancellationRole)
+	assert.Equal(t, developerRole, project.CIPipelineVariablesMinimumOverrideRole)
 }
 
 func TestListStarredProjects(t *testing.T) {
@@ -374,6 +378,7 @@ func TestGetProjectByID(t *testing.T) {
 			"ci_forward_deployment_enabled": true,
 			"ci_forward_deployment_rollback_allowed": true,
 			"ci_restrict_pipeline_cancellation_role": "developer",
+			"ci_pipeline_variables_minimum_override_role": "no_one_allowed",
 			"packages_enabled": false,
 			"build_coverage_regex": "Total.*([0-9]{1,3})%"
 		  }`)
@@ -387,11 +392,12 @@ func TestGetProjectByID(t *testing.T) {
 			Cadence:   "7d",
 			NextRunAt: &wantTimestamp,
 		},
-		PackagesEnabled:                    false,
-		BuildCoverageRegex:                 `Total.*([0-9]{1,3})%`,
-		CIForwardDeploymentEnabled:         true,
-		CIForwardDeploymentRollbackAllowed: true,
-		CIRestrictPipelineCancellationRole: "developer",
+		PackagesEnabled:                        false,
+		BuildCoverageRegex:                     `Total.*([0-9]{1,3})%`,
+		CIForwardDeploymentEnabled:             true,
+		CIForwardDeploymentRollbackAllowed:     true,
+		CIRestrictPipelineCancellationRole:     "developer",
+		CIPipelineVariablesMinimumOverrideRole: "no_one_allowed",
 	}
 
 	project, _, err := client.Projects.GetProject(1, nil)

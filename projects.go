@@ -157,6 +157,7 @@ type Project struct {
 	MergePipelinesEnabled                    bool               `json:"merge_pipelines_enabled"`
 	MergeTrainsEnabled                       bool               `json:"merge_trains_enabled"`
 	RestrictUserDefinedVariables             bool               `json:"restrict_user_defined_variables"`
+	CIPipelineVariablesMinimumOverrideRole   AccessControlValue `json:"ci_pipeline_variables_minimum_override_role"`
 	MergeCommitTemplate                      string             `json:"merge_commit_template"`
 	SquashCommitTemplate                     string             `json:"squash_commit_template"`
 	AutoDevopsDeployStrategy                 string             `json:"auto_devops_deploy_strategy"`
@@ -854,6 +855,7 @@ type EditProjectOptions struct {
 	CIForwardDeploymentRollbackAllowed        *bool                                `url:"ci_forward_deployment_rollback_allowed,omitempty" json:"ci_forward_deployment_rollback_allowed,omitempty"`
 	CISeperateCache                           *bool                                `url:"ci_separated_caches,omitempty" json:"ci_separated_caches,omitempty"`
 	CIRestrictPipelineCancellationRole        *AccessControlValue                  `url:"ci_restrict_pipeline_cancellation_role,omitempty" json:"ci_restrict_pipeline_cancellation_role,omitempty"`
+	CIPipelineVariablesMinimumOverrideRole    *AccessControlValue                  `url:"ci_pipeline_variables_minimum_override_role,omitempty" json:"ci_pipeline_variables_minimum_override_role,omitempty"`
 	ContainerExpirationPolicyAttributes       *ContainerExpirationPolicyAttributes `url:"container_expiration_policy_attributes,omitempty" json:"container_expiration_policy_attributes,omitempty"`
 	ContainerRegistryAccessLevel              *AccessControlValue                  `url:"container_registry_access_level,omitempty" json:"container_registry_access_level,omitempty"`
 	DefaultBranch                             *string                              `url:"default_branch,omitempty" json:"default_branch,omitempty"`
