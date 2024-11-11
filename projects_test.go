@@ -281,9 +281,10 @@ func TestEditProject(t *testing.T) {
 	mux, client := setup(t)
 
 	var developerRole AccessControlValue = "developer"
+	developerPipelineVariablesRole := CIPipelineVariables_DeveloperRole
 	opt := &EditProjectOptions{
 		CIRestrictPipelineCancellationRole:     Ptr(developerRole),
-		CIPipelineVariablesMinimumOverrideRole: Ptr(developerRole),
+		CIPipelineVariablesMinimumOverrideRole: Ptr(developerPipelineVariablesRole),
 	}
 
 	// Store whether we've seen all the attributes we set
@@ -325,7 +326,7 @@ func TestEditProject(t *testing.T) {
 	assert.Equal(t, http.StatusOK, resp.StatusCode)
 	assert.Equal(t, true, attributesFound)
 	assert.Equal(t, developerRole, project.CIRestrictPipelineCancellationRole)
-	assert.Equal(t, developerRole, project.CIPipelineVariablesMinimumOverrideRole)
+	assert.Equal(t, developerPipelineVariablesRole, project.CIPipelineVariablesMinimumOverrideRole)
 }
 
 func TestListStarredProjects(t *testing.T) {

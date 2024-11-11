@@ -1002,3 +1002,12 @@ func (t *BoolValue) UnmarshalJSON(b []byte) error {
 		return err
 	}
 }
+
+type CIPipelineVariablesMinimumOverrideRoleValue = string
+
+const (
+	CIPipelineVariables_NoOneAllowedRole CIPipelineVariablesMinimumOverrideRoleValue = "no_one_allowed"
+	CiPipelineVariables_OwnerRole        CIPipelineVariablesMinimumOverrideRoleValue = "owner"
+	CiPipelineVariables_MaintainerRole   CIPipelineVariablesMinimumOverrideRoleValue = "maintainer"
+	CIPipelineVariables_DeveloperRole    CIPipelineVariablesMinimumOverrideRoleValue = "developer"
+)
