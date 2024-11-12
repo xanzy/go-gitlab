@@ -1003,8 +1003,15 @@ func (t *BoolValue) UnmarshalJSON(b []byte) error {
 	}
 }
 
+// CIPipelineVariablesMinimumOverrideRoleValue represents an access control
+// value used for managing access to the CI Pipeline Variable Override feature.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/projects.html
 type CIPipelineVariablesMinimumOverrideRoleValue = string
 
+// List of available CIPipelineVariablesMinimumOverrideRoleValue values.
+//
+// GitLab API docs: https://docs.gitlab.com/ee/api/projects.html
 const (
 	CIPipelineVariables_NoOneAllowedRole CIPipelineVariablesMinimumOverrideRoleValue = "no_one_allowed"
 	CiPipelineVariables_OwnerRole        CIPipelineVariablesMinimumOverrideRoleValue = "owner"
