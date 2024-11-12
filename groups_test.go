@@ -1124,3 +1124,42 @@ func TestEditGroupPushRules(t *testing.T) {
 		t.Errorf("Groups.EditGroupPushRule returned %+v, want %+v", rule, want)
 	}
 }
+
+func TestUpdateGroupWithAllowedEmailDomainsList(t *testing.T) {
+	mux, client := setup(t)
+	const domain = "example.com"
+
+	mux.HandleFunc("/api/v4/groups/1",
+		func(w http.ResponseWriter, r *http.Request) {
+			testMethod(t, r, http.MethodPut)
+
+			body, err := io.ReadAll(r.Body)
+			if err != nil {
+				t.Fatalf("Failed to read the request body. Error: %v", err)
+			}
+
+			var bodyJson map[string]interface{}
+			err = json.Unmarshal(body, &bodyJson)
+			if err != nil {
+				t.Fatalf("Failed to parse the request body into JSON. Error: %v", err)
+			}
+
+			if bodyJson["allowed_email_domains_list"] != domain {
+				t.Fatalf("Test failed. `allowed_email_domains_list` expected to be '%v', got %v", domain, bodyJson["allowed_email_domains_list"])
+			}
+
+			fmt.Fprintf(w, `{"id": 1, "allowed_email_domains_list" : "%v"}`, domain)
+		})
+
+	group, _, err := client.Groups.UpdateGroup(1, &UpdateGroupOptions{
+		AllowedEmailDomainsList: Ptr(domain),
+	})
+	if err != nil {
+		t.Errorf("Groups.UpdateGroup returned error: %v", err)
+	}
+
+	want := &Group{ID: 1, AllowedEmailDomainsList: domain}
+	if !reflect.DeepEqual(want, group) {
+		t.Errorf("Groups.UpdatedGroup returned %+v, want %+v", group, want)
+	}
+}
