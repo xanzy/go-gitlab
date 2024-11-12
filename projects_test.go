@@ -281,7 +281,7 @@ func TestEditProject(t *testing.T) {
 	mux, client := setup(t)
 
 	var developerRole AccessControlValue = "developer"
-	developerPipelineVariablesRole := CIPipelineVariables_DeveloperRole
+	developerPipelineVariablesRole := CIPipelineVariablesDeveloperRole
 	opt := &EditProjectOptions{
 		CIRestrictPipelineCancellationRole:     Ptr(developerRole),
 		CIPipelineVariablesMinimumOverrideRole: Ptr(developerPipelineVariablesRole),
