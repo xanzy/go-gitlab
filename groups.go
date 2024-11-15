@@ -87,6 +87,7 @@ type Group struct {
 	MarkedForDeletionOn            *ISOTime           `json:"marked_for_deletion_on"`
 	CreatedAt                      *time.Time         `json:"created_at"`
 	IPRestrictionRanges            string             `json:"ip_restriction_ranges"`
+	AllowedEmailDomainsList        string             `json:"allowed_email_domains_list"`
 	WikiAccessLevel                AccessControlValue `json:"wiki_access_level"`
 
 	// Deprecated: Use EmailsEnabled instead
@@ -383,7 +384,6 @@ type CreateGroupOptions struct {
 	ParentID                        *int                                    `url:"parent_id,omitempty" json:"parent_id,omitempty"`
 	SharedRunnersMinutesLimit       *int                                    `url:"shared_runners_minutes_limit,omitempty" json:"shared_runners_minutes_limit,omitempty"`
 	ExtraSharedRunnersMinutesLimit  *int                                    `url:"extra_shared_runners_minutes_limit,omitempty" json:"extra_shared_runners_minutes_limit,omitempty"`
-	IPRestrictionRanges             *string                                 `url:"ip_restriction_ranges,omitempty" json:"ip_restriction_ranges,omitempty"`
 	WikiAccessLevel                 *AccessControlValue                     `url:"wiki_access_level,omitempty" json:"wiki_access_level,omitempty"`
 
 	// Deprecated: Use EmailsEnabled instead
@@ -532,6 +532,7 @@ type UpdateGroupOptions struct {
 	SharedRunnersSetting                 *SharedRunnersSettingValue              `url:"shared_runners_setting,omitempty" json:"shared_runners_setting,omitempty"`
 	PreventSharingGroupsOutsideHierarchy *bool                                   `url:"prevent_sharing_groups_outside_hierarchy,omitempty" json:"prevent_sharing_groups_outside_hierarchy,omitempty"`
 	IPRestrictionRanges                  *string                                 `url:"ip_restriction_ranges,omitempty" json:"ip_restriction_ranges,omitempty"`
+	AllowedEmailDomainsList              *string                                 `url:"allowed_email_domains_list,omitempty" json:"allowed_email_domains_list,omitempty"`
 	WikiAccessLevel                      *AccessControlValue                     `url:"wiki_access_level,omitempty" json:"wiki_access_level,omitempty"`
 
 	// Deprecated: Use EmailsEnabled instead
