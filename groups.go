@@ -384,7 +384,6 @@ type CreateGroupOptions struct {
 	ParentID                        *int                                    `url:"parent_id,omitempty" json:"parent_id,omitempty"`
 	SharedRunnersMinutesLimit       *int                                    `url:"shared_runners_minutes_limit,omitempty" json:"shared_runners_minutes_limit,omitempty"`
 	ExtraSharedRunnersMinutesLimit  *int                                    `url:"extra_shared_runners_minutes_limit,omitempty" json:"extra_shared_runners_minutes_limit,omitempty"`
-	IPRestrictionRanges             *string                                 `url:"ip_restriction_ranges,omitempty" json:"ip_restriction_ranges,omitempty"`
 	WikiAccessLevel                 *AccessControlValue                     `url:"wiki_access_level,omitempty" json:"wiki_access_level,omitempty"`
 
 	// Deprecated: Use EmailsEnabled instead
