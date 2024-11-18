@@ -35,7 +35,8 @@ func TestGetMetadata(t *testing.T) {
         "enterprise": true,
         "kas": {
           "enabled": true,
-          "externalUrl": "wss://kas.gitlab.com",
+          "externalUrl": "wss://kas.gitlab.example.com",
+          "externalK8sProxyUrl": "https://kas.gitlab.example.com/k8s-proxy",
           "version": "15.6.0-rc2"
         }
       }`)
@@ -48,13 +49,15 @@ func TestGetMetadata(t *testing.T) {
 
 	want := &Metadata{
 		Version: "15.6.0-pre", Revision: "016e8d8bdc3", KAS: struct {
-			Enabled     bool   `json:"enabled"`
-			ExternalURL string `json:"externalUrl"`
-			Version     string `json:"version"`
+			Enabled             bool   `json:"enabled"`
+			ExternalURL         string `json:"externalUrl"`
+			ExternalK8SProxyURL string `json:"externalK8sProxyUrl"`
+			Version             string `json:"version"`
 		}{
-			Enabled:     true,
-			ExternalURL: "wss://kas.gitlab.com",
-			Version:     "15.6.0-rc2",
+			Enabled:             true,
+			ExternalURL:         "wss://kas.gitlab.example.com",
+			ExternalK8SProxyURL: "https://kas.gitlab.example.com/k8s-proxy",
+			Version:             "15.6.0-rc2",
 		},
 		Enterprise: true,
 	}
