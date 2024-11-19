@@ -1,0 +1,6 @@
+{
+  "id": 5678,
+  "has_finished": true,
+  "self": "http://gitlab.example.com/api/v4/dependency_list_exports/5678",
+  "download": "http://gitlab.example.com/api/v4/dependency_list_exports/5678/download"
+}

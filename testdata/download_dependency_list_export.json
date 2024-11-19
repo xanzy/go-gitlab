@@ -1,0 +1,31 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "serialNumber": "urn:uuid:3fa3b1c2-7e21-4dae-917b-b320f6d25ae1",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2024-11-14T23:39:16.117Z",
+    "authors": [{ "name": "GitLab", "email": "support@gitlab.com" }],
+    "properties": [
+      {
+        "name": "gitlab:dependency_scanning:input_file:path",
+        "value": "my_package_manager.lock"
+      },
+      {
+        "name": "gitlab:dependency_scanning:package_manager:name",
+        "value": "my_package_manager"
+      },
+      { "name": "gitlab:meta:schema_version", "value": "1" }
+    ],
+    "tools": [{ "vendor": "GitLab", "name": "Gemnasium", "version": "5.8.0" }]
+  },
+  "components": [
+    {
+      "name": "dummy",
+      "version": "1.0.0",
+      "purl": "pkg:testing/dummy@1.0.0",
+      "type": "library",
+      "licenses": [{ "license": { "name": "unknown" } }]
+    }
+  ]
+}
