@@ -15,7 +15,7 @@ type DependencyListExportService struct {
 //
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/dependency_list_export.html#create-a-pipeline-level-dependency-list-export
-type createDependencyListExportOptions struct {
+type CreateDependencyListExportOptions struct {
 	ExportType string `url:"export_type" json:"export_type"`
 }
 
@@ -30,6 +30,8 @@ type DependencyListExport struct {
 	Download    string `json:"download"`
 }
 
+const defaultExportType = "sbom"
+
 // CreateDependencyListExport creates a new CycloneDX JSON export for all the project dependencies
 // detected in a pipeline.
 //
@@ -40,12 +42,14 @@ type DependencyListExport struct {
 //
 // GitLab docs:
 // https://docs.gitlab.com/ee/api/dependency_list_export.html#create-a-pipeline-level-dependency-list-export
-func (s *DependencyListExportService) CreateDependencyListExport(id int, options ...RequestOptionFunc) (*DependencyListExport, *Response, error) {
+func (s *DependencyListExportService) CreateDependencyListExport(pipelineID int, opt *CreateDependencyListExportOptions, options ...RequestOptionFunc) (*DependencyListExport, *Response, error) {
 	// POST /pipelines/:id/dependency_list_exports
-	createExportPath := fmt.Sprintf("pipelines/%d/dependency_list_exports", id)
+	createExportPath := fmt.Sprintf("pipelines/%d/dependency_list_exports", pipelineID)
 
-	opt := &createDependencyListExportOptions{
-		ExportType: *Ptr("sbom"),
+	if opt == nil {
+		opt = &CreateDependencyListExportOptions{
+			ExportType: *Ptr(defaultExportType),
+		}
 	}
 
 	req, err := s.client.NewRequest(http.MethodPost, createExportPath, opt, options)
@@ -88,20 +92,20 @@ func (s *DependencyListExportService) GetDependencyListExport(id int, options ..
 //
 // GitLab docs:
 // https://docs.gitlab.com/ee/api/dependency_list_export.html#download-dependency-list-export
-func (s *DependencyListExportService) DownloadDependencyListExport(id int, options ...RequestOptionFunc) (string, *Response, error) {
+func (s *DependencyListExportService) DownloadDependencyListExport(id int, options ...RequestOptionFunc) ([]byte, *Response, error) {
 	// GET /dependency_list_exports/:id/download
 	downloadExportPath := fmt.Sprintf("dependency_list_exports/%d/download", id)
 
 	req, err := s.client.NewRequest(http.MethodGet, downloadExportPath, nil, options)
 	if err != nil {
-		return "", nil, err
+		return nil, nil, err
 	}
 
 	var sbomBuffer bytes.Buffer
 	resp, err := s.client.Do(req, &sbomBuffer)
 	if err != nil {
-		return "", resp, err
+		return nil, resp, err
 	}
 
-	return sbomBuffer.String(), resp, nil
+	return sbomBuffer.Bytes(), resp, nil
 }

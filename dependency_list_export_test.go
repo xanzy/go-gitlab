@@ -1,10 +1,13 @@
 package gitlab
 
 import (
+	"encoding/json"
+	"io"
 	"net/http"
 	"os"
 	"testing"
 
+	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
 
@@ -13,10 +16,22 @@ func TestCreateDependencyListExport(t *testing.T) {
 
 	mux.HandleFunc("/api/v4/pipelines/1234/dependency_list_exports", func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
+		body, err := io.ReadAll(r.Body)
+		require.NoError(t, err)
+
+		var content CreateDependencyListExportOptions
+		err = json.Unmarshal(body, &content)
+		require.NoError(t, err)
+
+		assert.Equal(t, "sbom", content.ExportType)
 		mustWriteHTTPResponse(t, w, "testdata/create_dependency_list_export.json")
 	})
 
-	export, _, err := client.DependencyListExport.CreateDependencyListExport(1234)
+	d := &CreateDependencyListExportOptions{
+		ExportType: *Ptr("sbom"),
+	}
+
+	export, _, err := client.DependencyListExport.CreateDependencyListExport(1234, d)
 	require.NoError(t, err)
 
 	want := &DependencyListExport{
@@ -59,9 +74,8 @@ func TestDownloadDependencyListExport(t *testing.T) {
 	sbom, _, err := client.DependencyListExport.DownloadDependencyListExport(5678)
 	require.NoError(t, err)
 
-	wantBytes, err := os.ReadFile("testdata/download_dependency_list_export.json")
+	want, err := os.ReadFile("testdata/download_dependency_list_export.json")
 	require.NoError(t, err)
-	want := string(wantBytes)
 
 	require.Equal(t, want, sbom)
 }
