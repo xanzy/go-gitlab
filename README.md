@@ -26,6 +26,7 @@ to add new and/or missing endpoints. Currently, the following services are suppo
 - [x] Commits
 - [x] Container Registry
 - [x] Custom Attributes
+- [x] Dependency List Export
 - [x] Deploy Keys
 - [x] Deployments
 - [x] Discussions (threaded comments)

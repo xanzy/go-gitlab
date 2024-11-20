@@ -16,7 +16,7 @@ func TestCreateDependencyListExport(t *testing.T) {
 		mustWriteHTTPResponse(t, w, "testdata/create_dependency_list_export.json")
 	})
 
-	export, _, err := client.DependencyList.CreateDependencyListExport(1234)
+	export, _, err := client.DependencyListExport.CreateDependencyListExport(1234)
 	require.NoError(t, err)
 
 	want := &DependencyListExport{
@@ -36,7 +36,7 @@ func TestGetDependencyListExport(t *testing.T) {
 		mustWriteHTTPResponse(t, w, "testdata/get_dependency_list_export.json")
 	})
 
-	export, _, err := client.DependencyList.GetDependencyListExport(5678)
+	export, _, err := client.DependencyListExport.GetDependencyListExport(5678)
 	require.NoError(t, err)
 
 	want := &DependencyListExport{
@@ -56,7 +56,7 @@ func TestDownloadDependencyListExport(t *testing.T) {
 		mustWriteHTTPResponse(t, w, "testdata/download_dependency_list_export.json")
 	})
 
-	sbom, _, err := client.DependencyList.DownloadDependencyListExport(5678)
+	sbom, _, err := client.DependencyListExport.DownloadDependencyListExport(5678)
 	require.NoError(t, err)
 
 	wantBytes, err := os.ReadFile("testdata/download_dependency_list_export.json")

@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-type DependencyListService struct {
+type DependencyListExportService struct {
 	client *Client
 }
 
@@ -40,7 +40,7 @@ type DependencyListExport struct {
 //
 // GitLab docs:
 // https://docs.gitlab.com/ee/api/dependency_list_export.html#create-a-pipeline-level-dependency-list-export
-func (s *DependencyListService) CreateDependencyListExport(id int, options ...RequestOptionFunc) (*DependencyListExport, *Response, error) {
+func (s *DependencyListExportService) CreateDependencyListExport(id int, options ...RequestOptionFunc) (*DependencyListExport, *Response, error) {
 	// POST /pipelines/:id/dependency_list_exports
 	createExportPath := fmt.Sprintf("pipelines/%d/dependency_list_exports", id)
 
@@ -66,7 +66,7 @@ func (s *DependencyListService) CreateDependencyListExport(id int, options ...Re
 //
 // GitLab docs:
 // https://docs.gitlab.com/ee/api/dependency_list_export.html#get-single-dependency-list-export
-func (s *DependencyListService) GetDependencyListExport(id int, options ...RequestOptionFunc) (*DependencyListExport, *Response, error) {
+func (s *DependencyListExportService) GetDependencyListExport(id int, options ...RequestOptionFunc) (*DependencyListExport, *Response, error) {
 	// GET /dependency_list_exports/:id
 	getExportPath := fmt.Sprintf("dependency_list_exports/%d", id)
 
@@ -88,7 +88,7 @@ func (s *DependencyListService) GetDependencyListExport(id int, options ...Reque
 //
 // GitLab docs:
 // https://docs.gitlab.com/ee/api/dependency_list_export.html#download-dependency-list-export
-func (s *DependencyListService) DownloadDependencyListExport(id int, options ...RequestOptionFunc) (string, *Response, error) {
+func (s *DependencyListExportService) DownloadDependencyListExport(id int, options ...RequestOptionFunc) (string, *Response, error) {
 	// GET /dependency_list_exports/:id/download
 	downloadExportPath := fmt.Sprintf("dependency_list_exports/%d/download", id)
 
