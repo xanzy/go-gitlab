@@ -122,6 +122,7 @@ type Client struct {
 	Commits                      *CommitsService
 	ContainerRegistry            *ContainerRegistryService
 	CustomAttribute              *CustomAttributesService
+	DependencyListExport         *DependencyListExportService
 	DeployKeys                   *DeployKeysService
 	DeployTokens                 *DeployTokensService
 	DeploymentMergeRequests      *DeploymentMergeRequestsService
@@ -360,6 +361,7 @@ func newClient(options ...ClientOptionFunc) (*Client, error) {
 	c.Commits = &CommitsService{client: c}
 	c.ContainerRegistry = &ContainerRegistryService{client: c}
 	c.CustomAttribute = &CustomAttributesService{client: c}
+	c.DependencyListExport = &DependencyListExportService{client: c}
 	c.DeployKeys = &DeployKeysService{client: c}
 	c.DeployTokens = &DeployTokensService{client: c}
 	c.DeploymentMergeRequests = &DeploymentMergeRequestsService{client: c}
