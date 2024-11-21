@@ -95,8 +95,8 @@ func (s *DependencyListExportService) GetDependencyListExport(id int, options ..
 // The github.com/CycloneDX/cyclonedx-go package can be used to parse the data from the returned io.Reader.
 // -----------------[ Example ]------------------
 //
-// sbom := new(cdx.BOM)
-// decoder := cdx.NewBOMDecoder(reader, cdx.BOMFileFormatJSON)
+//	sbom := new(cdx.BOM)
+//	decoder := cdx.NewBOMDecoder(reader, cdx.BOMFileFormatJSON)
 //
 //	if err = decoder.Decode(sbom); err != nil {
 //		panic(err)
