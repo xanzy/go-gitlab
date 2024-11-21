@@ -10,7 +10,7 @@ type DependencyListExportService struct {
 	client *Client
 }
 
-// createDependencyListExportOptions represents the available CreateDependencyListExport()
+// CreateDependencyListExportOptions represents the available CreateDependencyListExport()
 // options.
 //
 // GitLab API docs:
@@ -89,6 +89,8 @@ func (s *DependencyListExportService) GetDependencyListExport(id int, options ..
 }
 
 // DownloadDependencyListExport downloads a single dependency list export.
+//
+// The github.com/CycloneDX/cyclonedx-go package can be used to parse the returned bytes.
 //
 // GitLab docs:
 // https://docs.gitlab.com/ee/api/dependency_list_export.html#download-dependency-list-export
