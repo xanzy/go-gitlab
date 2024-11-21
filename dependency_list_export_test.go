@@ -1,6 +1,7 @@
 package gitlab
 
 import (
+	"bytes"
 	"encoding/json"
 	"io"
 	"net/http"
@@ -23,12 +24,12 @@ func TestCreateDependencyListExport(t *testing.T) {
 		err = json.Unmarshal(body, &content)
 		require.NoError(t, err)
 
-		assert.Equal(t, "sbom", content.ExportType)
+		assert.Equal(t, "sbom", *content.ExportType)
 		mustWriteHTTPResponse(t, w, "testdata/create_dependency_list_export.json")
 	})
 
 	d := &CreateDependencyListExportOptions{
-		ExportType: *Ptr("sbom"),
+		ExportType: Ptr("sbom"),
 	}
 
 	export, _, err := client.DependencyListExport.CreateDependencyListExport(1234, d)
@@ -71,11 +72,14 @@ func TestDownloadDependencyListExport(t *testing.T) {
 		mustWriteHTTPResponse(t, w, "testdata/download_dependency_list_export.json")
 	})
 
-	sbom, _, err := client.DependencyListExport.DownloadDependencyListExport(5678)
+	sbomReader, _, err := client.DependencyListExport.DownloadDependencyListExport(5678)
 	require.NoError(t, err)
 
-	want, err := os.ReadFile("testdata/download_dependency_list_export.json")
+	expectedSbom, err := os.ReadFile("testdata/download_dependency_list_export.json")
 	require.NoError(t, err)
 
-	require.Equal(t, want, sbom)
+	var want bytes.Buffer
+	want.Write(expectedSbom)
+
+	require.Equal(t, &want, sbomReader)
 }

@@ -3,6 +3,7 @@ package gitlab
 import (
 	"bytes"
 	"fmt"
+	"io"
 	"net/http"
 )
 
@@ -16,7 +17,7 @@ type DependencyListExportService struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/dependency_list_export.html#create-a-pipeline-level-dependency-list-export
 type CreateDependencyListExportOptions struct {
-	ExportType string `url:"export_type" json:"export_type"`
+	ExportType *string `url:"export_type" json:"export_type"`
 }
 
 // DependencyListExport represents a request for a GitLab project's dependency list.
@@ -47,9 +48,10 @@ func (s *DependencyListExportService) CreateDependencyListExport(pipelineID int,
 	createExportPath := fmt.Sprintf("pipelines/%d/dependency_list_exports", pipelineID)
 
 	if opt == nil {
-		opt = &CreateDependencyListExportOptions{
-			ExportType: *Ptr(defaultExportType),
-		}
+		opt = &CreateDependencyListExportOptions{}
+	}
+	if opt.ExportType == nil {
+		opt.ExportType = Ptr(defaultExportType)
 	}
 
 	req, err := s.client.NewRequest(http.MethodPost, createExportPath, opt, options)
@@ -90,11 +92,21 @@ func (s *DependencyListExportService) GetDependencyListExport(id int, options ..
 
 // DownloadDependencyListExport downloads a single dependency list export.
 //
-// The github.com/CycloneDX/cyclonedx-go package can be used to parse the returned bytes.
+// The github.com/CycloneDX/cyclonedx-go package can be used to parse the data from the returned io.Reader.
+// -----------------[ Example ]------------------
+//
+// sbom := new(cdx.BOM)
+// decoder := cdx.NewBOMDecoder(reader, cdx.BOMFileFormatJSON)
+//
+//	if err = decoder.Decode(sbom); err != nil {
+//		panic(err)
+//	}
+//
+// ----------------------------------------------
 //
 // GitLab docs:
 // https://docs.gitlab.com/ee/api/dependency_list_export.html#download-dependency-list-export
-func (s *DependencyListExportService) DownloadDependencyListExport(id int, options ...RequestOptionFunc) ([]byte, *Response, error) {
+func (s *DependencyListExportService) DownloadDependencyListExport(id int, options ...RequestOptionFunc) (io.Reader, *Response, error) {
 	// GET /dependency_list_exports/:id/download
 	downloadExportPath := fmt.Sprintf("dependency_list_exports/%d/download", id)
 
@@ -109,5 +121,5 @@ func (s *DependencyListExportService) DownloadDependencyListExport(id int, optio
 		return nil, resp, err
 	}
 
-	return sbomBuffer.Bytes(), resp, nil
+	return &sbomBuffer, resp, nil
 }
