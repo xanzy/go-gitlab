@@ -31,6 +31,7 @@ func TestProjectVariablesService_ListVariables(t *testing.T) {
 		VariableType:     "env_var",
 		Protected:        false,
 		Masked:           false,
+		Hidden:           false,
 		EnvironmentScope: "",
 		Description:      "test variable 1",
 	}}
@@ -69,6 +70,7 @@ func TestProjectVariablesService_GetVariable(t *testing.T) {
 				"value": "TEST_1",
 				"protected": false,
 				"masked": true,
+				"hidden": true,
 				"description": "test variable 1"
 			}
 		`)
@@ -80,6 +82,7 @@ func TestProjectVariablesService_GetVariable(t *testing.T) {
 		VariableType:     "env_var",
 		Protected:        false,
 		Masked:           true,
+		Hidden:           true,
 		EnvironmentScope: "",
 		Description:      "test variable 1",
 	}
@@ -118,6 +121,7 @@ func TestProjectVariablesService_CreateVariable(t *testing.T) {
 				"protected": false,
 				"variable_type": "env_var",
 				"masked": false,
+				"hidden": false,
 				"environment_scope": "*",
 				"description": "new variable"
 			}
@@ -130,6 +134,7 @@ func TestProjectVariablesService_CreateVariable(t *testing.T) {
 		VariableType:     "env_var",
 		Protected:        false,
 		Masked:           false,
+		Hidden:           false,
 		EnvironmentScope: "*",
 		Description:      "new variable",
 	}
@@ -168,6 +173,7 @@ func TestProjectVariablesService_UpdateVariable(t *testing.T) {
 				"protected": false,
 				"variable_type": "env_var",
 				"masked": false,
+				"hidden": false,
 				"environment_scope": "*",
 				"description": "updated description"
 			}
@@ -180,6 +186,7 @@ func TestProjectVariablesService_UpdateVariable(t *testing.T) {
 		VariableType:     "env_var",
 		Protected:        false,
 		Masked:           false,
+		Hidden:           false,
 		EnvironmentScope: "*",
 		Description:      "updated description",
 	}
