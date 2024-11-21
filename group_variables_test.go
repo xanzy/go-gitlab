@@ -29,7 +29,7 @@ func TestListGroupVariabless(t *testing.T) {
 	mux.HandleFunc("/api/v4/groups/1/variables",
 		func(w http.ResponseWriter, r *http.Request) {
 			testMethod(t, r, http.MethodGet)
-			fmt.Fprint(w, `[{"key": "TEST_VARIABLE_1","value": "test1","protected": false,"masked": true}]`)
+			fmt.Fprint(w, `[{"key": "TEST_VARIABLE_1","value": "test1","protected": false,"masked": true,"hidden": true}]`)
 		})
 
 	variables, _, err := client.GroupVariables.ListVariables(1, &ListGroupVariablesOptions{})
@@ -43,6 +43,7 @@ func TestListGroupVariabless(t *testing.T) {
 			Value:     "test1",
 			Protected: false,
 			Masked:    true,
+			Hidden:    true,
 		},
 	}
 
@@ -58,7 +59,7 @@ func TestGetGroupVariable(t *testing.T) {
 		func(w http.ResponseWriter, r *http.Request) {
 			testMethod(t, r, http.MethodGet)
 			testParams(t, r, "filter%5Benvironment_scope%5D=prod")
-			fmt.Fprint(w, `{"key": "TEST_VARIABLE_1","value": "test1","protected": false,"masked": true}`)
+			fmt.Fprint(w, `{"key": "TEST_VARIABLE_1","value": "test1","protected": false,"masked": true,"hidden": true}`)
 		})
 
 	variable, _, err := client.GroupVariables.GetVariable(1, "TEST_VARIABLE_1", &GetGroupVariableOptions{Filter: &VariableFilter{EnvironmentScope: "prod"}})
@@ -66,7 +67,7 @@ func TestGetGroupVariable(t *testing.T) {
 		t.Errorf("GroupVariables.GetVariable returned error: %v", err)
 	}
 
-	want := &GroupVariable{Key: "TEST_VARIABLE_1", Value: "test1", Protected: false, Masked: true}
+	want := &GroupVariable{Key: "TEST_VARIABLE_1", Value: "test1", Protected: false, Masked: true, Hidden: true}
 	if !reflect.DeepEqual(want, variable) {
 		t.Errorf("GroupVariables.GetVariable returned %+v, want %+v", variable, want)
 	}
@@ -78,7 +79,7 @@ func TestCreateGroupVariable(t *testing.T) {
 	mux.HandleFunc("/api/v4/groups/1/variables",
 		func(w http.ResponseWriter, r *http.Request) {
 			testMethod(t, r, http.MethodPost)
-			fmt.Fprint(w, `{"key": "TEST_VARIABLE_1","value": "test1","protected": false,"masked": true}`)
+			fmt.Fprint(w, `{"key": "TEST_VARIABLE_1","value": "test1","protected": false,"masked": true,"hidden": true}`)
 		})
 
 	opt := &CreateGroupVariableOptions{
@@ -86,6 +87,7 @@ func TestCreateGroupVariable(t *testing.T) {
 		Value:     Ptr("test1"),
 		Protected: Ptr(false),
 		Masked:    Ptr(true),
+		Hidden:    Ptr(true),
 	}
 
 	variable, _, err := client.GroupVariables.CreateVariable(1, opt, nil)
@@ -93,7 +95,7 @@ func TestCreateGroupVariable(t *testing.T) {
 		t.Errorf("GroupVariables.CreateVariable returned error: %v", err)
 	}
 
-	want := &GroupVariable{Key: "TEST_VARIABLE_1", Value: "test1", Protected: false, Masked: true}
+	want := &GroupVariable{Key: "TEST_VARIABLE_1", Value: "test1", Protected: false, Masked: true, Hidden: true}
 	if !reflect.DeepEqual(want, variable) {
 		t.Errorf("GroupVariables.CreateVariable returned %+v, want %+v", variable, want)
 	}
@@ -126,7 +128,7 @@ func TestUpdateGroupVariable(t *testing.T) {
 	mux.HandleFunc("/api/v4/groups/1/variables/TEST_VARIABLE_1",
 		func(w http.ResponseWriter, r *http.Request) {
 			testMethod(t, r, http.MethodPut)
-			fmt.Fprint(w, `{"key": "TEST_VARIABLE_1","value": "test1","protected": false,"masked": true}`)
+			fmt.Fprint(w, `{"key": "TEST_VARIABLE_1","value": "test1","protected": false,"masked": true,"hidden": false}`)
 		})
 
 	variable, _, err := client.GroupVariables.UpdateVariable(1, "TEST_VARIABLE_1", &UpdateGroupVariableOptions{})
@@ -134,7 +136,7 @@ func TestUpdateGroupVariable(t *testing.T) {
 		t.Errorf("GroupVariables.UpdateVariable returned error: %v", err)
 	}
 
-	want := &GroupVariable{Key: "TEST_VARIABLE_1", Value: "test1", Protected: false, Masked: true}
+	want := &GroupVariable{Key: "TEST_VARIABLE_1", Value: "test1", Protected: false, Masked: true, Hidden: false}
 	if !reflect.DeepEqual(want, variable) {
 		t.Errorf("Groups.UpdatedGroup returned %+v, want %+v", variable, want)
 	}
