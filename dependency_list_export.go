@@ -93,7 +93,6 @@ func (s *DependencyListExportService) GetDependencyListExport(id int, options ..
 // DownloadDependencyListExport downloads a single dependency list export.
 //
 // The github.com/CycloneDX/cyclonedx-go package can be used to parse the data from the returned io.Reader.
-// -----------------[ Example ]------------------
 //
 //	sbom := new(cdx.BOM)
 //	decoder := cdx.NewBOMDecoder(reader, cdx.BOMFileFormatJSON)
@@ -101,8 +100,6 @@ func (s *DependencyListExportService) GetDependencyListExport(id int, options ..
 //	if err = decoder.Decode(sbom); err != nil {
 //		panic(err)
 //	}
-//
-// ----------------------------------------------
 //
 // GitLab docs:
 // https://docs.gitlab.com/ee/api/dependency_list_export.html#download-dependency-list-export
