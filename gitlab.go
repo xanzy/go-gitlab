@@ -196,6 +196,7 @@ type Client struct {
 	ProjectFeatureFlags          *ProjectFeatureFlagService
 	ProjectImportExport          *ProjectImportExportService
 	ProjectIterations            *ProjectIterationsService
+	ProjectMarkdownUploads       *ProjectMarkdownUploadsService
 	ProjectMembers               *ProjectMembersService
 	ProjectMirrors               *ProjectMirrorService
 	ProjectRepositoryStorageMove *ProjectRepositoryStorageMoveService
@@ -435,6 +436,7 @@ func newClient(options ...ClientOptionFunc) (*Client, error) {
 	c.ProjectFeatureFlags = &ProjectFeatureFlagService{client: c}
 	c.ProjectImportExport = &ProjectImportExportService{client: c}
 	c.ProjectIterations = &ProjectIterationsService{client: c}
+	c.ProjectMarkdownUploads = &ProjectMarkdownUploadsService{client: c}
 	c.ProjectMembers = &ProjectMembersService{client: c}
 	c.ProjectMirrors = &ProjectMirrorService{client: c}
 	c.ProjectRepositoryStorageMove = &ProjectRepositoryStorageMoveService{client: c}
