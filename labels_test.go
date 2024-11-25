@@ -18,7 +18,6 @@ package gitlab
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 	"reflect"
 	"testing"
@@ -40,7 +39,7 @@ func TestCreateLabel(t *testing.T) {
 	}
 	label, _, err := client.Labels.CreateLabel("1", l)
 	if err != nil {
-		log.Fatal(err)
+		t.Fatal(err)
 	}
 	want := &Label{ID: 1, Name: "MyLabel", Color: "#11FF22", Priority: 2}
 	if !reflect.DeepEqual(want, label) {
@@ -58,7 +57,7 @@ func TestDeleteLabelbyID(t *testing.T) {
 	// Delete label
 	_, err := client.Labels.DeleteLabel("1", "1", nil)
 	if err != nil {
-		log.Fatal(err)
+		t.Fatal(err)
 	}
 }
 
@@ -76,7 +75,7 @@ func TestDeleteLabelbyName(t *testing.T) {
 
 	_, err := client.Labels.DeleteLabel("1", "MyLabel", label)
 	if err != nil {
-		log.Fatal(err)
+		t.Fatal(err)
 	}
 }
 
@@ -99,10 +98,10 @@ func TestUpdateLabel(t *testing.T) {
 	label, resp, err := client.Labels.UpdateLabel("1", "MyLabel", l)
 
 	if resp == nil {
-		log.Fatal(err)
+		t.Fatal(err)
 	}
 	if err != nil {
-		log.Fatal(err)
+		t.Fatal(err)
 	}
 
 	want := &Label{ID: 1, Name: "New Label", Color: "#11FF23", Description: "This is updated label", Priority: 42}
@@ -122,7 +121,7 @@ func TestSubscribeToLabel(t *testing.T) {
 
 	label, _, err := client.Labels.SubscribeToLabel("1", "5")
 	if err != nil {
-		log.Fatal(err)
+		t.Fatal(err)
 	}
 	want := &Label{ID: 5, Name: "kind/bug", Color: "#d9534f", Description: "Bug reported by user", OpenIssuesCount: 1, ClosedIssuesCount: 0, OpenMergeRequestsCount: 1, Subscribed: true}
 	if !reflect.DeepEqual(want, label) {
@@ -139,7 +138,7 @@ func TestUnsubscribeFromLabel(t *testing.T) {
 
 	_, err := client.Labels.UnsubscribeFromLabel("1", "5")
 	if err != nil {
-		log.Fatal(err)
+		t.Fatal(err)
 	}
 }
 

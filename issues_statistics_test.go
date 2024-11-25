@@ -18,7 +18,6 @@ package gitlab
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 	"reflect"
 	"testing"
@@ -40,7 +39,7 @@ func TestGetIssuesStatistics(t *testing.T) {
 
 	issue, _, err := client.IssuesStatistics.GetIssuesStatistics(opt)
 	if err != nil {
-		log.Fatal(err)
+		t.Fatal(err)
 	}
 
 	want := &IssuesStatistics{
@@ -82,7 +81,7 @@ func TestGetGroupIssuesStatistics(t *testing.T) {
 
 	issue, _, err := client.IssuesStatistics.GetGroupIssuesStatistics(1, opt)
 	if err != nil {
-		log.Fatal(err)
+		t.Fatal(err)
 	}
 
 	want := &IssuesStatistics{
@@ -124,7 +123,7 @@ func TestGetProjectIssuesStatistics(t *testing.T) {
 
 	issue, _, err := client.IssuesStatistics.GetProjectIssuesStatistics(1, opt)
 	if err != nil {
-		log.Fatal(err)
+		t.Fatal(err)
 	}
 
 	want := &IssuesStatistics{

@@ -51,7 +51,7 @@ func TestWebhookEventToken(t *testing.T) {
 }
 
 func TestParseBuildHook(t *testing.T) {
-	raw := loadFixture("testdata/webhooks/build.json")
+	raw := loadFixture(t, "testdata/webhooks/build.json")
 
 	parsedEvent, err := ParseWebhook("Build Hook", raw)
 	if err != nil {
@@ -85,7 +85,7 @@ func TestParseBuildHook(t *testing.T) {
 }
 
 func TestParseCommitCommentHook(t *testing.T) {
-	raw := loadFixture("testdata/webhooks/note_commit.json")
+	raw := loadFixture(t, "testdata/webhooks/note_commit.json")
 
 	parsedEvent, err := ParseWebhook("Note Hook", raw)
 	if err != nil {
@@ -115,7 +115,7 @@ func TestParseCommitCommentHook(t *testing.T) {
 }
 
 func TestParseFeatureFlagHook(t *testing.T) {
-	raw := loadFixture("testdata/webhooks/feature_flag.json")
+	raw := loadFixture(t, "testdata/webhooks/feature_flag.json")
 
 	parsedEvent, err := ParseWebhook("Feature Flag Hook", raw)
 	if err != nil {
@@ -161,7 +161,7 @@ func TestParseFeatureFlagHook(t *testing.T) {
 }
 
 func TestParseGroupResourceAccessTokenHook(t *testing.T) {
-	raw := loadFixture("testdata/webhooks/resource_access_token_group.json")
+	raw := loadFixture(t, "testdata/webhooks/resource_access_token_group.json")
 
 	parsedEvent, err := ParseWebhook("Resource Access Token Hook", raw)
 	if err != nil {
@@ -181,11 +181,11 @@ func TestParseGroupResourceAccessTokenHook(t *testing.T) {
 }
 
 func TestParseHookWebHook(t *testing.T) {
-	parsedEvent1, err := ParseHook("Merge Request Hook", loadFixture("testdata/webhooks/merge_request.json"))
+	parsedEvent1, err := ParseHook("Merge Request Hook", loadFixture(t, "testdata/webhooks/merge_request.json"))
 	if err != nil {
 		t.Errorf("Error parsing build hook: %s", err)
 	}
-	parsedEvent2, err := ParseWebhook("Merge Request Hook", loadFixture("testdata/webhooks/merge_request.json"))
+	parsedEvent2, err := ParseWebhook("Merge Request Hook", loadFixture(t, "testdata/webhooks/merge_request.json"))
 	if err != nil {
 		t.Errorf("Error parsing build hook: %s", err)
 	}
@@ -193,7 +193,7 @@ func TestParseHookWebHook(t *testing.T) {
 }
 
 func TestParseIssueCommentHook(t *testing.T) {
-	raw := loadFixture("testdata/webhooks/note_issue.json")
+	raw := loadFixture(t, "testdata/webhooks/note_issue.json")
 
 	parsedEvent, err := ParseWebhook("Note Hook", raw)
 	if err != nil {
@@ -224,7 +224,7 @@ func TestParseIssueCommentHook(t *testing.T) {
 }
 
 func TestParseIssueHook(t *testing.T) {
-	raw := loadFixture("testdata/webhooks/issue.json")
+	raw := loadFixture(t, "testdata/webhooks/issue.json")
 
 	parsedEvent, err := ParseWebhook("Issue Hook", raw)
 	if err != nil {
@@ -263,7 +263,7 @@ func TestParseIssueHook(t *testing.T) {
 }
 
 func TestParseMergeRequestCommentHook(t *testing.T) {
-	raw := loadFixture("testdata/webhooks/note_merge_request.json")
+	raw := loadFixture(t, "testdata/webhooks/note_merge_request.json")
 
 	parsedEvent, err := ParseWebhook("Note Hook", raw)
 	if err != nil {
@@ -298,7 +298,7 @@ func TestParseMergeRequestCommentHook(t *testing.T) {
 }
 
 func TestParseMemberHook(t *testing.T) {
-	raw := loadFixture("testdata/webhooks/member.json")
+	raw := loadFixture(t, "testdata/webhooks/member.json")
 
 	parsedEvent, err := ParseWebhook("Member Hook", raw)
 	if err != nil {
@@ -316,7 +316,7 @@ func TestParseMemberHook(t *testing.T) {
 }
 
 func TestParseMergeRequestHook(t *testing.T) {
-	raw := loadFixture("testdata/webhooks/merge_request.json")
+	raw := loadFixture(t, "testdata/webhooks/merge_request.json")
 
 	parsedEvent, err := ParseWebhook("Merge Request Hook", raw)
 	if err != nil {
@@ -351,7 +351,7 @@ func TestParseMergeRequestHook(t *testing.T) {
 }
 
 func TestParsePipelineHook(t *testing.T) {
-	raw := loadFixture("testdata/webhooks/pipeline.json")
+	raw := loadFixture(t, "testdata/webhooks/pipeline.json")
 
 	parsedEvent, err := ParseWebhook("Pipeline Hook", raw)
 	if err != nil {
@@ -385,7 +385,7 @@ func TestParsePipelineHook(t *testing.T) {
 }
 
 func TestParseProjectResourceAccessTokenHook(t *testing.T) {
-	raw := loadFixture("testdata/webhooks/resource_access_token_project.json")
+	raw := loadFixture(t, "testdata/webhooks/resource_access_token_project.json")
 
 	parsedEvent, err := ParseWebhook("Resource Access Token Hook", raw)
 	if err != nil {
@@ -405,7 +405,7 @@ func TestParseProjectResourceAccessTokenHook(t *testing.T) {
 }
 
 func TestParsePushHook(t *testing.T) {
-	raw := loadFixture("testdata/webhooks/push.json")
+	raw := loadFixture(t, "testdata/webhooks/push.json")
 
 	parsedEvent, err := ParseWebhook("Push Hook", raw)
 	if err != nil {
@@ -439,7 +439,7 @@ func TestParsePushHook(t *testing.T) {
 }
 
 func TestParseReleaseHook(t *testing.T) {
-	raw := loadFixture("testdata/webhooks/release.json")
+	raw := loadFixture(t, "testdata/webhooks/release.json")
 
 	parsedEvent, err := ParseWebhook("Release Hook", raw)
 	if err != nil {
@@ -461,7 +461,7 @@ func TestParseReleaseHook(t *testing.T) {
 }
 
 func TestParseServiceWebHook(t *testing.T) {
-	parsedEvent, err := ParseWebhook("Service Hook", loadFixture("testdata/webhooks/service_merge_request.json"))
+	parsedEvent, err := ParseWebhook("Service Hook", loadFixture(t, "testdata/webhooks/service_merge_request.json"))
 	if err != nil {
 		t.Errorf("Error parsing service hook merge request: %s", err)
 	}
@@ -484,7 +484,7 @@ func TestParseServiceWebHook(t *testing.T) {
 }
 
 func TestParseSnippetCommentHook(t *testing.T) {
-	raw := loadFixture("testdata/webhooks/note_snippet.json")
+	raw := loadFixture(t, "testdata/webhooks/note_snippet.json")
 
 	parsedEvent, err := ParseWebhook("Note Hook", raw)
 	if err != nil {
@@ -514,7 +514,7 @@ func TestParseSnippetCommentHook(t *testing.T) {
 }
 
 func TestParseSubGroupHook(t *testing.T) {
-	raw := loadFixture("testdata/webhooks/subgroup.json")
+	raw := loadFixture(t, "testdata/webhooks/subgroup.json")
 
 	parsedEvent, err := ParseWebhook("Subgroup Hook", raw)
 	if err != nil {
@@ -532,7 +532,7 @@ func TestParseSubGroupHook(t *testing.T) {
 }
 
 func TestParseTagHook(t *testing.T) {
-	raw := loadFixture("testdata/webhooks/tag_push.json")
+	raw := loadFixture(t, "testdata/webhooks/tag_push.json")
 
 	parsedEvent, err := ParseWebhook("Tag Push Hook", raw)
 	if err != nil {
@@ -566,7 +566,7 @@ func TestParseTagHook(t *testing.T) {
 }
 
 func TestParseWikiPageHook(t *testing.T) {
-	raw := loadFixture("testdata/webhooks/wiki_page.json")
+	raw := loadFixture(t, "testdata/webhooks/wiki_page.json")
 
 	parsedEvent, err := ParseWebhook("Wiki Page Hook", raw)
 	if err != nil {

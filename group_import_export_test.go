@@ -3,7 +3,6 @@ package gitlab
 import (
 	"fmt"
 	"io"
-	"log"
 	"net/http"
 	"os"
 	"reflect"
@@ -58,14 +57,14 @@ func TestGroupImport(t *testing.T) {
 	tmpfile, err := os.CreateTemp(os.TempDir(), "example.*.tar.gz")
 	if err != nil {
 		tmpfile.Close()
-		log.Fatal(err)
+		t.Fatal(err)
 	}
 	if _, err := tmpfile.Write(content); err != nil {
 		tmpfile.Close()
-		log.Fatal(err)
+		t.Fatal(err)
 	}
 	if err := tmpfile.Close(); err != nil {
-		log.Fatal(err)
+		t.Fatal(err)
 	}
 	defer os.Remove(tmpfile.Name()) // clean up
 
