@@ -23,7 +23,7 @@ import (
 )
 
 func TestParseSystemhookPush(t *testing.T) {
-	payload := loadFixture("testdata/systemhooks/push.json")
+	payload := loadFixture(t, "testdata/systemhooks/push.json")
 
 	parsedEvent, err := ParseSystemhook(payload)
 	if err != nil {
@@ -38,7 +38,7 @@ func TestParseSystemhookPush(t *testing.T) {
 }
 
 func TestParseSystemhookTagPush(t *testing.T) {
-	payload := loadFixture("testdata/systemhooks/tag_push.json")
+	payload := loadFixture(t, "testdata/systemhooks/tag_push.json")
 
 	parsedEvent, err := ParseSystemhook(payload)
 	if err != nil {
@@ -53,7 +53,7 @@ func TestParseSystemhookTagPush(t *testing.T) {
 }
 
 func TestParseSystemhookMergeRequest(t *testing.T) {
-	payload := loadFixture("testdata/systemhooks/merge_request.json")
+	payload := loadFixture(t, "testdata/systemhooks/merge_request.json")
 
 	parsedEvent, err := ParseSystemhook(payload)
 	if err != nil {
@@ -68,7 +68,7 @@ func TestParseSystemhookMergeRequest(t *testing.T) {
 }
 
 func TestParseSystemhookRepositoryUpdate(t *testing.T) {
-	payload := loadFixture("testdata/systemhooks/repository_update.json")
+	payload := loadFixture(t, "testdata/systemhooks/repository_update.json")
 
 	parsedEvent, err := ParseSystemhook(payload)
 	if err != nil {
@@ -87,11 +87,11 @@ func TestParseSystemhookProject(t *testing.T) {
 		event   string
 		payload []byte
 	}{
-		{"project_create", loadFixture("testdata/systemhooks/project_create.json")},
-		{"project_update", loadFixture("testdata/systemhooks/project_update.json")},
-		{"project_destroy", loadFixture("testdata/systemhooks/project_destroy.json")},
-		{"project_transfer", loadFixture("testdata/systemhooks/project_transfer.json")},
-		{"project_rename", loadFixture("testdata/systemhooks/project_rename.json")},
+		{"project_create", loadFixture(t, "testdata/systemhooks/project_create.json")},
+		{"project_update", loadFixture(t, "testdata/systemhooks/project_update.json")},
+		{"project_destroy", loadFixture(t, "testdata/systemhooks/project_destroy.json")},
+		{"project_transfer", loadFixture(t, "testdata/systemhooks/project_transfer.json")},
+		{"project_rename", loadFixture(t, "testdata/systemhooks/project_rename.json")},
 	}
 	for _, tc := range tests {
 		t.Run(tc.event, func(t *testing.T) {
@@ -113,9 +113,9 @@ func TestParseSystemhookGroup(t *testing.T) {
 		event   string
 		payload []byte
 	}{
-		{"group_create", loadFixture("testdata/systemhooks/group_create.json")},
-		{"group_destroy", loadFixture("testdata/systemhooks/group_destroy.json")},
-		{"group_rename", loadFixture("testdata/systemhooks/group_rename.json")},
+		{"group_create", loadFixture(t, "testdata/systemhooks/group_create.json")},
+		{"group_destroy", loadFixture(t, "testdata/systemhooks/group_destroy.json")},
+		{"group_rename", loadFixture(t, "testdata/systemhooks/group_rename.json")},
 	}
 	for _, tc := range tests {
 		t.Run(tc.event, func(t *testing.T) {
@@ -137,10 +137,10 @@ func TestParseSystemhookUser(t *testing.T) {
 		event   string
 		payload []byte
 	}{
-		{"user_create", loadFixture("testdata/systemhooks/user_create.json")},
-		{"user_destroy", loadFixture("testdata/systemhooks/user_destroy.json")},
-		{"user_rename", loadFixture("testdata/systemhooks/user_rename.json")},
-		{"user_failed_login", loadFixture("testdata/systemhooks/user_failed_login.json")},
+		{"user_create", loadFixture(t, "testdata/systemhooks/user_create.json")},
+		{"user_destroy", loadFixture(t, "testdata/systemhooks/user_destroy.json")},
+		{"user_rename", loadFixture(t, "testdata/systemhooks/user_rename.json")},
+		{"user_failed_login", loadFixture(t, "testdata/systemhooks/user_failed_login.json")},
 	}
 	for _, tc := range tests {
 		t.Run(tc.event, func(t *testing.T) {
@@ -162,9 +162,9 @@ func TestParseSystemhookUserGroup(t *testing.T) {
 		event   string
 		payload []byte
 	}{
-		{"user_add_to_group", loadFixture("testdata/systemhooks/user_add_to_group.json")},
-		{"user_remove_from_group", loadFixture("testdata/systemhooks/user_remove_from_group.json")},
-		{"user_update_for_group", loadFixture("testdata/systemhooks/user_update_for_group.json")},
+		{"user_add_to_group", loadFixture(t, "testdata/systemhooks/user_add_to_group.json")},
+		{"user_remove_from_group", loadFixture(t, "testdata/systemhooks/user_remove_from_group.json")},
+		{"user_update_for_group", loadFixture(t, "testdata/systemhooks/user_update_for_group.json")},
 	}
 	for _, tc := range tests {
 		t.Run(tc.event, func(t *testing.T) {
@@ -186,9 +186,9 @@ func TestParseSystemhookUserTeam(t *testing.T) {
 		event   string
 		payload []byte
 	}{
-		{"user_add_to_team", loadFixture("testdata/systemhooks/user_add_to_team.json")},
-		{"user_remove_from_team", loadFixture("testdata/systemhooks/user_remove_from_team.json")},
-		{"user_update_for_team", loadFixture("testdata/systemhooks/user_update_for_team.json")},
+		{"user_add_to_team", loadFixture(t, "testdata/systemhooks/user_add_to_team.json")},
+		{"user_remove_from_team", loadFixture(t, "testdata/systemhooks/user_remove_from_team.json")},
+		{"user_update_for_team", loadFixture(t, "testdata/systemhooks/user_update_for_team.json")},
 	}
 	for _, tc := range tests {
 		t.Run(tc.event, func(t *testing.T) {
@@ -206,11 +206,11 @@ func TestParseSystemhookUserTeam(t *testing.T) {
 }
 
 func TestParseHookSystemHook(t *testing.T) {
-	parsedEvent1, err := ParseHook("System Hook", loadFixture("testdata/systemhooks/merge_request.json"))
+	parsedEvent1, err := ParseHook("System Hook", loadFixture(t, "testdata/systemhooks/merge_request.json"))
 	if err != nil {
 		t.Errorf("Error parsing build hook: %s", err)
 	}
-	parsedEvent2, err := ParseSystemhook(loadFixture("testdata/systemhooks/merge_request.json"))
+	parsedEvent2, err := ParseSystemhook(loadFixture(t, "testdata/systemhooks/merge_request.json"))
 	if err != nil {
 		t.Errorf("Error parsing build hook: %s", err)
 	}

@@ -22,7 +22,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"log"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -250,10 +249,11 @@ func TestRequestWithContext(t *testing.T) {
 	}
 }
 
-func loadFixture(filePath string) []byte {
+func loadFixture(t *testing.T, filePath string) []byte {
+	t.Helper()
 	content, err := os.ReadFile(filePath)
 	if err != nil {
-		log.Fatal(err)
+		t.Fatal(err)
 	}
 
 	return content

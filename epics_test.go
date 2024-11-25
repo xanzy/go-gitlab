@@ -18,7 +18,6 @@ package gitlab
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 	"reflect"
 	"testing"
@@ -34,7 +33,7 @@ func TestGetEpic(t *testing.T) {
 
 	epic, _, err := client.Epics.GetEpic("7", 8)
 	if err != nil {
-		log.Fatal(err)
+		t.Fatal(err)
 	}
 
 	want := &Epic{
@@ -58,7 +57,7 @@ func TestDeleteEpic(t *testing.T) {
 
 	_, err := client.Epics.DeleteEpic("7", 8)
 	if err != nil {
-		log.Fatal(err)
+		t.Fatal(err)
 	}
 }
 
@@ -78,7 +77,7 @@ func TestListGroupEpics(t *testing.T) {
 
 	epics, _, err := client.Epics.ListGroupEpics("7", listGroupEpics)
 	if err != nil {
-		log.Fatal(err)
+		t.Fatal(err)
 	}
 
 	want := []*Epic{{
@@ -108,7 +107,7 @@ func TestCreateEpic(t *testing.T) {
 
 	epic, _, err := client.Epics.CreateEpic("7", createEpicOptions)
 	if err != nil {
-		log.Fatal(err)
+		t.Fatal(err)
 	}
 
 	want := &Epic{
@@ -138,7 +137,7 @@ func TestUpdateEpic(t *testing.T) {
 
 	epic, _, err := client.Epics.UpdateEpic("7", 8, updateEpicOptions)
 	if err != nil {
-		log.Fatal(err)
+		t.Fatal(err)
 	}
 
 	want := &Epic{

@@ -19,7 +19,6 @@ package gitlab
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 	"reflect"
 	"testing"
@@ -346,7 +345,7 @@ func TestGetMergeRequestParticipants(t *testing.T) {
 
 	mergeRequestParticipants, _, err := client.MergeRequests.GetMergeRequestParticipants("1", 5)
 	if err != nil {
-		log.Fatal(err)
+		t.Fatal(err)
 	}
 
 	want := []*BasicUser{
@@ -371,7 +370,7 @@ func TestGetMergeRequestReviewers(t *testing.T) {
 
 	mergeRequestReviewers, _, err := client.MergeRequests.GetMergeRequestReviewers("1", 5)
 	if err != nil {
-		log.Fatal(err)
+		t.Fatal(err)
 	}
 
 	createdAt := time.Date(2022, 0o7, 27, 17, 3, 27, 684000000, time.UTC)

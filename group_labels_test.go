@@ -18,7 +18,6 @@ package gitlab
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 	"reflect"
 	"testing"
@@ -38,7 +37,7 @@ func TestCreateGroupGroupLabel(t *testing.T) {
 	}
 	label, _, err := client.GroupLabels.CreateGroupLabel("1", l)
 	if err != nil {
-		log.Fatal(err)
+		t.Fatal(err)
 	}
 	want := &GroupLabel{ID: 1, Name: "MyGroupLabel", Color: "#11FF22"}
 	if !reflect.DeepEqual(want, label) {
@@ -55,7 +54,7 @@ func TestDeleteGroupLabelByID(t *testing.T) {
 
 	_, err := client.GroupLabels.DeleteGroupLabel("1", "1", nil)
 	if err != nil {
-		log.Fatal(err)
+		t.Fatal(err)
 	}
 }
 
@@ -68,7 +67,7 @@ func TestDeleteGroupLabelByName(t *testing.T) {
 
 	_, err := client.GroupLabels.DeleteGroupLabel("1", "MyGroupLabel", nil)
 	if err != nil {
-		log.Fatal(err)
+		t.Fatal(err)
 	}
 }
 
@@ -89,10 +88,10 @@ func TestUpdateGroupLabel(t *testing.T) {
 	label, resp, err := client.GroupLabels.UpdateGroupLabel("1", "MyGroupLabel", l)
 
 	if resp == nil {
-		log.Fatal(err)
+		t.Fatal(err)
 	}
 	if err != nil {
-		log.Fatal(err)
+		t.Fatal(err)
 	}
 
 	want := &GroupLabel{ID: 1, Name: "NewLabel", Color: "#11FF23", Description: "This is updated label"}
@@ -112,7 +111,7 @@ func TestSubscribeToGroupLabel(t *testing.T) {
 
 	label, _, err := client.GroupLabels.SubscribeToGroupLabel("1", "5")
 	if err != nil {
-		log.Fatal(err)
+		t.Fatal(err)
 	}
 	want := &GroupLabel{ID: 5, Name: "kind/bug", Color: "#d9534f", Description: "Bug reported by user", OpenIssuesCount: 1, ClosedIssuesCount: 0, OpenMergeRequestsCount: 1, Subscribed: true}
 	if !reflect.DeepEqual(want, label) {
@@ -129,7 +128,7 @@ func TestUnsubscribeFromGroupLabel(t *testing.T) {
 
 	_, err := client.GroupLabels.UnsubscribeFromGroupLabel("1", "5")
 	if err != nil {
-		log.Fatal(err)
+		t.Fatal(err)
 	}
 }
 

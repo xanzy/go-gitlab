@@ -19,7 +19,6 @@ package gitlab
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 	"reflect"
 	"testing"
@@ -67,7 +66,7 @@ func TestListEnvironments(t *testing.T) {
 
 	envs, _, err := client.Environments.ListEnvironments(1, &ListEnvironmentsOptions{Name: Ptr("review/fix-foo"), ListOptions: ListOptions{Page: 1, PerPage: 10}})
 	if err != nil {
-		log.Fatal(err)
+		t.Fatal(err)
 	}
 
 	createdAtWant, _ := time.Parse(timeLayout, "2013-10-02T10:12:29Z")
@@ -218,7 +217,7 @@ func TestCreateEnvironment(t *testing.T) {
 		FluxResourcePath:    Ptr("HelmRelease/flux-system"),
 	})
 	if err != nil {
-		log.Fatal(err)
+		t.Fatal(err)
 	}
 
 	createdAtWant, _ := time.Parse(timeLayout, "2013-10-02T10:12:29Z")
@@ -294,7 +293,7 @@ func TestEditEnvironment(t *testing.T) {
 		FluxResourcePath:    Ptr("HelmRelease/flux-system"),
 	})
 	if err != nil {
-		log.Fatal(err)
+		t.Fatal(err)
 	}
 
 	createdAtWant, _ := time.Parse(timeLayout, "2013-10-02T10:12:29Z")
@@ -336,7 +335,7 @@ func TestDeleteEnvironment(t *testing.T) {
 	})
 	_, err := client.Environments.DeleteEnvironment(1, 1)
 	if err != nil {
-		log.Fatal(err)
+		t.Fatal(err)
 	}
 }
 
@@ -357,7 +356,7 @@ func TestStopEnvironment(t *testing.T) {
 	})
 	_, _, err := client.Environments.StopEnvironment(1, 1, &StopEnvironmentOptions{})
 	if err != nil {
-		log.Fatal(err)
+		t.Fatal(err)
 	}
 }
 

@@ -19,6 +19,10 @@ linters-settings:
     locale: US
     ignore-words:
     - noteable
+  revive:
+    enable-all-rules: false
+    rules:
+      - name: deep-exit
 
 linters:
   enable:
@@ -34,6 +38,7 @@ linters:
     - misspell
     - nakedret
     - nolintlint
+    - revive
     - staticcheck
     - typecheck
     - unconvert
