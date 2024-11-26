@@ -13,7 +13,7 @@
     "name": "test-deployment-webhooks",
     "description": "",
     "web_url": "http://10.126.0.2:3000/root/test-deployment-webhooks",
-    "avatar_url": null,
+    "avatar_url": "https://www.gravatar.com/avatar/dd46a756faad4727fb679320751f6dea?s=80&d=identicon",
     "git_ssh_url": "ssh://vlad@10.126.0.2:2222/root/test-deployment-webhooks.git",
     "git_http_url": "http://10.126.0.2:3000/root/test-deployment-webhooks.git",
     "namespace": "User1",
