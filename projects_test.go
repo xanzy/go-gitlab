@@ -1505,6 +1505,8 @@ func TestListProjectHooks(t *testing.T) {
 	{
 		"id": 1,
 		"url": "http://example.com/hook",
+		"name": "This is the name of an example hook",
+		"description": "This is the description of an example hook",
 		"confidential_note_events": true,
 		"project_id": 1,
 		"push_events": true,
@@ -1541,6 +1543,8 @@ func TestListProjectHooks(t *testing.T) {
 	want := []*ProjectHook{{
 		ID:                        1,
 		URL:                       "http://example.com/hook",
+		Name:                      "This is the name of an example hook",
+		Description:               "This is the description of an example hook",
 		ConfidentialNoteEvents:    true,
 		ProjectID:                 1,
 		PushEvents:                true,
