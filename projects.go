@@ -1270,8 +1270,8 @@ type HookCustomHeader struct {
 type ProjectHook struct {
 	ID                        int                 `json:"id"`
 	URL                       string              `json:"url"`
-	Name                      string              `json:"name,omitempty"`
-	Description               string              `json:"description,omitempty"`
+	Name                      string              `json:"name"`
+	Description               string              `json:"description"`
 	ConfidentialNoteEvents    bool                `json:"confidential_note_events"`
 	ProjectID                 int                 `json:"project_id"`
 	PushEvents                bool                `json:"push_events"`
