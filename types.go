@@ -347,6 +347,29 @@ const (
 	DORAMetricIntervalAll     DORAMetricInterval = "all"
 )
 
+// EventAction defines a constant string identifying the possible `action` values
+// of the various GitLab event webhook payloads.
+//
+// GitLab API docs:
+// https://docs.gitlab.com/ee/user/project/integrations/webhook_events.html#comment-events
+type EventAction string
+
+const (
+	EventActionApproval   EventAction = "approval"
+	EventActionApproved   EventAction = "approved"
+	EventActionAward      EventAction = "award"
+	EventActionClose      EventAction = "close"
+	EventActionCreate     EventAction = "create"
+	EventActionDelete     EventAction = "delete"
+	EventActionMerge      EventAction = "merge"
+	EventActionOpen       EventAction = "open"
+	EventActionReopen     EventAction = "reopen"
+	EventActionRevoke     EventAction = "revoke"
+	EventActionUnapproval EventAction = "unapproval"
+	EventActionUnapproved EventAction = "unapproved"
+	EventActionUpdate     EventAction = "update"
+)
+
 // EventTypeValue represents actions type for contribution events.
 type EventTypeValue string
 
