@@ -727,20 +727,29 @@ func TestCreateServiceAccountUser(t *testing.T) {
 
 	mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
 		testMethod(t, r, http.MethodPost)
+		if !strings.Contains(r.Header.Get("Content-Type"), "application/json") {
+			t.Fatalf("Users.CreateServiceAccountUser request content-type %+v want application/json;", r.Header.Get("Content-Type"))
+		}
+		if r.ContentLength == -1 {
+			t.Fatalf("Users.CreateServiceAccountUser request content-length is -1")
+		}
 		mustWriteHTTPResponse(t, w, "testdata/create_service_account_user.json")
 	})
 
-	user, _, err := client.Users.CreateServiceAccountUser()
+	user, _, err := client.Users.CreateServiceAccountUser(&CreateServiceAccountUserOptions{
+		Name:     Ptr("Test Service Account"),
+		Username: Ptr("serviceaccount"),
+	})
 	require.NoError(t, err)
 
 	want := &User{
 		ID:        999,
-		Username:  "service_account_94e556c44d40d5a710ca59e3a0f40a3d",
-		Name:      "Service account user",
+		Username:  "serviceaccount",
+		Name:      "Test Service Account",
 		State:     "active",
 		Locked:    false,
 		AvatarURL: "http://localhost:3000/uploads/user/avatar/999/cd8.jpeg",
-		WebURL:    "http://localhost:3000/service_account_94e556c44d40d5a710ca59e3a0f40a3d",
+		WebURL:    "http://localhost:3000/serviceaccount",
 	}
 	require.Equal(t, want, user)
 }
