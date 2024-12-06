@@ -44,10 +44,26 @@ type LintResult struct {
 // GitLab API docs:
 // https://docs.gitlab.com/ee/api/lint.html#validate-a-projects-ci-configuration
 type ProjectLintResult struct {
-	Valid      bool     `json:"valid"`
-	Errors     []string `json:"errors"`
-	Warnings   []string `json:"warnings"`
-	MergedYaml string   `json:"merged_yaml"`
+	Valid      bool      `json:"valid"`
+	Errors     []string  `json:"errors"`
+	Warnings   []string  `json:"warnings"`
+	MergedYaml string    `json:"merged_yaml"`
+	Includes   []Include `json:"includes"`
+}
+
+// Include contains the details about an include block in the .gitlab-ci.yml file.
+// It is used in ProjectLintResult.
+//
+// Reference can be found at the lint API endpoint in the openapi yaml:
+// https://gitlab.com/gitlab-org/gitlab/-/blob/master/doc/api/openapi/openapi_v2.yaml
+type Include struct {
+	Type           string                 `json:"type"`
+	Location       string                 `json:"location"`
+	Blob           string                 `json:"blob"`
+	Raw            string                 `json:"raw"`
+	Extra          map[string]interface{} `json:"extra"`
+	ContextProject string                 `json:"context_project"`
+	ContextSHA     string                 `json:"context_sha"`
 }
 
 // LintOptions represents the available Lint() options.
