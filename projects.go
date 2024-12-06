@@ -143,6 +143,7 @@ type Project struct {
 	CIOptInJWT                               bool                                        `json:"ci_opt_in_jwt"`
 	CIAllowForkPipelinesToRunInParentProject bool                                        `json:"ci_allow_fork_pipelines_to_run_in_parent_project"`
 	CIRestrictPipelineCancellationRole       AccessControlValue                          `json:"ci_restrict_pipeline_cancellation_role"`
+	CIIdTokenSubClaimComponents              []string                                    `json:"ci_id_token_sub_claim_components"`
 	PublicJobs                               bool                                        `json:"public_jobs"`
 	BuildTimeout                             int                                         `json:"build_timeout"`
 	AutoCancelPendingPipelines               string                                      `json:"auto_cancel_pending_pipelines"`
@@ -855,6 +856,7 @@ type EditProjectOptions struct {
 	CIForwardDeploymentRollbackAllowed        *bool                                        `url:"ci_forward_deployment_rollback_allowed,omitempty" json:"ci_forward_deployment_rollback_allowed,omitempty"`
 	CISeperateCache                           *bool                                        `url:"ci_separated_caches,omitempty" json:"ci_separated_caches,omitempty"`
 	CIRestrictPipelineCancellationRole        *AccessControlValue                          `url:"ci_restrict_pipeline_cancellation_role,omitempty" json:"ci_restrict_pipeline_cancellation_role,omitempty"`
+	CIIdTokenSubClaimComponents               []string                                     `json:"ci_id_token_sub_claim_components"`
 	CIPipelineVariablesMinimumOverrideRole    *CIPipelineVariablesMinimumOverrideRoleValue `url:"ci_pipeline_variables_minimum_override_role,omitempty" json:"ci_pipeline_variables_minimum_override_role,omitempty"`
 	ContainerExpirationPolicyAttributes       *ContainerExpirationPolicyAttributes         `url:"container_expiration_policy_attributes,omitempty" json:"container_expiration_policy_attributes,omitempty"`
 	ContainerRegistryAccessLevel              *AccessControlValue                          `url:"container_registry_access_level,omitempty" json:"container_registry_access_level,omitempty"`
