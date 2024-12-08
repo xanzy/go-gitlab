@@ -41,7 +41,7 @@ type GroupVariable struct {
 	VariableType     VariableTypeValue `json:"variable_type"`
 	Protected        bool              `json:"protected"`
 	Masked           bool              `json:"masked"`
-	MaskedAndHidden  bool              `json:"masked_and_hidden"`
+	Hidden           bool              `json:"hidden"`
 	Raw              bool              `json:"raw"`
 	EnvironmentScope string            `json:"environment_scope"`
 	Description      string            `json:"description"`
