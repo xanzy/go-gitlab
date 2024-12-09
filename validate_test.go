@@ -172,13 +172,41 @@ func TestValidateProjectNamespace(t *testing.T) {
 				"valid": true,
 				"errors": [],
 				"warnings": [],
-				"merged_yaml": 	"---\n:build:\n  :script:\n  - echo build"
+				"merged_yaml": 	"---\n:build:\n  :script:\n  - echo build",
+				"includes": [
+					{
+						"type": "file",
+      					"location": "template/pipeline.yml",
+      					"blob": "https://gitlab.com/namespace/project/-/blob/abcd1234/template/pipeline.yml",
+      					"raw": "https://gitlab.com/namespace/project/-/raw/abcd1234/template/pipeline.yml",
+      					"extra": {
+        					"project": "namespace/project",
+        					"ref": "1.2.3"
+      					},
+      					"context_project": "namespace/current-project",
+      					"context_sha": "abcd1234"
+    				}
+				]
 			}`,
 			want: &ProjectLintResult{
 				Valid:      true,
 				Warnings:   []string{},
 				Errors:     []string{},
 				MergedYaml: "---\n:build:\n  :script:\n  - echo build",
+				Includes: []Include{
+					{
+						Type:     "file",
+						Location: "template/pipeline.yml",
+						Blob:     "https://gitlab.com/namespace/project/-/blob/abcd1234/template/pipeline.yml",
+						Raw:      "https://gitlab.com/namespace/project/-/raw/abcd1234/template/pipeline.yml",
+						Extra: map[string]interface{}{
+							"project": "namespace/project",
+							"ref":     "1.2.3",
+						},
+						ContextProject: "namespace/current-project",
+						ContextSHA:     "abcd1234",
+					},
+				},
 			},
 		},
 		{
@@ -242,13 +270,41 @@ func TestValidateProjectLint(t *testing.T) {
 				"valid": true,
 				"errors": [],
 				"warnings": [],
-				"merged_yaml": 	"---\n:build:\n  :script:\n  - echo build"
+				"merged_yaml": 	"---\n:build:\n  :script:\n  - echo build",
+				"includes": [
+					{
+						"type": "file",
+      					"location": "template/pipeline.yml",
+      					"blob": "https://gitlab.com/namespace/project/-/blob/abcd1234/template/pipeline.yml",
+      					"raw": "https://gitlab.com/namespace/project/-/raw/abcd1234/template/pipeline.yml",
+      					"extra": {
+        					"project": "namespace/project",
+        					"ref": "1.2.3"
+      					},
+      					"context_project": "namespace/current-project",
+      					"context_sha": "abcd1234"
+    				}
+				]
 			}`,
 			want: &ProjectLintResult{
 				Valid:      true,
 				Warnings:   []string{},
 				Errors:     []string{},
 				MergedYaml: "---\n:build:\n  :script:\n  - echo build",
+				Includes: []Include{
+					{
+						Type:     "file",
+						Location: "template/pipeline.yml",
+						Blob:     "https://gitlab.com/namespace/project/-/blob/abcd1234/template/pipeline.yml",
+						Raw:      "https://gitlab.com/namespace/project/-/raw/abcd1234/template/pipeline.yml",
+						Extra: map[string]interface{}{
+							"project": "namespace/project",
+							"ref":     "1.2.3",
+						},
+						ContextProject: "namespace/current-project",
+						ContextSHA:     "abcd1234",
+					},
+				},
 			},
 		},
 	}
