@@ -1,3 +1,4 @@
+// Deprecated: This module has been migrated to gitlab.com/gitlab-org/api/client-go. See https://gitlab.com/gitlab-org/api/client-go
 module github.com/xanzy/go-gitlab
 
 go 1.19
