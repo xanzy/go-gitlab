@@ -70,6 +70,11 @@ const (
 var ErrNotFound = errors.New("404 Not Found")
 
 // A Client manages communication with the GitLab API.
+//
+// Deprecated: use gitlab.com/gitlab-org/api/client-go instead.
+// See https://gitlab.com/gitlab-org/api/client-go
+//
+// This package is completely frozen, nothing will be added, removed or changed.
 type Client struct {
 	// HTTP client used to communicate with the API.
 	client *retryablehttp.Client
@@ -260,6 +265,11 @@ type RateLimiter interface {
 
 // NewClient returns a new GitLab API client. To use API methods which require
 // authentication, provide a valid private or personal token.
+//
+// Deprecated: This module has been migrated to gitlab.com/gitlab-org/api/client-go.
+// See https://gitlab.com/gitlab-org/api/client-go
+//
+// This package is completely frozen, nothing will be added, removed or changed.
 func NewClient(token string, options ...ClientOptionFunc) (*Client, error) {
 	client, err := newClient(options...)
 	if err != nil {
@@ -272,6 +282,11 @@ func NewClient(token string, options ...ClientOptionFunc) (*Client, error) {
 
 // NewBasicAuthClient returns a new GitLab API client. To use API methods which
 // require authentication, provide a valid username and password.
+//
+// Deprecated: This module has been migrated to gitlab.com/gitlab-org/api/client-go.
+// See https://gitlab.com/gitlab-org/api/client-go
+//
+// This package is completely frozen, nothing will be added, removed or changed.
 func NewBasicAuthClient(username, password string, options ...ClientOptionFunc) (*Client, error) {
 	client, err := newClient(options...)
 	if err != nil {
@@ -287,6 +302,11 @@ func NewBasicAuthClient(username, password string, options ...ClientOptionFunc) 
 
 // NewJobClient returns a new GitLab API client. To use API methods which require
 // authentication, provide a valid job token.
+//
+// Deprecated: This module has been migrated to gitlab.com/gitlab-org/api/client-go.
+// See https://gitlab.com/gitlab-org/api/client-go
+//
+// This package is completely frozen, nothing will be added, removed or changed.
 func NewJobClient(token string, options ...ClientOptionFunc) (*Client, error) {
 	client, err := newClient(options...)
 	if err != nil {
