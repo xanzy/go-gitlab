@@ -1,4 +1,6 @@
-# (deprecated) go-gitlab (migrated to https://gitlab.com/gitlab-org/api/client-go)
+This repository is archived as it's development has been moved to GitLab!
+
+# go-gitlab (deprecated)
 
 🚧 **Project moved to https://gitlab.com/gitlab-org/api/client-go** 🚧
 
